@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="299.64594mm"
+   height="212.72501mm"
+   viewBox="0 0 299.64594 212.72501"
+   version="1.1"
+   id="svg600"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="floorplan.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview602"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="1.0179639"
+     inkscape:cx="536.36478"
+     inkscape:cy="376.24123"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs597" />
+  <g
+     inkscape:label="背景"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(18.231384,26.966463)"
+     sodipodi:insensitive="true">
+    <image
+       preserveAspectRatio="none"
+       inkscape:svg-dpi="96"
+       width="299.64594"
+       height="212.72501"
+       xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRw
+Oi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpldj0iaHR0cDovL3d3dy53My5vcmcvMjAw
+MS94bWwtZXZlbnRzIiB3aWR0aD0iMTEzMi41MTk2ODUwMzkzNzAyIiBoZWlnaHQ9IjgwNCIgdmll
+d0JveD0iMCAwIDExMzIuNTE5Njg1MDM5MzcwMiA4MDQiPjxkZWZzLz48ZyB0cmFuc2Zvcm09InRy
+YW5zbGF0ZSg1LDUpIiBpZD0icGFnZTEiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMTIzIiBo
+ZWlnaHQ9Ijc5NCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjODA4MDgwIi8+PGcgdHJhbnNmb3Jt
+PSJtYXRyaXgoMC4wMCwxLjAwLC0xLjAwLDAuMDAsNDkuNyw0OS40KSIgaWQ9InNoYXBlMSI+PHBh
+dGggZmlsbD0iIzdlN2U3ZSIgZD0iTS03LjYsMEw2ODYuMiwwTDY3OC42LC03LjZMNjcxLC0xNS4y
+TDcuNSwtMTUuMkwwLC03LjZMLTcuNiwwWiIvPjxwYXRoIHN0cm9rZT0iIzdlN2U3ZSIgZD0iTS03
+LjYsMEw2ODYuMiwwTTY3MSwtMTUuMkw3LjUsLTE1LjIiIGZpbGw9Im5vbmUiLz48L2c+PGcgdHJh
+bnNmb3JtPSJ0cmFuc2xhdGUoNTcuMjYsNTYuOTEpIiBpZD0ic2hhcGUyIj48cGF0aCBmaWxsPSIj
+N2U3ZTdlIiBkPSJNNy41LDBMMzUxLjEsMEwzNTguNywtNy42TDM2Ni4yLC0xNS4yTC03LjYsLTE1
+LjJMMCwtNy42TDcuNSwwWiIvPjxwYXRoIHN0cm9rZT0iIzdlN2U3ZSIgZD0iTTcuNSwwTDM1MS4x
+LDBNMzY2LjIsLTE1LjJMLTcuNiwtMTUuMiIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0cmFuc2Zvcm09
+Im1hdHJpeCgwLjAwLDEuMDAsLTEuMDAsMC4wMCw0MDguNCw0OS40KSIgaWQ9InNoYXBlMyI+PHBh
+dGggZmlsbD0iIzdlN2U3ZSIgZD0iTTcuNSwwTDkyLjYsMEw5Mi42LC03LjZMODUsLTE1LjJMLTcu
+NiwtMTUuMkwwLC03LjZMNy41LDBaIi8+PHBhdGggc3Ryb2tlPSIjN2U3ZTdlIiBkPSJNNy41LDBM
+OTIuNiwwTTg1LC0xNS4yTC03LjYsLTE1LjIiIGZpbGw9Im5vbmUiLz48L2c+PGcgdHJhbnNmb3Jt
+PSJ0cmFuc2xhdGUoNDE2LjAwLDE0OS41NikiIGlkPSJzaGFwZTQiPjxwYXRoIGZpbGw9IiM3ZTdl
+N2UiIGQ9Ik0wLC03LjZMNy41LC0xNS4yTDY0OS41LC0xNS4yTDYzNC40LDBMNDIyLjUsMEw0MTUs
+LTcuNkw0MDcuNCwwTDcuNSwwTDAsLTcuNloiLz48cGF0aCBzdHJva2U9IiM3ZTdlN2UiIGQ9Ik03
+LjUsMEw2MzQuNCwwTTY0OS41LC0xNS4yTDcuNSwtMTUuMiIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0
+cmFuc2Zvcm09Im1hdHJpeCgwLjAwLDEuMDAsLTEuMDAsMC4wMCwxMDUwLjQsMTQyLjApIiBpZD0i
+c2hhcGU1Ij48cGF0aCBmaWxsPSIjN2U3ZTdlIiBkPSJNNy41LDBMNDY5LjQsMEw0NzcsLTcuNkw0
+ODQuNSwtMTUuMkwtNy42LC0xNS4yTDAsLTcuNkw3LjUsMFoiLz48cGF0aCBzdHJva2U9IiM3ZTdl
+N2UiIGQ9Ik03LjUsMEw0NjkuNCwwTTQ4NC41LC0xNS4yTC03LjYsLTE1LjIiIGZpbGw9Im5vbmUi
+Lz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODMxLjAwLDYyNi41NikiIGlkPSJzaGFwZTYi
+PjxwYXRoIGZpbGw9IiM3ZTdlN2UiIGQ9Ik03LjUsMEwyMzQuNSwwTDIyNywtNy42TDIxOS40LC0x
+NS4yTDcuNSwtMTUuMkwwLC03LjZMNy41LDBaIi8+PHBhdGggc3Ryb2tlPSIjN2U3ZTdlIiBkPSJN
+Ny41LDBMMjM0LjUsME0yMTkuNCwtMTUuMkw3LjUsLTE1LjIiIGZpbGw9Im5vbmUiLz48L2c+PGcg
+dHJhbnNmb3JtPSJtYXRyaXgoMC4wMCwxLjAwLC0xLjAwLDAuMDAsODIzLjQsNjE5LjApIiBpZD0i
+c2hhcGU3Ij48cGF0aCBmaWxsPSIjN2U3ZTdlIiBkPSJNMCwwTDEwMS40LDBMMTA5LC03LjZMMTE2
+LjUsLTE1LjJMMCwtMTUuMkwwLC03LjZMMCwwWiIvPjxwYXRoIHN0cm9rZT0iIzdlN2U3ZSIgZD0i
+TTAsMEwxMDEuNCwwTTExNi41LC0xNS4yTDAsLTE1LjIiIGZpbGw9Im5vbmUiLz48L2c+PGcgdHJh
+bnNmb3JtPSJ0cmFuc2xhdGUoNTcuMjYsNzM1LjU2KSIgaWQ9InNoYXBlOCI+PHBhdGggZmlsbD0i
+IzdlN2U3ZSIgZD0iTS03LjYsMEw3ODEuMiwwTDc3My43LC03LjZMNzY2LjEsLTE1LjJMNy41LC0x
+NS4yTDAsLTcuNkwtNy42LDBaIi8+PHBhdGggc3Ryb2tlPSIjN2U3ZTdlIiBkPSJNLTcuNiwwTDc4
+MS4yLDBNNzY2LjEsLTE1LjJMNy41LC0xNS4yIiBmaWxsPSJub25lIi8+PC9nPjxnIHRyYW5zZm9y
+bT0ibWF0cml4KDAuMDAsMS4wMCwtMS4wMCwwLjAwLDQwOC40LDE0Mi4wKSIgaWQ9InNoYXBlOSI+
+PHBhdGggZmlsbD0iIzdlN2U3ZSIgZD0iTTAsLTE1LjJMMTYwLjIsLTE1LjJMMTY3LjgsLTcuNkwx
+NzUsLTcuNkwxNzUsMEwwLDBMMCwtMTUuMloiLz48cGF0aCBzdHJva2U9IiM3ZTdlN2UiIGQ9Ik0w
+LDBMMTc1LDBNMTc1LC0xNS4yTDAsLTE1LjJNMTc1LDBMMTc1LC03LjZMMTc1LC0xNS4yIiBmaWxs
+PSJub25lIi8+PC9nPjxnIHRyYW5zZm9ybT0ibWF0cml4KDAuMDAsMS4wMCwtMS4wMCwwLjAwLDgy
+My40LDE0Mi4wKSIgaWQ9InNoYXBlMTAiPjxwYXRoIGZpbGw9IiM3ZTdlN2UiIGQ9Ik0wLC03LjZM
+Ny41LC0xNS4yTDQ2OS40LC0xNS4yTDQ3NywtNy42TDQ3NywtMC4xTDE3NS40LDBMMTY3LjgsLTcu
+NkwxNjAuMiwtMC4xTDcuNSwwTDAsLTcuNloiLz48cGF0aCBzdHJva2U9IiM3ZTdlN2UiIGQ9Ik03
+LjUsMEw0NzcsLTAuMU00NjkuNCwtMTUuMkw3LjUsLTE1LjIiIGZpbGw9Im5vbmUiLz48L2c+PGcg
+dHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDE2LjAwLDMxNy40MSkiIGlkPSJzaGFwZTExIj48cGF0aCBm
+aWxsPSIjN2U3ZTdlIiBkPSJNMCwwTDQwNy40LDBMNDE1LC03LjZMNDA3LjQsLTE1LjJMNy41LC0x
+NS4yTDAsLTcuNkwwLDBaIi8+PHBhdGggc3Ryb2tlPSIjN2U3ZTdlIiBkPSJNMCwwTDQwNy40LDBN
+NDA3LjQsLTE1LjJMNy41LC0xNS4yIiBmaWxsPSJub25lIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJh
+bnNsYXRlKDY2NC41OSw3MjAuNDQpIiBpZD0ic2hhcGUxMiI+PHBhdGggZmlsbD0iI2ZmZmZmZiIg
+ZD0iTTAsMEwxMDUuOCwwTDEwNS44LDE1LjFMMCwxNS4xTDAsMFpNMCwwTDAsMTUuMUwtNSwxNS4x
+TC01LDBMMCwwWk0xMDUuOCwwTDExMC44LDBMMTEwLjgsMTUuMUwxMDUuOCwxNS4xTDEwNS44LDBa
+TTEwNS44LDBMMTA1LjgsLTUzTDEwMC44LC01M0wxMDAuOCwwTDEwNS44LDBaTTAsMEwwLC01M0w1
+LC01M0w1LDBMMCwwWiIvPjxwYXRoIHN0cm9rZT0iIzMwMzAzMCIgZD0iTTUyLjksMEM1Mi45LC0y
+OS4zLDc2LjYsLTUzLDEwNS44LC01M00wLDBMMCwxNS4xTC01LDE1LjFMLTUsMEwwLDBaTTEwNS44
+LDBMMTEwLjgsMEwxMTAuOCwxNS4xTDEwNS44LDE1LjFMMTA1LjgsMFpNMTA1LjgsMEwxMDUuOCwt
+NTNMMTAwLjgsLTUzTDEwMC44LDBMMTA1LjgsMFpNMCwwTDAsLTUzTDUsLTUzTDUsMEwwLDBaTTUy
+LjksMEM1Mi45LC0yOS4zLDI5LjIsLTUzLDAsLTUzIiBmaWxsPSJub25lIi8+PC9nPjxnIHRyYW5z
+Zm9ybT0ibWF0cml4KDAuMDAsMS4wMCwtMS4wMCwwLjAwLDgzOC42LDQ2NC4wKSIgaWQ9InNoYXBl
+MTMiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0wLDE1LjFMMTM2LDE1LjFMMTM2LDBMMCwwTDAs
+MTUuMVpNMCwwTDAsMTUuMUwtOCwxNS4xTC04LDBMMCwwWk0xMzYsMEwxMzYsMTUuMUwxNDQsMTUu
+MUwxNDQsMEwxMzYsMFpNNCwzLjVMNCw3LjVMMCw3LjVMMCwzLjVMNCwzLjVaTTY4LDMuNUw2OCw3
+LjVMNzIsNy41TDcyLDMuNUw2OCwzLjVaTTY4LDcuNUw3Miw3LjVMNzIsMTEuNUw2OCwxMS41TDY4
+LDcuNVpNMTM2LDcuNUwxMzIsNy41TDEzMiwxMS41TDEzNiwxMS41TDEzNiw3LjVaIi8+PHBhdGgg
+c3Ryb2tlPSIjMzAzMDMwIiBkPSJNMCwwTDAsMTUuMUwtOCwxNS4xTC04LDBMMCwwWk0xMzYsMEwx
+MzYsMTUuMUwxNDQsMTUuMUwxNDQsMEwxMzYsMFpNNCwzLjVMNCw3LjVMMCw3LjVMMCwzLjVMNCwz
+LjVaTTY4LDMuNUw2OCw3LjVMNzIsNy41TDcyLDMuNUw2OCwzLjVaTTQsNS41TDY4LDUuNU03Miw5
+LjVMMTMyLDkuNU02OCw3LjVMNzIsNy41TDcyLDExLjVMNjgsMTEuNUw2OCw3LjVaTTEzNiw3LjVM
+MTMyLDcuNUwxMzIsMTEuNUwxMzYsMTEuNUwxMzYsNy41WiIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0
+cmFuc2Zvcm09Im1hdHJpeCgwLjAwLDEuMDAsLTEuMDAsMC4wMCw0MjMuNiwyMzguNSkiIGlkPSJz
+aGFwZTE0Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMCwwTDUyLjksMEw1Mi45LDE1LjFMMCwx
+NS4xTDAsMFpNMCwwTDAsMTUuMUwtNSwxNS4xTC01LDBMMCwwWk01Mi45LDBMNTIuOSwxNS4xTDU3
+LjksMTUuMUw1Ny45LDBMNTIuOSwwWk01Mi45LDBMNTIuOSwtNTNMNDcuOSwtNTNMNDcuOSwwTDUy
+LjksMFoiLz48cGF0aCBzdHJva2U9IiMzMDMwMzAiIGQ9Ik0wLDBDMCwtMjkuMywyMy42LC01Myw1
+Mi45LC01M00wLDBMMCwxNS4xTC01LDE1LjFMLTUsMEwwLDBaTTUyLjksMEw1Mi45LDE1LjFMNTcu
+OSwxNS4xTDU3LjksMEw1Mi45LDBaTTUyLjksMEw1Mi45LC01M0w0Ny45LC01M0w0Ny45LDBMNTIu
+OSwwWiIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwLjAwLDEuMDAsLTEu
+MDAsMC4wMCwxMDY1LjYsMTgwLjkpIiBpZD0ic2hhcGUxNSI+PHBhdGggZmlsbD0iI2ZmZmZmZiIg
+ZD0iTTAsMTUuMUw5OC4yLDE1LjFMOTguMiwwTDAsMEwwLDE1LjFaTTAsMEwwLDE1LjFMLTgsMTUu
+MUwtOCwwTDAsMFpNOTguMiwwTDk4LjIsMTUuMUwxMDYuMiwxNS4xTDEwNi4yLDBMOTguMiwwWiIv
+PjxwYXRoIHN0cm9rZT0iIzMwMzAzMCIgZD0iTTAsMEwwLDE1LjFMLTgsMTUuMUwtOCwwTDAsMFpN
+OTguMiwwTDk4LjIsMTUuMUwxMDYuMiwxNS4xTDEwNi4yLDBMOTguMiwwWk02LDQuNUw2LDEwLjVM
+MCwxMC41TDAsNC41TDYsNC41Wk05Mi4yLDQuNUw5Mi4yLDEwLjVMOTguMiwxMC41TDk4LjIsNC41
+TDkyLjIsNC41Wk02LDcuNUw5Mi4yLDcuNSIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0cmFuc2Zvcm09
+Im1hdHJpeCgwLjAwLDEuMDAsLTEuMDAsMC4wMCwxMDY1LjYsMzI1LjApIiBpZD0ic2hhcGUxNiI+
+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTAsMTUuMUw5OC4yLDE1LjFMOTguMiwwTDAsMEwwLDE1
+LjFaTTAsMEwwLDE1LjFMLTgsMTUuMUwtOCwwTDAsMFpNOTguMiwwTDk4LjIsMTUuMUwxMDYuMiwx
+NS4xTDEwNi4yLDBMOTguMiwwWiIvPjxwYXRoIHN0cm9rZT0iIzMwMzAzMCIgZD0iTTAsMEwwLDE1
+LjFMLTgsMTUuMUwtOCwwTDAsMFpNOTguMiwwTDk4LjIsMTUuMUwxMDYuMiwxNS4xTDEwNi4yLDBM
+OTguMiwwWk02LDQuNUw2LDEwLjVMMCwxMC41TDAsNC41TDYsNC41Wk05Mi4yLDQuNUw5Mi4yLDEw
+LjVMOTguMiwxMC41TDk4LjIsNC41TDkyLjIsNC41Wk02LDcuNUw5Mi4yLDcuNSIgZmlsbD0ibm9u
+ZSIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwLjAwLDEuMDAsLTEuMDAsMC4wMCwxMDY1LjYs
+NDY5LjEpIiBpZD0ic2hhcGUxNyI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTAsMTUuMUw5OC4y
+LDE1LjFMOTguMiwwTDAsMEwwLDE1LjFaTTAsMEwwLDE1LjFMLTgsMTUuMUwtOCwwTDAsMFpNOTgu
+MiwwTDk4LjIsMTUuMUwxMDYuMiwxNS4xTDEwNi4yLDBMOTguMiwwWiIvPjxwYXRoIHN0cm9rZT0i
+IzMwMzAzMCIgZD0iTTAsMEwwLDE1LjFMLTgsMTUuMUwtOCwwTDAsMFpNOTguMiwwTDk4LjIsMTUu
+MUwxMDYuMiwxNS4xTDEwNi4yLDBMOTguMiwwWk02LDQuNUw2LDEwLjVMMCwxMC41TDAsNC41TDYs
+NC41Wk05Mi4yLDQuNUw5Mi4yLDEwLjVMOTguMiwxMC41TDk4LjIsNC41TDkyLjIsNC41Wk02LDcu
+NUw5Mi4yLDcuNSIgZmlsbD0ibm9uZSIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODcu
+ODcsMTM0LjQ0KSIgaWQ9InNoYXBlMTgiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0wLDE1LjFM
+OTguMiwxNS4xTDk4LjIsMEwwLDBMMCwxNS4xWk0wLDBMMCwxNS4xTC04LDE1LjFMLTgsMEwwLDBa
+TTk4LjIsMEw5OC4yLDE1LjFMMTA2LjIsMTUuMUwxMDYuMiwwTDk4LjIsMFoiLz48cGF0aCBzdHJv
+a2U9IiMzMDMwMzAiIGQ9Ik0wLDBMMCwxNS4xTC04LDE1LjFMLTgsMEwwLDBaTTk4LjIsMEw5OC4y
+LDE1LjFMMTA2LjIsMTUuMUwxMDYuMiwwTDk4LjIsMFpNNiw0LjVMNiwxMC41TDAsMTAuNUwwLDQu
+NUw2LDQuNVpNOTIuMiw0LjVMOTIuMiwxMC41TDk4LjIsMTAuNUw5OC4yLDQuNUw5Mi4yLDQuNVpN
+Niw3LjVMOTIuMiw3LjUiIGZpbGw9Im5vbmUiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUo
+MTAwMi4wMCw0OS4zNSkiIGlkPSJncm91cDE5Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMC43
+OCwxOS41NSkiIGlkPSJzaGFwZTIwIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMCw4LjFDMCwz
+LjYsMy42LDAsOC4xLDBDMTIuNywwLDE2LjMsMy42LDE2LjMsOC4xQzE2LjMsMTIuNiwxMi43LDE2
+LjIsOC4xLDE2LjJDMy42LDE2LjIsMCwxMi42LDAsOC4xWiIgc3Ryb2tlPSIjMmMyYzJjIi8+PC9n
+PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLjAxLDEwLjg1KSIgaWQ9InNoYXBlMjEiPjxwYXRo
+IGZpbGw9IiNmZmZmZmYiIGQ9Ik0xNi45LDBMMTUuMiwxNS4xTDAsMTYuOEwxNS4yLDE4LjVMMTYu
+OSwzMy42TDE4LjYsMTguNUwzMy45LDE2LjhMMTguNiwxNS4xTDE2LjksMFoiIHN0cm9rZT0iIzJj
+MmMyYyIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNS40MSwwLjAwKSIgaWQ9InNoYXBl
+MjIiPjxwYXRoIGZpbGw9IiM3MDcyNzQiIGQ9Ik0wLDguNUwwLDBMMS43LDBMNS40LDUuN0w1LjQs
+MEw3LDBMNyw4LjVMNS4yLDguNUwxLjYsMi45TDEuNiw4LjVMMCw4LjVaIi8+PC9nPjxnIHRyYW5z
+Zm9ybT0idHJhbnNsYXRlKDAuMDAsMjMuNzEpIiBpZD0ic2hhcGUyMyI+PHBhdGggZmlsbD0iIzcw
+NzI3NCIgZD0iTTEuOSw3LjlMMCwwTDEuNiwwTDIuOSw1LjRMNC40LDBMNi4zLDBMNy44LDUuNUw5
+LDBMMTAuNywwTDguNyw3LjlMNyw3LjlMNS4zLDEuOUwzLjcsNy45TDEuOSw3LjlaIi8+PC9nPjxn
+IHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ5LjA5LDIzLjI2KSIgaWQ9InNoYXBlMjQiPjxwYXRoIGZp
+bGw9IiM3MDcyNzQiIGQ9Ik0wLDguOEwwLDBMNi43LDBMNi43LDEuNEwxLjgsMS40TDEuOCwzLjRM
+Ni4zLDMuNEw2LjMsNC45TDEuOCw0LjlMMS44LDcuM0w2LjksNy4zTDYuOSw4LjhMMCw4LjhaIi8+
+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1LjA4LDQ2LjEwKSIgaWQ9InNoYXBlMjUiPjxw
+YXRoIGZpbGw9IiM3MDcyNzQiIGQ9Ik0wLDYuNkwxLjgsNi40QzEuOSw3LDIuMiw3LjUsMi41LDcu
+OEMyLjksOC4xLDMuMyw4LjIsMy45LDguMkM0LjUsOC4yLDUsOC4xLDUuMyw3LjhDNS42LDcuNiw1
+LjgsNy4zLDUuOCw2LjlDNS44LDYuNyw1LjcsNi41LDUuNiw2LjNDNS41LDYuMiw1LjIsNiw0Ljks
+NS45QzQuNyw1LjgsNC4xLDUuNywzLjMsNS41QzIuMyw1LjIsMS42LDQuOSwxLjIsNC41QzAuNiw0
+LDAuMywzLjQsMC4zLDIuNkMwLjMsMi4xLDAuNCwxLjcsMC43LDEuMkMxLDAuOCwxLjQsMC41LDEu
+OSwwLjNDMi40LDAuMSwzLC0wLjEsMy44LC0wLjFDNSwtMC4xLDUuOSwwLjIsNi41LDAuN0M3LjEs
+MS4zLDcuNCwyLDcuNCwyLjhMNS41LDIuOUM1LjQsMi40LDUuMiwyLjEsNSwxLjlDNC43LDEuNiw0
+LjMsMS41LDMuOCwxLjVDMy4yLDEuNSwyLjgsMS43LDIuNCwxLjlDMi4yLDIsMi4xLDIuMiwyLjEs
+Mi41QzIuMSwyLjcsMi4yLDIuOSwyLjQsMy4xQzIuNywzLjMsMy4zLDMuNSw0LjIsMy43QzUuMSwz
+LjksNS44LDQuMiw2LjMsNC40QzYuNyw0LjYsNy4xLDUsNy4zLDUuNEM3LjYsNS44LDcuNyw2LjMs
+Ny43LDYuOUM3LjcsNy40LDcuNiw4LDcuMyw4LjRDNyw4LjksNi41LDkuMyw2LDkuNUM1LjQsOS43
+LDQuNyw5LjgsMy45LDkuOEMyLjcsOS44LDEuOCw5LjYsMS4xLDlDMC41LDguNSwwLjEsNy42LDAs
+Ni42WiIvPjwvZz48Zm9yZWlnbk9iamVjdCB4PSItMjcuMTk1MzEyNTAwMDAwMDMiIHk9IjU1Ljk5
+OTk5OTk5OTk5OTk0IiB3aWR0aD0iMTEyLjM5MDYyNSIgaGVpZ2h0PSIxOSI+PGRpdiB4bWxucz0i
+aHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgc3BlbGxjaGVjaz0iZmFsc2UiIHN0eWxlPSJm
+b250LWZhbWlseTogJnF1b3Q7SGVsdmV0aWNhIE5ldWUmcXVvdDssIEhlbHZldGljYSwgJnF1b3Q7
+UGluZ0ZhbmcgU0MmcXVvdDssICZxdW90O0hpcmFnaW5vIFNhbnMgR0ImcXVvdDssICZxdW90O01p
+Y3Jvc29mdCBZYUhlaSZxdW90OywgJnF1b3Q7XDUgRkFFOEY2Rjk2QzU5RUQxJnF1b3Q7LCBBcmlh
+bCwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBtYXJnaW46IDBweDsgcGFkZGluZzogMHB4
+OyB3aWR0aDogYXV0bzsgaGVpZ2h0OiBhdXRvOyBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVu
+dDsgd2hpdGUtc3BhY2U6IHByZS13cmFwOyB3b3JkLWJyZWFrOiBicmVhay13b3JkOyBtaW4td2lk
+dGg6IDEycHg7IGxpbmUtaGVpZ2h0OiAxMDAlOyI+PHAgc3R5bGU9InBhZGRpbmc6IDBweDsgbWFy
+Z2luOiAwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgbGluZS1oZWlnaHQ6IDEuMjsiPjxzcGFuIHN0
+eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTog
+MTBwdDsiPjc0MCBtbSB4IDc0MCBtbTwvc3Bhbj48L3A+PC9kaXY+PC9mb3JlaWduT2JqZWN0Pjwv
+Zz48L2c+PC9zdmc+
+"
+       id="image928"
+       x="-18.231384"
+       y="-26.966463" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="活动">
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144"
+       width="19.883444"
+       height="9.8767414"
+       x="22.872456"
+       y="21.572886"
+       name="c1" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3"
+       width="19.883444"
+       height="9.8767414"
+       x="43.285065"
+       y="21.572884"
+       name="c2" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-8"
+       width="19.883444"
+       height="9.8767414"
+       x="63.697678"
+       y="21.572884"
+       name="c3" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-7"
+       width="19.883444"
+       height="9.8767414"
+       x="230.81476"
+       y="46.26474"
+       name="c13" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-2"
+       width="19.883444"
+       height="9.8767414"
+       x="251.22736"
+       y="46.26474"
+       name="c14" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-7-1"
+       width="19.883444"
+       height="9.8767414"
+       x="230.81474"
+       y="66.724815"
+       name="c15" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-2-0"
+       width="19.883444"
+       height="9.8767414"
+       x="251.22736"
+       y="66.724815"
+       name="c16" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-7-1-0"
+       width="19.883444"
+       height="9.8767414"
+       x="230.81474"
+       y="87.184883"
+       name="c17" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-2-0-6"
+       width="19.883444"
+       height="9.8767414"
+       x="251.22736"
+       y="87.184883"
+       name="c18" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-7"
+       width="19.883444"
+       height="9.8767414"
+       x="84.110291"
+       y="21.572884"
+       name="c4" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-30"
+       width="19.883444"
+       height="9.8767414"
+       x="22.872452"
+       y="42.032963"
+       name="c5" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-85"
+       width="19.883444"
+       height="9.8767414"
+       x="43.285065"
+       y="42.032959"
+       name="c6" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-8-8"
+       width="19.883444"
+       height="9.8767414"
+       x="63.697678"
+       y="42.032959"
+       name="c7" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-7-5"
+       width="19.883444"
+       height="9.8767414"
+       x="84.110291"
+       y="42.032959"
+       name="c8" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-30-8"
+       width="19.883444"
+       height="9.8767414"
+       x="22.872452"
+       y="62.493038"
+       name="c9" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-85-8"
+       width="19.883444"
+       height="9.8767414"
+       x="43.285065"
+       y="62.493034"
+       name="c10" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-8-8-5"
+       width="19.883444"
+       height="9.8767414"
+       x="63.697678"
+       y="62.493034"
+       name="c11" />
+    <rect
+       style="fill:#c0e1ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect4144-3-7-5-8"
+       width="19.883444"
+       height="9.8767414"
+       x="84.110291"
+       y="62.493034"
+       name="c12" />
+    <rect
+       style="fill:#f1c6ff;fill-opacity:1;stroke-width:0.264583"
+       id="rect5074"
+       width="27.290987"
+       height="31.969456"
+       x="188.43784"
+       y="44.965168"
+       ry="0"
+       name="w2" />
+    <rect
+       style="fill:#f1c6ff;fill-opacity:1;stroke-width:0.364245"
+       id="rect5074-9"
+       width="51.722927"
+       height="31.969456"
+       x="131.42323"
+       y="44.965168"
+       ry="0"
+       name="w1" />
+    <rect
+       style="fill:#fdffd6;fill-opacity:1;stroke-width:0.264583"
+       id="rect8224"
+       width="189.99733"
+       height="82.652733"
+       x="23.670876"
+       y="90.171577" />
+    <rect
+       style="fill:#fdffd6;fill-opacity:1;stroke-width:0.0951715"
+       id="rect8224-5"
+       width="40.296066"
+       height="50.423363"
+       x="230.81474"
+       y="105.52826" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="text"
+     sodipodi:insensitive="true">
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="108.38425"
+       y="133.0761"
+       id="text11193"><tspan
+         sodipodi:role="line"
+         id="tspan11191"
+         style="stroke-width:0.264583"
+         x="108.38425"
+         y="133.0761">自由区域</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="29.411499"
+       y="28.185244"
+       id="text11193-62"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="29.411499"
+         y="28.185244">C1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="50.581127"
+       y="28.188059"
+       id="text11193-62-8"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="50.581127"
+         y="28.188059">C2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="71.010658"
+       y="28.184269"
+       id="text11193-62-8-0"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="71.010658"
+         y="28.184269">C3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="91.305672"
+       y="28.310093"
+       id="text11193-62-8-0-9"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="91.305672"
+         y="28.310093">C4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="29.598299"
+       y="48.496536"
+       id="text11193-62-8-0-9-1"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="29.598299"
+         y="48.496536">C5</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="50.23"
+       y="48.584297"
+       id="text11193-62-8-0-9-1-1"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="50.23"
+         y="48.584297">C6</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="70.59523"
+       y="48.493435"
+       id="text11193-62-8-0-9-1-1-4"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="70.59523"
+         y="48.493435">C7</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="91.381783"
+       y="48.772217"
+       id="text11193-62-8-0-9-1-1-4-8"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="91.381783"
+         y="48.772217">C8</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="30.173429"
+       y="68.9888"
+       id="text11193-62-8-0-9-1-1-4-8-5"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="30.173429"
+         y="68.9888">C9</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="49.484516"
+       y="68.989838"
+       id="text11193-62-8-0-9-1-1-4-8-5-6"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="49.484516"
+         y="68.989838">C10</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="69.090591"
+       y="68.98777"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="69.090591"
+         y="68.98777">C11</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="89.76458"
+       y="68.809151"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="89.76458"
+         y="68.809151">C12</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="236.85486"
+       y="52.616207"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="236.85486"
+         y="52.616207">C13</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="256.43509"
+       y="52.612076"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8-0"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3-8"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="256.43509"
+         y="52.612076">C14</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="236.5598"
+       y="73.210281"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8-0-2"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3-8-5"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="236.5598"
+         y="73.210281">C15</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="256.55576"
+       y="73.141167"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8-0-2-2"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3-8-5-4"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="256.55576"
+         y="73.141167">C16</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="236.44225"
+       y="93.74041"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8-0-2-2-1"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3-8-5-4-0"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="236.44225"
+         y="93.74041">C17</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="256.21432"
+       y="93.873459"
+       id="text11193-62-8-0-9-1-1-4-8-5-6-9-2-8-0-2-2-1-4"><tspan
+         sodipodi:role="line"
+         id="tspan11191-2-9-4-6-4-3-1-3-8-9-5-0-3-8-5-4-0-4"
+         style="font-size:4.23333px;stroke-width:0.264583"
+         x="256.21432"
+         y="93.873459">C18</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="241.24927"
+       y="132.85455"
+       id="text11193-6"><tspan
+         sodipodi:role="line"
+         id="tspan11191-1"
+         style="stroke-width:0.264583"
+         x="241.24927"
+         y="132.85455">自由区域</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="152.56967"
+       y="62.119507"
+       id="text30436"><tspan
+         sodipodi:role="line"
+         id="tspan30434"
+         style="stroke-width:0.264583"
+         x="152.56967"
+         y="62.119507">W1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="198.48642"
+       y="62.629436"
+       id="text30436-4"><tspan
+         sodipodi:role="line"
+         id="tspan30434-0"
+         style="stroke-width:0.264583"
+         x="198.48642"
+         y="62.629436">W2</tspan></text>
+  </g>
+</svg>

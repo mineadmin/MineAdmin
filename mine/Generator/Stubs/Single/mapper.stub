@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types = 1);
+namespace {NAMESPACE};
+
+{USE}
+use Hyperf\Database\Model\Builder;
+use Mine\Abstracts\AbstractMapper;
+
+/**
+ * {COMMENT}
+ */
+class {CLASS_NAME} extends AbstractMapper
+{
+    /**
+     * @var {MODEL}
+     */
+    public $model;
+
+    public function assignModel()
+    {
+        $this->model = {MODEL}::class;
+    }
+
+    /**
+     * 搜索处理器
+     * @param Builder $query
+     * @param array $params
+     * @return Builder
+     */
+    public function handleSearch(Builder $query, array $params): Builder
+    {
+        {SEARCH}
+        return $query;
+    }
+}

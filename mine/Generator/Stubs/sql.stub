@@ -1,0 +1,26 @@
+SET @id := {ID};
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, {PARENT_ID}, '{LEVEL}', '{NAME}', '{CODE}', 'el-icon-menu', '{ROUTE}', '{VUE_TEMPLATE}', NULL, '1', 'M', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+SET @level := CONCAT('{LEVEL}', ',', @id);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+1), @id, @level, CONCAT('{NAME}', '列表'), CONCAT('{CODE}',':index'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+2), @id, @level, CONCAT('{NAME}', '回收站'), CONCAT('{CODE}',':recycle'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+3), @id, @level, CONCAT('{NAME}', '保存'), CONCAT('{CODE}',':save'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+4), @id, @level, CONCAT('{NAME}', '更新'), CONCAT('{CODE}',':update'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+5), @id, @level, CONCAT('{NAME}', '删除'), CONCAT('{CODE}',':delete'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+6), @id, @level, CONCAT('{NAME}', '读取'), CONCAT('{CODE}',':read'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+7), @id, @level, CONCAT('{NAME}', '恢复'), CONCAT('{CODE}',':recovery'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+8), @id, @level, CONCAT('{NAME}', '真实删除'), CONCAT('{CODE}',':realDelete'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+9), @id, @level, CONCAT('{NAME}', '导入'), CONCAT('{CODE}',':import'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+10), @id, @level, CONCAT('{NAME}', '导出'), CONCAT('{CODE}',':export'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+

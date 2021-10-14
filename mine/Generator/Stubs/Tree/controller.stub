@@ -1,0 +1,133 @@
+<?php
+
+declare(strict_types = 1);
+namespace {NAMESPACE};
+
+{USE}
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Annotation\Controller;
+use Hyperf\HttpServer\Annotation\DeleteMapping;
+use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\PostMapping;
+use Hyperf\HttpServer\Annotation\PutMapping;
+use Mine\Annotation\Auth;
+use Mine\Annotation\OperationLog;
+use Mine\Annotation\Permission;
+use Mine\MineController;
+use Psr\Http\Message\ResponseInterface;
+
+/**
+ * {COMMENT}
+ * Class {CLASS_NAME}
+ * @Controller(prefix="{CONTROLLER_ROUTE}")
+ * @Auth
+ */
+class DeptController extends MineController
+{
+    /**
+     * @Inject
+     * @var {SERVICE}
+     */
+    protected $service;
+
+    /**
+     * 获取列表树
+     * @GetMapping("index")
+     * @Permission("{INDEX_PERMISSION}")
+     */
+    public function index(): ResponseInterface
+    {
+        return $this->success($this->service->getTreeList($this->request->all()));
+    }
+
+    /**
+     * 回收站列表树
+     * @GetMapping("recycle")
+     * @Permission("{RECYCLE_PERMISSION}")
+     */
+    public function recycle():ResponseInterface
+    {
+        return $this->success($this->service->getTreeListByRecycle($this->request->all()));
+    }
+
+    /**
+     * 读取数据
+     * @GetMapping("read/{id}")
+     * @param int $id
+     * @return ResponseInterface
+     * @Permission("{READ_PERMISSION}")
+     */
+    public function read(int $id): ResponseInterface
+    {
+        return $this->success($this->service->read($id));
+    }
+
+    /**
+     * 新增
+     * @PostMapping("save")
+     * @param {CREATE_REQUEST} $request
+     * @return ResponseInterface
+     * @Permission("{SAVE_PERMISSION}")
+     * @OperationLog
+     */
+    public function save({CREATE_REQUEST} $request): ResponseInterface
+    {
+        return $this->success(['id' => $this->service->save($request->all())]);
+    }
+
+    /**
+     * 更新
+     * @PutMapping("update/{id}")
+     * @Permission("{UPDATE_PERMISSION}")
+     * @param int $id
+     * @param {UPDATE_REQUEST} $request
+     * @return ResponseInterface
+     * @OperationLog
+     */
+    public function update(int $id, {UPDATE_REQUEST} $request): ResponseInterface
+    {
+        return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 单个或批量删除数据到回收站
+     * @DeleteMapping("delete/{ids}")
+     * @param String $ids
+     * @return ResponseInterface
+     * @Permission("{DELETE_PERMISSION}")
+     * @OperationLog
+     */
+    public function delete(String $ids): ResponseInterface
+    {
+        return $this->service->delete($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 单个或批量真实删除数据 （清空回收站）
+     * @DeleteMapping("realDelete/{ids}")
+     * @param String $ids
+     * @return ResponseInterface
+     * @Permission("{REAL_DELETE_PERMISSION}")
+     * @OperationLog
+     */
+    public function realDelete(String $ids): ResponseInterface
+    {
+        $data = $this->service->realDel($ids);
+        return is_null($data) ?
+            $this->success() :
+            $this->success(__('system.exists_children_ctu', ['names' => implode(',', $data)]));
+    }
+
+    /**
+     * 单个或批量恢复在回收站的数据
+     * @PutMapping("recovery/{ids}")
+     * @param String $ids
+     * @return ResponseInterface
+     * @Permission("{RECOVERY_PERMISSION}")
+     * @OperationLog
+     */
+    public function recovery(String $ids): ResponseInterface
+    {
+        return $this->service->recovery($ids) ? $this->success() : $this->error();
+    }
+}

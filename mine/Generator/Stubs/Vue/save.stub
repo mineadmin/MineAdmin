@@ -1,0 +1,87 @@
+<template>
+  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+    <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
+      {FORM_LIST}
+    </el-form>
+    <template #footer>
+      <el-button @click="visible=false" >取 消</el-button>
+      <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+    </template>
+  </el-dialog>
+</template>
+
+<script>
+  import editor from '@/components/scEditor'
+
+  export default {
+    emits: ['success', 'closed'],
+    components: {
+      editor
+    },
+    data() {
+      return {
+        mode: "add",
+        titleMap: {
+          add: '新增{BUSINESS_NAME}',
+          edit: '编辑{BUSINESS_NAME}'
+        },
+        form: {
+          {FORM_DATA}
+        },
+        rules: {
+          {REQUIRED_LIST}
+        },
+        visible: false,
+        isSaveing: false,
+        {DICT_DATA}
+      }
+    },
+    async created() {
+        await this.getDictData();
+    },
+    methods: {
+      //显示
+      open(mode='add'){
+        this.mode = mode;
+        this.visible = true;
+        return this;
+      },
+      //表单提交方法
+      submit(){
+        this.$refs.dialogForm.validate(async (valid) => {
+          if (valid) {
+            this.isSaveing = true;
+            let res = null
+            if (this.mode == 'add') {
+              res = await this.$API.{BUSINESS_EN_NAME}.save(this.form)
+            } else {
+              res = await this.$API.{BUSINESS_EN_NAME}.update(this.form.{PK}, this.form)
+            }
+            this.isSaveing = false;
+            if(res.success){
+              this.$emit('success', this.form, this.mode)
+              this.visible = false;
+              this.$message.success(res.message)
+            }else{
+              this.$alert(res.message, "提示", {type: 'error'})
+            }
+          }
+        })
+      },
+
+      //表单注入数据
+      setData(data){
+        {SET_FORM_DATA}
+      },
+
+      // 获取字典数据
+      getDictData() {
+        {DICT_LIST}
+      },
+
+      {UPLOAD_IMAGE}
+
+      {UPLOAD_FILE}
+    }
+  }
+</script>

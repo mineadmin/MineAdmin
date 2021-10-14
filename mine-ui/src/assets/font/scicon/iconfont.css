@@ -1,0 +1,407 @@
+@font-face {
+  font-family: "scicon"; /* Project id 2583127 */
+  src: url('iconfont.woff2?t=1622514384464') format('woff2'),
+       url('iconfont.woff?t=1622514384464') format('woff'),
+       url('iconfont.ttf?t=1622514384464') format('truetype');
+}
+
+[class*="sc-icon-"] {
+  font-family: "scicon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sc-icon-layout-line:before {
+  content: "\e718";
+}
+
+.sc-icon-table-fill:before {
+  content: "\e728";
+}
+
+.sc-icon-table-line:before {
+  content: "\e729";
+}
+
+.sc-icon-code-fill:before {
+  content: "\e72b";
+}
+
+.sc-icon-bug-line:before {
+  content: "\e72c";
+}
+
+.sc-icon-bug-fill:before {
+  content: "\e72d";
+}
+
+.sc-icon-git-branch-fill:before {
+  content: "\e72e";
+}
+
+.sc-icon-git-branch-line:before {
+  content: "\e72f";
+}
+
+.sc-icon-git-pull-request-line:before {
+  content: "\e730";
+}
+
+.sc-icon-git-pull-request-fill:before {
+  content: "\e731";
+}
+
+.sc-icon-dashboard-3-fill:before {
+  content: "\e73c";
+}
+
+.sc-icon-database-fill:before {
+  content: "\e73d";
+}
+
+.sc-icon-database-2-line:before {
+  content: "\e73e";
+}
+
+.sc-icon-database-2-fill:before {
+  content: "\e73f";
+}
+
+.sc-icon-dashboard-3-line:before {
+  content: "\e740";
+}
+
+.sc-icon-database-line:before {
+  content: "\e741";
+}
+
+.sc-icon-qr-code-line:before {
+  content: "\e747";
+}
+
+.sc-icon-wifi-line:before {
+  content: "\e758";
+}
+
+.sc-icon-wifi-off-line:before {
+  content: "\e759";
+}
+
+.sc-icon-draft-fill:before {
+  content: "\e760";
+}
+
+.sc-icon-draft-line:before {
+  content: "\e761";
+}
+
+.sc-icon-file-excel-2-fill:before {
+  content: "\e769";
+}
+
+.sc-icon-file-list-fill:before {
+  content: "\e76e";
+}
+
+.sc-icon-file-list-line:before {
+  content: "\e76f";
+}
+
+.sc-icon-file-ppt-2-fill:before {
+  content: "\e772";
+}
+
+.sc-icon-file-word-2-fill:before {
+  content: "\e779";
+}
+
+.sc-icon-android-fill:before {
+  content: "\e7c7";
+}
+
+.sc-icon-apple-fill:before {
+  content: "\e7c8";
+}
+
+.sc-icon-qq-fill:before {
+  content: "\e7d9";
+}
+
+.sc-icon-vuejs-fill:before {
+  content: "\e7e2";
+}
+
+.sc-icon-wechat-fill:before {
+  content: "\e7e3";
+}
+
+.sc-icon-windows-fill:before {
+  content: "\e7e4";
+}
+
+.sc-icon-map-pin-line:before {
+  content: "\e7ef";
+}
+
+.sc-icon-map-pin-fill:before {
+  content: "\e7f0";
+}
+
+.sc-icon-map-pin-add-line:before {
+  content: "\e7f1";
+}
+
+.sc-icon-road-map-fill:before {
+  content: "\e7f3";
+}
+
+.sc-icon-rocket-2-fill:before {
+  content: "\e7f4";
+}
+
+.sc-icon-rocket-2-line:before {
+  content: "\e7f5";
+}
+
+.sc-icon-road-map-line:before {
+  content: "\e7f6";
+}
+
+.sc-icon-image-add-line:before {
+  content: "\e806";
+}
+
+.sc-icon-image-fill:before {
+  content: "\e807";
+}
+
+.sc-icon-image-edit-line:before {
+  content: "\e808";
+}
+
+.sc-icon-image-line:before {
+  content: "\e809";
+}
+
+.sc-icon-notification-fill:before {
+  content: "\e80c";
+}
+
+.sc-icon-notification-line:before {
+  content: "\e80d";
+}
+
+.sc-icon-vidicon-fill:before {
+  content: "\e823";
+}
+
+.sc-icon-vidicon-line:before {
+  content: "\e824";
+}
+
+.sc-icon-t-shirt-line:before {
+  content: "\e836";
+}
+
+.sc-icon-t-shirt-fill:before {
+  content: "\e837";
+}
+
+.sc-icon-apps-fill:before {
+  content: "\e83c";
+}
+
+.sc-icon-apps-line:before {
+  content: "\e83d";
+}
+
+.sc-icon-delete-bin-6-line:before {
+  content: "\e84f";
+}
+
+.sc-icon-delete-bin-6-fill:before {
+  content: "\e850";
+}
+
+.sc-icon-filter-line:before {
+  content: "\e858";
+}
+
+.sc-icon-filter-fill:before {
+  content: "\e859";
+}
+
+.sc-icon-filter-off-fill:before {
+  content: "\e85a";
+}
+
+.sc-icon-filter-off-line:before {
+  content: "\e85b";
+}
+
+.sc-icon-forbid-fill:before {
+  content: "\e85c";
+}
+
+.sc-icon-forbid-line:before {
+  content: "\e85d";
+}
+
+.sc-icon-indeterminate-circle-fill:before {
+  content: "\e85e";
+}
+
+.sc-icon-indeterminate-circle-line:before {
+  content: "\e85f";
+}
+
+.sc-icon-information-fill:before {
+  content: "\e860";
+}
+
+.sc-icon-information-line:before {
+  content: "\e861";
+}
+
+.sc-icon-shield-check-fill:before {
+  content: "\e875";
+}
+
+.sc-icon-shield-check-line:before {
+  content: "\e876";
+}
+
+.sc-icon-shield-flash-fill:before {
+  content: "\e877";
+}
+
+.sc-icon-shield-flash-line:before {
+  content: "\e878";
+}
+
+.sc-icon-shield-keyhole-fill:before {
+  content: "\e879";
+}
+
+.sc-icon-shield-keyhole-line:before {
+  content: "\e87a";
+}
+
+.sc-icon-shield-user-fill:before {
+  content: "\e87b";
+}
+
+.sc-icon-shield-user-line:before {
+  content: "\e87c";
+}
+
+.sc-icon-contacts-fill:before {
+  content: "\e880";
+}
+
+.sc-icon-contacts-line:before {
+  content: "\e881";
+}
+
+.sc-icon-group-fill:before {
+  content: "\e883";
+}
+
+.sc-icon-group-line:before {
+  content: "\e884";
+}
+
+.sc-icon-user-fill:before {
+  content: "\e88b";
+}
+
+.sc-icon-user-line:before {
+  content: "\e88c";
+}
+
+.sc-icon-user-search-fill:before {
+  content: "\e88e";
+}
+
+.sc-icon-user-search-line:before {
+  content: "\e88f";
+}
+
+.sc-icon-user-settings-line:before {
+  content: "\e890";
+}
+
+.sc-icon-user-star-line:before {
+  content: "\e891";
+}
+
+.sc-icon-building-fill:before {
+  content: "\e6b1";
+}
+
+.sc-icon-building-line:before {
+  content: "\e6b2";
+}
+
+.sc-icon-home-3-line:before {
+  content: "\e6b3";
+}
+
+.sc-icon-home-3-fill:before {
+  content: "\e6b4";
+}
+
+.sc-icon-chat-check-fill:before {
+  content: "\e6f2";
+}
+
+.sc-icon-chat-check-line:before {
+  content: "\e6f3";
+}
+
+.sc-icon-chat-smile-line:before {
+  content: "\e6f9";
+}
+
+.sc-icon-chat-smile-fill:before {
+  content: "\e6fa";
+}
+
+.sc-icon-feedback-fill:before {
+  content: "\e6fb";
+}
+
+.sc-icon-message-3-fill:before {
+  content: "\e6fc";
+}
+
+.sc-icon-message-2-fill:before {
+  content: "\e6fd";
+}
+
+.sc-icon-message-2-line:before {
+  content: "\e6fe";
+}
+
+.sc-icon-message-3-line:before {
+  content: "\e6ff";
+}
+
+.sc-icon-feedback-line:before {
+  content: "\e700";
+}
+
+.sc-icon-edit-box-fill:before {
+  content: "\e70b";
+}
+
+.sc-icon-edit-box-line:before {
+  content: "\e70c";
+}
+
+.sc-icon-layout-fill:before {
+  content: "\e715";
+}
+

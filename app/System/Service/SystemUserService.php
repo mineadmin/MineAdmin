@@ -1,0 +1,455 @@
+<?php
+declare(strict_types=1);
+namespace App\System\Service;
+
+use App\System\Mapper\SystemUserMapper;
+use App\System\Model\SystemUser;
+use Hyperf\Cache\Annotation\Cacheable;
+use Hyperf\Cache\Annotation\CacheEvict;
+use Hyperf\Contract\ContainerInterface;
+use Hyperf\Database\Model\ModelNotFoundException;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\Redis\Redis;
+use Mine\Abstracts\AbstractService;
+use Mine\Event\UserLoginAfter;
+use Mine\Event\UploadAfter;
+use Mine\Event\UserLoginBefore;
+use Mine\Exception\CaptchaException;
+use Mine\Exception\NormalStatusException;
+use Mine\Exception\UserBanException;
+use Mine\Helper\LoginUser;
+use Mine\Helper\MineCaptcha;
+use Mine\MineRequest;
+use Mine\Helper\MineCode;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+
+/**
+ * 用户业务
+ * Class SystemUserService
+ * @package App\System\Service
+ */
+class SystemUserService extends AbstractService
+{
+    /**
+     * @Inject
+     * @var EventDispatcherInterface
+     */
+    protected $evDispatcher;
+
+    /**
+     * @Inject
+     * @var MineRequest
+     */
+    protected $request;
+
+    /**
+     * @var LoginUser
+     */
+    protected $loginUser;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var SystemMenuService
+     */
+    protected $sysMenuService;
+
+    /**
+     * @var SystemRoleService
+     */
+    protected $sysRoleService;
+
+    /**
+     * @var SystemUserMapper
+     */
+    public $mapper;
+
+    /**
+     * SystemUserService constructor.
+     * @param ContainerInterface $container
+     * @param LoginUser $loginUser
+     * @param SystemUserMapper $mapper
+     * @param SystemMenuService $systemMenuService
+     * @param SystemRoleService $systemRoleService
+     */
+    public function __construct(
+        ContainerInterface $container,
+        LoginUser $loginUser,
+        SystemUserMapper $mapper,
+        SystemMenuService $systemMenuService,
+        SystemRoleService $systemRoleService
+    )
+    {
+        $this->mapper = $mapper;
+        $this->loginUser = $loginUser;
+        $this->sysMenuService = $systemMenuService;
+        $this->sysRoleService = $systemRoleService;
+        $this->container = $container;
+    }
+
+    /**
+     * 获取验证码
+     * @throws InvalidArgumentException
+     * @throws \Exception
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     */
+    public function getCaptcha(): array
+    {
+        $cache = $this->container->get(CacheInterface::class);
+        $captcha = new MineCaptcha();
+        $captcha->initialize([]);
+        $img = $captcha->create()->getBase64();
+        $code = $captcha->getText();
+        $cache->set(sprintf('captcha:%s', md5($code)), $code, 60);
+        return ['img' => $img];
+    }
+
+    /**
+     * 检查用户提交的验证码
+     * @param String $code
+     * @return bool
+     * @throws \Exception
+     */
+    public function checkCaptcha(String $code): bool
+    {
+        try {
+            $cache = $this->container->get(CacheInterface::class);
+            $key = 'captcha:' . md5(\Mine\Helper\Str::lower($code));
+            if (\Mine\Helper\Str::lower($code) == $cache->get($key)) {
+                $cache->delete($key);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (InvalidArgumentException $e) {
+            throw new \Exception;
+        }
+    }
+
+    /**
+     * 用户登陆
+     * @param array $data
+     * @return string|null
+     * @throws InvalidArgumentException
+     */
+    public function login(array $data): ?string
+    {
+        try {
+            $this->evDispatcher->dispatch(new UserLoginBefore($data));
+            $userinfo = $this->mapper->checkUserByUsername($data['username']);
+            $userLoginAfter = new UserLoginAfter($userinfo);
+            if (!$this->checkCaptcha($data['code'])) {
+                $userLoginAfter->message = __('jwt.code_error');
+                $userLoginAfter->loginStatus = false;
+                $this->evDispatcher->dispatch($userLoginAfter);
+                throw new CaptchaException;
+            }
+            if ($this->mapper->checkPass($data['password'], $userinfo['password'])) {
+                if (
+                    ($userinfo['status'] == SystemUser::USER_NORMAL)
+                    ||
+                    ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
+                ) {
+                    $userLoginAfter->message = __('jwt.login_success');
+                    $token = $this->loginUser->getToken($userLoginAfter->userinfo);
+                    $userLoginAfter->token = $token;
+                    $this->evDispatcher->dispatch($userLoginAfter);
+                    return $token;
+                } else {
+                    $userLoginAfter->loginStatus = false;
+                    $userLoginAfter->message = __('jwt.user_ban');
+                    $this->evDispatcher->dispatch($userLoginAfter);
+                    throw new UserBanException;
+                }
+            } else {
+                $userLoginAfter->loginStatus = false;
+                $userLoginAfter->message = __('jwt.password_error');
+                $this->evDispatcher->dispatch($userLoginAfter);
+                throw new NormalStatusException;
+            }
+        } catch (\Exception $e) {
+            if ($e instanceof ModelNotFoundException) {
+                throw new NormalStatusException(__('jwt.username_error'), MineCode::NO_DATA);
+            }
+            if ($e instanceof NormalStatusException) {
+                throw new NormalStatusException(__('jwt.password_error'), MineCode::PASSWORD_ERROR);
+            }
+            if ($e instanceof UserBanException) {
+                throw new NormalStatusException(__('jwt.user_ban'), MineCode::USER_BAN);
+            }
+            if ($e instanceof CaptchaException) {
+                throw new NormalStatusException(__('jwt.code_error'));
+            }
+            throw new NormalStatusException(__('jwt.unknown_error'));
+        }
+    }
+
+    /**
+     * 用户退出
+     * @throws InvalidArgumentException
+     */
+    public function logout()
+    {
+        $this->evDispatcher->dispatch(new UploadAfter($this->loginUser->getUserInfo()));
+        $this->loginUser->getJwt()->logout();
+    }
+
+    /**
+     * 获取用户信息
+     * @return array
+     */
+    public function getInfo(): array
+    {
+        return $this->getCacheInfo($this->loginUser, SystemUser::find((int) $this->loginUser->getId()));
+    }
+
+    /**
+     * 获取缓存用户信息
+     * @Cacheable(prefix="loginInfo", ttl=0, value="userId_#{user.id}")
+     * @param LoginUser $loginUser
+     * @param SystemUser $user
+     * @return array
+     */
+    protected function getCacheInfo(LoginUser $loginUser, SystemUser $user): array
+    {
+        $user->addHidden('deleted_at', 'password');
+        $data['user'] = $user->toArray();
+        if ($loginUser->isSuperAdmin()) {
+            $data['roles'] = ['superAdmin'];
+            $data['routers'] = $this->sysMenuService->mapper->getSuperAdminRouters();
+            $data['codes'] = ['*'];
+        } else {
+            $roles = $this->sysRoleService->mapper->getMenuIdsByRoleIds($user->roles()->pluck('id')->toArray());
+            $ids = $this->filterMenuIds($roles);
+            $data['roles'] = $user->roles()->pluck('code')->toArray();
+            $data['routers'] = $this->sysMenuService->mapper->getRoutersByIds($ids);
+            $data['codes'] = $this->sysMenuService->mapper->getMenuCode($ids);
+        }
+
+        return $data;
+    }
+
+    /**
+     * 过滤通过角色查询出来的菜单id列表，并去重
+     * @param array $roleData
+     * @return array
+     */
+    protected function filterMenuIds(array &$roleData): array
+    {
+        $ids = [];
+        foreach ($roleData as $val) {
+            foreach ($val['menus'] as $menu) {
+                $ids[] = $menu['id'];
+            }
+        }
+        unset($roleData);
+        return array_unique($ids);
+    }
+
+    /**
+     * 新增用户
+     * @param array $data
+     * @return int
+     */
+    public function save(array $data): int
+    {
+        if ($this->mapper->existsByUsername($data['username'])) {
+            throw new NormalStatusException(__('system.username_exists'));
+        } else {
+            return $this->mapper->save($this->handleData($data));
+        }
+    }
+
+    /**
+     * 更新用户信息
+     * @CacheEvict(prefix="loginInfo", value="userId_#{id}")
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
+    {
+        if (isset($data['username'])) unset($data['username']);
+        if (isset($data['password'])) unset($data['password']);
+        return $this->mapper->update($id, $this->handleData($data));
+    }
+
+    /**
+     * 处理提交数据
+     * @param $data
+     * @return array
+     */
+    protected function handleData($data): array
+    {
+        if (!is_array($data['role_ids'])) {
+            $data['role_ids'] = explode(',', $data['role_ids']);
+        }
+        if (($key = array_search(env('ADMIN_ROLE'), $data['role_ids'])) !== false) {
+            unset($data['role_ids'][$key]);
+        }
+        if (!empty($data['post_ids']) && !is_array($data['post_ids'])) {
+            $data['post_ids'] = explode(',', $data['post_ids']);
+        }
+        if (is_array($data['dept_id'])) {
+            $data['dept_id'] = array_pop($data['dept_id']);
+        }
+        return $data;
+    }
+
+    /**
+     * 获取在线用户
+     * @param array $params
+     * @return array
+     */
+    public function getOnlineUserPageList(array $params = []): array
+    {
+        // 从redis获取在线用户
+        $redis = $this->container->get(Redis::class);
+        $prefix = config('cache.default.prefix');
+        $users = $redis->keys("{$prefix}Token:*");
+
+        $userIds = [];
+
+        foreach ($users as $user) {
+            if ( preg_match('/(\d+)$/', $user, $match)) {
+                $userIds[] = $match[0];
+            }
+        }
+
+        if (empty($userIds)) {
+            return [];
+        }
+
+        return $this->getPageList(array_merge([
+            'showDept' => 1,
+            'userIds'  => $userIds
+        ], $params));
+    }
+
+    /**
+     * 删除用户
+     * @param string $ids
+     * @return bool
+     */
+    public function delete(string $ids): bool
+    {
+        if (!empty($ids)) {
+            $userIds = explode(',', $ids);
+            if ($key = array_search(env('SUPER_ADMIN'), $userIds) !== false) {
+                unset($userIds[$key]);
+            }
+
+            return $this->mapper->delete($userIds);
+        }
+
+        return false;
+    }
+
+    /**
+     * 真实删除用户
+     * @param string $ids
+     * @return bool
+     */
+    public function realDelete(string $ids): bool
+    {
+        if (!empty($ids)) {
+            $userIds = explode(',', $ids);
+            if ($key = array_search(env('SUPER_ADMIN'), $userIds) !== false) {
+                unset($userIds[$key]);
+            }
+
+            return $this->mapper->realDelete($userIds);
+        }
+
+        return false;
+    }
+
+    /**
+     * 强制下线用户
+     * @param string $id
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public function kickUser(string $id): bool
+    {
+        $redis = $this->container->get(Redis::class);
+        $prefix = config('cache.default.prefix');
+        $this->container->get(LoginUser::class)->getJwt()->logout($redis->get("{$prefix}Token:{$id}"));
+        return $redis->del("{$prefix}Token:{$id}") > 0;
+    }
+
+    /**
+     * 初始化用户密码
+     * @param int $id
+     * @param string $password
+     * @return bool
+     */
+    public function initUserPassword(int $id, string $password = '123456'): bool
+    {
+        return $this->mapper->initUserPassword($id, $password);
+    }
+
+    /**
+     * 清除用户缓存
+     * @param string $id
+     * @return bool
+     */
+    public function clearCache(string $id): bool
+    {
+        $redis = $this->container->get(Redis::class);
+        $prefix = config('cache.default.prefix');
+        echo "{$prefix}loginInfo:userId_{$id}";
+        return $redis->del("{$prefix}loginInfo:userId_{$id}") > 0;
+    }
+
+    /**
+     * 设置用户首页
+     * @param array $params
+     * @return bool
+     */
+    public function setHomePage(array $params): bool
+    {
+        $res = ($this->mapper->getModel())::query()
+            ->where('id', $params['id'])
+            ->update(['dashboard' => $params['dashboard']]) > 0;
+
+        $this->clearCache((string) $params['id']);
+        return $res;
+    }
+
+    /**
+     * 用户更新个人资料
+     * @param array $params
+     * @return bool
+     */
+    public function updateInfo(array $params): bool
+    {
+        unset($params['password']);
+
+        if (!isset($params['id'])) {
+            return false;
+        }
+
+        $res = ($this->mapper->getModel())::query()
+            ->where('id', $params['id'])
+            ->update($params) > 0;
+
+        $this->clearCache((string) $params['id']);
+        return $res;
+    }
+
+    /**
+     * 用户修改密码
+     * @param array $params
+     * @return bool
+     */
+    public function modifyPassword(array $params): bool
+    {
+        return $this->mapper->initUserPassword((int) (make(LoginUser::class))->getId(), $params['newPassword']);
+    }
+}

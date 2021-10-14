@@ -1,0 +1,31 @@
+<?php
+
+declare (strict_types=1);
+namespace {NAMESPACE};
+
+use Mine\MineModel;
+
+class {CLASS_NAME} extends MineModel
+{
+    public $incrementing = false;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = '{TABLE_NAME}';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        {FILL_ABLE}
+    ];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [];
+}

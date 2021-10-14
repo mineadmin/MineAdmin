@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+		<title><%= htmlWebpackPlugin.options.title %></title>
+		<script type="text/javascript">
+			document.write("<script src='config.js?"+new Date().getTime()+"'><\/script>");
+		</script>
+	</head>
+	<body>
+		<noscript>
+			<strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript
+				enabled. Please enable it to continue.</strong>
+		</noscript>
+		<div id="app" class="aminui">
+			<div class="app-loading">
+				<div class="app-loading__logo">
+					<img src="img/logo.png"/>
+				</div>
+				<div class="app-loading__loader"></div>
+				<div class="app-loading__title">MineAdmin</div>
+			</div>
+			<style>
+				.app-loading {position: absolute;top:0px;left:0px;right:0px;bottom:0px;display: flex;justify-content: center;align-items: center;flex-direction: column;background: #fff;}
+				.app-loading__logo {margin-bottom: 30px;}
+				.app-loading__logo img {width: 90px;vertical-align: bottom;}
+				.app-loading__loader {box-sizing: border-box;width: 35px;height: 35px;border: 5px solid transparent;border-top-color: #000;border-radius: 50%;animation: .5s loader linear infinite;position: relative;}
+				.app-loading__loader:before {box-sizing: border-box;content: '';display: block;width: inherit;height: inherit;position: absolute;top: -5px;left: -5px;border: 5px solid #ccc;border-radius: 50%;opacity: .5;}
+				.app-loading__title {font-size: 24px;color: #333;margin-top: 30px;}
+				@keyframes loader {
+				    0% {
+				        transform: rotate(0deg);
+				    }
+				    100% {
+				        transform: rotate(360deg);
+				    }
+				}
+			</style>
+		</div>
+		<!-- built files will be auto injected -->
+	</body>
+</html>

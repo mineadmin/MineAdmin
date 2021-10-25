@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace Mine\Aspect;
 
-use http\Exception\RuntimeException;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Annotation\Aspect;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Mine\Annotation\Transaction;
+use Mine\Exception\NormalStatusException;
 
 /**
  * Class TransactionAspect
@@ -34,7 +34,7 @@ class TransactionAspect extends AbstractAspect
             Db::commit();
         } catch (\Throwable $e) {
             Db::rollBack();
-            throw new RuntimeException();
+            throw new NormalStatusException($e->getMessage(), 500);
         }
         return $result;
     }

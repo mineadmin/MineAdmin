@@ -2,6 +2,7 @@
 	<div class="scTable" ref="scTableMain" v-loading="loading">
 		<div class="scTable-table">
 			<el-table
+				v-bind="$attrs"
 				:data="tableData"
 				:row-key="rowKey"
 				:key="toggleIndex"
@@ -87,6 +88,8 @@
 			autoLoad: { type: Boolean, default: true},
 			paginationLayout: { type: String, default: "total, prev, pager, next, jumper" },
 			showRecycle: { type: Boolean, default: false},
+			beforeQuery: { type: Function, default: () => {}},
+			afterQuery: { type: Function, default: () => {}},
 		},
 		watch: {
 			//监听从props里拿到值了
@@ -176,6 +179,10 @@
 
 				let response;
 
+				if (this.beforeQuery !== undefined) {
+					this.beforeQuery(this.$refs.scTable)
+				}
+
 				try {
 					if (this.isRecycle) {
 						// 回收站数据
@@ -187,6 +194,9 @@
 						await this.api.list(requestData).then(res => {
 							response = res
 						})
+					}
+					if (this.beforeQuery !== undefined) {
+						this.afterQuery(this.$refs.scTable, response.data)
 					}
 				}catch(error){
 					this.loading = false;

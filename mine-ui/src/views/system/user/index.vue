@@ -115,7 +115,9 @@
 
             <el-table-column label="头像" width="60">
               <template #default="scope">
-                <el-avatar :src="scope.row.avatar" size="small"></el-avatar>
+                <el-avatar :src="scope.row.avatar" size="small" @error="() => true">
+                  <i class="el-icon-s-custom" />
+                </el-avatar>
               </template>
             </el-table-column>
             
@@ -500,5 +502,10 @@
   }
 </script>
 
-<style>
+<style scoped lang="scss">
+:deep(.el-avatar--circle) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

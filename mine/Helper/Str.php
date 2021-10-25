@@ -245,7 +245,7 @@ class Str
         if ($country == '中国') {
             return $province . '-' . $city . ':' . $network;
         } else if ($country == '0') {
-            return __('jwt.unknown');
+            return t('jwt.unknown');
         } else {
             return $country;
         }

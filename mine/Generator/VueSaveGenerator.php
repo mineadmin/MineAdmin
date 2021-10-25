@@ -53,7 +53,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
         $this->model = $model;
         $this->filesystem = make(Filesystem::class);
         if (empty($model->module_name) || empty($model->menu_name)) {
-            throw new NormalStatusException('请先编辑配置生成信息');
+            throw new NormalStatusException(t('setting.gen_code_edit'));
         }
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)->orderByDesc('sort')
@@ -132,6 +132,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             '{SET_FORM_DATA}',
             '{DICT_LIST}',
             '{DICT_DATA}',
+            '{SELECT_RESOURCE}',
             '{UPLOAD_IMAGE}',
             '{UPLOAD_FILE}',
             '{PK}',
@@ -152,6 +153,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             $this->getSetFormData(),
             $this->getDictList(),
             $this->getDictData(),
+            $this->getSelectResource(),
             $this->getUploadImage(),
             $this->getUploadFile(),
             $this->getPk(),
@@ -267,6 +269,29 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
                 $code = <<<js
  
          {$column->dict_type}_data: [],
+ js;
+                $jsCode .= $code;
+            }
+        }
+        return $jsCode;
+    }
+
+    /**
+     * 获取资源选择处理代码
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getSelectResource(): string
+    {
+        $jsCode = '';
+        foreach ($this->columns as $column) {
+            $name = Str::studly($column->column_name);
+            if ($column->view_type == 'selectResource') {
+                $code = <<<js
+ 
+        uploadSuccess{$name} (dataList) {
+            this.form.{$column->column_name} = dataList
+        },
  js;
                 $jsCode .= $code;
             }

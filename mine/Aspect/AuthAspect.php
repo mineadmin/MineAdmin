@@ -44,6 +44,6 @@ class AuthAspect extends AbstractAspect
         if ($this->loginUser->check()) {
             return $proceedingJoinPoint->process();
         }
-        throw new TokenException(__('jwt.validate_fail'));
+        throw new TokenException(t('jwt.validate_fail'));
     }
 }

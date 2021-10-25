@@ -5,8 +5,8 @@ namespace App\System\Mapper;
 use App\System\Model\SystemDictData;
 use App\System\Model\SystemDictType;
 use Hyperf\Database\Model\Builder;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Transaction;
 
 /**
  * Class SystemUserMapper
@@ -24,33 +24,30 @@ class SystemDictTypeMapper extends AbstractMapper
         $this->model = SystemDictType::class;
     }
 
+    /**
+     * @param int $id
+     * @param array $data
+     * @return bool
+     * @Transaction
+     */
     public function update(int $id, array $data): bool
     {
-        try {
-            Db::beginTransaction();
-            parent::update($id, $data);
-            SystemDictData::where('type_id', $id)->update(['code' => $data['code']]) > 0;
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
-        }
+        parent::update($id, $data);
+        SystemDictData::where('type_id', $id)->update(['code' => $data['code']]) > 0;
         return true;
     }
 
+    /**
+     * @param array $ids
+     * @return bool
+     * @Transaction
+     */
     public function realDelete(array $ids): bool
     {
-        try {
-            Db::beginTransaction();
-            foreach ($ids as $id) {
-                $model = $this->model::withTrashed()->find($id);
-                $model->dictData()->forceDelete();
-                $model->forceDelete();
-            }
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+        foreach ($ids as $id) {
+            $model = $this->model::withTrashed()->find($id);
+            $model->dictData()->forceDelete();
+            $model->forceDelete();
         }
         return true;
     }

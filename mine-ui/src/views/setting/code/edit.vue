@@ -431,6 +431,7 @@ export default {
         { label: '单选框', value: 'radio' },
         { label: '复选框', value: 'checkbox' },
         { label: '日期控件', value: 'date' },
+        { label: '资源选择（含上传）', value: 'selectResource' },
         { label: '图片上传', value: 'image' },
         { label: '文件上传', value: 'file' },
         { label: '富文本控件', value: 'editor' },

@@ -6,6 +6,7 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemDeptMapper;
 use Mine\Abstracts\AbstractService;
+use Mine\Exception\NormalStatusException;
 
 class SystemDeptService extends AbstractService
 {
@@ -76,6 +77,10 @@ class SystemDeptService extends AbstractService
             $data['parent_id'] = array_pop($pid);
         } else {
             $data['level'] = $this->read($data['id'])->level . ',' . $data['parent_id'];
+        }
+
+        if ($data['id'] == $data['parent_id']) {
+            throw new NormalStatusException(t('system.parent_dept_error'), 500);
         }
 
         return $data;

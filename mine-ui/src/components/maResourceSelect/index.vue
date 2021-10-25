@@ -1,14 +1,25 @@
-<template>
-  <el-row>
+ <template>
+  <el-main style="padding-left: 0">
 
-    <el-row>
-      <el-button icon="el-icon-finished" size="small" class="button" :disabled="disabled" @click="$refs.Res.show()">
-        {{ selectButtonText }}
-      </el-button>
+    <div
+      v-if="imageList.length === 0 && thumb"
+      class="el-upload el-upload--picture-card ma-upload"
+      @click="handleShowUploadDialog">
+      <i class="el-icon-plus"/>
+    </div>
 
-      <el-button icon="el-icon-upload2" type="primary" class="button" size="small" @click="handleShowUploadDialog" :disabled="disabled">
-        {{ uploadButtunText }}
-      </el-button>
+    <ma-photo :value="imageList" v-if="thumb" @remove="remove" />
+
+    <el-row :gutter="0">
+
+        <el-button v-if="resource" icon="el-icon-finished" size="small" class="button" :disabled="disabled" @click="$refs.Res.show()">
+          {{ selectButtonText }}
+        </el-button>
+
+        <el-button icon="el-icon-upload2" type="primary" class="button" size="small" @click="handleShowUploadDialog" :disabled="disabled">
+          {{ uploadButtunText }}
+        </el-button>
+
     </el-row>
 
     <el-dialog :title="uploadButtunText" v-model="uploadDialog" width="420px" :before-close="handleUploadClose">
@@ -17,7 +28,7 @@
         <el-option
           v-for="item in dirs"
           :key="item.path"
-          :label="item.path == '' ? '根目录按日期存放' : item.path"
+          :label="item.path === '' ? '根目录按日期存放' : item.path"
           :value="item.path"></el-option>
       </el-select>
 
@@ -46,12 +57,12 @@
         :on-change="handleChange"
         :on-remove="handleRemove"
         :http-request="handleUpload"
-    >
+      >
 
         <i class="el-icon-upload"></i>
 
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip">只能上传{{allowUploadFile}}文件，单文件不超过2M</div>
+        <div class="el-upload__text" style="width: 100%">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" style="width: 100%">只能上传{{allowUploadFile}}文件，单文件不超过 {{ config.maxSize }} M</div>
 
       </el-upload>
 
@@ -74,16 +85,24 @@
     </el-dialog>
 
     <res ref="Res" :type="type" @confirmData="getConfirmData"></res>
-  </el-row>
+  </el-main>
 </template>
 <script>
 import Res from './components/res'
+import Config from '@/config/upload'
 export default {
   name: 'maResourceSelect',
+
+  emits: ['uploadData'],
+
   components: {
     Res
   },
   props: {
+    value: {
+      type: Array,
+      default: () => []
+    },
     // 组件类型， image图片  file文件上传
     type: {
       default: 'image',
@@ -102,6 +121,18 @@ export default {
     },
     // 是否禁用
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    // 是否显示选择按钮
+    resource: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    // 是否显示图片缩略图
+    thumb: {
       type: Boolean,
       required: false,
       default: false
@@ -126,19 +157,31 @@ export default {
       // 上传后文件数据
       fileData: [],
       // 上传方法
-      uploadMethod: null
+      uploadMethod: null,
+      // 配置信息
+      config: Config,
+    }
+  },
+  computed: {
+    imageList: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
     }
   },
   created () {
     if (this.type === 'image') {
       this.selectButtonText = '选择图片'
       this.uploadButtunText = '上传图片'
-      this.allowUploadFile = '.jpg,.jpeg,.png,.bmp,.gif 或 svg'
+      this.allowUploadFile = this.config.images
       this.uploadMethod = this.$API.upload.uploadImage
     } else {
       this.selectButtonText = '选择文件'
       this.uploadButtunText = '上传文件'
-      this.allowUploadFile = '.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rar,.zip,.7z,.gz,.pdf,.wps,.md'
+      this.allowUploadFile = this.config.files
       this.uploadMethod = this.$API.upload.uploadFile
     }
   },
@@ -146,7 +189,7 @@ export default {
 
     // 获取目录内容
     getDirectorys () {
-      this.$API.upload.getDirectory({ path: '', isChildren: true }).then(res => {
+      this.$API.upload.getDirectory({ path: '/', isChildren: true }).then(res => {
         this.dirs = res.data
         this.dirs.unshift({ path: '' })
       })
@@ -173,8 +216,9 @@ export default {
     getConfirmData (data) {
       this.uploadDialog = false
       if (data.length > 0) {
-        this.$emit('uploadData', data)
-        this.success('选择成功')
+        data.map(item => this.imageList.push(item))
+        this.$emit('uploadData', this.imageList)
+        this.$message.success('选择成功')
       }
     },
 
@@ -196,14 +240,19 @@ export default {
         this.loading = false
         this.uploadDialog = false
         if (this.fileList.length > 0) {
+          this.fileData.map(item => this.imageList.push(item))
           this.$emit('uploadData', this.fileData)
-          this.success('上传成功')
+          this.$message.success('上传成功')
         }
       } else {
-        this.error('上传类型指定错误，组件type只能是image或者file')
+        this.$message.error('上传类型指定错误，组件type只能是image或者file')
         this.loading = false
         return false
       }
+    },
+
+    remove(data) {
+      this.$emit('uploadData', data)
     },
 
     // 处理修改事件
@@ -219,13 +268,13 @@ export default {
     // 文件超出个数限制时的钩子
     handleExceed (files, fileList) {
       if (fileList.length >= this.limit) {
-        this.error(`最多只能上传 ${this.limit} 个文件`)
+        this.$message.error(`最多只能上传 ${this.limit} 个文件`)
         return
       }
 
       if (files.length + fileList.length > this.limit) {
         const count = this.limit - fileList.length
-        this.error(`上传数量超出限制，最多还能选择 ${count} 个文件`)
+        this.$message.error(`上传数量超出限制，最多还能选择 ${count} 个文件`)
       }
     },
 
@@ -237,7 +286,7 @@ export default {
         inputPattern: /^[A-Za-z0-9_]+$/,
         inputErrorMessage: '请输入合法的目录名称'
       }).then(({ value }) => {
-        createUploadDir({ name: value, path: this.uploadDir }).then(res => {
+        this.$API.upload.createUploadDir({ name: value, path: this.uploadDir }).then(res => {
           this.success(res.message)
           this.getDirectorys()
         })
@@ -247,9 +296,32 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 :deep(.button) {
   position: relative !important;
   z-index: 1 !important;
 }
+
+.padding-10 {
+  padding: 0 10px !important;
+}
+.padding-left{
+  padding-left: 7px;
+}
+.ma-mt-10 {
+	margin-top: 10px;
+}
+:deep(.el-upload) {
+	width: 100%;
+	& .el-upload-dragger {
+		width: 100% !important;
+		margin-top: 20px;
+	}
+}
+.ma-upload {
+  width: 120px; height: 120px; display: flex;
+  justify-content: center; align-items: center;
+  margin-bottom: 10px;
+}
+
 </style>

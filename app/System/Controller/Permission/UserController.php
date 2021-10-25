@@ -249,6 +249,6 @@ class UserController extends MineController
      */
     public function clearSelfCache(): ResponseInterface
     {
-        return $this->success($this->service->clearCache((new LoginUser())->getId()));
+        return $this->success($this->service->clearCache(user()->getId()));
     }
 }

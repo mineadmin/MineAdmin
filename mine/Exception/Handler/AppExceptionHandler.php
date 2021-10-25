@@ -29,10 +29,10 @@ class AppExceptionHandler extends ExceptionHandler
      */
     protected $console;
 
-    public function __construct(StdoutLoggerInterface $console, ContainerInterface $container)
+    public function __construct()
     {
-        $this->console = $console;
-        $this->logger = $container->get(LoggerFactory::class)->get('mineAdmin');
+        $this->console = console();
+        $this->logger = container()->get(LoggerFactory::class)->get('mineAdmin');
     }
 
     public function handle(Throwable $throwable, ResponseInterface $response): ResponseInterface

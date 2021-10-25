@@ -115,7 +115,7 @@ class DeptController extends MineController
         $data = $this->service->realDel($ids);
         return is_null($data) ?
             $this->success() :
-            $this->success(__('system.exists_children_ctu', ['names' => implode(',', $data)]));
+            $this->success(t('system.exists_children_ctu', ['names' => implode(',', $data)]));
     }
 
     /**

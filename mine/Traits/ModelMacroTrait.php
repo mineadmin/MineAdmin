@@ -5,7 +5,6 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemRole;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
-use Mine\Helper\LoginUser;
 
 trait ModelMacroTrait
 {
@@ -18,7 +17,7 @@ trait ModelMacroTrait
         $model = $this;
         Builder::macro('userDataScope', function(?int $userid = null) use($model)
         {
-            $userid = is_null($userid) ? (int) (new LoginUser())->getId() : $userid;
+            $userid = is_null($userid) ? (int) user()->getId() : $userid;
 
             /* @var Builder $this */
             if ($userid == env('SUPER_ADMIN')) {

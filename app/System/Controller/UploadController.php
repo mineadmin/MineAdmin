@@ -43,7 +43,7 @@ class UploadController extends MineController
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
-            return $this->error('文件上传验证不通过');
+            return $this->error(t('system.upload_file_verification_fail'));
         }
     }
 
@@ -63,7 +63,7 @@ class UploadController extends MineController
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
-            return $this->error('图片上传验证不通过');
+            return $this->error(t('system.upload_image_verification_fail'));
         }
     }
 
@@ -95,13 +95,23 @@ class UploadController extends MineController
     }
 
     /**
-     * 获取当前目录所有文件和目录
+     * 创建上传目录
      * @PostMapping("createUploadDir")
      * @Auth
      */
     public function createUploadDir(CreateUploadDirRequest $request): \Psr\Http\Message\ResponseInterface
     {
         return $this->service->createUploadDir($request->all()) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 删除上传目录
+     * @PostMapping("deleteUploadDir")
+     * @Auth
+     */
+    public function deleteUploadDir(CreateUploadDirRequest $request): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->service->deleteUploadDir($request->all()) ? $this->success() : $this->error();
     }
 
     /**

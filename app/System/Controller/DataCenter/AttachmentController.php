@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 class AttachmentController extends MineController
 {
     /**
-     * 字典类型服务
+     * 上传文件服务
      * @Inject
      * @var SystemUploadFileService
      */
@@ -54,7 +54,7 @@ class AttachmentController extends MineController
     }
 
     /**
-     * 单个或批量字典数据
+     * 单个或批量删除附件
      * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface

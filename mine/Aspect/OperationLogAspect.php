@@ -32,9 +32,9 @@ class OperationLogAspect extends AbstractAspect
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct()
     {
-        $this->container = $container;
+        $this->container = container();
     }
 
     /**
@@ -81,7 +81,7 @@ class OperationLogAspect extends AbstractAspect
         try {
             $operationLog['username'] = $loginUser->getUsername();
         } catch (\Exception $e) {
-            $operationLog['username'] = __('system.no_login_user');
+            $operationLog['username'] = t('system.no_login_user');
         }
 
         return $operationLog;

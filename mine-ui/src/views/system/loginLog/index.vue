@@ -65,6 +65,7 @@
         :api="api"
         @selection-change="selectionChange"
         :column="column"
+        :params="{orderBy: 'login_time', orderType: 'desc'}"
         stripe
         remoteSort
         remoteFilter
@@ -101,8 +102,8 @@
           status: undefined,
           maxDate: undefined,
           minDate: undefined,
-          order_by: 'login_time',
-          order_type: 'desc',
+          orderBy: 'login_time',
+          orderType: 'desc',
         },
         column: [
 					{
@@ -190,8 +191,8 @@
           status: undefined,
           maxDate: undefined,
           minDate: undefined,
-          order_by: 'login_time',
-          order_type: 'desc',
+          orderBy: 'login_time',
+          orderType: 'desc',
         }
         this.$refs.table.upData(this.queryParams)
       }

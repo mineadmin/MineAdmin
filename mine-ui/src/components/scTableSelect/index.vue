@@ -62,12 +62,12 @@
 
 		},
 		watch: {
-			modelValue(){
-				this.defaultValue = this.modelValue
-				this.autoCurrentLabel()
-			},
-			defaultValue(){
-
+			modelValue:{
+				handler(){
+					this.defaultValue = this.modelValue
+					this.autoCurrentLabel()
+				},
+				deep: true
 			}
 		},
 		mounted() {
@@ -93,6 +93,7 @@
 					[this.defaultProps.pageSize]: this.pageSize,
 					[this.defaultProps.keyword]: this.keyword
 				}
+				Object.assign(reqData, this.params)
 				var res = await this.apiObj.get(reqData);
 				var parseData = config.parseData(res)
 				this.tableData = parseData.rows;

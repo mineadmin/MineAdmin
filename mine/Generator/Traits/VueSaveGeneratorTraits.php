@@ -28,6 +28,8 @@ trait VueSaveGeneratorTraits
                 return $this->checkboxCode($column);
             case 'date':
                 return $this->dateCode($column);
+            case 'selectResource':
+                return $this->selectResource($column);
             case 'image':
                 return $this->imageCode($column);
             case 'file':
@@ -205,6 +207,28 @@ VUE;
                 v-model="form.{$column->column_name}"
                 style="width: 100%;"
             ></el-date-picker>
+        </el-form-item>
+
+VUE;
+    }
+
+    /**
+     * selectResource
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function selectResource(SettingGenerateColumns $column): string
+    {
+        $name = Str::studly($column->column_name);
+        return <<<VUE
+
+        <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
+            <ma-resource-select
+                :resource="true"
+                :thumb="true"
+                :value="form.{$column->column_name}"
+                @upload-data="uploadSuccess{$name}"
+            />
         </el-form-item>
 
 VUE;

@@ -55,7 +55,7 @@ class SystemUploadFileMapper extends AbstractMapper
             $query->where('origin_name', 'like', '%'.$params['origin_name'].'%');
         }
         if (isset($params['storage_path'])) {
-            $query->where('storage_path', $params['storage_path']);
+            $query->where('storage_path', 'like', $params['storage_path'].'%');
         }
         if (isset($params['mime_type'])) {
             $query->where('mime_type', 'like', '%'.$params['mime_type'].'%');
@@ -83,5 +83,15 @@ class SystemUploadFileMapper extends AbstractMapper
         }
         unset($event);
         return true;
+    }
+
+    /**
+     * 检查数据库中是否存在该目录数据
+     * @param string $path
+     * @return bool
+     */
+    public function checkDirDbExists(string $path): bool
+    {
+        return $this->model::withTrashed()->where('storage_path', 'like', $path . '%')->count() > 0;
     }
 }

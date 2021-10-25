@@ -2,7 +2,7 @@
   <el-dialog
     :title="titleMap[mode]"
     v-model="visible" 
-    :width="550"
+    :width="800"
     destroy-on-close
     @closed="$emit('closed')"
   >
@@ -11,12 +11,28 @@
       :rules="rules"
       :disabled="mode=='show'"
       ref="dialogForm"
-      label-width="100px"
-      label-position="top"
+      label-width="80px"
+      label-position="right"
       v-loading="loading"
       element-loading-background="rgba(255, 255, 255, 0.8)"
       element-loading-text="数据加载中..."
     >
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="头像" prop="avatar">
+            <el-avatar
+              class="avatar"
+              shape="square"
+              :size="96"
+              :src="form.avatar"
+              @error="() => true"
+            >
+              <i class="el-icon-s-custom" style="font-size: 96px" />
+            </el-avatar>
+            <ma-resource-select style="padding:0" :resource="true" @upload-data="handleResource" />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-row :gutter="20">
         <el-col :span="12">
@@ -115,6 +131,7 @@
         //表单数据
         form: {
           id: null,
+          avatar: '',
           username: '',
           nickname: '',
           phone: '',
@@ -175,8 +192,12 @@
 
       },
 
+      handleResource(data) {
+        this.form.avatar = data[0].url
+      },
+
       // 请求部门、角色、岗位数据
-        async initData () {
+      async initData () {
         await this.$API.dept.tree().then(res => {
           this.deptTree = res.data
         })
@@ -186,12 +207,14 @@
         await this.$API.post.getList().then(res => {
           this.postData = res.data
         })
-        },
+      },
 
       //表单注入数据
       async setData(data){
+        console.log(data)
         this.loading = true
         this.form.id = data.id
+        this.form.avatar = data.avatar
         this.form.username = data.username
         this.form.nickname = data.nickname
         this.form.phone = data.phone
@@ -220,5 +243,11 @@
   }
 </script>
 
-<style>
+<style scoped lang="scss">
+:deep(.el-avatar--square) {
+  display:flex;
+  margin-bottom: 8px;
+  justify-content: center;
+  align-items:center
+}
 </style>

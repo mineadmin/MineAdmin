@@ -1,6 +1,18 @@
 import { request } from '@/utils/request.js'
 
 export default {
+
+  /**
+   * 获取系统组配置 （不验证身份和权限）
+   * @returns
+   */
+  getSysConfig () {
+    return request({
+      url: 'setting/config/getSysConfig',
+      method: 'get',
+    })
+  },
+
   /**
    * 获取系统组配置
    * @returns

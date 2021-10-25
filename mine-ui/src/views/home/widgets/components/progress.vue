@@ -1,32 +1,24 @@
 <template>
-	<el-card shadow="hover" header="进度环">
+	<el-card shadow="hover" header="技术交流">
 		<div class="progress">
-			<el-progress type="dashboard" :percentage="85.5" :width="160">
-				<template #default="{ percentage }">
-				    <div class="percentage-value">{{ percentage }}%</div>
-				    <div class="percentage-label">当前进度</div>
-				  </template>
-			</el-progress>
+			<p><a href="https://qm.qq.com/cgi-bin/qm/qr?k=uini_iX64HMzeaV1nrIB944mQ-8VHjbM&jump_from=webapi" target="_blank">
+				<img src="https://svg.hamm.cn/badge.svg?key=点击入群&value=15169734" />
+			</a></p>
+			<p><a href="https://support.qq.com/products/360106?" target="_blank">
+				<img src="https://svg.hamm.cn/badge.svg?key=反馈&value=社区交流" />
+			</a></p>
 		</div>
-
 	</el-card>
 </template>
 
 <script>
 	export default {
-		title: "进度环",
-		icon: "el-icon-odometer",
-		description: "进度环原子组件演示",
 		data() {
 			return {
-
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	.progress {text-align: center;}
-	.progress .percentage-value {font-size: 28px;}
-	.progress .percentage-label {font-size: 12px;margin-top: 10px;}
 </style>

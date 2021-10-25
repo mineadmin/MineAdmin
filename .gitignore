@@ -1,0 +1,8 @@
+/.idea
+/.vscode
+/vendor
+/package
+*.log
+.env
+.gitee
+public/uploadfile/*

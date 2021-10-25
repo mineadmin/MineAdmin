@@ -20,7 +20,6 @@ use Mine\MineController;
  * Class SystemConfigController
  * @package App\Setting\Controller\Settings
  * @Controller(prefix="setting/config")
- * @Auth
  */
 class SystemConfigController extends MineController
 {
@@ -29,6 +28,15 @@ class SystemConfigController extends MineController
      * @var SettingConfigService
      */
     protected $service;
+
+    /**
+     * 获取系统组配置 （不验证身份和权限）
+     * @GetMapping("getSysConfig")
+     */
+    public function getSysConfig(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->service->getSystemGroupConfig());
+    }
 
     /**
      * 获取系统组配置
@@ -53,6 +61,7 @@ class SystemConfigController extends MineController
     /**
      * 按组名获取配置
      * @GetMapping("getConfigByGroup")
+     * @Auth
      */
     public function getConfigByGroup(): \Psr\Http\Message\ResponseInterface
     {
@@ -62,6 +71,7 @@ class SystemConfigController extends MineController
     /**
      * 按key获取配置
      * @GetMapping("getConfigByKey")
+     * @Auth
      */
     public function getConfigByKey(): \Psr\Http\Message\ResponseInterface
     {

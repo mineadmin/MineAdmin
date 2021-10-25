@@ -369,16 +369,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307"
+                "reference": "ee0db30118f661fb166bcffbf5d82032df484697"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c81f18a3efb941d8c4d2e025f6183b5c6d697307",
-                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ee0db30118f661fb166bcffbf5d82032df484697",
+                "reference": "ee0db30118f661fb166bcffbf5d82032df484697",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/3.1.1"
+                "source": "https://github.com/egulias/EmailValidator/tree/3.1.2"
             },
             "funding": [
                 {
@@ -433,7 +433,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-01T18:37:14+00:00"
+            "time": "2021-10-11T09:18:27+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -547,16 +547,16 @@
         },
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "84afea85c6841deeea872f36249a206e878a5de0"
+                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/84afea85c6841deeea872f36249a206e878a5de0",
-                "reference": "84afea85c6841deeea872f36249a206e878a5de0",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/296c015dc30ec4322168c5ad3ee5cc11dae827ac",
+                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac",
                 "shasum": ""
             },
             "require": {
@@ -592,7 +592,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.2"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.3"
             },
             "funding": [
                 {
@@ -604,28 +604,29 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-28T21:34:50+00:00"
+            "time": "2021-10-17T19:48:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.3.0",
+            "version": "7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "7008573787b430c1c1f650e3722d9bba59967628"
+                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/7008573787b430c1c1f650e3722d9bba59967628",
-                "reference": "7008573787b430c1c1f650e3722d9bba59967628",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/868b3571a039f0ebc11ac8f344f4080babe2cb94",
+                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/promises": "^1.4",
-                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "guzzlehttp/promises": "^1.5",
+                "guzzlehttp/psr7": "^1.8.3 || ^2.1",
                 "php": "^7.2.5 || ^8.0",
-                "psr/http-client": "^1.0"
+                "psr/http-client": "^1.0",
+                "symfony/deprecation-contracts": "^2.2"
             },
             "provide": {
                 "psr/http-client-implementation": "1.0"
@@ -635,7 +636,7 @@
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "^3.0",
                 "phpunit/phpunit": "^8.5.5 || ^9.3.5",
-                "psr/log": "^1.1"
+                "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
                 "ext-curl": "Required for CURL handler support",
@@ -645,7 +646,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.3-dev"
+                    "dev-master": "7.4-dev"
                 }
             },
             "autoload": {
@@ -662,18 +663,42 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
                 },
                 {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
                     "name": "Márk Sági-Kazár",
                     "email": "mark.sagikazar@gmail.com",
-                    "homepage": "https://sagikazarmark.hu"
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
             "description": "Guzzle is a PHP HTTP client library",
-            "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "client",
                 "curl",
@@ -687,7 +712,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.3.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.0"
             },
             "funding": [
                 {
@@ -699,15 +724,11 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://github.com/alexeyshockov",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/gmponos",
-                    "type": "github"
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2021-03-23T11:33:13+00:00"
+            "time": "2021-10-18T09:52:00+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -910,16 +931,16 @@
         },
         {
             "name": "hyperf/amqp",
-            "version": "v2.2.8",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/amqp.git",
-                "reference": "1478c3fbc491e64c2353ada82d8d596ec970eb83"
+                "reference": "514ccc431ff2c22bc96f3cd29ec3264be80948a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/amqp/zipball/1478c3fbc491e64c2353ada82d8d596ec970eb83",
-                "reference": "1478c3fbc491e64c2353ada82d8d596ec970eb83",
+                "url": "https://api.github.com/repos/hyperf/amqp/zipball/514ccc431ff2c22bc96f3cd29ec3264be80948a7",
+                "reference": "514ccc431ff2c22bc96f3cd29ec3264be80948a7",
                 "shasum": ""
             },
             "require": {
@@ -969,7 +990,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-10T04:12:02+00:00"
+            "time": "2021-10-18T01:16:14+00:00"
         },
         {
             "name": "hyperf/cache",
@@ -1246,16 +1267,16 @@
         },
         {
             "name": "hyperf/database",
-            "version": "v2.2.8",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/database.git",
-                "reference": "5b32713991bd5edcd9cf877c9ee911b5358a450c"
+                "reference": "8413fe14851ca81bfcab537245ab84ffc94c1d0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/database/zipball/5b32713991bd5edcd9cf877c9ee911b5358a450c",
-                "reference": "5b32713991bd5edcd9cf877c9ee911b5358a450c",
+                "url": "https://api.github.com/repos/hyperf/database/zipball/8413fe14851ca81bfcab537245ab84ffc94c1d0b",
+                "reference": "8413fe14851ca81bfcab537245ab84ffc94c1d0b",
                 "shasum": ""
             },
             "require": {
@@ -1298,7 +1319,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-08T06:55:45+00:00"
+            "time": "2021-10-18T01:16:14+00:00"
         },
         {
             "name": "hyperf/db-connection",
@@ -1823,16 +1844,16 @@
         },
         {
             "name": "hyperf/http-message",
-            "version": "v2.2.8",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/http-message.git",
-                "reference": "f2274d7053fc7922d19e478c4fe3d78e0d633241"
+                "reference": "d2771b802e566b154fa6d7c11a327fa3b4bde656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/http-message/zipball/f2274d7053fc7922d19e478c4fe3d78e0d633241",
-                "reference": "f2274d7053fc7922d19e478c4fe3d78e0d633241",
+                "url": "https://api.github.com/repos/hyperf/http-message/zipball/d2771b802e566b154fa6d7c11a327fa3b4bde656",
+                "reference": "d2771b802e566b154fa6d7c11a327fa3b4bde656",
                 "shasum": ""
             },
             "require": {
@@ -1870,22 +1891,22 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/http-message/issues",
-                "source": "https://github.com/hyperf/http-message/tree/v2.2.8"
+                "source": "https://github.com/hyperf/http-message/tree/v2.2.12"
             },
-            "time": "2021-09-10T01:26:43+00:00"
+            "time": "2021-10-18T01:16:14+00:00"
         },
         {
             "name": "hyperf/http-server",
-            "version": "v2.2.9",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/http-server.git",
-                "reference": "9657fac31a295ed41887fb2fcebc20ea2671ff00"
+                "reference": "0ecca981b88a1730bf9b2c9887754cf541456fc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/http-server/zipball/9657fac31a295ed41887fb2fcebc20ea2671ff00",
-                "reference": "9657fac31a295ed41887fb2fcebc20ea2671ff00",
+                "url": "https://api.github.com/repos/hyperf/http-server/zipball/0ecca981b88a1730bf9b2c9887754cf541456fc0",
+                "reference": "0ecca981b88a1730bf9b2c9887754cf541456fc0",
                 "shasum": ""
             },
             "require": {
@@ -1936,7 +1957,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-17T04:03:36+00:00"
+            "time": "2021-10-15T04:46:21+00:00"
         },
         {
             "name": "hyperf/logger",
@@ -2505,16 +2526,16 @@
         },
         {
             "name": "hyperf/utils",
-            "version": "v2.2.8",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/utils.git",
-                "reference": "e0ce2db5e5ca10882d2132a3cc888bd29e2394db"
+                "reference": "ec2db8e5677fb81cec87cd6c6964fab83d92943c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/utils/zipball/e0ce2db5e5ca10882d2132a3cc888bd29e2394db",
-                "reference": "e0ce2db5e5ca10882d2132a3cc888bd29e2394db",
+                "url": "https://api.github.com/repos/hyperf/utils/zipball/ec2db8e5677fb81cec87cd6c6964fab83d92943c",
+                "reference": "ec2db8e5677fb81cec87cd6c6964fab83d92943c",
                 "shasum": ""
             },
             "require": {
@@ -2566,20 +2587,20 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-08T06:55:45+00:00"
+            "time": "2021-10-13T03:37:40+00:00"
         },
         {
             "name": "hyperf/validation",
-            "version": "v2.2.7",
+            "version": "v2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/validation.git",
-                "reference": "5dd2f6bee4c36bf7f7f99b56bd8885d52dc4daea"
+                "reference": "78e03de673f4bf444e3ef81d0e789780b5209649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/validation/zipball/5dd2f6bee4c36bf7f7f99b56bd8885d52dc4daea",
-                "reference": "5dd2f6bee4c36bf7f7f99b56bd8885d52dc4daea",
+                "url": "https://api.github.com/repos/hyperf/validation/zipball/78e03de673f4bf444e3ef81d0e789780b5209649",
+                "reference": "78e03de673f4bf444e3ef81d0e789780b5209649",
                 "shasum": ""
             },
             "require": {
@@ -2622,9 +2643,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/validation/issues",
-                "source": "https://github.com/hyperf/validation/tree/v2.2.7"
+                "source": "https://github.com/hyperf/validation/tree/v2.2.12"
             },
-            "time": "2021-09-04T16:00:43+00:00"
+            "time": "2021-10-16T06:37:55+00:00"
         },
         {
             "name": "hyperf/websocket-server",
@@ -6853,16 +6874,16 @@
         },
         {
             "name": "hyperf/testing",
-            "version": "v2.2.0",
+            "version": "v2.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/testing.git",
-                "reference": "43679ae8f3d78b6f386c3f28673e55e774402a62"
+                "reference": "aac907887ba375d0bd8be4dc647e42624e5d8f08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/testing/zipball/43679ae8f3d78b6f386c3f28673e55e774402a62",
-                "reference": "43679ae8f3d78b6f386c3f28673e55e774402a62",
+                "url": "https://api.github.com/repos/hyperf/testing/zipball/aac907887ba375d0bd8be4dc647e42624e5d8f08",
+                "reference": "aac907887ba375d0bd8be4dc647e42624e5d8f08",
                 "shasum": ""
             },
             "require": {
@@ -6899,9 +6920,9 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/hyperf/testing/tree/v2.2.0"
+                "source": "https://github.com/hyperf/testing/tree/v2.2.11"
             },
-            "time": "2021-07-18T06:50:14+00:00"
+            "time": "2021-10-09T01:37:54+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -7254,16 +7275,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.2.2",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
+                "reference": "622548b623e81ca6d78b721c5e029f4ce664f170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/069a785b2141f5bcf49f3e353548dc1cce6df556",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/622548b623e81ca6d78b721c5e029f4ce664f170",
+                "reference": "622548b623e81ca6d78b721c5e029f4ce664f170",
                 "shasum": ""
             },
             "require": {
@@ -7274,7 +7295,8 @@
                 "webmozart/assert": "^1.9.1"
             },
             "require-dev": {
-                "mockery/mockery": "~1.3.2"
+                "mockery/mockery": "~1.3.2",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -7304,9 +7326,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.3.0"
             },
-            "time": "2020-09-03T19:13:55+00:00"
+            "time": "2021-10-19T17:43:47+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -8876,23 +8898,17 @@
         },
         {
             "name": "swoole/ide-helper",
-            "version": "4.7.1",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "918a98b5b264425fdb59461d9bbd7f9b504ead71"
+                "reference": "837a2b20242e3cebf0ba1168e876f0f1ca9a14e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/918a98b5b264425fdb59461d9bbd7f9b504ead71",
-                "reference": "918a98b5b264425fdb59461d9bbd7f9b504ead71",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/837a2b20242e3cebf0ba1168e876f0f1ca9a14e3",
+                "reference": "837a2b20242e3cebf0ba1168e876f0f1ca9a14e3",
                 "shasum": ""
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "~6.5.0",
-                "laminas/laminas-code": "~3.4.0",
-                "squizlabs/php_codesniffer": "~3.5.0",
-                "symfony/filesystem": "~4.0"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -8908,7 +8924,7 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/4.7.1"
+                "source": "https://github.com/swoole/ide-helper/tree/4.8.0"
             },
             "funding": [
                 {
@@ -8920,7 +8936,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-19T17:25:57+00:00"
+            "time": "2021-10-14T19:39:28+00:00"
         },
         {
             "name": "symfony/event-dispatcher",

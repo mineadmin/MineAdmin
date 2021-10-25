@@ -9,7 +9,7 @@ use App\System\Service\DataMaintainService;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
-use Mine\Exception\NormalStatusException;
+use Mine\Annotation\Transaction;
 use Mine\Generator\ApiGenerator;
 use Mine\Generator\ControllerGenerator;
 use Mine\Generator\MapperGenerator;
@@ -19,7 +19,6 @@ use Mine\Generator\ServiceGenerator;
 use Mine\Generator\SqlGenerator;
 use Mine\Generator\VueIndexGenerator;
 use Mine\Generator\VueSaveGenerator;
-use Mine\Helper\LoginUser;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -73,40 +72,34 @@ class SettingGenerateTablesService extends AbstractService
      * 装载数据表
      * @param array $names
      * @return bool
+     * @Transaction
      */
     public function loadTable(array $names): bool
     {
-        try {
-            Db::beginTransaction();
+        foreach ($names as $item) {
+            $tableInfo = [
+                'table_name' => $item['name'],
+                'table_comment' => $item['comment'],
+                'type' => 'single',
+            ];
+            $id = $this->save($tableInfo);
 
-            foreach ($names as $item) {
-                $tableInfo = [
-                    'table_name' => $item['name'],
-                    'table_comment' => $item['comment'],
-                    'type' => 'single',
-                ];
-                $id = $this->save($tableInfo);
+            $columns = $this->dataMaintainService->getColumnList($item['name']);
 
-                $columns = $this->dataMaintainService->getColumnList($item['name']);
-
-                foreach ($columns as &$column) {
-                    $column['table_id'] = $id;
-                }
-                $this->settingGenerateColumnsService->save($columns);
+            foreach ($columns as &$column) {
+                $column['table_id'] = $id;
             }
-
-            Db::commit();
-            return true;
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+            $this->settingGenerateColumnsService->save($columns);
         }
+
+        return true;
     }
 
     /**
      * 同步数据表
      * @param int $id
      * @return bool
+     * @Transaction
      */
     public function sync(int $id): bool
     {
@@ -117,18 +110,11 @@ class SettingGenerateTablesService extends AbstractService
         $model = $this->settingGenerateColumnsService->mapper->getModel();
         $ids = $model->newQuery()->where('table_id', $table['id'])->pluck('id');
 
-        try {
-            Db::beginTransaction();
-            $this->settingGenerateColumnsService->mapper->delete($ids->toArray());
-            foreach ($columns as &$column) {
-                $column['table_id'] = $id;
-            }
-            $this->settingGenerateColumnsService->save($columns);
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+        $this->settingGenerateColumnsService->mapper->delete($ids->toArray());
+        foreach ($columns as &$column) {
+            $column['table_id'] = $id;
         }
+        $this->settingGenerateColumnsService->save($columns);
         return true;
     }
 
@@ -136,6 +122,7 @@ class SettingGenerateTablesService extends AbstractService
      * 更新业务表
      * @param array $data
      * @return bool
+     * @Transaction
      */
     public function updateTableAndColumns(array $data): bool
     {
@@ -152,20 +139,12 @@ class SettingGenerateTablesService extends AbstractService
         $data['namespace'] = "App\\{$data['module_name']}";
         $data['options'] = empty($data['options']) ? null : serialize($data['options']);
 
-        try {
-            Db::beginTransaction();
-            // 更新业务表
-            $this->update($id, $data);
+        // 更新业务表
+        $this->update($id, $data);
 
-            // 更新业务字段表
-            foreach ($columns as $column) {
-                $this->settingGenerateColumnsService->update($column['id'], $column);
-            }
-
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+        // 更新业务字段表
+        foreach ($columns as $column) {
+            $this->settingGenerateColumnsService->update($column['id'], $column);
         }
         return true;
     }
@@ -180,7 +159,7 @@ class SettingGenerateTablesService extends AbstractService
     {
         $ids = explode(',', $ids);
         $this->initGenerateSetting();
-        $adminId = (new LoginUser)->getId();
+        $adminId = user()->getId();
         foreach ($ids as $id) {
             $this->generateCodeFile((int) $id, $adminId);
         }
@@ -352,7 +331,7 @@ class SettingGenerateTablesService extends AbstractService
             [
                 'tab_name' => 'Menu.sql',
                 'name' => 'sql',
-                'code' => make(SqlGenerator::class)->setGenInfo($model, (new LoginUser)->getId())->preview(),
+                'code' => make(SqlGenerator::class)->setGenInfo($model, user()->getId())->preview(),
                 'lang' => 'sql',
             ],
         ];

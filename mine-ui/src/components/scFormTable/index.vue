@@ -79,7 +79,8 @@
 				})
 			},
 			rowAdd(){
-				this.data.push({...this.addTemplate})
+				const temp = JSON.parse(JSON.stringify(this.addTemplate))
+				this.data.push(temp)
 			},
 			rowDel(row, index){
 				this.data.splice(index, 1)

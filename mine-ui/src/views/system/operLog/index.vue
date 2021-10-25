@@ -62,6 +62,7 @@
         :api="api"
         @selection-change="selectionChange"
         @row-click="rowClick"
+        :params="{orderBy: 'created_at', orderType: 'desc'}"
         stripe
         remoteSort
         remoteFilter
@@ -118,8 +119,8 @@
           service_name: undefined,
           maxDate: undefined,
           minDate: undefined,
-          order_by: 'created_at',
-          order_type: 'desc',
+          orderBy: 'created_at',
+          orderType: 'desc',
         }
       }
     },
@@ -172,8 +173,8 @@
           service_name: undefined,
           maxDate: undefined,
           minDate: undefined,
-          order_by: 'created_at',
-          order_type: 'desc',
+          orderBy: 'created_at',
+          orderType: 'desc',
         }
         this.$refs.table.upData(this.queryParams)
       }

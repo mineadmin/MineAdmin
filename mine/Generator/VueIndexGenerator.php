@@ -49,7 +49,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $this->model = $model;
         $this->filesystem = make(Filesystem::class);
         if (empty($model->module_name) || empty($model->menu_name)) {
-            throw new NormalStatusException('请先编辑配置生成信息');
+            throw new NormalStatusException(t('setting.gen_code_edit'));
         }
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)->orderByDesc('sort')

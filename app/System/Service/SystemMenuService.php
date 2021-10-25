@@ -59,10 +59,10 @@ class SystemMenuService extends AbstractService
     public function findNameByCode(string $code): string
     {
         if (strlen($code) < 1) {
-            return __('system.undefined_menu');
+            return t('system.undefined_menu');
         }
         $name = $this->mapper->findNameByCode($code);
-        return $name ?? __('system.undefined_menu');
+        return $name ?? t('system.undefined_menu');
     }
 
     /**
@@ -136,6 +136,9 @@ class SystemMenuService extends AbstractService
             $data['level'] = '0';
             $data['type'] = SystemMenu::MENUS_LIST;
         } else {
+            if (is_array($data['parent_id'])) {
+                $data['parent_id'] = array_pop($data['parent_id']);
+            }
             $parentMenu = $this->mapper->read((int) $data['parent_id']);
             $data['level'] = $parentMenu['level'] . ',' . $parentMenu['id'];
         }

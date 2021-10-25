@@ -1,7 +1,16 @@
+<!--
+ * @Descripttion: 数据表格组件
+ * @version: 1.3
+ * @Author: sakuya
+ * @Date: 2021年10月19日16:04:54
+ * @LastEditors:
+ * @LastEditTime:
+-->
+
 <template>
-	<div class="scTable" ref="scTableMain" v-loading="loading">
+	<div class="scTable" :style="{'height':_height}" ref="scTableMain" v-loading="loading">
 		<div class="scTable-table">
-			<el-table v-bind="$attrs" :data="tableData" :row-key="rowKey" :key="toggleIndex" ref="scTable" :height="tableHeight" @sort-change="sortChange" @filter-change="filterChange">
+			<el-table v-bind="$attrs" :data="tableData" :row-key="rowKey" :key="toggleIndex" ref="scTable" height="100%" @sort-change="sortChange" @filter-change="filterChange">
 				<slot></slot>
 				<template v-for="(item, index) in userColumn" :key="index">
 					<el-table-column v-if="!item.hide" :column-key="item.prop" :label="item.label" :prop="item.prop" :width="item.width" :sortable="item.sortable" :fixed="item.fixed" :filters="item.filters" :filter-method="remoteFilter||!item.filters?null:filterHandler">
@@ -18,7 +27,7 @@
 				</template>
 			</el-table>
 		</div>
-		<div class="scTable-page">
+		<div class="scTable-page" v-if="!hidePagination&&!hideDo">
 			<div class="scTable-pagination">
 				<el-pagination v-if="!hidePagination" background :small="true" :layout="paginationLayout" :total="total" :page-size="pageSize" v-model:currentPage="currentPage" @current-change="paginationChange"></el-pagination>
 			</div>
@@ -49,6 +58,7 @@
 			apiObj: { type: Object, default: () => {} },
 			params: { type: Object, default: () => ({}) },
 			data: { type: Object, default: () => {} },
+			height: { type: [String,Number], default: "100%" },
 			rowKey: { type: String, default: "" },
 			column: { type: Object, default: () => {} },
 			remoteSort: { type: Boolean, default: false },
@@ -68,6 +78,11 @@
 				this.refresh();
 			}
 		},
+		computed: {
+			_height() {
+				return Number(this.height)?Number(this.height)+'px':this.height
+			}
+		},
 		data() {
 			return {
 				emptyText: "暂无数据",
@@ -85,11 +100,6 @@
 				customColumnShow: false
 			}
 		},
-		created() {
-			this.$nextTick(() => {
-				this.upTableHeight()
-			})
-		},
 		mounted() {
 			//判断是否开启自定义列
 			if(this.column){
@@ -104,28 +114,8 @@
 				this.tableData = this.data;
 				this.total = this.tableData.length
 			}
-			this.$nextTick(() => {
-				this.upTableHeight()
-			})
-			window.addEventListener("resize", this.upTableHeight, true)
-		},
-		unmounted(){
-			window.removeEventListener("resize", this.upTableHeight, true)
-		},
-		activated(){
-			this.$nextTick(() => {
-				this.upTableHeight()
-			})
-			window.addEventListener("resize", this.upTableHeight, true)
-		},
-		deactivated(){
-			window.removeEventListener("resize", this.upTableHeight, true)
 		},
 		methods: {
-			//更新表格高度
-			upTableHeight(){
-				this.tableHeight = (this.$refs.scTableMain.offsetHeight - 50 ) + "px"
-			},
 			//获取列
 			async getCustomColumn(){
 				const userColumn = await config.columnSettingGet(this.tableName, this.column)
@@ -160,7 +150,7 @@
 					this.emptyText = "数据格式错误";
 					return false;
 				}
-				if(response.code != 200){
+				if(response.code != config.successCode){
 					this.loading = false;
 					this.emptyText = response.msg;
 				}else{
@@ -292,8 +282,8 @@
 </script>
 
 <style scoped>
-	.scTable {display:flex;flex-direction:column;height:100%;}
-	.scTable-table {flex:1;}
+	.scTable {}
+	.scTable-table {height: calc(100% - 50px);}
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}
 </style>

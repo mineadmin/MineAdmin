@@ -96,7 +96,7 @@ class LoginListener implements ListenerInterface
         if (false !== stripos($agent, 'mac')) {
             return 'mac';
         }
-        return __('jwt.unknown');
+        return t('jwt.unknown');
     }
 
     /**
@@ -123,6 +123,6 @@ class LoginListener implements ListenerInterface
         if (false !== stripos($agent, "Opera")) {
             return 'Opera';
         }
-        return __('jwt.unknown');
+        return t('jwt.unknown');
     }
 }

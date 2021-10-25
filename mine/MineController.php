@@ -7,8 +7,10 @@ declare(strict_types=1);
 namespace Mine;
 
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Mine\Middlewares\LanguageMiddleware;
 
 /**
  * Class MineController

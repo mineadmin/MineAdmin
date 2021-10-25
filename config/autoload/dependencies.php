@@ -10,5 +10,6 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-    Hyperf\Database\Commands\Ast\ModelUpdateVisitor::class => Mine\MineModelVisitor::class
+    Hyperf\Database\Commands\Ast\ModelUpdateVisitor::class => Mine\MineModelVisitor::class,
+    Hyperf\HttpServer\CoreMiddleware::class => Mine\Middlewares\HttpCoreMiddleware::class,
 ];

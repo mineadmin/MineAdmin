@@ -12,7 +12,7 @@
             </el-tooltip>
 
             <el-tooltip class="item" effect="dark" :content="'反选当前页所有' + (type == 'image' ? '图片' : '文件')" placement="top">
-              <el-button size="small" icon="el-icon-close" @click="selectInvert">反选</el-button>
+              <el-button size="small" icon="el-icon-minus" @click="selectInvert">反选</el-button>
             </el-tooltip>
 
             <el-tooltip class="item" effect="dark" :content="'取消选择当前页' + (type == 'image' ? '图片' : '文件')" placement="top">
@@ -67,7 +67,7 @@
 
               <div class="file" v-if="item.mime_type && item.mime_type.indexOf('image') > -1">
                 <el-checkbox class="check" :label="item" > {{ index + 1 }}</el-checkbox>
-                <el-image class="image" :src="item.url" fit="contain"></el-image>
+                <el-image class="image" :src="item.url" fit="contain" @click="selectAdd(item)"></el-image>
               </div>
 
               <el-tooltip placement="bottom">
@@ -83,7 +83,7 @@
                   <span v-if="item.type !== 'dir'">存储名称：{{ item.object_name }}<br /></span>
 
                   日期：
-                  <span v-if="item.type === 'dir'">{{ dayjs(item.timestamp * 1000).format('YYYY-M-D HH:mm:ss') }}</span>
+                  <span v-if="item.type === 'dir'">{{ dayjs(item.timestamp * 1000).format('YYYY-MM-DD HH:mm:ss') }}</span>
                   <span v-else>{{ item.created_at }}</span>
                   <br />
 
@@ -104,9 +104,16 @@
       </el-empty>
 
       <template #footer class="dialog-footer">
-
-        <!-- <el-pagination class="ma-fl" @size-change="getList" @current-change="getList" layout="total, sizes, prev, pager, next" :page-sizes="[30, 60]" :current-page="queryParams.page" :page-size="queryParams.pageSize" :total="pageInfo.total"></el-pagination> -->
-
+        <el-pagination
+          style="float:left;"
+          @size-change="getList"
+          @current-change="getList"
+          v-model:currentPage="queryParams.page"
+          :page-size="queryParams.pageSize"
+          layout="prev, pager, next, jumper"
+          :total="pageInfo.total"
+        />
+        
         <el-button @click="handleResClose" size="small">
           关 闭
         </el-button>
@@ -122,6 +129,7 @@
 import { union, xor, difference } from 'lodash'
 import dayjs from 'dayjs'
 export default {
+  emits: ['confirmData'],
   props: {
     type: {
       default: 'image',
@@ -149,7 +157,7 @@ export default {
       // 搜索参数
       queryParams: {
         origin_name: undefined,
-        storage_path: '',
+        storage_path: '/',
         mime_type: 'image',
         page: 1,
         pageSize: 30
@@ -195,6 +203,10 @@ export default {
       }
       this.queryParams.storage_path = folder
       this.getList()
+    },
+
+    selectAdd (item) {
+      this.checkList = xor(this.checkList, [item])
     },
 
     // 全选当前页
@@ -263,9 +275,9 @@ export default {
   margin-right: 0;
 }
 .list .icon {
-  height: 70px;
+  height: 92px;
   margin-right: 1px;
-  color: rgb(255, 214, 89);
+  color: #0960bd;
   background: #f5f5f5;
   font-size: 56px;
   text-align: center;
@@ -296,9 +308,11 @@ export default {
   top: -1px;
   left: 2px;
   width: 100px;
-  height: 90px;
+  height: 20px;
   z-index: 9;
   overflow: hidden;
+  color: #fff;
+  text-shadow: 1px 1px 3px #333;
 }
 :deep(.el-checkbox__label) {
   padding-right: 2px;

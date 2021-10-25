@@ -6,8 +6,8 @@ namespace App\System\Mapper;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\ModelNotFoundException;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Transaction;
 
 /**
  * Class SystemUserMapper
@@ -61,23 +61,17 @@ class SystemUserMapper extends AbstractMapper
      * 新增用户
      * @param array $data
      * @return int
+     * @Transaction
      */
     public function save(array $data): int
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
-        try {
-            Db::beginTransaction();
-            $user = $this->model::create($data);
-            $user->roles()->sync($role_ids, false);
-            $user->posts()->sync($post_ids, false);
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return 0;
-        }
 
+        $user = $this->model::create($data);
+        $user->roles()->sync($role_ids, false);
+        $user->posts()->sync($post_ids, false);
         return $user->id;
     }
 
@@ -86,24 +80,18 @@ class SystemUserMapper extends AbstractMapper
      * @param int $id
      * @param array $data
      * @return bool
+     * @Transaction
      */
     public function update(int $id, array $data): bool
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
-        try {
-            Db::beginTransaction();
-            $this->model::query()->where('id', $id)->update($data);
-            $user = $this->model::find($id);
-            !empty($role_ids) && $user->roles()->sync($role_ids);
-            $user->posts()->sync($post_ids);
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
-        }
 
+        $this->model::query()->where('id', $id)->update($data);
+        $user = $this->model::find($id);
+        !empty($role_ids) && $user->roles()->sync($role_ids);
+        $user->posts()->sync($post_ids);
         return true;
     }
 
@@ -111,23 +99,16 @@ class SystemUserMapper extends AbstractMapper
      * 真实批量删除用户
      * @param array $ids
      * @return bool
+     * @Transaction
      */
     public function realDelete(array $ids): bool
     {
-        try {
-            Db::beginTransaction();
-            foreach ($ids as $id) {
-                $user = $this->model::withTrashed()->find($id);
-                $user->roles()->detach();
-                $user->posts()->detach();
-                $user->forceDelete();
-            }
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+        foreach ($ids as $id) {
+            $user = $this->model::withTrashed()->find($id);
+            $user->roles()->detach();
+            $user->posts()->detach();
+            $user->forceDelete();
         }
-
         return true;
     }
 

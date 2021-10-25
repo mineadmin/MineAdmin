@@ -9,6 +9,7 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
 use Hyperf\Utils\Collection;
 use Mine\Abstracts\AbstractService;
+use Mine\Exception\NormalStatusException;
 use Mine\MineUpload;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -71,6 +72,19 @@ class SystemUploadFileService extends AbstractService
             $name = $params['path'] . '/' . $name;
         }
         return $this->mineUpload->createUploadDir($name);
+    }
+
+    /**
+     * 删除目录
+     * @param array $params
+     * @return bool
+     */
+    public function deleteUploadDir(array $params): bool
+    {
+        if (! $this->mapper->checkDirDbExists($params['name'])) {
+            return $this->mineUpload->getFileSystem()->deleteDir($params['name']);
+        }
+        throw new NormalStatusException(t('system.directory_no_delete'), 500);
     }
 
     /**

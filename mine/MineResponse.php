@@ -21,11 +21,11 @@ class MineResponse extends Response
      * @param int $code
      * @return ResponseInterface
      */
-    public function success(string $message = null, $data = [], $code = 200): ResponseInterface
+    public function success(string $message = null, $data = [], int $code = 200): ResponseInterface
     {
         $format = [
             'success' => true,
-            'message' => $message ?: '请求成功',
+            'message' => $message ?: t('mineadmin.response_success'),
             'code'    => $code,
             'data'    => &$data,
         ];
@@ -47,7 +47,7 @@ class MineResponse extends Response
         $format = [
             'success' => false,
             'code'    => $code,
-            'message' => $message ?: '请求失败',
+            'message' => $message ?: t('mineadmin.response_fail'),
         ];
 
         if (!empty($data)) {

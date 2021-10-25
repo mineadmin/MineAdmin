@@ -10,7 +10,7 @@
 	export default {
 		name: 'App',
 		created() {
-			//ÉèÖÃÖ÷ÌâÑÕÉ«
+			//è®¾ç½®ä¸»é¢˜é¢œè‰²
 			const app_color = this.$CONFIG.COLOR || this.$TOOL.data.get('APP_COLOR')
 			if(app_color){
 				document.documentElement.style.setProperty('--el-color-primary', app_color);
@@ -19,6 +19,12 @@
 				}
 				document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(app_color,0.1));
 			}
+			// èŽ·å–é…ç½®ä¿¡æ¯
+			this.$API.config.getSysConfig().then(res => {
+				res.data.map(item => {
+					this.$TOOL.data.set(item.key, item.value)
+				})
+			})
 		}
 	}
 </script>

@@ -18,7 +18,7 @@ const defaultRoutePath = '/dashboard'
 const routes_404 = {
 	path: "/:pathMatch(.*)*",
 	hidden: true,
-	component: () => import(/* webpackChunkName: "404" */ '@/views/other/404'),
+	component: () => import(/* webpackChunkName: "404" */ '@/layout/other/404'),
 }
 
 const router = createRouter({
@@ -30,7 +30,7 @@ const router = createRouter({
 document.title = config.APP_NAME
 
 router.beforeEach(async (to, from, next) => {
-	
+
 	NProgress.start()
 
 	//动态标题
@@ -39,7 +39,11 @@ router.beforeEach(async (to, from, next) => {
 	let token = tool.data.get('token');
 
 	if (token && token !== 'undefined') {
-		if(to.name === 'login'){
+		if (tool.data.get('lockScreen') && to.name !== 'lockScreen') {
+			next({ name: 'lockScreen' })
+		} else if (! tool.data.get('lockScreen') && to.name === 'lockScreen' ) {
+			next({ path: defaultRoutePath })
+		} else if (to.name === 'login'){
 			next({ path: defaultRoutePath })
 		} else if (! store.state.user.routers) {
 			await store.dispatch('getUserInfo').then( res => {
@@ -58,9 +62,8 @@ router.beforeEach(async (to, from, next) => {
 				}
 			}).catch(() => {
 				next({ name: 'login', query: { redirect: to.fullPath } })
-				tool.data.set('user', null)
 				store.commit('SET_ROUTERS', undefined)
-				tool.data.set('token', null)
+				tool.data.clear()
 			})
 			next()
 		} else {
@@ -82,14 +85,12 @@ router.afterEach((to, from) => {
 
 router.onError((error) => {
 	NProgress.done();
-	router.onError((error) => {
-		const pattern = /Loading chunk (\d)+ failed/g;
-		const isChunkLoadFailed = error.message.match(pattern);
-		const targetPath = router.history.pending.fullPath;
-		if (isChunkLoadFailed) {
-		  router.replace(targetPath);
-		}
-	});
+	const pattern = /Loading chunk (\d)+ failed/g;
+	const isChunkLoadFailed = error.message.match(pattern);
+	const targetPath = router.history.pending.fullPath;
+	if (isChunkLoadFailed) {
+		router.replace(targetPath);
+	}
 });
 
 
@@ -125,7 +126,7 @@ function loadComponent(component){
 	if(component){
 		return () => import(/* webpackChunkName: "[request]" */ `@/views/${component}`)
 	}else{
-		return () => import(`@/views/other/empty`)
+		return () => import(`@/layout/other/empty`)
 	}
 
 }

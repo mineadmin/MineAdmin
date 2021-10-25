@@ -42,9 +42,9 @@ class LoginUser
                 return true;
             }
         } catch (InvalidArgumentException $e) {
-            throw new TokenException(__('jwt.no_token'));
+            throw new TokenException(t('jwt.no_token'));
         } catch (\Throwable $e) {
-            throw new TokenException(__('jwt.no_login'));
+            throw new TokenException(t('jwt.no_login'));
         }
 
         return false;

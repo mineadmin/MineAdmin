@@ -2,8 +2,11 @@ const DEFAULT_CONFIG = {
 	//标题
 	APP_NAME: "MineAdmin",
 
+	//首页地址
+	DASHBOARD_URL: "/dashboard",
+
 	//版本号
-	APP_VER: "0.3.0",
+	APP_VER: "0.3.5",
 
 	//官网地址
 	APP_URL: "www.mineadmin.com",
@@ -28,7 +31,7 @@ const DEFAULT_CONFIG = {
 	LAYOUT_TAGS: true,
 
 	//语言
-	LANG: 'zh-cn',
+	LANG: 'zh_CN',
 
 	//主题颜色
 	COLOR: '#0960bd',

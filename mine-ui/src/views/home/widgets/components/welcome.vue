@@ -7,17 +7,17 @@
 			</div>
 			<div class="tips">
 				<div class="tips-item">
-					<div class="tips-item-icon"><i class="el-icon-menu"></i></div>
-					<div class="tips-item-message">这里是项目控制台，你可以点击右上方的“自定义”按钮来添加移除或者移动部件。</div>
-				</div>
-				<!-- <div class="tips-item">
 					<div class="tips-item-icon"><i class="el-icon-s-promotion"></i></div>
-					<div class="tips-item-message">提高</div>
+					<div class="tips-item-message">PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。</div>
 				</div>
 				<div class="tips-item">
 					<div class="tips-item-icon"><i class="el-icon-milk-tea"></i></div>
-					<div class="tips-item-message">项目目的：让开发</div>
-				</div> -->
+					<div class="tips-item-message">MineAdmin是一个后台权限管理系统，提供完善的权限体系，让开发者把注意力集中到具体业务当中，降低开发成本，提高项目效率。同时，支持PC和移动端。企业和个人可以免费使用</div>
+				</div>
+				<div class="tips-item">
+					<div class="tips-item-icon"><i class="el-icon-menu"></i></div>
+					<div class="tips-item-message">未来规划：表单设计器、审批工作流等更多新功能</div>
+				</div>
 			</div>
 			<div class="actions">
 				<el-button type="primary" icon="el-icon-check" size="medium" @click="godoc">文档</el-button>

@@ -144,7 +144,7 @@ class SystemUserService extends AbstractService
             $userinfo = $this->mapper->checkUserByUsername($data['username']);
             $userLoginAfter = new UserLoginAfter($userinfo);
             if (!$this->checkCaptcha($data['code'])) {
-                $userLoginAfter->message = __('jwt.code_error');
+                $userLoginAfter->message = t('jwt.code_error');
                 $userLoginAfter->loginStatus = false;
                 $this->evDispatcher->dispatch($userLoginAfter);
                 throw new CaptchaException;
@@ -155,37 +155,37 @@ class SystemUserService extends AbstractService
                     ||
                     ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
                 ) {
-                    $userLoginAfter->message = __('jwt.login_success');
+                    $userLoginAfter->message = t('jwt.login_success');
                     $token = $this->loginUser->getToken($userLoginAfter->userinfo);
                     $userLoginAfter->token = $token;
                     $this->evDispatcher->dispatch($userLoginAfter);
                     return $token;
                 } else {
                     $userLoginAfter->loginStatus = false;
-                    $userLoginAfter->message = __('jwt.user_ban');
+                    $userLoginAfter->message = t('jwt.user_ban');
                     $this->evDispatcher->dispatch($userLoginAfter);
                     throw new UserBanException;
                 }
             } else {
                 $userLoginAfter->loginStatus = false;
-                $userLoginAfter->message = __('jwt.password_error');
+                $userLoginAfter->message = t('jwt.password_error');
                 $this->evDispatcher->dispatch($userLoginAfter);
                 throw new NormalStatusException;
             }
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
-                throw new NormalStatusException(__('jwt.username_error'), MineCode::NO_DATA);
+                throw new NormalStatusException(t('jwt.username_error'), MineCode::NO_DATA);
             }
             if ($e instanceof NormalStatusException) {
-                throw new NormalStatusException(__('jwt.password_error'), MineCode::PASSWORD_ERROR);
+                throw new NormalStatusException(t('jwt.password_error'), MineCode::PASSWORD_ERROR);
             }
             if ($e instanceof UserBanException) {
-                throw new NormalStatusException(__('jwt.user_ban'), MineCode::USER_BAN);
+                throw new NormalStatusException(t('jwt.user_ban'), MineCode::USER_BAN);
             }
             if ($e instanceof CaptchaException) {
-                throw new NormalStatusException(__('jwt.code_error'));
+                throw new NormalStatusException(t('jwt.code_error'));
             }
-            throw new NormalStatusException(__('jwt.unknown_error'));
+            throw new NormalStatusException(t('jwt.unknown_error'));
         }
     }
 
@@ -259,7 +259,7 @@ class SystemUserService extends AbstractService
     public function save(array $data): int
     {
         if ($this->mapper->existsByUsername($data['username'])) {
-            throw new NormalStatusException(__('system.username_exists'));
+            throw new NormalStatusException(t('system.username_exists'));
         } else {
             return $this->mapper->save($this->handleData($data));
         }

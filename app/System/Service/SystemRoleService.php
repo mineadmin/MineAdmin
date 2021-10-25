@@ -20,7 +20,7 @@ class SystemRoleService extends AbstractService
     public function save(array $data): int
     {
         if ($this->mapper->checkRoleCode($data['code'])) {
-            throw new NormalStatusException(__('system.rolecode_exists'));
+            throw new NormalStatusException(t('system.rolecode_exists'));
         }
         return $this->mapper->save($this->handleData($data));
     }

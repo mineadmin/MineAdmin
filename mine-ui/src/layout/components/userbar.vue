@@ -1,5 +1,8 @@
 <template>
 	<div class="user-bar">
+		<div class="screen panel-item hidden-sm-and-down" @click="lockScreen">
+			<i class="el-icon-lock"></i>
+		</div>
 		<div class="screen panel-item hidden-sm-and-down" @click="screen">
 			<i class="el-icon-full-screen"></i>
 		</div>
@@ -114,7 +117,6 @@
 						await this.$API.login.Logout().then(res => {
 							if (res.success) {
 								this.$store.commit('SET_ROUTERS', null)
-								this.$TOOL.data.set('token', null)
 								this.$TOOL.data.clear()
 								this.$router.replace({path: '/login'})
 							}
@@ -136,7 +138,21 @@
 			//标记已读
 			markRead(){
 				this.msgList = []
-			}
+			},
+			// 锁屏
+			lockScreen () {
+				this.$prompt('请输入锁屏密码，解锁需要此密码', '设置锁屏密码', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					inputPattern: /^[A-Za-z0-9_]+$/,
+					inputErrorMessage: '密码只能是字母、数字和下划线'
+				}).then(({ value }) => {
+					this.$TOOL.data.set('lockPassword', this.$TOOL.crypto.MD5(value))
+        			this.$TOOL.data.set('lockScreen', true)
+					
+					this.$router.push('/lockScreen')
+				})
+			},
 		}
 	}
 </script>

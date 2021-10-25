@@ -27,7 +27,6 @@ class SettingConfigSeeder extends Seeder
             "INSERT INTO `{$tableName}` VALUES ('site_storage_mode', 'local', '上传存储模式', 'system', 93, NULL)",
         ];
         foreach ($sql as $item) {
-            echo $item;
             Db::insert($item);
         }
     }

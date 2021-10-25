@@ -34,7 +34,7 @@
 </script>
 
 <style scoped>
-	.item-background {background: linear-gradient(to right, #8E54E9, #4776E6);color: #fff;}
+	.item-background {background: linear-gradient(to bottom, #0675c4, #092b77, #0675c4);color: #fff;}
 	.time h2 {font-size: 40px;}
 	.time p {font-size: 14px;margin-top: 13px;opacity: 0.7;}
 </style>

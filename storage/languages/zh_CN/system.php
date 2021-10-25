@@ -9,4 +9,9 @@ return [
     'rolecode_exists' => '角色代码已存在',
     'no_login_user' => '无登录用户',
     'exists_children_ctu' => '删除成功。[:names]等包含子项，已跳过 ',
+    'parent_dept_error' => '上级部门不能为本部门',
+    'valid_password' => '密码验证失败',
+    'directory_no_delete' => '非空目录，不可删除',
+    'upload_image_verification_fail' => '图片上传验证不通过',
+    'upload_file_verification_fail' => '文件上传验证不通过',
 ];

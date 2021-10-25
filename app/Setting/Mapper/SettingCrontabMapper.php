@@ -5,8 +5,8 @@ namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingCrontab;
 use Hyperf\Database\Model\Builder;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Transaction;
 
 class SettingCrontabMapper extends AbstractMapper
 {
@@ -20,19 +20,18 @@ class SettingCrontabMapper extends AbstractMapper
         $this->model = SettingCrontab::class;
     }
 
+    /**
+     * @param array $ids
+     * @return bool
+     * @throws \Exception
+     * @Transaction
+     */
     public function delete(array $ids): bool
     {
-        try {
-            Db::beginTransaction();
-            foreach ($ids as $id) {
-                $model = $this->model::find($id);
-                $model->logs()->delete();
-                $model->delete();
-            }
-            Db::commit();
-        } catch (\RuntimeException $e) {
-            Db::rollBack();
-            return false;
+        foreach ($ids as $id) {
+            $model = $this->model::find($id);
+            $model->logs()->delete();
+            $model->delete();
         }
         return true;
     }

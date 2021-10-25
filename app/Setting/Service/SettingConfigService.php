@@ -124,7 +124,6 @@ class SettingConfigService extends AbstractService
     public function clearCache(): bool
     {
         $groupCache = $this->redis->keys($this->getCacheGroupName().'*');
-        print_r($groupCache);
         $keyCache = $this->redis->keys($this->getCacheName().'*');
         foreach ($groupCache as $item) {
             $this->redis->del($item);

@@ -70,7 +70,9 @@
       "App\\": "app/",
       "Mine\\": "mine/"
     },
-    "files": []
+    "files": [
+      "mine/Helper/functions.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

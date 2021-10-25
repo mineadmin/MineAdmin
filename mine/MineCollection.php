@@ -4,13 +4,10 @@ namespace Mine;
 
 use Hyperf\Database\Model\Collection;
 use Hyperf\Di\Annotation\AnnotationCollector;
-use Hyperf\Filesystem\FilesystemFactory;
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use Hyperf\Utils\ApplicationContext;
 use Mine\Interfaces\MineModelExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Mine\MineModel;
 
 class MineCollection extends Collection
 {
@@ -123,7 +120,7 @@ class MineCollection extends Collection
             }
         } catch (\RuntimeException $e) {}
 
-        $response = ApplicationContext::getContainer()->get(MineResponse::class);
+        $response = container()->get(MineResponse::class);
         $writer = IOFactory::createWriter($spread, 'Xlsx');
         ob_start();
         $writer->save('php://output');
@@ -174,7 +171,7 @@ class MineCollection extends Collection
         }
         ksort($fields);
 
-        $request = ApplicationContext::getContainer()->get(MineRequest::class);
+        $request = container()->get(MineRequest::class);
         $data = [];
         if ($request->hasFile('file')) {
             $file = $request->file('file');

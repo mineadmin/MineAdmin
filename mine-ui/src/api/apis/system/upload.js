@@ -15,7 +15,7 @@ export default {
   },
 
   /**
-   * 获取目录列表
+   * 获取所有文件
    * @returns
    */
   getAllFiles (params = {}) {
@@ -33,6 +33,18 @@ export default {
   createUploadDir (params = {}) {
     return request({
       url: 'system/createUploadDir',
+      method: 'post',
+      params
+    })
+  },
+
+  /**
+   * 删除目录
+   * @returns
+   */
+  deleteUploadDir (params = {}) {
+    return request({
+      url: 'system/deleteUploadDir',
       method: 'post',
       params
     })

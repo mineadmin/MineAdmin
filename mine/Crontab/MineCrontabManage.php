@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Mine\Crontab;
 
 use App\Setting\Model\SettingCrontab;
-use App\Setting\Service\SettingCrontabService;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Crontab\Parser;
 use Hyperf\Di\Annotation\Inject;
@@ -63,7 +62,7 @@ class MineCrontabManage
         if ($data === false) {
             $data = SettingCrontab::query()
                 ->where('status', '0')
-                ->get(explode(',', 'id,name,type,target,rule,parameter'));
+                ->get(explode(',', 'id,name,type,target,rule,parameter'))->toArray();
             $this->redis->set($prefix . 'crontab', serialize($data));
         } else {
             $data = unserialize($data);

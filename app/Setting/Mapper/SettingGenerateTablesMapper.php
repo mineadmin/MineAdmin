@@ -5,8 +5,8 @@ namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingGenerateTables;
 use Hyperf\Database\Model\Builder;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Transaction;
 
 /**
  * 生成业务信息表查询类
@@ -28,20 +28,14 @@ class SettingGenerateTablesMapper extends AbstractMapper
     /**
      * 删除业务信息表和字段信息表
      * @throws \Exception
+     * @Transaction
      */
     public function delete(array $ids): bool
     {
-        try {
-            Db::beginTransaction();
-            /* @var SettingGenerateTables $model */
-            foreach ($this->model::query()->whereIn('id', $ids)->get() as $model) {
-                $model->columns()->delete();
-                $model->delete();
-            }
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollBack();
-            return false;
+        /* @var SettingGenerateTables $model */
+        foreach ($this->model::query()->whereIn('id', $ids)->get() as $model) {
+            $model->columns()->delete();
+            $model->delete();
         }
         return true;
     }

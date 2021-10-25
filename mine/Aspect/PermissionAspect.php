@@ -81,7 +81,7 @@ class PermissionAspect extends AbstractAspect
         $codes = $this->service->getInfo()['codes'];
         $pathInfo = $this->request->getPathInfo();
         if (!in_array($permission->menuCode, $codes)) {
-            throw new NoPermissionException(__('system.no_permission') . ' -> ['. $pathInfo.']');
+            throw new NoPermissionException(t('system.no_permission') . ' -> ['. $pathInfo.']');
         }
         return $proceedingJoinPoint->process();
     }

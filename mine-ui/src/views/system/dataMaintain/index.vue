@@ -68,7 +68,7 @@
           prop="data_free"
         >
           <template #default="scope">
-            {{formatData(scope.row.data_free)}}
+            {{ $TOOL.formatSize(scope.row.data_free) }}
           </template>
         </el-table-column>
 
@@ -77,7 +77,7 @@
           prop="data_length"
         >
           <template #default="scope">
-            {{ formatData(scope.row.data_length) }}
+            {{ $TOOL.formatSize(scope.row.data_length) }}
           </template>
         </el-table-column>
 
@@ -86,7 +86,7 @@
           prop="index_length"
         >
           <template #default="scope">
-            {{formatData(scope.row.index_length)}}
+            {{ $TOOL.formatSize(scope.row.index_length) }}
           </template>
         </el-table-column>
 
@@ -212,14 +212,6 @@
       //搜索
       handlerSearch(){
         this.$refs.table.upData(this.queryParams)
-      },
-
-      formatData (data) {
-        if (data < (1024 * 1024)) {
-          return parseInt(data / 1024 / 1024) + 'K'
-        } else {
-          return parseInt(data / 1024 / 1024 / 1024) + 'M'
-        }
       },
 
       resetSearch() {

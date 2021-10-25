@@ -31,10 +31,10 @@ return [
         ],
         'qiniu' => [
             'driver' => \Hyperf\Filesystem\Adapter\QiniuAdapterFactory::class,
-            'accessKey' => 'ncfBN6uavcpS9AMAEVKxSm0Y2KJJtzbMGEdcnHxl',
-            'secretKey' => 'ZHHLMk-__mXuZmWNcAtV92HhA9ZB_a_ddC5ZVN2y',
-            'bucket' => 'spaceisxmo',
-            'domain' => 'qv5c9jni9.hb-bkt.clouddn.com',
+            'accessKey' => '',
+            'secretKey' => '',
+            'bucket' => '',
+            'domain' => '',
             'schema' => 'http://',
         ],
         'cos' => [

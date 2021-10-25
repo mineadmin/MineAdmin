@@ -8,7 +8,7 @@ const routes = [{
 			{
 				name: "home",
 				path: "/home",
-				component: () => import(`@/views/other/empty`),
+				component: () => import(`@/layout/other/empty`),
 				meta: {
 					title: "首页",
 					icon: "el-icon-s-home"
@@ -22,7 +22,7 @@ const routes = [{
 							icon: "el-icon-monitor",
 							affix: true
 						},
-						component: () => import(/* webpackChunkName: "home" */ '@/views/home'),
+						component: () => import(/* webpackChunkName: "dashboard" */ '@/views/home'),
 					},{
 						name: "userCenter",
 						path: "/usercenter",
@@ -38,7 +38,15 @@ const routes = [{
 							title: "系统配置",
 							icon: "el-icon-setting",
 						},
-						component: () => import(/* webpackChunkName: "usercenter" */ '@/views/setting/index'),
+						component: () => import(/* webpackChunkName: "system" */ '@/views/setting/index'),
+					},{
+						name: "demo",
+						path: "/demo",
+						meta: {
+							title: "组件演示",
+							icon: "sc-icon-vuejs-fill",
+						},
+						component: () => import(/* webpackChunkName: "demo" */ '@/views/demo/index'),
 					}
 				]
 			}
@@ -50,6 +58,14 @@ const routes = [{
 		component: () => import(/* webpackChunkName: "login" */ '@/views/userCenter/login'),
 		meta: {
 			title: "登录"
+		}
+	},
+	{
+		path: "/lockScreen",
+		name: 'lockScreen',
+		component: () => import(/* webpackChunkName: "lockScreen" */ '@/views/userCenter/lockScreen'),
+		meta: {
+			title: "锁屏"
 		}
 	}
 ]

@@ -21,20 +21,29 @@
 				</li>
 			</ul>
 		</div>
-		<div class="sc-upload-uploader">
-			<el-upload ref="upload" class="uploader" :action="action" :accept="accept" multiple  :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
+		<div class="sc-upload-uploader" @click="fileSelect && showfileSelect()">
+			<el-upload ref="upload" class="uploader" :disabled="fileSelect" :action="action" :accept="accept" multiple  :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
 				<div class="file-empty">
 					<i :class="icon"></i>
 					<h4 v-if="title">{{title}}</h4>
 				</div>
 			</el-upload>
 		</div>
+		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close>
+			<sc-file-select multiple @submit="fileSelectSubmit">
+				<template #do>
+					<el-button @click="fileSelectDialogVisible=false" >取 消</el-button>
+				</template>
+			</sc-file-select>
+		</el-dialog>
 		<el-input v-model="value" style="display:none"></el-input>
 	</div>
 </template>
 
 <script>
+	import { defineAsyncComponent } from 'vue'
 	import config from "@/config/upload";
+	const scFileSelect = defineAsyncComponent(() => import('@/components/scFileSelect'))
 
 	export default {
 		props: {
@@ -44,13 +53,18 @@
 			accept: { type: String, default: "image/gif, image/jpeg, image/png" },
 			maxSize: { type: Number, default: config.maxSize },
 			title: { type: String, default: "" },
-			icon: { type: String, default: "el-icon-plus" }
+			icon: { type: String, default: "el-icon-plus" },
+			fileSelect: { type: Boolean, default: false }
+		},
+		components: {
+			scFileSelect
 		},
 		data(){
 			return {
 				value: "",
 				defaultFileList: [],
-				fileList: []
+				fileList: [],
+				fileSelectDialogVisible: false,
 			}
 		},
 		watch:{
@@ -95,6 +109,14 @@
 			this.value = this.modelValue
 		},
 		methods: {
+			showfileSelect(){
+				this.fileSelectDialogVisible = true
+			},
+			fileSelectSubmit(val){
+				const newval = [...this.modelValue.split(","),...val].join(",")
+				this.$emit('update:modelValue', newval);
+				this.fileSelectDialogVisible = false
+			},
 			//默认值转换为数组
 			toArr(str){
 				var _arr = [];

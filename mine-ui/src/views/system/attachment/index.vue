@@ -139,7 +139,7 @@
               >
                 <div class="thumbnail">
                   <el-checkbox class="check" :label="item" > {{ index + 1 }}</el-checkbox>
-                  <div class="mask">
+                  <div class="mask" v-auth="['system:attachment:delete']">
                     <span class="del" @click.stop="deletes(item.id)"><i class="el-icon-delete"></i></span>
                   </div>
                   <div class="icon" v-if="item.mime_type && item.mime_type.indexOf('image') === -1">

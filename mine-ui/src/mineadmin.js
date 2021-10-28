@@ -38,6 +38,7 @@ export default {
 		
 		// 全局挂载获取字典数据方法
 		app.config.globalProperties.getDict = api.dataDict.getDict
+		app.config.globalProperties.getDicts = api.dataDict.getDicts
 
 		//注册全局组件
 		app.component('maTable', maTable)

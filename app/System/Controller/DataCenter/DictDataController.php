@@ -44,12 +44,23 @@ class DictDataController extends MineController
     }
 
     /**
+     * 快捷查询一个字典
      * @GetMapping("list")
      * @return ResponseInterface
      */
     public function list(): ResponseInterface
     {
         return $this->success($this->service->getList($this->request->all()));
+    }
+
+    /**
+     * 快捷查询多个字典
+     * @GetMapping("lists")
+     * @return ResponseInterface
+     */
+    public function lists(): ResponseInterface
+    {
+        return $this->success($this->service->getLists($this->request->all()));
     }
 
     /**

@@ -2,20 +2,17 @@
 declare(strict_types=1);
 namespace Mine\Helper;
 
-
-use Minho\Captcha\CaptchaBuilder;
-
-class MineCaptcha extends CaptchaBuilder
+class MineCaptcha
 {
     /**
-     * @return string
+     * @return array
      */
-    public function getBase64(): string
+    public function getCaptchaInfo(): array
     {
-        ob_start();
-        imagepng($this->image, null, 1);
-        $png = ob_get_contents();
-        ob_end_clean();
-        return 'data:image/png;base64,' . base64_encode($png);
+        $conf = new \EasySwoole\VerifyCode\Conf();
+        $conf->setUseCurve()->setUseNoise();
+        $validCode = new \EasySwoole\VerifyCode\VerifyCode($conf);
+        $draw = $validCode->DrawCode();
+        return ['code' => \Mine\Helper\Str::lower($draw->getImageCode()), 'image' => $draw->getImageByte()];
     }
 }

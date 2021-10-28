@@ -46,13 +46,34 @@ class SystemDictDataService extends AbstractService
     }
 
     /**
-     * 缓存字典
+     * 查询多个字典
+     * @param array|null $params
+     * @return array
+     */
+    public function getLists(?array $params = null): array
+    {
+        if (! isset($params['codes'])) {
+            return [];
+        }
+
+        $codes = explode(',', $params['codes']);
+        $data = [];
+
+        foreach ($codes as $code) {
+            $data[$code] = $this->getList(['code' => $code]);
+        }
+
+        return $data;
+    }
+
+    /**
+     * 查询一个字典
      * @param array|null $params
      * @return array
      */
     public function getList(?array $params = null): array
     {
-        if (!isset($params['code'])) {
+        if (! isset($params['code'])) {
             return [];
         }
 

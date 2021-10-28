@@ -53,6 +53,8 @@ class UpdateProjectCommand extends MineCommand
             }
         }
 
+        redis()->flushDB();
+
         $this->line($this->getGreenText('updated successfully...'));
     }
 

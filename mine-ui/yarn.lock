@@ -956,7 +956,7 @@
 
 "@intlify/core-base@9.1.9":
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/@intlify/core-base/download/@intlify/core-base-9.1.9.tgz?cache=0&sync_timestamp=1634809319693&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fcore-base%2Fdownload%2F%40intlify%2Fcore-base-9.1.9.tgz#e4e8c951010728e4af3a0d13d74cf3f9e7add7f6"
+  resolved "https://registry.npmmirror.com/@intlify/core-base/download/@intlify/core-base-9.1.9.tgz?cache=0&sync_timestamp=1635131517670&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fcore-base%2Fdownload%2F%40intlify%2Fcore-base-9.1.9.tgz#e4e8c951010728e4af3a0d13d74cf3f9e7add7f6"
   integrity sha1-5OjJUQEHKOSvOg0T10zz+eet1/Y=
   dependencies:
     "@intlify/devtools-if" "9.1.9"
@@ -968,14 +968,14 @@
 
 "@intlify/devtools-if@9.1.9":
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/@intlify/devtools-if/download/@intlify/devtools-if-9.1.9.tgz?cache=0&sync_timestamp=1634809319183&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fdevtools-if%2Fdownload%2F%40intlify%2Fdevtools-if-9.1.9.tgz#a30e1dd1256ff2c5c98d8d75d075384fba898e5d"
+  resolved "https://registry.npmmirror.com/@intlify/devtools-if/download/@intlify/devtools-if-9.1.9.tgz?cache=0&sync_timestamp=1635131518478&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fdevtools-if%2Fdownload%2F%40intlify%2Fdevtools-if-9.1.9.tgz#a30e1dd1256ff2c5c98d8d75d075384fba898e5d"
   integrity sha1-ow4d0SVv8sXJjY110HU4T7qJjl0=
   dependencies:
     "@intlify/shared" "9.1.9"
 
 "@intlify/message-compiler@9.1.9":
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/@intlify/message-compiler/download/@intlify/message-compiler-9.1.9.tgz?cache=0&sync_timestamp=1634809318921&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fmessage-compiler%2Fdownload%2F%40intlify%2Fmessage-compiler-9.1.9.tgz#1193cbd224a71c2fb981455b8534a3c766d2948d"
+  resolved "https://registry.npmmirror.com/@intlify/message-compiler/download/@intlify/message-compiler-9.1.9.tgz?cache=0&sync_timestamp=1635131518726&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fmessage-compiler%2Fdownload%2F%40intlify%2Fmessage-compiler-9.1.9.tgz#1193cbd224a71c2fb981455b8534a3c766d2948d"
   integrity sha1-EZPL0iSnHC+5gUVbhTSjx2bSlI0=
   dependencies:
     "@intlify/message-resolver" "9.1.9"
@@ -998,12 +998,12 @@
 
 "@intlify/shared@9.1.9":
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/@intlify/shared/download/@intlify/shared-9.1.9.tgz?cache=0&sync_timestamp=1634809320239&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fshared%2Fdownload%2F%40intlify%2Fshared-9.1.9.tgz#0baaf96128b85560666bec784ffb01f6623cc17a"
+  resolved "https://registry.npmmirror.com/@intlify/shared/download/@intlify/shared-9.1.9.tgz?cache=0&sync_timestamp=1635131517949&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fshared%2Fdownload%2F%40intlify%2Fshared-9.1.9.tgz#0baaf96128b85560666bec784ffb01f6623cc17a"
   integrity sha1-C6r5YSi4VWBma+x4T/sB9mI8wXo=
 
 "@intlify/vue-devtools@9.1.9":
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/@intlify/vue-devtools/download/@intlify/vue-devtools-9.1.9.tgz?cache=0&sync_timestamp=1634809915808&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fvue-devtools%2Fdownload%2F%40intlify%2Fvue-devtools-9.1.9.tgz#2be8f4dbe7f7ed4115676eb32348141d411e426b"
+  resolved "https://registry.npmmirror.com/@intlify/vue-devtools/download/@intlify/vue-devtools-9.1.9.tgz?cache=0&sync_timestamp=1635131518196&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fvue-devtools%2Fdownload%2F%40intlify%2Fvue-devtools-9.1.9.tgz#2be8f4dbe7f7ed4115676eb32348141d411e426b"
   integrity sha1-K+j02+f37UEVZ26zI0gUHUEeQms=
   dependencies:
     "@intlify/message-resolver" "9.1.9"
@@ -2895,7 +2895,7 @@ core-js-compat@^3.14.0, core-js-compat@^3.15.0, core-js-compat@^3.6.5:
 
 core-js@3.18.3:
   version "3.18.3"
-  resolved "https://registry.npmmirror.com/core-js/download/core-js-3.18.3.tgz?cache=0&sync_timestamp=1634062619940&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcore-js%2Fdownload%2Fcore-js-3.18.3.tgz#86a0bba2d8ec3df860fefcc07a8d119779f01509"
+  resolved "https://registry.npmmirror.com/core-js/download/core-js-3.18.3.tgz#86a0bba2d8ec3df860fefcc07a8d119779f01509"
   integrity sha1-hqC7otjsPfhg/vzAeo0Rl3nwFQk=
 
 core-js@^3.6.5:
@@ -8497,7 +8497,7 @@ vue-hot-reload-api@^2.3.0:
 
 vue-i18n@9.1.9:
   version "9.1.9"
-  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-9.1.9.tgz?cache=0&sync_timestamp=1634809246024&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-9.1.9.tgz#cb53e06ab5cc5b7eed59332f151caf48d47be9bb"
+  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-9.1.9.tgz?cache=0&sync_timestamp=1635131490880&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-9.1.9.tgz#cb53e06ab5cc5b7eed59332f151caf48d47be9bb"
   integrity sha1-y1PgarXMW37tWTMvFRyvSNR76bs=
   dependencies:
     "@intlify/core-base" "9.1.9"

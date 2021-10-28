@@ -60,5 +60,52 @@ export default {
       method: 'post',
       data: params
     })
-  }
+  },
+
+  /**
+   * 获取缓存信息
+   * @returns
+   */
+  getCacheInfo () {
+    return request({
+      url: 'system/cache/monitor',
+      method: 'get'
+    })
+  },
+
+  /**
+   * 查看key内容
+   * @returns
+   */
+  view (data) {
+    return request({
+      url: 'system/cache/view',
+      method: 'post',
+      data
+    })
+  },
+  
+
+  /**
+   * 删除一个缓存
+   * @returns
+   */
+  deleteKey (data) {
+    return request({
+      url: 'system/cache/delete',
+      method: 'delete',
+      data
+    })
+  },
+
+  /**
+   * 清空缓存
+   * @returns
+   */
+  clear () {
+    return request({
+      url: 'system/cache/clear',
+      method: 'post'
+    })
+  },
 }

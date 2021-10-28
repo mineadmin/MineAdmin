@@ -104,7 +104,7 @@ class MineUpload
             'storage_path' => $path,
             'suffix' => $uploadedFile->getExtension(),
             'size_byte' => $uploadedFile->getSize(),
-            'size_info' => $this->getSizeInfo($uploadedFile->getSize()),
+            'size_info' => format_size($uploadedFile->getSize()),
             'url' => $this->assembleUrl($path, $filename),
         ];
 
@@ -232,16 +232,5 @@ class MineUpload
     protected function getProtocol(): string
     {
         return $this->container->get(MineRequest::class)->getScheme();
-    }
-
-    protected function getSizeInfo(int $size): string
-    {
-        if ($size < 1024) {
-            return $size . 'byte';
-        } else if ($size < (1024 * 1024)) {
-            return sprintf('%.2f', ($size / 1024)) . 'kb';
-        } else {
-            return sprintf('%.2f', ($size / 1024 / 1024)) . 'mb';
-        }
     }
 }

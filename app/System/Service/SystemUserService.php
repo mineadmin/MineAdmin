@@ -98,15 +98,13 @@ class SystemUserService extends AbstractService
      * @throws \Exception
      * @noinspection PhpFullyQualifiedNameUsageInspection
      */
-    public function getCaptcha(): array
+    public function getCaptcha(): string
     {
         $cache = $this->container->get(CacheInterface::class);
         $captcha = new MineCaptcha();
-        $captcha->initialize([]);
-        $img = $captcha->create()->getBase64();
-        $code = $captcha->getText();
-        $cache->set(sprintf('captcha:%s', md5($code)), $code, 60);
-        return ['img' => $img];
+        $info = $captcha->getCaptchaInfo();
+        $cache->set(sprintf('captcha:%s', md5($info['code'])), $info['code'], 60);
+        return $info['image'];
     }
 
     /**

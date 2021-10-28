@@ -18,7 +18,6 @@ return [
             Mine\Exception\Handler\TokenExceptionHandler::class,
             Mine\Exception\Handler\NoPermissionExceptionHandler::class,
             Mine\Exception\Handler\NormalStatusExceptionHandler::class,
-            Mine\Exception\Handler\MethodNotAllowExceptionHandler::class,
             Mine\Exception\Handler\AppExceptionHandler::class,
         ],
     ],

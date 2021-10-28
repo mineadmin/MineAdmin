@@ -18,7 +18,6 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
-use Mine\Helper\LoginUser;
 use Mine\MineCollection;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;

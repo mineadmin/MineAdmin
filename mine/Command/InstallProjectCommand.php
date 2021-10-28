@@ -270,6 +270,7 @@ class InstallProjectCommand extends MineCommand
     protected function setOthers()
     {
         $this->line(PHP_EOL . ' MineAdmin set others items...' . PHP_EOL, 'comment');
+        $this->call('mine:update');
     }
 
     protected function initUserData()

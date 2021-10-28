@@ -191,9 +191,7 @@
 			},
 
 			getCaptchaImg () {
-				this.$API.login.getCaptch().then(res => {
-					this.captchaImg = res.data.img
-				})
+				this.captchaImg = this.$CONFIG.API_URL + '/system/captcha?_time=' + Math.random()
 			},
 			
 			configTheme(){

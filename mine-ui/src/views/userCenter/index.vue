@@ -133,6 +133,8 @@ export default {
       passwordLoading: false,
       avatarLoading: false,
 
+      form: {},
+
       formUser: {
         id: '',
         username: '',

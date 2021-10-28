@@ -10,7 +10,7 @@
 <p align="center">
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.3.5" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.3.7" />
 </p>
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
@@ -71,11 +71,11 @@ composer install
 
 打开启动终端，启动项目
 ```shell
-php bin/hyperf start
+php bin/hyperf.php start
 ```
 切换到安装终端，执行安装命令
 ```shell
-php bin/hyperf mine:install
+php bin/hyperf.php mine:install
 ```
 待提示以下信息后，切换到启动终端，重启项目
 ```shell
@@ -84,7 +84,7 @@ the installation command to continue the installation.
 ```
 切换到安装终端，再次执行安装命令，完成安装。
 ```shell
-php bin/hyperf mine:install
+php bin/hyperf.php mine:install
 ```
 
 - 前端安装

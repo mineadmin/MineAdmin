@@ -14,6 +14,18 @@ export default {
     },
 
     /**
+     * 快捷查询多个字典
+     * @param {*} params
+     * @returns
+     */
+    getDicts(codes) {
+        return request({
+            url: 'system/dataDict/lists?codes=' + codes.join(','),
+            method: 'get'
+        })
+    },
+
+    /**
      * 获取字典数据分页列表
      * @returns
      */

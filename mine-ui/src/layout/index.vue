@@ -88,18 +88,18 @@
 				</div>
 			</div>
 			<div class="adminui-header-right">
+				<div v-if="!ismobile" class="adminui-header-menu">
+					<el-menu mode="horizontal" :default-active="active" router>
+						<NavMenu :navMenus="menu"></NavMenu>
+					</el-menu>
+				</div>
+				<Side-m v-if="ismobile"></Side-m>
 				<userbar></userbar>
 			</div>
 		</header>
 
 		<section class="aminui-wrapper">
-			<Side-m v-if="ismobile"></Side-m>
 			<div class="aminui-body el-container">
-				<div v-if="!ismobile" class="adminui-header-menu">
-					<el-menu :default-active="$route.meta.active || $route.fullPath" router mode="horizontal">
-						<NavMenu :navMenus="menu"></NavMenu>
-					</el-menu>
-				</div>
 				<div class="adminui-main" id="adminui-main">
 					<router-view></router-view>
 					<iframe-view></iframe-view>
@@ -210,7 +210,6 @@
 			}
 			menu.unshift(home);
 			this.menu = this.filterUrl(menu)
-			;
 			this.showThis()
 		},
 		watch: {
@@ -251,6 +250,12 @@
 			filterUrl(map){
 				var newMap = []
 				map && map.forEach(item => {
+					// 生产模式去掉开发者工具
+					if ( this.$CONFIG.APP_MODE === 'prod' ) {
+						if (item.meta.type === 'M' && ['/module', '/code', '/table'].includes(item.path)) {
+							return false
+						}
+					}
 					item.meta = item.meta?item.meta:{};
 					//处理隐藏
 					if(item.meta.hidden){

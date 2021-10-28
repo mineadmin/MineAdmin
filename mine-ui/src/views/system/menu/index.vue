@@ -7,6 +7,14 @@
         <el-container>
           <el-header>
             <el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
+            <el-button
+              icon="el-icon-plus"
+              type="primary"
+              v-auth="'system:menu:save'"
+              @click="add()"
+              v-if="!showRecycle"
+              style="margin-left: 10px;"
+            >新增</el-button>
           </el-header>
           <el-main class="nopadding">
             <el-tree
@@ -15,6 +23,7 @@
               node-key="name"
               :data="menuList"
               :props="menuProps"
+              show-checkbox
               highlight-current
               :expand-on-click-node="false"
               :filter-node-method="menuFilterNode"
@@ -74,11 +83,11 @@
           <el-footer style="height:60px;">
 
             <el-button
-              icon="el-icon-plus"
-              v-auth="'system:menu:save'"
-              @click="add()"
-              v-if="!showRecycle"
-            >新增</el-button>
+              type="danger"
+              plain
+              icon="el-icon-delete"
+              @click="deleteBatch"
+            >删除按钮</el-button>
 
             <el-button
               icon="el-icon-view"
@@ -90,6 +99,7 @@
               icon="el-icon-refresh"
               @click="getMenu"
             >刷新</el-button>
+
           </el-footer>
         </el-container>
       </el-main>
@@ -129,7 +139,7 @@
     },
     computed: {
       getSwitchText() {
-        return this.showRecycle ? '显示正常数据' : '回收站'
+        return this.showRecycle ? '正常数据' : '回收站'
       }
     },
     watch: {
@@ -156,6 +166,32 @@
           })
         }
       },
+
+      // 批量删除
+      deleteBatch() {
+        this.$confirm('此操作只会删除已选择的按钮菜单，确定删除吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let ids = []
+          this.$refs.menu.getCheckedNodes().filter(item => {
+            if (item.type === 'B') {
+              ids.push(item.id)
+            }
+          })
+
+          if (ids.length > 0) {
+            this.$API.menu.deletes(ids.join(',')).then(res => {
+              this.$message.success(res.message)
+              this.getMenu()
+            })
+          } else {
+            this.$message.error('选择项里没有按钮菜单，跳过删除')
+          }
+        }).catch(() => {})
+      },
+
       //树点击
       menuClick(data, node){
         let pid = node.level===1?undefined:node.parent.data.id;

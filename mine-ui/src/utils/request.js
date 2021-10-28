@@ -96,7 +96,7 @@ function createRequest (service) {
 				'Content-Type': get(config, 'headers.Content-Type', 'application/json;charset=UTF-8')
 			},
 
-			timeout: 5000,
+			timeout: sysConfig.TIMEOUT,
 			baseURL: sysConfig.API_URL,
 			data: {}
 		}

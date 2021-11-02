@@ -6,7 +6,6 @@ namespace App\System\Controller;
 use App\System\Request\User\SystemUserLoginRequest;
 use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;

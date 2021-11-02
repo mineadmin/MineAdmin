@@ -74,4 +74,15 @@ export default {
     })
   },
 
+  /**
+   * 保存网络图片
+   * @returns
+   */
+  saveNetWorkImage (data = {}) {
+    return request({
+      url: 'system/saveNetworkImage',
+      method: 'post',
+      data
+    })
+  },
 }

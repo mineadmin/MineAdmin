@@ -42,12 +42,12 @@
       </el-button>
 
       <el-upload
-        class="mt-20"
+        class="mt-20 ma-upload-com"
         ref="upload"
         drag
         :multiple="multiple"
         :accept="allowUploadFile"
-        style="width: 100%"
+        style="width: 100%;"
         action="Fake Action"
         :disabled="disabled"
         :limit="limit"
@@ -65,6 +65,18 @@
         <div class="el-upload__tip" style="width: 100%">只能上传{{allowUploadFile}}文件，单文件不超过 {{ config.maxSize }} M</div>
 
       </el-upload>
+
+      <el-button
+        v-if="type === 'image'"
+        size="medium"
+        type="primary"
+        plain
+        class="ma-mt-10"
+        style="width: 100%"
+        icon="el-icon-picture"
+        @click="$refs.network.open()"
+        >网络图片
+      </el-button>
 
       <template #footer class="dialog-footer">
 
@@ -85,10 +97,13 @@
     </el-dialog>
 
     <res ref="Res" :type="type" @confirmData="getConfirmData"></res>
+
+    <net-work ref="network" :path="uploadDir" @useSuccess="useSuccess" @saveSuccess="saveSuccess" />
   </el-main>
 </template>
 <script>
 import Res from './components/res'
+import NetWork from './components/network'
 import Config from '@/config/upload'
 export default {
   name: 'maResourceSelect',
@@ -96,7 +111,8 @@ export default {
   emits: ['uploadData'],
 
   components: {
-    Res
+    Res,
+    NetWork
   },
   props: {
     value: {
@@ -186,6 +202,20 @@ export default {
     }
   },
   methods: {
+
+    // 使用网络图片
+    useSuccess (url) {
+      this.imageList.push({ url })
+      this.$emit('uploadData', this.imageList)
+      this.uploadDialog = false
+    },
+
+    // 保存网络图片
+    saveSuccess (data) {
+      this.imageList.push(data)
+      this.$emit('uploadData', this.imageList)
+      this.uploadDialog = false
+    },
 
     // 获取目录内容
     getDirectorys () {
@@ -322,6 +352,11 @@ export default {
   width: 120px; height: 120px; display: flex;
   justify-content: center; align-items: center;
   margin-bottom: 10px;
+  background: none;
+}
+
+:deep(.el-upload .el-upload-dragger) {
+  background: none !important;
 }
 
 </style>

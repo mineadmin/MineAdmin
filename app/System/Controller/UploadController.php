@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\System\Controller;
 
 use App\System\Request\Upload\CreateUploadDirRequest;
+use App\System\Request\Upload\NetworkImageRequest;
 use App\System\Request\Upload\UploadFileRequest;
 use App\System\Request\Upload\UploadImageRequest;
 use App\System\Service\SystemUploadFileService;
@@ -65,6 +66,17 @@ class UploadController extends MineController
         } else {
             return $this->error(t('system.upload_image_verification_fail'));
         }
+    }
+
+    /**
+     * 保存网络图片
+     * @PostMapping("saveNetworkImage")
+     * @Auth
+     * @throws \Exception
+     */
+    public function saveNetworkImage(NetworkImageRequest $request): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->service->saveNetworkImage($request->validated()));
     }
 
     /**

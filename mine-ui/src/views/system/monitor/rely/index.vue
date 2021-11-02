@@ -5,7 +5,7 @@
       </div>
       <div class="right-panel">
         <div class="right-panel-search">
-          <el-input v-model="queryParams.name" clearable placeholder="请输入表名"></el-input>
+          <el-input v-model="queryParams.name" clearable placeholder="请输入依赖名称"></el-input>
 
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
@@ -28,7 +28,7 @@
       >
         
         <el-table-column
-          label="表名称"
+          label="依赖名称"
           prop="name"
           width="260"
           :show-overflow-tooltip="true"
@@ -113,7 +113,7 @@
     },
     methods: {
 
-      // 显示表字段
+      // 显示依赖详细
       handleDetail (name) {
         this.dialogVisible = true
         this.detailsLoading = true

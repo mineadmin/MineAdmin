@@ -58,7 +58,7 @@
             <div class="list" v-for="(item, index) in dataList" :key="index">
 
               <div class="icon" @click="openFolder(item.basename, 'in')" v-if="item.type === 'dir'">
-                <i class="el-icon-folder-opened" />
+                <i class="el-icon-folder" />
               </div>
 
               <div class="icon" v-if="item.mime_type && item.mime_type.indexOf('image') === -1">
@@ -260,7 +260,7 @@ export default {
   cursor: pointer;
 }
 .file-list .list:hover {
-  background: #f5f5f5;
+  background: rgb(188 188 188 / 29%);
 }
 .file-list .list:nth-child(6),
 .file-list .list:nth-child(12),
@@ -277,8 +277,7 @@ export default {
 .list .icon {
   height: 92px;
   margin-right: 1px;
-  color: #0960bd;
-  background: #f5f5f5;
+  color: rgb(255, 204, 102);
   font-size: 56px;
   text-align: center;
   padding: 12px 0;

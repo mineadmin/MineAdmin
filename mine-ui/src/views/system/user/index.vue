@@ -409,7 +409,25 @@
         if (this.queryParams.dept_id == data.id) {
           return
         }
-        this.queryParams.dept_id = data.id
+        if (data.id === undefined) {
+          this.queryParams.dept_id = data.id
+        } else {
+          let ids = [ data.id ]
+          
+          let filterNode = (nodes) => {
+            nodes.map(item => {
+              if (item.children && item.children.length > 0) {
+                filterNode(item.children)
+              } else {
+                ids.push(item.id)
+              }
+            })
+          }
+          if (data.children && data.children.length > 0) {
+            filterNode(data.children)
+          }
+          this.queryParams.dept_id = ids.join(',')
+        }
         this.$refs.table.upData(this.queryParams)
       },
 

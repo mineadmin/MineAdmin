@@ -1,5 +1,15 @@
 <?php
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://gitee.com/xmo/MineAdmin
+ */
 
+declare(strict_types = 1);
 namespace Mine\Command;
 
 use Hyperf\Command\Annotation\Command;
@@ -54,11 +64,11 @@ class InstallLocalModuleCommand extends MineCommand
             $table->setHeader(['Name', 'Description', 'Version', "Install", "Enable"]);
             foreach ($modules as $mod) {
                 $row = [
-                  isset($mod['name']) ? $mod['name'] : 'Null',
-                  isset($mod['description']) ? $mod['description'] : 'Null',
-                  isset($mod['version']) ? $mod['version'] : 'Null',
-                  isset($mod['installed']) && $mod['installed'] === true ? 'yes' : 'no',
-                  isset($mod['enabled']) && $mod['enabled'] === true ? 'yes' : 'no',
+                    $mod['name'] ?? 'Null',
+                    $mod['description'] ?? 'Null',
+                    $mod['version'] ?? 'Null',
+                    isset($mod['installed']) && $mod['installed'] === true ? 'yes' : 'no',
+                    isset($mod['enabled']) && $mod['enabled'] === true ? 'yes' : 'no',
                 ];
                 $table->addRow($row);
             }

@@ -90,9 +90,12 @@ class SystemUserMapper extends AbstractMapper
 
         $this->model::query()->where('id', $id)->update($data);
         $user = $this->model::find($id);
-        !empty($role_ids) && $user->roles()->sync($role_ids);
-        $user->posts()->sync($post_ids);
-        return true;
+        if ($user) {
+            !empty($role_ids) && $user->roles()->sync($role_ids);
+            $user->posts()->sync($post_ids);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -105,9 +108,11 @@ class SystemUserMapper extends AbstractMapper
     {
         foreach ($ids as $id) {
             $user = $this->model::withTrashed()->find($id);
-            $user->roles()->detach();
-            $user->posts()->detach();
-            $user->forceDelete();
+            if ($user) {
+                $user->roles()->detach();
+                $user->posts()->detach();
+                $user->forceDelete();
+            }
         }
         return true;
     }
@@ -115,14 +120,17 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 获取用户信息
      * @param int $id
-     * @return SystemUser
+     * @return SystemUser|null
      */
-    public function read(int $id): SystemUser
+    public function read(int $id): ?SystemUser
     {
         $user = $this->model::find($id);
-        $user->setAttribute('roleList', $user->roles()->get() ?: []);
-        $user->setAttribute('postList', $user->posts()->get() ?: []);
-        return $user;
+        if ($user) {
+            $user->setAttribute('roleList', $user->roles()->get() ?: []);
+            $user->setAttribute('postList', $user->posts()->get() ?: []);
+            return $user;
+        }
+        return null;
     }
 
     /**
@@ -134,7 +142,7 @@ class SystemUserMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['dept_id'])) {
-            $query->where('dept_id', $params['dept_id']);
+            $query->whereIn('dept_id', explode(',', $params['dept_id']));
         }
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
@@ -172,7 +180,10 @@ class SystemUserMapper extends AbstractMapper
     public function initUserPassword(int $id, string $password): bool
     {
         $model = $this->model::find($id);
-        $model->password = $password;
-        return $model->save();
+        if ($model) {
+            $model->password = $password;
+            return $model->save();
+        }
+        return false;
     }
 }

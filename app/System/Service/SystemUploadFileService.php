@@ -154,4 +154,20 @@ class SystemUploadFileService extends AbstractService
 
         return array_merge($directory, $this->getList($params));
     }
+
+    /**
+     * 保存网络图片
+     * @param array $data ['url', 'path']
+     * @return array
+     * @throws \Exception
+     */
+    public function saveNetworkImage(array $data): array
+    {
+        $data = $this->mineUpload->handleSaveNetworkImage($data);
+        if ($this->save($data)) {
+            return $data;
+        } else {
+            return [];
+        }
+    }
 }

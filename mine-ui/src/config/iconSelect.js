@@ -4,6 +4,11 @@ import scuiicon from '@/assets/font/scicon/iconfont.json'
 export default {
 	icons: [
 		{
+			name: 'MineAdmin',
+			namespace: 'ma-icon-',
+			icons: ['platform-eleme']
+		},
+		{
 			name: 'SCUI',
 			namespace: 'sc-icon-',
 			icons: scuiicon.glyphs.map(v => v.font_class)

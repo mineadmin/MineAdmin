@@ -73,12 +73,14 @@ class SystemUploadFileMapper extends AbstractMapper
     {
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
-            $event = new \Mine\Event\RealDeleteUploadFile(
-                $model, $this->container->get(MineUpload::class)->getFileSystem()
-            );
-            $this->evDispatcher->dispatch($event);
-            if ($event->getConfirm()) {
-                $model->forceDelete();
+            if ($model) {
+                $event = new \Mine\Event\RealDeleteUploadFile(
+                    $model, $this->container->get(MineUpload::class)->getFileSystem()
+                );
+                $this->evDispatcher->dispatch($event);
+                if ($event->getConfirm()) {
+                    $model->forceDelete();
+                }
             }
         }
         unset($event);

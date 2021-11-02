@@ -108,8 +108,10 @@ class SystemMenuMapper extends AbstractMapper
     {
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
-            $model->roles()->detach();
-            $model->forceDelete();
+            if ($model) {
+                $model->roles()->detach();
+                $model->forceDelete();
+            }
         }
         return true;
     }

@@ -1,13 +1,23 @@
 <?php
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://gitee.com/xmo/MineAdmin
+ */
 
+declare(strict_types=1);
 
 namespace Mine;
-
 
 use App\Setting\Service\SettingConfigService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Filesystem\FilesystemFactory;
 use League\Flysystem\Filesystem;
+use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
 use Hyperf\HttpMessage\Upload\UploadedFile;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -85,15 +95,11 @@ class MineUpload
      */
     protected function handleUpload(UploadedFile $uploadedFile, array $config): array
     {
-        if (!isset($config['path']) || $config['path'] == '') {
-            $path = date('Ymd');
-        } else {
-            $path = $config['path'];
-        }
+        $path = $this->getPath($config);
         $filename = $this->getNewName() . '.' . $uploadedFile->getExtension();
 
         if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
-            throw new \RuntimeException($uploadedFile->getError(), 500);
+            throw new NormalStatusException($uploadedFile->getError(), 500);
         }
 
         $fileInfo = [
@@ -111,6 +117,52 @@ class MineUpload
         $this->evDispatcher->dispatch(new \Mine\Event\UploadAfter($fileInfo));
 
         return $fileInfo;
+    }
+
+    /**
+     * 保存网络图片
+     * @param array $data
+     * @return array
+     * @throws \Exception
+     */
+    public function handleSaveNetworkImage(array $data): array
+    {
+        $path = $this->getPath($data);
+        $filename = $this->getNewName() . '.jpg';
+
+        try {
+            $content = file_get_contents($data['url']);
+
+            if (!$this->filesystem->write($path . '/' . $filename, $content)) {
+                throw new \Exception(t('network_image_save_fail'));
+            }
+
+        } catch (\Throwable $e) {
+            throw new NormalStatusException($e->getMessage(), 500);
+        }
+
+        $size = mb_strlen($content);
+
+        $fileInfo = [
+            'storage_mode' => $this->getMappingMode(),
+            'origin_name' => md5(time()).'.jpg',
+            'object_name' => $filename,
+            'mime_type' => 'image/jpg',
+            'storage_path' => $path,
+            'suffix' => 'jpg',
+            'size_byte' => $size,
+            'size_info' => format_size($size),
+            'url' => $this->assembleUrl($path, $filename),
+        ];
+
+        $this->evDispatcher->dispatch(new \Mine\Event\UploadAfter($fileInfo));
+
+        return $fileInfo;
+    }
+
+    protected function getPath($config)
+    {
+        return empty($config['path']) ? date('Ymd') : $config['path'];
     }
 
     /**

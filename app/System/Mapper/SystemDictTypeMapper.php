@@ -46,8 +46,10 @@ class SystemDictTypeMapper extends AbstractMapper
     {
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
-            $model->dictData()->forceDelete();
-            $model->forceDelete();
+            if ($model) {
+                $model->dictData()->forceDelete();
+                $model->forceDelete();
+            }
         }
         return true;
     }

@@ -30,8 +30,10 @@ class SettingCrontabMapper extends AbstractMapper
     {
         foreach ($ids as $id) {
             $model = $this->model::find($id);
-            $model->logs()->delete();
-            $model->delete();
+            if ($model) {
+                $model->logs()->delete();
+                $model->delete();
+            }
         }
         return true;
     }

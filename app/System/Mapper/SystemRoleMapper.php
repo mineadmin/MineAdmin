@@ -86,14 +86,17 @@ class SystemRoleMapper extends AbstractMapper
     {
         $menuIds = $data['menu_ids'] ?? [];
         $deptIds = $data['dept_ids'] ?? [];
-        $this->filterExecuteAttributes($data);
+        $this->filterExecuteAttributes($data, true);
         $this->model::query()->where('id', $id)->update($data);
         if ($id != env('ADMIN_ROLE')) {
             $role = $this->model::find($id);
-            !empty($menuIds) && $role->menus()->sync(array_unique($menuIds));
-            !empty($deptIds) && $role->depts()->sync($deptIds);
+            if ($role) {
+                !empty($menuIds) && $role->menus()->sync(array_unique($menuIds));
+                !empty($deptIds) && $role->depts()->sync($deptIds);
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -124,14 +127,16 @@ class SystemRoleMapper extends AbstractMapper
                 continue;
             }
             $role = $this->model::withTrashed()->find($id);
-            // 删除关联菜单
-            $role->menus()->detach();
-            // 删除关联部门
-            $role->depts()->detach();
-            // 删除关联用户
-            $role->users()->detach();
-            // 删除角色数据
-            $role->forceDelete();
+            if ($role) {
+                // 删除关联菜单
+                $role->menus()->detach();
+                // 删除关联部门
+                $role->depts()->detach();
+                // 删除关联用户
+                $role->users()->detach();
+                // 删除角色数据
+                $role->forceDelete();
+            }
         }
         return true;
     }

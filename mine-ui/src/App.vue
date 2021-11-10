@@ -9,9 +9,17 @@
 
 	export default {
 		name: 'App',
+		data () {
+			return {
+				layout: this.$store.state.global.layout,
+				lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
+				theme: this.$TOOL.data.get('APP_THEME') || 'default',
+				colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF'
+			}
+		},
 		created() {
 			//设置主题颜色
-			const app_color = this.$CONFIG.COLOR || this.$TOOL.data.get('APP_COLOR')
+			const app_color = this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR
 			if(app_color){
 				document.documentElement.style.setProperty('--el-color-primary', app_color);
 				for (let i = 1; i <= 9; i++) {

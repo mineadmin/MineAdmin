@@ -5,6 +5,7 @@ namespace App\System\Controller\Permission;
 
 
 use App\System\Request\Dept\SystemDeptCreateRequest;
+use App\System\Request\Dept\SystemDeptStatusRequest;
 use App\System\Service\SystemDeptService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -128,5 +129,19 @@ class DeptController extends MineController
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改部门状态
+     * @PutMapping("changeStatus")
+     * @param SystemDeptStatusRequest $request
+     * @return ResponseInterface
+     * @Permission("system:dept:changeStatus")
+     * @OperationLog
+     */
+    public function changeStatus(SystemDeptStatusRequest $request): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

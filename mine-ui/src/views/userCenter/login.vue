@@ -40,7 +40,7 @@
 					</div>
 					<h2>{{ $t('login.signInTitle') }}</h2>
 				</div>
-				<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0" size="large">
+				<el-form :model="ruleForm" :rules="rules" ref="ruleForm" id="ruleForm" label-width="0" size="large">
 					<el-form-item prop="user">
 						<el-input 
 							v-model="ruleForm.user"
@@ -57,7 +57,7 @@
 							@keyup.enter="submitForm()"
 						></el-input>
 					</el-form-item>
-					<el-form-item prop="code">
+					<el-form-item prop="code" v-if="verifyType === '1'">
 						<el-input
 							type="text"
 							v-model="ruleForm.code"
@@ -71,6 +71,20 @@
 							</template>
 						</el-input>
 					</el-form-item>
+
+					<el-form-item prop="isPassing" v-else>
+						<drag-verify
+							v-model:isPassing="ruleForm.isPassing"
+							text="请按住滑块拖动"
+							successText="验证通过"
+							:width="width"
+							handlerIcon="el-icon-d-arrow-right"
+    						successIcon="el-icon-circle-check"
+							:background="$TOOL.data.get('APP_COLOR') || $CONFIG.COLOR"
+							:textColor="'#fff'"
+						/>
+					</el-form-item>
+					
 					<!-- <el-form-item style="margin-bottom: 10px;">
 						<el-row>
 							<el-col :span="12">
@@ -97,14 +111,19 @@
 </template>
 
 <script>
+	import dragVerify from '@/components/maDragVerify/components/dragVerify'
 	export default {
+		components: {
+			dragVerify
+		},
 		data() {
 			return {
 				ruleForm: {
 					user: "superAdmin",
 					password: "admin123",
 					code: '',
-					autologin: false
+					autologin: false,
+					isPassing: false,
 				},
 				rules: {
 					user: [
@@ -132,7 +151,10 @@
 						name: 'English',
 						value: 'en',
 					}
-				]
+				],
+
+				verifyType: '0',
+				width: 400,
 			}
 		},
 		watch:{
@@ -145,7 +167,7 @@
 				this.$TOOL.data.set("APP_LANG", val);
 			}
 		},
-		created: function() {
+		async created () {
 			this.$TOOL.data.remove("TOKEN")
 			this.$TOOL.data.remove("USER_INFO")
 			this.$TOOL.data.remove("MENU")
@@ -154,7 +176,17 @@
 			this.$store.commit("clearViewTags")
 			this.$store.commit("clearKeepLive")
 			this.$store.commit("clearIframeList")
-			this.getCaptchaImg()
+
+			let config = await this.$API.config.getConfigByKey({ key: 'web_login_verify' })
+
+			if (config && config.data) {
+				this.verifyType = config.data.value
+			}
+
+			console.log(document.querySelector('.login-header').style.width)
+
+			// 是否请求验证码
+			this.verifyType === '1' && this.getCaptchaImg()
 		},
 		methods: {
 			Login() {
@@ -180,6 +212,11 @@
 			},
 
 			submitForm() {
+				if (! this.ruleForm.code && this.verifyType === '0') this.ruleForm.code = 'code'
+				if (! this.ruleForm.isPassing && this.verifyType === '0'){
+					this.$message.error('请滑动验证码进行验证')
+					return false;
+				}
 				this.$refs['ruleForm'].validate((valid) => {
 					if (valid) {
 						this.Login()

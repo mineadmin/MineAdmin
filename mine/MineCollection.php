@@ -122,7 +122,7 @@ class MineCollection extends Collection
             while ($generate->valid()) {
                 $column = 'A';
                 foreach ($generate->current() as $value) {
-                    $sheet->setCellValue($column . $row, (string) $value);
+                    $sheet->setCellValue($column . $row, (string) $value . "\t");
                     $column++;
                 }
                 $generate->next();

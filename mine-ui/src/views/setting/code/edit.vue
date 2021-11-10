@@ -153,7 +153,13 @@
                 <el-form-item prop="generate_type">
                   <template #label>
                     生成方式
-                    <el-tooltip content="后端文件直接生成到所属模块下。建议以下载方式生成，vue文件需要手动部署">
+                    <el-tooltip>
+                      <template #content>
+                        压缩包下载：<br />
+                        后端文件、前端vue和菜单SQL文件会打包成压缩文件下载。<br /><br />
+                        生成到模块：<br />
+                        后端文件会直接部署到模块，前端vue文件和菜单SQL会打包下载。
+                      </template>
                       <i class="el-icon-question"></i>
                     </el-tooltip>
                   </template>

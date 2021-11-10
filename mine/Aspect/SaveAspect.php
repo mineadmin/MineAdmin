@@ -20,7 +20,7 @@ use Mine\Helper\LoginUser;
 use Mine\MineModel;
 
 /**
- * Class GenIdAspect
+ * Class SaveAspect
  * @package Mine\Aspect
  * @Aspect
  */

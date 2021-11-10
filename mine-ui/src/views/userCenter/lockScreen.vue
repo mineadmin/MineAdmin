@@ -66,7 +66,8 @@ export default {
       return {
         goLogin: false,
         unlockPassword: '',
-        date: dayjs().format('HH:mm:ss')
+        date: dayjs().format('HH:mm:ss'),
+        resTimeout: null,
       }
     },
 
@@ -91,7 +92,7 @@ export default {
         this.goLogin = true
 
         // 5分钟没动静则返回锁屏界面
-        setTimeout( () => {
+        this.resTimeout = setTimeout( () => {
           if (this.goLogin) {
             this.goLogin = false
             this.$message.info('长时间无操作，返回锁屏界面')
@@ -109,6 +110,7 @@ export default {
           this.$message.error('锁屏密码错误')
           return
         }
+        clearTimeout(this.resTimeout)
         this.$TOOL.data.remove('lockPassword')
         this.$TOOL.data.remove('lockScreen')
         this.$router.push('/dashboard')

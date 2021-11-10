@@ -17,7 +17,7 @@ class CacheMonitorService
 
         $info = $redis->info();
 
-        $keys = $redis->keys(config('cache.prefix').'*');
+        $keys = $redis->keys(config('cache.default.prefix').'*');
 
         return [
             'keys'      => &$keys,

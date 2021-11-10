@@ -145,7 +145,7 @@ export default {
      * 用户更新个人资料
      * @returns
      */
-     updateInfo (params = {}) {
+    updateInfo (params = {}) {
         return request({
             url: 'system/user/updateInfo',
             method: 'post',

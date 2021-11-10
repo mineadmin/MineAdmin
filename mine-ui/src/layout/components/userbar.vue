@@ -19,7 +19,7 @@
 									<a :href="item.link" target="_blank">
 										<div class="msg-list__icon">
 											<el-badge is-dot type="danger">
-												<el-avatar :size="40" :src="item.avatar"></el-avatar>
+												<el-avatar :size="40" :src="item.avatar" class="avatar"></el-avatar>
 											</el-badge>
 										</div>
 										<div class="msg-list__main">
@@ -116,7 +116,7 @@
 					}).then(async () => {
 						await this.$API.login.Logout().then(res => {
 							if (res.success) {
-								this.$store.commit('SET_ROUTERS', null)
+								this.$store.commit('SET_ROUTERS', undefined)
 								this.$TOOL.data.clear()
 								this.$router.replace({path: '/login'})
 							}
@@ -149,7 +149,6 @@
 				}).then(({ value }) => {
 					this.$TOOL.data.set('lockPassword', this.$TOOL.crypto.MD5(value))
         			this.$TOOL.data.set('lockScreen', true)
-					
 					this.$router.push('/lockScreen')
 				})
 			},
@@ -173,7 +172,12 @@
 	.msg-list__main h2 {font-size: 15px;font-weight: normal;color: #333;}
 	.msg-list__main p {font-size: 12px;color: #999;line-height: 1.8;margin-top: 5px;}
 	.msg-list__time {width: 100px;text-align: right;color: #999;}
-	
+	:deep(.el-avatar--circle) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	[data-theme='dark'] .msg-list__main h2 {color: #d0d0d0;}
 	[data-theme='dark'] .msg-list li {border-top:1px solid #363636;}
 	[data-theme='dark'] .msg-list li a:hover {background: #383838;}

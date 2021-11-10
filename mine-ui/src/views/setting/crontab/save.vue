@@ -36,7 +36,12 @@
 						<i class="el-icon-question"></i>
 					</el-tooltip>
 				</template>
-				<el-input v-model="form.rule" placeholder="请输入Cron规则" clearable />
+
+				<el-input v-model="form.rule" placeholder="请输入Cron规则" clearable>
+					<template #append>
+						<el-button @click="openExpression">生成表达式</el-button>
+					</template>
+				</el-input>
 			</el-form-item>
 
 			<el-form-item label="调用目标" prop="target">
@@ -75,11 +80,19 @@
 			<el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
+
+	<expression ref="expression" @update="updateExpression" :expressionValue="form.rule" />
 </template>
 
 <script>
+	import expression from './expression'
 	export default {
 		emits: ['success', 'closed'],
+
+		components: {
+			expression
+		},
+
 		data() {
 			return {
 				mode: "add",
@@ -157,6 +170,14 @@
 				this.form.singleton = data.singleton
 				this.form.status = data.status
 				this.form.remark = data.remark
+			},
+
+			openExpression() {
+				this.$refs.expression.init()
+			},
+
+			updateExpression(val) {
+				this.form.rule = val
 			}
 		}
 	}

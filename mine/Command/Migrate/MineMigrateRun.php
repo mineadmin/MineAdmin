@@ -15,7 +15,6 @@ namespace Mine\Command\Migrate;
 use Hyperf\Command\ConfirmableTrait;
 use Hyperf\Database\Commands\Migrations\BaseCommand;
 use Hyperf\Database\Migrations\Migrator;
-use Hyperf\Utils\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Hyperf\Command\Annotation\Command;

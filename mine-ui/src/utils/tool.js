@@ -195,7 +195,6 @@ tool.formatSize = function (size) {
 
 tool.download = function(res) {
 	const aLink = document.createElement('a')
-	console.log(res.headers);
 	var blob = new Blob([res.data], {type: res.headers['content-type']})
 	// //从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
 	var patt = new RegExp('filename=([^;]+\\.[^\\.;]+);*')

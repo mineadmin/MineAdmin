@@ -72,12 +72,16 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $module = Str::title($this->model->module_name);
-        $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Request/{$this->getClassName()}.php";
-        $this->filesystem->makeDirectory(
-            BASE_PATH . "/runtime/generate/php/app/{$module}/Request/",
-            0755, false, false
-        );
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        if ($this->model->generate_type == '0') {
+            $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Request/";
+        } else {
+            $path = BASE_PATH . "/app/{$module}/Request/";
+        }
+        if (!empty($this->model->package_name)) {
+            $path .= Str::title($this->model->package_name) . '/';
+        }
+        $this->filesystem->makeDirectory($path, 0755, true, false);
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
     }
 
     /**

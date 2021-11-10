@@ -63,7 +63,6 @@ export default {
     open () {
       this.openDialog = true
       this.url = ''
-      console.log(this.path)
     },
 
     handleResClose() {

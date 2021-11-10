@@ -1,4 +1,12 @@
 export default {
+	sys: {
+		save: '保存',
+		pleaseInput: '请输入',
+		copy_success: '已成功复制到剪切板',
+		copy_fail: '复制失败',
+		sort_success: '排序成功',
+		sort_fail: '排序失败',
+	},
 	login: {
 		slogan: '高性能 / 精致 / 优雅',
 		describe: '后台基于Swoole的Hyperf框架，前端Vue3 + SCUI (Element-Plus) 的中后台解决方案',
@@ -16,13 +24,25 @@ export default {
 		admin: '管理员',
 		user: '用户'
 	},
-	user: {
+	usercenter: {
 		dynamic: '近期动态',
 		info: '个人信息',
 		settings: '设置',
 		nightmode: '黑夜模式',
-		nightmode_msg: '适合光线较弱的环境，当前黑暗模式为beta版本',
 		language: '语言',
-		language_msg: '翻译进行中，暂翻译了本视图的文本',
+		colorPrimary: '主题颜色',
+		layout: '框架布局',
+		layoutTags: '布局标签',
+		modifyPassword: '修改密码',
+		oldPassword: '旧密码',
+		newPassword: '新密码',
+		newPassword_confirmation: '确认密码',
+		baseInfo: '基本资料',
+		username: '用户名',
+		usernameMsg: '用户名用于登录，系统不允许修改',
+		nickname: '昵称',
+		phone: '手机',
+		email: '邮箱',
+		signed: '个性签名',
 	}
 }

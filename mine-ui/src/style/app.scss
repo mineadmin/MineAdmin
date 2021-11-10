@@ -28,7 +28,7 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-header-left {display: flex;align-items: center;padding-left:20px;}
 .adminui-header-right {display: flex;align-items: center;}
 .adminui-header .logo-bar {font-size: 20px;font-weight: bold;display: flex;align-items: center;}
-.adminui-header .logo-bar .logo {margin-right: 10px;width: 35px;height: 35px;}
+.adminui-header .logo-bar .logo {margin-right: 10px;width: 38px;height: 38px; background: #fff; border-radius: 38px; padding: 3px;}
 .adminui-header .nav {display: flex;height: 100%;margin-left: 40px;}
 .adminui-header .nav li {padding:0 10px;margin: 0 10px 0 0;font-size: 14px;color: rgba(255, 255, 255, 0.6);list-style: none;height: 100%;display: flex;align-items: center;cursor: pointer;}
 .adminui-header .nav li i {margin-right: 5px;}

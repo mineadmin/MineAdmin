@@ -27,7 +27,7 @@
               </ul>
             </div>
             <div class="user-info-bottom">
-              <h2>个人签名</h2>
+              <h2>{{ $t('usercenter.signed') }}</h2>
               <el-space wrap>
                 {{ userInfo.user.signed == null || userInfo.user.signed == '' ? '这家伙很懒，什么都没有留下。' : userInfo.user.signed }}
               </el-space>
@@ -38,27 +38,27 @@
       <el-col :lg="16">
         <el-card shadow="never">
           <el-tabs tab-position="top">
-            <el-tab-pane label="基本资料">
+            <el-tab-pane :label="$t('usercenter.baseInfo')">
               <el-form ref="formUser" :model="formUser" label-width="80px" style="width: 600px; margin-top:20px;">
 
-                <el-form-item label="账号">
+                <el-form-item :label="$t('usercenter.username')">
                   <el-input v-model="formUser.username" disabled></el-input>
-                  <div class="el-form-item-msg">账号信息用于登录，系统不允许修改</div>
+                  <div class="el-form-item-msg">{{ $t('usercenter.usernameMsg') }}</div>
                 </el-form-item>
 
-                <el-form-item label="昵称">
+                <el-form-item :label="$t('usercenter.nickname')">
                   <el-input v-model="formUser.nickname"></el-input>
                 </el-form-item>
 
-                <el-form-item label="手机">
+                <el-form-item :label="$t('usercenter.phone')">
                   <el-input v-model="formUser.phone"></el-input>
                 </el-form-item>
 
-                <el-form-item label="邮箱">
+                <el-form-item :label="$t('usercenter.email')">
                   <el-input v-model="formUser.email"></el-input>
                 </el-form-item>
 
-                <el-form-item label="个人签名">
+                <el-form-item :label="$t('usercenter.signed')">
                   <el-input
                     v-model="formUser.signed"
                     type="textarea"
@@ -69,48 +69,66 @@
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="updateInfo" :loading="infoLoading">保存</el-button>
+                  <el-button type="primary" @click="updateInfo" :loading="infoLoading">{{ $t('sys.save') }}</el-button>
                 </el-form-item>
 
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="修改密码">
-              <el-form ref="formPassword" :rules="passwordRule" :model="formPassword" label-width="80px" style="width: 600px;margin-top:20px;">
-
-                <el-form-item label="旧密码" prop="oldPassword">
+            <el-tab-pane :label="$t('usercenter.modifyPassword')">
+              <el-form
+                ref="formPassword"
+                :rules="passwordRule"
+                :model="formPassword"
+                :label-width="config.lang === 'en' ? '150px' : '80px'"
+                style="width:600px;margin-top:20px;"
+              >
+                <el-form-item :label="$t('usercenter.oldPassword')" prop="oldPassword">
                   <el-input v-model="formPassword.oldPassword" type="password" clearable show-password></el-input>
                 </el-form-item>
 
-                <el-form-item label="新密码" prop="newPassword">
+                <el-form-item :label="$t('usercenter.newPassword')" prop="newPassword">
                   <el-input v-model="formPassword.newPassword"></el-input>
                 </el-form-item>
 
-                <el-form-item label="确认密码" prop="newPassword_confirmation">
+                <el-form-item :label="$t('usercenter.newPassword_confirmation')" prop="newPassword_confirmation">
                   <el-input v-model="formPassword.newPassword_confirmation "></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="modifyPassword" :loading="passwordLoading">保存</el-button>
+                  <el-button type="primary" @click="modifyPassword" :loading="passwordLoading">{{ $t('sys.save') }}</el-button>
                 </el-form-item>
 
               </el-form>
             </el-tab-pane>
-            <el-tab-pane :label="$t('user.settings')">
-							<el-form ref="form" :model="form" label-width="120px" style="margin-top:20px;">
-								<el-form-item :label="$t('user.nightmode')">
+            <el-tab-pane :label="$t('usercenter.settings')">
+							<el-form ref="formSetting" :model="formSetting" label-width="120px" style="margin-top:20px;">
+								<el-form-item :label="$t('usercenter.nightmode')">
 									<el-switch v-model="config.theme" active-value="dark" inactive-value="default"></el-switch>
-									<div class="el-form-item-msg">{{ $t('user.nightmode_msg') }}</div>
 								</el-form-item>
-								<el-form-item label="主题颜色">
+								<el-form-item :label="$t('usercenter.colorPrimary')" style="margin-bottom: 6px;">
 									<el-color-picker v-model="config.colorPrimary" :predefine="colorList">></el-color-picker>
 								</el-form-item>
-								<el-form-item :label="$t('user.language')">
+								<el-form-item :label="$t('usercenter.language')">
 									<el-select v-model="config.lang">
 										<el-option label="简体中文" value="zh_CN"></el-option>
 										<el-option label="English" value="en"></el-option>
 									</el-select>
-									<div class="el-form-item-msg">{{ $t('user.language_msg') }}</div>
 								</el-form-item>
+                <el-form-item :label="$t('usercenter.layout')">
+                  <el-select v-model="config.layout" placeholder="请选择">
+                    <el-option label="默认" value="default"></el-option>
+                    <el-option label="通栏" value="header"></el-option>
+                    <el-option label="经典" value="menu"></el-option>
+                    <el-option label="功能坞" value="dock"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('usercenter.layoutTags')">
+                  <el-switch v-model="config.layoutTags" :active-value="true" :inactive-value="false"></el-switch>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="saveSetting" :loading="settingLoading">{{ $t('sys.save') }}</el-button>
+                </el-form-item>
 							</el-form>
 						</el-tab-pane>
           </el-tabs>
@@ -131,9 +149,8 @@ export default {
 
       infoLoading: false,
       passwordLoading: false,
+      settingLoading: false,
       avatarLoading: false,
-
-      form: {},
 
       formUser: {
         id: '',
@@ -152,19 +169,35 @@ export default {
         'newPassword_confirmation ' : '',
       },
 
+      formSetting: {},
+
       passwordRule: {
-        oldPassword: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
-        newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
-        newPassword_confirmation: [{ required: true, message: '请输入确认密码', trigger: 'blur' }]
+        oldPassword: [{
+            required: true,
+            message: this.$t('sys.pleaseInput') +  this.$t('usercenter.oldPassword'),
+            trigger: 'blur' 
+        }],
+        newPassword: [{
+            required: true,
+            message:  this.$t('sys.pleaseInput') +  this.$t('usercenter.newPassword'),
+            trigger: 'blur' 
+        }],
+        newPassword_confirmation: [{ 
+          required: true,
+          message:  this.$t('sys.pleaseInput') +  this.$t('usercenter.newPassword_confirmation'),
+          trigger: 'blur'
+        }]
       },
 
       userInfo: null,
 
-      colorList: ['#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
+      colorList: ['#0960bd', '#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
       config: {
           lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
           theme: this.$TOOL.data.get('APP_THEME') || 'default',
-          colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF'
+          colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF',
+          layout: this.$TOOL.data.get('APP_LAYOUT') || this.$store.state.global.layout,
+          layoutTags: this.$store.state.global.layoutTags
       }
     }
   },
@@ -179,6 +212,13 @@ export default {
   },
 
   watch:{
+    'config.layout'(val) {
+			this.$store.commit("SET_layout", val)
+      this.$TOOL.data.set('APP_LAYOUT', val)
+		},
+    'config.layoutTags'() {
+      this.$store.commit("TOGGLE_layoutTags")
+		},
     'config.theme'(val){
       document.body.setAttribute('data-theme', val)
       this.$TOOL.data.set("APP_THEME", val);
@@ -267,7 +307,26 @@ export default {
 
         }
       })
+    },
+
+    // 保存个人设置
+    async saveSetting () {
+      this.formSetting = {
+        id: this.formUser.id,
+        backend_setting: JSON.stringify(this.config)
+      }
+      this.settingLoading = true
+      let res = await this.$API.user.updateInfo(this.formSetting)
+      this.settingLoading = false
+
+      if ( res.success ) {
+        this.$TOOL.data.set('user', this.userInfo)
+        this.$message.success(res.message)
+      }else{
+        this.$alert(res.message, "提示", { type: 'error' })
+      }
     }
+
   }
 }
 </script>

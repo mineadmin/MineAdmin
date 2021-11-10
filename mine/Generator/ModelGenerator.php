@@ -67,7 +67,11 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $module = Str::title($this->model->module_name);
-        $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Model/";
+        if ($this->model->generate_type == '0') {
+            $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Model/";
+        } else {
+            $path = BASE_PATH . "/app/{$module}/Model/";
+        }
         $this->filesystem->makeDirectory($path, 0755, false, true);
 
         $command = [
@@ -88,6 +92,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
 
         if ($application->run($input, $output) === 0) {
 
+            // 对模型文件处理
             if ($modelName[strlen($modelName) - 1] == 's') {
                 $oldName = Str::substr($modelName, 0, (strlen($modelName) - 1));
                 $oldPath = BASE_PATH . "/app/{$moduleName}/Model/{$oldName}.php";
@@ -100,15 +105,20 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
                 $sourcePath = BASE_PATH . "/app/{$moduleName}/Model/{$modelName}.php";
             }
 
-            $toPath = BASE_PATH . "/runtime/generate/php/app/{$moduleName}/Model/{$modelName}.php";
+            // 压缩包下载
+            if ($this->model->generate_type == '0') {
+                $toPath = BASE_PATH . "/runtime/generate/php/app/{$moduleName}/Model/{$modelName}.php";
 
-            $isFile = is_file($sourcePath);
+                $isFile = is_file($sourcePath);
 
-            if ($isFile) {
-                $this->filesystem->copy($sourcePath, $toPath);
-            } else {
-                $this->filesystem->move($sourcePath, $toPath);
+                if ($isFile) {
+                    $this->filesystem->copy($sourcePath, $toPath);
+                } else {
+                    $this->filesystem->move($sourcePath, $toPath);
+                }
             }
+        } else {
+            throw new NormalStatusException(t('setting.gen_model_error'), 500);
         }
     }
 

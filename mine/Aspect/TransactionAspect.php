@@ -37,10 +37,21 @@ class TransactionAspect extends AbstractAspect
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @var Transaction $transaction */
+        if (isset($proceedingJoinPoint->getAnnotationMetadata()->method[Transaction::class])) {
+            $transaction = $proceedingJoinPoint->getAnnotationMetadata()->method[Transaction::class];
+        }
         try {
             Db::beginTransaction();
-            $result = $proceedingJoinPoint->process();
+            $number = 0;
+            $retry  = intval($transaction->retry);
+            do {
+                $result = $proceedingJoinPoint->process();
+                if (! is_null($result)) {
+                    break;
+                }
+                ++$number;
+            } while ($number < $retry);
             Db::commit();
         } catch (\Throwable $e) {
             Db::rollBack();

@@ -23,6 +23,10 @@ function createService () {
 		response => {
 			if (response.headers['content-disposition'] && response.status === 200) {
 				return response
+			} else if (response.data.size) {
+				response.data.codo = 500
+				response.data.message = '服务器异常'
+				response.data.success = false
 			}
 			if (response.data.code !== 200 || ! response.data.success) {
 				ElNotification.error({

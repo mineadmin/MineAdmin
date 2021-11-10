@@ -19,4 +19,17 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-class Transaction extends AbstractAnnotation {}
+class Transaction extends AbstractAnnotation
+{
+    /**
+     * retry 重试次数
+     * @var int
+     */
+    public $retry = 1;
+
+    public function __construct($value)
+    {
+        parent::__construct($value);
+        $this->bindMainProperty('retry', $value);
+    }
+}

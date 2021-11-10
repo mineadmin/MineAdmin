@@ -70,12 +70,11 @@ class SystemConfigController extends MineController
 
     /**
      * 按key获取配置
-     * @GetMapping("getConfigByKey")
-     * @Auth
+     * @PostMapping("getConfigByKey")
      */
     public function getConfigByKey(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->service->getConfigByGroup($this->request->input('key', '')));
+        return $this->success($this->service->getConfigByKey($this->request->input('key', '')));
     }
 
     /**

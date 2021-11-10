@@ -1,11 +1,15 @@
 <template>
-  <pre class="ma-highlight hljs" v-html="highlightHTML"></pre>
+  <div class="code-container">
+    <pre class="ma-highlight hljs" v-html="highlightHTML" />
+    <el-button type="primary" class="copy-btn" @click="copy">复制</el-button>
+  </div>
 </template>
 
 <script>
 // 相关文档
 // https://highlightjs.org/usage/
 // http://highlightjs.readthedocs.io/en/latest/api.html#configure-options
+import useClipboard from 'vue-clipboard3'
 import highlight from 'highlight.js'
 import htmlFormat from './libs/htmlFormat'
 import './libs/style.github.css'
@@ -42,6 +46,14 @@ export default {
     }
   },
   methods: {
+    async copy() {
+      try {
+        await useClipboard().toClipboard(this.code)
+        this.$message.success(this.$t('sys.copy_success'))
+      } catch(e) {
+        this.$message.error(this.$t('sys.copy_fail'))
+      }
+    },
     highlight () {
       let code = this.formatHtml ? htmlFormat(this.code) : this.code
       code = this.lang === 'json' ? this.formatJson(code) : code
@@ -182,6 +194,14 @@ export default {
 </script>
 
 <style scoped>
+.code-container {
+  position: relative;
+}
+.copy-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 .ma-highlight {
   margin: 0px;
   border-radius: 4px;

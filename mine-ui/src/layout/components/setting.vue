@@ -1,11 +1,15 @@
 <template>
 	<el-form ref="form" label-width="120px" label-position="left" style="padding:0 20px;">
-		<el-alert title="以下配置可实时预览，开发者可在 config/index.js 中配置默认值，非常不建议在生产环境下开放布局设置" type="error" :closable="false"></el-alert>
+		<el-alert
+			title="以下配置可实时预览，开发者可在 config/index.js 中配置默认值，只有开发环境下开放布局设置"
+			type="error"
+			:closable="false"
+		></el-alert>
 		<el-divider></el-divider>
-		<el-form-item :label="$t('user.nightmode')">
+		<el-form-item :label="$t('usercenter.nightmode')">
 			<el-switch v-model="theme" active-value="dark" inactive-value="default"></el-switch>
 		</el-form-item>
-		<el-form-item :label="$t('user.language')">
+		<el-form-item :label="$t('usercenter.language')">
 			<el-select v-model="lang">
 				<el-option label="简体中文" value="zh_CN"></el-option>
 				<el-option label="English" value="en"></el-option>
@@ -45,13 +49,14 @@
 				layoutTags: this.$store.state.global.layoutTags,
 				lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
 				theme: this.$TOOL.data.get('APP_THEME') || 'default',
-				colorList: ['#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
+				colorList: ['#0960bd', '#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
 				colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF'
 			}
 		},
 		watch: {
 			layout(val) {
 				this.$store.commit("SET_layout", val)
+				this.$TOOL.data.set('APP_LAYOUT', val)
 			},
 			menuIsCollapse(){
 				this.$store.commit("TOGGLE_menuIsCollapse")

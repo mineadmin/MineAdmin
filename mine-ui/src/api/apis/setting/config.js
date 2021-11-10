@@ -93,4 +93,16 @@ export default {
       data: params
     })
   },
+
+  /**
+   * 删除配置
+   * @returns
+   */
+  getConfigByKey (data) {
+    return request({
+      url: 'setting/config/getConfigByKey',
+      method: 'post',
+      data
+    })
+  },
 }

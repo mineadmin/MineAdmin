@@ -16,16 +16,53 @@
                         {{ list }}
                     </div>
                 </el-card>
+
+                <el-card shadow="never" header="城市联级选择器">
+                    <el-alert title="返回城市编码" type="warning" />
+                    <city-linkage v-model="cityDataCode" valueType="code"/>
+
+                    <p>{{cityDataCode}}</p>
+
+                    <el-alert title="返回城市名称" type="warning" class="mt" />
+                    <city-linkage v-model="cityDataName" valueType="name"/>
+
+                    <p class="value">{{cityDataName}}</p>
+                </el-card>
+
+                <el-card shadow="never" header="城市下拉联动选择器">
+                    <el-alert title="返回城市编码" type="warning" />
+                    <three-level-linkage v-model="cityDataCode2" valueType="code" />
+                    <p>{{cityDataCode2}}</p>
+
+                    <el-alert title="返回城市名称" type="warning" class="mt" />
+                    <three-level-linkage v-model="cityDataName2" valueType="name" />
+                    <p>{{cityDataName2}}</p>
+
+                </el-card>
+
             </el-col>
         </el-row>
     </el-main>
 </template>
 <script>
+import cityLinkage from '@/components/maCityLinkage'
+import threeLevelLinkage from '@/components/maCityLinkage/threeLevelLinkage'
+
 export default {
     name: 'demo:index',
+
+    components: {
+        cityLinkage,
+        threeLevelLinkage
+    },
+
     data () {
         return {
-            list: []
+            list: [],
+            cityDataCode: [],
+            cityDataName: [],
+            cityDataCode2: {},
+            cityDataName2: {}
         }
     },
 
@@ -38,9 +75,15 @@ export default {
 </script>
 
 <style scoped>
+.mt {
+    margin-top: 15px;
+}
 .selectResource {
     margin: 15px 0;
     font-size: 14px;
     line-height: 25px;
+}
+.value {
+    margin: 15px 0;
 }
 </style>

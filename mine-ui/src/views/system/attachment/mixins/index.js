@@ -19,7 +19,9 @@ export default {
       dateRange:'',
       dataList: [],
       checkList: [],
-      pageInfo: {},
+      pageInfo: {
+        total: 0
+      },
       // 存储模式
       storageMode: [
         { label: '本地存储', value: 1 },
@@ -33,7 +35,7 @@ export default {
         storage_path: undefined,
         maxDate: undefined,
         minDate: undefined,
-        pageSize: 20,
+        pageSize: 30,
         page:1,
       },
       isRecycle: false,
@@ -62,6 +64,7 @@ export default {
           this.showFileloading = false
         })
       } else {
+        console.log(this.queryParams)
         this.$API.attachment.getPageList(this.queryParams).then(res => {
           this.dataList = res.data.items
           this.pageInfo = res.data.pageInfo

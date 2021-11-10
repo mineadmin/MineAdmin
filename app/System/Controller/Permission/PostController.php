@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
 use App\System\Request\Post\SystemPostCreateRequest;
+use App\System\Request\Post\SystemPostStatusRequest;
 use App\System\Service\SystemPostService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -135,5 +136,19 @@ class PostController extends MineController
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改岗位状态
+     * @PutMapping("changeStatus")
+     * @param SystemPostStatusRequest $request
+     * @return ResponseInterface
+     * @Permission("system:post:changeStatus")
+     * @OperationLog
+     */
+    public function changeStatus(SystemPostStatusRequest $request): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

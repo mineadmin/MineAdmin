@@ -177,7 +177,14 @@
 
         <div class="scTable-page">
           <div class="scTable-pagination">
-            <el-pagination background layout="prev, pager, next" :total="pageInfo.total" :page-size="queryParams.pageSize" :current-page="queryParams.page" @current-change="getList"></el-pagination>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="pageInfo.total"
+              :page-size="queryParams.pageSize"
+              v-model:currentPage="queryParams.page"
+              @current-change="getList"
+            ></el-pagination>
           </div>
           <div class="scTable-do">
             <el-tooltip class="item" effect="dark" :content="isRecycle ? '显示正常数据' : '显示回收站数据'" placement="left">

@@ -64,13 +64,16 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $module = Str::title($this->model->module_name);
-        $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Controller/";
+        if ($this->model->generate_type == '0') {
+            $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Controller/";
+        } else {
+            $path = BASE_PATH . "/app/{$module}/Controller/";
+        }
         if (!empty($this->model->package_name)) {
             $path .= Str::title($this->model->package_name) . '/';
         }
-        $this->filesystem->makeDirectory($path, 0755, true);
-        $path .= $this->getClassName().'.php';
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->makeDirectory($path, 0755, true, false);
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
     }
 
     /**
@@ -200,11 +203,20 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getUse(): string
     {
-        return <<<UseNamespace
+        if ($this->model->generate_type == '0') {
+            return <<<UseNamespace
 Use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
 Use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}CreateRequest;
 Use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}UpdateRequest;
 UseNamespace;
+        } else {
+            $packageName = Str::title($this->model->package_name);
+            return <<<UseNamespace
+Use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
+Use {$this->getNamespace()}\\Request\\$packageName\\{$this->getBusinessName()}CreateRequest;
+Use {$this->getNamespace()}\\Request\\$packageName\\{$this->getBusinessName()}UpdateRequest;
+UseNamespace;
+        }
     }
 
     /**

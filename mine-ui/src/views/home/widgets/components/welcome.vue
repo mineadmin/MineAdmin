@@ -16,7 +16,7 @@
 				</div>
 				<div class="tips-item">
 					<div class="tips-item-icon"><i class="el-icon-menu"></i></div>
-					<div class="tips-item-message">未来规划：表单设计器、审批工作流等更多新功能，如果喜欢请点个星星支持一下吧！</div>
+					<div class="tips-item-message">下版本功能预告：API授权及管理，如果喜欢请点个星星支持一下吧！</div>
 				</div>
 			</div>
 			<div class="actions">

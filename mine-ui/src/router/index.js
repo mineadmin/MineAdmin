@@ -1,15 +1,14 @@
-import {createRouter, createWebHistory, createWebHashHistory} from 'vue-router';
-import { ElMessage } from 'element-plus';
+import {createRouter, createWebHashHistory} from 'vue-router'
 import config from "@/config"
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import tool from '@/utils/tool';
+import tool from '@/utils/tool'
 import store from '@/store/index'
-import systemRouter from './systemRouter';
-import {beforeEach, afterEach} from './scrollBehavior';
+import sysRouter from './systemRouter';
+import {beforeEach, afterEach} from './scrollBehavior'
 
 //系统路由
-const routes = systemRouter
+const routes = sysRouter.systemRouter
 
 const whiteList = ['login', 'test']
 const defaultRoutePath = '/dashboard'
@@ -32,13 +31,19 @@ document.title = config.APP_NAME
 router.beforeEach(async (to, from, next) => {
 
 	NProgress.start()
-
+	
 	//动态标题
 	document.title = `${to.meta.title} - ${config.APP_NAME}`
 
 	let token = tool.data.get('token');
 
 	if (token && token !== 'undefined') {
+		
+		//整页路由处理
+		if(to.meta.fullpage){
+			to.matched = [to.matched[to.matched.length-1]]
+		}
+
 		if (tool.data.get('lockScreen') && to.name !== 'lockScreen') {
 			next({ name: 'lockScreen' })
 		} else if (! tool.data.get('lockScreen') && to.name === 'lockScreen' ) {
@@ -49,9 +54,7 @@ router.beforeEach(async (to, from, next) => {
 			await store.dispatch('getUserInfo').then( res => {
 				if (res.routers.length !== 0) {
 					let routers = res.routers
-					const apiRouter = filterAsyncRouter(routers)
-					res.routers = apiRouter
-					tool.data.set('user', res)
+					const apiRouter = flatAsyncRoutes(routers)
 					apiRouter.forEach(item => {
 						router.addRoute("layout", item)
 					})
@@ -65,12 +68,15 @@ router.beforeEach(async (to, from, next) => {
 				store.commit('SET_ROUTERS', undefined)
 				tool.data.clear()
 			})
+			beforeEach(to, from)
 			next()
 		} else {
+			beforeEach(to, from)
 			next()
 		}
 	} else {
 		if (whiteList.includes(to.name)) {
+			beforeEach(to, from)
 			next()
 		} else {
 			next({ name: 'login', query: { redirect: to.fullPath } })
@@ -93,43 +99,30 @@ router.onError((error) => {
 	}
 });
 
-
-//转换
-function filterAsyncRouter(routerMap) {
-	const accessedRouters = []
-	routerMap.forEach(item => {
-		if (item.meta.type == 'B') {
-			return;
-		}
-		item.meta = item.meta?item.meta:{};
-		//处理外部链接特殊路由
-		if(item.meta.type == 'I'){
-			item.meta.url = item.path;
-			item.path = `/i/${item.name}`;
-		}
-
-		//MAP转路由对象
-		const route = {
-			path: item.path,
-			name: item.name,
-			meta: item.meta,
-			redirect: item.redirect,
-			children: item.children ? filterAsyncRouter(item.children) : null,
-			component: loadComponent(item.component)
-		}
-		accessedRouters.push(route)
-	})
-	return accessedRouters
+//路由扁平化
+function flatAsyncRoutes(routes, breadcrumb=[]) {
+	let res = []
+	routes.forEach(route => {
+		const tmp = {...route}
+        if (tmp.children) {
+            let childrenBreadcrumb = [...breadcrumb]
+            childrenBreadcrumb.push(route)
+            let tmpRoute = { ...route }
+            tmpRoute.meta.breadcrumb = childrenBreadcrumb
+            delete tmpRoute.children
+            res.push(tmpRoute)
+            let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb)
+            childrenRoutes.map(item => {
+                res.push(item)
+            })
+        } else {
+            let tmpBreadcrumb = [...breadcrumb]
+            tmpBreadcrumb.push(tmp)
+            tmp.meta.breadcrumb = tmpBreadcrumb
+            res.push(tmp)
+        }
+    })
+    return res
 }
-
-function loadComponent(component){
-	if(component){
-		return () => import(/* webpackChunkName: "[request]" */ `@/views/${component}`)
-	}else{
-		return () => import(`@/layout/other/empty`)
-	}
-
-}
-
 
 export default router

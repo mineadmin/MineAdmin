@@ -105,7 +105,7 @@ class SettingConfigService extends AbstractService
     {
         if (empty($key)) return [];
         $cacheKey = $this->getCacheName() . $key;
-        if ($data = $this->redis->get($cacheKey)) {
+        if (($data = $this->redis->get($cacheKey))) {
             return unserialize($data);
         } else {
             $data = $this->mapper->getConfigByKey($key);
@@ -157,9 +157,7 @@ class SettingConfigService extends AbstractService
      */
     public function updated($data): bool
     {
-        $key = $data['key'];
-        unset($data['key']);
-        return $this->mapper->getModel()::query()->where('key', $key)->update($data);
+        return $this->mapper->updateConfig($data['key'], $data['value']);
     }
 
     /**

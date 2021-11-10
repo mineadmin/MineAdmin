@@ -6,7 +6,6 @@ namespace App\Setting\Service;
 use App\Setting\Mapper\SettingGenerateTablesMapper;
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Service\DataMaintainService;
-use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
@@ -169,9 +168,12 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成步骤
+     * @param int $id
+     * @param string $adminId
+     * @return SettingGenerateTables
      * @throws \Exception
      */
-    protected function generateCodeFile(int $id, string $adminId): void
+    protected function generateCodeFile(int $id, string $adminId): SettingGenerateTables
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);
@@ -202,6 +204,8 @@ class SettingGenerateTablesService extends AbstractService
                 $class->setGenInfo($model)->generator();
             }
         }
+
+        return $model;
     }
 
     /**

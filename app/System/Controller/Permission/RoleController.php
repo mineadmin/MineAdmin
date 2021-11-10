@@ -188,8 +188,7 @@ class RoleController extends MineController
      */
     public function changeStatus(SystemRoleStatusRequest $request): ResponseInterface
     {
-        $id = $request->input('id');
-        $status = $request->input('status');
-        return $this->success($this->service->changeStatus((int) $id, (string) $status));
+        return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

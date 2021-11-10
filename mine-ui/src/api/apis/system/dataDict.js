@@ -115,6 +115,18 @@ export default {
             url: 'system/dataDict/clearCache',
             method: 'post'
         })
-    }
+    },
+
+    /**
+     * 更改字典状态
+     * @returns
+     */
+    changeStatus (params = {}) {
+        return request({
+        url: 'system/dataDict/changeStatus',
+        method: 'put',
+        data: params
+        })
+    },
 
 }

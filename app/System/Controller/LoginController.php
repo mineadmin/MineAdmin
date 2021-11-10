@@ -10,6 +10,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
+use Mine\Annotation\Resubmit;
 use Mine\Helper\LoginUser;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;

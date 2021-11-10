@@ -149,7 +149,7 @@ VUE;
                     :key="index"
                     :label="item.value"
                 >{{item.label}}</el-radio>
-            </el-select>
+            </el-radio-group>
         </el-form-item>
 
 VUE;

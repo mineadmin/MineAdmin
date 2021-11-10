@@ -9,7 +9,13 @@
 
 <template>
 	<div v-show="$route.meta.type=='I'" class="iframe-pages">
-		<iframe v-for="item in iframeList" :key="item.meta.url" v-show="$route.meta.url==item.meta.url" :src="item.meta.url" frameborder='0'></iframe>
+		<iframe
+			v-for="item in iframeList"
+			:key="item.meta.url"
+			v-show="$route.meta.url==item.meta.url"
+			:src="item.meta.url"
+			frameborder='0'
+		></iframe>
 	</div>
 </template>
 

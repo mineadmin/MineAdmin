@@ -1,4 +1,12 @@
 export default {
+	sys: {
+		save: 'Save',
+		pleaseInput: 'please enter ',
+		copy_success: 'Successfully copied to the shear plate',
+		copy_fail: 'Replication failed',
+		sort_success: 'Sort successfully',
+		sort_fail: 'Sort failed',
+	},
 	login: {
 		slogan: 'High performance / delicate / grace',
 		describe: 'Backstage based on Swoole Hyperf framework, a mid-background solution for front-end Vue3 and SCUI (Element-Plus).',
@@ -16,13 +24,26 @@ export default {
 		admin: 'Administrator',
 		user: 'User'
 	},
-	user: {
+	usercenter: {
 		dynamic: 'Dynamic',
 		info: 'User Info',
 		settings: 'Settings',
 		nightmode: 'night mode',
-		nightmode_msg: 'Suitable for low light environment,The current night mode is beta',
 		language: 'language',
-		language_msg: 'Translation in progress,Temporarily translated the text of this view',
+		colorPrimary: 'theme color',
+		layout: 'layout',
+		layoutTags: 'tags',
+		modifyPassword: 'change password',
+		oldPassword: 'old password',
+		newPassword: 'new password ',
+		newPassword_confirmation: 'confirm password',
+		password: 'password',
+		baseInfo: 'base infomation',
+		username: 'username',
+		usernameMsg: 'The user name is used to log on and is not allowed to be modified',
+		nickname: 'nickname',
+		phone: 'phone',
+		email: 'email',
+		signed: 'signed',
 	}
 }

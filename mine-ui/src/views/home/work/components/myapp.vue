@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul class="myMods">
-			<li v-for="mod in myMods" :key="mod.path" :style="{background:mod.meta.color||'#909399'}">
+			<li v-for="mod in myMods" :key="mod.path" :style="randomBgColorRgb()">
 				<a v-if="mod.meta.type=='link'" :href="mod.path" target="_blank">
 					<i :class="mod.meta.icon||'el-icon-menu'"></i>
 					<p>{{ mod.meta.title }}</p>
@@ -26,7 +26,7 @@
 							<h4>我的常用 ( {{myMods.length}} )</h4>
 							<draggable tag="ul" v-model="myMods" animation="200" item-key="path" group="people">
 								<template #item="{ element }">
-									<li :style="{background:element.meta.color||'#909399'}">
+									<li :style="randomBgColorRgb()">
 										<i :class="element.meta.icon||'el-icon-menu'"></i>
 										<p>{{element.meta.title}}</p>
 									</li>
@@ -37,7 +37,7 @@
 							<h4>全部应用 ( {{filterMods.length}} )</h4>
 							<draggable tag="ul" v-model="filterMods" animation="200" item-key="path" :sort="false" group="people">
 								<template #item="{ element }">
-									<li :style="{background:element.meta.color||'#909399'}">
+									<li :style="randomBgColorRgb()">
 										<i :class="element.meta.icon||'el-icon-menu'"></i>
 										<p>{{element.meta.title}}</p>
 									</li>
@@ -61,26 +61,44 @@
 		components: {
 			draggable
 		},
-		data() {
+		data () {
 			return {
 				mods: [],
 				myMods: [],
 				myModsName: [],
 				filterMods: [],
-				modsDrawer: false
+				modsDrawer: false,
+				rgbList:[
+					'#31B48D',
+					'#38A1F2',
+					'#7538C7',
+					'#E64758',
+					'#505050',
+					'#FFD700',
+					'#509a92',
+					'#00C957',
+					'#DA70D6',
+					'#B0171F'
+				],
 			}
 		},
-		mounted(){
+		mounted () {
 			this.getMods()
 		},
 		methods: {
+			randomBgColorRgb () {
+				let random = Math.random().toString().charAt(3)
+                return {
+                    background: this.rgbList[random]
+                };
+            },
 			addMods(){
 				this.modsDrawer = true
 			},
 			getMods(){
 				//这里可用改为读取远程数据
 				this.myModsName = this.$TOOL.data.get('my-mods') || []
-				this.filterMenu(this.$TOOL.data.get('user').routers)
+				this.filterMenu(this.$store.state.user.routers)
 
 				this.myMods = this.mods.filter(item => {
 					return this.myModsName.includes(item.name)
@@ -92,6 +110,20 @@
 			filterMenu(map){
 				map.forEach(item => {
 					if(item.meta.hidden){
+						return false
+					}
+					// 生产模式去掉开发者工具
+					if ( this.$CONFIG.APP_MODE === 'prod' ) {
+						if (item.meta.type === 'M' && ['/module', '/code', '/table'].includes(item.path)) {
+							return false
+						}
+					}
+					// 去除没有系统配置权限
+					if (
+						! this.$TOOL.data.get("user").codes.includes('setting:config')
+						&& this.$TOOL.data.get("user").codes[0] != '*'
+						&& ['/system'].includes(item.path)
+						) {
 						return false
 					}
 					if(item.meta.type=='iframe'){

@@ -13,6 +13,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\ApplicationContext;
 use Mine\Helper\LoginUser;
+use Psr\Log\LoggerInterface;
 
 if (! function_exists('container')) {
 
@@ -58,9 +59,9 @@ if (! function_exists('logger')) {
     /**
      * 获取日志实例
      * @param string $name
-     * @return LoggerFactory
+     * @return LoggerInterface
      */
-    function logger(string $name = 'Log'): LoggerFactory
+    function logger(string $name = 'Log'): LoggerInterface
     {
         return container()->get(LoggerFactory::class)->get($name);
     }

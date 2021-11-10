@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
-use Mine\Helper\Id;
 
 class AddCacheMonitorMenu extends Seeder
 {

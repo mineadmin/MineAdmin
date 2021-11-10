@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\System\Controller\DataCenter;
 
 use App\System\Request\DictData\DictDataCreateRequest;
+use App\System\Request\DictData\DictDataStatusRequest;
 use App\System\Service\SystemDictDataService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -135,7 +136,7 @@ class DictDataController extends MineController
     }
 
     /**
-     * 单个或批量真实删除用户 （清空回收站）
+     * 单个或批量真实删除字典 （清空回收站）
      * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
@@ -148,7 +149,7 @@ class DictDataController extends MineController
     }
 
     /**
-     * 单个或批量恢复在回收站的用户
+     * 单个或批量恢复在回收站的字典
      * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
@@ -157,5 +158,19 @@ class DictDataController extends MineController
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改字典状态
+     * @PutMapping("changeStatus")
+     * @param DictDataStatusRequest $request
+     * @return ResponseInterface
+     * @Permission("system:dataDict:changeStatus")
+     * @OperationLog
+     */
+    public function changeStatus(DictDataStatusRequest $request): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

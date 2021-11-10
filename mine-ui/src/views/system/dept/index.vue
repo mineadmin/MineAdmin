@@ -260,18 +260,21 @@
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
           type: 'warning'
-        }).then(() => {
+        }).then(async () => {
           const loading = this.$loading();
           let ids = []
           this.selection.map(item => ids.push(item.id))
+          let res
           if (this.isRecycle) {
-            this.$API.dept.realDeletes(ids.join(',')).then()
+            res = await this.$API.dept.realDeletes(ids.join(',')).then()
           } else {
-            this.$API.dept.deletes(ids.join(',')).then()
+            res = await this.$API.dept.deletes(ids.join(',')).then()
           }
-          this.$refs.table.upData(this.queryParams)
           loading.close();
-          this.$message.success("操作成功")
+          if (res.success) {
+            this.$message.success(res.message)
+            this.$refs.table.upData(this.queryParams)
+          }
         })
       },
 
@@ -279,16 +282,20 @@
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
           type: 'warning'
-        }).then(() => {
+        }).then(async () => {
           const loading = this.$loading();
+          let res
           if (this.isRecycle) {
-            this.$API.dept.realDeletes(id).then()
+            res = await this.$API.dept.realDeletes(id).then()
           } else {
-            this.$API.dept.deletes(id).then()
+            res = await this.$API.dept.deletes(id).then()
           }
           this.$refs.table.upData(this.queryParams)
           loading.close();
-          this.$message.success("操作成功")
+          if (res.success) {
+            this.$message.success(res.message)
+            this.$refs.table.upData(this.queryParams)
+          }
         }).catch(()=>{})
       },
 
@@ -335,7 +342,7 @@
       handleStatus (val, row) {
         const status = row.status === '0' ? '0' : '1'
         const text = row.status === '0' ? '启用' : '停用'
-        this.$confirm(`确认要${text} ${row.name} 岗位吗？`, '提示', {
+        this.$confirm(`确认要${text} ${row.name} 部门吗？`, '提示', {
           type: 'warning',
           confirmButtonText: '确定',
           cancelButtonText: '取消'

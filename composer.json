@@ -20,6 +20,7 @@
     "ext-pdo_mysql": "*",
     "ext-redis": "*",
     "ext-swoole": ">=4.5",
+    "doctrine/dbal": "^3.1",
     "easyswoole/verifycode": "3.x",
     "hyperf/amqp": "^2.2",
     "hyperf/cache": "2.2.*",

@@ -4,7 +4,7 @@
 	</div>
 	<template v-for="navMenu in navMenus" v-bind:key="navMenu">
 		<el-menu-item v-if="!hasChildren(navMenu)" :index="navMenu.path">
-			<a v-if="navMenu.meta&&navMenu.meta.type == 'L' " :href="navMenu.path" target="_blank" @click.stop='a'></a>
+			<a v-if="navMenu.meta&&navMenu.meta.type === 'L' " :href="navMenu.path" target="_blank" @click.stop='()=>{}'></a>
 			<i v-if="navMenu.meta&&navMenu.meta.icon" :class="navMenu.meta.icon || 'el-icon-menu'"></i>
 			<template #title>
 				<span>{{navMenu.meta.title}}</span>

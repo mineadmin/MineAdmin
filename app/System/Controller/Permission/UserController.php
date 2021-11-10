@@ -144,9 +144,8 @@ class UserController extends MineController
      */
     public function changeStatus(SystemUserStatusRequest $request): ResponseInterface
     {
-        $id = $request->input('id');
-        $status = $request->input('status');
-        return $this->success($this->service->changeStatus((int) $id, (string) $status));
+        return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
+            ? $this->success() : $this->error();
     }
 
     /**
@@ -248,6 +247,6 @@ class UserController extends MineController
      */
     public function clearSelfCache(): ResponseInterface
     {
-        return $this->success($this->service->clearCache(user()->getId()));
+        return $this->service->clearCache(user()->getId()) ? $this->success() : $this->error();
     }
 }

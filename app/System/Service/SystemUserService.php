@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\System\Service;
 
+use App\Setting\Service\SettingConfigService;
 use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemUser;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -103,7 +104,8 @@ class SystemUserService extends AbstractService
         $cache = $this->container->get(CacheInterface::class);
         $captcha = new MineCaptcha();
         $info = $captcha->getCaptchaInfo();
-        $cache->set(sprintf('captcha:%s', md5($info['code'])), $info['code'], 60);
+        $key = $this->request->ip() .'-'. \Mine\Helper\Str::lower($info['code']);
+        $cache->set(sprintf('captcha:%s', $key), $info['code'], 60);
         return $info['image'];
     }
 
@@ -117,13 +119,10 @@ class SystemUserService extends AbstractService
     {
         try {
             $cache = $this->container->get(CacheInterface::class);
-            $key = 'captcha:' . md5(\Mine\Helper\Str::lower($code));
-            if (\Mine\Helper\Str::lower($code) == $cache->get($key)) {
-                $cache->delete($key);
-                return true;
-            } else {
-                return false;
-            }
+            $key = 'captcha:' . $this->request->ip() .'-'. \Mine\Helper\Str::lower($code);
+            $result = (\Mine\Helper\Str::lower($code) == $cache->get($key));
+            $cache->delete($key);
+            return $result;
         } catch (InvalidArgumentException $e) {
             throw new \Exception;
         }
@@ -141,11 +140,14 @@ class SystemUserService extends AbstractService
             $this->evDispatcher->dispatch(new UserLoginBefore($data));
             $userinfo = $this->mapper->checkUserByUsername($data['username']);
             $userLoginAfter = new UserLoginAfter($userinfo);
-            if (!$this->checkCaptcha($data['code'])) {
-                $userLoginAfter->message = t('jwt.code_error');
-                $userLoginAfter->loginStatus = false;
-                $this->evDispatcher->dispatch($userLoginAfter);
-                throw new CaptchaException;
+            $webLoginVerify = container()->get(SettingConfigService::class)->getConfigByKey('web_login_verify');
+            if (isset($webLoginVerify['value']) && $webLoginVerify['value'] === '1') {
+                if (! $this->checkCaptcha($data['code'])) {
+                    $userLoginAfter->message = t('jwt.code_error');
+                    $userLoginAfter->loginStatus = false;
+                    $this->evDispatcher->dispatch($userLoginAfter);
+                    throw new CaptchaException;
+                }
             }
             if ($this->mapper->checkPass($data['password'], $userinfo['password'])) {
                 if (
@@ -338,7 +340,7 @@ class SystemUserService extends AbstractService
     {
         if (!empty($ids)) {
             $userIds = explode(',', $ids);
-            if ($key = array_search(env('SUPER_ADMIN'), $userIds) !== false) {
+            if (($key = array_search(env('SUPER_ADMIN'), $userIds)) !== false) {
                 unset($userIds[$key]);
             }
 
@@ -357,7 +359,7 @@ class SystemUserService extends AbstractService
     {
         if (!empty($ids)) {
             $userIds = explode(',', $ids);
-            if ($key = array_search(env('SUPER_ADMIN'), $userIds) !== false) {
+            if (($key = array_search(env('SUPER_ADMIN'), $userIds)) !== false) {
                 unset($userIds[$key]);
             }
 
@@ -401,7 +403,6 @@ class SystemUserService extends AbstractService
     {
         $redis = $this->container->get(Redis::class);
         $prefix = config('cache.default.prefix');
-        echo "{$prefix}loginInfo:userId_{$id}";
         return $redis->del("{$prefix}loginInfo:userId_{$id}") > 0;
     }
 

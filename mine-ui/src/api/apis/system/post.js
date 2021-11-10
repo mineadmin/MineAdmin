@@ -92,6 +92,18 @@ export default {
       method: 'put',
       data: params
     })
-  }
+  },
+
+  /**
+   * 更改岗位状态
+   * @returns
+   */
+  changeStatus (params = {}) {
+    return request({
+      url: 'system/post/changeStatus',
+      method: 'put',
+      data: params
+    })
+  },
 
 }

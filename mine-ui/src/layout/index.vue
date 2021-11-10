@@ -25,7 +25,7 @@
 				</div>
 				<div class="adminui-side-scroll">
 					<el-scrollbar>
-						<el-menu :default-active="$route.meta.active || $route.fullPath" router :collapse="menuIsCollapse">
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
 							<NavMenu :navMenus="nextMenu"></NavMenu>
 						</el-menu>
 					</el-scrollbar>
@@ -36,7 +36,11 @@
 				<Topbar v-if="!ismobile"></Topbar>
 				<Tags v-if="!ismobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
-					<router-view></router-view>
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
 					<iframe-view></iframe-view>
 				</div>
 			</div>
@@ -60,7 +64,7 @@
 			<div v-if="!ismobile" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
 				<div class="adminui-side-scroll">
 					<el-scrollbar>
-						<el-menu :default-active="$route.meta.active || $route.fullPath" router :collapse="menuIsCollapse">
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
 							<NavMenu :navMenus="menu"></NavMenu>
 						</el-menu>
 					</el-scrollbar>
@@ -71,14 +75,18 @@
 				<Topbar v-if="!ismobile"></Topbar>
 				<Tags v-if="!ismobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
-					<router-view></router-view>
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
 					<iframe-view></iframe-view>
 				</div>
 			</div>
 		</section>
 	</template>
 
-	<!-- 经典布局 -->
+	<!-- 功能坞布局 -->
 	<template v-else-if="layout=='dock'">
 		<header class="adminui-header">
 			<div class="adminui-header-left">
@@ -97,11 +105,14 @@
 				<userbar></userbar>
 			</div>
 		</header>
-
 		<section class="aminui-wrapper">
 			<div class="aminui-body el-container">
 				<div class="adminui-main" id="adminui-main">
-					<router-view></router-view>
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
 					<iframe-view></iframe-view>
 				</div>
 			</div>
@@ -130,7 +141,7 @@
 				</div>
 				<div class="adminui-side-scroll">
 					<el-scrollbar>
-						<el-menu :default-active="$route.meta.active || $route.fullPath" router :collapse="menuIsCollapse">
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
 							<NavMenu :navMenus="nextMenu"></NavMenu>
 						</el-menu>
 					</el-scrollbar>
@@ -143,16 +154,20 @@
 				</Topbar>
 				<Tags v-if="!ismobile && layoutTags"></Tags>
 				<div class="adminui-main" id="adminui-main">
-					<router-view></router-view>
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
 					<iframe-view></iframe-view>
 				</div>
 			</div>
 		</section>
 	</template>
 
-	<div class="layout-setting" @click="openSetting"><i class="el-icon-brush"></i></div>
+	<div class="layout-setting" @click="openSetting" v-if="$CONFIG.APP_MODE === 'dev'"><i class="el-icon-brush"></i></div>
 
-	<el-drawer title="布局实时演示" v-model="settingDialog" :size="400" append-to-body destroy-on-close>
+	<el-drawer title="布局实时演示" v-model="settingDialog" :size="400" append-to-body destroy-on-close v-if="$CONFIG.APP_MODE === 'dev'">
 		<setting></setting>
 	</el-drawer>
 </template>
@@ -182,7 +197,9 @@
 				settingDialog: false,
 				menu: [],
 				nextMenu: [],
-				pmenu: {}
+				pmenu: {},
+				active: '',
+				
 			}
 		},
 		computed:{
@@ -192,7 +209,7 @@
 			layout(){
 				return this.$store.state.global.layout
 			},
-			layoutTags(){
+			layoutTags() {
 				return this.$store.state.global.layoutTags
 			},
 			menuIsCollapse(){
@@ -202,14 +219,7 @@
 		created() {
 			this.onLayoutResize();
 			window.addEventListener('resize', this.onLayoutResize);
-			let menu = this.$TOOL.data.get('user').routers
-			let home = this.$router.options.routes[0].children[0];
-			// 根据权限动态删除系统配置菜单
-			if ( !this.$TOOL.data.get("user").codes.includes('setting:config') && this.$TOOL.data.get("user").codes[0] != '*') {
-				home.children.pop()
-			}
-			menu.unshift(home);
-			this.menu = this.filterUrl(menu)
+			this.menu = this.filterUrl(this.$store.state.user.routers)
 			this.showThis()
 		},
 		watch: {
@@ -237,9 +247,11 @@
 			},
 			//路由监听高亮
 			showThis(){
-				var home = this.$router.options.routes[0].children[0];
-				this.pmenu = this.$route.matched[1] || home;
+				this.pmenu = this.$route.meta.breadcrumb ? this.$route.meta.breadcrumb[0] : {}
 				this.nextMenu = this.filterUrl(this.pmenu.children);
+				this.$nextTick(()=>{
+					this.active = this.$route.meta.active || this.$route.fullPath;
+				})
 			},
 			//点击显示
 			showMenu(route) {
@@ -255,6 +267,14 @@
 						if (item.meta.type === 'M' && ['/module', '/code', '/table'].includes(item.path)) {
 							return false
 						}
+					}
+					// 去除没有系统配置权限
+					if (
+						! this.$TOOL.data.get("user").codes.includes('setting:config')
+						&& this.$TOOL.data.get("user").codes[0] != '*'
+						&& ['/system'].includes(item.path)
+						) {
+						return false
 					}
 					item.meta = item.meta?item.meta:{};
 					//处理隐藏

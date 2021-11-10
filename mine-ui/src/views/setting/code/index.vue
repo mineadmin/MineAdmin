@@ -13,12 +13,20 @@
         >生成代码</el-button>
 
         <el-button
-          type="danger"
+          type="success"
           plain
           icon="el-icon-upload2"
           v-auth="['setting:code:loadTable']"
           @click="$refs.tableList.show()"
         >装载数据表</el-button>
+
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          v-auth="['setting:code:delete']"
+          :disabled="selection.length < 1"
+          @click="handleDeleteBatch"
+        >删除</el-button>
 
       </div>
       <div class="right-panel">
@@ -182,19 +190,30 @@
       async handleGenCodes () {
         let ids = this.selection.map(item => item.id)
         this.$message.info('代码生成下载中，请稍后')
-        await this.$API.generate.generate(ids).then(res => {
-          this.$message.success('代码生成成功')
-          this.$TOOL.download(res)
-        })
+        this.generateCode(ids)
       },
 
       // 生成代码
       async generateCode (id) {
         this.$message.info('代码生成下载中，请稍后')
         await this.$API.generate.generate(id).then(res => {
-          this.$message.success('代码生成成功')
-          this.$TOOL.download(res)
+          if (res.message && !res.success) {
+            this.$message.error(res.message)
+          } else {
+            this.$TOOL.download(res)
+            this.$message.success('代码生成成功')
+          }
         })
+      },
+
+      // 批量删除
+      async handleDeleteBatch () {
+        if (this.selection.length > 0) {
+          let ids = this.selection.map(item => item.id)
+          await this.handleDelete(ids.join(','))
+        } else {
+          this.$message.error('请选择要删除的项')
+        }
       },
 
       // 删除

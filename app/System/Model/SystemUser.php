@@ -19,6 +19,7 @@ use Mine\MineModel;
  * @property string $status 状态 (0正常 1停用)
  * @property string $login_ip 最后登陆IP
  * @property string $login_time 最后登陆时间
+ * @property string $backend_setting 后台设置数据
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
@@ -45,13 +46,14 @@ class SystemUser extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'dashboard', 'dept_id', 'status', 'login_ip', 'login_time', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'dashboard', 'dept_id', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
+
     /**
      * 通过中间表关联角色
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -60,6 +62,7 @@ class SystemUser extends MineModel
     {
         return $this->belongsToMany(SystemRole::class, 'system_user_role', 'user_id', 'role_id');
     }
+
     /**
      * 通过中间表关联岗位
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -79,14 +82,17 @@ class SystemUser extends MineModel
     }
 
     /**
+     * 密码加密
      * @param $value
-     * @return false|string|null
+     * @return void
      */
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): void
     {
-        return $this->attributes['password'] = password_hash($value, PASSWORD_DEFAULT);
+        $this->attributes['password'] = password_hash($value, PASSWORD_DEFAULT);
     }
+
     /**
+     * 验证密码
      * @param $password
      * @param $hash
      * @return bool

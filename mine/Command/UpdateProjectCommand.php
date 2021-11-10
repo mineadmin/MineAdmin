@@ -14,8 +14,7 @@ namespace Mine\Command;
 
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Database\Seeders\Seed;
-use Hyperf\DbConnection\Db;
-use Mine\Helper\Id;
+use Hyperf\Database\Migrations\Migrator;
 use Mine\MineCommand;
 use Mine\Mine;
 
@@ -38,9 +37,18 @@ class UpdateProjectCommand extends MineCommand
 
     protected $seed;
 
-    public function __construct(string $name = null, Seed $seed)
+    protected $migrator;
+
+    /**
+     * UpdateProjectCommand constructor.
+     * @param string|null $name
+     * @param Migrator $migrator
+     * @param Seed $seed
+     */
+    public function __construct(string $name = null, Migrator $migrator, Seed $seed)
     {
         parent::__construct($name);
+        $this->migrator = $migrator;
         $this->seed = $seed;
     }
 
@@ -51,15 +59,25 @@ class UpdateProjectCommand extends MineCommand
         $this->setDescription('MineAdmin system update command');
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function handle()
     {
         $modules = make(Mine::class)->getModuleInfo();
         $basePath = BASE_PATH . '/app/';
-        foreach ($modules as $name => $module) {
-            $path = $basePath . $name . '/Database/Seeders/Update';
+        $this->migrator->setConnection('default');
 
-            if (is_dir($path)) {
-                $this->seed->run([$path]);
+        foreach ($modules as $name => $module) {
+            $seedPath = $basePath . $name . '/Database/Seeders/Update';
+            $migratePath = $basePath . $name . '/Database/Migrations/Update';
+
+            if (is_dir($migratePath)) {
+                $this->migrator->run([$migratePath]);
+            }
+
+            if (is_dir($seedPath)) {
+                $this->seed->run([$seedPath]);
             }
         }
 

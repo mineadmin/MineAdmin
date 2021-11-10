@@ -23,7 +23,7 @@ use Mine\Helper\LoginUser;
 use Mine\MineRequest;
 
 /**
- * Class AuthAspect
+ * Class PermissionAspect
  * @package Mine\Aspect
  * @Aspect
  */

@@ -18,4 +18,6 @@ return [
     'not_found' => 'The resource you are accessing does not exist',
     'allow_method' => 'Only allowed [:method] access to resources',
     'network_image_save_fail' => 'Network picture saving failed',
+    'redis_lock_error' => 'Redis lock error, please try again',
+    'resubmit' => 'Access is too frequent, please visit later',
 ];

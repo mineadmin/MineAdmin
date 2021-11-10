@@ -5,8 +5,11 @@ const DEFAULT_CONFIG = {
 	//标题
 	APP_NAME: "MineAdmin",
 
+	//首页地址
+	DASHBOARD_URL: "/dashboard",
+
 	//版本号
-	APP_VER: "0.3.7",
+	APP_VER: "0.3.10",
 
 	//官网地址
 	APP_URL: "www.mineadmin.com",
@@ -38,6 +41,9 @@ const DEFAULT_CONFIG = {
 
 	//主题颜色
 	COLOR: '#0960bd',
+
+	//菜单是否启用手风琴效果
+	MENU_UNIQUE_OPENED: true,
 
 	//控制台首页默认布局
 	DEFAULT_GRID: {

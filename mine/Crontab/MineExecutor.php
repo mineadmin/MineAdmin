@@ -52,6 +52,10 @@ class MineExecutor
      */
     protected $serverMutex;
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -67,6 +71,8 @@ class MineExecutor
      * @param MineCrontab $crontab
      * @param bool $run
      * @return bool|null
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function execute(MineCrontab $crontab, bool $run = false): ?bool
     {

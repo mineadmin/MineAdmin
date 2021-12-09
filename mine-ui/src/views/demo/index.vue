@@ -18,13 +18,14 @@
                 </el-card>
 
                 <el-card shadow="never" header="城市联级选择器">
+                    
                     <el-alert title="返回城市编码" type="warning" />
                     <city-linkage v-model="cityDataCode" valueType="code"/>
 
                     <p>{{cityDataCode}}</p>
 
-                    <el-alert title="返回城市名称" type="warning" class="mt" />
-                    <city-linkage v-model="cityDataName" valueType="name"/>
+                    <el-alert title="返回城市名称，并限制层级，只显示省份" type="warning" class="mt" />
+                    <city-linkage v-model="cityDataName" valueType="name" />
 
                     <p class="value">{{cityDataName}}</p>
                 </el-card>
@@ -37,9 +38,17 @@
                     <el-alert title="返回城市名称" type="warning" class="mt" />
                     <three-level-linkage v-model="cityDataName2" valueType="name" />
                     <p>{{cityDataName2}}</p>
-
                 </el-card>
 
+                <el-card shadow="never" header="城市code翻译成城市名称函数">
+                    <el-alert title="codeToCity('省代码', '市代码', '区代码', '分隔符')" type="warning" />
+
+                    <h2>{{ codeToCity('11', '1101', '110105') }}</h2>
+                    <h2>{{ codeToCity('11', '1101', '110105', ' - ') }}</h2>
+                    <h2>{{ codeToCity('11', '1101') }}</h2>
+                    <h2>{{ codeToCity('11') }}</h2>
+
+                </el-card>
             </el-col>
         </el-row>
     </el-main>
@@ -49,7 +58,7 @@ import cityLinkage from '@/components/maCityLinkage'
 import threeLevelLinkage from '@/components/maCityLinkage/threeLevelLinkage'
 
 export default {
-    name: 'demo:index',
+    name: 'demo',
 
     components: {
         cityLinkage,

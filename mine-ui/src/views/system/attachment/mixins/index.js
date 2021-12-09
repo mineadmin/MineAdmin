@@ -2,7 +2,7 @@ import { union, xor } from 'lodash'
 export default { 
   computed: {
     preview(){
-      return this.dataList.filter( item => item.mime_type.indexOf('image') > -1).map(v => v.url)
+      return this.dataList.filter( item => item.mime_type.indexOf('image') > -1).map(v => this.viewImage(v.url))
     },
   },
 
@@ -64,7 +64,6 @@ export default {
           this.showFileloading = false
         })
       } else {
-        console.log(this.queryParams)
         this.$API.attachment.getPageList(this.queryParams).then(res => {
           this.dataList = res.data.items
           this.pageInfo = res.data.pageInfo

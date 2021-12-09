@@ -14,7 +14,7 @@
 			</el-table-column>
 			<el-table-column label="" width="51" v-if="dragSort">
 				<template #default>
-					<el-tag class="move" style="cursor: move;"><i class="el-icon-d-caret"></i></el-tag>
+					<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
 				</template>
 			</el-table-column>
 			<slot></slot>

@@ -14,6 +14,7 @@ return [
         'paths' => [
             BASE_PATH . '/app',
             BASE_PATH . '/mine',
+            BASE_PATH . '/api'
         ],
         'ignore_annotations' => [
             'mixin',

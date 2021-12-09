@@ -2,16 +2,16 @@
 	<div class="sc-upload" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.5)" :style="style">
 		<div v-if="tempImg || img" class="sc-upload-file">
 			<div class="mask">
-				<span class="del" @click.stop="del"><i class="el-icon-delete"></i></span>
+				<span class="del" @click.stop="del"><el-icon><el-icon-delete /></el-icon></span>
 			</div>
 			<el-image v-if="fileIsImg" class="image" :src="tempImg || img" :preview-src-list="[img]" fit="cover" hide-on-click-modal append-to-body :z-index="9999"></el-image>
-			<a v-else :href="img" class="file" target="_blank"><i class="el-icon-document"></i></a>
+			<a v-else :href="img" class="file" target="_blank"><el-icon><el-icon-document /></el-icon></a>
 		</div>
 		<div v-else class="sc-upload-uploader" @click="fileSelect && showfileSelect()">
 			<el-upload ref="upload" class="uploader" :disabled="fileSelect" :auto-upload="!cropper" :on-change="change" :accept="accept" :action="action" :show-file-list="false" :before-upload="before" :on-success="success" :on-error="error" :http-request="request">
 				<slot>
 					<div class="file-empty">
-						<i :class="icon"></i>
+						<el-icon><component :is="icon" /></el-icon>
 						<h4 v-if="title">{{title}}</h4>
 					</div>
 				</slot>
@@ -31,7 +31,8 @@
 				</template>
 			</sc-file-select>
 		</el-dialog>
-		<el-input v-model="img" style="display:none"></el-input>
+		<span style="display:none!important"><el-input v-model="img"></el-input></span>
+
 	</div>
 </template>
 

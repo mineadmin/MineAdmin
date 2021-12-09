@@ -14,7 +14,7 @@
 				<el-tree ref="group" class="menu" :data="menu" :node-key="treeProps.key" :props="treeProps" :current-node-key="menu.length>0?menu[0][treeProps.key]:''" highlight-current @node-click="groupClick">
 					<template #default="{ node }">
 						<span class="el-tree-node__label">
-							<i class="el-icon-folder icon"></i>{{node.label}}
+							<el-icon class="icon"><el-icon-folder /></el-icon>{{node.label}}
 						</span>
 					</template>
 				</el-tree>
@@ -27,9 +27,9 @@
 			<div class="sc-file-select__top">
 				<div class="upload" v-if="!hideUpload">
 					<el-upload class="sc-file-select__upload" action="" multiple :show-file-list="false" :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore" :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError" :http-request="uploadRequest">
-						<el-button type="primary" icon="el-icon-upload2">本地上传</el-button>
+						<el-button type="primary" icon="el-icon-upload">本地上传</el-button>
 					</el-upload>
-					<span class="tips"><i class="el-icon-warning-outline"></i>大小不超过{{maxSize}}MB</span>
+					<span class="tips"><el-icon><el-icon-warning /></el-icon>大小不超过{{maxSize}}MB</span>
 				</div>
 				<div class="keyword">
 					<el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="文件名搜索" clearable @keyup.enter="search" @clear="search"></el-input>
@@ -50,10 +50,10 @@
 					<div v-for="item in data" :key="item[fileProps.key]" class="sc-file-select__item" :class="{active: value.includes(item[fileProps.url]) }" @click="select(item)">
 						<div class="sc-file-select__item__file">
 							<div class="sc-file-select__item__checkbox" v-if="multiple">
-								<i class="el-icon-check"></i>
+								<el-icon><el-icon-check /></el-icon>
 							</div>
 							<div class="sc-file-select__item__select" v-else>
-								<i class="el-icon-check"></i>
+								<el-icon><el-icon-check /></el-icon>
 							</div>
 							<div class="sc-file-select__item__box"></div>
 							<el-image v-if="_isImg(item[fileProps.url])" :src="item[fileProps.url]" fit="contain" lazy></el-image>
@@ -276,7 +276,7 @@
 	.sc-file-select__top {margin-bottom: 15px;display: flex;justify-content: space-between;}
 	.sc-file-select__upload {display: inline-block;}
 	.sc-file-select__top .tips {font-size: 12px;margin-left: 10px;color: #999;}
-	.sc-file-select__top .tips i {font-size: 14px;margin-right: 5px;}
+	.sc-file-select__top .tips i {font-size: 14px;margin-right: 5px;position: relative;bottom: -0.125em;}
 	.sc-file-select__pagination {margin:15px 0;}
 
 	.sc-file-select__do {text-align: right;}

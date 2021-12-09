@@ -24,6 +24,17 @@ export default {
       params
     })
   },
+  
+  /**
+   * 删除定时任务日志
+   * @returns
+   */
+  deleteLog (ids) {
+    return request({
+      url: 'setting/crontab/deleteCrontabLog/' + ids,
+      method: 'delete'
+    })
+  },
 
   /**
    * 立刻执行一次定时任务

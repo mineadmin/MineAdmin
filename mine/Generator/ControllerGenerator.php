@@ -183,7 +183,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     {
         $namespace = $this->getNamespace() . "\\Controller";
         if (!empty($this->model->package_name)) {
-            return $namespace . "\\" . $this->model->package_name;
+            return $namespace . "\\" . Str::title($this->model->package_name);
         }
         return $namespace;
     }
@@ -203,20 +203,15 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getUse(): string
     {
-        if ($this->model->generate_type == '0') {
-            return <<<UseNamespace
-Use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
-Use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}CreateRequest;
-Use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}UpdateRequest;
-UseNamespace;
-        } else {
-            $packageName = Str::title($this->model->package_name);
-            return <<<UseNamespace
-Use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
-Use {$this->getNamespace()}\\Request\\$packageName\\{$this->getBusinessName()}CreateRequest;
-Use {$this->getNamespace()}\\Request\\$packageName\\{$this->getBusinessName()}UpdateRequest;
-UseNamespace;
+        $namespace = "\\";
+        if (!empty($this->model->package_name)) {
+            $namespace = "\\" . Str::title($this->model->package_name). "\\";
         }
+        return <<<UseNamespace
+use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
+use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}CreateRequest;
+use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}UpdateRequest;
+UseNamespace;
     }
 
     /**

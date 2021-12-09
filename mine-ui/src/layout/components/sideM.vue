@@ -1,10 +1,10 @@
 <template>
-	<div ref="" class="mobile-nav-button" @click="showMobileNav($event)" v-drag draggable="false"><i class="el-icon-menu"></i></div>
+	<div ref="" class="mobile-nav-button" @click="showMobileNav($event)" v-drag draggable="false"><el-icon><el-icon-menu /></el-icon></div>
 
 	<el-drawer ref="mobileNavBox" title="移动端菜单" :size="240" v-model="nav" direction="ltr" :with-header="false" destroy-on-close>
 		<el-container class="mobile-nav">
 			<el-header>
-				<div class="logo-bar"><img class="logo" src="img/logo.png"><span>{{ $CONFIG.APP_NAME }}</span></div>
+				<div class="logo-bar"><img class="logo" src="img/logo.svg"><span>{{ $CONFIG.APP_NAME }}</span></div>
 			</el-header>
 			<el-main>
 				<el-scrollbar>

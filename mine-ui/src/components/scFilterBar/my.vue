@@ -25,7 +25,7 @@
 					<label>{{item.title}}</label>
 					<el-popconfirm title="确认删除此常用过滤吗？" @confirm="closeMyfilter(item, index)">
 						<template #reference>
-							<i class="el-icon-delete del" @click.stop="()=>{}"></i>
+							<el-icon class="del" @click.stop="()=>{}"><el-icon-delete /></el-icon>
 						</template>
 					</el-popconfirm>
 				</li>

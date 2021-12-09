@@ -1,5 +1,5 @@
 <template>
-	<el-config-provider :locale="$i18n.messages[$i18n.locale].el">
+	<el-config-provider :locale="$i18n.messages[$i18n.locale].el" :button="{autoInsertSpace: false}">
 		<router-view></router-view>
 	</el-config-provider>
 </template>
@@ -9,14 +9,6 @@
 
 	export default {
 		name: 'App',
-		data () {
-			return {
-				layout: this.$store.state.global.layout,
-				lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
-				theme: this.$TOOL.data.get('APP_THEME') || 'default',
-				colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF'
-			}
-		},
 		created() {
 			//设置主题颜色
 			const app_color = this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR

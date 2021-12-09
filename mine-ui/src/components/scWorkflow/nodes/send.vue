@@ -2,9 +2,9 @@
 	<div class="node-wrap">
 		<div class="node-wrap-box" @click="show">
 			<div class="title" style="background: #3296fa;">
-				<i class="icon el-icon-s-promotion"></i>
+				<el-icon class="icon"><el-icon-promotion /></el-icon>
 				<span>{{ nodeConfig.nodeName }}</span>
-				<i class="close el-icon-close" @click.stop="delNode()"></i>
+				<el-icon class="close" @click.stop="delNode()"><el-icon-close /></el-icon>
 			</div>
 			<div class="content">
 				<span v-if="toText(nodeConfig)">{{ toText(nodeConfig) }}</span>
@@ -12,16 +12,24 @@
 			</div>
 		</div>
 		<add-node v-model="nodeConfig.childNode"></add-node>
-		<el-drawer title="审批人设置" v-model="drawer" destroy-on-close append-to-body>
+		<el-drawer title="抄送人设置" v-model="drawer" destroy-on-close append-to-body :size="500">
+			<template #title>
+				<div class="node-wrap-drawer__title">
+					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}<el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon></label>
+					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>
+				</div>
+			</template>
 			<el-container>
 				<el-main style="padding:0 20px 20px 20px">
 					<el-form label-position="top">
-						<el-form-item label="">
-							<el-input v-model="form.nodeName"></el-input>
+						<el-form-item label="选择要抄送的人员">
+							<el-button type="primary" icon="el-icon-plus" round @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
+							<div class="tags-list">
+								<el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)">{{user.name}}</el-tag>
+							</div>
 						</el-form-item>
-						<el-divider></el-divider>
 						<el-form-item label="">
-							<el-checkbox v-model="form.ccSelfSelectFlag" label="允许发起人自选"></el-checkbox>
+							<el-checkbox v-model="form.userSelectFlag" label="允许发起人自选抄送人"></el-checkbox>
 						</el-form-item>
 					</el-form>
 				</el-main>
@@ -38,6 +46,7 @@
 	import addNode from './addNode'
 
 	export default {
+		inject: ['select'],
 		props: {
 			modelValue: { type: Object, default: () => {} }
 		},
@@ -48,6 +57,7 @@
 			return {
 				nodeConfig: {},
 				drawer: false,
+				isEditTitle: false,
 				form: {}
 			}
 		},
@@ -62,8 +72,17 @@
 		methods: {
 			show(){
 				this.form = {}
-				this.form = {...this.nodeConfig}
+				this.form = JSON.parse(JSON.stringify(this.nodeConfig))
 				this.drawer = true
+			},
+			editTitle(){
+				this.isEditTitle = true
+				this.$nextTick(()=>{
+					this.$refs.nodeTitle.focus()
+				})
+			},
+			saveTitle(){
+				this.isEditTitle = false
 			},
 			save(){
 				this.$emit("update:modelValue", this.form)
@@ -72,12 +91,18 @@
 			delNode(){
 				this.$emit("update:modelValue", this.nodeConfig.childNode)
 			},
+			delUser(index){
+				this.form.nodeUserList.splice(index, 1)
+			},
+			selectHandle(type, data){
+				this.select(type, data)
+			},
 			toText(nodeConfig){
 				if (nodeConfig.nodeUserList && nodeConfig.nodeUserList.length>0) {
-					const users = nodeConfig.nodeUserList.map(item=>item.name).join(" 或 ")
+					const users = nodeConfig.nodeUserList.map(item=>item.name).join("、")
 					return users
 				}else{
-					if(nodeConfig.ccSelfSelectFlag){
+					if(nodeConfig.userSelectFlag){
 						return "发起人自选"
 					}else{
 						return false

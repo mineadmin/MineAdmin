@@ -205,8 +205,8 @@
       // 视图组件列表过滤
       querySearch(queryString, cb){
       	let results = this.getViews();
-		results = results.filter(item => item.value.indexOf(queryString) !== -1)
-        cb(results)
+        console.log(results)
+        cb(results.filter(item => item.value.indexOf(queryString) !== -1))
       }
     }
   }

@@ -1,16 +1,19 @@
 <!--
  * @Descripttion: 表格选择器组件
- * @version: 1.0
+ * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年6月10日10:04:07
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2021年11月4日16:09:05
 -->
 
 <template>
 	<el-select ref="select" v-model="defaultValue" clearable :multiple="multiple" filterable :placeholder="placeholder" :disabled="disabled" :filter-method="filterMethod" @remove-tag="removeTag" @visible-change="visibleChange" @clear="clear">
 		<template #empty>
 			<div class="sc-table-select__table" :style="{width: tableWidth+'px'}" v-loading="loading">
+				<div class="sc-table-select__header">
+					<slot name="header" :form="formData" :submit="formSubmit"></slot>
+				</div>
 				<el-table ref="table" :data="tableData" :height="245" :highlight-current-row="!multiple" @row-click="click" @select="select" @select-all="selectAll">
 					<el-table-column v-if="multiple" type="selection" width="45"></el-table-column>
 					<el-table-column v-else type="index" width="45">
@@ -33,6 +36,7 @@
 		props: {
 			modelValue: null,
 			apiObj: { type: Object, default: () => {} },
+			params: { type: Object, default: () => {} },
 			placeholder: { type: String, default: "请选择" },
 			multiple: { type: Boolean, default: false },
 			disabled: { type: Boolean, default: false },
@@ -55,7 +59,8 @@
 					page: config.request.page,
 					pageSize: config.request.pageSize,
 					keyword: config.request.keyword
-				}
+				},
+				formData: {}
 			}
 		},
 		computed: {
@@ -80,6 +85,8 @@
 			visibleChange(visible){
 				if(visible){
 					this.currentPage = 1
+					this.keyword = null
+					this.formData = {}
 					this.getData()
 				}else{
 					this.autoCurrentLabel()
@@ -93,7 +100,7 @@
 					[this.defaultProps.pageSize]: this.pageSize,
 					[this.defaultProps.keyword]: this.keyword
 				}
-				Object.assign(reqData, this.params)
+				Object.assign(reqData, this.params, this.formData)
 				var res = await this.apiObj.get(reqData);
 				var parseData = config.parseData(res)
 				this.tableData = parseData.rows;
@@ -114,6 +121,12 @@
 					}
 					this.$refs.table.$el.querySelector('.el-table__body-wrapper').scrollTop = 0
 				})
+			},
+			//插糟表单提交
+			formSubmit(){
+				this.currentPage = 1
+				this.keyword = null
+				this.getData()
 			},
 			//分页刷新表格
 			reload(){

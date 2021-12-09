@@ -3,11 +3,13 @@
 declare(strict_types=1);
 namespace App\System\Mapper;
 
+use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
+use Mine\MineModel;
 
 /**
  * Class SystemUserMapper
@@ -49,7 +51,7 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 检查用户密码
      * @param String $password
-     * @param $hash
+     * @param string $hash
      * @return bool
      */
     public function checkPass(String $password, string $hash): bool
@@ -88,9 +90,9 @@ class SystemUserMapper extends AbstractMapper
         $post_ids = $data['post_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
 
-        $this->model::query()->where('id', $id)->update($data);
+        $result = parent::update($id, $data);
         $user = $this->model::find($id);
-        if ($user) {
+        if ($user && $result) {
             !empty($role_ids) && $user->roles()->sync($role_ids);
             $user->posts()->sync($post_ids);
             return true;
@@ -120,17 +122,16 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 获取用户信息
      * @param int $id
-     * @return SystemUser|null
+     * @return MineModel
      */
-    public function read(int $id): ?SystemUser
+    public function read(int $id): ?MineModel
     {
         $user = $this->model::find($id);
         if ($user) {
             $user->setAttribute('roleList', $user->roles()->get() ?: []);
             $user->setAttribute('postList', $user->posts()->get() ?: []);
-            return $user;
         }
-        return null;
+        return $user;
     }
 
     /**
@@ -165,6 +166,7 @@ class SystemUserMapper extends AbstractMapper
 
             $query->with(['dept' => function($query) use($isAll){
                 /* @var Builder $query*/
+                $query->where('status', SystemDept::ENABLE);
                 return $isAll ? $query->select(['*']) : $query->select(['id', 'name']);
             }]);
         }

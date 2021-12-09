@@ -13,6 +13,8 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\ApplicationContext;
 use Mine\Helper\LoginUser;
+use Mine\Helper\AppVerify;
+use Mine\Helper\Id;
 use Psr\Log\LoggerInterface;
 
 if (! function_exists('container')) {
@@ -33,6 +35,8 @@ if (! function_exists('redis')) {
     /**
      * 获取Redis实例
      * @return \Hyperf\Redis\Redis
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     function redis(): \Hyperf\Redis\Redis
     {
@@ -46,6 +50,8 @@ if (! function_exists('console')) {
     /**
      * 获取控制台输出实例
      * @return StdoutLoggerInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     function console(): StdoutLoggerInterface
     {
@@ -60,6 +66,8 @@ if (! function_exists('logger')) {
      * 获取日志实例
      * @param string $name
      * @return LoggerInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     function logger(string $name = 'Log'): LoggerInterface
     {
@@ -68,15 +76,15 @@ if (! function_exists('logger')) {
 
 }
 
-
 if (! function_exists('user')) {
     /**
      * 获取当前登录用户实例
+     * @param string $scene
      * @return LoginUser
      */
-    function user(): LoginUser
+    function user(string $scene = 'default'): LoginUser
     {
-        return new LoginUser();
+        return new LoginUser($scene);
     }
 }
 
@@ -104,14 +112,74 @@ if (! function_exists('t')) {
      * @param string $key
      * @param array $replace
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     function t(string $key, array $replace = []): string
     {
-        $language = explode(
-            ',',
-            container()->get(\Mine\MineRequest::class)->getHeaderLine('accept-language')
-        )[0] ?? 'zh_CN';
+        $acceptLanguage = container()->get(\Mine\MineRequest::class)->getHeaderLine('accept-language');
+        $language = !empty($acceptLanguage) ? explode(',',$acceptLanguage)[0] : 'zh_CN';
         return __($key, $replace, $language);
     }
 }
 
+if (! function_exists('mine_collect')) {
+    /**
+     * 创建一个Mine的集合类
+     * @param null|mixed $value
+     * @return \Mine\MineCollection
+     */
+    function mine_collect($value = null): \Mine\MineCollection
+    {
+        return new \Mine\MineCollection($value);
+    }
+}
+
+if (! function_exists('context_set')) {
+    /**
+     * 设置上下文数据
+     * @param string $key
+     * @param $data
+     * @return bool
+     */
+    function context_set(string $key, $data): bool
+    {
+        return (bool)\Hyperf\Utils\Context::set($key, $data);
+    }
+}
+
+if (! function_exists('context_get')) {
+    /**
+     * 获取上下文数据
+     * @param string $key
+     * @return mixed
+     */
+    function context_get(string $key)
+    {
+        return \Hyperf\Utils\Context::get($key);
+    }
+}
+
+if (! function_exists('app_verify')) {
+    /**
+     * 获取APP应用请求实例
+     * @param string $scene
+     * @return AppVerify
+     */
+    function app_verify(string $scene = 'api'): AppVerify
+    {
+        return new AppVerify($scene);
+    }
+}
+
+if (! function_exists('snowflake_id')) {
+    /**
+     * 生成雪花ID
+     * @return String
+     * @throws Exception
+     */
+    function snowflake_id(): String
+    {
+        return (new Id())->getId();
+    }
+}

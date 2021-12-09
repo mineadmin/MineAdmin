@@ -35,9 +35,34 @@
 		</div>
 		<div v-if="customizing" class="widgets-aside">
 			<el-container>
-				<el-header style="border: 0;">
+				<el-header>
 					<div class="widgets-aside-title"><i class="el-icon-circle-plus"></i>添加部件</div>
 					<div class="widgets-aside-close" @click="close()"><i class="el-icon-close"></i></div>
+				</el-header>
+				<el-header style="height:auto">
+					<div class="selectLayout">
+						<div class="selectLayout-item item01" :class="{active:grid.layout.join(',')=='12,6,6'}" @click="setLayout([12,6,6])">
+							<el-row :gutter="2">
+								<el-col :span="12"><span></span></el-col>
+								<el-col :span="6"><span></span></el-col>
+								<el-col :span="6"><span></span></el-col>
+							</el-row>
+						</div>
+						<div class="selectLayout-item item02" :class="{active:grid.layout.join(',')=='24,16,8'}" @click="setLayout([24,16,8])">
+							<el-row :gutter="2">
+								<el-col :span="24"><span></span></el-col>
+								<el-col :span="16"><span></span></el-col>
+								<el-col :span="8"><span></span></el-col>
+							</el-row>
+						</div>
+						<div class="selectLayout-item item03" :class="{active:grid.layout.join(',')=='24'}" @click="setLayout([24])">
+							<el-row :gutter="2">
+								<el-col :span="24"><span></span></el-col>
+								<el-col :span="24"><span></span></el-col>
+								<el-col :span="24"><span></span></el-col>
+							</el-row>
+						</div>
+					</div>
 				</el-header>
 				<el-main class="nopadding">
 					<div class="widgets-list">
@@ -124,16 +149,18 @@
 					this.$refs.widgets.style.setProperty('transform', `scale(${scale})`)
 				})
 			},
+			//设置布局
+			setLayout(layout){
+				this.grid.layout = layout
+				if(layout.join(',')=='24'){
+					this.grid.copmsList[0] = [...this.grid.copmsList[0],...this.grid.copmsList[1],...this.grid.copmsList[2]]
+					this.grid.copmsList[1] = []
+					this.grid.copmsList[2] = []
+				}
+			},
 			//追加
 			push(item){
 				let target = this.grid.copmsList[0]
-				if(this.grid.copmsList[0].length == 0){
-					target = this.grid.copmsList[0]
-				}else if(this.grid.copmsList[1].length == 0){
-					target = this.grid.copmsList[1]
-				}else if(this.grid.copmsList[2].length == 0){
-					target = this.grid.copmsList[2]
-				}
 				target.push(item.key)
 			},
 			//隐藏组件
@@ -183,6 +210,9 @@
 	.draggable-box {height: 100%;}
 
 	.customizing .widgets-wrapper {margin-right:-360px}
+	.customizing .widgets-wrapper .el-col {padding-bottom:15px;}
+	.customizing .widgets-wrapper .draggable-box {border: 1px dashed var(--el-color-primary);padding:15px;}
+	.customizing .widgets-wrapper .no-widgets {display: none;}
 	.customizing .widgets-item {position: relative;margin-bottom: 15px;}
 	.customize-overlay {position: absolute;top:0;right:0;bottom:0;left:0;z-index: 1;display: flex;flex-direction: column;align-items: center;justify-content: center;background: rgba(255,255,255,0.9);cursor: move;}
 	.customize-overlay label {background: var(--el-color-primary);color: #fff;height:40px;padding:0 30px;border-radius: 40px;font-size: 18px;display: flex;align-items: center;justify-content: center;cursor: move;}
@@ -199,6 +229,17 @@
 	.widgets-list-item:hover {background: rgba(180,180,180,0.1);}
 
 	.widgets-wrapper .sortable-ghost {opacity: 0.5;}
+
+	.selectLayout {width: 100%;display: flex;}
+	.selectLayout-item {width:60px;height:60px;border: 2px solid var(--el-border-color-light);padding:5px;cursor: pointer;margin-right: 15px;}
+	.selectLayout-item span {display: block;background: var(--el-border-color-light);height:46px;}
+	.selectLayout-item.item02 span {height:30px;}
+	.selectLayout-item.item02 .el-col:nth-child(1) span {height:14px;margin-bottom: 2px;}
+	.selectLayout-item.item03 span {height:14px;margin-bottom: 2px;}
+	.selectLayout-item:hover {border-color: var(--el-color-primary);}
+	.selectLayout-item.active {border-color: var(--el-color-primary);}
+	.selectLayout-item.active span {background: var(--el-color-primary);}
+
 
 	[data-theme=dark] {
 		.widgets-aside {background: #2b2b2b;}

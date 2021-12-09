@@ -41,6 +41,8 @@ class LoginListener implements ListenerInterface
 
     /**
      * @param UserLoginAfter $event
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function process(object $event)
     {
@@ -75,6 +77,8 @@ class LoginListener implements ListenerInterface
     /**
      * @param $agent
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function os($agent): string
     {
@@ -87,6 +91,9 @@ class LoginListener implements ListenerInterface
         if(false !== stripos($agent, 'win') && preg_match('/nt 10.0/i', $agent)) {
             return 'Windows 10';
         }
+        if(false !== stripos($agent, 'win') && preg_match('/nt 11.0/i', $agent)) {
+            return 'Windows 11';
+        }
         if (false !== stripos($agent, 'win') && preg_match('/nt 5.1/i', $agent)) {
             return 'Windows XP';
         }
@@ -94,7 +101,7 @@ class LoginListener implements ListenerInterface
             return 'Linux';
         }
         if (false !== stripos($agent, 'mac')) {
-            return 'mac';
+            return 'Mac';
         }
         return t('jwt.unknown');
     }
@@ -102,6 +109,8 @@ class LoginListener implements ListenerInterface
     /**
      * @param $agent
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function browser($agent): string
     {
@@ -111,14 +120,14 @@ class LoginListener implements ListenerInterface
         if (false !== stripos($agent, "Edg")) {
             return 'Edge';
         }
+        if (false !== stripos($agent, "Chrome")) {
+            return 'Chrome';
+        }
         if (false !== stripos($agent, "Firefox")) {
             return 'Firefox';
         }
         if (false !== stripos($agent, "Safari")) {
             return 'Safari';
-        }
-        if (false !== stripos($agent, "Chrome")) {
-            return 'Chrome';
         }
         if (false !== stripos($agent, "Opera")) {
             return 'Opera';

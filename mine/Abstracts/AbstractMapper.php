@@ -12,6 +12,7 @@
 declare (strict_types = 1);
 namespace Mine\Abstracts;
 
+use Hyperf\Utils\Context;
 use Mine\MineModel;
 use Mine\Traits\MapperTrait;
 
@@ -27,11 +28,39 @@ abstract class AbstractMapper
      * @var MineModel
      */
     public $model;
-
+    
     abstract public function assignModel();
 
     public function __construct()
     {
         $this->assignModel();
+    }
+
+    /**
+     * 把数据设置为类属性
+     * @param array $data
+     */
+    public static function setAttributes(array $data)
+    {
+        Context::set('attributes', $data);
+    }
+
+    /**
+     * 魔术方法，从类属性里获取数据
+     * @param string $name
+     * @return mixed|string
+     */
+    public function __get(string $name)
+    {
+        return $this->getAttributes()[$name] ?? '';
+    }
+
+    /**
+     * 获取数据
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return Context::get('attributes', []);
     }
 }

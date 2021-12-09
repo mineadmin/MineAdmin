@@ -188,6 +188,8 @@ class UserController extends MineController
      * 更改用户资料，含修改头像 (不验证权限)
      * @PostMapping("updateInfo")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function updateInfo(): ResponseInterface
     {

@@ -13,6 +13,7 @@
 
 <script>
 	export default {
+		title: "技术交流",
 		data() {
 			return {
 			}

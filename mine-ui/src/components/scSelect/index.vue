@@ -10,7 +10,7 @@
 <template>
 	<div class="sc-select">
 		<div v-if="initloading" class="sc-select-loading">
-			<i class="el-icon-loading"></i>
+			<el-icon class="is-loading"><el-icon-loading /></el-icon>
 		</div>
 		<el-select v-bind="$attrs" :loading="loading" @visible-change="visibleChange">
 			<el-option v-for="item in options" :key="item[props.value]" :label="item[props.label]" :value="item[props.value]">

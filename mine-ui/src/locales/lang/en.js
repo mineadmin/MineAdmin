@@ -24,6 +24,11 @@ export default {
 		admin: 'Administrator',
 		user: 'User'
 	},
+	apiDoc: {
+		loginBtn: 'Login Document',
+		appIdError: 'Please input a APP ID',
+		appSecretError: 'Please input a APP SECRET',
+	},
 	usercenter: {
 		dynamic: 'Dynamic',
 		info: 'User Info',

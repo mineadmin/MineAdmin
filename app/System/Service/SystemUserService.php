@@ -18,7 +18,6 @@ use Mine\Event\UserLoginBefore;
 use Mine\Exception\CaptchaException;
 use Mine\Exception\NormalStatusException;
 use Mine\Exception\UserBanException;
-use Mine\Helper\LoginUser;
 use Mine\Helper\MineCaptcha;
 use Mine\MineRequest;
 use Mine\Helper\MineCode;
@@ -46,11 +45,6 @@ class SystemUserService extends AbstractService
     protected $request;
 
     /**
-     * @var LoginUser
-     */
-    protected $loginUser;
-
-    /**
      * @var ContainerInterface
      */
     protected $container;
@@ -73,21 +67,18 @@ class SystemUserService extends AbstractService
     /**
      * SystemUserService constructor.
      * @param ContainerInterface $container
-     * @param LoginUser $loginUser
      * @param SystemUserMapper $mapper
      * @param SystemMenuService $systemMenuService
      * @param SystemRoleService $systemRoleService
      */
     public function __construct(
         ContainerInterface $container,
-        LoginUser $loginUser,
         SystemUserMapper $mapper,
         SystemMenuService $systemMenuService,
         SystemRoleService $systemRoleService
     )
     {
         $this->mapper = $mapper;
-        $this->loginUser = $loginUser;
         $this->sysMenuService = $systemMenuService;
         $this->sysRoleService = $systemRoleService;
         $this->container = $container;
@@ -95,8 +86,10 @@ class SystemUserService extends AbstractService
 
     /**
      * 获取验证码
+     * @return string
      * @throws InvalidArgumentException
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @noinspection PhpFullyQualifiedNameUsageInspection
      */
     public function getCaptcha(): string
@@ -113,7 +106,8 @@ class SystemUserService extends AbstractService
      * 检查用户提交的验证码
      * @param String $code
      * @return bool
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function checkCaptcha(String $code): bool
     {
@@ -133,6 +127,8 @@ class SystemUserService extends AbstractService
      * @param array $data
      * @return string|null
      * @throws InvalidArgumentException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function login(array $data): ?string
     {
@@ -156,7 +152,7 @@ class SystemUserService extends AbstractService
                     ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
                 ) {
                     $userLoginAfter->message = t('jwt.login_success');
-                    $token = $this->loginUser->getToken($userLoginAfter->userinfo);
+                    $token = user()->getToken($userLoginAfter->userinfo);
                     $userLoginAfter->token = $token;
                     $this->evDispatcher->dispatch($userLoginAfter);
                     return $token;
@@ -195,8 +191,9 @@ class SystemUserService extends AbstractService
      */
     public function logout()
     {
-        $this->evDispatcher->dispatch(new UploadAfter($this->loginUser->getUserInfo()));
-        $this->loginUser->getJwt()->logout();
+        $user = user();
+        $this->evDispatcher->dispatch(new UploadAfter($user->getUserInfo()));
+        $user->getJwt()->logout();
     }
 
     /**
@@ -205,21 +202,20 @@ class SystemUserService extends AbstractService
      */
     public function getInfo(): array
     {
-        return $this->getCacheInfo($this->loginUser, SystemUser::find((int) $this->loginUser->getId()));
+        return $this->getCacheInfo(SystemUser::find((int) user()->getId()));
     }
 
     /**
      * 获取缓存用户信息
      * @Cacheable(prefix="loginInfo", ttl=0, value="userId_#{user.id}")
-     * @param LoginUser $loginUser
      * @param SystemUser $user
      * @return array
      */
-    protected function getCacheInfo(LoginUser $loginUser, SystemUser $user): array
+    protected function getCacheInfo(SystemUser $user): array
     {
         $user->addHidden('deleted_at', 'password');
         $data['user'] = $user->toArray();
-        if ($loginUser->isSuperAdmin()) {
+        if (user()->isSuperAdmin()) {
             $data['roles'] = ['superAdmin'];
             $data['routers'] = $this->sysMenuService->mapper->getSuperAdminRouters();
             $data['codes'] = ['*'];
@@ -255,6 +251,8 @@ class SystemUserService extends AbstractService
      * 新增用户
      * @param array $data
      * @return int
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function save(array $data): int
     {
@@ -305,6 +303,8 @@ class SystemUserService extends AbstractService
      * 获取在线用户
      * @param array $params
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getOnlineUserPageList(array $params = []): array
     {
@@ -374,12 +374,14 @@ class SystemUserService extends AbstractService
      * @param string $id
      * @return bool
      * @throws InvalidArgumentException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function kickUser(string $id): bool
     {
         $redis = $this->container->get(Redis::class);
         $prefix = config('cache.default.prefix');
-        $this->container->get(LoginUser::class)->getJwt()->logout($redis->get("{$prefix}Token:{$id}"));
+        user()->getJwt()->logout($redis->get("{$prefix}Token:{$id}"));
         return $redis->del("{$prefix}Token:{$id}") > 0;
     }
 
@@ -398,6 +400,8 @@ class SystemUserService extends AbstractService
      * 清除用户缓存
      * @param string $id
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function clearCache(string $id): bool
     {
@@ -410,6 +414,8 @@ class SystemUserService extends AbstractService
      * 设置用户首页
      * @param array $params
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setHomePage(array $params): bool
     {
@@ -425,21 +431,23 @@ class SystemUserService extends AbstractService
      * 用户更新个人资料
      * @param array $params
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function updateInfo(array $params): bool
     {
-        unset($params['password']);
-
         if (!isset($params['id'])) {
             return false;
         }
 
-        $res = ($this->mapper->getModel())::query()
-            ->where('id', $params['id'])
-            ->update($params) > 0;
+        $model = $this->mapper->getModel()::find($params['id']);
+        unset($params['id'], $params['password']);
+        foreach ($params as $key => $param) {
+            $model[$key] = $param;
+        }
 
-        $this->clearCache((string) $params['id']);
-        return $res;
+        $this->clearCache((string) $model['id']);
+        return $model->save();
     }
 
     /**
@@ -449,6 +457,6 @@ class SystemUserService extends AbstractService
      */
     public function modifyPassword(array $params): bool
     {
-        return $this->mapper->initUserPassword((int) (make(LoginUser::class))->getId(), $params['newPassword']);
+        return $this->mapper->initUserPassword((int) user()->getId(), $params['newPassword']);
     }
 }

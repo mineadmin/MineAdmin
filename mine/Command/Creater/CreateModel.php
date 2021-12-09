@@ -37,8 +37,15 @@ class CreateModel extends MineCommand
     public function handle()
     {
         $mine = make(Mine::class);
-        $module = ucfirst(trim($this->input->getOption('module')));
-        $table  = trim($this->input->getOption('table'));
+        $module = $this->input->getOption('module');
+        if ($module) {
+            $module = ucfirst(trim($this->input->getOption('module')));
+        }
+
+        $table  = $this->input->getOption('table');
+        if ($table) {
+            $table = trim($this->input->getOption('table'));
+        }
 
         if (empty($module)) {
             $this->line('Missing parameter <--module < module_name>>', 'error');

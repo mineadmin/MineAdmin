@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller\Logs;
 
+use App\System\Service\SystemApiLogService;
 use App\System\Service\SystemLoginLogService;
 use App\System\Service\SystemOperLogService;
 use Hyperf\Di\Annotation\Inject;
@@ -38,6 +39,12 @@ class LogsController extends MineController
     protected $operLogService;
 
     /**
+     * @Inject
+     * @var SystemApiLogService
+     */
+    protected $apiLogService;
+
+    /**
      * 获取登录日志列表
      * @GetMapping("getLoginLogPageList")
      * @Permission("system:loginLog")
@@ -55,6 +62,16 @@ class LogsController extends MineController
     public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->operLogService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 获取接口日志列表
+     * @GetMapping("getApiLogPageList")
+     * @Permission("system:apiLog")
+     */
+    public function getApiLogPageList(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->apiLogService->getPageList($this->request->all()));
     }
 
     /**
@@ -81,5 +98,18 @@ class LogsController extends MineController
     public function deleteLoginLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->loginLogService->delete($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 删除API访问日志
+     * @DeleteMapping("deleteApiLog/{ids}")
+     * @Permission("system:apiLog:delete")
+     * @OperationLog
+     * @param String $ids
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function deleteApiLog(String $ids): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->apiLogService->delete($ids) ? $this->success() : $this->error();
     }
 }

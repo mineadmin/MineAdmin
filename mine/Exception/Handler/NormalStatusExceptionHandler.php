@@ -27,6 +27,10 @@ use Throwable;
  */
 class NormalStatusExceptionHandler extends ExceptionHandler
 {
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function handle(Throwable $throwable, ResponseInterface $response): ResponseInterface
     {
         $this->stopPropagation();
@@ -37,6 +41,7 @@ class NormalStatusExceptionHandler extends ExceptionHandler
         if ($throwable->getCode() != 200 && $throwable->getCode() != 0) {
             $format['code'] = $throwable->getCode();
         }
+        logger('Exception log')->debug($throwable->getMessage());
         return $response->withHeader('Server', 'MineAdmin')
             ->withAddedHeader('content-type', 'application/json; charset=utf-8')
             ->withBody(new SwooleStream(Json::encode($format)));

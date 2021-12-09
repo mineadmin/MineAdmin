@@ -44,6 +44,9 @@ class SaveAspect extends AbstractAspect
      * @param ProceedingJoinPoint $proceedingJoinPoint
      * @return mixed
      * @throws Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
@@ -54,7 +57,7 @@ class SaveAspect extends AbstractAspect
             if ($instance instanceof MineModel && in_array('created_by', $instance->getFillable())) {
                 $instance->created_by = $this->loginUser->getId();
             }
-        } catch (\Exception $e) {}
+        } catch (\Throwable $e) {}
 
         // 生成ID
         if ($instance instanceof MineModel &&
@@ -62,7 +65,7 @@ class SaveAspect extends AbstractAspect
             $instance->getPrimaryKeyType() === 'int' &&
             empty($instance->{$instance->getKeyName()})
         ) {
-            $instance->setPrimaryKeyValue($instance->genId());
+            $instance->setPrimaryKeyValue(snowflake_id());
         }
         return $proceedingJoinPoint->process();
     }

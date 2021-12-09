@@ -137,6 +137,9 @@ class InstallProjectCommand extends MineCommand
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function setDataBaseInformationAndRedis(): void
     {
         $dbAnswer = $this->confirm('Do you need to set Database information?', true);
@@ -195,6 +198,9 @@ class InstallProjectCommand extends MineCommand
         $dbAnswer && $this->generatorEnvFile();
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function generatorEnvFile()
     {
         try {
@@ -215,10 +221,17 @@ class InstallProjectCommand extends MineCommand
             $env['REDIS_AUTH'] = $this->redis['auth'];
             $env['REDIS_PORT'] = $this->redis['port'];
             $env['REDIS_DB'] = (string) $this->redis['db'];
+            $env['AMQP_HOST'] = '127.0.0.7';
+            $env['AMQP_PORT'] = '5672';
+            $env['AMQP_USER'] = 'guest';
+            $env['AMQP_PASSWORD'] = 'guest';
+            $env['AMQP_VHOST'] = '/';
+            $env['AMQP_ENABLE'] = 'false';
             $env['SUPER_ADMIN'] = (string) $id->getId();
             $env['ADMIN_ROLE'] = (string) ($id->getId());
             $env['CONSOLE_SQL'] = 'true';
             $env['JWT_SECRET'] = base64_encode(random_bytes(64));
+            $env['JWT_API_SECRET'] = base64_encode(random_bytes(64));
 
             $id = null;
 

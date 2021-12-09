@@ -15,7 +15,7 @@
         <el-button
           type="success"
           plain
-          icon="el-icon-upload2"
+          icon="el-icon-upload"
           v-auth="['setting:code:loadTable']"
           @click="$refs.tableList.show()"
         >装载数据表</el-button>
@@ -51,7 +51,7 @@
         stripe
       >
         <el-table-column type="selection" width="50"></el-table-column>
-        
+
         <el-table-column
           label="表名称"
           prop="table_name"
@@ -91,15 +91,15 @@
         <el-table-column label="操作" fixed="right" align="right" width="130" >
 
           <template #default="scope">
-            <el-button type="text" 
-              v-auth="['setting:code:preview']" 
+            <el-button type="text"
+              v-auth="['setting:code:preview']"
               @click="$refs.preview.show(scope.row.id)"
             >预览</el-button>
 
             <el-dropdown v-if="scope.row.username !== 'superAdmin'">
 
               <el-button
-                type="text" 
+                type="text"
               >
                 更多<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
@@ -109,17 +109,17 @@
 
                   <el-dropdown-item
                     @click="$refs.editForm.show(scope.row)"
-                    v-auth="['setting:code:edit']" 
+                    v-auth="['setting:code:edit']"
                   >编辑</el-dropdown-item>
 
-                  <el-dropdown-item 
+                  <el-dropdown-item
                     @click="handleSync(scope.row.id)"
-                    v-auth="['setting:code:sync']" 
+                    v-auth="['setting:code:sync']"
                   >同步</el-dropdown-item>
 
-                  <el-dropdown-item 
+                  <el-dropdown-item
                     @click="generateCode(scope.row.id)"
-                    v-auth="['setting:code:generate']" 
+                    v-auth="['setting:code:generate']"
                   >生成代码</el-dropdown-item>
 
                   <el-dropdown-item
@@ -133,7 +133,7 @@
 
             </el-dropdown>
           </template>
-            
+
         </el-table-column>
 
       </maTable>

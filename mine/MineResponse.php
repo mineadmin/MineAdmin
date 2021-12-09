@@ -55,7 +55,7 @@ class MineResponse extends Response
         $format = [
             'success' => false,
             'code'    => $code,
-            'message' => $message ?: t('mineadmin.response_fail'),
+            'message' => $message ?: t('mineadmin.response_error'),
         ];
 
         if (!empty($data)) {

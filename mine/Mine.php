@@ -22,7 +22,7 @@ class Mine
     /**
      * @var string
      */
-    private static $version = '0.3.10';
+    private static $version = '0.4.0';
 
     /**
      * @var string
@@ -122,7 +122,7 @@ class Mine
         if (empty($name)) {
             return $this->moduleInfo;
         }
-        return isset($this->moduleInfo[$name]) ? $this->moduleInfo[$name] : [];
+        return $this->moduleInfo[$name] ?? [];
     }
 
     /**
@@ -134,13 +134,13 @@ class Mine
     }
 
     /**
-     * @param $key
+     * @param String $key
      * @param $value
      * @param false $save
      * @return bool
      * @noinspection PhpUnused
      */
-    public function setModuleConfigValue($key, $value, $save = false): bool
+    public function setModuleConfigValue(String $key, $value, bool $save = false): bool
     {
         if (strpos($key, '.') > 0) {
             list($mod, $name) = explode('.', $key);

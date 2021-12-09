@@ -14,6 +14,7 @@ namespace Mine\Traits;
 use Hyperf\Database\Model\Collection;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
+use Mine\Exception\NormalStatusException;
 use Mine\MineCollection;
 use Mine\MineModel;
 use Mine\MineResponse;
@@ -120,6 +121,20 @@ trait ServiceTrait
     }
 
     /**
+     * 批量新增
+     * @param array $collects
+     * @Transaction
+     * @return bool
+     */
+    public function batchSave(array $collects): bool
+    {
+        foreach ($collects as $collect) {
+            $this->mapper->save($collect);
+        }
+        return true;
+    }
+
+    /**
      * 读取一条数据
      * @param int $id
      * @return MineModel
@@ -127,6 +142,30 @@ trait ServiceTrait
     public function read(int $id): MineModel
     {
         return $this->mapper->read($id);
+    }
+
+    /**
+     * Description:获取单个值
+     * User:mike
+     * @param array $condition
+     * @param string $columns
+     * @return ?MineModel
+     */
+    public function value(array $condition, string $columns = 'id'): ?MineModel
+    {
+        return $this->mapper->value($condition, $columns);
+    }
+
+    /**
+     * Description:获取单列值
+     * User:mike
+     * @param array $condition
+     * @param string $columns
+     * @return array|null
+     */
+    public function pluck(array $condition, string $columns = 'id'): array
+    {
+        return $this->mapper->pluck($condition, $columns);
     }
 
     /**

@@ -12,7 +12,7 @@
 <script>
 	export default {
 		title: "关于项目",
-		icon: "el-icon-s-tools",
+		icon: "el-icon-setting",
 		description: "点个星星支持一下",
 		data() {
 			return {

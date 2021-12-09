@@ -176,7 +176,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
     protected function getUse(): string
     {
         return <<<UseNamespace
-Use {$this->getNamespace()}\\Mapper\\{$this->getBusinessName()}Mapper;
+use {$this->getNamespace()}\\Mapper\\{$this->getBusinessName()}Mapper;
 UseNamespace;
     }
 

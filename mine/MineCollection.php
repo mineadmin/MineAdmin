@@ -155,6 +155,8 @@ class MineCollection extends Collection
      * @param \Closure|null $closure
      * @return bool
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function import(string $dto, MineModel $model, ?\Closure $closure = null): bool
     {
@@ -202,12 +204,16 @@ class MineCollection extends Collection
                     $data[] = $temp;
                 }
             }
-            @unlink($tempFilePath);
+            try {
+                unlink($tempFilePath);
+            } catch (\Throwable $e) {
+                logger('Unlink File')->error('导入临时文件删除失败：' . $e->getMessage());
+            }
         } else {
             return false;
         }
 
-        if (! is_null($closure) && $closure instanceof \Closure) {
+        if ($closure instanceof \Closure) {
             return $closure($model, $data);
         }
 

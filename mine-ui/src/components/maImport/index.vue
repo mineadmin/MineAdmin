@@ -2,14 +2,14 @@
 
     <el-button
         type="success"
-        icon="el-icon-upload2"
+        icon="el-icon-upload"
         @click="visible = true"
         style="margin: 0 10px;"
     >导入</el-button>
-    
+
     <el-dialog
         title="导入数据"
-        v-model="visible" 
+        v-model="visible"
         :width="400"
         destroy-on-close
         @closed="$emit('closed')"
@@ -23,7 +23,7 @@
             accept=".xlsx,.xls"
             :http-request="uploadFile"
         >
-            <i class="el-icon-upload"></i>
+            <el-icon-upload style="width:140px; color: #ccc" />
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <template #tip>
                 <div class="el-upload__tip">只能上传 xlsx/xls 文件</div>

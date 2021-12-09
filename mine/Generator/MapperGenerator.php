@@ -187,7 +187,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
     protected function getUse(): string
     {
         return <<<UseNamespace
-Use {$this->getNamespace()}\\Model\\{$this->getBusinessName()};
+use {$this->getNamespace()}\\Model\\{$this->getBusinessName()};
 UseNamespace;
     }
 

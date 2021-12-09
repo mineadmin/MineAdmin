@@ -106,7 +106,7 @@
 	.el-dropdown__popper {
 		--el-dropdown-menuItem-hover-fill: #222225;
 	}
-	
+
 	/* 布局 */
 	.adminui-header {background: $--card-background;border-bottom: 1px solid $--border-color;}
 	.adminui-header-menu .el-menu .el-sub-menu__title {height:59px;line-height: 59px;}
@@ -216,7 +216,8 @@
 
 	.el-calendar {background: $--card-background;}
 	.el-calendar__title {color: $--text-color;}
-
+	
+	.el-switch__core .el-switch__inner .is-icon, .el-switch__core .el-switch__inner .is-text {color: #fff;}
 	.el-empty__image svg {
 		#Rectangle-Copy {fill: #111;}
 		#Rectangle-Copy-10 {fill: #555;}

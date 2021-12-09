@@ -158,7 +158,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
     {
         $namespace = $this->getNamespace() . "\\Request";
         if (!empty($this->model->package_name)) {
-            return $namespace . "\\" . $this->model->package_name;
+            return $namespace . "\\" . Str::title($this->model->package_name);
         }
         return $namespace;
     }

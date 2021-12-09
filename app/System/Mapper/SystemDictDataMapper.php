@@ -45,6 +45,7 @@ class SystemDictDataMapper extends AbstractMapper
         if (isset($params['status'])) {
             $query->where('status', $params['status']);
         }
+
         return $query;
     }
 }

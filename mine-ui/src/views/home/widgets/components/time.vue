@@ -10,7 +10,7 @@
 <script>
 	export default {
 		title: "时钟",
-		icon: "el-icon-time",
+		icon: "el-icon-clock",
 		description: "演示部件效果",
 		data() {
 			return {

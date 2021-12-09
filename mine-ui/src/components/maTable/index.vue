@@ -1,5 +1,5 @@
 <template>
-	<div class="scTable" ref="scTableMain" v-loading="loading">
+	<div class="scTable" :style="{'height':_height}" ref="scTableMain" v-loading="loading">
 		<div class="scTable-table">
 			<el-table
 				v-bind="$attrs"
@@ -32,7 +32,7 @@
 				</template>
 			</el-table>
 		</div>
-		<div class="scTable-page">
+		<div class="scTable-page" v-if="!hidePagination&&!hideDo">
 			<div class="scTable-pagination">
 				<el-pagination v-if="!hidePagination" background :layout="paginationLayout" :total="total" :page-size="pageSize" v-model:currentPage="currentPage" @current-change="paginationChange"></el-pagination>
 			</div>
@@ -77,6 +77,7 @@
 			api: { type: Object, default: () => {} },
 			params: { type: Object, default: () => ({}) },
 			data: { type: Object, default: () => {} },
+			height: { type: [String,Number], default: "100%" },
 			rowKey: { type: String, default: "" },
 			column: { type: Object, default: () => {} },
 			remoteSort: { type: Boolean, default: false },
@@ -121,11 +122,6 @@
 				isRecycle: false
 			}
 		},
-		created() {
-			this.$nextTick(() => {
-				this.upTableHeight()
-			})
-		},
 		mounted() {
 			//判断是否开启自定义列
 			if(this.column){
@@ -140,20 +136,7 @@
 				this.total = this.tableData.length
 			}
 		},
-		activated(){
-			this.$nextTick(() => {
-				this.upTableHeight()
-			})
-			window.addEventListener("resize", this.upTableHeight, true)
-		},
-		deactivated(){
-			window.removeEventListener("resize", this.upTableHeight, true)
-		},
 		methods: {
-			//更新表格高度
-			upTableHeight(){
-				this.tableHeight = (this.$refs.scTableMain.offsetHeight - 50 ) + "px"
-			},
 			//获取列
 			async getCustomColumn(){
 				const userColumn = await config.columnSettingGet(this.tableName, this.column)
@@ -350,14 +333,17 @@
 		computed: {
 			getRecycleText() {
 				return this.isRecycle ? '显示正常数据' : '显示回收站数据'
+			},
+			_height() {
+				return Number(this.height)?Number(this.height)+'px':this.height
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	.scTable {display:flex;flex-direction:column;height:100%;}
-	.scTable-table {flex:1;}
+	.scTable {}
+	.scTable-table {height: calc(100% - 50px);}
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}
 

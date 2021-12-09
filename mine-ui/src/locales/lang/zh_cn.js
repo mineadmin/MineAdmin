@@ -24,6 +24,11 @@ export default {
 		admin: '管理员',
 		user: '用户'
 	},
+	apiDoc: {
+		loginBtn: '登录文档',
+		appIdError: '请输入APP ID',
+		appSecretError: '请输入APP SECRET',
+	},
 	usercenter: {
 		dynamic: '近期动态',
 		info: '个人信息',

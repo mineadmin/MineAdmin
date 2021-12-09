@@ -1,17 +1,20 @@
 <!--
  * @Descripttion: 过滤器V2
- * @version: 2.0
+ * @version: 2.2
  * @Author: sakuya
  * @Date: 2021年7月30日14:48:41
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2021年11月5日09:33:07
 -->
 
 <template>
 	<div class="sc-filterBar">
-		<el-badge :value="filterObjLength" type="danger" :hidden="filterObjLength<=0">
-			<el-button size="small" icon="sc-icon-filter-fill" @click="openFilter"></el-button>
-		</el-badge>
+		<slot :filterLength="filterObjLength" :openFilter="openFilter">
+			<el-badge :value="filterObjLength" type="danger" :hidden="filterObjLength<=0">
+				<el-button size="small" icon="el-icon-filter" @click="openFilter"></el-button>
+			</el-badge>
+		</slot>
+
 		<el-drawer title="过滤器" v-model="drawer" :size="650" append-to-body>
 			<el-container v-loading="saveLoading">
 				<el-main style="padding:0">
@@ -30,7 +33,7 @@
 										<colgroup>
 											<col width="50">
 											<col width="140">
-											<col width="120">
+											<col v-if="showOperator" width="120">
 											<col>
 											<col width="40">
 										</colgroup>
@@ -42,9 +45,9 @@
 												<py-select v-model="item.field" :options="fields" placeholder="过滤字段" filterable @change="fieldChange(item)">
 												</py-select>
 											</td>
-											<td>
+											<td v-if="showOperator">
 												<el-select v-model="item.operator" placeholder="运算符">
-													<el-option v-for="ope in operator" :key="ope.value" :label="ope.label" :value="ope.value"></el-option>
+													<el-option v-for="ope in item.field.operators || operator" :key="ope.value" :label="ope.label" :value="ope.value"></el-option>
 												</el-select>
 											</td>
 											<td>
@@ -65,9 +68,11 @@
 												<el-date-picker v-if="item.field.type=='datetimerange'" v-model="item.value" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss" start-placeholder="开始日期" end-placeholder="结束日期" style="width: 100%;"></el-date-picker>
 												<!-- 开关 -->
 												<el-switch v-if="item.field.type=='switch'" v-model="item.value" active-value="1" inactive-value="0"></el-switch>
+												<!-- 标签 -->
+												<el-select v-if="item.field.type=='tags'" v-model="item.value" multiple filterable allow-create default-first-option no-data-text="输入关键词后按回车确认" :placeholder="item.field.placeholder||'请输入'"></el-select>
 											</td>
 											<td>
-												<i class="el-icon-delete del" @click="delFilter(index)"></i>
+												<el-icon class="del" @click="delFilter(index)"><el-icon-delete /></el-icon>
 											</td>
 										</tr>
 									</table>
@@ -108,6 +113,7 @@
 		},
 		props: {
 			filterName: { type: String, default: "" },
+			showOperator: { type: Boolean, default: true },
 			options: { type: Object, default: () => {} }
 		},
 		data() {
@@ -125,7 +131,7 @@
 			filterObj(){
 				const obj = {}
 				this.filter.forEach((item) => {
-					obj[item.field.value] = `${item.value}${config.separator}${item.operator}`
+					obj[item.field.value] = this.showOperator ? `${item.value}${config.separator}${item.operator}` : `${item.value}`
 				})
 				return obj
 			}

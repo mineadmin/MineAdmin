@@ -9,13 +9,13 @@
       >
         <div class="thumbnail" :style="`width:120px; height:120px;`">
           <div class="mask">
-            <span class="del" @click.stop="remove(index)"><i class="el-icon-delete"></i></span>
+            <span class="del" @click.stop="remove(index)">
+              <el-icon><el-icon-delete /></el-icon>
+            </span>
           </div>
-          <el-image :src="item.url" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
+          <el-image :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
             <template #placeholder>
-              <div class="image-slot">
-                  <i class="el-icon-more"></i>
-              </div>
+              <el-icon-more />
             </template>
           </el-image>
         </div>
@@ -53,7 +53,7 @@ export default {
       }
     },
     preview(){
-      return this.imageList.map(v => v.url)
+      return this.imageList.map(v => this.viewImage(v.url))
     },
   },
   methods: {

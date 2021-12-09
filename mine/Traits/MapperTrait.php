@@ -28,22 +28,24 @@ trait MapperTrait
     /**
      * 获取列表数据
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params): array
+    public function getList(?array $params, bool $isScope = true): array
     {
-        return $this->listQuerySetting($params)->get()->toArray();
+        return $this->listQuerySetting($params, $isScope)->get()->toArray();
     }
 
     /**
      * 获取列表数据（带分页）
      * @param array|null $params
+     * @param bool $isScope
      * @param string $pageName
      * @return array
      */
-    public function getPageList(?array $params, string $pageName = 'page'): array
+    public function getPageList(?array $params, bool $isScope = true, string $pageName = 'page'): array
     {
-        $paginate = $this->listQuerySetting($params)->paginate(
+        $paginate = $this->listQuerySetting($params, $isScope)->paginate(
             $params['pageSize'] ?? $this->model::PAGE_SIZE, ['*'], $pageName, $params[$pageName] ?? 1
         );
         return $this->setPaginate($paginate);
@@ -69,6 +71,7 @@ trait MapperTrait
     /**
      * 获取树列表
      * @param array|null $params
+     * @param bool $isScope
      * @param string $id
      * @param string $parentField
      * @param string $children
@@ -76,6 +79,7 @@ trait MapperTrait
      */
     public function getTreeList(
         ?array $params = null,
+        bool $isScope = true,
         string $id = 'id',
         string $parentField = 'parent_id',
         string $children='children'
@@ -83,16 +87,17 @@ trait MapperTrait
     {
         $params['_mainAdmin_tree'] = true;
         $params['_mainAdmin_tree_pid'] = $parentField;
-        $data = $this->listQuerySetting($params)->get();
+        $data = $this->listQuerySetting($params, $isScope)->get();
         return $data->toTree([], $data[0]->{$parentField} ?? 0, $id, $parentField, $children);
     }
 
     /**
      * 返回模型查询构造器
      * @param array|null $params
+     * @param bool $isScope
      * @return Builder
      */
-    public function listQuerySetting(?array $params = null): Builder
+    public function listQuerySetting(?array $params = null, bool $isScope = false): Builder
     {
         $query = (($params['recycle'] ?? false) === true) ? $this->model::onlyTrashed() : $this->model::query();
 
@@ -100,18 +105,37 @@ trait MapperTrait
             $query->select($this->filterQueryAttributes($params['select']));
         }
 
+        $query = $this->handleOrder($query, $params);
+
+        $isScope && $query->userDataScope();
+
+        return $this->handleSearch($query, $params);
+    }
+
+    /**
+     * 排序处理器
+     * @param Builder $query
+     * @param array $params
+     * @return Builder
+     */
+    public function handleOrder(Builder $query, array &$params): Builder
+    {
         // 对树型数据强行加个排序
         if (isset($params['_mainAdmin_tree'])) {
             $query->orderBy($params['_mainAdmin_tree_pid']);
         }
 
         if ($params['orderBy'] ?? false) {
-            $query->orderBy($params['orderBy'], $params['orderType'] ?? 'asc');
+            if (is_array($params['orderBy'])) {
+                foreach ($params['orderBy'] as $key => $order) {
+                    $query->orderBy($order, $params['orderType'][$key] ?? 'asc');
+                }
+            } else {
+                $query->orderBy($params['orderBy'], $params['orderType'] ?? 'asc');
+            }
         }
 
-        $query->userDataScope();
-
-        return $this->handleSearch($query, $params);
+        return $query;
     }
 
     /**
@@ -192,6 +216,39 @@ trait MapperTrait
     }
 
     /**
+     * 按条件读取一行数据
+     * @param array $condition
+     * @param array $column
+     * @return mixed
+     */
+    public function first(array $condition, array $column = ['*']): ?MineModel
+    {
+        return ($model = $this->model::where($condition)->first($column)) ? $model : null;
+    }
+
+    /**
+     * 获取单个值
+     * @param array $condition
+     * @param string $columns
+     * @return MineModel
+     */
+    public function value(array $condition, string $columns = 'id'): ?MineModel
+    {
+        return ($model = $this->model::where($condition)->value($columns)) ? $model : null;
+    }
+
+    /**
+     * 获取单列值
+     * @param array $condition
+     * @param string $columns
+     * @return array|null
+     */
+    public function pluck(array $condition, string $columns = 'id'): array
+    {
+        return $this->model::where($condition)->pluck($columns)->toArray();
+    }
+
+    /**
      * 从回收站读取一条数据
      * @param int $id
      * @return MineModel
@@ -222,7 +279,23 @@ trait MapperTrait
     public function update(int $id, array $data): bool
     {
         $this->filterExecuteAttributes($data, true);
-        return $this->model::query()->where((new $this->model)->getKeyName(), $id)->update($data) > 0;
+        $model = $this->model::find($id);
+        foreach ($data as $name => $val) {
+            $model[$name] = $val;
+        }
+        return $model->save();
+    }
+
+    /**
+     * 按条件更新数据
+     * @param array $condition
+     * @param array $data
+     * @return bool
+     */
+    public function updateByCondition(array $condition, array $data): bool
+    {
+        $this->filterExecuteAttributes($data, true);
+        return $this->model::query()->where($condition)->update($data) > 0;
     }
 
     /**
@@ -234,9 +307,7 @@ trait MapperTrait
     {
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
-            if ($model) {
-                $model->forceDelete();
-            }
+            $model && $model->forceDelete();
         }
         return true;
     }

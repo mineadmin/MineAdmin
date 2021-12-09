@@ -57,6 +57,8 @@ class MineModelVisitor extends  Visitor
             case 'date':
             case 'datetime':
                 return '\Carbon\Carbon';
+            case 'array':
+                return 'json';
             case 'json':
                 return 'array';
         }

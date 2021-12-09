@@ -24,6 +24,40 @@ const routes = {
 			meta: {
 				title: "锁屏"
 			}
+		},
+		{
+			path: '/doc',
+			name: 'doc',
+			component: () => import(/* webpackChunkName: "doc" */ '@/views/doc/index'),
+			meta: {
+				title: "接口文档"
+			},
+			children: [
+				{
+					path: "/interfaceList",
+					name: "interfaceList",
+					meta: {
+						title: "接口列表",
+					},
+					component: () => import(/* webpackChunkName: "interfaceList" */ '@/views/doc/page/interfaceList'),
+				},
+				{
+					path: "/interfaceCode",
+					name: "interfaceCode",
+					meta: {
+						title: "代码释义",
+					},
+					component: () => import(/* webpackChunkName: "interfaceCode" */ '@/views/doc/page/interfaceCode'),
+				},
+				{
+					path: "/signature",
+					name: "signature",
+					meta: {
+						title: "签名算法",
+					},
+					component: () => import(/* webpackChunkName: "signature" */ '@/views/doc/page/signature'),
+				}
+			]
 		}
 	],
 	dashboard: {
@@ -32,7 +66,7 @@ const routes = {
 		component: () => import(`@/layout/other/empty`),
 		meta: {
 			title: "首页",
-			icon: "el-icon-s-home"
+			icon: "el-icon-home-filled"
 		},
 		children: [
 			{
@@ -65,7 +99,7 @@ const routes = {
 				path: "/demo",
 				meta: {
 					title: "组件演示",
-					icon: "sc-icon-vuejs-fill",
+					icon: "sc-icon-vue",
 				},
 				component: () => import(/* webpackChunkName: "demo" */ '@/views/demo/index'),
 			}

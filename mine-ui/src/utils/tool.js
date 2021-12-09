@@ -6,6 +6,8 @@
  */
 
 import CryptoJS from 'crypto-js';
+import Config from '@/config/index.js'
+import CityLinkageJson from '@/components/maCityLinkage/lib/cityLinkage.json'
 
 const tool = {}
 
@@ -209,6 +211,62 @@ tool.download = function(res) {
 	aLink.click()
 	URL.revokeObjectURL(aLink.href);//清除引用
 	document.body.removeChild(aLink);
+}
+
+tool.viewImage = function(path, defaultStorage = 'LOCAL') {
+	let mode = tool.data.get('site_storage_mode').toUpperCase()
+
+	if (Config.STORAGE_URL[mode]) {
+		return Config.STORAGE_URL[mode] + path
+	} else {
+		return Config.STORAGE_URL[defaultStorage] + path
+	}
+}
+
+// 城市代码翻译成名称
+tool.codeToCity = function(province, city = undefined, area = undefined, split = ' / ') {
+	try {
+		let provinceData = CityLinkageJson.filter(item => province == item.code)[0]
+		if (! city) {
+			return provinceData.name
+		}
+		let cityData = provinceData.children.filter(item => city == item.code)[0]
+
+		if (! area) {
+			return [provinceData.name, cityData.name].join(split)
+		}
+		let areaData = cityData.children.filter(item => area == item.code)[0]
+
+		return [provinceData.name, cityData.name, areaData.name].join(split)
+	} catch (e) {
+		return ''
+	}
+}
+
+/**
+ * 对象转url参数
+ * @param {*} data
+ * @param {*} isPrefix
+ */
+tool.httpBuild = function (data, isPrefix = false) {
+    let prefix = isPrefix ? '?' : ''
+    let _result = []
+    for (let key in data) {
+      let value = data[key]
+      // 去掉为空的参数
+      if (['', undefined, null].includes(value)) {
+        continue
+      }
+      if (value.constructor === Array) {
+        value.forEach(_value => {
+          _result.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(_value))
+        })
+      } else {
+        _result.push(encodeURIComponent(key) + '=' + encodeURIComponent(value))
+      }
+    }
+
+    return _result.length ? prefix + _result.join('&') : ''
 }
 
 export default tool

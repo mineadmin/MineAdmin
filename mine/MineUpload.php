@@ -226,30 +226,11 @@ class MineUpload
     {
         $realpath =  '/'. $path . '/' . $filename;
         $mode = $this->getStorageMode();
-        $host = $this->container->get(SettingConfigService::class)->getConfigByKey('site_resource_host')['value'];
-        if (empty($host)) {
-            $host = '127.0.0.1:'. config('server.servers')[0]['port'];
-        }
         if ($mode == 'local') {
-            return $this->getProtocol() . $host .'/uploadfile'.$realpath;
+            return '/uploadfile'.$realpath;
+        } else {
+            return $realpath;
         }
-        if ($mode == 'qiniu') {
-            $qiniu = $this->config['qiniu'];
-            return $qiniu['schema'].$qiniu['domain'].$realpath;
-        }
-        if ($mode == 'oss') {
-            $oss = $this->config['oss'];
-            if ($oss['isCName'] === false) {
-                return $oss['schema'].$oss['bucket'].'/'.$oss['endpoint'].$realpath;
-            } else {
-                return $oss['schema'].$oss['domain'].$realpath;
-            }
-        }
-        if ($mode == 'cos') {
-            $cos = $this->config['oss'];
-            return $cos['schema'].$cos['domain'].$realpath;
-        }
-        return '';
     }
 
     /**

@@ -74,8 +74,8 @@
                       <td><div class="cell" width="5%">{{ index + 1 }}</div></td>
                       <td><div class="cell">{{ key }}</div></td>
                       <td><div class="cell" width="130" style="text-align:center">
-                        <el-button @click="deleteKey(key)"><i class="el-icon-delete" /></el-button>
-                        <el-button @click="view(key)"><i class="el-icon-view" /></el-button>
+                        <el-button @click="deleteKey(key)"><el-icon><el-icon-delete /></el-icon></el-button>
+                        <el-button @click="view(key)"><el-icon><el-icon-view /></el-icon></el-button>
                       </div></td>
                     </tr>
                   </tbody>

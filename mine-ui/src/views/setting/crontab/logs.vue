@@ -1,12 +1,23 @@
 <template>
 	<el-container>
 		<el-main  style="padding:0 20px;">
+			<el-button
+				type="danger"
+				plain
+				icon="el-icon-delete"
+				v-auth="['system:crontab:deleteLog']"
+				:disabled="selection.length==0"
+				@click="batchDel"
+			>删除</el-button>
 			<maTable
 				ref="table"
+				row-key="id"
 				:api="api"
 				:autoLoad="false"
+				@selection-change="selectionChange"
 				stripe
 			>
+				<el-table-column type="selection" width="50"></el-table-column>
 				<el-table-column label="执行时间" prop="created_at" width="160"></el-table-column>
 				<el-table-column label="执行结果" prop="state" width="80">
 					<template #default="scope">
@@ -35,6 +46,7 @@
 	export default {
 		data() {
 			return {
+				selection: [],
 				logsVisible: false,
 				api: {
 					list: this.$API.crontab.getLogPageList
@@ -43,6 +55,7 @@
 					crontab_id: undefined
 				},
 				log: '',
+				crontab_id: '',
 			}
 		},
 
@@ -54,9 +67,31 @@
 			},
 
 			setData(row) {
+				this.crontab_id = row.id
 				this.queryParams.crontab_id = row.id
 				this.$refs.table.upData(this.queryParams)
-			}
+			},
+
+			//批量删除
+			async batchDel(){
+				await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+				type: 'warning'
+				}).then(() => {
+				const loading = this.$loading();
+				let ids = []
+				this.selection.map(item => ids.push(item.id))
+				this.$API.crontab.deleteLog(ids.join(',')).then(() => {
+					this.$refs.table.upData({ crontab_id: this.crontab_id })
+				})
+				loading.close()
+				this.$message.success("操作成功")
+				})
+			},
+
+			//表格选择后回调事件
+			selectionChange(selection){
+				this.selection = selection;
+			},
 
 		}
 	}

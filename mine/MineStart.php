@@ -19,6 +19,10 @@ use Swoole\Timer;
 
 class MineStart extends ServerStartCallback
 {
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function beforeStart()
     {
         $console = console();

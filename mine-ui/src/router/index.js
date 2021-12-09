@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
+import { ElNotification } from 'element-plus';
 import config from "@/config"
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -10,7 +11,7 @@ import {beforeEach, afterEach} from './scrollBehavior'
 //系统路由
 const routes = sysRouter.systemRouter
 
-const whiteList = ['login', 'test']
+const whiteList = ['login', 'doc', 'interfaceList', 'interfaceCode', 'signature', 'test']
 const defaultRoutePath = '/dashboard'
 
 //系统特殊路由
@@ -94,6 +95,7 @@ router.onError((error) => {
 	const pattern = /Loading chunk (\d)+ failed/g;
 	const isChunkLoadFailed = error.message.match(pattern);
 	const targetPath = router.history.pending.fullPath;
+	ElNotification.error({ title: '路由错误', message: '路由未定义或路由页面不存在' });
 	if (isChunkLoadFailed) {
 		router.replace(targetPath);
 	}

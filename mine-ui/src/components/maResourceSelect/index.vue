@@ -5,7 +5,7 @@
       v-if="imageList.length === 0 && thumb"
       class="el-upload el-upload--picture-card ma-upload"
       @click="handleShowUploadDialog">
-      <i class="el-icon-plus"/>
+      <el-icon><el-icon-plus /></el-icon>
     </div>
 
     <ma-photo :value="imageList" v-if="thumb" @remove="remove" />
@@ -16,7 +16,7 @@
           {{ selectButtonText }}
         </el-button>
 
-        <el-button icon="el-icon-upload2" type="primary" class="button" size="small" @click="handleShowUploadDialog" :disabled="disabled">
+        <el-button icon="el-icon-upload" type="primary" class="button" size="small" @click="handleShowUploadDialog" :disabled="disabled">
           {{ uploadButtunText }}
         </el-button>
 
@@ -59,7 +59,7 @@
         :http-request="handleUpload"
       >
 
-        <i class="el-icon-upload"></i>
+        <el-icon-upload style="width:120px; color: #ccc" />
 
         <div class="el-upload__text" style="width: 100%">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" style="width: 100%">只能上传{{allowUploadFile}}文件，单文件不超过 {{ config.maxSize }} M</div>
@@ -330,6 +330,9 @@ export default {
 :deep(.button) {
   position: relative !important;
   z-index: 1 !important;
+}
+.el-upload--picture-card i {
+  margin-top: 5px;
 }
 
 .padding-10 {

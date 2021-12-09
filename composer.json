@@ -1,15 +1,13 @@
 {
-  "name": "hyperf/hyperf-skeleton",
+  "name": "xmo/mineadmin",
   "type": "project",
   "keywords": [
-    "php",
+    "mineadmin",
     "swoole",
-    "framework",
-    "hyperf",
-    "microservice",
-    "middleware"
+    "hyperf"
   ],
-  "description": "A coroutine framework that focuses on hyperspeed and flexible, specifically use for build microservices and middlewares.",
+  "homepage": "https://www.mineadmin.com/",
+  "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
     "php": ">=7.4",
@@ -57,6 +55,7 @@
     "hyperf/testing": "~2.2.0",
     "mockery/mockery": "^1.0",
     "phpstan/phpstan": "^0.12",
+    "qiutuleng/hyperf-dump-server": "^1.2",
     "swoole/ide-helper": "^4.5"
   },
   "suggest": {
@@ -69,10 +68,12 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Mine\\": "mine/"
+      "Mine\\": "mine/",
+      "Api\\": "api/"
     },
     "files": [
-      "mine/Helper/functions.php"
+      "mine/Helper/functions.php",
+      "common/common.php"
     ]
   },
   "autoload-dev": {

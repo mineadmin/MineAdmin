@@ -288,4 +288,37 @@ class Str
         return $value['years'] . '年' . $value['days'] .  '天 '. $value["hours"] . '小时'. $value['minutes'] . '分'.$value['seconds'].'秒';
 
     }
+
+    /**
+     * 生成UUID
+     * @return string
+     */
+    public static function getUUID(): string
+    {
+        $chars = md5(uniqid((string)mt_rand(), true));
+        return substr ( $chars, 0, 8 ) . '-'
+            . substr ( $chars, 8, 4 ) . '-'
+            . substr ( $chars, 12, 4 ) . '-'
+            . substr ( $chars, 16, 4 ) . '-'
+            . substr ( $chars, 20, 12 );
+    }
+
+    /**
+     * Replace the first occurrence of a given value in the string.
+     */
+    public static function replaceFirst(string $search, string $replace, string $subject, int &$offset = 0): string
+    {
+        if ($search == '') {
+            return $subject;
+        }
+
+        $position = strpos($subject, $search, $offset);
+
+        if ($position !== false) {
+            $offset = $position + strlen($replace);
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+
+        return $subject;
+    }
 }

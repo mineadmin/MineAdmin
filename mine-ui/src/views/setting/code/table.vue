@@ -26,7 +26,6 @@
       ref="table"
       :api="api"
       rowKey="name"
-      :hideDo="true"
       @selection-change="selectionChange"
       stripe
       remoteSort

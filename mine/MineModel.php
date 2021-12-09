@@ -13,9 +13,7 @@ declare(strict_types=1);
 namespace Mine;
 
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\ModelCache\Cacheable;
-use Mine\Helper\Id;
 use Mine\Traits\ModelMacroTrait;
 
 /**
@@ -25,12 +23,6 @@ use Mine\Traits\ModelMacroTrait;
 class MineModel extends Model
 {
     use Cacheable, ModelMacroTrait;
-
-    /**
-     * @Inject
-     * @var Id
-     */
-    protected $gen;
 
     /**
      * 隐藏的字段列表
@@ -57,19 +49,10 @@ class MineModel extends Model
     {
         parent::__construct($attributes);
 
-        // 注册用户数据权限方法
+        //注册常用方法
+        $this->registerBase();
+        //注册用户数据权限方法
         $this->registerUserDataScope();
-    }
-
-    /**
-     * 生成一个主键 ID
-     * @return int
-     * @throws \Exception
-     */
-    public function genId(): int
-    {
-        /** @var Id $gen */
-        return $this->gen->getId();
     }
 
     /**

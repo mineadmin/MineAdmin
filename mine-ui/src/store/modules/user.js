@@ -28,6 +28,7 @@ export default {
                     }
 					if (user.user && user.user.backend_setting) {
 						let backend_setting = user.user.backend_setting
+						// let backend_setting = JSON.parse(user.user.backend_setting)
 						tool.data.set('LAYOUT_TAGS', backend_setting.layoutTags)
 						tool.data.set('APP_LAYOUT', backend_setting.layout)
 						tool.data.set('APP_LANG', backend_setting.lang)

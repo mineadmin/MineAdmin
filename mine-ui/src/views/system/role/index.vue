@@ -321,7 +321,6 @@
 
       // 选择时间事件
       handleDateChange (values) {
-        console.log(values[0])
         if (values !== null) {
           this.queryParams.minDate = values[0]
           this.queryParams.maxDate = values[1]

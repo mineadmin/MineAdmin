@@ -5,11 +5,18 @@
 				<h2>MineAdmin</h2>
 				<h4>{{ $t('login.slogan') }}</h4>
 				<p>{{ $t('login.describe') }}</p>
-				<!-- <div>
-					<span><i class="sc-icon-vuejs-fill"></i></span>
-					<span><i class="add el-icon-plus"></i></span>
-					<span><i class="el-icon-platform-eleme"></i></span>
-				</div> -->
+				
+				<div>
+					<span>
+						<el-icon><ma-icon-mineadmin style="font-size: 48px;" /></el-icon>
+					</span>
+					<span>
+						<el-icon class="add"><el-icon-plus /></el-icon>
+					</span>
+					<span>
+						<el-icon><el-icon-eleme-filled /></el-icon>
+					</span>
+				</div>
 			</div>
 			<div class="login_adv__bottom">
 				<p>{{$CONFIG.APP_NAME}} {{$CONFIG.APP_VER}}</p>
@@ -35,7 +42,7 @@
 			<div class="login-form">
 				<div class="login-header">
 					<div class="logo">
-						<img :alt="$CONFIG.APP_NAME" src="img/logo.png">
+						<img :alt="$CONFIG.APP_NAME" src="img/logo.svg">
 						<label>{{$CONFIG.APP_NAME}}</label>
 					</div>
 					<h2>{{ $t('login.signInTitle') }}</h2>
@@ -103,7 +110,7 @@
 				<!-- <el-divider>{{ $t('login.signInOther') }}</el-divider>
 
 				<div class="login-oauth">
-					<el-button size="small" type="success" icon="sc-icon-wechat-fill" circle></el-button>
+					<el-button size="small" type="success" icon="sc-icon-wechat" circle></el-button>
 				</div> -->
 			</div>
 		</div>
@@ -212,7 +219,7 @@
 			},
 
 			submitForm() {
-				if (! this.ruleForm.code && this.verifyType === '0') this.ruleForm.code = 'code'
+				if (! this.ruleForm.code && this.verifyType !== '1') this.ruleForm.code = 'code'
 				if (! this.ruleForm.isPassing && this.verifyType === '0'){
 					this.$message.error('请滑动验证码进行验证')
 					return false;

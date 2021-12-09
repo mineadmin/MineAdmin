@@ -50,6 +50,8 @@ class OperationLogAspect extends AbstractAspect
      * @param ProceedingJoinPoint $proceedingJoinPoint
      * @return mixed|void
      * @throws \Hyperf\Di\Exception\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
@@ -68,7 +70,8 @@ class OperationLogAspect extends AbstractAspect
     /**
      * @param array $data
      * @return array
-
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getRequestInfo(array $data): array
     {
@@ -100,6 +103,8 @@ class OperationLogAspect extends AbstractAspect
      * 获取菜单名称
      * @param string $code
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getOperationMenuName(string $code): string
     {

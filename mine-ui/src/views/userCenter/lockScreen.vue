@@ -7,7 +7,7 @@
       <div class="lock-box">
         <div class="lock" @click="handleGoLogin">
           <span class="lock-icon" title="解锁屏幕">
-            <i class="el-icon-unlock" />
+            <el-icon><el-icon-unlock /></el-icon>
           </span>
         </div>
       </div>
@@ -26,10 +26,10 @@
         shape="square"
         :size="120"
         fit="cover"
-        :src="this.$TOOL.data.get('user').user.avatar"
+        :src="$TOOL.data.get('user').user.avatar"
         @error="() => true"
       >
-      <i class="el-icon-s-custom" style="font-size: 120px" />
+      <el-icon><ma-icon-user style="font-size: 120px; margin-left:-53px" /></el-icon>
       </el-avatar>
       <div class="username"> {{ $TOOL.data.get('user').user.username }} </div>
 
@@ -67,7 +67,7 @@ export default {
         goLogin: false,
         unlockPassword: '',
         date: dayjs().format('HH:mm:ss'),
-        resTimeout: null,
+        resTimeout: null
       }
     },
 

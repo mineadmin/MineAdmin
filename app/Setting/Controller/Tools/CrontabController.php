@@ -125,4 +125,17 @@ class CrontabController extends MineController
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
     }
+
+    /**
+     * 删除定时任务日志
+     * @DeleteMapping("deleteCrontabLog/{ids}")
+     * @Permission("setting:crontab:deleteLog")
+     * @OperationLog
+     * @param String $ids
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function deleteCrontabLog(String $ids): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->logService->delete($ids) ? $this->success() : $this->error();
+    }
 }

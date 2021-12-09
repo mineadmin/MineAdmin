@@ -44,6 +44,8 @@ class LoginUser
     /**
      * 验证token
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function check(): bool
     {

@@ -9,7 +9,7 @@ const DEFAULT_CONFIG = {
 	DASHBOARD_URL: "/dashboard",
 
 	//版本号
-	APP_VER: "0.3.10",
+	APP_VER: "0.4.0",
 
 	//官网地址
 	APP_URL: "www.mineadmin.com",
@@ -55,7 +55,16 @@ const DEFAULT_CONFIG = {
 			['about', 'ver'],
 			['time', 'progress']
 		]
+	},
+
+	// 文件存储URL地址
+	STORAGE_URL: {
+		LOCAL: 'http://127.0.0.1:9501',
+		OSS: '',
+		COS: '',
+		QINIU: ''
 	}
+
 }
 
 // 如果生产模式，就合并动态的APP_CONFIG

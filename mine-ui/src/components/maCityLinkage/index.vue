@@ -1,15 +1,14 @@
 <template>
-    <el-main style="padding-left: 0">
-        <el-cascader
-            v-model="defaultValue"
-            :options="cityLinkageList"
-            :props="{ expandTrigger: 'hover', value: valueType, label: 'name' }"
-            filterable
-            size="small"
-            :placeholder="placeholder"
-            clearable
-        ></el-cascader>
-    </el-main>
+    <el-cascader
+        v-model="defaultValue"
+        :options="cityLinkageList"
+        :props="{ expandTrigger: expandType, value: valueType, label: 'name', checkStrictly: true }"
+        filterable
+        size="small"
+        :placeholder="placeholder"
+
+        clearable
+    ></el-cascader>
 </template>
 
 <script>
@@ -30,6 +29,10 @@ export default {
         valueType: {
             type: String,
             default: 'code',
+        },
+        expandType: {
+            type: String,
+            default: 'click'
         }
     },
 

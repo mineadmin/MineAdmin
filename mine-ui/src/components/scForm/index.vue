@@ -19,7 +19,7 @@
 						<template #label>
 							{{item.label}}
 							<el-tooltip v-if="item.tips" :content="item.tips">
-								<i class="el-icon-question"></i>
+								<el-icon><el-icon-question-filled /></el-icon>
 							</el-tooltip>
 						</template>
 						<!-- input -->
@@ -116,7 +116,7 @@
 	</el-form>
 </template>
 
-<script>
+<script> 
 	import { request } from "@/utils/request"
 
 	import { defineAsyncComponent } from 'vue'
@@ -214,11 +214,7 @@
 				var remoteData = []
 				this.config.formItems.forEach((item) => {
 					if(item.options && item.options.remote){
-						var req = request({
-							url:item.options.remote.api,
-							options:item.options.remote.data,
-							method:'get'
-						}).then(res=>{
+						var req = request({url: item.options.remote.api, params :item.options.remote.data}).then(res=>{
 							item.options.items = res.data
 						})
 						remoteData.push(req)

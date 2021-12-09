@@ -3,17 +3,17 @@
 		<ul class="myMods">
 			<li v-for="mod in myMods" :key="mod.path" :style="randomBgColorRgb()">
 				<a v-if="mod.meta.type=='link'" :href="mod.path" target="_blank">
-					<i :class="mod.meta.icon||'el-icon-menu'"></i>
+					<el-icon><component :is="mod.meta.icon || el-icon-menu" /></el-icon>
 					<p>{{ mod.meta.title }}</p>
 				</a>
 				<router-link v-else :to="{ path: mod.path }">
-					<i :class="mod.meta.icon||'el-icon-menu'"></i>
+					<el-icon><component :is="mod.meta.icon || el-icon-menu" /></el-icon>
 					<p>{{ mod.meta.title }}</p>
 				</router-link>
 			</li>
 			<li class="modItem-add" @click="addMods">
 				<a href="javascript:void(0)">
-					<i class="el-icon-plus"></i>
+					<el-icon><el-icon-plus /></el-icon>
 				</a>
 			</li>
 		</ul>
@@ -27,7 +27,7 @@
 							<draggable tag="ul" v-model="myMods" animation="200" item-key="path" group="people">
 								<template #item="{ element }">
 									<li :style="randomBgColorRgb()">
-										<i :class="element.meta.icon||'el-icon-menu'"></i>
+										<el-icon><component :is="element.meta.icon || el-icon-menu" /></el-icon>
 										<p>{{element.meta.title}}</p>
 									</li>
 								</template>
@@ -38,7 +38,7 @@
 							<draggable tag="ul" v-model="filterMods" animation="200" item-key="path" :sort="false" group="people">
 								<template #item="{ element }">
 									<li :style="randomBgColorRgb()">
-										<i :class="element.meta.icon||'el-icon-menu'"></i>
+										<el-icon><component :is="element.meta.icon || el-icon-menu" /></el-icon>
 										<p>{{element.meta.title}}</p>
 									</li>
 								</template>

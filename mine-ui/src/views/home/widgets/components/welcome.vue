@@ -2,21 +2,21 @@
 	<el-card shadow="hover" header="欢迎">
 		<div class="welcome">
 			<div class="logo">
-				<img src="img/logo.png">
+				<img src="img/logo.svg">
 				<h2>欢迎体验 MineAdmin</h2>
 			</div>
 			<div class="tips">
 				<div class="tips-item">
-					<div class="tips-item-icon"><i class="el-icon-s-promotion"></i></div>
+					<div class="tips-item-icon"><el-icon><el-icon-promotion /></el-icon></div>
 					<div class="tips-item-message">PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。</div>
 				</div>
 				<div class="tips-item">
-					<div class="tips-item-icon"><i class="el-icon-milk-tea"></i></div>
+					<div class="tips-item-icon"><el-icon><el-icon-star /></el-icon></div>
 					<div class="tips-item-message">MineAdmin是一个后台权限管理系统，提供完善的权限体系，让开发者把注意力集中到具体业务当中，降低开发成本，提高项目效率。同时，支持PC和移动端。企业和个人可以免费使用</div>
 				</div>
 				<div class="tips-item">
-					<div class="tips-item-icon"><i class="el-icon-menu"></i></div>
-					<div class="tips-item-message">下版本功能预告：API授权及管理，如果喜欢请点个星星支持一下吧！</div>
+					<div class="tips-item-icon"><el-icon><el-icon-coffee /></el-icon></div>
+					<div class="tips-item-message">下版本功能预告：队列管理，如果喜欢请点个星星支持一下吧！</div>
 				</div>
 			</div>
 			<div class="actions">

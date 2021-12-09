@@ -11,7 +11,7 @@
             class="menu"
             node-key="id"
             :data="dept"
-            :current-node-key="''"
+            :current-node-key="0"
             :highlight-current="true"
             :expand-on-click-node="false"
             :filter-node-method="deptFilterNode"
@@ -394,7 +394,7 @@
       //加载树数据
       async getDept(){
         await this.$API.dept.tree().then(res => {
-          res.data.unshift({id: undefined, label: '所有部门'})
+          res.data.unshift({id: 0, label: '所有部门'})
           this.dept = res.data
           this.showDeptloading = false
         })
@@ -406,6 +406,9 @@
       },
       //树点击事件
       deptClick(data){
+        if (data.id === 0) {
+          data.id = undefined
+        }
         if (this.queryParams.dept_id == data.id) {
           return
         }

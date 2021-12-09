@@ -8,6 +8,7 @@ const base_url = 'http://127.0.0.1:9501'
 const proxy_api = '/api'
 
 module.exports = {
+
 	//设置为空打包后不分更目录还是多级目录
 	publicPath:'',
 	//build编译后存放静态文件的目录
@@ -56,9 +57,17 @@ module.exports = {
 						test: /[\\/]node_modules[\\/]/,
 						priority: -10
 					},
+					elicons: {
+						name: "elicons",
+						test: /[\\/]node_modules[\\/]@element-plus[\\/]icons[\\/]/
+					},
 					tinymce: {
 						name: "tinymce",
 						test: /[\\/]node_modules[\\/]tinymce[\\/]/
+					},
+					monacoEditor: {
+						name: "monaco-editor",
+						test: /[\\/]node_modules[\\/]monaco-editor[\\/]/
 					},
 					echarts: {
 						name: "echarts",

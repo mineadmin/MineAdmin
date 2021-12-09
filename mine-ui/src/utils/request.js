@@ -28,12 +28,6 @@ function createService () {
 				response.data.message = '服务器异常'
 				response.data.success = false
 			}
-			if (response.data.code !== 200 || ! response.data.success) {
-				ElNotification.error({
-					title: '请求错误',
-					message: response.data.message
-				});
-			}
 			return response.data;
 		},
 		error => {

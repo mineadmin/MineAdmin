@@ -17,7 +17,7 @@
 						{{ tips }}
 					</div>
 				</template>
-				<i class="el-icon-question sc-statistic-tips"></i>
+				<el-icon class="sc-statistic-tips"><el-icon-question-filled/></el-icon>
 			</el-tooltip>
 		</div>
 		<div class="sc-statistic-content">
@@ -58,7 +58,7 @@
 </script>
 
 <style scoped>
-	.sc-statistic-title {font-size: 12px;color: #999;margin-bottom: 10px;}
+	.sc-statistic-title {font-size: 12px;color: #999;margin-bottom: 10px;display: flex;align-items: center;}
 	.sc-statistic-tips {margin-left: 5px;}
 	.sc-statistic-content {font-size: 20px;color: #333;}
 	.sc-statistic-content-value {font-weight: bold;}

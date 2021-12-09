@@ -36,7 +36,7 @@
           <el-popover placement="bottom-end" :width="450" trigger="click" >
             <template #reference>
               <el-button type="text" @click="povpoerShow = ! povpoerShow">
-                更多筛选<i class="el-icon-arrow-down el-icon--right"></i>
+                更多筛选<el-icon><el-icon-arrow-down /></el-icon>
               </el-button>
             </template>
             <el-form label-width="80px">

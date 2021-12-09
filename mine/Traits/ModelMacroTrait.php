@@ -87,6 +87,7 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
+                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::SELF_DEPT_SCOPE:
                                 // 本部门数据权限
@@ -94,6 +95,7 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->where('dept_id', $userModel->dept_id)->pluck('id')->toArray()
                                 );
+                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::DEPT_BELOW_SCOPE:
                                 // 本部门及子部门数据权限
@@ -103,6 +105,7 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
+                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::SELF_SCOPE:
                                 // 本人数据权限
@@ -116,6 +119,43 @@ trait ModelMacroTrait
             };
 
             return $dataScope->execute();
+        });
+    }
+
+    /**
+     * Description:注册常用自定义方法
+     * User:mike
+     */
+    private function registerBase()
+    {
+        //添加andFilterWhere()方法
+        Builder::macro('andFilterWhere', function ($key, $operator, $value = NULL) {
+            if ($value === '' || $value === '%%' || $value === '%') {
+                return $this;
+            }
+            if ($operator === '' || $operator === '%%' || $operator === '%') {
+                return $this;
+            }
+            if($value === NULL){
+                return $this->where($key, $operator);
+            }else{
+                return $this->where($key, $operator,$value);
+            }
+        });
+
+        //添加orFilterWhere()方法
+        Builder::macro('orFilterWhere', function ($key, $operator, $value = NULL) {
+            if ($value === '' || $value === '%%' || $value === '%') {
+                return $this;
+            }
+            if ($operator === '' || $operator === '%%' || $operator === '%') {
+                return $this;
+            }
+            if($value === NULL){
+                return $this->orWhere($key, $operator);
+            }else{
+                return $this->orWhere($key, $operator,$value);
+            }
         });
     }
 }

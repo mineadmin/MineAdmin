@@ -26,8 +26,10 @@ use Mine\MineModel;
  * @property \Carbon\Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
+ * @property-read SystemDept $dept 
  * @property-read \Hyperf\Database\Model\Collection|SystemPost[] $posts 
- * @property-read \Hyperf\Database\Model\Collection|SystemRole[] $roles
+ * @property-read \Hyperf\Database\Model\Collection|SystemRole[] $roles 
+ * @property-write mixed $password 密码
  */
 class SystemUser extends MineModel
 {
@@ -53,7 +55,6 @@ class SystemUser extends MineModel
      * @var array
      */
     protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
-
     /**
      * 通过中间表关联角色
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -62,7 +63,6 @@ class SystemUser extends MineModel
     {
         return $this->belongsToMany(SystemRole::class, 'system_user_role', 'user_id', 'role_id');
     }
-
     /**
      * 通过中间表关联岗位
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -71,26 +71,23 @@ class SystemUser extends MineModel
     {
         return $this->belongsToMany(SystemPost::class, 'system_user_post', 'user_id', 'post_id');
     }
-
     /**
      * 关联部门
      * @return \Hyperf\Database\Model\Relations\HasOne
      */
-    public function dept(): \Hyperf\Database\Model\Relations\HasOne
+    public function dept() : \Hyperf\Database\Model\Relations\HasOne
     {
         return $this->hasOne(SystemDept::class, 'id', 'dept_id');
     }
-
     /**
      * 密码加密
      * @param $value
      * @return void
      */
-    public function setPasswordAttribute($value): void
+    public function setPasswordAttribute($value) : void
     {
         $this->attributes['password'] = password_hash($value, PASSWORD_DEFAULT);
     }
-
     /**
      * 验证密码
      * @param $password

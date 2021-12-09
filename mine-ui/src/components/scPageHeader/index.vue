@@ -11,7 +11,7 @@
 	<div class="sc-page-header">
 		<div v-if="icon" class="sc-page-header__icon">
 			<span>
-				<i :class="icon"></i>
+				<el-icon><component :is="icon" /></el-icon>
 			</span>
 		</div>
 		<div class="sc-page-header__title">

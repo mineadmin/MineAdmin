@@ -42,7 +42,9 @@
       ref="handler"
       :style="handlerStyle"
     >
-      <i :class="handlerIcon"></i>
+      <el-icon>
+        <Component ref="ok" :is="handlerIcon" />
+      </el-icon>
     </div>
 
   </div>
@@ -209,7 +211,7 @@ export default {
       this.$emit("update:isPassing", true);
       this.isMoving = false;
       var handler = this.$refs.handler;
-      handler.children[0].className = this.successIcon;
+      handler.children[0].is = this.successIcon;
       this.$refs.progressBar.style.background = this.completedBg;
       this.$refs.message.style["-webkit-text-fill-color"] = "unset";
       this.$refs.message.style.animation = "slidetounlock2 3s infinite";

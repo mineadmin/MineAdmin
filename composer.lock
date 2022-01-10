@@ -1443,17 +1443,23 @@
         },
         {
             "name": "hyperf/amqp",
-            "version": "v2.2.14",
+            "version": "v2.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/amqp.git",
-                "reference": "94fb0c46667dc134c2682498f30499e32d319630"
+                "reference": "1e8cb832ae30666dfa169ec684c1d401ee5024ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/amqp/zipball/94fb0c46667dc134c2682498f30499e32d319630",
-                "reference": "94fb0c46667dc134c2682498f30499e32d319630",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/amqp/zipball/1e8cb832ae30666dfa169ec684c1d401ee5024ea",
+                "reference": "1e8cb832ae30666dfa169ec684c1d401ee5024ea",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/instantiator": "^1.2.0",
@@ -1502,7 +1508,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-10-28T10:13:44+00:00"
+            "time": "2021-12-30T08:16:01+00:00"
         },
         {
             "name": "hyperf/cache",
@@ -1516,7 +1522,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/cache/zipball/3bafd85dae6f333567231339a9019cea35457379",
                 "reference": "3bafd85dae6f333567231339a9019cea35457379",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -1574,7 +1586,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/command/zipball/eb15924c33532e9eced5c7401f94e064324ed03e",
                 "reference": "eb15924c33532e9eced5c7401f94e064324ed03e",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -1624,7 +1642,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/config/zipball/ccdcc79ec244612c04f186e65b222ad778db75e9",
                 "reference": "ccdcc79ec244612c04f186e65b222ad778db75e9",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -1689,7 +1713,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/contract/zipball/6fe18888f8f868a7dad78fefe9397e45a39f3b2e",
                 "reference": "6fe18888f8f868a7dad78fefe9397e45a39f3b2e",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=7.2"
@@ -1726,17 +1756,23 @@
         },
         {
             "name": "hyperf/crontab",
-            "version": "v2.2.10",
+            "version": "v2.2.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/crontab.git",
-                "reference": "d1e06f80c40027b0f2b4e1b50d7b60d0c09962ca"
+                "reference": "fc91cf81501f9929508cfbf2e3e14f7268fc2f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/crontab/zipball/d1e06f80c40027b0f2b4e1b50d7b60d0c09962ca",
-                "reference": "d1e06f80c40027b0f2b4e1b50d7b60d0c09962ca",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/crontab/zipball/fc91cf81501f9929508cfbf2e3e14f7268fc2f36",
+                "reference": "fc91cf81501f9929508cfbf2e3e14f7268fc2f36",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -1775,21 +1811,27 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-26T01:52:27+00:00"
+            "time": "2021-12-13T06:00:36+00:00"
         },
         {
             "name": "hyperf/database",
-            "version": "v2.2.19",
+            "version": "v2.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/database.git",
-                "reference": "0111e0f9f3ced09d1b2d99ab74c88897f6c75b08"
+                "reference": "29168b6c241d18878c93e3dc595eb0096068dd34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/database/zipball/0111e0f9f3ced09d1b2d99ab74c88897f6c75b08",
-                "reference": "0111e0f9f3ced09d1b2d99ab74c88897f6c75b08",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/database/zipball/29168b6c241d18878c93e3dc595eb0096068dd34",
+                "reference": "29168b6c241d18878c93e3dc595eb0096068dd34",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/macroable": "~2.2.0",
@@ -1832,21 +1874,27 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-12-06T01:44:39+00:00"
+            "time": "2021-12-30T10:52:44+00:00"
         },
         {
             "name": "hyperf/db-connection",
-            "version": "v2.2.0",
+            "version": "v2.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/db-connection.git",
-                "reference": "ac0e407330a33e823d9eab3798d0735a70c64ff2"
+                "reference": "053c19fce8ccabc300addfc97edbd320e781e975"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/db-connection/zipball/ac0e407330a33e823d9eab3798d0735a70c64ff2",
-                "reference": "ac0e407330a33e823d9eab3798d0735a70c64ff2",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/db-connection/zipball/053c19fce8ccabc300addfc97edbd320e781e975",
+                "reference": "053c19fce8ccabc300addfc97edbd320e781e975",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/database": "~2.2.0",
@@ -1889,21 +1937,27 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-07-18T06:50:14+00:00"
+            "time": "2021-12-28T09:49:44+00:00"
         },
         {
             "name": "hyperf/di",
-            "version": "v2.2.16",
+            "version": "v2.2.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/di.git",
-                "reference": "b6f05f8e31c1985c928708a04d8abc08d06888b1"
+                "reference": "9efb9451d0df5d9a7636b0eb768f9c36d674a077"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/di/zipball/b6f05f8e31c1985c928708a04d8abc08d06888b1",
-                "reference": "b6f05f8e31c1985c928708a04d8abc08d06888b1",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/di/zipball/9efb9451d0df5d9a7636b0eb768f9c36d674a077",
+                "reference": "9efb9451d0df5d9a7636b0eb768f9c36d674a077",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/annotations": "^1.6",
@@ -1952,7 +2006,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-11-13T04:35:05+00:00"
+            "time": "2021-12-10T07:57:48+00:00"
         },
         {
             "name": "hyperf/dispatcher",
@@ -1966,7 +2020,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/dispatcher/zipball/fdd464fe5fac01c60732eddc2da7c3184e93995c",
                 "reference": "fdd464fe5fac01c60732eddc2da7c3184e93995c",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2013,24 +2073,31 @@
         },
         {
             "name": "hyperf/engine",
-            "version": "v1.1.6",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/engine.git",
-                "reference": "f583f01f458f8c69080e06e6dce715c86edc9f86"
+                "reference": "f7f5a82dfa14178c95aa580803a00972272e21a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/engine/zipball/f583f01f458f8c69080e06e6dce715c86edc9f86",
-                "reference": "f583f01f458f8c69080e06e6dce715c86edc9f86",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/engine/zipball/f7f5a82dfa14178c95aa580803a00972272e21a2",
+                "reference": "f7f5a82dfa14178c95aa580803a00972272e21a2",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
-                "php": ">=7.3"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^0.12",
+                "hyperf/guzzle": "^2.2",
+                "phpstan/phpstan": "^1.0",
                 "phpunit/phpunit": "^9.4",
                 "swoole/ide-helper": "dev-master"
             },
@@ -2040,7 +2107,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -2058,9 +2125,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/engine/issues",
-                "source": "https://github.com/hyperf/engine/tree/v1.1.6"
+                "source": "https://github.com/hyperf/engine/tree/v1.2.0"
             },
-            "time": "2021-07-11T10:22:13+00:00"
+            "time": "2021-12-30T07:22:55+00:00"
         },
         {
             "name": "hyperf/event",
@@ -2074,7 +2141,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/event/zipball/9c2ab56737d080d799b9b1f905716c7bf0d61ef6",
                 "reference": "9c2ab56737d080d799b9b1f905716c7bf0d61ef6",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2130,7 +2203,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/exception-handler/zipball/4e10fc994e06940a91704b248e389bf96f70ca10",
                 "reference": "4e10fc994e06940a91704b248e389bf96f70ca10",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2185,7 +2264,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/filesystem/zipball/69e9704f0c71a68ba3d59e1526e25cc2de11ac82",
                 "reference": "69e9704f0c71a68ba3d59e1526e25cc2de11ac82",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/di": "~2.2.0",
@@ -2246,7 +2331,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/framework/zipball/9210ea3e922914813b290b42b2548bf6ff14f537",
                 "reference": "9210ea3e922914813b290b42b2548bf6ff14f537",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "fig/http-message-util": "^1.1.2",
@@ -2312,7 +2403,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/guzzle/zipball/cae5b639bf41db207618c09d9e227de3bf5efed8",
                 "reference": "cae5b639bf41db207618c09d9e227de3bf5efed8",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3|^7.0",
@@ -2367,7 +2464,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/http-message/zipball/eddcfe8242a2ddf635a497e02445cb9a43143f79",
                 "reference": "eddcfe8242a2ddf635a497e02445cb9a43143f79",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -2420,7 +2523,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/http-server/zipball/6d4ef300be1e17d53bad79f45cffff805537b9e6",
                 "reference": "6d4ef300be1e17d53bad79f45cffff805537b9e6",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2485,7 +2594,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/logger/zipball/7474e7cb4a8d3ec237771b3023707d6da7bdc02b",
                 "reference": "7474e7cb4a8d3ec237771b3023707d6da7bdc02b",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2540,7 +2655,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/macroable/zipball/e82df0983d43b2c8c4a801172ca2190ba8c2e0cf",
                 "reference": "e82df0983d43b2c8c4a801172ca2190ba8c2e0cf",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=7.3"
@@ -2588,7 +2709,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/memory/zipball/e26bfea8c73af4604b217a1b449fbc64a06985d3",
                 "reference": "e26bfea8c73af4604b217a1b449fbc64a06985d3",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=7.2"
@@ -2639,7 +2766,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/model-cache/zipball/c4f7da4387cda79d6e713caf8934d9fae6ad53b7",
                 "reference": "c4f7da4387cda79d6e713caf8934d9fae6ad53b7",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2697,7 +2830,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/model-listener/zipball/6f66fbaf73e05291ff172f9a756e4a668916b77a",
                 "reference": "6f66fbaf73e05291ff172f9a756e4a668916b77a",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2754,7 +2893,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/paginator/zipball/d884a12771710bce66da6ddb494f52bcbd870721",
                 "reference": "d884a12771710bce66da6ddb494f52bcbd870721",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2811,7 +2956,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/pool/zipball/80c02966b9cb8ac939b8c52f6d4981206d69c57d",
                 "reference": "80c02966b9cb8ac939b8c52f6d4981206d69c57d",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2855,17 +3006,23 @@
         },
         {
             "name": "hyperf/process",
-            "version": "v2.2.3",
+            "version": "v2.2.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/process.git",
-                "reference": "5a10e322c05f9329ec84ff2255eb5fe9dea304fa"
+                "reference": "a7c1f79e5b870352c58e3055c79553ccee707066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/process/zipball/5a10e322c05f9329ec84ff2255eb5fe9dea304fa",
-                "reference": "5a10e322c05f9329ec84ff2255eb5fe9dea304fa",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/process/zipball/a7c1f79e5b870352c58e3055c79553ccee707066",
+                "reference": "a7c1f79e5b870352c58e3055c79553ccee707066",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2910,21 +3067,27 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-08-05T06:20:33+00:00"
+            "time": "2021-12-06T03:17:19+00:00"
         },
         {
             "name": "hyperf/redis",
-            "version": "v2.2.9",
+            "version": "v2.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/redis.git",
-                "reference": "8f49d3911d14b60cbb15bad3dc09b7a892051430"
+                "reference": "f0ab69dc2dd89e1597ccfb7e405b461c05a9a53b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/redis/zipball/8f49d3911d14b60cbb15bad3dc09b7a892051430",
-                "reference": "8f49d3911d14b60cbb15bad3dc09b7a892051430",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/redis/zipball/f0ab69dc2dd89e1597ccfb7e405b461c05a9a53b",
+                "reference": "f0ab69dc2dd89e1597ccfb7e405b461c05a9a53b",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-redis": "*",
@@ -2970,21 +3133,27 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-09-22T01:46:38+00:00"
+            "time": "2021-12-27T04:47:21+00:00"
         },
         {
             "name": "hyperf/server",
-            "version": "v2.2.14.1",
+            "version": "v2.2.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/server.git",
-                "reference": "e359944b35ba2035ff94e02bfd8b893f7e2a4b93"
+                "reference": "ea4278425e30780dab48058112d799032dff8f7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/server/zipball/e359944b35ba2035ff94e02bfd8b893f7e2a4b93",
-                "reference": "e359944b35ba2035ff94e02bfd8b893f7e2a4b93",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/server/zipball/ea4278425e30780dab48058112d799032dff8f7a",
+                "reference": "ea4278425e30780dab48058112d799032dff8f7a",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3031,7 +3200,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-11-01T03:02:11+00:00"
+            "time": "2021-12-13T08:49:35+00:00"
         },
         {
             "name": "hyperf/translation",
@@ -3045,7 +3214,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/translation/zipball/df8de58751b45626b0eb65d931a1511f0d9618c4",
                 "reference": "df8de58751b45626b0eb65d931a1511f0d9618c4",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3098,7 +3273,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/utils/zipball/28b7658046270e8f869846262d2a2143dda770bb",
                 "reference": "28b7658046270e8f869846262d2a2143dda770bb",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/inflector": "^2.0",
@@ -3164,7 +3345,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/validation/zipball/6b7b22707a178018d55f15ce0a6ff5f31a54ec2b",
                 "reference": "6b7b22707a178018d55f15ce0a6ff5f31a54ec2b",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "egulias/email-validator": "^3.0",
@@ -3223,7 +3410,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/websocket-server/zipball/367b5deb365306e4ee45f8a84cfa2992f57795b3",
                 "reference": "367b5deb365306e4ee45f8a84cfa2992f57795b3",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -7243,17 +7436,23 @@
         },
         {
             "name": "hyperf/devtool",
-            "version": "v2.2.5",
+            "version": "v2.2.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/devtool.git",
-                "reference": "20dc78d5d04a2f5fc83f46427f2f0dc4a2c93d30"
+                "reference": "275298f34f752a45cfd258288230e60f7fcd5d4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/devtool/zipball/20dc78d5d04a2f5fc83f46427f2f0dc4a2c93d30",
-                "reference": "20dc78d5d04a2f5fc83f46427f2f0dc4a2c93d30",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/devtool/zipball/275298f34f752a45cfd258288230e60f7fcd5d4a",
+                "reference": "275298f34f752a45cfd258288230e60f7fcd5d4a",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/command": "~2.2.0",
@@ -7294,7 +7493,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-08-19T06:58:40+00:00"
+            "time": "2021-12-13T06:53:24+00:00"
         },
         {
             "name": "hyperf/ide-helper",
@@ -7308,7 +7507,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/hyperf/ide-helper/zipball/f03e9f03e9f3cf392c7bee43d40d978528c5e116",
                 "reference": "f03e9f03e9f3cf392c7bee43d40d978528c5e116",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "type": "library",
             "extra": {
@@ -7338,17 +7543,23 @@
         },
         {
             "name": "hyperf/testing",
-            "version": "v2.2.11",
+            "version": "v2.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/testing.git",
-                "reference": "aac907887ba375d0bd8be4dc647e42624e5d8f08"
+                "reference": "1786dcc624c78e54c7779ca8f3f6eb959bd7bb7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/testing/zipball/aac907887ba375d0bd8be4dc647e42624e5d8f08",
-                "reference": "aac907887ba375d0bd8be4dc647e42624e5d8f08",
-                "shasum": ""
+                "url": "https://api.github.com/repos/hyperf/testing/zipball/1786dcc624c78e54c7779ca8f3f6eb959bd7bb7d",
+                "reference": "1786dcc624c78e54c7779ca8f3f6eb959bd7bb7d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -7384,9 +7595,9 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/hyperf/testing/tree/v2.2.11"
+                "source": "https://github.com/hyperf/testing/tree/v2.2.22"
             },
-            "time": "2021-10-09T01:37:54+00:00"
+            "time": "2022-01-04T03:56:53+00:00"
         },
         {
             "name": "mockery/mockery",

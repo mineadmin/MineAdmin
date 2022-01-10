@@ -11,7 +11,7 @@
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.4.0" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.5.0" />
 </p>
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
@@ -45,6 +45,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 18. 代码生成，前后端代码的生成（php、vue、js、sql），支持下载和生成到模块
 19. 缓存监控，查看Redis信息和系统所使用key的信息
 20. API管理，对应用和接口管理、接口授权等功能。接口文档自动生成，输入、输出参数检查等
+21. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
 
 ## 环境需求
 

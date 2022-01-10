@@ -2,10 +2,10 @@
 const port = process.env.npm_config_port || 2800
 
 // 基础url
-const base_url = 'http://127.0.0.1:9501'
+const base_url = process.env.VUE_APP_URL
 
 // 代理API前缀
-const proxy_api = '/api'
+const proxy_api = process.env.VUE_APP_API
 
 module.exports = {
 

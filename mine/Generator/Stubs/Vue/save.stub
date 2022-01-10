@@ -25,6 +25,7 @@
           add: '新增{BUSINESS_NAME}',
           edit: '编辑{BUSINESS_NAME}'
         },
+        treeList: [],
         form: {
           {FORM_DATA}
         },
@@ -44,6 +45,7 @@
       open(mode='add'){
         this.mode = mode;
         this.visible = true;
+        {TREE_REQUEST}
         return this;
       },
       //表单提交方法

@@ -82,10 +82,8 @@
         ref="table"
         v-if="refreshTable"
         :api="api"
-        :column="column"
         :showRecycle="true"
         row-key="id"
-        :hidePagination="true"
         :default-expand-all="isExpand"
         @selection-change="selectionChange"
         @switch-data="switchData"
@@ -127,7 +125,6 @@
         >
           <template #default="scope">
             <el-switch
-              v-if="scope.row.status"
               v-model="scope.row.status"
               @change="handleStatus($event, scope.row)"
               active-value="0"

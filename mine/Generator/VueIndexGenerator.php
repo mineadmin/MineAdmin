@@ -52,6 +52,8 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return VueIndexGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): VueIndexGenerator
     {
@@ -74,9 +76,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $module = Str::lower($this->model->module_name);
-        $path = BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getBusinessEnName()}/index.vue";
+        $path = BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}/index.vue";
         $this->filesystem->makeDirectory(
-            BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getBusinessEnName()}",
+            BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
             0755, true, false
         );
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
@@ -175,9 +177,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getCode(): string
     {
-        return Str::lower($this->model->module_name)
-                . ':' .
-                Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
+        return Str::lower($this->model->module_name) . ':' . $this->getShortBusinessName();
     }
 
     /**
@@ -367,6 +367,19 @@ js;
             }
         }
         return '';
+    }
+
+    /**
+     * 获取短业务名称
+     * @return string
+     */
+    public function getShortBusinessName(): string
+    {
+        return Str::camel(str_replace(
+            Str::lower($this->model->module_name),
+            '',
+            str_replace(env('DB_PREFIX'), '', $this->model->table_name)
+        ));
     }
 
     /**

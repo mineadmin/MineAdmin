@@ -126,6 +126,8 @@ export default {
           } catch(e) {
             $message.error(this.$t('sys.copy_fail'))
           }
+        } else {
+          this.$message.error(res.message)
         }
       }).catch(e => {
         $message.error(res.message)

@@ -25,7 +25,7 @@ function createService () {
 				return response
 			} else if (response.data.size) {
 				response.data.codo = 500
-				response.data.message = '服务器异常'
+				response.data.message = '服务器异常，请通过网络请求查看具体响应信息'
 				response.data.success = false
 			}
 			return response.data;

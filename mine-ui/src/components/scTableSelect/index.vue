@@ -35,7 +35,7 @@
 	export default {
 		props: {
 			modelValue: null,
-			apiObj: { type: Object, default: () => {} },
+			api: { type: Object, default: () => {} },
 			params: { type: Object, default: () => {} },
 			placeholder: { type: String, default: "请选择" },
 			multiple: { type: Boolean, default: false },
@@ -101,7 +101,7 @@
 					[this.defaultProps.keyword]: this.keyword
 				}
 				Object.assign(reqData, this.params, this.formData)
-				var res = await this.apiObj.get(reqData);
+				var res = await this.api(reqData);
 				var parseData = config.parseData(res)
 				this.tableData = parseData.rows;
 				this.total = parseData.total;

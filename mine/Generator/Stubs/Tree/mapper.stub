@@ -22,6 +22,17 @@ class {CLASS_NAME} extends AbstractMapper
         $this->model = {MODEL}::class;
     }
 
+    /**
+     * 获取前端选择树
+     * @return array
+     */
+    public function getSelectTree(): array
+    {
+        return $this->model::query()
+            ->select(['{FIELD_ID}', '{FIELD_PID}', '{FIELD_ID} AS value', '{FIELD_NAME} AS label'])
+            ->get()->toTree();
+    }
+
 
     /**
      * 查询树名称

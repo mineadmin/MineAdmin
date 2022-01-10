@@ -21,7 +21,7 @@ const WATCH_DIR = __DIR__ . '/';
 # Watch Ext 监听扩展名（多个可用英文逗号隔开）
 const WATCH_EXT = 'php,env';
 # Exclude Dir 排除目录（不监听的目录，数组形式)
-const EXCLUDE_DIR = ['vendor', 'runtime', 'public'];
+const EXCLUDE_DIR = ['vendor', 'runtime', 'public', 'mine-ui'];
 # Entry Point File 入口文件
 const ENTRY_POINT_FILE = __DIR__ . '/bin/hyperf.php';
 # Start Command 启动命令

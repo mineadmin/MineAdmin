@@ -15,6 +15,8 @@ namespace Mine;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpMessage\Stream\SwooleStream;
+use Mine\Exception\MineException;
+use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\MineModelExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -193,21 +195,22 @@ class MineCollection extends Collection
             $reader = IOFactory::createReader(IOFactory::identify($tempFilePath));
             $reader->setReadDataOnly(true);
             $sheet = $reader->load($tempFilePath);
-            foreach ($sheet->getActiveSheet()->getRowIterator(2) as $k => $row) {
-                $temp = [];
-                foreach ($row->getCellIterator() as $index => $item) {
-                    if (isset($fields[ (ord($index) - 65 ) ])) {
-                        $temp[$fields[(ord($index) - 65)]['name']] = $item->getFormattedValue();
+            try {
+                foreach ($sheet->getActiveSheet()->getRowIterator(2) as $k => $row) {
+                    $temp = [];
+                    foreach ($row->getCellIterator() as $index => $item) {
+                        if (isset($fields[ (ord($index) - 65 ) ])) {
+                            $temp[$fields[(ord($index) - 65)]['name']] = $item->getFormattedValue();
+                        }
+                    }
+                    if (! empty($temp)) {
+                        $data[] = $temp;
                     }
                 }
-                if (! empty($temp)) {
-                    $data[] = $temp;
-                }
-            }
-            try {
                 unlink($tempFilePath);
             } catch (\Throwable $e) {
-                logger('Unlink File')->error('导入临时文件删除失败：' . $e->getMessage());
+                unlink($tempFilePath);
+                throw new MineException($e->getMessage());
             }
         } else {
             return false;

@@ -239,6 +239,7 @@
         }).then(() => {
           this.$API.generate.sync(id).then(res => {
             res.success && this.$message.success(res.message)
+            res.success || this.$message.error(res.message)
           })
         })
       },

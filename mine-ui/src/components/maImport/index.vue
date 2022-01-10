@@ -2,6 +2,7 @@
 
     <el-button
         type="success"
+        v-auth="auth"
         icon="el-icon-upload"
         @click="visible = true"
         style="margin: 0 10px;"
@@ -15,7 +16,6 @@
         @closed="$emit('closed')"
     >
         <el-upload
-            :v-auth="auth"
             drag
             action="#"
             :show-file-list="false"
@@ -31,6 +31,10 @@
         </el-upload>
 
         <el-button @click="downloadTemplate" type="primary" style="margin-top: 15px;">下载模板</el-button>
+
+        <template #footer>
+            <el-button @click="visible=false" >关闭</el-button>
+        </template>
     </el-dialog>
 </template>
 
@@ -72,6 +76,7 @@ export default {
             await this.uploadApi(form).then( res => {
                 if (res.success) {
                     this.$message.success(res.message)
+                    this.visible = false
                     this.$emit('success')
                 }
             })

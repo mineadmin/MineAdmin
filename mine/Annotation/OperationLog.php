@@ -19,4 +19,17 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-class OperationLog extends AbstractAnnotation {}
+class OperationLog extends AbstractAnnotation
+{
+    /**
+     * 菜单名称
+     * @var string
+     */
+    public $menuName;
+
+    public function __construct($value = null)
+    {
+        parent::__construct($value);
+        $this->bindMainProperty('menuName', $value);
+    }
+}

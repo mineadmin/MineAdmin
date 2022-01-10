@@ -84,12 +84,12 @@ class SystemDictDataService extends AbstractService
         }
 
         $args = [
-            'select' => 'id, label, value',
+            'select' => ['id', 'label', 'value'],
             'status' => '0',
             'orderBy' => 'sort',
             'orderType' => 'desc'
         ];
-        $data = parent::getList(array_merge($args, $params));
+        $data = $this->mapper->getList(array_merge($args, $params), false);
 
         $this->redis->set($key, serialize($data));
 

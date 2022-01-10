@@ -10,7 +10,6 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
-use Mine\Annotation\Resubmit;
 use Mine\Helper\LoginUser;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
@@ -31,6 +30,8 @@ class LoginController extends MineController
     /**
      * @GetMapping("captcha")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function captcha(): ResponseInterface
@@ -42,6 +43,8 @@ class LoginController extends MineController
      * @PostMapping("login")
      * @param SystemUserLoginRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function login(SystemUserLoginRequest $request): ResponseInterface

@@ -1,15 +1,13 @@
 <?php
 
 declare(strict_types = 1);
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemQueueMessageMapper;
 use App\System\Model\SystemQueueMessage;
-use App\System\Model\SystemUser;
-use App\System\Queue\Producer\MessageProducer;
-use Hyperf\Di\Annotation\Inject;
+use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
-use Mine\Amqp\DelayProducer;
 
 /**
  * 信息管理服务类
@@ -20,17 +18,6 @@ class SystemQueueMessageService extends AbstractService
      * @var SystemQueueMessageMapper
      */
     public $mapper;
-    /**
-     * @Inject
-     * @var SystemUserService
-     */
-    public $userService;
-
-    /**
-     * @Inject
-     * @var DelayProducer
-     */
-    protected $producer;
 
     public function __construct(SystemQueueMessageMapper $mapper)
     {
@@ -38,56 +25,85 @@ class SystemQueueMessageService extends AbstractService
     }
 
     /**
-     * Description:发送消息
-     * User:mike
+     * 获取用户未读消息
+     * @param int $id
+     * @return mixed
+     */
+    public function getUnreadMessage(int $id)
+    {
+        $params = [
+            'user_id' => $id,
+            'orderBy' => 'created_at',
+            'orderType' => 'desc',
+            'getReceive' => true,
+            'read_status' => 0,
+        ];
+        return $this->mapper->getPageList($params, false);
+    }
+
+    /**
+     * 获取收信箱列表数据
+     * @param array $params
+     * @return array
+     */
+    public function getReceiveMessage(array $params = []): array
+    {
+        $params['getReceive'] = true;
+        unset($params['getSend']);
+        return $this->mapper->getPageList($params, false);
+    }
+
+    /**
+     * 获取已发送列表数据
+     * @param array $params
+     * @return array
+     */
+    public function getSendMessage(array $params = []): array
+    {
+        $params['getSend'] = true;
+        unset($params['getReceive']);
+        return $this->mapper->getPageList($params, false);
+    }
+
+    /**
+     * 发私信
      * @param array $data
-     * @return int
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      */
-    public function send(array $data): int
+    public function sendPrivateMessage(array $data): bool
     {
-        $this->setAttributes($data);
-        $userIdArr = [$this->receive_by];
-        //发送所有用户
-        if(!$this->receive_by){
-            //获取所有用户Id
-            $userIdArr = $this->userService->pluck(['status'=>SystemUser::USER_NORMAL],'id');
-        }
-        $messageId = array_map(function($userId) use ($data){
-            $data['receive_by'] = $userId;
-            return $this->mapper->save($data);
-        },$userIdArr);
-        
-        return $this->push($messageId);
+        $queueMessage = new QueueMessageVo();
+        $queueMessage->setTitle($data['title']);
+        $queueMessage->setContent($data['content']);
+        // 固定私信类型
+        $queueMessage->setContentType(SystemQueueMessage::TYPE_PRIVATE_MESSAGE);
+        $queueMessage->setSendBy(user()->getId());
+        return push_queue_message($queueMessage, $data['users']) !== -1;
     }
 
     /**
-     * Description:查看操作
-     * User:mike
-     * @param int $messageId
-     * @return int
+     * 获取接收人列表
+     * @param int $id
+     * @param array $params
+     * @return array
      */
-    public function look($messageId = 0): int
+    public function getReceiveUserList(int $id, array $params = []): array
     {
-        $condition = $messageId;
-        if(!$messageId){
-            $condition = [
-                'receive_by'=>user()->getId()
-            ];
-        }
-        return $this->mapper->updateByCondition($condition, [
-            'read_status'=>SystemQueueMessage::READ_STATUS_YES
-        ]) ? 1 : 0;
+        return $this->mapper->getReceiveUserList($id, $params);
     }
 
     /**
-     * Description:发送队列
-     * User:mike
-     * @param array $messageId
-     * @return int
+     * 更新中间表数据状态
+     * @param String $ids
+     * @param string $columnName
+     * @param string $value
+     * @return bool
      */
-    protected function push(array $messageId): int
+    public function updateDataStatus(String $ids, string $columnName = 'read_status', string $value = '1'): bool
     {
-        $message = new MessageProducer(['messageId'=>$messageId]);
-        return $this->producer->produce($message,false,5,0) ? 1 : 0;
+        return $this->mapper->updateDataStatus(explode(',', $ids), $columnName, $value);
     }
 }

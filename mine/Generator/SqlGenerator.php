@@ -54,6 +54,8 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      * @param SettingGenerateTables $model
      * @param string $adminId
      * @return SqlGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model, string $adminId): SqlGenerator
     {
@@ -200,9 +202,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getCode(): string
     {
-        return Str::lower($this->model->module_name)
-                . ':' .
-                Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
+        return Str::lower($this->model->module_name) . ':' . $this->getShortBusinessName();
     }
 
     /**
@@ -211,8 +211,9 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRoute(): string
     {
-        return Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
+        return $this->getShortBusinessName();
     }
+
 
     /**
      * 获取Vue模板路径
@@ -220,10 +221,20 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getVueTemplate(): string
     {
-        return Str::lower($this->model->module_name)
-            . '/' .
-            Str::camel(str_replace(env('DB_PREFIX'), '', $this->model->table_name))
-            . '/index';
+        return Str::lower($this->model->module_name) . '/' . $this->getShortBusinessName() . '/index';
+    }
+
+    /**
+     * 获取短业务名称
+     * @return string
+     */
+    public function getShortBusinessName(): string
+    {
+        return Str::camel(str_replace(
+            Str::lower($this->model->module_name),
+            '',
+            str_replace(env('DB_PREFIX'), '', $this->model->table_name)
+        ));
     }
 
     /**

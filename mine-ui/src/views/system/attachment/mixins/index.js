@@ -144,6 +144,8 @@ export default {
           if (res.success) {
             await this.loadDirs()
             this.$message.success(res.message)
+          } else {
+            this.$message.error(res.message)
           }
         }).catch(e => {
           this.$message.error(e)
@@ -163,15 +165,24 @@ export default {
         let ids = []
         this.checkList.map(item => ids.push(item.id))
         if (this.isRecycle) {
-          this.$API.attachment.realDeletes(ids.join(',')).then(() => {
-            this.getList()
+          this.$API.attachment.realDeletes(ids.join(',')).then(res => {
+            if (res.success) {
+              this.getList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
         } else {
-          this.$API.attachment.deletes(ids.join(',')).then(() => {
-            this.getList()
+          this.$API.attachment.deletes(ids.join(',')).then(res => {
+            if (res.success) {
+              this.getList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
         }
-        this.$message.success("操作成功")
       })
     },
 
@@ -181,15 +192,24 @@ export default {
         type: 'warning'
       }).then(() => {
         if (this.isRecycle) {
-          this.$API.attachment.realDeletes(id).then(() => {
-            this.getList()
+          this.$API.attachment.realDeletes(id).then(res => {
+            if (res.success) {
+              this.getList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
         } else {
-          this.$API.attachment.deletes(id).then(() => {
-            this.getList()
+          this.$API.attachment.deletes(id).then(res => {
+            if (res.success) {
+              this.getList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
         }
-        this.$message.success("操作成功")
       }).catch(()=>{})
     },
 
@@ -198,8 +218,12 @@ export default {
       let ids = []
       this.checkList.map(item => ids.push(item.id))
       await this.$API.attachment.recoverys(ids.join(',')).then(res => {
-        this.$message.success(res.message)
-        this.getList()
+        if (res.success) {
+          this.$message.success(res.message)
+          this.getList()
+        } else {
+          this.$message.error(res.message)
+        }
       })
     },
 

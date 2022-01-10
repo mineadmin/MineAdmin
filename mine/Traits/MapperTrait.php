@@ -97,7 +97,7 @@ trait MapperTrait
      * @param bool $isScope
      * @return Builder
      */
-    public function listQuerySetting(?array $params = null, bool $isScope = false): Builder
+    public function listQuerySetting(?array $params, bool $isScope): Builder
     {
         $query = (($params['recycle'] ?? false) === true) ? $this->model::onlyTrashed() : $this->model::query();
 
@@ -230,9 +230,9 @@ trait MapperTrait
      * 获取单个值
      * @param array $condition
      * @param string $columns
-     * @return MineModel
+     * @return \Hyperf\Utils\HigherOrderTapProxy|mixed|void|null
      */
-    public function value(array $condition, string $columns = 'id'): ?MineModel
+    public function value(array $condition, string $columns = 'id')
     {
         return ($model = $this->model::where($condition)->value($columns)) ? $model : null;
     }

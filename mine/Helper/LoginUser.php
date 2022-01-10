@@ -43,14 +43,15 @@ class LoginUser
 
     /**
      * 验证token
+     * @param string|null $token
      * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function check(): bool
+    public function check(?string $token = null): bool
     {
         try {
-            if ($this->jwt->checkToken(null, true, true, true)) {
+            if ($this->jwt->checkToken($token, true, true, true)) {
                 return true;
             }
         } catch (InvalidArgumentException $e) {
@@ -73,11 +74,12 @@ class LoginUser
 
     /**
      * 获取当前登录用户信息
+     * @param string|null $token
      * @return array
      */
-    public function getUserInfo(): array
+    public function getUserInfo(?string $token = null): array
     {
-        return $this->jwt->getParserData();
+        return $this->jwt->getParserData($token);
     }
 
     /**

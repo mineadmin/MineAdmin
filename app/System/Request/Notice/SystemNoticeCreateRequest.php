@@ -23,7 +23,14 @@ class SystemNoticeCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            // 标题
+            'title' => 'required',
+
+            // 公告类型
+            'type' => 'required',
+
+            // 公告内容
+            'content' => 'required',
         ];
     }
 }

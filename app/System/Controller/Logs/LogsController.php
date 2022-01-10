@@ -6,6 +6,7 @@ namespace App\System\Controller\Logs;
 use App\System\Service\SystemApiLogService;
 use App\System\Service\SystemLoginLogService;
 use App\System\Service\SystemOperLogService;
+use App\System\Service\SystemQueueLogService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -45,6 +46,12 @@ class LogsController extends MineController
     protected $apiLogService;
 
     /**
+     * @Inject
+     * @var SystemQueueLogService
+     */
+    protected $queueLogService;
+
+    /**
      * 获取登录日志列表
      * @GetMapping("getLoginLogPageList")
      * @Permission("system:loginLog")
@@ -72,6 +79,42 @@ class LogsController extends MineController
     public function getApiLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->apiLogService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 获取队列日志列表
+     * @GetMapping("getQueueLogPageList")
+     * @Permission("system:queueLog")
+     */
+    public function getQueueLogPageList(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->queueLogService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 删除队列日志
+     * @DeleteMapping("deleteQueueLog/{ids}")
+     * @Permission("system:queueLog:delete")
+     * @OperationLog
+     * @param String $ids
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function deleteQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->queueLogService->delete($ids) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 重新加入队列
+     * @DeleteMapping("updateQueueLog/{ids}")
+     * @Permission("system:queueLog:produceStatus")
+     * @OperationLog
+     * @param String $ids
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function updateQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->queueLogService->updateProduceStatus($ids) ? $this->success() : $this->error();
     }
 
     /**

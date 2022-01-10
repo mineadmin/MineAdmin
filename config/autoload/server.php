@@ -28,7 +28,7 @@ return [
             ],
         ],
         [
-            'name'      => 'ws',
+            'name'      => 'message',
             'type'      => Server::SERVER_WEBSOCKET,
             'host'      => '0.0.0.0',
             'port'      => 9502,

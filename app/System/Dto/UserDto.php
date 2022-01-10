@@ -29,4 +29,9 @@ class UserDto implements MineModelExcel
      * @ExcelProperty(value="手机", index="2")
      */
     public $phone;
+
+    /**
+     * @ExcelProperty(value="状态", index="4")
+     */
+    public $status;
 }

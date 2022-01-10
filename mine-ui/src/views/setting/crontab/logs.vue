@@ -14,6 +14,7 @@
 				row-key="id"
 				:api="api"
 				:autoLoad="false"
+				:params="{orderBy: 'created_at', orderType: 'desc'}"
 				@selection-change="selectionChange"
 				stripe
 			>

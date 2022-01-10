@@ -78,7 +78,7 @@
           edit: '编辑应用'
         },
         form: {
-          
+
            id: '',
            group_id: '',
            app_name: '',
@@ -89,7 +89,7 @@
            remark: '',
         },
         rules: {
-          
+
            group_id: [{required: true, message: '应用分组必填', trigger: 'blur' }],
            app_name: [{required: true, message: '应用名称必填', trigger: 'blur' }],
            app_id: [{required: true, message: 'APP ID必填', trigger: 'blur' }],
@@ -97,7 +97,7 @@
         },
         visible: false,
         isSaveing: false,
-        
+
         data_status_data: [],
         groupData: [],
       }
@@ -121,8 +121,24 @@
           this.form.app_id = appid.data.app_id
       },
       async setAppsecret() {
-          let appsecret = await this.$API.app.getAppSecret()
-          this.form.app_secret = appsecret.data.app_secret
+      	if( this.mode === 'add' ){
+					let appsecret = await this.$API.app.getAppSecret()
+					this.form.app_secret = appsecret.data.app_secret
+				} else {
+					this.$prompt('若要继续,请在下方输入"yes"', '警告!该操作会导致已经在运行中的应用失效', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						inputPattern:
+							/yes/,
+						inputErrorMessage: '输入有误',
+					}).then( async () => {
+						let appsecret = await this.$API.app.getAppSecret()
+						this.form.app_secret = appsecret.data.app_secret
+						this.$message.success('appSecret重置成功,请点击下方"保存"按钮使其生效')
+					})
+				}
+
+
       },
       //表单提交方法
       submit(){
@@ -174,7 +190,7 @@
           }
         })
       }
-      
+
     }
   }
 </script>

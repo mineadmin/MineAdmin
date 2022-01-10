@@ -92,16 +92,17 @@ class MineExecutor
                         $runnable = function () use ($class, $method, $parameters, $crontab) {
                             try {
                                 $result = true;
+                                $res = null;
                                 $instance = make($class);
                                 if ($parameters && is_array($parameters)) {
-                                    $instance->{$method}(...$parameters);
+                                    $res = $instance->{$method}(...$parameters);
                                 } else {
-                                    $instance->{$method}();
+                                    $res = $instance->{$method}();
                                 }
                             } catch (\Throwable $throwable) {
                                 $result = false;
                             } finally {
-                                $this->logResult($crontab, $result, isset($throwable) ? $throwable->getMessage() : '');
+                                $this->logResult($crontab, $result, isset($throwable) ? $throwable->getMessage() : $res);
                             }
                         };
 

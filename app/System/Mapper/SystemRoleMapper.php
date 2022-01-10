@@ -155,9 +155,15 @@ class SystemRoleMapper extends AbstractMapper
         if (isset($params['code'])) {
             $query->where('code', $params['code']);
         }
+
         if (isset($params['status'])) {
             $query->where('status', $params['status']);
         }
+
+        if (isset($params['filterAdminRole'])) {
+            $query->whereNotIn('id', [env('ADMIN_ROLE')]);
+        }
+
         if (isset($params['minDate']) && isset($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',

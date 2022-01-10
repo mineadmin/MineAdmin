@@ -34,6 +34,8 @@ abstract class MineController
     /**
      * @param string $id
      * @return mixed
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function app(string $id)
     {

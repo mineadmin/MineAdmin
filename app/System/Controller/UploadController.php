@@ -34,6 +34,8 @@ class UploadController extends MineController
      * @param UploadFileRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Auth
      */
     public function uploadFile(UploadFileRequest $request): \Psr\Http\Message\ResponseInterface
@@ -54,6 +56,8 @@ class UploadController extends MineController
      * @param UploadImageRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Auth
      */
     public function uploadImage(UploadImageRequest $request): \Psr\Http\Message\ResponseInterface
@@ -124,14 +128,6 @@ class UploadController extends MineController
     public function deleteUploadDir(CreateUploadDirRequest $request): \Psr\Http\Message\ResponseInterface
     {
         return $this->service->deleteUploadDir($request->all()) ? $this->success() : $this->error();
-    }
-
-    /**
-     * 下载文件
-     * @GetMapping("download")
-     */
-    public function download()
-    {
     }
 
     /**

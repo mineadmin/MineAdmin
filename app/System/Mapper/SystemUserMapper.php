@@ -148,9 +148,23 @@ class SystemUserMapper extends AbstractMapper
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
+        if (isset($params['nickname'])) {
+            $query->where('nickname', 'like', '%'.$params['nickname'].'%');
+        }
+        if (isset($params['phone'])) {
+            $query->where('phone', '=', $params['phone']);
+        }
+        if (isset($params['email'])) {
+            $query->where('email', '=', $params['email']);
+        }
         if (isset($params['status'])) {
             $query->where('status', $params['status']);
         }
+
+        if (isset($params['filterSuperAdmin'])) {
+            $query->whereNotIn('id', [env('SUPER_ADMIN')]);
+        }
+
         if (isset($params['minDate']) && isset($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
@@ -170,6 +184,23 @@ class SystemUserMapper extends AbstractMapper
                 return $isAll ? $query->select(['*']) : $query->select(['id', 'name']);
             }]);
         }
+
+        if (isset($params['role_id'])) {
+            $tablePrefix = env('DB_PREFIX');
+            $query->whereRaw(
+                "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
+                [ $params['role_id'] ]
+            );
+        }
+
+        if (isset($params['post_id'])) {
+            $tablePrefix = env('DB_PREFIX');
+            $query->whereRaw(
+                "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",
+                [ $params['post_id'] ]
+            );
+        }
+
         return $query;
     }
 

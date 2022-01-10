@@ -20,6 +20,7 @@ use League\Flysystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
 use Hyperf\HttpMessage\Upload\UploadedFile;
+use Mine\Helper\Str;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Container\ContainerInterface;
 
@@ -96,7 +97,7 @@ class MineUpload
     protected function handleUpload(UploadedFile $uploadedFile, array $config): array
     {
         $path = $this->getPath($config);
-        $filename = $this->getNewName() . '.' . $uploadedFile->getExtension();
+        $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
         if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
             throw new NormalStatusException($uploadedFile->getError(), 500);
@@ -108,7 +109,7 @@ class MineUpload
             'object_name' => $filename,
             'mime_type' => $uploadedFile->getClientMediaType(),
             'storage_path' => $path,
-            'suffix' => $uploadedFile->getExtension(),
+            'suffix' => Str::lower($uploadedFile->getExtension()),
             'size_byte' => $uploadedFile->getSize(),
             'size_info' => format_size($uploadedFile->getSize() * 1024),
             'url' => $this->assembleUrl($path, $filename),

@@ -17,6 +17,7 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemRole;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
+use Mine\Exception\MineException;
 
 trait ModelMacroTrait
 {
@@ -30,6 +31,10 @@ trait ModelMacroTrait
         Builder::macro('userDataScope', function(?int $userid = null) use($model)
         {
             $userid = is_null($userid) ? (int) user()->getId() : $userid;
+
+            if (empty($userid)) {
+                throw new MineException('Data Scope missing user_id');
+            }
 
             /* @var Builder $this */
             if ($userid == env('SUPER_ADMIN')) {
@@ -82,7 +87,7 @@ trait ModelMacroTrait
                                 break 2;
                             case SystemRole::CUSTOM_SCOPE:
                                 // 自定义数据权限
-                                $deptIds = $role->depts()->get(['id']);
+                                $deptIds = $role->depts()->pluck('id')->toArray();
                                 $this->userIds = array_merge(
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
@@ -139,7 +144,7 @@ trait ModelMacroTrait
             if($value === NULL){
                 return $this->where($key, $operator);
             }else{
-                return $this->where($key, $operator,$value);
+                return $this->where($key, $operator, $value);
             }
         });
 
@@ -154,7 +159,7 @@ trait ModelMacroTrait
             if($value === NULL){
                 return $this->orWhere($key, $operator);
             }else{
-                return $this->orWhere($key, $operator,$value);
+                return $this->orWhere($key, $operator, $value);
             }
         });
     }

@@ -32,7 +32,7 @@
       remoteFilter
     >
       <el-table-column type="selection" width="50"></el-table-column>
-      
+
       <el-table-column
         label="表名称"
         prop="name"
@@ -70,7 +70,7 @@ export default {
 
   data () {
     return {
-      
+
       api: { list: this.$API.dataMaintain.getPageList },
       // 搜索
       queryParams: {
@@ -97,7 +97,7 @@ export default {
         if (res.success) {
           this.handleDialogClose()
           this.$emit('confirm')
-        } 
+        }
       })
     },
 

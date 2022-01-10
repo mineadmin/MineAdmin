@@ -149,8 +149,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRequestRoute(): string
     {
-        return Str::lower($this->model->module_name) . '/' .
-            Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
+        return Str::lower($this->model->module_name) . '/' . $this->getShortBusinessName();
     }
 
     /**
@@ -160,6 +159,19 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
     protected function getBusinessName(): string
     {
         return $this->model->menu_name;
+    }
+
+    /**
+     * 获取短业务名称
+     * @return string
+     */
+    public function getShortBusinessName(): string
+    {
+        return Str::camel(str_replace(
+            Str::lower($this->model->module_name),
+            '',
+            str_replace(env('DB_PREFIX'), '', $this->model->table_name)
+        ));
     }
 
     /**

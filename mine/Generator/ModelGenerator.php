@@ -62,7 +62,8 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
 
     /**
      * 生成代码
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function generator(): void
     {
@@ -77,8 +78,12 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         $command = [
             'command'  => 'mine:model-gen',
             '--module' => $this->model->module_name,
-            '--table'  => str_replace(env('DB_PREFIX'), '', $this->model->table_name)
+            '--table'  => $this->model->table_name
         ];
+
+        if (! Str::contains($this->model->table_name, Str::lower($this->model->module_name))) {
+            throw new NormalStatusException(t('setting.gen_model_error'), 500);
+        }
 
         $input = new ArrayInput($command);
         $output = new NullOutput();
@@ -88,7 +93,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         $application->setAutoExit(false);
 
         $moduleName = Str::title($this->model->module_name);
-        $modelName  = Str::studly($this->model->table_name);
+        $modelName  = Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
 
         if ($application->run($input, $output) === 0) {
 

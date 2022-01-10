@@ -193,7 +193,7 @@
       },
 
       handleResource(data) {
-        this.form.avatar = data[0].url
+        this.form.avatar = this.viewImage(data.pop().url)
       },
 
       // 请求部门、角色、岗位数据
@@ -211,7 +211,6 @@
 
       //表单注入数据
       async setData(data){
-        console.log(data)
         this.loading = true
         this.form.id = data.id
         this.form.avatar = data.avatar

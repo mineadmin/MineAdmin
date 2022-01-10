@@ -21,7 +21,7 @@ class ConsumeEvent
     public $message;
     public $data;
 
-    public function __construct(ConsumerMessageInterface $message,$data)
+    public function __construct(ConsumerMessageInterface $message, $data)
     {
         $this->message = $message;
         $this->data = $data;

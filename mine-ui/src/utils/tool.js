@@ -214,12 +214,12 @@ tool.download = function(res) {
 }
 
 tool.viewImage = function(path, defaultStorage = 'LOCAL') {
-	let mode = tool.data.get('site_storage_mode').toUpperCase()
+	let mode = tool.data.get('site_storage_mode') ? tool.data.get('site_storage_mode').toUpperCase() : defaultStorage
 
 	if (Config.STORAGE_URL[mode]) {
 		return Config.STORAGE_URL[mode] + path
 	} else {
-		return Config.STORAGE_URL[defaultStorage] + path
+		return Config.STORAGE_URL[mode] + path
 	}
 }
 
@@ -267,6 +267,13 @@ tool.httpBuild = function (data, isPrefix = false) {
     }
 
     return _result.length ? prefix + _result.join('&') : ''
+}
+
+/**
+ * 获取token
+ */
+tool.getToken = function () {
+    return tool.data.get('token')
 }
 
 export default tool

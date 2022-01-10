@@ -176,14 +176,12 @@ export default {
       }
 
       this.loading = true
+      this.response = {}
 
       request(config).then(res => {
         this.loading = false
-        if (res.success) {
-          this.response = res.data
-          
-          this.$message.success(res.message)
-        }
+        res.success ? this.$message.success(res.message) : this.$message.error(res.message)
+        this.response = res.data
       }).catch(e => {
         this.loading = false
         this.$message.error(res.message)

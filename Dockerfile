@@ -45,4 +45,6 @@ WORKDIR /opt/www
 COPY . /opt/www
 RUN composer install --no-dev -o
 
-EXPOSE 9501
+EXPOSE 9501 9502 9503
+
+

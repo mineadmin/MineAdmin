@@ -41,7 +41,7 @@ class NormalStatusExceptionHandler extends ExceptionHandler
         if ($throwable->getCode() != 200 && $throwable->getCode() != 0) {
             $format['code'] = $throwable->getCode();
         }
-        logger('Exception log')->debug($throwable->getMessage());
+//        logger('Exception log')->debug($throwable->getMessage());
         return $response->withHeader('Server', 'MineAdmin')
             ->withAddedHeader('content-type', 'application/json; charset=utf-8')
             ->withBody(new SwooleStream(Json::encode($format)));

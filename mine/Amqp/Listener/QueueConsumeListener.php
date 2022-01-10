@@ -7,19 +7,11 @@
  * Time: 3:13 下午
  */
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
 namespace Mine\Amqp\Listener;
 
-use App\System\Mapper\SystemQueueMapper;
-use App\System\Model\SystemQueue;
-use App\System\Service\SystemQueueService;
+use App\System\Model\SystemQueueLog;
+use App\System\Service\SystemQueueLogService;
+use Hyperf\Utils\Context;
 use Mine\Amqp\Event\AfterConsume;
 use Mine\Amqp\Event\BeforeConsume;
 use Mine\Amqp\Event\ConsumeEvent;
@@ -33,8 +25,7 @@ use Hyperf\Event\Annotation\Listener;
 class QueueConsumeListener implements ListenerInterface
 {
     private $service;
-    private $uuid;
-    private $throwable;
+
     public function listen(): array
     {
         // 返回一个该监听器要监听的事件数组，可以同时监听多个事件
@@ -47,64 +38,67 @@ class QueueConsumeListener implements ListenerInterface
         ];
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function process(object $event)
     {
-        $this->service = new SystemQueueService(new SystemQueueMapper());
-        $message = $event->message;
-        $this->throwable = $event->throwable ?? '';
-        if($message){
-            $this->uuid = $event->data['uuid'];
-            
+        $this->service = container()->get(SystemQueueLogService::class);
+        if ($event->message) {
             $class = get_class($event);
             $func = lcfirst(trim(strrchr($class, '\\'),'\\'));
-            // 事件触发后该监听器要执行的代码写在这里，比如该示例下的发送用户注册成功短信等
-            $this->$func($message);
+            $this->$func($event);
         }
     }
 
     /**
      * Description:消费前
      * User:mike
-     * @param $producer
+     * @param object $event
      */
-    public function beforeConsume($message){
-        $condition = ['uuid'=>$this->uuid];
-        $data = ['consume_status'=>SystemQueue::CONSUME_STATUS_DOING];
-        $this->service->update($condition,$data);
+    public function beforeConsume(object $event)
+    {
+        $this->service->update(
+            (int) $event->data['queue_id'],
+            [ 'consume_status' => SystemQueueLog::CONSUME_STATUS_DOING ]
+        );
     }
 
     /**
      * Description:消费中
      * User:mike
-     * @param $producer
+     * @param object $event
      */
-    public function consumeEvent($message){
-//        $condition = ['uuid'=>$this->uuid];
-//        $data = ['produce_status'=>SystemRabbitmq::CONSUME_STATUS_DOING];
-//        $this->service->update($condition,$data);
+    public function consumeEvent(object $event)
+    {
+        // TODO...
     }
 
     /**
      * Description:消费后
      * User:mike
-     * @param $producer
+     * @param object $event
      */
-    public function afterConsume($message){
-        $condition = ['uuid'=>$this->uuid];
-        $data = ['consume_status'=>SystemQueue::CONSUME_STATUS_SUCCESS];
-        $this->service->update($condition,$data);
+    public function afterConsume(object $event)
+    {
+        $this->service->update(
+            (int) $event->data['queue_id'],
+            [ 'consume_status' => SystemQueueLog::CONSUME_STATUS_SUCCESS ]
+        );
     }
+
     /**
      * Description:消费失败
      * User:mike
-     * @param $producer
+     * @param object $event
      */
-    public function failToConsume($message){
-        $condition = ['uuid'=>$this->uuid];
-        $data = ['consume_status'=>SystemQueue::CONSUME_STATUS_4];
-        if($this->throwable){
-            $data['log_content'] = $this->throwable->getMessage();
-        }
-        $this->service->update($condition,$data);
+    public function failToConsume(object $event)
+    {
+        $this->service->update(
+            (int) $event->data['queue_id'], [
+            'consume_status' => SystemQueueLog::CONSUME_STATUS_4,
+            'log_content' => $event->throwable ?: $event->throwable->getMessage()
+        ]);
     }
 }

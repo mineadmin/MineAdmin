@@ -9,13 +9,13 @@ const DEFAULT_CONFIG = {
 	DASHBOARD_URL: "/dashboard",
 
 	//版本号
-	APP_VER: "0.4.0",
+	APP_VER: "0.5.0",
 
 	//官网地址
 	APP_URL: "www.mineadmin.com",
 
 	//接口地址
-	API_URL: "/api",
+	API_URL: process.env.VUE_APP_API,
 
 	//Token前缀，注意最后有个空格，如不需要需设置空字符串
 	TOKEN_PREFIX: "Bearer ",
@@ -69,8 +69,8 @@ const DEFAULT_CONFIG = {
 
 // 如果生产模式，就合并动态的APP_CONFIG
 // public/config.js
-if(process.env.NODE_ENV === 'production'){
-	Object.assign(DEFAULT_CONFIG, APP_CONFIG)
-}
+// if(process.env.NODE_ENV === 'production'){
+// 	Object.assign(DEFAULT_CONFIG, APP_CONFIG)
+// }
 
 module.exports = DEFAULT_CONFIG

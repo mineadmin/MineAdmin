@@ -14,7 +14,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * 后台内部消息队列消费处理
- * _Consumer(exchange="mineadmin", routingKey="message.routing", queue="message.queue", name="message.queue", nums=1)
+ * #Consumer(exchange="mineadmin", routingKey="message.routing", queue="message.queue", name="message.queue", nums=1)
  */
 class MessageConsumer extends ConsumerMessage
 {
@@ -23,21 +23,20 @@ class MessageConsumer extends ConsumerMessage
      * @var SystemQueueMessageService
      */
     protected $service;
-    
+
+    /**
+     * @param $data
+     * @param AMQPMessage $message
+     * @return string
+     */
     public function consumeMessage($data, AMQPMessage $message): string
     {
-        parent::consumeMessage($data,$message);
-        $data = $data['data'];
-        $messageIdArr = $data['messageId'] ?? [];
-        if(!$messageIdArr){
+        parent::consumeMessage($data, $message);
+
+        if(empty($data['data'])) {
             return Result::DROP;
         }
-        array_map(function($messageId){
-            //发送中
-            $this->service->update($messageId,['send_status'=>SystemQueueMessage::STATUS_SENDING]);
-            //发送成功
-            $this->service->update($messageId,['send_status'=>SystemQueueMessage::STATUS_SEND_SUCCESS]);
-        },$messageIdArr);
+
         return Result::ACK;
     }
 

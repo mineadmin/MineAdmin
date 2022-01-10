@@ -181,14 +181,26 @@
           let ids = []
           this.selection.map(item => ids.push(item.{PK}))
           if (this.isRecycle) {
-            this.$API.{BUSINESS_EN_NAME}.realDeletes(ids.join(','))
-            this.$refs.table.upData(this.queryParams)
+            this.$API.{BUSINESS_EN_NAME}.realDeletes(ids.join(',')).then(res => {
+              if(res.success) {
+                this.$message.success(res.message)
+                this.$refs.table.upData(this.queryParams)
+              } else {
+                this.$message.error(res.message)
+              }
+            })
           } else {
-            this.$API.{BUSINESS_EN_NAME}.deletes(ids.join(','))
-            this.$refs.table.upData(this.queryParams)
+            this.$API.{BUSINESS_EN_NAME}.deletes(ids.join(',')).then(res => {
+              if(res.success) {
+                this.$message.success(res.message)
+                this.$refs.table.upData(this.queryParams)
+              } else {
+                this.$message.error(res.message)
+              }
+            })
           }
           loading.close();
-          this.$message.success("操作成功")
+
         })
       },
 

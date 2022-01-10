@@ -30,7 +30,7 @@ class CreateSystemQueueMessageTable extends Migration
             $table->addColumn('bigInteger', 'receive_by', ['unsigned' => true, 'comment' => '接收人']);
             $table->addColumn('bigInteger', 'send_by', ['unsigned' => true, 'comment' => '发送人']);
             $table->addColumn('char', 'send_status', ['length' => 1, 'default' => '0', 'comment' => '发送状态 0:待发送 1:发送中 2:发送成功 3:发送失败'])->nullable();
-            $table->addColumn('char', 'read_status', ['length' => 1, 'default' => '0', 'comment' => '查看状态 0:未读 1: 未读'])->nullable();
+            $table->addColumn('char', 'read_status', ['length' => 1, 'default' => '0', 'comment' => '查看状态 0:未读 1: 已读'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();

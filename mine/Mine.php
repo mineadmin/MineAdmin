@@ -22,7 +22,7 @@ class Mine
     /**
      * @var string
      */
-    private static $version = '0.4.0';
+    private static $version = '0.5.0';
 
     /**
      * @var string
@@ -40,6 +40,10 @@ class Mine
      */
     protected $container;
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function __construct()
     {
         $this->setAppPath(self::getRootPath() . 'app');
@@ -61,6 +65,8 @@ class Mine
     /**
      * @param string $id
      * @return mixed
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function app(string $id)
     {
@@ -75,6 +81,10 @@ class Mine
         return $this->container;
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function scanModule(): void
     {
         $modules = glob(self::getAppPath() . '*');
@@ -138,6 +148,8 @@ class Mine
      * @param $value
      * @param false $save
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @noinspection PhpUnused
      */
     public function setModuleConfigValue(String $key, $value, bool $save = false): bool
@@ -157,6 +169,8 @@ class Mine
 
     /**
      * @param string $mod
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function saveModuleConfig(string $mod): void
     {

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Mine\Middlewares;
 
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
 use Hyperf\Utils\Codec\Json;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +24,8 @@ class HttpCoreMiddleware extends \Hyperf\HttpServer\CoreMiddleware
      * Handle the response when cannot found any routes.
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function handleNotFound(ServerRequestInterface $request): ResponseInterface
     {
@@ -44,6 +45,8 @@ class HttpCoreMiddleware extends \Hyperf\HttpServer\CoreMiddleware
      * @param array $methods
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function handleMethodNotAllowed(
         array $methods,

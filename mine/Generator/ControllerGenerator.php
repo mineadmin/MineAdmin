@@ -241,7 +241,7 @@ UseNamespace;
         return sprintf(
             '%s/%s',
             Str::lower($this->model->module_name),
-            $this->getBusinessName()
+            $this->getShortBusinessName()
         );
     }
 
@@ -255,7 +255,7 @@ UseNamespace;
         return sprintf(
             '%s:%s:%s',
             Str::lower($this->model->module_name),
-            $this->getBusinessName(),
+            $this->getShortBusinessName(),
             $route
         );
     }
@@ -285,6 +285,19 @@ UseNamespace;
     public function getBusinessName(): string
     {
         return Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
+    }
+
+    /**
+     * 获取短业务名称
+     * @return string
+     */
+    public function getShortBusinessName(): string
+    {
+        return Str::camel(str_replace(
+            Str::lower($this->model->module_name),
+            '',
+            str_replace(env('DB_PREFIX'), '', $this->model->table_name)
+        ));
     }
 
 

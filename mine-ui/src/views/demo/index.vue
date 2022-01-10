@@ -17,6 +17,15 @@
                     </div>
                 </el-card>
 
+                <el-card shadow="never" header="选择资源组件（SCUI版)">
+                    <sc-file-select v-model="scuiList" />
+
+                    <div class="selectResource">
+                        <p>选择的资源：</p>
+                        {{ scuiList }}
+                    </div>
+                </el-card>
+
                 <el-card shadow="never" header="城市联级选择器">
                     
                     <el-alert title="返回城市编码" type="warning" />
@@ -68,6 +77,7 @@ export default {
     data () {
         return {
             list: [],
+            scuiList: null,
             cityDataCode: [],
             cityDataName: [],
             cityDataCode2: {},

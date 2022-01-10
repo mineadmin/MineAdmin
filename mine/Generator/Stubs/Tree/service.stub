@@ -33,7 +33,7 @@ class {CLASS_NAME} extends AbstractService
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = false;
-        return $this->mapper->getTreeList($params, '{FIELD_ID}', '{FIELD_PID}');
+        return $this->mapper->getTreeList($params, true, '{FIELD_ID}', '{FIELD_PID}');
     }
 
     /**
@@ -47,7 +47,16 @@ class {CLASS_NAME} extends AbstractService
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = true;
-        return $this->mapper->getTreeList($params, '{FIELD_ID}', '{FIELD_PID}');
+        return $this->mapper->getTreeList($params, true, '{FIELD_ID}', '{FIELD_PID}');
+    }
+
+    /**
+     * 获取前端选择树
+     * @return array
+     */
+    public function getSelectTree(): array
+    {
+        return $this->mapper->getSelectTree();
     }
 
     /**
@@ -78,7 +87,9 @@ class {CLASS_NAME} extends AbstractService
      */
     protected function handleData($data): array
     {
-        //TODO...
+        if (is_array($data['{FIELD_PID}']) && !empty($data['{FIELD_PID}'])) {
+            $data['{FIELD_PID}'] = array_pop($data['{FIELD_PID}']);
+        }
         return $data;
     }
 

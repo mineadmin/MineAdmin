@@ -56,7 +56,7 @@
 								<el-icon><el-icon-check /></el-icon>
 							</div>
 							<div class="sc-file-select__item__box"></div>
-							<el-image v-if="_isImg(item[fileProps.url])" :src="item[fileProps.url]" fit="contain" lazy></el-image>
+							<el-image v-if="_isImg(item[fileProps.url])" :src="viewImage(item[fileProps.url])" fit="contain" lazy></el-image>
 							<div v-else class="item-file item-file-doc">
 								<i v-if="files[_getExt(item[fileProps.url])]" :class="files[_getExt(item[fileProps.url])].icon" :style="{color:files[_getExt(item[fileProps.url])].color}"></i>
 								<i v-else class="sc-icon-file-list-fill" style="color: #999;"></i>
@@ -79,6 +79,7 @@
 
 <script>
 	import config from "@/config/fileSelect"
+	import uploadConfig from "@/config/upload"
 
 	export default {
 		props: {
@@ -86,8 +87,8 @@
 			hideUpload: { type: Boolean, default: false },
 			multiple: { type: Boolean, default: false },
 			max: {type: Number, default: config.max},
-			onlyImage: { type: Boolean, default: false },
-			maxSize: {type: Number, default: config.maxSize},
+			onlyImage: { type: Boolean, default: true },
+			maxSize: {type: Number, default: uploadConfig.maxSize},
 		},
 		data() {
 			return {
@@ -122,7 +123,7 @@
 			//获取分类数据
 			async getMenu(){
 				this.menuLoading = true
-				var res = await config.menuApiObj.get()
+				var res = await config.menuApiObj()
 				this.menu = res.data
 				this.menuLoading = false
 			},
@@ -138,16 +139,18 @@
 				if(this.onlyImage){
 					reqData.type = 'image'
 				}
-				var res = await config.listApiObj.get(reqData)
+				var res = await config.listApiObj(reqData)
 				var parseData = config.listParseData(res)
-				this.data = parseData.rows
+				this.data = parseData.rows.filter(item => {
+					return item.id
+				})
 				this.total = parseData.total
 				this.listLoading = false
 				this.$refs.scrollbar.setScrollTop(0)
 			},
 			//树点击事件
 			groupClick(data){
-				this.menuId = data.id
+				this.menuId = data.path
 				this.currentPage = 1
 				this.keyword = null
 				this.getData()
@@ -196,9 +199,9 @@
 			uploadRequest(param){
 				var apiObj = config.apiObj;
 				const data = new FormData();
-				data.append("file", param.file);
-				data.append([config.request.menuKey], this.menuId);
-				apiObj.post(data, {
+				data.append("image", param.file);
+				data.append([config.request.upPath], this.menuId);
+				apiObj(data, {
 					onUploadProgress: e => {
 						param.onProgress(e)
 					}

@@ -136,7 +136,10 @@ class SettingGenerateTablesService extends AbstractService
 
         $data['package_name'] = empty($data['package_name']) ? null : ucfirst($data['package_name']);
         $data['namespace'] = "App\\{$data['module_name']}";
-        $data['options'] = empty($data['options']) ? null : serialize($data['options']);
+
+        if (empty($data['options'])) {
+            unset($data['options']);
+        }
 
         // 更新业务表
         $this->update($id, $data);

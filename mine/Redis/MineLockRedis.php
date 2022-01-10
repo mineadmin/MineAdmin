@@ -68,6 +68,8 @@ class MineLockRedis extends AbstractRedis implements MineRedisInterface
      * 检查锁
      * @param string $key
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function check(string $key): bool
     {
@@ -81,6 +83,8 @@ class MineLockRedis extends AbstractRedis implements MineRedisInterface
      * @param int $timeout
      * @param float $sleep
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function lock(string $key, int $expired, int $timeout = 0, float $sleep = 0.1): bool
     {
@@ -106,6 +110,8 @@ class MineLockRedis extends AbstractRedis implements MineRedisInterface
      * 释放锁
      * @param string $key
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function freed(string $key): bool
     {

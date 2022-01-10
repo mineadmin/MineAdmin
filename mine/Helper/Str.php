@@ -236,6 +236,8 @@ class Str
      * 获取IP的区域地址
      * @param string $ip
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public static function ipToRegion(string $ip): string
     {

@@ -106,13 +106,14 @@
       <template #footer class="dialog-footer">
         <el-pagination
           style="float:left;"
-          @size-change="getList"
-          @current-change="getList"
-          v-model:currentPage="queryParams.page"
-          :page-size="queryParams.pageSize"
-          layout="prev, pager, next, jumper"
+          small
+          background
+          layout="prev, pager, next"
           :total="pageInfo.total"
-        />
+          :page-size="queryParams.pageSize"
+          @size-change="getList"
+          v-model:currentPage="queryParams.page"
+          @current-change="getList" ></el-pagination>
         
         <el-button @click="handleResClose" size="small">
           关 闭
@@ -153,7 +154,7 @@ export default {
       // 选择数据id
       checkList: [],
       // 分页数据
-      pageInfo: {},
+      pageInfo: { total: 0 },
       // 搜索参数
       queryParams: {
         origin_name: undefined,

@@ -94,6 +94,9 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public function checkDirDbExists(string $path): bool
     {
-        return $this->model::withTrashed()->where('storage_path', 'like', $path . '%')->count() > 0;
+        return $this->model::withTrashed()
+                ->where('storage_path', $path)
+                ->orWhere('storage_path', 'like', $path . '/%')
+                ->count() > 0;
     }
 }

@@ -32,6 +32,7 @@ class TableCreateRequest extends FormRequest
             'autoTime' => 'required|boolean',
             'autoUser' => 'required|boolean',
             'softDelete' => 'required|boolean',
+            'snowflakeId' => 'required|boolean',
 //            'migrate' => 'required|boolean',
         ];
     }

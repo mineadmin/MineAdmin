@@ -24,4 +24,7 @@ return [
     'directory_no_delete' => 'Non-empty directory, not deletable',
     'upload_image_verification_fail' => 'Image upload verification failed',
     'upload_file_verification_fail' => 'File upload verification failed',
+    'queue_missing_message_title' => 'queue message missing title',
+    'queue_missing_message_content_type' => 'queue message missing content type',
+    'queue_missing_content' => 'queue message missing content',
 ];

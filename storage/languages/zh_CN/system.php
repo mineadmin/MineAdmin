@@ -24,4 +24,7 @@ return [
     'directory_no_delete' => '非空目录，不可删除',
     'upload_image_verification_fail' => '图片上传验证不通过',
     'upload_file_verification_fail' => '文件上传验证不通过',
+    'queue_missing_message_title' => '队列消息缺少标题信息',
+    'queue_missing_message_content_type' => '队列消息缺少信息类型',
+    'queue_missing_content' => '队列消息缺少消息内容',
 ];

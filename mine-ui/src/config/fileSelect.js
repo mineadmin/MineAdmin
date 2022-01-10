@@ -1,25 +1,25 @@
-import API from "@/api";
+import API from "@/api"
 
 //文件选择器配置
 
 export default {
-	apiObj: API.common.upload,
-	menuApiObj: API.common.file.menu,
-	listApiObj: API.common.file.list,
+	apiObj: API.upload.uploadImage,
+	menuApiObj: API.upload.getDirectory,
+	listApiObj: API.attachment.getPageList,
 	successCode: 200,
-	maxSize: 30,
 	max: 99,
+
 	uploadParseData: function (res) {
 		return {
 			id: res.data.id,
-			fileName: res.data.fileName,
-			url: res.data.src
+			fileName: res.data.object_name,
+			url: res.data.url
 		}
 	},
 	listParseData: function (res) {
 		return {
-			rows: res.data.rows,
-			total: res.data.total,
+			rows: res.data.items,
+			total: res.data.pageInfo.total,
 			msg: res.message,
 			code: res.code
 		}
@@ -27,17 +27,18 @@ export default {
 	request: {
 		page: 'page',
 		pageSize: 'pageSize',
-		keyword: 'keyword',
-		menuKey: 'groupId'
+		keyword: 'origin_name',
+		menuKey: 'storage_path',
+		upPath: 'path',
 	},
 	menuProps: {
-		key: 'id',
-		label: 'label',
+		key: 'filename',
+		label: 'filename',
 		children: 'children'
 	},
 	fileProps: {
-		key: 'id',
-		fileName: 'fileName',
+		key: 'object_name',
+		fileName: 'origin_name',
 		url: 'url'
 	},
 	files: {

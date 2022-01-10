@@ -57,7 +57,7 @@
                   <template #label>
                     所属模块
                     <el-tooltip content="所属模块请对应表模块前缀，否则数据迁移文件不会被执行">
-                      <i class="el-icon-question"></i>
+                      <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
 
@@ -86,7 +86,7 @@
                   <template #label>
                     所属菜单
                     <el-tooltip content="分配业务功能在哪个菜单，例如：权限管理">
-                      <i class="el-icon-question"></i>
+                      <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
                   
@@ -124,7 +124,7 @@
                   <template #label>
                     菜单名称
                     <el-tooltip content="比如，用户管理">
-                      <i class="el-icon-question"></i>
+                      <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
                   <el-input v-model="form.menu_name"></el-input>
@@ -141,7 +141,7 @@
                   <template #label>
                     包名
                     <el-tooltip content="控制器文件所在目录名，比如：permission">
-                      <i class="el-icon-question"></i>
+                      <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
 
@@ -158,13 +158,13 @@
                         压缩包下载：<br />
                         后端文件、前端vue和菜单SQL文件会打包成压缩文件下载。<br /><br />
                         生成到模块：<br />
-                        后端文件会直接部署到模块，前端vue文件和菜单SQL会打包下载。
+                        后端文件会直接部署到模块（覆盖原文件），前端vue文件和菜单SQL会打包下载。
                       </template>
-                      <i class="el-icon-question"></i>
+                      <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
 
-                  <el-radio-group v-model="form.generate_type">
+                  <el-radio-group v-model="form.generate_type" @change="handleChangeGenType">
                     <el-radio-button label="0">压缩包下载</el-radio-button>
                     <el-radio-button label="1">生成到模块</el-radio-button>
                   </el-radio-group>
@@ -181,12 +181,12 @@
                     <template #label>
                       树主ID
                       <el-tooltip content="一般为主键ID">
-                        <i class="el-icon-question"></i>
+                        <el-icon><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </template>
 
                     <el-select
-                      v-model="form.options.tree_id"
+                      v-model="tree_id"
                       placeholder="请选择树主ID字段"
                       style="width: 100%"
                     >
@@ -205,12 +205,12 @@
                     <template #label>
                       树父ID
                       <el-tooltip content="树节点的父ID，比如：parent_id">
-                        <i class="el-icon-question"></i>
+                        <el-icon><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </template>
 
                     <el-select
-                      v-model="form.options.tree_parent_id"
+                      v-model="tree_parent_id"
                       placeholder="请选择树父ID字段"
                       style="width: 100%"
                     >
@@ -229,12 +229,12 @@
                     <template #label>
                       树名称
                       <el-tooltip content="树显示的名称字段，比如：name">
-                        <i class="el-icon-question"></i>
+                        <el-icon><el-icon-question-filled /></el-icon>
                       </el-tooltip>
                     </template>
 
                     <el-select
-                      v-model="form.options.tree_name"
+                      v-model="tree_name"
                       placeholder="请选择树名称字段"
                       style="width: 100%"
                     >
@@ -251,6 +251,10 @@
             </el-row>
 
           </el-tab-pane>
+
+          <!-- <el-tab-pane label="菜单配置" name="menu">
+            选择菜单
+          </el-tab-pane> -->
 
           <el-tab-pane label="字段管理" name="field">
 
@@ -406,6 +410,12 @@ export default {
         // package_name: [{ required: false, pattern: /^[A-Za-z]{3,}$/g, message: '包名必须为3位字母及以上', trigger: 'blur' }]
       },
 
+      tree_id: '',
+
+      tree_parent_id: '',
+
+      tree_name: '',
+
       // 当前记录
       record: null,
 
@@ -446,6 +456,18 @@ export default {
   },
 
   methods: {
+
+    handleChangeGenType(value) {
+      if (value === '1') {
+        this.$confirm('生成到模块会覆盖原文件，确定使用该方式吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then().catch(_=> {
+          this.form.generate_type = '0'
+        })
+      }
+    },
 
     async show (record) {
       this.drawer = true
@@ -495,6 +517,9 @@ export default {
         if (valid) {
             this.form.columns = this.columns
             this.saveLoading = true
+            if ( this.form.type == 'tree') {
+              this.form.options = { tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
+            }
             let res = await this.$API.generate.update(this.form)
             this.saveLoading = false
             if (res.success) {
@@ -527,7 +552,9 @@ export default {
       }
 
       if (this.form.type == 'tree') {
-        this.form.options = this.record.options
+        this.tree_id = this.record.options.tree_id
+        this.tree_parent_id = this.record.options.tree_parent_id
+        this.tree_name = this.record.options.tree_name
       }
     },
 
@@ -541,5 +568,8 @@ export default {
 <style scoped>
 .form {
   padding: 0 30px;
+}
+:deep(.el-form-item--small .el-form-item__content) {
+  line-height: 22px;
 }
 </style>

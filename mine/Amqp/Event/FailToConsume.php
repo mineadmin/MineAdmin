@@ -26,7 +26,7 @@ class FailToConsume
     public $message;
     public $data;
 
-    public function __construct($message,$data, Throwable $throwable)
+    public function __construct($message, $data, Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->message = $message;

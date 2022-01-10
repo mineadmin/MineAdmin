@@ -76,6 +76,10 @@ class TableGenerator extends MineGenerator
     {
         Schema::create($this->getTableName(), function (Blueprint $table) {
             foreach ($this->tableInfo['columns'] as $column) {
+                if (! $this->tableInfo['snowflakeId'] && $column['name'] == $this->tableInfo['pk']) {
+                    $table->id($column['name']);
+                    continue;
+                }
                 $currentTable = $table->addColumn(
                     $this->getColumnType($column['type']),
                     $column['name'],
@@ -101,7 +105,9 @@ class TableGenerator extends MineGenerator
             }
             // 添加系统字段
             $this->addSysColumns($table);
-            $table->primary($this->tableInfo['pk']);
+            if ($this->tableInfo['snowflakeId']) {
+                $table->primary($this->tableInfo['pk']);
+            }
             $table->engine = $this->tableInfo['engine'];
             $table->comment($this->tableInfo['comment']);
         });
@@ -190,7 +196,7 @@ class TableGenerator extends MineGenerator
             $option = [ 'length'   => $column['len'] ];
         }
 
-        if (!empty($option['default'])) {
+        if (! empty($column['default'])) {
             $option['default'] = $column['default'];
         }
         $option['comment'] = $column['comment'];

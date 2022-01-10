@@ -19,6 +19,17 @@ export default {
   },
 
   /**
+    * 获取{BUSINESS_NAME}选择树 (树表才生效)
+    * @returns
+    */
+  tree () {
+    return request({
+      url: '{REQUEST_ROUTE}/tree',
+      method: 'get'
+    })
+  },
+
+  /**
    * 从回收站获取{BUSINESS_NAME}数据列表
    * @returns
    */

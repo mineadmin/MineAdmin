@@ -48,6 +48,10 @@ class Id
         $this->sequence     = $sequence;
     }
 
+    /**
+     * @return int
+     * @throws \Exception
+     */
     public function getId()
     {
         $timestamp = $this->timeGen();

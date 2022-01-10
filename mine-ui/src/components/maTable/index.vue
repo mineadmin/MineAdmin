@@ -342,7 +342,6 @@
 </script>
 
 <style scoped>
-	.scTable {}
 	.scTable-table {height: calc(100% - 50px);}
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}

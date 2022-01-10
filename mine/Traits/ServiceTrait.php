@@ -14,7 +14,6 @@ namespace Mine\Traits;
 use Hyperf\Database\Model\Collection;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
-use Mine\Exception\NormalStatusException;
 use Mine\MineCollection;
 use Mine\MineModel;
 use Mine\MineResponse;
@@ -137,9 +136,9 @@ trait ServiceTrait
     /**
      * 读取一条数据
      * @param int $id
-     * @return MineModel
+     * @return MineModel|null
      */
-    public function read(int $id): MineModel
+    public function read(int $id): ?MineModel
     {
         return $this->mapper->read($id);
     }
@@ -149,9 +148,9 @@ trait ServiceTrait
      * User:mike
      * @param array $condition
      * @param string $columns
-     * @return ?MineModel
+     * @return \Hyperf\Utils\HigherOrderTapProxy|mixed|void|null
      */
-    public function value(array $condition, string $columns = 'id'): ?MineModel
+    public function value(array $condition, string $columns = 'id')
     {
         return $this->mapper->value($condition, $columns);
     }
@@ -198,6 +197,17 @@ trait ServiceTrait
     public function update(int $id, array $data): bool
     {
         return $this->mapper->update($id, $data);
+    }
+
+    /**
+     * 按条件更新数据
+     * @param array $condition
+     * @param array $data
+     * @return bool
+     */
+    public function updateByCondition(array $condition, array $data): bool
+    {
+        return $this->mapper->updateByCondition($condition, $data);
     }
 
     /**

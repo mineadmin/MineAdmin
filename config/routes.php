@@ -18,3 +18,10 @@ Router::get('/', function () {
 Router::get('/favicon.ico', function () {
     return '';
 });
+
+// 消息ws服务器
+Router::addServer('message', function () {
+    Router::get('/message.io', 'App\System\Controller\MessageController', [
+        'middleware' => [\App\System\Middleware\WsAuthMiddleware::class]
+    ]);
+});

@@ -12,7 +12,9 @@
 			<ul>
 				<li v-for="item in usercolumn" :key="item.prop">
 					<span class="move_b">
-						<el-tag class="move" style="cursor: move;"><i class="el-icon-d-caret"></i></el-tag>
+						<el-tag class="move" style="cursor: move;">
+							<el-icon style="right:0"><el-icon-d-caret /></el-icon>
+						</el-tag>
 					</span>
 					<span class="show_b">
 						<el-switch v-model="item.hide" :active-value="false" :inactive-value="true"></el-switch>
@@ -91,8 +93,6 @@
 </script>
 
 <style scoped>
-	.setting-column {}
-
 	.setting-column__title {border-bottom: 1px solid #EBEEF5;padding-bottom:15px;}
 	.setting-column__title span {display: inline-block;font-weight: bold;color: #909399;font-size: 12px;}
 	.setting-column__title span.move_b {width: 30px;margin-right:15px;}

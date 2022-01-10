@@ -56,6 +56,8 @@ export default {
         if (res.success) {
           this.previewCode = res.data
           this.dialogVisible = true
+        } else {
+          this.$message.error(res.message)
         }
       })
     },

@@ -18,19 +18,17 @@
 					<el-main class="nopadding">
 						<el-scrollbar>
 							<ul class="msg-list">
-								<li v-for="item in msgList" v-bind:key="item.id">
+								<li v-for="item in msgList" v-bind:key="item.id" @click="showDetails(item)">
 									<a :href="item.link" target="_blank">
 										<div class="msg-list__icon">
-											<el-badge is-dot type="danger">
-												<el-avatar :size="40" :src="item.avatar" class="avatar"></el-avatar>
-											</el-badge>
+											<el-avatar :size="40" :src="avatar ? avatar : '/img/avatar.jpg'" class="avatar"></el-avatar>
 										</div>
 										<div class="msg-list__main">
 											<h2>{{item.title}}</h2>
-											<p>{{item.describe}}</p>
+											<p>发送人：{{ item.send_user.nickname }}，时间：{{ item.created_at }}</p>
 										</div>
 										<div class="msg-list__time">
-											<p>{{item.time}}</p>
+											<p></p>
 										</div>
 									</a>
 								</li>
@@ -39,10 +37,18 @@
 						</el-scrollbar>
 					</el-main>
 					<el-footer>
-						<el-button type="primary" size="small">消息中心</el-button>
+						<el-button type="primary" @click="()=>{$router.push('message'); msg= false;}" size="small">消息中心</el-button>
 						<el-button size="small" @click="markRead">全部设为已读</el-button>
 					</el-footer>
 				</el-container>
+			</el-drawer>
+			<el-drawer v-model="drawer" title="详细内容" size="50%" >
+				<el-main v-loading="drawerLoading" element-loading-background="rgba(50, 50, 50, 0.5)"
+					element-loading-text="数据加载中..." style="height:100%;"
+				>
+				<h2 style="font-size: 24px; line-height: 60px; text-align:center"> {{ row.title }} </h2>
+				<div v-html="row.content"></div>
+				</el-main>
 			</el-drawer>
 		</div>
 		<el-dropdown class="user panel-item" trigger="click" @command="handleUser">
@@ -63,43 +69,46 @@
 </template>
 
 <script>
+	import Message from '@/ws-serve/message'
+	// import { union, xor, difference } from 'lodash'
+	import { ElNotification } from 'element-plus'
 	export default {
 		data(){
 			return {
 				userName: "",
 				userNameF: "",
-				avatar: 'img/avatar.jpg',
+				avatar: this.$TOOL.data.get('user').avatar,
 				msg: false,
-				msgList: [
-					{
-						id: 1,
-						type: 'user',
-						avatar: "img/avatar.jpg",
-						title: "superAdmin",
-						describe: "如果喜欢就点个星星支持一下哦",
-						link: "https://gitee.com/xmo/MineAdmin",
-						time: "5分钟前"
-					},
-					{
-						id: 3,
-						type: 'system',
-						avatar: "img/avatar.jpg",
-						title: "感谢登录MineAdmin",
-						describe: "Swoole + Hyperf + Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。",
-						link: "https://gitee.com/xmo/MineAdmin",
-						time: "2020年8月1日"
-					}
-				]
+				msgList:[],
+				wsMessage: null,
+				drawer: false,
+				drawerLoading: false,
+				row: {}
 			}
 		},
 		created() {
-			let userInfo = this.$TOOL.data.get('user').user;
+			let userInfo = this.$TOOL.data.get('user').user
 			this.userName = userInfo.username;
-			this.userNameF = this.userName.substring(0,1);
-			this.avatar = userInfo.avatar
-			if (this.avatar == '' || this.avatar == null) {
-				this.avatar = '/img/avatar.jpg'
-			}
+			this.userNameF = this.userName.substring(0, 1)
+
+			this.avatar = userInfo.avatar ? userInfo.avatar : '/img/avatar.jpg'
+
+			this.wsMessage = new Message()
+			this.wsMessage.connection()
+			this.wsMessage.getMessage()
+
+			this.wsMessage.ws.on('ev_new_message', (msg, data) => {
+				this.msgList = data
+				if (data.length > this.msgList.length) {
+					ElNotification.success({
+						title: '新消息提示',
+						message: "您有新的消息，请注意查收！",
+						onClick: () => {
+							this.msg = true
+						}
+					})
+				}
+			})
 		},
 		methods: {
 			//个人信息
@@ -139,10 +148,6 @@
 			showMsg(){
 				this.msg = true
 			},
-			//标记已读
-			markRead(){
-				this.msgList = []
-			},
 			// 锁屏
 			lockScreen () {
 				this.$prompt('请输入锁屏密码，解锁需要此密码', '设置锁屏密码', {
@@ -160,7 +165,26 @@
 			goDoc() {
 				this.$TOOL.data.set('apiAuth', false)
 				this.$router.push({ name: 'doc' })
-			}
+			},
+			// 全部设置已读
+			markRead() {
+				let ids = this.msgList.map(item => item.id)
+				if (ids.length > 0) {
+					this.$API.queueMessage.updateReadStatus(ids.join(',')).then(res => {
+						if (res.success) {
+							this.msgList = []
+							this.$message.success(res.message)
+						}
+					})
+				}
+			},
+			async showDetails(row) {
+				this.drawerLoading = true
+				this.drawer = true
+				await this.$API.queueMessage.updateReadStatus(row.id)
+				this.drawerLoading = false 
+				this.row = row
+			},
 		}
 	}
 </script>
@@ -173,14 +197,13 @@
 	.user-bar .user-avatar {height:49px;display: flex;align-items: center;}
 	.user-bar .user-avatar label {display: inline-block;margin-left:5px;font-size: 12px;cursor:pointer;}
 
-	.msg-list li {border-top:1px solid #eee;}
+	.msg-list li {border-top:1px solid #eee; cursor: pointer;}
 	.msg-list li a {display: flex;padding:20px;}
 	.msg-list li a:hover {background: #ecf5ff;}
 	.msg-list__icon {width: 40px;margin-right: 15px;}
 	.msg-list__main {flex: 1;}
 	.msg-list__main h2 {font-size: 15px;font-weight: normal;color: #333;}
 	.msg-list__main p {font-size: 12px;color: #999;line-height: 1.8;margin-top: 5px;}
-	.msg-list__time {width: 100px;text-align: right;color: #999;}
 	:deep(.el-avatar--circle) {
 		display: flex;
 		justify-content: center;

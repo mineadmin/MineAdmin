@@ -42,29 +42,7 @@ class SettingGenerateTables extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-    /**
-     * 获取options参数
-     *
-     * @param string|null $value
-     * @return array|null
-     */
-    public function getOptionsAttribute(?string $value): array
-    {
-        return is_null($value) ? [] : unserialize($value);
-    }
-
-    /**
-     * 设置options参数
-     *
-     * @param string|null $value
-     * @return string
-     */
-    public function setOptionsAttribute(?string $value): ?string
-    {
-        return empty($value) ? null : serialize($value);
-    }
+    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
 
     /**
      * 关联生成业务字段信息表

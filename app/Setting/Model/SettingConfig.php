@@ -9,6 +9,7 @@ use Mine\MineModel;
  * @property string $value 配置值
  * @property string $name 配置名称
  * @property string $group_name 组名称
+ * @property int $sort 排序
  * @property string $remark 备注
  */
 class SettingConfig extends MineModel
@@ -28,11 +29,11 @@ class SettingConfig extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['key', 'value', 'name', 'group_name', 'remark'];
+    protected $fillable = ['key', 'value', 'name', 'group_name', 'sort', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [];
+    protected $casts = ['sort' => 'integer'];
 }

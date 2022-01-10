@@ -34,7 +34,7 @@ router.beforeEach(async (to, from, next) => {
 	NProgress.start()
 	
 	//动态标题
-	document.title = `${to.meta.title} - ${config.APP_NAME}`
+	document.title = to.meta.title ? `${to.meta.title} - ${config.APP_NAME}` : `${config.APP_NAME}`
 
 	let token = tool.data.get('token');
 

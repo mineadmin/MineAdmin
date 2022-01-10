@@ -63,7 +63,7 @@ trait MapperGeneratorTraits
             return <<<php
 
         // {$comment}
-        if (isset(\$params['{$name}'])) {
+        if (isset(\$params['{$name}']) && \$params['{$name}'] !== '') {
             \$query->where('{$name}', 'like', '%'.\$params['{$name}'].'%');
         }
 
@@ -85,7 +85,7 @@ php;
         return <<<php
 
         // {$comment}
-        if (isset(\$params['{$name}'])) {
+        if (isset(\$params['{$name}']) && \$params['{$name}'] !== '') {
             \$query->where('{$name}', '{$mark}', \$params['{$name}']);
         }
 

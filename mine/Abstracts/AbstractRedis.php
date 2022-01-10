@@ -35,6 +35,8 @@ abstract class AbstractRedis
     /**
      * 获取实例
      * @return mixed
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public static function getInstance()
     {
@@ -44,6 +46,8 @@ abstract class AbstractRedis
     /**
      * 获取redis实例
      * @return \Hyperf\Redis\Redis
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function redis(): \Hyperf\Redis\Redis
     {

@@ -87,6 +87,14 @@ const routes = {
 				},
 				component: () => import(/* webpackChunkName: "usercenter" */ '@/views/userCenter'),
 			},{
+				name: "message",
+				path: "/message",
+				meta: {
+					title: "消息中心",
+					icon: "el-icon-chat-dot-round"
+				},
+				component: () => import(/* webpackChunkName: "message" */ '@/views/userCenter/message'),
+			},{
 				name: "system",
 				path: "/system",
 				meta: {

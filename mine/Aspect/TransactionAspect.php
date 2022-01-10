@@ -17,7 +17,7 @@ use Hyperf\Di\Annotation\Aspect;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Mine\Annotation\Transaction;
-use Mine\Exception\NormalStatusException;
+use Mine\Exception\MineException;
 
 /**
  * Class TransactionAspect
@@ -55,7 +55,7 @@ class TransactionAspect extends AbstractAspect
             Db::commit();
         } catch (\Throwable $e) {
             Db::rollBack();
-            throw new NormalStatusException($e->getMessage(), 500);
+            throw new MineException($e->getMessage(), 500);
         }
         return $result;
     }

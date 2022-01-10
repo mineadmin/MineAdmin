@@ -17,6 +17,17 @@ class SystemRoleService extends AbstractService
         $this->mapper = $mapper;
     }
 
+    /**
+     * 获取角色列表，并过滤掉超管角色
+     * @param array|null $params
+     * @return array
+     */
+    public function getList(?array $params = null): array
+    {
+        $params['filterAdminRole'] = true;
+        return parent::getList($params);
+    }
+
     public function save(array $data): int
     {
         if ($this->mapper->checkRoleCode($data['code'])) {

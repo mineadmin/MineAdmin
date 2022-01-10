@@ -9,12 +9,14 @@
  * @Link   https://gitee.com/xmo/MineAdmin
  */
 
+use App\System\Vo\QueueMessageVo;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\ApplicationContext;
 use Mine\Helper\LoginUser;
 use Mine\Helper\AppVerify;
 use Mine\Helper\Id;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
 if (! function_exists('container')) {
@@ -181,5 +183,37 @@ if (! function_exists('snowflake_id')) {
     function snowflake_id(): String
     {
         return (new Id())->getId();
+    }
+}
+
+if (! function_exists('event')) {
+    /**
+     * 事件调度快捷方法
+     * @param object $dispatch
+     * @return object
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    function event(object $dispatch): object
+    {
+        return container()->get(EventDispatcherInterface::class)->dispatch($dispatch);
+    }
+}
+
+if (! function_exists('push_queue_message')) {
+    /**
+     * 推送消息到队列
+     * @param QueueMessageVo $message
+     * @param array $receiveUsers
+     * @return int 消息ID，若失败返回 -1
+     * @throws Throwable
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    function push_queue_message(QueueMessageVo $message, array $receiveUsers = []): int
+    {
+        return container()
+            ->get(\App\System\Service\SystemQueueLogService::class)
+            ->pushMessage($message, $receiveUsers);
     }
 }

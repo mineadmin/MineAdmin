@@ -59,6 +59,9 @@ class NoticeController extends MineController
      * @PostMapping("save")
      * @param SystemNoticeCreateRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      * @Permission("system:notice:save")
      * @OperationLog
      */

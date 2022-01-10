@@ -10,11 +10,13 @@ import maPhoto from './components/maPhoto'
 import maImport from './components/maImport'
 import maResourceSelect from './components/maResourceSelect'
 import maDictTag from './components/maDictTag'
+import maSelectUser from './components/maSelectUser'
 
 import scTable from './components/scTable'
 import scFilterBar from './components/scFilterBar'
 import scUpload from './components/scUpload'
 import scUploadMultiple from './components/scUpload/multiple'
+import scFileSelect from './components/scFileSelect'
 import scFormTable from './components/scFormTable'
 import scTableSelect from './components/scTableSelect'
 import scPageHeader from './components/scPageHeader'
@@ -42,11 +44,11 @@ export default {
 		app.config.globalProperties.$API = api
 		app.config.globalProperties.$AUTH = hasPermission
 		app.config.globalProperties.$ROLE = hasRole
-		
+
 		// 全局挂载获取字典数据方法
 		app.config.globalProperties.getDict = api.dataDict.getDict
 		app.config.globalProperties.getDicts = api.dataDict.getDicts
-		
+
 		// 全局挂载显示图片方法
 		app.config.globalProperties.viewImage = tool.viewImage
 
@@ -56,12 +58,16 @@ export default {
 		// 全局挂载复制方法
 		app.config.globalProperties.clipboard = useClipboard().toClipboard
 
+		// 全局挂载获取Token
+		app.config.globalProperties.getToken = tool.getToken
+
 		//注册全局组件
 		app.component('maTable', maTable)
 		app.component('maDictTag', maDictTag)
 		app.component('maImport', maImport)
 		app.component('maPhoto', maPhoto)
 		app.component('maResourceSelect', maResourceSelect)
+		app.component('maSelectUser', maSelectUser)
 		app.component('scTable', scTable)
 		app.component('scSelect', scSelect)
 		app.component('scDialog', scDialog)
@@ -69,6 +75,7 @@ export default {
 		app.component('scUpload', scUpload)
 		app.component('scUploadMultiple', scUploadMultiple)
 		app.component('scFormTable', scFormTable)
+		app.component('scFileSelect', scFileSelect)
 		app.component('scTableSelect', scTableSelect)
 		app.component('scPageHeader', scPageHeader)
 		app.component('scSelect', scSelect);
@@ -81,7 +88,7 @@ export default {
 		app.directive('role', role)
 		app.directive('time', time)
 		app.directive('copy', copy)
-		
+
 		//统一注册el-icon图标
 		for(let icon in elIcons){
 			app.component(`ElIcon${icon}`, elIcons[icon])

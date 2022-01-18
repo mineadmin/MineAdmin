@@ -10,7 +10,7 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-gd": "*",
     "ext-json": "*",
     "ext-openssl": "*",
@@ -43,8 +43,8 @@
     "hyperf/websocket-server": "^2.2",
     "overtrue/flysystem-cos": "^3.0",
     "overtrue/flysystem-qiniu": "^1.0",
-    "phper666/jwt-auth": "^3.0",
     "phpoffice/phpspreadsheet": "^1.18",
+    "xmo/jwt-auth": "^0.2.0",
     "xxtime/flysystem-aliyun-oss": "^1.5",
     "zoujingli/ip2region": "^1.0"
   },

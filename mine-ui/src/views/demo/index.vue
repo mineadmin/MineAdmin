@@ -2,6 +2,13 @@
     <el-main>
         <el-row :gutter="15">
             <el-col :lg="24">
+                <el-card shadow="never" header="选择用户组件">
+                    <ma-select-user v-model="users" />
+                    <div class="selectResource">
+                        <p>选择的用户：</p>
+                        {{ users }}
+                    </div>
+                </el-card>
                 <el-card shadow="never" header="选择资源组件（MineAdmin版)">
                     <el-alert title="只有上传文件" type="warning" />
                     <ma-resource-select :resource="false" @upload-data="handleSuccess" />
@@ -15,6 +22,13 @@
                         <p>选择的资源：</p>
                         {{ list }}
                     </div>
+                </el-card>
+
+                <el-card shadow="never" header="SCUI视频组件">
+                    <sc-video
+						src="http://cctvalih5ca.v.myalicdn.com/live/cctv5_2/index.m3u8"
+						isLive
+					></sc-video>
                 </el-card>
 
                 <el-card shadow="never" header="选择资源组件（SCUI版)">
@@ -64,12 +78,14 @@
 </template>
 <script>
 import cityLinkage from '@/components/maCityLinkage'
+import scVideo from '@/components/scVideo'
 import threeLevelLinkage from '@/components/maCityLinkage/threeLevelLinkage'
 
 export default {
     name: 'demo',
 
     components: {
+        scVideo,
         cityLinkage,
         threeLevelLinkage
     },
@@ -77,6 +93,7 @@ export default {
     data () {
         return {
             list: [],
+            users: [],
             scuiList: null,
             cityDataCode: [],
             cityDataName: [],

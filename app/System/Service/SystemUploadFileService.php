@@ -78,6 +78,8 @@ class SystemUploadFileService extends AbstractService
      * 删除目录
      * @param array $params
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function deleteUploadDir(array $params): bool
     {

@@ -127,7 +127,6 @@ class SystemQueueMessageMapper extends AbstractMapper
      * @param string $columnName
      * @param string $value
      * @return bool
-     * @Transaction
      */
     public function updateDataStatus(array $ids, string $columnName = 'read_status', string $value = '1'): bool
     {

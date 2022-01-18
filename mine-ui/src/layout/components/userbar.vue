@@ -98,7 +98,6 @@
 			this.wsMessage.getMessage()
 
 			this.wsMessage.ws.on('ev_new_message', (msg, data) => {
-				this.msgList = data
 				if (data.length > this.msgList.length) {
 					ElNotification.success({
 						title: '新消息提示',
@@ -108,6 +107,7 @@
 						}
 					})
 				}
+				this.msgList = data
 			})
 		},
 		methods: {
@@ -129,6 +129,7 @@
 					}).then(async () => {
 						await this.$API.login.Logout().then(res => {
 							if (res.success) {
+								this.wsMessage.ws.close()
 								this.$store.commit('SET_ROUTERS', undefined)
 								this.$TOOL.data.clear()
 								this.$router.replace({path: '/login'})

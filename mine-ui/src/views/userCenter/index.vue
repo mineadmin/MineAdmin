@@ -20,7 +20,7 @@
             </div>
             <div class="user-info-main">
               <ul>
-                <li><label><el-icon><el-icon-user /></el-icon></label><span>{{ userInfo.user.email }}</span></li>
+                <li><label><el-icon><el-icon-message /></el-icon></label><span>{{ userInfo.user.email }}</span></li>
                 <li><label><el-icon><el-icon-present /></el-icon></label><span> {{ userInfo.user.user_type == '100' ? '系统用户' : '其他类型' }}</span></li>
                 <li><label><el-icon><el-icon-phone /></el-icon></label><span>{{ userInfo.user.phone }}</span></li>
                 <li><label><el-icon><el-icon-coin /></el-icon></label><span>{{ userInfo.roles[0] }}</span></li>
@@ -175,14 +175,14 @@ export default {
         oldPassword: [{
             required: true,
             message: this.$t('sys.pleaseInput') +  this.$t('usercenter.oldPassword'),
-            trigger: 'blur' 
+            trigger: 'blur'
         }],
         newPassword: [{
             required: true,
             message:  this.$t('sys.pleaseInput') +  this.$t('usercenter.newPassword'),
-            trigger: 'blur' 
+            trigger: 'blur'
         }],
-        newPassword_confirmation: [{ 
+        newPassword_confirmation: [{
           required: true,
           message:  this.$t('sys.pleaseInput') +  this.$t('usercenter.newPassword_confirmation'),
           trigger: 'blur'
@@ -233,7 +233,7 @@ export default {
       this.$TOOL.data.set("APP_COLOR", val);
     }
   },
-  
+
 	//路由跳转进来 判断from是否有特殊标识做特殊处理
 	beforeRouteEnter (to, from, next){
     next((vm)=>{
@@ -250,7 +250,7 @@ export default {
   },
 
   methods: {
-    
+
     // 更新用户资料
     updateInfo() {
       this.$refs.formUser.validate( async (valid) => {
@@ -335,9 +335,9 @@ export default {
   .activity-item label {color: #333;margin-right:10px;}
   .activity-item .el-avatar {margin-right:10px;}
   .activity-item .el-tag {margin-right:10px;}
-  
+
   [data-theme='dark'] .user-info-bottom {border-color: var(--el-border-color-base);}
-	
+
   [data-theme='dark'] .activity-item label {color: #999;}
 
 

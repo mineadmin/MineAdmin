@@ -210,7 +210,7 @@ js;
         }
 
         foreach ($this->columns as $column) {
-            if ($this->model->options['tree_parent_id'] === $column->column_name) {
+            if (isset($this->model->options['tree_parent_id']) && $this->model->options['tree_parent_id'] === $column->column_name) {
                 continue;
             }
             if ($column->is_insert === '1' || $column->is_edit === '1') {

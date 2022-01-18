@@ -82,7 +82,7 @@ function killOldProcess()
 {
     // pid存在则关闭存在的进程
     if (file_exists(PID_FILE_PATH) && $pid = @file_get_contents(PID_FILE_PATH)) {
-        if (!@posix_kill($pid)) forceKill();
+        if (!@posix_kill($pid, SIGKILL)) forceKill();
     } else forceKill();
 }
 

@@ -5,6 +5,7 @@ namespace App\System\Mapper;
 use App\System\Model\SystemRole;
 use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\DeleteCache;
 use Mine\Annotation\Transaction;
 
 class SystemRoleMapper extends AbstractMapper
@@ -81,6 +82,7 @@ class SystemRoleMapper extends AbstractMapper
      * @param array $data
      * @return bool
      * @Transaction
+     * @DeleteCache("loginInfo:*")
      */
     public function update(int $id, array $data): bool
     {
@@ -103,6 +105,7 @@ class SystemRoleMapper extends AbstractMapper
      * 单个或批量软删除数据
      * @param array $ids
      * @return bool
+     * @DeleteCache("loginInfo:*")
      */
     public function delete(array $ids): bool
     {
@@ -119,6 +122,7 @@ class SystemRoleMapper extends AbstractMapper
      * @param array $ids
      * @return bool
      * @Transaction
+     * @DeleteCache("loginInfo:*")
      */
     public function realDelete(array $ids): bool
     {

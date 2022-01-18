@@ -191,8 +191,6 @@
 				this.verifyType = config.data.value
 			}
 
-			console.log(document.querySelector('.login-header').style.width)
-
 			// 是否请求验证码
 			this.verifyType === '1' && this.getCaptchaImg()
 		},

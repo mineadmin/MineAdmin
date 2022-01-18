@@ -72,6 +72,10 @@ module.exports = {
 					echarts: {
 						name: "echarts",
 						test: /[\\/]node_modules[\\/]echarts[\\/]/
+					},
+					xgplayer: {
+						name: "xgplayer",
+						test: /[\\/]node_modules[\\/]xgplayer.*[\\/]/
 					}
 				}
 			}

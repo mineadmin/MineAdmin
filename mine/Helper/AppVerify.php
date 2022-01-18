@@ -12,9 +12,7 @@
 declare(strict_types=1);
 namespace Mine\Helper;
 
-use Mine\MineRequest;
-use Phper666\JWTAuth\JWT;
-use Phper666\JWTAuth\Util\JWTUtil;
+use Xmo\JWTAuth\JWT;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class AppVerify
@@ -38,13 +36,14 @@ class AppVerify
     /**
      * 验证token
      * @param String|null $token
+     * @param string $scene
      * @return bool
      * @throws InvalidArgumentException
      */
-    public function check(?String $token = null): bool
+    public function check(?String $token = null, string $scene = 'api'): bool
     {
         try {
-            if ($this->jwt->checkToken($token, true, true, true)) {
+            if ($this->jwt->checkToken($token, $scene, true, true, true)) {
                 return true;
             }
         } catch (\Throwable $e) {

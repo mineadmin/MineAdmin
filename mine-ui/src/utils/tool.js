@@ -90,6 +90,9 @@ tool.objCopy = function (obj) {
 
 /* 日期格式化 */
 tool.dateFormat = function (date, fmt='yyyy-MM-dd hh:mm:ss', isDefault = '-') {
+	if(date.toString().length == 10){
+		date = date * 1000
+	}
 	date = new Date(date)
 
 	if (date.valueOf() < 1) {
@@ -215,12 +218,7 @@ tool.download = function(res) {
 
 tool.viewImage = function(path, defaultStorage = 'LOCAL') {
 	let mode = tool.data.get('site_storage_mode') ? tool.data.get('site_storage_mode').toUpperCase() : defaultStorage
-
-	if (Config.STORAGE_URL[mode]) {
-		return Config.STORAGE_URL[mode] + path
-	} else {
-		return Config.STORAGE_URL[mode] + path
-	}
+	return Config.STORAGE_URL[mode] + path
 }
 
 // 城市代码翻译成名称
@@ -274,6 +272,13 @@ tool.httpBuild = function (data, isPrefix = false) {
  */
 tool.getToken = function () {
     return tool.data.get('token')
+}
+/**
+ * 转Unix时间戳
+ */
+
+tool.toUnixTime=function(date){
+	return 	Math.floor((new Date(date)).getTime() / 1000)
 }
 
 export default tool

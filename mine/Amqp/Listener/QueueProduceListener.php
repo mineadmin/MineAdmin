@@ -11,6 +11,7 @@ namespace Mine\Amqp\Listener;
 
 use App\System\Mapper\SystemQueueMessageMapper;
 use App\System\Model\SystemQueueLog;
+use App\System\Queue\Producer\MessageProducer;
 use App\System\Service\SystemQueueLogService;
 use Hyperf\Utils\Context;
 use Mine\Amqp\Event\AfterProduce;
@@ -57,37 +58,37 @@ class QueueProduceListener implements ListenerInterface
 
     /**
      * Description:生产前
-     * User:mike
+     * User:mike, x.mo
      * @param object $event
      */
-    public function beforeProduce(object $event){
-
-        $queueName = strchr($event->producer->getRoutingKey(),'.',true).'.queue';
+    public function beforeProduce(object $event)
+    {
+        $queueName = strchr($event->producer->getRoutingKey(), '.', true) . '.queue';
 
         $id = $this->getId();
 
-        $payload = $event->producer->payload();
+        $payload = json_decode($event->producer->payload(), true);
 
-        if (! isset($payload['queue_id'])) {
+        if (!isset($payload['queue_id'])) {
             $event->producer->setPayload([
                 'queue_id' => $id, 'data' => $payload
             ]);
         }
 
         $this->service->save([
-            'id'=> $id,
-            'exchange_name'=> $event->producer->getExchange(),
-            'routing_key_name'=> $event->producer->getRoutingKey(),
-            'queue_name'=> $queueName,
-            'queue_content'=> $event->producer->payload(),
-            'delay_time'=> $event->delayTime ?? 0,
-            'produce_status'=> SystemQueueLog::PRODUCE_STATUS_SUCCESS
+            'id' => $id,
+            'exchange_name' => $event->producer->getExchange(),
+            'routing_key_name' => $event->producer->getRoutingKey(),
+            'queue_name' => $queueName,
+            'queue_content' => $event->producer->payload(),
+            'delay_time' => $event->delayTime ?? 0,
+            'produce_status' => SystemQueueLog::PRODUCE_STATUS_SUCCESS
         ]);
     }
 
     /**
      * Description:生产中
-     * User:mike
+     * User:mike, x.mo
      * @param object $event
      */
     public function produceEvent(object $event): void
@@ -97,19 +98,21 @@ class QueueProduceListener implements ListenerInterface
 
     /**
      * Description:生产后
-     * User:mike
+     * User:mike, x.mo
      * @param object $event
      */
     public function afterProduce(object $event): void
     {
-        (new SystemQueueMessageMapper)->save(
-            json_decode(json_decode($event->producer->payload())->data, true)
-        );
+        if (isset($event->producer) && $event->producer instanceof MessageProducer) {
+            (new SystemQueueMessageMapper)->save(
+                json_decode($event->producer->payload(), true)['data']
+            );
+        }
     }
 
     /**
      * Description:生产失败
-     * User:mike
+     * User:mike, x.mo
      */
     public function failToProduce(object $event): void
     {

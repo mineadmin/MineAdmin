@@ -17,8 +17,6 @@ use App\System\Service\SystemQueueMessageService;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
-use Hyperf\Di\Annotation\Inject;
-use Mine\Redis\MineMessageClientRedis;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;

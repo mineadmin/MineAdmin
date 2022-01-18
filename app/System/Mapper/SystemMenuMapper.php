@@ -6,6 +6,7 @@ use App\System\Model\SystemMenu;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\DeleteCache;
 use Mine\Annotation\Transaction;
 
 class SystemMenuMapper extends AbstractMapper
@@ -103,6 +104,7 @@ class SystemMenuMapper extends AbstractMapper
      * @param array $ids
      * @return bool
      * @Transaction
+     * @DeleteCache("loginInfo:*")
      */
     public function realDelete(array $ids): bool
     {
@@ -117,9 +119,32 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
+     * 更新菜单
+     * @param int $id
+     * @param array $data
+     * @return bool
+     * @DeleteCache("loginInfo:*")
+     */
+    public function update(int $id, array $data): bool
+    {
+        return parent::update($id, $data);
+    }
+
+    /**
+     * 逻辑删除菜单
+     * @param array $ids
+     * @return bool
+     * @DeleteCache("loginInfo:*")
+     */
+    public function delete(array $ids): bool
+    {
+        return parent::delete($ids);
+    }
+
+    /**
      * 通过 route 查询菜单
      * @param string $route
-     * @return null|Model|object|static
+     * @return Builder|Model|object|null
      */
     public function findMenuByRoute(string $route)
     {

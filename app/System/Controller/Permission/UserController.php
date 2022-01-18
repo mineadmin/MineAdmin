@@ -61,6 +61,8 @@ class UserController extends MineController
      * @PostMapping("save")
      * @param SystemUserCreateRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Permission("system:user:save")
      * @OperationLog
      */
@@ -152,6 +154,8 @@ class UserController extends MineController
      * 清除用户缓存
      * @PostMapping("clearCache")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Permission("system:user:cache")
      */
     public function clearCache(): ResponseInterface
@@ -164,6 +168,8 @@ class UserController extends MineController
      * @PostMapping("setHomePage")
      * @param SystemUserHompPageRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Permission("system:user:homePage")
      */
     public function setHomePage(SystemUserHompPageRequest $request): ResponseInterface
@@ -246,6 +252,8 @@ class UserController extends MineController
      * 清除自己缓存
      * @PostMapping("clearSelfCache")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function clearSelfCache(): ResponseInterface
     {

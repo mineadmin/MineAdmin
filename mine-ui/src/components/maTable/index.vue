@@ -7,18 +7,17 @@
 				:row-key="rowKey"
 				:key="toggleIndex"
 				ref="scTable"
-				:height="tableHeight"
-				:stripe="stripe"
-				:highlight-current-row="highlightCurrentRow"
-				@selection-change="selectionChange"
-				@current-change="currentChange"
-				@row-click="rowClick"
+				:height="height=='auto'?null:'100%'"
+				:size="config.size"
+				:border="config.border"
+				:stripe="config.stripe"
+				:summary-method="remoteSummary?remoteSummaryMethod:summaryMethod"
 				@sort-change="sortChange"
 				@filter-change="filterChange"
 			>
 				<slot></slot>
 				<template v-for="(item, index) in userColumn" :key="index">
-					<el-table-column v-if="!item.hide" :column-key="item.prop" :label="item.label" :prop="item.prop" :width="item.width" :sortable="item.sortable" :fixed="item.fixed" :filters="item.filters" :filter-method="remoteFilter||!item.filters?null:filterHandler">
+					<el-table-column v-if="!item.hide" :column-key="item.prop" :label="item.label" :prop="item.prop" :width="item.width" :sortable="item.sortable" :fixed="item.fixed" :filters="item.filters" :filter-method="remoteFilter||!item.filters?null:filterHandler" :show-overflow-tooltip="item.showOverflowTooltip">
 						<template #default="scope">
 							<slot :name="item.prop" v-bind="scope">
 								{{scope.row[item.prop]}}
@@ -34,7 +33,7 @@
 		</div>
 		<div class="scTable-page" v-if="!hidePagination&&!hideDo">
 			<div class="scTable-pagination">
-				<el-pagination v-if="!hidePagination" background :layout="paginationLayout" :total="total" :page-size="pageSize" v-model:currentPage="currentPage" @current-change="paginationChange"></el-pagination>
+				<el-pagination v-if="!hidePagination" background :small="true" :layout="paginationLayout" :total="total" :page-size="pageSize" v-model:currentPage="currentPage" @current-change="paginationChange"></el-pagination>
 			</div>
 			<div class="scTable-do" v-if="!hideDo">
 
@@ -51,12 +50,32 @@
 				<el-tooltip class="item" effect="dark" content="刷新表格" placement="top">
 					<el-button @click="refresh" icon="el-icon-refresh" circle style="margin-left:15px"></el-button>
 				</el-tooltip>
-
-				<el-popover v-if="column" placement="top" title="显示列设置" :width="500" trigger="click" @show="customColumnShow=true" @after-leave="customColumnShow=false">
+				
+				<el-popover v-if="column" placement="top" title="列设置" :width="500" trigger="click" :hide-after="0" @show="customColumnShow=true" @after-leave="customColumnShow=false">
+					<template #reference>
+						<el-button icon="el-icon-set-up" circle style="margin-left:15px"></el-button>
+					</template>
+					<columnSetting v-if="customColumnShow" ref="columnSetting" @userChange="columnSettingChange" @save="columnSettingSave" @back="columnSettingBack" :column="userColumn"></columnSetting>
+				</el-popover>
+				<el-popover v-if="!hideSetting" placement="top" title="表格设置" :width="400" trigger="click" :hide-after="0">
 					<template #reference>
 						<el-button icon="el-icon-setting" circle style="margin-left:15px"></el-button>
 					</template>
-					<columnSetting v-if="customColumnShow" ref="columnSetting" @userChange="columnSettingChange" @save="columnSettingSave" @back="columnSettingBack" :column="userColumn"></columnSetting>
+					<el-form label-width="80px" label-position="left">
+						<el-form-item label="表格尺寸">
+							<el-radio-group v-model="config.size" size="mini" @change="configSizeChange">
+								<el-radio-button label="large">大</el-radio-button>
+								<el-radio-button label="medium">中</el-radio-button>
+								<el-radio-button label="small">正常</el-radio-button>
+								<el-radio-button label="mini">小</el-radio-button>
+							</el-radio-group>
+						</el-form-item>
+						<el-form-item label="样式">
+							<el-checkbox v-model="config.border" label="纵向边框"></el-checkbox>
+							<el-checkbox v-model="config.stripe" label="斑马纹"></el-checkbox>
+						</el-form-item>
+					</el-form>
+					
 				</el-popover>
 			</div>
 		</div>
@@ -78,16 +97,22 @@
 			params: { type: Object, default: () => ({}) },
 			data: { type: Object, default: () => {} },
 			height: { type: [String,Number], default: "100%" },
+			size: { type: String, default: "small" },
+			border: { type: Boolean, default: false },
+			stripe: { type: Boolean, default: false },
+			pageSize: { type: Number, default: config.pageSize },
 			rowKey: { type: String, default: "" },
+			summaryMethod: { type: Function, default: null },
 			column: { type: Object, default: () => {} },
 			remoteSort: { type: Boolean, default: false },
 			remoteFilter: { type: Boolean, default: false },
+			remoteSummary: { type: Boolean, default: false },
 			hidePagination: { type: Boolean, default: false },
 			hideDo: { type: Boolean, default: false },
-			stripe: { type: Boolean, default: false },
-			highlightCurrentRow: { type: Boolean, default: false },
-			autoLoad: { type: Boolean, default: true},
+			hideRefresh: { type: Boolean, default: false },
+			hideSetting: { type: Boolean, default: false },
 			paginationLayout: { type: String, default: "total, prev, pager, next, jumper" },
+			autoLoad: { type: Boolean, default: true},
 			showRecycle: { type: Boolean, default: false},
 			beforeQuery: { type: Function, default: () => {}},
 			afterQuery: { type: Function, default: () => {}},
@@ -109,7 +134,6 @@
 				emptyText: "暂无数据",
 				toggleIndex: 0,
 				tableData: [],
-				pageSize: config.pageSize,
 				total: 0,
 				currentPage: 1,
 				prop: null,
@@ -119,7 +143,13 @@
 				tableParams: this.params,
 				userColumn: [],
 				customColumnShow: false,
-				isRecycle: false
+				isRecycle: false,
+				summary: {},
+				config: {
+					size: this.size,
+					border: this.border,
+					stripe: this.stripe
+				}
 			}
 		},
 		mounted() {
@@ -135,6 +165,14 @@
 				this.tableData = this.data;
 				this.total = this.tableData.length
 			}
+		},
+		activated(){
+			if(!this.isActivat){
+				this.$refs.scTable.doLayout()
+			}
+		},
+		deactivated(){
+			this.isActivat = false;
 		},
 		methods: {
 			//获取列
@@ -284,16 +322,28 @@
 				})
 				this.upData(filters)
 			},
-			//转发原装方法&事件
-			selectionChange(selection){
-				this.$emit('selection-change', selection)
+			//远程合计行处理
+			remoteSummaryMethod(param){
+				const {columns} = param
+				const sums = []
+				columns.forEach((column, index) => {
+					if(index === 0) {
+						sums[index] = '合计'
+						return
+					}
+					const values =  this.summary[column.property]
+					if(values){
+						sums[index] = values
+					}else{
+						sums[index] = ''
+					}
+				})
+				return sums
 			},
-			currentChange(selection){
-				this.$emit('current-change', selection)
+			configSizeChange(){
+				this.$refs.scTable.doLayout()
 			},
-			rowClick(row, column, event){
-				this.$emit('row-click', row, column, event)
-			},
+			//原生方法转发
 			clearSelection(){
 				this.$refs.scTable.clearSelection()
 			},
@@ -345,7 +395,7 @@
 	.scTable-table {height: calc(100% - 50px);}
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}
-
+	.scTable:deep(.el-table__footer) .cell {font-weight: bold;}
 	.scTable-pagination {height: 50px;}
 
 	:deep(.el-pagination) {

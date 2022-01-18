@@ -130,7 +130,7 @@ export default {
           this.$message.error(res.message)
         }
       }).catch(e => {
-        $message.error(res.message)
+        this.$message.error(e)
       })
     },
 

@@ -16,7 +16,7 @@
 				</div>
 				<div class="tips-item">
 					<div class="tips-item-icon"><el-icon><el-icon-coffee /></el-icon></div>
-					<div class="tips-item-message">下版本功能预告：队列管理，如果喜欢请点个星星支持一下吧！</div>
+					<div class="tips-item-message">欢迎大家提交PR，有问题可以上Gitee提Issues</div>
 				</div>
 			</div>
 			<div class="actions">

@@ -242,6 +242,9 @@ class Str
     public static function ipToRegion(string $ip): string
     {
         $ip2Region = make(\Ip2Region::class);
+        if (empty($ip2Region->btreeSearch($ip)['region'])) {
+            return t('jwt.unknown');
+        }
         $region = $ip2Region->btreeSearch($ip)['region'];
         list($country, $number, $province, $city, $network) = explode('|', $region);
         if ($country == '中国') {

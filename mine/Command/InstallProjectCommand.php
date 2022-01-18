@@ -123,8 +123,8 @@ class InstallProjectCommand extends MineCommand
 
             $this->line(PHP_EOL . ' Checking environmenting...' . PHP_EOL, 'comment');
 
-            if (version_compare(PHP_VERSION, '7.3.0', '<')) {
-                $this->error(sprintf(' php version should >= 7.3.0 >>> %sNO!%s', self::CONSOLE_RED_BEGIN, self::CONSOLE_END));
+            if (version_compare(PHP_VERSION, '8.0', '<')) {
+                $this->error(sprintf(' php version should >= 8.0 >>> %sNO!%s', self::CONSOLE_RED_BEGIN, self::CONSOLE_END));
                 exit;
             }
             $this->line(sprintf(" php version %s >>> %sOK!%s", PHP_VERSION, self::CONSOLE_GREEN_BEGIN, self::CONSOLE_END));

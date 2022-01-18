@@ -48,6 +48,8 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return ModelGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): ModelGenerator
     {
@@ -82,6 +84,10 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         ];
 
         if (! Str::contains($this->model->table_name, Str::lower($this->model->module_name))) {
+            throw new NormalStatusException(t('setting.gen_model_error'), 500);
+        }
+
+        if (mb_strlen($this->model->table_name) === mb_strlen($this->model->module_name)) {
             throw new NormalStatusException(t('setting.gen_model_error'), 500);
         }
 

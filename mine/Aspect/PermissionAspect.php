@@ -70,6 +70,8 @@ class PermissionAspect extends AbstractAspect
      * @param ProceedingJoinPoint $proceedingJoinPoint
      * @return mixed
      * @throws Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
@@ -83,16 +85,50 @@ class PermissionAspect extends AbstractAspect
         }
 
         // 注解权限为空，则放行
-        if (empty($permission->menuCode)) {
+        if (empty($permission->code)) {
             return $proceedingJoinPoint->process();
         }
 
-        // 获取当前用户权限列表
-        $codes = $this->service->getInfo()['codes'];
-        $pathInfo = $this->request->getPathInfo();
-        if (!in_array($permission->menuCode, $codes)) {
-            throw new NoPermissionException(t('system.no_permission') . ' -> ['. $pathInfo.']');
-        }
+        $this->checkPermission($permission->code, $permission->where);
+
         return $proceedingJoinPoint->process();
+    }
+
+    /**
+     * 检查权限
+     * @param string $codeString
+     * @param string $where
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    protected function checkPermission(string $codeString, string $where): bool
+    {
+        $codes = $this->service->getInfo()['codes'];
+
+        if ($where === 'OR') {
+            foreach (explode(',', $codeString) as $code) {
+                if (in_array(trim($code), $codes)) {
+                    return true;
+                }
+            }
+            throw new NoPermissionException(
+                t('system.no_permission') . ' -> [ ' . $this->request->getPathInfo() . ' ]'
+            );
+        }
+
+        if ($where === 'AND') {
+            foreach (explode(',', $codeString) as $code) {
+                $code = trim($code);
+                if (! in_array($code, $codes)) {
+                    $service = container()->get(\App\System\Service\SystemMenuService::class);
+                    throw new NoPermissionException(
+                        t('system.no_permission') . ' -> [ ' . $service->findNameByCode($code) . ' ]'
+                    );
+                }
+            }
+        }
+
+        return true;
     }
 }

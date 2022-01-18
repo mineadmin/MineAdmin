@@ -97,6 +97,6 @@ class SystemUploadFileMapper extends AbstractMapper
         return $this->model::withTrashed()
                 ->where('storage_path', $path)
                 ->orWhere('storage_path', 'like', $path . '/%')
-                ->count() > 0;
+                ->exists();
     }
 }

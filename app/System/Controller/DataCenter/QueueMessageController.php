@@ -84,7 +84,6 @@ class QueueMessageController extends MineController
      * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @OperationLog
      */
     public function delete(String $ids): ResponseInterface
     {
@@ -96,7 +95,6 @@ class QueueMessageController extends MineController
      * @PutMapping("updateReadStatus/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @OperationLog
      */
     public function updateReadStatus(String $ids): ResponseInterface
     {

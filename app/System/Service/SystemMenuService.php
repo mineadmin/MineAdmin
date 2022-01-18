@@ -53,8 +53,11 @@ class SystemMenuService extends AbstractService
     }
 
     /**
+     * 通过code获取菜单名称
      * @param string $code
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function findNameByCode(string $code): string
     {

@@ -182,7 +182,7 @@ if (! function_exists('snowflake_id')) {
      */
     function snowflake_id(): String
     {
-        return (new Id())->getId();
+        return container()->get(Id::class)->getId();
     }
 }
 
@@ -215,5 +215,22 @@ if (! function_exists('push_queue_message')) {
         return container()
             ->get(\App\System\Service\SystemQueueLogService::class)
             ->pushMessage($message, $receiveUsers);
+    }
+}
+
+if (! function_exists('add_queue')) {
+    /**
+     * 添加任务到队列
+     * @param \App\System\Vo\AmqpQueueVo $amqpQueueVo
+     * @return bool
+     * @throws Throwable
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    function add_queue(\App\System\Vo\AmqpQueueVo $amqpQueueVo): bool
+    {
+        return container()
+            ->get(\App\System\Service\SystemQueueLogService::class)
+            ->addQueue($amqpQueueVo);
     }
 }

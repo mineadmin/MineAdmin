@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: scContextmenuItem组件
- * @version: 1.0
+ * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年7月23日16:29:36
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: sakuya
+ * @LastEditTime: 2021年11月26日23:13:57
 -->
 
 <template>
@@ -15,7 +15,7 @@
 			{{title}}
 		</span>
 		<span class="sc-contextmenu__suffix">
-			<i v-if="$slots.default" class="el-icon-arrow-right"></i>
+			<el-icon v-if="$slots.default"><el-icon-arrow-right /></el-icon>
 			<template v-else>{{suffix}}</template>
 		</span>
 		<ul v-if="$slots.default" class="sc-contextmenu__menu">

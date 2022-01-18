@@ -124,10 +124,13 @@ class UploadController extends MineController
      * 删除上传目录
      * @PostMapping("deleteUploadDir")
      * @Auth
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function deleteUploadDir(CreateUploadDirRequest $request): \Psr\Http\Message\ResponseInterface
+    public function deleteUploadDir(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->service->deleteUploadDir($request->all()) ? $this->success() : $this->error();
+        return $this->service->deleteUploadDir($this->request->all()) ? $this->success() : $this->error();
     }
 
     /**

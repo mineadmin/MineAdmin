@@ -23,7 +23,6 @@ class SettingConfigSeeder extends Seeder
             "INSERT INTO `{$tableName}` VALUES ('site_keywords', NULL, '网站关键字', 'system', 98, NULL)",
             "INSERT INTO `{$tableName}` VALUES ('site_name', NULL, '网站名称', 'system', 99, NULL)",
             "INSERT INTO `{$tableName}` VALUES ('site_record_number', NULL, '网站备案号', 'system', 95, NULL)",
-            "INSERT INTO `{$tableName}` VALUES ('site_resource_host', '127.0.0.1:9501', '本地资源地址', 'system', 94, NULL)",
             "INSERT INTO `{$tableName}` VALUES ('site_storage_mode', 'local', '上传存储模式', 'system', 93, NULL)",
         ];
         foreach ($sql as $item) {

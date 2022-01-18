@@ -37,7 +37,7 @@
                     <el-icon style="margin: 0 10px 0 10px;">
                       <el-tooltip class="item" effect="dark" content="删除" placement="top">
                         <el-icon-delete
-                          @click.stop="handleDeleteDir(data)"
+                          @click.stop="handleDeleteDir(data, node)"
                         />
                       </el-tooltip>
                     </el-icon>

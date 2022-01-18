@@ -40,7 +40,7 @@ function createService () {
 				} else if (error.response.status == 500) {
 					ElNotification.error({
 						title: '请求错误',
-						message: "服务器内部错误！"
+						message: error.response.data.message ? error.response.data.message : '服务器内部错误'
 					})
 				} else if (error.response.status == 401) {
 					ElMessageBox.confirm('登录状态已过期，是否重新登录？', '系统提示', {
@@ -55,7 +55,7 @@ function createService () {
 				} else if (error.response.status == 403) {
 					ElNotification.error({
 						title: '请求错误',
-						message: "没有权限访问该资源"
+						message: error.response.data.message ? error.response.data.message : "没有权限访问该资源"
 					})
 				} else {
 					ElNotification.error({

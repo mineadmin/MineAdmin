@@ -6,7 +6,9 @@ namespace App\System\Service;
 use App\System\Mapper\SystemQueueLogMapper;
 use App\System\Model\SystemUser;
 use App\System\Queue\Producer\MessageProducer;
+use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
+use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
 use Mine\Amqp\DelayProducer;
@@ -55,6 +57,31 @@ class SystemQueueLogService extends AbstractService
     }
 
     /**
+     * 添加任务到队列
+     * @param AmqpQueueVo $amqpQueueVo
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
+     */
+    public function addQueue(AmqpQueueVo $amqpQueueVo): bool
+    {
+        $producer = AnnotationCollector::get($amqpQueueVo->getProducer());
+
+        $class = $amqpQueueVo->getProducer();
+
+        if (! isset($producer['_c']['Hyperf\Amqp\Annotation\Producer'])) {
+            throw new NormalStatusException(t('system.queue_annotation_not_open'), 500);
+        }
+
+        return $this->producer->produce(new $class($amqpQueueVo->getData()),
+            $amqpQueueVo->getIsConfirm(),
+            $amqpQueueVo->getTimeout(),
+            $amqpQueueVo->getDelayTime()
+        );
+    }
+
+    /**
      * 推送消息到队列
      * @param QueueMessageVo $message
      * @param array $receiveUsers
@@ -65,6 +92,13 @@ class SystemQueueLogService extends AbstractService
      */
     public function pushMessage(QueueMessageVo $message, array $receiveUsers = []): int
     {
+        $producer = AnnotationCollector::get(\App\System\Queue\Producer\MessageProducer::class);
+        $consumer = AnnotationCollector::get(\App\System\Queue\Consumer\MessageConsumer::class);
+
+        if (! isset($producer['_c']['Hyperf\Amqp\Annotation\Producer']) || ! isset($consumer['_c']['Hyperf\Amqp\Annotation\Consumer'])) {
+            throw new NormalStatusException(t('system.queue_annotation_not_open'), 500);
+        }
+
         if (empty ($message->getTitle())) {
             throw new NormalStatusException(t('system.queue_missing_message_title'), 500);
         }

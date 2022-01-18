@@ -8,12 +8,12 @@
 					</div>
 					<div v-else class="sc-upload-item">
 						<div class="mask">
-							<span class="del" @click.stop="del(index)"><i class="el-icon-delete"></i></span>
+							<span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
 						</div>
 						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
 							<template #placeholder>
 								<div class="image-slot">
-								    <i class="el-icon-more"></i>
+									<el-icon><el-icon-more-filled /></el-icon>
 								</div>
 							</template>
 						</el-image>
@@ -24,7 +24,7 @@
 		<div class="sc-upload-uploader" @click="fileSelect && showfileSelect()">
 			<el-upload ref="upload" class="uploader" :disabled="fileSelect" :action="action" :accept="accept" multiple  :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
 				<div class="file-empty">
-					<i :class="icon"></i>
+					<el-icon><component :is="icon" /></el-icon>
 					<h4 v-if="title">{{title}}</h4>
 				</div>
 			</el-upload>
@@ -36,7 +36,8 @@
 				</template>
 			</sc-file-select>
 		</el-dialog>
-		<el-input v-model="value" style="display:none"></el-input>
+		<span style="display:none!important"><el-input v-model="value"></el-input></span>
+
 	</div>
 </template>
 

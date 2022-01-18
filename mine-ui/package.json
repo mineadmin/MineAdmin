@@ -1,6 +1,6 @@
 {
 	"name": "mine-ui",
-	"version": "0.5.0",
+	"version": "0.5.3",
 	"private": true,
 	"scripts": {
 		"dev": "vue-cli-service serve",
@@ -9,9 +9,9 @@
 	},
 	"dependencies": {
 		"@element-plus/icons": "0.0.11",
-		"@tinymce/tinymce-vue": "4.0.4",
+		"@tinymce/tinymce-vue": "4.0.5",
 		"axios": "0.24.0",
-		"core-js": "3.19.1",
+		"core-js": "3.19.2",
 		"cropperjs": "1.5.12",
 		"crypto-js": "4.1.1",
 		"echarts": "5.2.2",
@@ -22,19 +22,21 @@
 		"nprogress": "0.2.0",
 		"qs": "^6.10.1",
 		"sortablejs": "1.14.0",
-		"tinymce": "5.10.1",
-		"vue": "3.2.21",
+		"tinymce": "5.10.2",
+		"vue": "3.2.23",
 		"vue-clipboard3": "^1.0.1",
 		"vue-i18n": "9.1.9",
 		"vue-router": "4.0.12",
 		"vuedraggable": "4.0.3",
-		"vuex": "4.0.2"
+		"vuex": "4.0.2",
+		"xgplayer": "2.31.4",
+		"xgplayer-hls": "2.4.32-3"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "4.5.15",
 		"@vue/cli-plugin-eslint": "4.5.15",
 		"@vue/cli-service": "4.5.15",
-		"@vue/compiler-sfc": "3.2.21",
+		"@vue/compiler-sfc": "3.2.23",
 		"babel-eslint": "10.1.0",
 		"eslint": "6.8.0",
 		"eslint-plugin-vue": "7.19.1",

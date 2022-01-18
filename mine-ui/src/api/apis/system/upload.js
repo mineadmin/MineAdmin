@@ -42,11 +42,11 @@ export default {
    * 删除目录
    * @returns
    */
-  deleteUploadDir (params = {}) {
+  deleteUploadDir (data = {}) {
     return request({
       url: 'system/deleteUploadDir',
       method: 'post',
-      params
+      data
     })
   },
 

@@ -179,7 +179,7 @@ class webSocket
    * @param {Object} data
    */
   send(data) {
-    this.ws.send(JSON.stringify(data))
+     this.ws && this.ws.send(JSON.stringify(data))
   }
 
   /**
@@ -187,6 +187,7 @@ class webSocket
    */
   close(){
     this.ws.close()
+    this.ws = null
   }
 }
 

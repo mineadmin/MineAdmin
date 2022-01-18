@@ -181,6 +181,7 @@ class SystemUserService extends AbstractService
             if ($e instanceof CaptchaException) {
                 throw new NormalStatusException(t('jwt.code_error'));
             }
+            console()->error($e->getMessage());
             throw new NormalStatusException(t('jwt.unknown_error'));
         }
     }

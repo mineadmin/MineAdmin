@@ -11,7 +11,6 @@ namespace Mine\Amqp\Listener;
 
 use App\System\Model\SystemQueueLog;
 use App\System\Service\SystemQueueLogService;
-use Hyperf\Utils\Context;
 use Mine\Amqp\Event\AfterConsume;
 use Mine\Amqp\Event\BeforeConsume;
 use Mine\Amqp\Event\ConsumeEvent;
@@ -60,8 +59,8 @@ class QueueConsumeListener implements ListenerInterface
     public function beforeConsume(object $event)
     {
         $this->service->update(
-            (int) $event->data['queue_id'],
-            [ 'consume_status' => SystemQueueLog::CONSUME_STATUS_DOING ]
+            (int)$event->data['queue_id'],
+            ['consume_status' => SystemQueueLog::CONSUME_STATUS_DOING]
         );
     }
 
@@ -83,8 +82,8 @@ class QueueConsumeListener implements ListenerInterface
     public function afterConsume(object $event)
     {
         $this->service->update(
-            (int) $event->data['queue_id'],
-            [ 'consume_status' => SystemQueueLog::CONSUME_STATUS_SUCCESS ]
+            (int)$event->data['queue_id'],
+            ['consume_status' => SystemQueueLog::CONSUME_STATUS_SUCCESS]
         );
     }
 
@@ -96,7 +95,7 @@ class QueueConsumeListener implements ListenerInterface
     public function failToConsume(object $event)
     {
         $this->service->update(
-            (int) $event->data['queue_id'], [
+            (int)$event->data['queue_id'], [
             'consume_status' => SystemQueueLog::CONSUME_STATUS_4,
             'log_content' => $event->throwable ?: $event->throwable->getMessage()
         ]);

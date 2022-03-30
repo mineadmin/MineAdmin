@@ -35,7 +35,6 @@
 
           <el-button-group>
             <el-button
-              plain
               v-if="! isRecycle"
               icon="el-icon-delete"
               v-auth="['system:attachment:delete']"
@@ -43,7 +42,6 @@
             >删除附件</el-button>
 
             <el-button
-              plain
               v-else
               icon="el-icon-refresh-left"
               v-auth="['system:attachment:recovery']"

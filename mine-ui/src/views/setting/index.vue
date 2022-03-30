@@ -92,10 +92,10 @@
 						<el-table-column min-width="1"></el-table-column>
 						<el-table-column label="操作" fixed="right" width="100">
 							<template #default="scope">
-								<el-button @click="save(scope.row, scope.$index)" type="text" size="small">{{scope.row.isSet ? '保存' : '修改' }}</el-button>
+								<el-button @click="save(scope.row, scope.$index)" type="text" >{{scope.row.isSet ? '保存' : '修改' }}</el-button>
 								<el-popconfirm title="确定删除吗？" @confirm="del(scope.row, scope.$index)">
 									<template #reference>
-										<el-button type="text" size="small">删除</el-button>
+										<el-button type="text" >删除</el-button>
 									</template>
 								</el-popconfirm>
 							</template>

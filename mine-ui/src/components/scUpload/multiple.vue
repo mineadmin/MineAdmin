@@ -10,7 +10,7 @@
 						<div class="mask">
 							<span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
 						</div>
-						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
+						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported>
 							<template #placeholder>
 								<div class="image-slot">
 									<el-icon><el-icon-more-filled /></el-icon>

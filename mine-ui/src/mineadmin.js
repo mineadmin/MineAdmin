@@ -20,7 +20,6 @@ import scFormTable from './components/scFormTable'
 import scTableSelect from './components/scTableSelect'
 import scPageHeader from './components/scPageHeader'
 import scSelect from './components/scSelect'
-import scDialog from './components/scDialog'
 import scForm from './components/scForm'
 import scTitle from './components/scTitle'
 import scWaterMark from './components/scWaterMark'
@@ -80,7 +79,6 @@ export default {
 		app.component('scTableSelect', scTableSelect)
 		app.component('scPageHeader', scPageHeader)
 		app.component('scSelect', scSelect);
-		app.component('scDialog', scDialog);
 		app.component('scForm', scForm);
 		app.component('scTitle', scTitle);
 		app.component('scWaterMark', scWaterMark);

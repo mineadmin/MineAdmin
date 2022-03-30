@@ -14,7 +14,7 @@
       label-width="80px"
       label-position="right"
       v-loading="loading"
-      element-loading-background="rgba(255, 255, 255, 0.8)"
+      element-loading-background="rgba(255, 255, 255, 0.01)"
       element-loading-text="数据加载中..."
     >
       <el-row :gutter="20">
@@ -28,7 +28,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="用户名" prop="username">
-            <el-input v-model="form.username" placeholder="用于登录系统" clearable />
+            <el-input v-model="form.username" placeholder="用于登录系统" clearable :disabled="mode!='add'" />
           </el-form-item>
         </el-col>
         <el-col :span="12">

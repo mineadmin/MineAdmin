@@ -51,15 +51,15 @@
             >恢复附件</el-button>
 
             <el-tooltip class="item" effect="dark" content="选择当前页所有" placement="top">
-              <el-button size="small" icon="el-icon-check" @click="selectAll">全选</el-button>
+              <el-button  icon="el-icon-check" @click="selectAll">全选</el-button>
             </el-tooltip>
 
             <el-tooltip class="item" effect="dark" content="反选当前页所有" placement="top">
-              <el-button size="small" icon="el-icon-minus" @click="selectInvert">反选</el-button>
+              <el-button  icon="el-icon-minus" @click="selectInvert">反选</el-button>
             </el-tooltip>
 
             <el-tooltip class="item" effect="dark" content="清除所有选中的" placement="top">
-              <el-button size="small" icon="el-icon-refresh" @click="checkList = []">清除</el-button>
+              <el-button  icon="el-icon-refresh" @click="checkList = []">清除</el-button>
             </el-tooltip>
           </el-button-group>
 
@@ -127,7 +127,7 @@
                   <div class="icon" v-if="item.mime_type && item.mime_type.indexOf('image') === -1">
                     <el-icon><el-icon-document /></el-icon>
                   </div>
-                  <el-image v-else :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body />
+                  <el-image v-else :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported />
                   <el-tooltip placement="bottom">
                     <div class="filename"> {{ item.origin_name }} </div>
                     <template #content>

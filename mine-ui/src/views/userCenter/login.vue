@@ -111,7 +111,7 @@
 				<!-- <el-divider>{{ $t('login.signInOther') }}</el-divider>
 
 				<div class="login-oauth">
-					<el-button size="small" type="success" icon="sc-icon-wechat" circle></el-button>
+					<el-button  type="success" icon="sc-icon-wechat" circle></el-button>
 				</div> -->
 			</div>
 		</div>

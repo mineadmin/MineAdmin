@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside width="300px" v-loading="showDicloading">
+    <el-aside width="310px" v-loading="showDicloading">
       <el-container>
         <el-header>
           <el-input placeholder="输入关键字进行过滤" v-model="dicFilterText" clearable></el-input>
@@ -161,7 +161,7 @@
               <el-form label-width="80px">
 
                 <el-form-item label="状态" prop="status">
-                  <el-select size="small" v-model="dataQueryParams.status" style="width:100%" clearable placeholder="状态">
+                  <el-select  v-model="dataQueryParams.status" style="width:100%" clearable placeholder="状态">
                     <el-option label="启用" value="0">启用</el-option>
                     <el-option label="停用" value="1">停用</el-option>
                   </el-select>
@@ -170,7 +170,7 @@
                 <el-form-item label="创建时间">
                   <el-date-picker
                     clearable
-                    size="small"
+                    
                     v-model="dateRange"
                     type="daterange"
                     range-separator="至"
@@ -218,14 +218,14 @@
             <template #default="scope">
               <el-button
                 type="text"
-                size="small"
+                
                 @click="dataDictRecovery(scope.row.id)"
                 v-auth="['system:dataDict:recovery']"
               >恢复</el-button>
 
               <el-button
                 type="text"
-                size="small"
+                
                 @click="dataDictDelete(scope.row.id)"
                 v-auth="['system:dataDict:realDelete']"
               >删除</el-button>
@@ -236,14 +236,14 @@
             <template #default="scope">
               <el-button
                 type="text"
-                size="small"
+                
                 @click="dataDictEdit(scope.row, scope.$index)"
                 v-auth="['system:dataDict:update']"
               >编辑</el-button>
 
               <el-button
                 type="text"
-                size="small"
+                
                 @click="dataDictDelete(scope.row.id)"
                 v-auth="['system:dataDict:delete']"
               >删除</el-button>

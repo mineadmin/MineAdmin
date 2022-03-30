@@ -29,7 +29,7 @@
 				<el-table-column label="执行目标" prop="target" width="200" :show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="异常信息" prop="logs" width="100" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" @click="show(scope.row)" type="text">查看</el-button>
+						<el-button  @click="show(scope.row)" type="text">查看</el-button>
 					</template>
 				</el-table-column>
 			</maTable>

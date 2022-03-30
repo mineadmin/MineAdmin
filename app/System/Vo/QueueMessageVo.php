@@ -13,49 +13,49 @@ class QueueMessageVo
      * 消息标题
      * @var string
      */
-    protected $title;
+    protected string $title;
 
     /**
      * 消息类型
      * @var string
      */
-    protected $contentType;
+    protected string $contentType;
 
     /**
      * 消息内容
      * @var string
      */
-    protected $content;
+    protected string $content;
 
     /**
      * 发送人
      * @var string
      */
-    protected $sendBy;
+    protected string $sendBy;
 
     /**
      * 备注
      * @var string
      */
-    protected $remark;
+    protected string $remark;
 
     /**
      * 是否需要确认
      * @var bool
      */
-    protected $isConfirm = false;
+    protected bool $isConfirm = false;
 
     /**
      * 队列超时时间
      * @var integer
      */
-    protected $timeout = 5;
+    protected int $timeout = 5;
 
     /**
      * 队列延迟生产时间秒
      * @var integer
      */
-    protected $delayTime = 0;
+    protected int $delayTime = 0;
 
     /**
      * @return mixed

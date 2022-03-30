@@ -237,7 +237,7 @@ class MineUpload
      * @param string $filename
      * @return string
      */
-    public function assembleUrl(string $path, string $filename): string
+    public function assembleUrl(?string $path, string $filename): string
     {
         return $this->getPath($path, true) . '/' . $filename;
     }
@@ -255,13 +255,13 @@ class MineUpload
 
     /**
      * 获取编码后的文件名
-     * @throws \Exception
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getNewName(): string
     {
-        $id = new Id(2, 2, 2);
-        return (string) $id->getId();
+        return snowflake_id();
     }
 
     /**

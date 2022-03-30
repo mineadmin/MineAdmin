@@ -63,11 +63,10 @@
 					</template>
 					<el-form label-width="80px" label-position="left">
 						<el-form-item label="表格尺寸">
-							<el-radio-group v-model="config.size" size="mini" @change="configSizeChange">
+							<el-radio-group v-model="config.size" size="default" @change="configSizeChange">
 								<el-radio-button label="large">大</el-radio-button>
-								<el-radio-button label="medium">中</el-radio-button>
-								<el-radio-button label="small">正常</el-radio-button>
-								<el-radio-button label="mini">小</el-radio-button>
+								<el-radio-button label="small">小</el-radio-button>
+								<el-radio-button label="default">默认</el-radio-button>
 							</el-radio-group>
 						</el-form-item>
 						<el-form-item label="样式">
@@ -97,7 +96,7 @@
 			params: { type: Object, default: () => ({}) },
 			data: { type: Object, default: () => {} },
 			height: { type: [String,Number], default: "100%" },
-			size: { type: String, default: "small" },
+			size: { type: String, default: "default" },
 			border: { type: Boolean, default: false },
 			stripe: { type: Boolean, default: false },
 			pageSize: { type: Number, default: config.pageSize },
@@ -397,7 +396,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.scTable-table {height: calc(100% - 50px);}
 	.scTable-page {height:50px;display: flex;align-items: center;justify-content: space-between;padding:0 15px;}
 	.scTable-do {white-space: nowrap;}
@@ -406,6 +405,22 @@
 
 	:deep(.el-pagination) {
 		margin-top: 10px;
+	}
+
+	.scTable-table:deep(.el-table th.el-table__cell>.cell) {
+		height: 30px; line-height: 30px; font-size: 13px;
+	}
+	.scTable-table:deep(.el-table th.el-table__cell) {
+		background: #f8f8f9;
+	}
+	.scTable-table:deep(.el-table .cell) {
+		font-size: 13px;
+	}
+
+	[data-theme='dark'] {
+		.scTable-table:deep(.el-table th.el-table__cell) {
+			background: #282828;
+		}
 	}
 
 </style>

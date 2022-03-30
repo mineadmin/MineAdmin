@@ -39,3 +39,11 @@
     border: 1px solid #e5e6e7;
     border-radius:4px;
 }
+
+.el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
+    color: #fff;
+}
+
+.sceditor {
+    width: 100%;
+}

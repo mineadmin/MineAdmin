@@ -20,8 +20,6 @@
         >删除</el-button>
 
         <el-button
-          type="info"
-          plain
           icon="el-icon-sort"
           @click="handleExpand"
         > {{ isExpand ? '折叠' : '展开' }} </el-button>

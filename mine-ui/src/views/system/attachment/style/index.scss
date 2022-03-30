@@ -32,7 +32,7 @@
   .file-list {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 50px);
+    height: calc(100% + 200px);
     padding: 15px;
   }
   .filename {

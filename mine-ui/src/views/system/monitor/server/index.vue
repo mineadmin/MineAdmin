@@ -4,7 +4,7 @@
   >
     <div
       v-loading="loading"
-      element-loading-background="rgba(255, 255, 255, 0.8)"
+      element-loading-background="rgba(255, 255, 255, 0.01)"
       element-loading-text="拼命加载中..."
       style="height:100%; padding: 0"
     >
@@ -234,7 +234,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .diy-grid-layout {
   padding: 15px;
 }
@@ -258,5 +258,10 @@ export default {
   position:relative;
   border-bottom: 1px solid #ebeef5;
   padding: 10px 0;
+}
+[data-theme='dark'] { 
+  .table tbody tr { color: #ddd; }
+
+  .table tbody td {border-bottom: 1px solid #585858;}
 }
 </style>

@@ -2,7 +2,7 @@
   <el-container>
     <el-aside width="355px">
       <el-main
-        v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.8)"
+        v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.01)"
         element-loading-text="菜单加载中..." style="height:100%; padding: 0">
         <el-container>
           <el-header>

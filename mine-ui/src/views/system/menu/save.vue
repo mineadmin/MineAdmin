@@ -211,6 +211,9 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   h2 {font-size: 17px;color: #3c4a54;padding:0 0 30px 0;}
+  [data-theme='dark'] { 
+    h2 { color: #fff; }
+  }
 </style>

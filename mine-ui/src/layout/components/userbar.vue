@@ -37,8 +37,8 @@
 						</el-scrollbar>
 					</el-main>
 					<el-footer>
-						<el-button type="primary" @click="()=>{$router.push('message'); msg= false;}" >消息中心</el-button>
-						<el-button  @click="markRead">全部设为已读</el-button>
+						<el-button type="primary" @click="()=>{$router.push('message'); msg= false;}" size="small">消息中心</el-button>
+						<el-button size="small" @click="markRead">全部设为已读</el-button>
 					</el-footer>
 				</el-container>
 			</el-drawer>

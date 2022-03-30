@@ -45,7 +45,7 @@
               </el-form-item>
 
               <el-form-item label="状态" prop="status">
-                <el-select  v-model="queryParams.status" clearable placeholder="状态">
+                <el-select size="small" v-model="queryParams.status" clearable placeholder="状态">
                   <el-option label="启用" value="0">启用</el-option>
                   <el-option label="停用" value="1">停用</el-option>
                 </el-select>
@@ -54,7 +54,7 @@
               <el-form-item label="创建时间">
                 <el-date-picker
                   clearable
-                  
+                  size="small"
                   v-model="dateRange"
                   type="daterange"
                   range-separator="至"
@@ -130,36 +130,40 @@
 
             <el-button
               type="text"
-              
+              size="small"
               @click="show(scope.row, scope.$index)"
             >查看</el-button>
 
             <el-dropdown v-if="scope.row.code !== 'superAdmin'">
 
-              <el-button type="text">更多</el-button>
+              <el-button
+                type="text" size="small"
+              >
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
 
               <template #dropdown>
                 <el-dropdown-menu>
 
                   <el-dropdown-item
                     @click="edit(scope.row, scope.$index)"
-                    v-if="$AUTH('system:role:update')"
+                    v-auth="['system:role:update']"
                   >编辑</el-dropdown-item>
 
                   <el-dropdown-item 
                     @click="$refs.menuDialog.open().setData(scope.row)"
-                    v-if="$AUTH('system:role:menuPermission')"
+                    v-auth="['system:role:menuPermission']"
                   >菜单权限</el-dropdown-item>
 
                   <el-dropdown-item 
                     @click="$refs.dataDialog.open().setData(scope.row)"
-                    v-if="$AUTH('system:role:dataPermission')"
+                    v-auth="['system:role:dataPermission']"
                   >数据权限</el-dropdown-item>
 
                   <el-dropdown-item
                     @click="deletes(scope.row.id)"
-                    v-if="$AUTH('system:role:delete')"
                     divided
+                    v-auth="['system:role:delete']"
                   >删除</el-dropdown-item>
 
                 </el-dropdown-menu>
@@ -176,12 +180,14 @@
 
             <el-button
               type="text"
+              size="small"
               v-auth="['system:role:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
+              size="small"
               v-auth="['system:role:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>
@@ -365,3 +371,6 @@
     }
   }
 </script>
+
+<style>
+</style>

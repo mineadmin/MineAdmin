@@ -74,7 +74,7 @@
                 </template>
                 <el-form label-width="80px">
                   <el-form-item label="状态" prop="status">
-                    <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
+                    <el-select size="small" v-model="queryParams.status" clearable placeholder="用户状态">
                       <el-option label="启用" value="0">启用</el-option>
                       <el-option label="停用" value="1">停用</el-option>
                     </el-select>
@@ -83,7 +83,7 @@
                   <el-form-item label="创建时间">
                     <el-date-picker
                       clearable
-                      
+                      size="small"
                       v-model="dateRange"
                       type="daterange"
                       range-separator="至"
@@ -113,9 +113,9 @@
           >
             <el-table-column type="selection" width="50"></el-table-column>
 
-            <el-table-column label="头像" width="80">
+            <el-table-column label="头像" width="60">
               <template #default="scope">
-                <el-avatar :src="scope.row.avatar" :style="{width: '30px', height: '30px'}"  @error="() => true">
+                <el-avatar :src="scope.row.avatar" size="small" @error="() => true">
                   <i class="el-icon-s-custom" />
                 </el-avatar>
               </template>
@@ -124,26 +124,26 @@
             <el-table-column
               label="登录账号"
               prop="username"
-              width="200"
               sortable='custom'
+              width="130"
             ></el-table-column>
 
             <el-table-column
               label="昵称"
-              width="160"
               prop="nickname"
+              width="120"
             ></el-table-column>
 
             <el-table-column
               label="邮箱"
-              width="200"
               prop="email"
+              width="220"
             ></el-table-column>
 
             <el-table-column
               label="状态"
-              width="160"
               prop="status"
+              width="100"
             >
               <template #default="scope">
                 <el-switch
@@ -157,8 +157,8 @@
 
             <el-table-column
               label="用户类型"
-              width="160"
               prop="user_type"
+              width="80"
             >
               <template #default="scope">
                 {{ scope.row.user_type === '100' ? '系统用户' : '其他类型' }}
@@ -168,59 +168,63 @@
             <el-table-column
               label="创建时间"
               prop="created_at"
-              width="260"
+              width="150"
               sortable='custom'
             ></el-table-column>
 
             <!-- 正常数据操作按钮 -->
-            <el-table-column label="操作" fixed="right" align="right" width="150" v-if="!isRecycle">
+            <el-table-column label="操作" fixed="right" align="right" width="130" v-if="!isRecycle">
               <template #default="scope">
 
                 <el-button
                   type="text"
-                  
+                  size="small"
                   @click="show(scope.row, scope.$index)"
                 >查看</el-button>
 
                 <el-button
                   v-if="scope.row.username === 'superAdmin'"
                   type="text"
-                  
+                  size="small"
                   @click="clearCache(scope.row)"
                   v-auth="['system:user:cache']"
                 >更新缓存</el-button>
 
                 <el-dropdown v-if="scope.row.username !== 'superAdmin'">
 
-                  <el-button type="text">更多</el-button>
+                  <el-button
+                    type="text" size="small"
+                  >
+                    更多<i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
 
                   <template #dropdown>
                     <el-dropdown-menu>
 
                       <el-dropdown-item
                         @click="edit(scope.row, scope.$index)"
-                        v-if="$AUTH('system:user:update')"
+                        v-auth="['system:user:update']"
                       >编辑</el-dropdown-item>
 
                       <el-dropdown-item 
                         @click="setHomepage(scope.row)"
-                        v-if="$AUTH('system:user:homePage')"
+                        v-auth="['system:user:homePage']"
                       >设置首页</el-dropdown-item>
 
                       <el-dropdown-item 
                         @click="clearCache(scope.row)"
-                        v-if="$AUTH('system:user:cache')"
+                        v-auth="['system:user:cache']"
                       >更新缓存</el-dropdown-item>
 
                       <el-dropdown-item 
                         @click="initUserPassword(scope.row.id)"
-                        v-if="$AUTH('system:user:initUserPassword')"
+                        v-auth="['system:user:initUserPassword']"
                       >初始化密码</el-dropdown-item>
 
                       <el-dropdown-item
                         @click="deletes(scope.row.id)"
                         divided
-                        v-if="$AUTH('system:user:delete')"
+                        v-auth="['system:user:delete']"
                       >删除</el-dropdown-item>
 
                     </el-dropdown-menu>
@@ -237,12 +241,14 @@
 
                 <el-button
                   type="text"
+                  size="small"
                   v-auth="['system:user:recovery']"
                   @click="recovery(scope.row.id)"
                 >恢复</el-button>
 
                 <el-button
                   type="text"
+                  size="small"
                   v-auth="['system:user:realDelete']"
                   @click="deletes(scope.row.id)"
                 >删除</el-button>
@@ -259,6 +265,7 @@
   <homepage-dialog v-if="dialog.homepage" ref="homepageDialog" @success="handleSuccess" @closed="dialog.homepage=false"></homepage-dialog>
 
 </template>
+
 <script>
   import saveDialog from './save'
   import homepageDialog from './setHomepage'

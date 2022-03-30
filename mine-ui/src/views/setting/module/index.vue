@@ -78,7 +78,7 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column label="操作" fixed="right" align="right" width="220" >
+				<el-table-column label="操作" fixed="right" align="right" width="160" >
 
 					<template #default="scope">
 						<el-button

@@ -10,7 +10,7 @@
 <template>
 	<el-input v-model="defaultValue" v-bind="$attrs">
 		<template #append>
-			<el-dropdown @command="handleShortcuts">
+			<el-dropdown size="medium" @command="handleShortcuts">
 				<el-button icon="el-icon-arrow-down"></el-button>
 				<template #dropdown>
 					<el-dropdown-menu>

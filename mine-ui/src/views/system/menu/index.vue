@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside width="355px">
+    <el-aside width="320px">
       <el-main
         v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.8)"
         element-loading-text="菜单加载中..." style="height:100%; padding: 0">
@@ -64,7 +64,6 @@
                     <el-icon>
                       <el-tooltip class="item" effect="dark" content="新增子菜单" placement="top">
                         <el-icon-plus
-                          style="font-size: 14px;"
                           v-auth="'system:menu:save'"
                           @click.stop="add(node, data)"
                         />

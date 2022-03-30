@@ -13,7 +13,7 @@
               <el-icon><el-icon-delete /></el-icon>
             </span>
           </div>
-          <el-image :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported>
+          <el-image :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
             <template #placeholder>
               <el-icon-more />
             </template>

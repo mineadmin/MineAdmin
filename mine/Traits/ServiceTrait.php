@@ -284,37 +284,33 @@ trait ServiceTrait
      * @param string|null $filename
      * @return ResponseInterface
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function export(array $params, ?string $dto, string $filename = null): ResponseInterface
+    public function export(array $params, ?string $dto, string $filename = null):ResponseInterface
     {
         if (empty($dto)) {
-            return container()->get(MineResponse::class)->error('导出未指定DTO');
+            return make(MineResponse::class)->error('导出未指定DTO');
         }
 
         if (empty($filename)) {
             $filename = $this->mapper->getModel()->getTable();
         }
 
-        return (new MineCollection())->export($dto, $filename, $this->mapper->getList($params));
+        $collection = new MineCollection();
+
+        return $collection->export($dto, $filename, $this->mapper->getList($params));
     }
 
     /**
      * 数据导入
      * @param string $dto
      * @param \Closure|null $closure
-     * @param bool $isExportErrorData
-     * @return array|ResponseInterface
+     * @return bool
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      * @Transaction
      */
-    public function import(string $dto, ?\Closure $closure = null, bool $isExportErrorData = false): bool
+    public function import(string $dto, ?\Closure $closure = null): bool
     {
-        return $this->mapper->import($dto, $closure, $isExportErrorData);
+        return $this->mapper->import($dto, $closure);
     }
 
     /**

@@ -12,7 +12,7 @@ const app = createApp(App)
 
 app.use(store)
 app.use(router)
-app.use(ElementPlus, {size: 'default', zIndex: 1000})
+app.use(ElementPlus, {size: 'small', zIndex: 1000})
 app.use(i18n)
 app.use(mineadmin)
 

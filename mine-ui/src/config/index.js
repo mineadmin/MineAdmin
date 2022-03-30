@@ -59,7 +59,7 @@ const DEFAULT_CONFIG = {
 
 	// 文件存储URL地址
 	STORAGE_URL: {
-		LOCAL: 'http://127.0.0.1:9501',
+		LOCAL: 'https://img.mineadmin.com',
 		OSS: '',
 		COS: '',
 		QINIU: ''

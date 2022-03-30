@@ -36,11 +36,11 @@
 						<el-scrollbar>
 							<li v-for="(item, index) in selected" :key="item.id">
 								<span class="name">
-									<el-avatar >{{item.name.substring(0,1)}}</el-avatar>
+									<el-avatar size="small">{{item.name.substring(0,1)}}</el-avatar>
 									<label>{{item.name}}</label>
 								</span>
 								<span class="delete">
-									<el-button type="text" icon="el-icon-delete" circle  @click="deleteSelected(index)"></el-button>
+									<el-button type="text" icon="el-icon-delete" circle size="mini" @click="deleteSelected(index)"></el-button>
 								</span>
 							</li>
 						</el-scrollbar>
@@ -70,7 +70,7 @@
 									<label>{{item.name}}</label>
 								</span>
 								<span class="delete">
-									<el-button type="text" icon="el-icon-delete" circle  @click="deleteSelected(index)"></el-button>
+									<el-button type="text" icon="el-icon-delete" circle size="mini" @click="deleteSelected(index)"></el-button>
 								</span>
 							</li>
 						</el-scrollbar>

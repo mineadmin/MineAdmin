@@ -155,28 +155,28 @@
 
             <el-button
               type="text"
-              
+              size="small"
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:api:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="goto('request', scope.row)"
               v-auth="['system:apiColumn']"
             >请求数据</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="goto('response', scope.row)"
               v-auth="['system:apiColumn']"
             >响应数据</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="deletes(scope.row.id)"
               v-auth="['system:api:delete']"
             >删除</el-button>
@@ -190,14 +190,14 @@
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:api:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:api:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

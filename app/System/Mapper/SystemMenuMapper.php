@@ -103,8 +103,9 @@ class SystemMenuMapper extends AbstractMapper
      * 单个或批量真实删除数据
      * @param array $ids
      * @return bool
+     * @Transaction
+     * @DeleteCache("loginInfo:*")
      */
-    #[DeleteCache("loginInfo:*"), Transaction]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {
@@ -122,8 +123,8 @@ class SystemMenuMapper extends AbstractMapper
      * @param int $id
      * @param array $data
      * @return bool
+     * @DeleteCache("loginInfo:*")
      */
-    #[DeleteCache("loginInfo:*")]
     public function update(int $id, array $data): bool
     {
         return parent::update($id, $data);
@@ -133,8 +134,8 @@ class SystemMenuMapper extends AbstractMapper
      * 逻辑删除菜单
      * @param array $ids
      * @return bool
+     * @DeleteCache("loginInfo:*")
      */
-    #[DeleteCache("loginInfo:*")]
     public function delete(array $ids): bool
     {
         return parent::delete($ids);

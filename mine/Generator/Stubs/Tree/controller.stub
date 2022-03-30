@@ -44,6 +44,7 @@ class {CLASS_NAME} extends MineController
 
     /**
      * 前端选择树（不需要权限）
+     * @GetMapping("tree")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

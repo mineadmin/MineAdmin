@@ -47,7 +47,7 @@
 					</el-scrollbar>
 				</el-main>
 				<el-footer>
-					<el-button type="primary"  @click="saveMods">保存</el-button>
+					<el-button type="primary" size="small" @click="saveMods">保存</el-button>
 				</el-footer>
 			</el-container>
 		</el-drawer>

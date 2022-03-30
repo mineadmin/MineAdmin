@@ -11,7 +11,7 @@
 	<div class="sc-filterBar">
 		<slot :filterLength="filterObjLength" :openFilter="openFilter">
 			<el-badge :value="filterObjLength" type="danger" :hidden="filterObjLength<=0">
-				<el-button  icon="el-icon-filter" @click="openFilter"></el-button>
+				<el-button size="small" icon="el-icon-filter" @click="openFilter"></el-button>
 			</el-badge>
 		</slot>
 
@@ -39,7 +39,7 @@
 										</colgroup>
 										<tr v-for="(item,index) in filter" :key="index">
 											<td>
-												<el-tag>{{index+1}}</el-tag>
+												<el-tag size="medium">{{index+1}}</el-tag>
 											</td>
 											<td>
 												<py-select v-model="item.field" :options="fields" placeholder="过滤字段" filterable @change="fieldChange(item)">

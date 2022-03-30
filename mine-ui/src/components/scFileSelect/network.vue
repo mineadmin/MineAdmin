@@ -17,14 +17,14 @@
 
     <template #footer class="dialog-footer">
 
-        <el-button @click="openDialog = false" >
+        <el-button @click="openDialog = false" size="small">
           关 闭
         </el-button>
 
         <el-button
           type="primary"
           @click="save"
-          >
+          size="small">
           保存到本地
         </el-button>
         

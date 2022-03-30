@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="actions">
-				<el-button type="primary" icon="el-icon-check" @click="godoc">文档</el-button>
+				<el-button type="primary" icon="el-icon-check" size="medium" @click="godoc">文档</el-button>
 			</div>
 		</div>
 	</el-card>

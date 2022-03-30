@@ -158,8 +158,9 @@ class UserController extends MineController
     #[PostMapping("clearCache"), Permission("system:user:cache")]
     public function clearCache(): ResponseInterface
     {
-        $this->service->clearCache((string) $this->request->input('id', null));
-        return $this->success();
+        return $this->service->clearCache((string) $this->request->input('id', null))
+            ? $this->success()
+            : $this->error();
     }
 
     /**
@@ -230,7 +231,6 @@ class UserController extends MineController
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     #[PostMapping("import"), Permission("system:user:import")]
     public function import(): ResponseInterface

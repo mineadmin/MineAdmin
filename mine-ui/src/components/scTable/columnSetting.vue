@@ -19,7 +19,7 @@
 					</span>
 					<span class="name_b" :title="item.prop">{{ item.label }}</span>
 					<span class="width_b">
-						<el-input v-model="item.width" placeholder="auto" ></el-input>
+						<el-input v-model="item.width" placeholder="auto" size="mini"></el-input>
 					</span>
 					<span class="sortable_b">
 						<el-switch v-model="item.sortable"></el-switch>

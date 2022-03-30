@@ -22,7 +22,7 @@
 									<div class="widgets-item">
 										<component :is="allComps[element]"></component>
 										<div v-if="customizing" class="customize-overlay">
-											<el-button class="close" type="danger" plain icon="el-icon-close"  @click="remove(element)"></el-button>
+											<el-button class="close" type="danger" plain icon="el-icon-close" size="small" @click="remove(element)"></el-button>
 											<label><i :class="allComps[element].icon"></i>{{ allComps[element].title }}</label>
 										</div>
 									</div>
@@ -76,13 +76,13 @@
 								<p>{{ item.description }}</p>
 							</div>
 							<div class="item-actions">
-								<el-button type="primary" icon="el-icon-plus"  @click="push(item)"></el-button>
+								<el-button type="primary" icon="el-icon-plus" size="small" @click="push(item)"></el-button>
 							</div>
 						</div>
 					</div>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button  @click="backDefaul()">恢复默认</el-button>
+					<el-button size="mini" @click="backDefaul()">恢复默认</el-button>
 				</el-footer>
 			</el-container>
 		</div>

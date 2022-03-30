@@ -17,8 +17,10 @@ use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
 use Mine\Annotation\Auth;
+use Mine\Exception\MineException;
 use Mine\Exception\TokenException;
 use Mine\Helper\LoginUser;
+use Mine\MineRequest;
 
 /**
  * Class AuthAspect
@@ -47,10 +49,15 @@ class AuthAspect extends AbstractAspect
      * @return mixed
      * @throws Exception
      * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\N
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
+        $request = container()->get(MineRequest::class);
+        if ($request->getMethod() != 'GET') {
+            throw new MineException('为了正常运行，演示环境禁止该操作，如需要请下载部署体验');
+        }
+
         if ($this->loginUser->check()) {
             return $proceedingJoinPoint->process();
         }

@@ -1,7 +1,7 @@
 <template>
   <el-button icon="el-icon-finished" @click="open" >选择用户</el-button> <el-tag>已选择 {{modelValue.length}} 个用户</el-tag>
 
-  <el-dialog
+  <sc-dialog
     v-model="showSelectPanel"
     title="选择用户"
     width="1020px"
@@ -138,7 +138,7 @@
       <el-button type="primary" @click="confirmSelect">确定选择</el-button>
       <el-button @click="cancel">关闭</el-button>
     </template>
-  </el-dialog>
+  </sc-dialog>
 
 </template>
 

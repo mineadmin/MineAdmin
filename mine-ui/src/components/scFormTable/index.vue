@@ -3,12 +3,12 @@
 		<el-table :data="data" ref="table" :key="toggleIndex" border stripe>
 			<el-table-column type="index" width="50" fixed="left">
 				<template #header>
-					<el-button type="primary" icon="el-icon-plus"  circle @click="rowAdd"></el-button>
+					<el-button type="primary" icon="el-icon-plus" size="mini" circle @click="rowAdd"></el-button>
 				</template>
 				<template #default="scope">
 					<div class="sc-form-table-handle">
 						<span>{{scope.$index + 1}}</span>
-						<el-button type="danger" icon="el-icon-delete"  plain circle @click="rowDel(scope.row, scope.$index)"></el-button>
+						<el-button type="danger" icon="el-icon-delete" size="mini" plain circle @click="rowDel(scope.row, scope.$index)"></el-button>
 					</div>
 				</template>
 			</el-table-column>

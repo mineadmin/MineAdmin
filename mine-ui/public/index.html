@@ -95,7 +95,7 @@
 		}
 		var browerInfo = getBrowerInfo()
 		var materVer = browerInfo.version.split('.')[0]
-		if(materVer >= minVer[browerInfo.type] || browerInfo.type == 'Firefox'){
+		if(materVer >= minVer[browerInfo.type]){
 			return true
 		}else{
 			return false

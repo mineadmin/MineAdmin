@@ -148,21 +148,21 @@
 
             <el-button
               type="text"
-              
+              size="small"
               @click="tableShow(scope.row)"
               v-auth="['system:apiColumn:read']"
             >查看</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="tableEdit(scope.row)"
               v-auth="['system:apiColumn:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="deletes(scope.row.id)"
               v-auth="['system:apiColumn:delete']"
             >删除</el-button>
@@ -176,14 +176,14 @@
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:apiColumn:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:apiColumn:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

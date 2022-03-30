@@ -3,19 +3,19 @@
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
 
       <el-form-item label="模块名称" prop="name">
-        <el-input v-model="form.name"  placeholder="请输入模块名称（英文名称）"></el-input>
+        <el-input v-model="form.name" size="small" placeholder="请输入模块名称（英文名称）"></el-input>
       </el-form-item>
 
       <el-form-item label="模块标签" prop="label">
-        <el-input v-model="form.label"  placeholder="请输入模块标签（中文名称）"></el-input>
+        <el-input v-model="form.label" size="small" placeholder="请输入模块标签（中文名称）"></el-input>
       </el-form-item>
 
       <el-form-item label="版本号" prop="version">
-        <el-input v-model="form.version"  placeholder="请输入版本号"></el-input>
+        <el-input v-model="form.version" size="small" placeholder="请输入版本号"></el-input>
       </el-form-item>
 
       <el-form-item label="描述" prop="description">
-        <el-input v-model="form.description" type="textarea" :rows="3"  placeholder="请输入模块功能描述"></el-input>
+        <el-input v-model="form.description" type="textarea" :rows="3" size="small" placeholder="请输入模块功能描述"></el-input>
       </el-form-item>
       
     </el-form>

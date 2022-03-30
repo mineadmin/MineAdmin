@@ -22,11 +22,11 @@
 						<div class="handler">
 							<el-popconfirm title="确定立即执行吗？" @confirm="run(item)">
 								<template #reference>
-									<el-button type="primary" icon="el-icon-caret-right"  circle></el-button>
+									<el-button type="primary" icon="el-icon-caret-right" size="mini" circle></el-button>
 								</template>
 							</el-popconfirm>
 							<el-dropdown trigger="click">
-								<el-button type="primary" icon="el-icon-more"  circle plain></el-button>
+								<el-button type="primary" icon="el-icon-more" size="mini" circle plain></el-button>
 								<template #dropdown>
 									<el-dropdown-menu>
 										<el-dropdown-item @click="edit(item)">编辑</el-dropdown-item>

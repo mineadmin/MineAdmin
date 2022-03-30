@@ -102,7 +102,7 @@ class MineUpload
      */
     protected function handleUpload(UploadedFile $uploadedFile, array $config): array
     {
-        $path = $this->getPath($config['path'] ?? null, $this->getMappingMode() !== 1);
+        $path = $this->getPath($config['path'] ?? null);
         $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
         if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
@@ -136,7 +136,7 @@ class MineUpload
      */
     public function handleSaveNetworkImage(array $data): array
     {
-        $path = $this->getPath($data['path'] ?? null, $this->getMappingMode() !== 1);
+        $path = $this->getPath($data['path'] ?? null);
         $filename = $this->getNewName() . '.jpg';
 
         try {
@@ -237,7 +237,7 @@ class MineUpload
      * @param string $filename
      * @return string
      */
-    public function assembleUrl(?string $path, string $filename): string
+    public function assembleUrl(string $path, string $filename): string
     {
         return $this->getPath($path, true) . '/' . $filename;
     }
@@ -255,13 +255,13 @@ class MineUpload
 
     /**
      * 获取编码后的文件名
+     * @throws \Exception
      * @return string
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getNewName(): string
     {
-        return snowflake_id();
+        $id = new Id(2, 2, 2);
+        return (string) $id->getId();
     }
 
     /**

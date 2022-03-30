@@ -4,7 +4,7 @@
         :options="cityLinkageList"
         :props="{ expandTrigger: expandType, value: valueType, label: 'name', checkStrictly: true }"
         filterable
-        
+        size="small"
         :placeholder="placeholder"
 
         clearable

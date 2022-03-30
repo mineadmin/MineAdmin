@@ -106,14 +106,14 @@
 
             <el-button
               type="text"
-              
+              size="small"
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:notice:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="deletes(scope.row.id)"
               v-auth="['system:notice:delete']"
             >删除</el-button>
@@ -127,14 +127,14 @@
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:notice:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:notice:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

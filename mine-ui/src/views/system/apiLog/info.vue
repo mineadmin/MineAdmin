@@ -1,7 +1,7 @@
 <template>
 
 	<el-main style="padding:0 20px;">
-		<el-descriptions :column="1" border >
+		<el-descriptions :column="1" border size="small">
 			<el-descriptions-item label="接口名称">{{data.api_name}}</el-descriptions-item>
 			<el-descriptions-item label="请求接口">{{data.access_name}}</el-descriptions-item>
 			<el-descriptions-item label="状态代码">{{data.response_code}}</el-descriptions-item>

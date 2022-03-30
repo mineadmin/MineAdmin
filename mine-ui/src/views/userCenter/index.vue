@@ -16,7 +16,7 @@
                />
 
               <h2>{{ userInfo.user.nickname||'-' }}</h2>
-              <el-button type="primary" round icon="el-icon-collection-tag">{{ userInfo.user.username }}</el-button>
+              <el-button type="primary" round icon="el-icon-collection-tag" size="medium">{{ userInfo.user.username }}</el-button>
             </div>
             <div class="user-info-main">
               <ul>

@@ -123,32 +123,32 @@
         </el-table-column>
 
         <!-- 正常数据操作按钮 -->
-        <el-table-column label="操作" fixed="right" align="right" width="240" v-if="!isRecycle">
+        <el-table-column label="操作" fixed="right" align="right" width="210" v-if="!isRecycle">
           <template #default="scope">
 
             <el-button
               type="text"
-              
+              size="small"
               @click="apidoc(scope.row)"
             >查看文档</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="bind(scope.row)"
               v-auth="['system:app:bind']"
             >绑定接口</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:app:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               @click="deletes(scope.row.id)"
               v-auth="['system:app:delete']"
             >删除</el-button>
@@ -162,14 +162,14 @@
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:app:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              
+              size="small"
               v-auth="['system:app:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

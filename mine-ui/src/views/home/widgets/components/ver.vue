@@ -6,8 +6,8 @@
 			<p style="margin-top: 5px;">最新版本 {{ver}}</p>
 		</div>
 		<div style="margin-top: 20px;">
-			<el-button type="success" @click="golog">更新日志</el-button>
-			<el-button type="danger" @click="gogit">Gitee</el-button>
+			<el-button type="primary" plain round @click="golog">更新日志</el-button>
+			<el-button type="primary" plain round @click="gogit">gitee</el-button>
 		</div>
 	</el-card>
 </template>
@@ -18,7 +18,9 @@
 		icon: "el-icon-monitor",
 		description: "当前项目版本信息",
 		data() {
-			return { ver: 'loading...' }
+			return {
+				ver: 'loading...'
+			}
 		},
 		mounted() {
 			this.getVer()

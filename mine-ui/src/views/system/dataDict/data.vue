@@ -3,15 +3,15 @@
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
       
       <el-form-item label="字典标签" prop="label">
-        <el-input v-model="form.label"  placeholder="请输入字典标签"></el-input>
+        <el-input v-model="form.label" size="small" placeholder="请输入字典标签"></el-input>
       </el-form-item>
 
       <el-form-item label="字典值" prop="value">
-        <el-input v-model="form.value"  placeholder="请输入字典值"></el-input>
+        <el-input v-model="form.value" size="small" placeholder="请输入字典值"></el-input>
       </el-form-item>
 
       <el-form-item label="排序" prop="sort">
-        <el-input-number v-model="form.sort"  :min="0" :max="999" label="排序"></el-input-number>
+        <el-input-number v-model="form.sort" size="small" :min="0" :max="999" label="排序"></el-input-number>
       </el-form-item>
 
       <el-form-item label="状态" prop="status">
@@ -24,7 +24,7 @@
       </el-form-item>
 
       <el-form-item label="备注" prop="remark">
-        <el-input type="textarea"  :rows="3" placeholder="备注信息" v-model="form.remark">
+        <el-input type="textarea" size="small" :rows="3" placeholder="备注信息" v-model="form.remark">
         </el-input>
       </el-form-item>
 

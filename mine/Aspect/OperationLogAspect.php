@@ -24,12 +24,13 @@ use Mine\Helper\Str;
 use Mine\MineRequest;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class OperationLogAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class OperationLogAspect extends AbstractAspect
 {
     public $annotations = [
@@ -37,9 +38,9 @@ class OperationLogAspect extends AbstractAspect
     ];
 
     /**
-     * @var ContainerInterface
+     * 容器
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     public function __construct()
     {
@@ -56,14 +57,19 @@ class OperationLogAspect extends AbstractAspect
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
         $annotation = $proceedingJoinPoint->getAnnotationMetadata()->method[OperationLog::class];
+        /* @var $result ResponseInterface */
         $result = $proceedingJoinPoint->process();
+        $isDownload = false;
         if (! empty($annotation->menuName) || ($annotation = $proceedingJoinPoint->getAnnotationMetadata()->method[Permission::class])) {
+            if (!empty($result->getHeader('content-description')) && !empty($result->getHeader('content-transfer-encoding'))) {
+                $isDownload = true;
+            }
             $evDispatcher = $this->container->get(EventDispatcherInterface::class);
             $evDispatcher->dispatch(new Operation($this->getRequestInfo([
                 'code' => !empty($annotation->code) ? explode(',', $annotation->code)[0] : '',
                 'name' => $annotation->menuName ?? '',
                 'response_code' => $result->getStatusCode(),
-                'response_data' => $result->getBody()->getContents()
+                'response_data' => $isDownload ? '文件下载' : $result->getBody()->getContents()
             ])));
         }
         return $result;

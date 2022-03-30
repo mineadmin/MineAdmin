@@ -29,84 +29,90 @@ trait ServiceTrait
     /**
      * 获取列表数据
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params = null): array
+    public function getList(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = false;
-        return $this->mapper->getList($params);
+        return $this->mapper->getList($params, $isScope);
     }
 
     /**
      * 从回收站过去列表数据
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getListByRecycle(?array $params = null): array
+    public function getListByRecycle(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = true;
-        return $this->mapper->getList($params);
+        return $this->mapper->getList($params, $isScope);
     }
 
     /**
      * 获取列表数据（带分页）
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getPageList(?array $params = null): array
+    public function getPageList(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
-        return $this->mapper->getPageList($params);
+        return $this->mapper->getPageList($params, $isScope);
     }
 
     /**
      * 从回收站获取列表数据（带分页）
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getPageListByRecycle(?array $params = null): array
+    public function getPageListByRecycle(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = true;
-        return $this->mapper->getPageList($params);
+        return $this->mapper->getPageList($params, $isScope);
     }
 
     /**
      * 获取树列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeList(?array $params = null): array
+    public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = false;
-        return $this->mapper->getTreeList($params);
+        return $this->mapper->getTreeList($params, $isScope);
     }
 
     /**
      * 从回收站获取树列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeListByRecycle(?array $params = null): array
+    public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = true;
-        return $this->mapper->getTreeList($params);
+        return $this->mapper->getTreeList($params, $isScope);
     }
 
     /**
@@ -371,5 +377,16 @@ trait ServiceTrait
     protected function getArrayData(array $params = []): array
     {
         return [];
+    }
+
+    /**
+     * 获取tabs数据统计
+     * @param string $field
+     * @param $dictDataService
+     * @return array
+     */
+    public function getTabNum(string $field): array
+    {
+        return $this->mapper->getTabNum($field);
     }
 }

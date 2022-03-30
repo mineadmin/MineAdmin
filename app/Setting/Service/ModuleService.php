@@ -3,29 +3,40 @@
 declare(strict_types=1);
 namespace App\Setting\Service;
 
+use Hyperf\Config\Annotation\Value;
 use Hyperf\Utils\Collection;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Generator\ModuleGenerator;
 use Mine\Mine;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class ModuleService extends AbstractService
 {
     /**
      * @var Mine
      */
-    public $mine;
+    protected Mine $mine;
+
+    /**
+     * @var string
+     */
+    #[Value('cache.default.prefix')]
+    protected string $prefix;
 
     public function __construct(Mine $mine)
     {
         $this->mine = $mine;
     }
+
     /**
      * 获取表状态分页列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getPageList(?array $params = []): array
+    public function getPageList(?array $params = [], bool $isScope = true): array
     {
         return $this->getArrayToPageList($params);
     }
@@ -56,25 +67,76 @@ class ModuleService extends AbstractService
      * 设置需要分页的数组数据
      * @param array $params
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getArrayData(array $params = []): array
     {
-        // 先扫描模块
-        $this->mine->scanModule();
-        return $this->mine->getModuleInfo();
+        return $this->getModuleCache();
     }
 
     /**
      * 创建模块
      * @param array $moduleInfo
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function createModule(array $moduleInfo): bool
     {
         /** @var ModuleGenerator $moduleGen */
         $moduleGen = make(ModuleGenerator::class);
         $moduleGen->setModuleInfo($moduleInfo)->createModule();
+        $this->setModuleCache();
         return true;
+    }
+
+    /**
+     * 执行模块安装
+     * @param string $name
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function installModuleData(string $name): bool
+    {
+        try {
+            $migrateCommand = [ 'command' => 'mine:migrate-run', 'name' => $name ];
+            $seedCommand = [ 'command' => 'mine:seeder-run', 'name' => $name ];
+            $application = container()->get(\Hyperf\Contract\ApplicationInterface::class);
+            $application->setAutoExit(false);
+            $application->run(new ArrayInput($migrateCommand), new NullOutput());
+            $application->run(new ArrayInput($seedCommand), new NullOutput());
+            $this->setModuleCache();
+            return true;
+        } catch (\Throwable $e) {
+            console()->error($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 卸载模块
+     * @param string $name
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
+     */
+    public function uninstallModule(string $name): bool
+    {
+        try {
+            $migrate = container()->get(\Hyperf\Database\Migrations\Migrator::class);
+            $path = BASE_PATH . '/app/' . $name . '/Database/Migrations';
+            $migrate->rollback([$path]);
+            is_dir($path . '/Update') && $migrate->rollback([$path . '/Update']);
+            $this->deleteModule($name);
+            $this->setModuleCache();
+            return true;
+        } catch (\Throwable $e) {
+            console()->error($e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -88,5 +150,90 @@ class ModuleService extends AbstractService
         $filesystem = make(Filesystem::class);
         $modulePath = BASE_PATH . '/app/' . ucfirst($name);
         return $filesystem->deleteDirectory($modulePath);
+    }
+
+    /**
+     * 缓存模块信息
+     * @param string|null $moduleName 模块名
+     * @param array $data 模块数据
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function setModuleCache(?string $moduleName = null, array $data = []): void
+    {
+        $key = $this->prefix . 'modules';
+        $this->mine->scanModule();
+        $modules = $this->mine->getModuleInfo();
+        if (! empty($moduleName)) {
+            $modules[$moduleName] = $data;
+        }
+        redis()->set($key, serialize($modules));
+    }
+
+    /**
+     * 获取模块缓存信息
+     * @param string|null $moduleName
+     * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function getModuleCache(?string $moduleName = null): array
+    {
+        $key = $this->prefix . 'modules';
+        $redis = redis();
+        if ($redis->exists($key)) {
+            $data = unserialize($redis->get($key));
+            return !empty($moduleName) && isset($data[$moduleName]) ? $data[$moduleName] : $data;
+        } else {
+            $this->setModuleCache();
+            $this->mine->scanModule();
+            return $this->mine->getModuleInfo();
+        }
+    }
+
+    /**
+     * 设置模块状态
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function setModuleEnabled(?string $moduleName = null, bool $enabled = true): void
+    {
+        $key = $this->prefix . 'modules:';
+        if (empty($moduleName)) {
+            foreach ($this->getModuleCache() as $item) {
+                redis()->set($key . $item['name'], $item['enabled'] == '1');
+            }
+        } else {
+            redis()->set($key . $moduleName, $enabled);
+        }
+    }
+
+    /**
+     * 获取模块状态（缓存）
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function getModuleEnabled(string $moduleName): bool
+    {
+        $key = $this->prefix . 'modules:' . $moduleName;
+        $redis = redis();
+        $redis->exists($key) || $this->setModuleEnabled();
+        return $redis->get($key) == '1';
+    }
+
+    /**
+     * 启停用模块
+     * @param array $data
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function modifyStatus(array $data): bool
+    {
+        $modules = $this->getModuleCache();
+        $this->setModuleEnabled($data['name'], $data['status']);
+        $modules[$data['name']]['enabled'] = $data['status'];
+        $this->setModuleCache($data['name'], $modules[$data['name']]);
+        return true;
     }
 }

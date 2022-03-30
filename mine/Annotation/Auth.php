@@ -12,6 +12,7 @@
 declare(strict_types = 1);
 namespace Mine\Annotation;
 
+use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
@@ -19,17 +20,18 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"CLASS","METHOD"})
  */
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class Auth extends AbstractAnnotation
 {
     /**
      * scene
      * @var string
      */
-    public $scene;
+    public string $scene;
 
     public function __construct($value = 'default')
     {
         parent::__construct($value);
-        $this->bindMainProperty('scene', $value);
+        $this->bindMainProperty('scene', [ $value ]);
     }
 }

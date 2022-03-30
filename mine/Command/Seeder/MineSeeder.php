@@ -21,9 +21,9 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class MineSeeder
- * @Command
  * @package System\Command\Seeder
  */
+#[Command]
 class MineSeeder extends BaseCommand
 {
     /**
@@ -31,9 +31,9 @@ class MineSeeder extends BaseCommand
      *
      * @var SeederCreator
      */
-    protected $creator;
+    protected SeederCreator $creator;
 
-    protected $module;
+    protected string $module;
 
     /**
      * Create a new seeder generator command instance.

@@ -25,8 +25,8 @@ use Mine\MineRequest;
 /**
  * Class PermissionAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class PermissionAspect extends AbstractAspect
 {
 
@@ -35,19 +35,19 @@ class PermissionAspect extends AbstractAspect
     ];
 
     /**
-     * @var SystemUserService
+     * SystemUserService
      */
-    protected $service;
+    protected SystemUserService $service;
 
     /**
-     * @var MineRequest
+     * MineRequest
      */
-    protected $request;
+    protected MineRequest $request;
 
     /**
-     * @var LoginUser
+     * LoginUser
      */
-    protected $loginUser;
+    protected LoginUser $loginUser;
 
     /**
      * PermissionAspect constructor.

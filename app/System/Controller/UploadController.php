@@ -18,26 +18,22 @@ use Mine\MineController;
 /**
  * Class UploadController
  * @package App\System\Controller
- * @Controller(prefix="system")
  */
+#[Controller(prefix: "system")]
 class UploadController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemUploadFileService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemUploadFileService $service;
 
     /**
      * 上传文件
-     * @PostMapping("uploadFile")
      * @param UploadFileRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Auth
      */
+    #[PostMapping("uploadFile"), Auth]
     public function uploadFile(UploadFileRequest $request): \Psr\Http\Message\ResponseInterface
     {
         if ($request->validated() && $request->file('file')->isValid()) {
@@ -52,14 +48,13 @@ class UploadController extends MineController
 
     /**
      * 上传图片
-     * @PostMapping("uploadImage")
      * @param UploadImageRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Auth
      */
+    #[PostMapping("uploadImage"), Auth]
     public function uploadImage(UploadImageRequest $request): \Psr\Http\Message\ResponseInterface
     {
         if ($request->validated() && $request->file('image')->isValid()) {
@@ -74,35 +69,25 @@ class UploadController extends MineController
 
     /**
      * 保存网络图片
-     * @PostMapping("saveNetworkImage")
-     * @Auth
+     * @param NetworkImageRequest $request
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
+    #[PostMapping("saveNetworkImage"), Auth]
     public function saveNetworkImage(NetworkImageRequest $request): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->saveNetworkImage($request->validated()));
     }
 
     /**
-     * 获取可上传的目录
-     * @GetMapping("getDirectory")
-     * @Auth
-     */
-    public function getDirectory(): \Psr\Http\Message\ResponseInterface
-    {
-        return $this->success(
-            $this->service->getDirectory(
-                $this->request->input('path', ''),
-                (bool) $this->request->input('isChildren', false)
-            )
-        );
-    }
-
-    /**
      * 获取当前目录所有文件和目录
-     * @GetMapping("getAllFiles")
-     * @Auth
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getAllFiles"), Auth]
     public function getAllFile(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success(
@@ -111,34 +96,31 @@ class UploadController extends MineController
     }
 
     /**
-     * 创建上传目录
-     * @PostMapping("createUploadDir")
-     * @Auth
-     */
-    public function createUploadDir(CreateUploadDirRequest $request): \Psr\Http\Message\ResponseInterface
-    {
-        return $this->service->createUploadDir($request->all()) ? $this->success() : $this->error();
-    }
-
-    /**
-     * 删除上传目录
-     * @PostMapping("deleteUploadDir")
-     * @Auth
+     * 获取文件信息
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function deleteUploadDir(): \Psr\Http\Message\ResponseInterface
-    {
-        return $this->service->deleteUploadDir($this->request->all()) ? $this->success() : $this->error();
-    }
-
-    /**
-     * 获取文件信息
-     * @GetMapping("getFileInfo")
-     */
+    #[GetMapping("getFileInfo")]
     public function getFileInfo(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->read($this->request->input('id', null)));
+    }
+
+    /**
+     * 下载文件
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("download")]
+    public function download(): \Psr\Http\Message\ResponseInterface
+    {
+        $id = $this->request->input('id');
+        if (empty($id)) {
+            return $this->error("附件ID必填");
+        }
+        $model = $this->service->read($id);
+        return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
     }
 }

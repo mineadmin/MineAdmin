@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace App\Setting\Controller\Tools;
 
@@ -17,21 +18,20 @@ use Mine\MineController;
  * 表设计器
  * Class TableController
  * @package App\Setting\Controller\Tools
- * @Controller(prefix="setting/table")
- * @Auth
  */
+#[Controller(prefix: "setting/table"), Auth]
 class TableController extends MineController
 {
-    /**
-     * @Inject
-     * @var TableService
-     */
-    public $service;
+    #[Inject]
+    protected TableService $service;
 
     /**
      * 获取系统信息
-     * @GetMapping("getSystemInfo")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getSystemInfo")]
     public function getSystemInfo(): \Psr\Http\Message\ResponseInterface
     {
         $this->mine->scanModule();
@@ -43,12 +43,12 @@ class TableController extends MineController
 
     /**
      * 创建数据表
-     * @PutMapping("save")
-     * @Permission("setting:table:save")
-     * @OperationLog
      * @param TableCreateRequest $request
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("save"), Permission("setting:table:save"), OperationLog]
     public function save(TableCreateRequest $request): \Psr\Http\Message\ResponseInterface
     {
         if ($this->service->createTable($request->validated())) {

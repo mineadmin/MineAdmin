@@ -23,8 +23,8 @@ use Mine\Helper\Str;
 /**
  * Class DeleteCacheAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class DeleteCacheAspect extends AbstractAspect
 {
     public $annotations = [
@@ -33,9 +33,9 @@ class DeleteCacheAspect extends AbstractAspect
 
     /**
      * 缓存前缀
-     * @Value("cache.default.prefix")
      */
-    protected $prefix;
+    #[Value("cache.default.prefix")]
+    protected string $prefix;
 
     /**
      * @param ProceedingJoinPoint $proceedingJoinPoint
@@ -60,7 +60,9 @@ class DeleteCacheAspect extends AbstractAspect
                     $redis->del("{$this->prefix}{$key}");
                 } else {
                     $keyList = $redis->keys("{$this->prefix}{$key}");
-                    $redis->del(...$keyList);
+                    if ($redis->exists($keyList)) {
+                        $redis->del(...$keyList);
+                    }
                 }
             }
         }

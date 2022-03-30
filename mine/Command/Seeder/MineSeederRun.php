@@ -21,9 +21,9 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class MineSeederRun
- * @Command
  * @package System\Command\Seeder
  */
+#[Command]
 class MineSeederRun extends BaseCommand
 {
     use ConfirmableTrait;
@@ -47,9 +47,9 @@ class MineSeederRun extends BaseCommand
      *
      * @var Seed
      */
-    protected $seed;
+    protected Seed $seed;
 
-    protected $module;
+    protected string $module;
 
     /**
      * Create a new seed command instance.

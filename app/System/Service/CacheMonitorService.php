@@ -10,6 +10,8 @@ class CacheMonitorService
 
     /**
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getCacheServerInfo(): array
     {
@@ -39,6 +41,8 @@ class CacheMonitorService
      * 查看缓存内容
      * @param string $key
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function view(string $key): string
     {
@@ -49,6 +53,8 @@ class CacheMonitorService
      * 删除一个缓存
      * @param string $key
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function delete(string $key): bool
     {
@@ -58,6 +64,8 @@ class CacheMonitorService
     /**
      * 清空所有缓存
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function clear(): bool
     {

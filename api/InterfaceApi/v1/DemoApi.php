@@ -22,12 +22,12 @@ class DemoApi
     /**
      * @var SystemUserMapper
      */
-    protected $user;
+    protected SystemUserMapper $user;
 
     /**
      * @var SystemDeptMapper
      */
-    protected $dept;
+    protected SystemDeptMapper $dept;
 
     /**
      * DemoApi constructor.

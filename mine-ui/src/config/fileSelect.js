@@ -4,7 +4,7 @@ import API from "@/api"
 
 export default {
 	apiObj: API.upload.uploadImage,
-	menuApiObj: API.upload.getDirectory,
+	menuApiObj: API.dataDict.getDict,
 	listApiObj: API.attachment.getPageList,
 	successCode: 200,
 	max: 99,
@@ -28,12 +28,12 @@ export default {
 		page: 'page',
 		pageSize: 'pageSize',
 		keyword: 'origin_name',
-		menuKey: 'storage_path',
+		menuKey: 'mime_type',
 		upPath: 'path',
 	},
 	menuProps: {
-		key: 'filename',
-		label: 'filename',
+		key: 'value',
+		label: 'label',
 		children: 'children'
 	},
 	fileProps: {

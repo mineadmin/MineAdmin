@@ -22,12 +22,13 @@ class SystemDeptService extends AbstractService
 
     /**
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeList(?array $params = null): array
+    public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
-        return parent::getTreeList($params);
+        return parent::getTreeList($params, $isScope);
     }
 
     /**
@@ -43,6 +44,8 @@ class SystemDeptService extends AbstractService
      * 新增部门
      * @param array $data
      * @return int
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function save(array $data): int
     {
@@ -54,6 +57,8 @@ class SystemDeptService extends AbstractService
      * @param int $id
      * @param array $data
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function update(int $id, array $data): bool
     {
@@ -64,6 +69,8 @@ class SystemDeptService extends AbstractService
      * 处理数据
      * @param $data
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function handleData($data): array
     {
@@ -89,7 +96,7 @@ class SystemDeptService extends AbstractService
     /**
      * 真实删除部门
      * @param string $ids
-     * @return array
+     * @return array|null
      */
     public function realDel(string $ids): ?array
     {

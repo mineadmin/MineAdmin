@@ -35,17 +35,17 @@ class SettingGenerateTablesService extends AbstractService
     /**
      * @var DataMaintainService
      */
-    protected $dataMaintainService;
+    protected DataMaintainService $dataMaintainService;
 
     /**
      * @var SettingGenerateColumnsService
      */
-    protected $settingGenerateColumnsService;
+    protected SettingGenerateColumnsService $settingGenerateColumnsService;
 
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * SettingGenerateTablesService constructor.
@@ -174,6 +174,8 @@ class SettingGenerateTablesService extends AbstractService
      * @param int $id
      * @param string $adminId
      * @return SettingGenerateTables
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
     protected function generateCodeFile(int $id, string $adminId): SettingGenerateTables
@@ -213,6 +215,9 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 打包代码文件
+     * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function packageCodeFile(): string
     {
@@ -257,6 +262,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 初始化生成设置
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function initGenerateSetting(): void
     {

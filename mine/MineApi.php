@@ -12,8 +12,6 @@
 declare(strict_types=1);
 namespace Mine;
 
-use Hyperf\Di\Annotation\Inject;
-use Psr\Container\ContainerInterface;
 use Mine\Traits\ControllerTrait;
 
 /**

@@ -5,6 +5,7 @@ namespace App\System\Mapper;
 use App\System\Model\SystemApi;
 use App\System\Model\SystemApp;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 
 /**
@@ -67,19 +68,9 @@ class SystemAppMapper extends AbstractMapper
      * @param int $id
      * @return array
      */
-    public function getApiList(int $id): array
+    public function getApiList(int $appId): array
     {
-        $data = $this->read($id)->with(['apis' => function($query) {
-            $query->where('status', '0')->select('id as apiId');
-        }])->get()->toArray();
-
-        $ids = [];
-        foreach ($data as $item) {
-            foreach ($item['apis'] as $api) {
-                $ids[] = $api['apiId'];
-            }
-        }
-        return $ids;
+        return Db::table('system_app_api')->where('app_id', $appId)->pluck('api_id')->toArray();
     }
 
     /**

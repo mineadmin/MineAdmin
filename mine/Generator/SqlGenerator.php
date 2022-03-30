@@ -19,7 +19,6 @@ use App\System\Model\SystemMenu;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
-use Mine\Helper\LoginUser;
 use Mine\Helper\Str;
 
 /**
@@ -32,17 +31,17 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * @var string
@@ -75,7 +74,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $path = BASE_PATH . "/runtime/generate/{$this->getRoute()}Menu.sql";
-        $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/");
+        $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
     }
 
@@ -183,7 +182,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTableName(): string
     {
-        return (SystemMenu::getModel())->getTable();
+        return env('DB_PREFIX') . (SystemMenu::getModel())->getTable();
     }
 
     /**

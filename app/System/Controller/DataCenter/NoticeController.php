@@ -21,23 +21,20 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 通知管理控制器
  * Class NoticeController
- * @Controller(prefix="system/notice")
- * @Auth
  */
+#[Controller(prefix: "system/notice"), Auth]
 class NoticeController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemNoticeService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemNoticeService $service;
 
     /**
      * 列表
-     * @GetMapping("index")
      * @return ResponseInterface
-     * @Permission("system:notice:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:notice:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -45,10 +42,11 @@ class NoticeController extends MineController
 
     /**
      * 回收站列表
-     * @GetMapping("recycle")
      * @return ResponseInterface
-     * @Permission("system:notice:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:notice:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -56,15 +54,13 @@ class NoticeController extends MineController
 
     /**
      * 新增
-     * @PostMapping("save")
      * @param SystemNoticeCreateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
-     * @Permission("system:notice:save")
-     * @OperationLog
      */
+    #[PostMapping("save"), Permission("system:notice:save"), OperationLog]
     public function save(SystemNoticeCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -72,11 +68,12 @@ class NoticeController extends MineController
 
     /**
      * 读取数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:notice:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:notice:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -84,13 +81,13 @@ class NoticeController extends MineController
 
     /**
      * 更新
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemNoticeUpdateRequest $request
      * @return ResponseInterface
-     * @Permission("system:notice:update")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:notice:update"), OperationLog]
     public function update(int $id, SystemNoticeUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -98,12 +95,12 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:notice:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:notice:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -111,12 +108,12 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:notice:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:notice:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -124,12 +121,12 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:notice:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:notice:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();

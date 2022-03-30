@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types = 1);
 namespace App\System\Service;
 
 
@@ -20,12 +20,13 @@ class SystemRoleService extends AbstractService
     /**
      * 获取角色列表，并过滤掉超管角色
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params = null): array
+    public function getList(?array $params = null, bool $isScope = true): array
     {
         $params['filterAdminRole'] = true;
-        return parent::getList($params);
+        return parent::getList($params, $isScope);
     }
 
     public function save(array $data): int
@@ -44,6 +45,22 @@ class SystemRoleService extends AbstractService
     public function getMenuByRole(int $id): array
     {
         return $this->mapper->getMenuIdsByRoleIds(['ids' => $id]);
+    }
+
+    /**
+     * 通过code获取角色名称
+     * @param string $code
+     * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function findNameByCode(string $code): string
+    {
+        if (strlen($code) < 1) {
+            return t('system.undefined_role');
+        }
+        $name = $this->mapper->findNameByCode($code);
+        return $name ?? t('system.undefined_role');
     }
 
     /**

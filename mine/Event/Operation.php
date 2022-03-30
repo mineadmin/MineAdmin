@@ -17,7 +17,7 @@ class Operation
     /**
      * @var array
      */
-    protected $requestInfo;
+    protected array $requestInfo;
 
 
     public function __construct(array $requestInfo)

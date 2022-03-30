@@ -3,8 +3,7 @@
     <el-aside width="240px" v-loading="showDirloading">
       <el-container>
         <el-header>
-          <el-input placeholder="过滤目录" v-model="filterText" clearable></el-input>
-          <el-button type="primary" class="el-icon-plus" style="margin-left: 10px;" @click="add"> 新建</el-button>
+          <el-input placeholder="过滤类型" v-model="filterText" clearable></el-input>
         </el-header>
         <el-main class="nopadding">
           <el-tree
@@ -12,37 +11,16 @@
             class="menu"
             node-key="name"
             :props="props"
-            lazy
             :load="loadNode"
-            :data="dirs"
+            :data="fileType"
             :current-node-key="''"
             :highlight-current="true"
-            :expand-on-click-node="false"
-            :filter-node-method="dirFilterNode"
-            @node-click="dirClick"
+            :filter-node-method="filterNode"
+            @node-click="typeClick"
           >
-            <template #default="{node, data}">
+            <template #default="{ node }">
               <span class="custom-tree-node">
                 <span class="label">{{ node.label }}</span>
-                <span class="do" v-if="node.label !== '所有目录文件'">
-
-                    <el-icon>
-                      <el-tooltip class="item" effect="dark" content="新建子目录" placement="top">
-                        <el-icon-plus
-                          @click.stop="add(node, data)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
-
-                    <el-icon style="margin: 0 10px 0 10px;">
-                      <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                        <el-icon-delete
-                          @click.stop="handleDeleteDir(data, node)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
-
-                  </span>
               </span>
             </template>
           </el-tree>
@@ -206,21 +184,13 @@
 
     </el-container>
 
-    <dirs-dialog v-if="dialog.save" ref="dirDialog" @success="handleDirSuccess" @closed="dialog.save=false" />
-
   </el-container>
 </template>
 
 <script>
-  import dirsDialog from './dirs'
   import mixin from './mixins/index'
   export default {
     name: 'system:attachment',
-
-    components: {
-      dirsDialog,
-    },
-
     mixins: [mixin],
   }
 </script>

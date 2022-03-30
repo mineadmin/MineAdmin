@@ -17,11 +17,11 @@ use League\Flysystem\Filesystem;
 
 class RealDeleteUploadFile
 {
-    protected $model;
+    protected SystemUploadfile $model;
 
-    protected $confirm = true;
+    protected bool $confirm = true;
 
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function __construct(SystemUploadfile $model, Filesystem $filesystem)
     {

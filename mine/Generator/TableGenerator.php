@@ -23,17 +23,17 @@ class TableGenerator extends MineGenerator
     /**
      * @var array
      */
-    protected $tableInfo;
+    protected array $tableInfo;
 
     /**
      * @var string
      */
-    protected $tableName;
+    protected string $tableName;
 
     /**
      * @var string
      */
-    protected $moduleName;
+    protected string $moduleName;
 
     /**
      * 创建数据表

@@ -80,6 +80,7 @@ export default {
       this.appId = id
       this.drawer = true
       this.loading = true
+      this.clear()
       await this.getApiGroupData()
       await this.setData()
     },

@@ -17,7 +17,6 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Utils\Codec\Json;
 use Mine\Exception\NormalStatusException;
-use Mine\Helper\MineCode;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -28,8 +27,9 @@ use Throwable;
 class NormalStatusExceptionHandler extends ExceptionHandler
 {
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @param Throwable $throwable
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
     public function handle(Throwable $throwable, ResponseInterface $response): ResponseInterface
     {

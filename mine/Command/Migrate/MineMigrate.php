@@ -22,9 +22,9 @@ use Throwable;
 
 /**
  * Class MineMigrate
- * @Command
  * @package System\Command\Migrate
  */
+#[Command]
 class MineMigrate extends BaseCommand
 {
 

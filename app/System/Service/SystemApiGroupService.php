@@ -27,12 +27,13 @@ class SystemApiGroupService extends AbstractService
     /**
      * 获取分组列表 无分页
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params = null): array
+    public function getList(?array $params = null, bool $isScope = true): array
     {
         $params['select'] = 'id, name';
         $params['status'] = SystemApiGroup::ENABLE;
-        return parent::getList($params);
+        return parent::getList($params, $isScope);
     }
 }

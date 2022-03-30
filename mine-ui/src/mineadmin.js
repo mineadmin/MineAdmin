@@ -8,7 +8,6 @@ import hasRole from './utils/role'
 import maTable from './components/maTable'          // 原scTable，进行了系统适配优化，与原版scTable并存
 import maPhoto from './components/maPhoto'
 import maImport from './components/maImport'
-import maResourceSelect from './components/maResourceSelect'
 import maDictTag from './components/maDictTag'
 import maSelectUser from './components/maSelectUser'
 
@@ -24,6 +23,11 @@ import scSelect from './components/scSelect'
 import scDialog from './components/scDialog'
 import scForm from './components/scForm'
 import scTitle from './components/scTitle'
+import scWaterMark from './components/scWaterMark'
+import scQrCode from './components/scQrCode'
+import scStatusIndicator from './components/scMini/scStatusIndicator'
+import scTrend from './components/scMini/scTrend'
+
 import auth from './directives/auth'
 import role from './directives/role'
 import time from './directives/time'
@@ -66,11 +70,8 @@ export default {
 		app.component('maDictTag', maDictTag)
 		app.component('maImport', maImport)
 		app.component('maPhoto', maPhoto)
-		app.component('maResourceSelect', maResourceSelect)
 		app.component('maSelectUser', maSelectUser)
 		app.component('scTable', scTable)
-		app.component('scSelect', scSelect)
-		app.component('scDialog', scDialog)
 		app.component('scFilterBar', scFilterBar)
 		app.component('scUpload', scUpload)
 		app.component('scUploadMultiple', scUploadMultiple)
@@ -82,6 +83,10 @@ export default {
 		app.component('scDialog', scDialog);
 		app.component('scForm', scForm);
 		app.component('scTitle', scTitle);
+		app.component('scWaterMark', scWaterMark);
+		app.component('scQrCode', scQrCode);
+		app.component('scStatusIndicator', scStatusIndicator);
+		app.component('scTrend', scTrend);
 
 		//注册全局指令
 		app.directive('auth', auth)

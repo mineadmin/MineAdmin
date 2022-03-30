@@ -30,22 +30,24 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return ControllerGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): ControllerGenerator
     {
@@ -72,7 +74,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
         if (!empty($this->model->package_name)) {
             $path .= Str::title($this->model->package_name) . '/';
         }
-        $this->filesystem->makeDirectory($path, 0755, true, false);
+        $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
         $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
     }
 

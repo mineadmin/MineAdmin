@@ -18,10 +18,10 @@ use Hyperf\HttpServer\Request;
 class MineRequest extends Request
 {
     /**
-     * @Inject
-     * @var MineResponse
+     * MineResponse
      */
-    protected $response;
+    #[Inject]
+    protected MineResponse $response;
 
     /**
      * 获取请求IP

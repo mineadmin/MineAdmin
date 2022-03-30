@@ -1,5 +1,17 @@
 <template>
   <el-card shadow="never" class="card">
+    <h2 style="line-height: 45px;">简易模式</h2>
+        <el-card>
+          <h2>身份信息</h2>
+          <p><el-tag>MineAdmin API</el-tag> 的简易模式在请求时需要携带 <span class="tag">app_id</span>和<span class="tag">identity</span> 认证参数</p>
+          <h2>生成identity</h2>
+          <p>只需要对<span class="tag">app_id</span>和<span class="tag">app_secret</span> <el-tag>MD5</el-tag>即可</p>
+        </el-card>
+      
+  </el-card>
+
+  <el-card shadow="never" class="card" style="margin-top:15px">
+    <h2 style="line-height: 45px;">复杂模式</h2>
     <el-timeline>
       <el-timeline-item timestamp="签名简介" placement="top">
         <el-card>

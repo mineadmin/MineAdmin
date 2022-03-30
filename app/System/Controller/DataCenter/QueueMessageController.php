@@ -19,22 +19,20 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 信息管理控制器
  * Class MessageController
- * @Controller(prefix="system/queueMessage")
- * @Auth
  */
+#[Controller(prefix: "system/queueMessage"), Auth]
 class QueueMessageController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemQueueMessageService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemQueueMessageService $service;
 
     /**
      * 接收消息列表
-     * @GetMapping("receiveList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("receiveList")]
     public function receiveList(): ResponseInterface
     {
         return $this->success($this->service->getReceiveMessage($this->request->all()));
@@ -42,9 +40,11 @@ class QueueMessageController extends MineController
 
     /**
      * 已发送消息列表
-     * @GetMapping("sendList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("sendList")]
     public function sendList(): ResponseInterface
     {
         return $this->success($this->service->getSendMessage($this->request->all()));
@@ -52,13 +52,13 @@ class QueueMessageController extends MineController
 
     /**
      * 发私信
-     * @PostMapping("sendPrivateMessage")
      * @param SendPrivateMessageRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
      */
+    #[PostMapping("sendPrivateMessage")]
     public function sendPrivateMessage(SendPrivateMessageRequest $request): ResponseInterface
     {
         return $this->service->sendPrivateMessage($request->validated()) ? $this->success() : $this->error();
@@ -66,9 +66,11 @@ class QueueMessageController extends MineController
 
     /**
      * 获取接收人列表
-     * @GetMapping("getReceiveUser")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getReceiveUser")]
     public function getReceiveUser(): ResponseInterface
     {
         return $this->success(
@@ -81,10 +83,12 @@ class QueueMessageController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -92,10 +96,12 @@ class QueueMessageController extends MineController
 
     /**
      * 更新状态到已读
-     * @PutMapping("updateReadStatus/{ids}")
      * @param String $ids
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("updateReadStatus/{ids}")]
     public function updateReadStatus(String $ids): ResponseInterface
     {
         return $this->service->updateDataStatus($ids) ? $this->success() : $this->error();

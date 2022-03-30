@@ -146,7 +146,7 @@ if (! function_exists('context_set')) {
      */
     function context_set(string $key, $data): bool
     {
-        return (bool)\Hyperf\Utils\Context::set($key, $data);
+        return (bool)\Hyperf\Context\Context::set($key, $data);
     }
 }
 
@@ -158,7 +158,7 @@ if (! function_exists('context_get')) {
      */
     function context_get(string $key)
     {
-        return \Hyperf\Utils\Context::get($key);
+        return \Hyperf\Context\Context::get($key);
     }
 }
 
@@ -178,7 +178,8 @@ if (! function_exists('snowflake_id')) {
     /**
      * 生成雪花ID
      * @return String
-     * @throws Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     function snowflake_id(): String
     {

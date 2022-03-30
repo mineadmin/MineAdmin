@@ -22,23 +22,23 @@ class Mine
     /**
      * @var string
      */
-    private static $version = '0.5.3';
+    private static string $version = '0.6.1';
 
     /**
      * @var string
      */
-    private $appPath = '';
+    private string $appPath = '';
 
     /**
      * @var array
      */
-    private $moduleInfo = [];
+    private array $moduleInfo = [];
 
     /**
-     * @Inject
-     * @var ContainerInterface
+     * ContainerInterface
      */
-    protected $container;
+    #[Inject]
+    protected ContainerInterface $container;
 
     /**
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -68,7 +68,7 @@ class Mine
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function app(string $id)
+    public function app(string $id): object
     {
         return $this->container->get($id);
     }
@@ -89,7 +89,7 @@ class Mine
     {
         $modules = glob(self::getAppPath() . '*');
         $fs = $this->app(Filesystem::class);
-        $infos = null;
+        $infos = [];
         foreach ($modules as &$mod) if (is_dir($mod)) {
             $modInfo = $mod . DIRECTORY_SEPARATOR . 'config.json';
             if (file_exists($modInfo)) {
@@ -145,14 +145,13 @@ class Mine
 
     /**
      * @param String $key
-     * @param $value
+     * @param string $value
      * @param false $save
      * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @noinspection PhpUnused
      */
-    public function setModuleConfigValue(String $key, $value, bool $save = false): bool
+    public function setModuleConfigValue(String $key, string $value, bool $save = false): bool
     {
         if (strpos($key, '.') > 0) {
             list($mod, $name) = explode('.', $key);
@@ -161,10 +160,8 @@ class Mine
                 $save && $this->saveModuleConfig($mod);
                 return true;
             }
-            return false;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

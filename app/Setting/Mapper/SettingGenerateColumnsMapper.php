@@ -14,6 +14,9 @@ use Mine\Abstracts\AbstractMapper;
  */
 class SettingGenerateColumnsMapper extends AbstractMapper
 {
+    /**
+     * @var SettingGenerateColumns
+     */
     public $model;
 
     public function assignModel()

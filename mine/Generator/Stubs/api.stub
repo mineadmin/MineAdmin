@@ -108,6 +108,18 @@ export default {
       method: 'put',
       data: params
     })
-  }
+  },
+
+  /**
+     * {BUSINESS_NAME}统计信息
+     * @returns
+  */
+  getTabNum (params = {}) {
+  	return request({
+  	  url: '{REQUEST_ROUTE}/getTabNum',
+  	  method: 'post',
+  	  data: params
+  	})
+  },
 
 }

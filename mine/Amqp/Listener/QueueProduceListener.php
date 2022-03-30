@@ -13,7 +13,7 @@ use App\System\Mapper\SystemQueueMessageMapper;
 use App\System\Model\SystemQueueLog;
 use App\System\Queue\Producer\MessageProducer;
 use App\System\Service\SystemQueueLogService;
-use Hyperf\Utils\Context;
+use Hyperf\Context\Context;
 use Mine\Amqp\Event\AfterProduce;
 use Mine\Amqp\Event\BeforeProduce;
 use Mine\Amqp\Event\FailToProduce;
@@ -23,11 +23,14 @@ use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Event\Annotation\Listener;
 
 /**
- * @Listener
+ * 生产队列监听
+ * Class QueueProduceListener
+ * @package Mine\Amqp\Listener
  */
+#[Listener]
 class QueueProduceListener implements ListenerInterface
 {
-    private $service;
+    private SystemQueueLogService $service;
 
     public function listen(): array
     {

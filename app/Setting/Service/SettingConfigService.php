@@ -20,33 +20,35 @@ class SettingConfigService extends AbstractService
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @var Redis
      */
-    protected $redis;
-
-    /**
-     * @Value("cache.default.prefix")
-     * @var string
-     */
-    protected $prefix;
+    protected Redis $redis;
 
     /**
      * @var string
      */
-    protected $cacheGroupName;
+    #[Value("cache.default.prefix")]
+    protected string $prefix;
 
     /**
      * @var string
      */
-    protected $cacheName;
+    protected string $cacheGroupName;
+
+    /**
+     * @var string
+     */
+    protected string $cacheName;
 
     /**
      * SettingConfigService constructor.
      * @param SettingConfigMapper $mapper
      * @param ContainerInterface $container
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __construct(SettingConfigMapper $mapper, ContainerInterface $container)
     {

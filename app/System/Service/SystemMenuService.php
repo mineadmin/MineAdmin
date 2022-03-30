@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace App\System\Service;
 
@@ -25,22 +26,24 @@ class SystemMenuService extends AbstractService
 
     /**
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeList(?array $params = null): array
+    public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
-        return parent::getTreeList($params);
+        return parent::getTreeList($params, $isScope);
     }
 
     /**
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeListByRecycle(?array $params = null): array
+    public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
-        return parent::getTreeListByRecycle($params);
+        return parent::getTreeListByRecycle($params, $isScope);
     }
 
     /**

@@ -98,7 +98,7 @@ class SystemAppService extends AbstractService
         }
 
         if ($params['signature'] !== $this->getSignature($model['app_secret'], $params)) {
-            throw new NormalStatusException(t('mineadmin.api_auth_fail'), MineCode::API_SIGN_ERROR);
+            throw new NormalStatusException(t('mineadmin.api_auth_fail'), MineCode::API_IDENTITY_ERROR);
         }
 
         $params['id'] = $model['id'];
@@ -130,21 +130,27 @@ class SystemAppService extends AbstractService
     /**
      * 简易验证方式
      * @param string $appId
-     * @param string $appSecret
+     * @param string $identity
      * @return int
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function verifyEasyMode(string $appId, string $appSecret): int
+    public function verifyEasyMode(string $appId, string $identity): int
     {
-        $model = $this->mapper->one(function($query) use($appId, $appSecret){
-            $query->where('app_id', $appId)->where('app_secret', $appSecret);
-        }, ['id', 'status']);
+        $model = $this->mapper->one(function($query) use($appId){
+            $query->where('app_id', $appId);
+        }, ['id', 'status', 'app_secret']);
 
         if (! $model) {
             return MineCode::API_PARAMS_ERROR;
         }
 
-        if ($model['status'] != SystemApp::ENABLE) {
+        if ($model->status != SystemApp::ENABLE) {
             return MineCode::APP_BAN;
+        }
+
+        if ($identity != md5($model->app_id . $model->app_secret)) {
+            throw new NormalStatusException(t('mineadmin.api_auth_fail'), MineCode::API_SIGN_ERROR);
         }
 
         return MineCode::API_VERIFY_PASS;

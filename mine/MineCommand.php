@@ -20,7 +20,7 @@ use Hyperf\Command\Command as HyperfCommand;
  */
 abstract class MineCommand extends HyperfCommand
 {
-    protected $module;
+    protected string $module;
 
     protected CONST CONSOLE_GREEN_BEGIN = "\033[32;5;1m";
     protected CONST CONSOLE_RED_BEGIN = "\033[31;5;1m";

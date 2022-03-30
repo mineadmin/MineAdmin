@@ -98,7 +98,7 @@
 				this.fileSelectDialogVisible = true
 			},
 			fileSelectSubmit(val){
-				this.img = val
+				this.img = this.$TOOL.viewImage(val)
 				this.fileSelectDialogVisible = false
 			},
 			cropperSave(){

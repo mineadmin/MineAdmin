@@ -11,6 +11,7 @@
 
 namespace Mine\Traits;
 
+use App\System\Service\SystemDictDataService;
 use Hyperf\Contract\LengthAwarePaginatorInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
@@ -118,7 +119,7 @@ trait MapperTrait
      * @param array $params
      * @return Builder
      */
-    public function handleOrder(Builder $query, array &$params): Builder
+    public function handleOrder(Builder $query, ?array &$params = null): Builder
     {
         // 对树型数据强行加个排序
         if (isset($params['_mainAdmin_tree'])) {
@@ -200,7 +201,7 @@ trait MapperTrait
      */
     public function save(array $data): int
     {
-        $this->filterExecuteAttributes($data);
+        $this->filterExecuteAttributes($data, $this->getModel()->incrementing);
         $model = $this->model::create($data);
         return $model->{$model->getKeyName()};
     }
@@ -435,5 +436,27 @@ trait MapperTrait
     public function min(?\Closure $closure = null, string $column = '*')
     {
         return $this->settingClosure($closure)->min($column);
+    }
+
+    /**
+     * 获取tabs数据统计
+     * @param $field
+     * @param $dictDataService
+     * @return array
+     */
+    public function getTabNum($field): array
+    {
+        $dictDataService = make(SystemDictDataService::class);
+        $result = [];
+        $data =  $dictDataService->getList(['code' =>$field]);
+        foreach ($data as $v) {
+            if ($v['value'] === '-1') {
+                $result[] = ['value' => $v['value'],'num' => $this->model::count()];
+            } else {
+                $result[] = ['value' => $v['value'],'num' => $this->model::where($field,$v['value'])->count()];
+            }
+        }
+
+        return  $result;
     }
 }

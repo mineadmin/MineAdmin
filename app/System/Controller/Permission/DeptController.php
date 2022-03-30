@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
-
 use App\System\Request\Dept\SystemDeptCreateRequest;
 use App\System\Request\Dept\SystemDeptStatusRequest;
 use App\System\Service\SystemDeptService;
@@ -22,32 +21,32 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class DeptController
  * @package App\System\Controller
- * @Controller(prefix="system/dept")
- * @Auth
  */
+#[Controller(prefix: "system/dept"), Auth]
 class DeptController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemDeptService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemDeptService $service;
 
     /**
-     * 获取部门树
-     * @GetMapping("index")
-     * @Permission("system:dept:index")
+     * 部门树列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:dept:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getTreeList($this->request->all()));
     }
 
     /**
-     * 从回收站获取部门树
-     * @GetMapping("recycle")
-     * @Permission("system:dept:recycle")
+     * 回收站部门树列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:dept:recycle")]
     public function recycleTree():ResponseInterface
     {
         return $this->success($this->service->getTreeListByRecycle($this->request->all()));
@@ -55,8 +54,11 @@ class DeptController extends MineController
 
     /**
      * 前端选择树（不需要权限）
-     * @GetMapping("tree")
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("tree")]
     public function tree(): ResponseInterface
     {
         return $this->success($this->service->getSelectTree());
@@ -64,12 +66,12 @@ class DeptController extends MineController
 
     /**
      * 新增部门
-     * @PostMapping("save")
      * @param SystemDeptCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:dept:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:dept:save"), OperationLog]
     public function save(SystemDeptCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -77,13 +79,13 @@ class DeptController extends MineController
 
     /**
      * 更新部门
-     * @PutMapping("update/{id}")
-     * @Permission("system:dept:update")
      * @param int $id
      * @param SystemDeptCreateRequest $request
-     * @OperationLog
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:dept:update"), OperationLog]
     public function update(int $id, SystemDeptCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -91,12 +93,12 @@ class DeptController extends MineController
 
     /**
      * 单个或批量删除部门到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dept:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:dept:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -104,12 +106,12 @@ class DeptController extends MineController
 
     /**
      * 单个或批量真实删除部门 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dept:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:dept:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         $data = $this->service->realDel($ids);
@@ -120,12 +122,12 @@ class DeptController extends MineController
 
     /**
      * 单个或批量恢复在回收站的部门
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dept:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:dept:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
@@ -133,12 +135,12 @@ class DeptController extends MineController
 
     /**
      * 更改部门状态
-     * @PutMapping("changeStatus")
      * @param SystemDeptStatusRequest $request
      * @return ResponseInterface
-     * @Permission("system:dept:changeStatus")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("changeStatus"), Permission("system:dept:changeStatus"), OperationLog]
     public function changeStatus(SystemDeptStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))

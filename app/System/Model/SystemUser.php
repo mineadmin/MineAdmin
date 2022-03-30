@@ -36,6 +36,11 @@ class SystemUser extends MineModel
     use SoftDeletes;
     public const USER_NORMAL = 0;
     public const USER_BAN = 1;
+
+    /**
+     * 系统用户
+     */
+    public const TYPE_SYS_USER = '100';
     public $incrementing = false;
     /**
      * The table associated with the model.

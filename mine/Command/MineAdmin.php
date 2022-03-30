@@ -17,9 +17,9 @@ use Mine\MineCommand;
 
 /**
  * Class MineAdmin
- * @Command
  * @package System\Command
  */
+#[Command]
 class MineAdmin extends MineCommand
 {
     protected $name = 'mine';
@@ -34,8 +34,8 @@ class MineAdmin extends MineCommand
      */
     public function handle()
     {
+        $result = shell_exec('php ' . BASE_PATH . '/bin/hyperf.php | grep mine');
         $this->line($this->getInfo(), 'comment');
-
-
+        $this->line(preg_replace('/\s+mine\s+/', '', $result), 'info');
     }
 }

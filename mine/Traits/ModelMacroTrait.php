@@ -30,6 +30,10 @@ trait ModelMacroTrait
         $model = $this;
         Builder::macro('userDataScope', function(?int $userid = null) use($model)
         {
+            if (! config('mineadmin.data_scope_enabled')) {
+                return $this;
+            }
+
             $userid = is_null($userid) ? (int) user()->getId() : $userid;
 
             if (empty($userid)) {
@@ -48,13 +52,13 @@ trait ModelMacroTrait
             $dataScope = new class($userid, $this)
             {
                 // 用户ID
-                protected $userid;
+                protected int $userid;
 
                 // 查询构造器
-                protected $builder;
+                protected Builder $builder;
 
                 // 数据范围用户ID列表
-                protected $userIds = [];
+                protected array $userIds = [];
 
                 public function __construct(int $userid, Builder $builder)
                 {
@@ -71,6 +75,7 @@ trait ModelMacroTrait
                     if (empty($this->userIds)) {
                         return $this->builder;
                     } else {
+                        array_push($this->userIds, $this->userid);
                         return $this->builder->whereIn('created_by', array_unique($this->userIds));
                     }
                 }
@@ -92,7 +97,6 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
-                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::SELF_DEPT_SCOPE:
                                 // 本部门数据权限
@@ -100,7 +104,6 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->where('dept_id', $userModel->dept_id)->pluck('id')->toArray()
                                 );
-                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::DEPT_BELOW_SCOPE:
                                 // 本部门及子部门数据权限
@@ -110,12 +113,8 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
-                                array_push($this->userIds, $this->userid);
                                 break;
                             case SystemRole::SELF_SCOPE:
-                                // 本人数据权限
-                                array_push($this->userIds, $this->userid);
-                                break;
                             default:
                                 break;
                         }

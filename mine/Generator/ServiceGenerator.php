@@ -27,22 +27,24 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return ServiceGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): ServiceGenerator
     {
@@ -66,7 +68,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
         } else {
             $path = BASE_PATH . "/app/{$module}/Service/";
         }
-        $this->filesystem->makeDirectory($path, 0755, true, false);
+        $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
         $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
     }
 

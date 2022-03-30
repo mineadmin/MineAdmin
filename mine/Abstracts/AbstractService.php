@@ -13,9 +13,9 @@ declare(strict_types = 1);
 namespace Mine\Abstracts;
 
 use Mine\Traits\ServiceTrait;
-use Hyperf\Utils\Context;
+use Hyperf\Context\Context;
 
-class AbstractService
+abstract class AbstractService
 {
     use ServiceTrait;
 
@@ -32,7 +32,7 @@ class AbstractService
 
     /**
      * 魔术方法，从类属性里获取数据
-     * @param string $name
+     * @param $name
      * @return mixed|string
      */
     public function __get(string $name)

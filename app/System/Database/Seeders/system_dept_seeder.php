@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
-use Mine\Helper\Id;
 
 class SystemDeptSeeder extends Seeder
 {
@@ -12,12 +11,13 @@ class SystemDeptSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     * @throws Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function run()
     {
+        $id = snowflake_id();
         Db::table('system_dept')->truncate();
-        $id = (new Id())->getId();
         Db::table('system_dept')->insert(
             [
                 'id' => $id,

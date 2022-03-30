@@ -21,43 +21,44 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class PostController
  * @package App\System\Controller
- * @Controller(prefix="system/post")
- * @Auth
  */
+#[Controller(prefix: "system/post"), Auth]
 class PostController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemPostService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemPostService $service;
 
     /**
-     * 获取列表分页数据
-     * @GetMapping("index")
+     * 岗位分页列表
      * @return ResponseInterface
-     * @Permission("system:post:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:user:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**
-     * @GetMapping("recycle")
+     * 岗位回收站分页列表
      * @return ResponseInterface
-     * @Permission("system:post:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:user:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
     }
 
     /**
-     * 获取列表数据
-     * @GetMapping("list")
+     * 获取岗位列表
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("list")]
     public function list(): ResponseInterface
     {
         return $this->success($this->service->getList());
@@ -65,12 +66,12 @@ class PostController extends MineController
 
     /**
      * 保存数据
-     * @PostMapping("save")
      * @param SystemPostCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:post:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:post:save"), OperationLog]
     public function save(SystemPostCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -78,11 +79,12 @@ class PostController extends MineController
 
     /**
      * 获取一条数据信息
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:post:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:post:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -90,12 +92,13 @@ class PostController extends MineController
 
     /**
      * 更新数据
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemPostCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:post:update")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:post:update"), OperationLog]
     public function update(int $id, SystemPostCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -103,11 +106,12 @@ class PostController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:post:delete")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:post:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -115,12 +119,12 @@ class PostController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:post:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:post:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -128,11 +132,12 @@ class PostController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:post:recovery")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:post:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
@@ -140,12 +145,12 @@ class PostController extends MineController
 
     /**
      * 更改岗位状态
-     * @PutMapping("changeStatus")
      * @param SystemPostStatusRequest $request
      * @return ResponseInterface
-     * @Permission("system:post:changeStatus")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("changeStatus"), Permission("system:post:changeStatus"), OperationLog]
     public function changeStatus(SystemPostStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))

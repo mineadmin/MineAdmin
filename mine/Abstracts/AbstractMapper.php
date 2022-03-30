@@ -12,7 +12,7 @@
 declare (strict_types = 1);
 namespace Mine\Abstracts;
 
-use Hyperf\Utils\Context;
+use Hyperf\Context\Context;
 use Mine\MineModel;
 use Mine\Traits\MapperTrait;
 

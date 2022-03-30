@@ -29,12 +29,12 @@ class DbQueryExecutedListener implements ListenerInterface
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var StdoutLoggerInterface
      */
-    protected $console;
+    protected StdoutLoggerInterface $console;
 
     public function __construct(StdoutLoggerInterface $console, ContainerInterface $container)
     {

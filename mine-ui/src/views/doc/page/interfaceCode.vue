@@ -77,6 +77,16 @@ export default {
           label: 'API_SIGN_ERROR',
           remark: '签名错误',
         },
+                {
+          code: 10107,
+          label: 'API_IDENTITY_MISSING',
+          remark: '缺少身份认证信息',
+        },
+        {
+          code: 10108,
+          label: 'API_IDENTITY_ERROR',
+          remark: '身份认证信息错误',
+        },
         {
           code: 10160,
           label: 'API_VERIFY_PASS',

@@ -18,12 +18,16 @@ use Mine\Amqp\Event\FailToConsume;
 use Mine\Amqp\Event\WaitTimeout;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Event\Annotation\Listener;
+
 /**
- * @Listener
+ * 消费队列监听
+ * Class QueueConsumeListener
+ * @package Mine\Amqp\Listener
  */
+#[Listener]
 class QueueConsumeListener implements ListenerInterface
 {
-    private $service;
+    private SystemQueueLogService $service;
 
     public function listen(): array
     {
@@ -38,6 +42,7 @@ class QueueConsumeListener implements ListenerInterface
     }
 
     /**
+     * @param object $event
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */

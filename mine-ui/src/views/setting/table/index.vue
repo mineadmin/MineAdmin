@@ -39,8 +39,9 @@
           </el-form-item>
         </el-col>
 
-        <el-col :xs="24" :md="3" :xl="2">
-          <el-button type="primary" @click="handleSubmit" :loading="loading" style="width:100%">创建数据表</el-button>
+        <el-col :xs="24" :md="6" :xl="3">
+          <el-button type="primary" @click="handleSubmit" :loading="loading">创建数据表</el-button>
+          <el-button @click="reset">重置</el-button>
         </el-col>
       </el-row>
 
@@ -192,7 +193,7 @@ export default {
       currentModule: '',
       tablePrefix: '',
       engines: null,
-      fields: { id: 0, name: '', type: '', unsigned: false, len: 0, isNull: false, index: '', default: '', comment: '' },
+      fields: { id: 0, name: '', type: '', unsigned: false, len: 0, isNull: true, index: '', default: '', comment: '' },
       indexs: ['UNIQUE', 'NORMAL', 'FULLTEXT'],
       mysqlTypes,
       rules: {
@@ -211,9 +212,31 @@ export default {
     await this.getDict('table_engine').then(res => {
       this.engines = res.data
     })
-    this.handleAddColumn()
+    this.init()
   },
   methods: {
+    // 初始化
+    init () {
+      this.form.columns.push({
+        id: 0, name: 'id', type: 'BIGINT', unsigned: true, len: 20, isNull: false, index: '', default: '', comment: '主键ID'
+      })
+    },
+    // 重置
+    reset () {
+      this.form = {
+        name: '',
+        module: '',
+        columns: [],
+        autoTime: true,
+        autoUser: true,
+        softDelete: true,
+        snowflakeId: true,
+        pk: 'id',
+        engine: '',
+        comment: ''
+      }
+      this.init()
+    },
     // 增加字段
     handleAddColumn () {
       const field = JSON.parse(JSON.stringify(this.fields))

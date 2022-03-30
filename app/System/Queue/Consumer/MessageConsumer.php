@@ -4,26 +4,17 @@ declare(strict_types=1);
 
 namespace App\System\Queue\Consumer;
 
-use App\System\Model\SystemQueueMessage;
-use App\System\Service\SystemQueueMessageService;
 use Hyperf\Amqp\Result;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
-use Hyperf\Di\Annotation\Inject;
 use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * 后台内部消息队列消费处理
- * #Consumer(exchange="mineadmin", routingKey="message.routing", queue="message.queue", name="message.queue", nums=1)
  */
+//#[Consumer(exchange: "mineadmin", routingKey: "message.routing", queue: "message.queue", name: "message.queue", nums: 1)]
 class MessageConsumer extends ConsumerMessage
 {
-    /**
-     * @Inject
-     * @var SystemQueueMessageService
-     */
-    protected $service;
-
     /**
      * @param $data
      * @param AMQPMessage $message

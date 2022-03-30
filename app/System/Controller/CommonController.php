@@ -18,40 +18,29 @@ use Psr\Http\Message\ResponseInterface;
  * 公共方法控制器
  * Class CommonController
  * @package App\System\Controller
- * @Controller(prefix="system/common")
- * @Auth
  */
+#[Controller(prefix: "system/common"), Auth]
 class CommonController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemUserService
-     */
-    protected $userService;
+    #[Inject]
+    protected SystemUserService $userService;
 
-    /**
-     * @Inject
-     * @var SystemDeptService
-     */
-    protected $deptService;
+    #[Inject]
+    protected SystemDeptService $deptService;
 
-    /**
-     * @Inject
-     * @var SystemRoleService
-     */
-    protected $roleService;
+    #[Inject]
+    protected SystemRoleService $roleService;
 
-    /**
-     * @Inject
-     * @var SystemPostService
-     */
-    protected $postService;
+    #[Inject]
+    protected SystemPostService $postService;
 
     /**
      * 获取用户列表
-     * @GetMapping("getUserList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getUserList")]
     public function getUserList(): ResponseInterface
     {
         return $this->success($this->userService->getPageList($this->request->all()));
@@ -59,9 +48,11 @@ class CommonController extends MineController
 
     /**
      * 获取部门树列表
-     * @GetMapping("getDeptTreeList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getDeptTreeList")]
     public function getDeptTreeList(): ResponseInterface
     {
         return $this->success($this->deptService->getSelectTree());
@@ -69,9 +60,11 @@ class CommonController extends MineController
 
     /**
      * 获取角色列表
-     * @GetMapping("getRoleList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getRoleList")]
     public function getRoleList(): ResponseInterface
     {
         return $this->success($this->roleService->getList());
@@ -79,9 +72,11 @@ class CommonController extends MineController
 
     /**
      * 获取岗位列表
-     * @GetMapping("getPostList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getPostList")]
     public function getPostList(): ResponseInterface
     {
         return $this->success($this->postService->getList());

@@ -35,9 +35,11 @@ class MineCode
     public const API_AUTH_FAIL = 10010;             // 接口鉴权失败
     public const API_APP_ID_MISSING = 10101;        // 缺少APP ID
     public const API_APP_SECRET_MISSING = 10102;    // 缺少APP SECRET
-    public const API_ACCESS_TOKEN_MISSING = 10103;  // 缺少 ACCESS TOKEN
-    public const API_PARAMS_ERROR = 10104;          // API参数错误
+    public const API_ACCESS_TOKEN_MISSING = 10103;  // 缺少复杂模式 ACCESS TOKEN
+    public const API_PARAMS_ERROR = 10104;          // 复杂模式 ACCESS TOKEN 参数错误
     public const API_SIGN_MISSING = 10105;          // 缺少签名
     public const API_SIGN_ERROR   = 10106;          // 签名错误
+    public const API_IDENTITY_MISSING = 10107;      // 缺少简易模式 identity
+    public const API_IDENTITY_ERROR = 10108;        // 简易模式 identity 错误
     public const API_VERIFY_PASS = 10160;           // API验证通过
 }

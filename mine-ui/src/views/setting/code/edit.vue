@@ -61,7 +61,7 @@
                     </el-tooltip>
                   </template>
 
-                  <el-select 
+                  <el-select
                     style="width: 100%"
                     v-model="form.module_name"
                     clearable
@@ -89,7 +89,7 @@
                       <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
-                  
+
                   <el-cascader
                     v-model="form.belong_menu_id"
                    clearable
@@ -128,7 +128,7 @@
                     </el-tooltip>
                   </template>
                   <el-input v-model="form.menu_name"></el-input>
-                  
+
                 </el-form-item>
               </el-col>
 
@@ -267,7 +267,7 @@
               </el-table-column>
 
               <el-table-column prop="column_name" label="字段名称" />
-              
+
               <el-table-column prop="column_comment" label="字段描述">
                 <template v-slot="scope">
                   <el-input v-model="scope.row.column_comment" clearable placeholder="注释"></el-input>
@@ -447,10 +447,12 @@ export default {
         { label: '单选框', value: 'radio' },
         { label: '复选框', value: 'checkbox' },
         { label: '日期控件', value: 'date' },
-        { label: '资源选择（含上传）', value: 'selectResource' },
+        { label: '资源选择单选', value: 'selectResourceRadio' },
+        { label: '资源选择多选', value: 'selectResourceMulti' },
         { label: '图片上传', value: 'image' },
         { label: '文件上传', value: 'file' },
         { label: '富文本控件', value: 'editor' },
+        { label: '标签页', value: 'tabs' },
       ]
     }
   },

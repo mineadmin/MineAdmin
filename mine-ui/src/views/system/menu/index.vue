@@ -25,7 +25,6 @@
               :props="menuProps"
               show-checkbox
               highlight-current
-              :expand-on-click-node="false"
               :filter-node-method="menuFilterNode"
               @node-click="menuClick"
             >

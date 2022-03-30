@@ -15,9 +15,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class ApiAfter
 {
-    protected $apiData;
+    protected ?array $apiData;
 
-    protected $result;
+    protected ResponseInterface $result;
 
     public function __construct(?array $apiData, ResponseInterface $result)
     {

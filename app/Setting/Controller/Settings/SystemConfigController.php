@@ -20,20 +20,20 @@ use Mine\MineController;
  * 系统配置控制器
  * Class SystemConfigController
  * @package App\Setting\Controller\Settings
- * @Controller(prefix="setting/config")
  */
+#[Controller(prefix: "setting/config")]
 class SystemConfigController extends MineController
 {
-    /**
-     * @Inject
-     * @var SettingConfigService
-     */
-    protected $service;
+    #[Inject]
+    protected SettingConfigService $service;
 
     /**
      * 获取系统组配置 （不验证身份和权限）
-     * @GetMapping("getSysConfig")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getSysConfig")]
     public function getSysConfig(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getSystemGroupConfig());
@@ -41,9 +41,11 @@ class SystemConfigController extends MineController
 
     /**
      * 获取系统组配置
-     * @GetMapping("getSystemConfig")
-     * @Permission("setting:config:getSystemConfig")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getSystemConfig"), Permission("setting:config:getSystemConfig")]
     public function getSystemGroupConfig(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getSystemGroupConfig());
@@ -51,9 +53,11 @@ class SystemConfigController extends MineController
 
     /**
      * 获取扩展组配置
-     * @GetMapping("getExtendConfig")
-     * @Permission("setting:config:getExtendConfig")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getExtendConfig"), Permission("setting:config:getExtendConfig")]
     public function getExtendGroupConfig(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getExtendGroupConfig());
@@ -61,9 +65,11 @@ class SystemConfigController extends MineController
 
     /**
      * 按组名获取配置
-     * @GetMapping("getConfigByGroup")
-     * @Auth
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getConfigByGroup"), Auth]
     public function getConfigByGroup(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getConfigByGroup($this->request->input('groupName', '')));
@@ -71,8 +77,11 @@ class SystemConfigController extends MineController
 
     /**
      * 按key获取配置
-     * @PostMapping("getConfigByKey")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("getConfigByKey")]
     public function getConfigByKey(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getConfigByKey($this->request->input('key', '')));
@@ -80,10 +89,11 @@ class SystemConfigController extends MineController
 
     /**
      * 保存系统配置组数据
-     * @PostMapping("saveSystemConfig")
-     * @Permission("setting:config:saveSystemConfig")
-     * @OperationLog
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("saveSystemConfig"), Permission("setting:config:saveSystemConfig"), OperationLog]
     public function saveSystemConfig(): \Psr\Http\Message\ResponseInterface
     {
         return $this->service->saveSystemConfig($this->request->all()) ? $this->success() : $this->error();
@@ -91,38 +101,38 @@ class SystemConfigController extends MineController
 
     /**
      * 保存配置
-     * @PostMapping("save")
-     * @Permission("setting:config:save")
-     * @OperationLog
      * @param SettingConfigCreateRequest $request
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("setting:config:save"), OperationLog]
     public function save(SettingConfigCreateRequest $request): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->service->save($request->validated()));
+        return $this->service->save($request->validated()) ? $this->success() : $this->error();
     }
 
     /**
      * 更新配置
-     * @PostMapping("update")
-     * @Permission("setting:config:update")
-     * @OperationLog
      * @param SettingConfigCreateRequest $request
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("update"), Permission("setting:config:update"), OperationLog]
     public function update(SettingConfigCreateRequest $request): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->service->updated($request->validated()));
+        return $this->service->updated($request->validated()) ? $this->success() : $this->error();
     }
 
     /**
      * 删除配置
-     * @DeleteMapping("delete/{key}")
-     * @Permission("setting:config:delete")
-     * @OperationLog
      * @param string $key
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{key}"), Permission("setting:config:delete"), OperationLog]
     public function delete(string $key): \Psr\Http\Message\ResponseInterface
     {
         return $this->service->delete($key) ? $this->success() : $this->error();
@@ -130,10 +140,11 @@ class SystemConfigController extends MineController
 
     /**
      * 清除配置缓存
-     * @PostMapping("clearCache")
-     * @Permission("setting:config:clearCache")
-     * @OperationLog
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("clearCache"), Permission("setting:config:clearCache"), OperationLog]
     public function clearCache(): \Psr\Http\Message\ResponseInterface
     {
         return $this->service->clearCache() ? $this->success() : $this->error();

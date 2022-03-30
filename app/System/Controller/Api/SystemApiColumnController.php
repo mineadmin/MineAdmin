@@ -22,23 +22,20 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 接口控制器
  * Class SystemApiColumnController
- * @Controller(prefix="system/apiColumn")
- * @Auth
  */
+#[Controller(prefix: "system/apiColumn"), Auth]
 class SystemApiColumnController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemApiColumnService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemApiColumnService $service;
 
     /**
      * 列表
-     * @GetMapping("index")
      * @return ResponseInterface
-     * @Permission("system:apiColumn:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:apiColumn:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -46,10 +43,11 @@ class SystemApiColumnController extends MineController
 
     /**
      * 回收站列表
-     * @GetMapping("recycle")
      * @return ResponseInterface
-     * @Permission("system:apiColumn:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:apiColumn:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -57,12 +55,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 新增
-     * @PostMapping("save")
      * @param SystemApiColumnCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:apiColumn:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:apiColumn:save"), OperationLog]
     public function save(SystemApiColumnCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -70,11 +68,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 读取数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:apiColumn:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:apiColumn:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -82,13 +81,13 @@ class SystemApiColumnController extends MineController
 
     /**
      * 更新
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemApiColumnUpdateRequest $request
      * @return ResponseInterface
-     * @Permission("system:apiColumn:update")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:apiColumn:update"), OperationLog]
     public function update(int $id, SystemApiColumnUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -96,12 +95,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:apiColumn:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:apiColumn:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -109,12 +108,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:apiColumn:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:apiColumn:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -122,12 +121,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:apiColumn:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:apiColumn:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
@@ -135,11 +134,10 @@ class SystemApiColumnController extends MineController
 
     /**
      * 字段导出
-     * @PostMapping("export")
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @Permission("system:apiColumn:export")
      * @return ResponseInterface
      */
+    #[PostMapping("export"), Permission("system:apiColumn:export")]
     public function export(): ResponseInterface
     {
         return $this->service->export($this->request->all(), \App\System\Dto\ApiColumnDto::class, '字段列表');
@@ -147,11 +145,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 字段导入
-     * @PostMapping("import")
-     * @Permission("system:apiColumn:import")
      * @return ResponseInterface
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("import"), Permission("system:apiColumn:import")]
     public function import(): ResponseInterface
     {
         return $this->service->import(\App\System\Dto\ApiColumnDto::class) ? $this->success() : $this->error();
@@ -159,10 +158,12 @@ class SystemApiColumnController extends MineController
 
     /**
      * 下载导入模板
-     * @PostMapping("downloadTemplate")
      * @return ResponseInterface
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("downloadTemplate")]
     public function downloadTemplate(): ResponseInterface
     {
         return (new MineCollection)->export(\App\System\Dto\ApiColumnDto::class, '模板下载', []);

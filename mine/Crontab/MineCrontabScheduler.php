@@ -12,18 +12,24 @@
 declare(strict_types=1);
 namespace Mine\Crontab;
 
+use JetBrains\PhpStorm\Pure;
+
 class MineCrontabScheduler
 {
     /**
-     * @var MineCrontabManage
+     * MineCrontabManage
      */
-    protected $crontabManager;
+    protected MineCrontabManage $crontabManager;
 
     /**
-     * @var \SplQueue
+     * \SplQueue
      */
-    protected $schedules;
+    protected \SplQueue $schedules;
 
+    /**
+     * MineCrontabScheduler constructor.
+     * @param MineCrontabManage $crontabManager
+     */
     public function __construct(MineCrontabManage $crontabManager)
     {
         $this->schedules = new \SplQueue();

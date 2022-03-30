@@ -22,24 +22,24 @@
             </el-form-item>
 
             <el-form-item
-                v-if="form.data_scope === '1'"
-                label="角色权限"
-                prop="dept_ids"
-                v-loading="loading"
-                element-loading-background="rgba(255, 255, 255, 0.8)"
-        element-loading-text="数据加载中..."
+              v-if="form.data_scope === '1'"
+              label="角色权限"
+              prop="dept_ids"
+              v-loading="loading"
+              element-loading-background="rgba(255, 255, 255, 0.8)"
+              element-loading-text="数据加载中..."
             >
-                <el-checkbox @change="handleTreeExpand($event)">展开/折叠</el-checkbox>
-                <el-checkbox @change="handleTreeAll($event)">全选/全不选</el-checkbox>
-                <el-tree
-                    class="ma-tree-border"
-                    ref="tree"
-                    :data="deptList"
-                    show-checkbox
-                    node-key="id"
-                    empty-text="加载数据中..."
-                    :props="defaultProps"
-                />
+              <el-checkbox @change="handleTreeExpand($event)">展开/折叠</el-checkbox>
+              <el-checkbox @change="handleTreeAll($event)">全选/全不选</el-checkbox>
+              <el-tree
+                class="ma-tree-border"
+                ref="tree"
+                :data="deptList"
+                show-checkbox
+                node-key="id"
+                empty-text="加载数据中..."
+                :props="defaultProps"
+              />
             </el-form-item>
       
     </el-form>

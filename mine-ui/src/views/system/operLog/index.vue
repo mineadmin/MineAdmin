@@ -34,8 +34,12 @@
             </template>
             <el-form label-width="80px">
 
-              <el-form-item label="状态" prop="service_name">
+              <el-form-item label="业务名称" prop="service_name">
                 <el-input v-model="queryParams.service_name" clearable placeholder="请输入业务名称"></el-input>
+              </el-form-item>
+
+              <el-form-item label="操作ID" prop="ip">
+                <el-input v-model="queryParams.ip" clearable placeholder="请输入IP地址"></el-input>
               </el-form-item>
 
               <el-form-item label="登录时间">
@@ -117,6 +121,7 @@
         queryParams: {
           username: undefined,
           service_name: undefined,
+          ip: undefined,
           maxDate: undefined,
           minDate: undefined,
           orderBy: 'created_at',
@@ -171,6 +176,7 @@
         this.queryParams = {
           username: undefined,
           service_name: undefined,
+          ip: undefined,
           maxDate: undefined,
           minDate: undefined,
           orderBy: 'created_at',

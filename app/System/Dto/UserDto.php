@@ -6,32 +6,23 @@ use Mine\Annotation\ExcelData;
 use Mine\Annotation\ExcelProperty;
 
 /**
- * @ExcelData
+ * 用户DTO
  */
+#[ExcelData]
 class UserDto implements MineModelExcel
 {
-    /**
-     * @ExcelProperty(value="用户名", index="0")
-     */
-    public $username;
+    #[ExcelProperty(value: "用户名", index: "0")]
+    public string $username;
 
-    /**
-     * @ExcelProperty(value="密码", index="3")
-     */
-    public $password;
+    #[ExcelProperty(value: "密码", index: "3")]
+    public string $password;
 
-    /**
-     * @ExcelProperty(value="昵称", index="1")
-     */
-    public $nickname;
-    
-    /**
-     * @ExcelProperty(value="手机", index="2")
-     */
-    public $phone;
+    #[ExcelProperty(value: "昵称", index: "1")]
+    public string $nickname;
 
-    /**
-     * @ExcelProperty(value="状态", index="4")
-     */
-    public $status;
+    #[ExcelProperty(value: "手机", index: "2")]
+    public string $phone;
+
+    #[ExcelProperty(value: "状态", index: "4")]
+    public string $status;
 }

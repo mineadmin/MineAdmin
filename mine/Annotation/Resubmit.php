@@ -12,6 +12,7 @@
 declare(strict_types = 1);
 namespace Mine\Annotation;
 
+use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
@@ -19,17 +20,25 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 class Resubmit extends AbstractAnnotation
 {
     /**
      * second
      * @var int
      */
-    public $second = 3;
+    public int $second = 3;
 
-    public function __construct($value)
+    /**
+     * 提示信息
+     * @var string
+     */
+    public string $message;
+
+    public function __construct($value, $message = null)
     {
         parent::__construct($value);
-        $this->bindMainProperty('second', $value);
+        $this->bindMainProperty('second', [ $value ]);
+        $this->bindMainProperty('message', [ $message ]);
     }
 }

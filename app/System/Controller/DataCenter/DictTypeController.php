@@ -24,31 +24,31 @@ use Psr\Http\Message\ResponseInterface;
  * @Controller(prefix="system/dictType")
  * @Auth
  */
+#[Controller(prefix: "system/dictType"), Auth]
 class DictTypeController extends MineController
 {
-    /**
-     * 字典类型服务
-     * @Inject
-     * @var SystemDictTypeService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemDictTypeService $service;
 
     /**
      * 获取字典，无分页
-     * @GetMapping("index")
      * @return ResponseInterface
-     * @Permission("system:dictType:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:dictType:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getList($this->request->all()));
     }
 
     /**
-     * @GetMapping("recycle")
+     * 回收站列表
      * @return ResponseInterface
-     * @Permission("system:dictType:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:dictType:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getListByRecycle($this->request->all()));
@@ -56,12 +56,12 @@ class DictTypeController extends MineController
 
     /**
      * 新增字典类型
-     * @PostMapping("save")
      * @param DictTypeCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:dictType:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:dictType:save"), OperationLog]
     public function save(DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -69,11 +69,12 @@ class DictTypeController extends MineController
 
     /**
      * 获取一个字典类型数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:dictType:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:dictType:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -81,12 +82,13 @@ class DictTypeController extends MineController
 
     /**
      * 更新一个字典类型
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param DictTypeCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:dictType:update")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:dictType:update"), OperationLog]
     public function update(int $id, DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -94,24 +96,25 @@ class DictTypeController extends MineController
 
     /**
      * 单个或批量字典数据
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dictType:delete")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:dictType:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
     }
 
     /**
-     * 单个或批量真实删除用户 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
+     * 单个或批量真实删除字典数据 （清空回收站）
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dictType:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:dictType:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -119,11 +122,12 @@ class DictTypeController extends MineController
 
     /**
      * 单个或批量恢复在回收站的用户
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dictType:recovery")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:dictType:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();

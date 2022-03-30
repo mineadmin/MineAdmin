@@ -22,17 +22,11 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public $model;
 
-    /**
-     * @Inject
-     * @var EventDispatcherInterface
-     */
-    protected $evDispatcher;
+    #[Inject]
+    protected EventDispatcherInterface $evDispatcher;
 
-    /**
-     * @Inject
-     * @var ContainerInterface
-     */
-    protected $container;
+    #[Inject]
+    protected ContainerInterface $container;
 
 
     public function assignModel()
@@ -57,8 +51,8 @@ class SystemUploadFileMapper extends AbstractMapper
         if (isset($params['storage_path'])) {
             $query->where('storage_path', 'like', $params['storage_path'].'%');
         }
-        if (isset($params['mime_type'])) {
-            $query->where('mime_type', 'like', '%'.$params['mime_type'].'%');
+        if (!empty($params['mime_type'])) {
+            $query->where('mime_type', 'like', $params['mime_type'].'/%');
         }
         if (isset($params['minDate']) && isset($params['maxDate'])) {
             $query->whereBetween(

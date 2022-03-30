@@ -14,23 +14,20 @@ use Mine\MineController;
 /**
  * Class RelyMonitorController
  * @package App\System\Controller\Monitor
- * @Controller(prefix="system/rely")
- * @Auth
  */
+#[Controller(prefix: "system/rely"), Auth]
 class RelyMonitorController extends MineController
 {
-    /**
-     * @Inject
-     * @var RelyMonitorService
-     */
-    protected $service;
+    #[Inject]
+    protected RelyMonitorService $service;
 
     /**
      * 获取依赖包列表数据
-     * @GetMapping("index")
-     * @Permission("system:monitor:rely")
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:monitor:rely")]
     public function getPackagePageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getPackagePageList($this->request->all()));
@@ -38,9 +35,11 @@ class RelyMonitorController extends MineController
 
     /**
      * 获取依赖包详细信息
-     * @GetMapping("detail")
-     * @Permission("system:monitor:relyDetail")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("detail"), Permission("system:monitor:relyDetail")]
     public function getDetail(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getPackageDetail($this->request->input('name', '')));

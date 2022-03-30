@@ -22,23 +22,13 @@ use Mine\MineModel;
 /**
  * Class UpdateAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class UpdateAspect extends AbstractAspect
 {
     public $classes = [
         'Mine\MineModel::update'
     ];
-
-    /**
-     * @var LoginUser
-     */
-    protected $loginUser;
-
-    public function __construct(LoginUser $loginUser)
-    {
-        $this->loginUser = $loginUser;
-    }
 
     /**
      * @param ProceedingJoinPoint $proceedingJoinPoint
@@ -49,8 +39,11 @@ class UpdateAspect extends AbstractAspect
     {
         $instance = $proceedingJoinPoint->getInstance();
         // 更新更改人
-        if ($instance instanceof MineModel && in_array('updated_by', $instance->getFillable())) {
-            $instance->updated_by = $this->loginUser->getId();
+        if ($instance instanceof MineModel &&
+            in_array('updated_by', $instance->getFillable()) &&
+            config('mineadmin.data_scope_enabled')
+        ) {
+            $instance->updated_by = user()->getId();
         }
         return $proceedingJoinPoint->process();
     }

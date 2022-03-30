@@ -22,43 +22,43 @@ class ConsoleTable
      * 头信息数据
      * @var array
      */
-    protected $header = [];
+    protected array $header = [];
 
     /**
      * 头部对齐方式 默认1 ALGIN_LEFT 0 ALIGN_RIGHT 2 ALIGN_CENTER
      * @var int
      */
-    protected $headerAlign = 1;
+    protected int $headerAlign = 1;
 
     /**
      * 表格数据（二维数组）
      * @var array
      */
-    protected $rows = [];
+    protected array $rows = [];
 
     /**
      * 单元格对齐方式 默认1 ALGIN_LEFT 0 ALIGN_RIGHT 2 ALIGN_CENTER
      * @var int
      */
-    protected $cellAlign = 1;
+    protected int $cellAlign = 1;
 
     /**
      * 单元格宽度信息
      * @var array
      */
-    protected $colWidth = [];
+    protected array $colWidth = [];
 
     /**
      * 表格输出样式
      * @var string
      */
-    protected $style = 'default';
+    protected string $style = 'default';
 
     /**
      * 表格样式定义
      * @var array
      */
-    protected $format = [
+    protected array $format = [
         'compact'    => [],
         'default'    => [
             'top'          => ['+', '-', '+', '+'],

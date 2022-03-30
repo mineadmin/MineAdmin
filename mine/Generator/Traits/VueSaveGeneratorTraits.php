@@ -25,30 +25,21 @@ trait VueSaveGeneratorTraits
      */
     protected function getFormListCode(SettingGenerateColumns $column): string
     {
-        switch ($column->view_type) {
-            case 'password':
-                return $this->passwordCode($column);
-            case 'textarea':
-                return $this->textareaCode($column);
-            case 'select':
-                return $this->selectCode($column);
-            case 'radio':
-                return $this->radioCode($column);
-            case 'checkbox':
-                return $this->checkboxCode($column);
-            case 'date':
-                return $this->dateCode($column);
-            case 'selectResource':
-                return $this->selectResource($column);
-            case 'image':
-                return $this->imageCode($column);
-            case 'file':
-                return $this->fileCode($column);
-            case 'editor':
-                return $this->editorCode($column);
-            default:
-                return $this->textCode($column);
-        }
+        return match ($column->view_type) {
+            'password'  => $this->passwordCode($column),
+            'textarea'  => $this->textareaCode($column),
+            'select'    => $this->selectCode($column),
+            'radio'     => $this->radioCode($column),
+            'checkbox'  => $this->checkboxCode($column),
+            'date'      => $this->dateCode($column),
+            'image'     => $this->imageCode($column),
+            'file'      => $this->fileCode($column),
+            'editor'    => $this->editorCode($column),
+            'tabs'    => $this->tabsCode($column),
+            'selectResourceRadio' => $this->selectResourceRadio($column),
+            'selectResourceMulti' => $this->selectResourceMulti($column),
+            default     => $this->textCode($column),
+        };
     }
 
     /**
@@ -223,22 +214,34 @@ VUE;
     }
 
     /**
-     * selectResource
+     * 资源选择单选模式
+     * selectResourceRadio
      * @param SettingGenerateColumns $column
      * @return string
      */
-    protected function selectResource(SettingGenerateColumns $column): string
+    protected function selectResourceRadio(SettingGenerateColumns $column): string
     {
-        $name = Str::studly($column->column_name);
         return <<<VUE
 
         <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
-            <ma-resource-select
-                :resource="true"
-                :thumb="true"
-                :value="form.{$column->column_name}"
-                @upload-data="uploadSuccess{$name}"
-            />
+            <sc-upload v-model="form.{$column->column_name}" title="选择{$column->column_comment}" file-select />
+        </el-form-item>
+
+VUE;
+    }
+
+    /**
+     * 资源选择多选模式
+     * selectResourceMulti
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function selectResourceMulti(SettingGenerateColumns $column): string
+    {
+        return <<<VUE
+
+        <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
+            <sc-upload-multiple v-model="form.{$column->column_name}" title="选择{$column->column_comment}" file-select />
         </el-form-item>
 
 VUE;
@@ -305,6 +308,39 @@ VUE;
         </el-form-item>
 
 VUE;
+    }
+
+    /**
+     * tabsCode
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function tabsCode(SettingGenerateColumns $column): string
+    {
+        if ($column->dict_type) {
+            return <<<VUE
+
+        <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
+            <el-select v-model="form.{$column->column_name}" style="width:100%" clearable placeholder="请选择{$column->column_comment}">
+                <el-option
+                    v-for="(item, index) in {$column->dict_type}_data"
+                    :key="index" :label="item.label"
+                    :value="item.value"
+                >{{item.label}}</el-option>
+            </el-select>
+        </el-form-item>
+
+VUE;
+        } else {
+            return <<<VUE
+
+        <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
+            <el-select v-model="form.{$column->column_name}" style="width:100%" clearable placeholder="请选择{$column->column_comment}">
+            </el-select>
+        </el-form-item>
+
+VUE;
+        }
     }
 
 }

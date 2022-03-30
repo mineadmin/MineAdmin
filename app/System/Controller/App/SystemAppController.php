@@ -21,23 +21,21 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 应用管理控制器
  * Class SystemAppController
- * @Controller(prefix="system/app")
- * @Auth
  */
+#[Controller(prefix: "system/app"), Auth]
 class SystemAppController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemAppService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemAppService $service;
 
     /**
      * 获取APP ID
-     * @GetMapping("getAppId")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
+    #[GetMapping("getAppId")]
     public function getAppId(): ResponseInterface
     {
         return $this->success(['app_id' => $this->service->getAppId()]);
@@ -45,10 +43,12 @@ class SystemAppController extends MineController
 
     /**
      * 获取APP SECRET
-     * @GetMapping("getAppSecret")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
+    #[GetMapping("getAppSecret")]
     public function getAppSecret(): ResponseInterface
     {
         return $this->success(['app_secret' => $this->service->getAppSecret()]);
@@ -56,10 +56,11 @@ class SystemAppController extends MineController
 
     /**
      * 列表
-     * @GetMapping("index")
      * @return ResponseInterface
-     * @Permission("system:app:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:app:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -67,9 +68,11 @@ class SystemAppController extends MineController
 
     /**
      * 获取绑定接口列表
-     * @GetMapping("getApiList")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getApiList")]
     public function getApiList(): ResponseInterface
     {
         return $this->success($this->service->getApiList((int) $this->request->input('id', null)));
@@ -77,10 +80,11 @@ class SystemAppController extends MineController
 
     /**
      * 回收站列表
-     * @GetMapping("recycle")
      * @return ResponseInterface
-     * @Permission("system:app:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:app:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -88,12 +92,12 @@ class SystemAppController extends MineController
 
     /**
      * 新增
-     * @PostMapping("save")
      * @param SystemAppCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:app:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:app:save"), OperationLog]
     public function save(SystemAppCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -101,11 +105,12 @@ class SystemAppController extends MineController
 
     /**
      * 读取数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:app:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:app:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -113,13 +118,13 @@ class SystemAppController extends MineController
 
     /**
      * 更新
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemAppUpdateRequest $request
      * @return ResponseInterface
-     * @Permission("system:app:update")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:app:update"), OperationLog]
     public function update(int $id, SystemAppUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -127,12 +132,12 @@ class SystemAppController extends MineController
 
     /**
      * 绑定接口
-     * @PutMapping("bind/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:app:bind")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("bind/{id}"), Permission("system:app:bind"), OperationLog]
     public function bind(int $id): ResponseInterface
     {
         return $this->service->bind($id, $this->request->input('apiIds', [])) ? $this->success() : $this->error();
@@ -140,12 +145,12 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:app:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:app:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -153,12 +158,12 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:app:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:app:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -166,12 +171,12 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:app:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:app:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();

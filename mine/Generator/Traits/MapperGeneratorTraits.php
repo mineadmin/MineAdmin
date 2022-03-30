@@ -22,32 +22,16 @@ trait MapperGeneratorTraits
      */
     protected function getSearchCode($column): string
     {
-        switch ($column['query_type']) {
-            case 'neq':
-                return $this->getSearchPHPString($column['column_name'], '!=', $column['column_comment']);
-            // 大于
-            case 'gt':
-                return $this->getSearchPHPString($column['column_name'], '<', $column['column_comment']);
-            // 大于等于
-            case 'gte':
-                return $this->getSearchPHPString($column['column_name'], '<=', $column['column_comment']);
-            // 小于
-            case 'lt':
-                return $this->getSearchPHPString($column['column_name'], '>', $column['column_comment']);
-            // 小于等于
-            case 'lte':
-                return $this->getSearchPHPString($column['column_name'], '>=', $column['column_comment']);
-            // LIKE
-            case 'like':
-                return $this->getSearchPHPString($column['column_name'], 'like', $column['column_comment']);
-            // LIKE
-            case 'between':
-                return $this->getSearchPHPString($column['column_name'], 'between', $column['column_comment']);
-            // 都没有按相等方式处理
-            case 'eq':
-            default:
-                return $this->getSearchPHPString($column['column_name'], '=', $column['column_comment']);
-        }
+        return match ($column['query_type']) {
+            'neq'     => $this->getSearchPHPString($column['column_name'], '!=', $column['column_comment']),
+            'gt'      => $this->getSearchPHPString($column['column_name'], '<', $column['column_comment']),
+            'gte'     => $this->getSearchPHPString($column['column_name'], '<=', $column['column_comment']),
+            'lt'      => $this->getSearchPHPString($column['column_name'], '>', $column['column_comment']),
+            'lte'     => $this->getSearchPHPString($column['column_name'], '>=', $column['column_comment']),
+            'like'    => $this->getSearchPHPString($column['column_name'], 'like', $column['column_comment']),
+            'between' => $this->getSearchPHPString($column['column_name'], 'between', $column['column_comment']),
+            default   => $this->getSearchPHPString($column['column_name'], '=', $column['column_comment']),
+        };
     }
 
     /**

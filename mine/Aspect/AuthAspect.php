@@ -23,8 +23,8 @@ use Mine\Helper\LoginUser;
 /**
  * Class AuthAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class AuthAspect extends AbstractAspect
 {
 

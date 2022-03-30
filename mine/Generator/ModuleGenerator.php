@@ -21,7 +21,7 @@ class ModuleGenerator extends MineGenerator
     /**
      * @var array
      */
-    protected $moduleInfo;
+    protected array $moduleInfo;
 
     /**
      * 设置模块信息

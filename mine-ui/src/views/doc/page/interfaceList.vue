@@ -11,7 +11,8 @@
   <el-card shadow="never" class="card" style="margin-top: 10px;">
     <el-button type="primary" @click="openGlobalParams">设置全局参数</el-button>
     <el-button type="danger" @click="clearGlobalParams">清除全局参数</el-button>
-    <el-button type="warning" @click="getAccessToken">生成AccessToken</el-button>
+    <el-button type="warning" @click="getIdentity">生成简易模式Identity</el-button>
+    <el-button type="warning" @click="getAccessToken">生成复杂模式AccessToken</el-button>
     <el-collapse v-model="activeName" accordion style="margin-top: 15px;">
       <el-collapse-item
         :title="item.name"
@@ -36,7 +37,8 @@
           </el-tooltip>
           <el-tag type="success" size="large" v-if="item.request_mode === 'A' ">ALL</el-tag>
           <el-tag type="warning" size="large" v-if="item.request_mode === 'P' ">POST</el-tag>
-          <el-tag type="danger" size="large" v-if="item.request_mode === 'G' ">GET</el-tag>
+          <el-tag type="danger" size="large" v-if="item.request_mode === 'P' ">PUT</el-tag>
+          <el-tag type="danger" size="large" v-if="item.request_mode === 'D' ">DELETE</el-tag>
           <el-button type="primary" class="details" @click="details(item)">查看详情</el-button>
         </div>
         <div>
@@ -112,7 +114,15 @@ export default {
         timestamp,
       }
 
+    },
 
+    async getIdentity() {
+      try{
+        await this.clipboard(this.$TOOL.crypto.MD5(this.appInfo.app_id + this.appInfo.app_secret))
+        this.$message.success('生成成功，已复制到剪切板')
+      } catch(e) {
+        this.$message.error(this.$t('sys.copy_fail'))
+      }
     },
 
     getAccessToken() {
@@ -124,7 +134,7 @@ export default {
             await this.clipboard(res.data.access_token)
             this.$message.success('获取成功，已复制到剪切板')
           } catch(e) {
-            $message.error(this.$t('sys.copy_fail'))
+            this.$message.error(this.$t('sys.copy_fail'))
           }
         } else {
           this.$message.error(res.message)

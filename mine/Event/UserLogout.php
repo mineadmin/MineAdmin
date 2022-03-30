@@ -14,7 +14,7 @@ namespace Mine\Event;
 
 class UserLogout
 {
-    public $userinfo;
+    public array $userinfo;
 
     public function __construct(array $userinfo)
     {

@@ -15,6 +15,7 @@ export default {
       povpoerShow: false,
       showDirloading: false,
       showFileloading: true,
+      fileType: [],
       filterText: '',
       dateRange:'',
       dataList: [],
@@ -32,25 +33,23 @@ export default {
       queryParams: {
         storage_mode: undefined,
         origin_name: undefined,
-        storage_path: undefined,
+        mime_type: undefined,
         maxDate: undefined,
         minDate: undefined,
         pageSize: 30,
         page:1,
       },
       isRecycle: false,
-      dirs:[],
       // 当前记录
       record: { url: '' },
       props: {
-        label: 'name',
+        label: 'label',
         children: 'children',
-        isLeaf: 'leaf',
       },
     }
   },
   created () {
-    this.loadDirs()
+    this.getDictData()
     this.getList()
   },
   methods: {
@@ -84,46 +83,23 @@ export default {
       }
     },
 
-    async loadDirs (dir = '/') {
-      let res = await this.$API.upload.getDirectory({path: dir})
-      if (res.data.length < 0) {
-        return []
-      }
-      if (res.success) {
-        if (dir === '/') {
-          this.dirs = res.data.map(item => {
-            return {name: item.basename, leaf: false, children: []}
-          })
-          this.dirs.unshift({name: '所有目录文件', leaf: true, children: []})
-          return []
-        } else {
-          let data = res.data.map(item => {
-            return {name: item.basename, leaf: false, children: []}
-          })
-          return data
-        }
-      } else {
-        this.$message.error('获取目录列表失败')
-        return []
-      }
-    },
-
     //树过滤
-    dirFilterNode(value, data){
+    filterNode(value, data){
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
     },
     //树点击事件
-    dirClick(data){
-      if (this.queryParams.storage_path == data.name) {
+    typeClick(data){
+      console.log(data)
+      if (this.queryParams.mime_type == data.value) {
         return
       }
-      if (data.name == '所有目录文件') {
-        this.queryParams.storage_path = undefined
+      if (data.name == '所有类型') {
+        this.queryParams.mime_type = undefined
         this.getList()
         return
       }
-      this.queryParams.storage_path = data.name
+      this.queryParams.mime_type = data.value
       this.getList()
     },
 
@@ -164,6 +140,14 @@ export default {
 
     handleDirSuccess() {
       this.loadDirs()
+    },
+
+    // 获取类型字典
+    getDictData() {
+      this.getDict('attachment_type').then(res => {
+        this.fileType = res.data
+        this.fileType.unshift({ label: '所有类型', value: ''})
+      })
     },
 
     //批量删除
@@ -258,7 +242,7 @@ export default {
     resetSearch() {
       this.queryParams = {
         storage_mode: undefined,
-        storage_path: undefined,
+        mime_type: undefined,
         origin_name: undefined,
         maxDate: undefined,
         minDate: undefined

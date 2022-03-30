@@ -21,9 +21,9 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class InstallProjectCommand
- * @Command
  * @package System\Command
  */
+#[Command]
 class InstallProjectCommand extends MineCommand
 {
     /**
@@ -36,9 +36,9 @@ class InstallProjectCommand extends MineCommand
     protected CONST CONSOLE_RED_BEGIN = "\033[31;5;1m";
     protected CONST CONSOLE_END = "\033[0m";
 
-    protected $database = [];
+    protected array $database = [];
 
-    protected $redis = [];
+    protected array $redis = [];
 
     public function configure()
     {
@@ -247,7 +247,7 @@ class InstallProjectCommand extends MineCommand
                     $envContent .= PHP_EOL;
                 }
             }
-            $dsn = sprintf("mysql:host=%s", $this->database['dbhost']);
+            $dsn = sprintf("mysql:host=%s;port=%s", $this->database['dbhost'], $this->database['dbport']);
             $pdo = new \PDO($dsn, $this->database['dbuser'], $this->database['dbpass']);
             $isSuccess = $pdo->query(
                 sprintf(

@@ -201,7 +201,7 @@
 				let response;
 
 				if (this.beforeQuery !== undefined) {
-					this.beforeQuery(this.$refs.scTable)
+					this.beforeQuery(this.$refs.scTable, requestData)
 				}
 
 				try {
@@ -216,12 +216,18 @@
 							response = res
 						})
 					}
+
+					if (response.code != 200) {
+						this.$message.error(response.message)
+						throw Error(response.message)
+					}
+
 					if (this.beforeQuery !== undefined) {
 						this.afterQuery(this.$refs.scTable, response.data)
 					}
 				}catch(error){
 					this.loading = false;
-					this.emptyText = error.statusText;
+					this.emptyText = error.message;
 					return false;
 				}
 

@@ -48,4 +48,63 @@
 		</div>
 		<!-- built files will be auto injected -->
 	</body>
+	<div id="versionCheck" style="display: none;position: absolute;z-index: 99;top:0;left:0;right:0;bottom:0;padding:40px;background:rgba(255,255,255,0.9);color: #333;">
+		<h2 style="line-height: 1;margin: 0;font-size: 24px;">当前使用的浏览器内核版本过低 :(</h2>
+		<p style="line-height: 1;margin: 0;font-size: 14px;margin-top: 20px;opacity: 0.8;">当前版本：<span id="versionCheck-type">--</span> <span id="versionCheck-version">--</span></p>
+		<p style="line-height: 1;margin: 0;font-size: 14px;margin-top: 10px;opacity: 0.8;">最低版本要求：Chrome 71+、Firefox 65+、Safari 12+、Edge 97+。</p>
+		<p style="line-height: 1;margin: 0;font-size: 14px;margin-top: 10px;opacity: 0.8;">请升级浏览器版本，或更换现代浏览器，如果你使用的是双核浏览器,请切换到极速/高速模式。</p>
+	</div>
+	<script type="text/javascript">
+	function getBrowerInfo(){
+		var userAgent = window.navigator.userAgent;
+		var browerInfo = {
+			type: '',
+			version: '',
+			userAgent: userAgent
+		};
+		if(document.documentMode){
+			browerInfo.type = "IE"
+			browerInfo.version = document.documentMode + ''
+		}else if(userAgent.indexOf("Firefox") > -1){
+			browerInfo.type = "Firefox"
+		}else if(userAgent.indexOf("Opera") > -1){
+			browerInfo.type = "Opera"
+			browerInfo.version = userAgent.match(/Opera\/([\d.]+)/)[1]
+		}else if(userAgent.indexOf("Edg") > -1){
+			browerInfo.type = "Edg"
+			browerInfo.version = userAgent.match(/Edg\/([\d.]+)/)[1]
+		}else if(userAgent.indexOf("Chrome") > -1){
+			browerInfo.type = "Chrome"
+			browerInfo.version = userAgent.match(/Chrome\/([\d.]+)/)[1]
+		}else if(userAgent.indexOf("Safari") > -1){
+			browerInfo.type = "Safari"
+			browerInfo.version = userAgent.match(/Safari\/([\d.]+)/)[1]
+		}else{
+			browerInfo.type = "unknown"
+			browerInfo.version = "unknown"
+		}
+		return browerInfo
+	}
+	function isSatisfyBrower(){
+		var minVer = {
+			"Chrome": 71,
+			"Firefox": 65,
+			"Safari": 12,
+			"Edg": 97,
+			"IE": 999
+		}
+		var browerInfo = getBrowerInfo()
+		var materVer = browerInfo.version.split('.')[0]
+		if(materVer >= minVer[browerInfo.type]){
+			return true
+		}else{
+			return false
+		}
+	}
+	if(!isSatisfyBrower()){
+		document.getElementById('versionCheck').style.display = 'block';
+		document.getElementById('versionCheck-type').innerHTML = getBrowerInfo().type;
+		document.getElementById('versionCheck-version').innerHTML = getBrowerInfo().version;
+	}
+	</script>
 </html>

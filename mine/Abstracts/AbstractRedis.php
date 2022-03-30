@@ -21,16 +21,15 @@ use Hyperf\Config\Annotation\Value;
 abstract class AbstractRedis
 {
     /**
-     * @Value("cache.default.prefix")
-     * @var string
+     * 缓存前缀
      */
-    protected $prefix;
+    #[Value("cache.default.prefix")]
+    protected string $prefix;
 
     /**
      * key 类型名
-     * @var string
      */
-    protected $typeName;
+    protected string $typeName;
 
     /**
      * 获取实例
@@ -57,7 +56,7 @@ abstract class AbstractRedis
     /**
      * 获取key
      * @param string $key
-     * @return string
+     * @return string|null
      */
     public function getKey(string $key): ?string
     {

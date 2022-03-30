@@ -37,11 +37,7 @@
 					</el-tooltip>
 				</template>
 
-				<el-input v-model="form.rule" placeholder="请输入Cron规则" clearable>
-					<template #append>
-						<el-button @click="openExpression">生成表达式</el-button>
-					</template>
-				</el-input>
+				<sc-cron v-model="form.rule" placeholder="请输入Cron定时规则" clearable :shortcuts="shortcuts" />
 			</el-form-item>
 
 			<el-form-item label="调用目标" prop="target">
@@ -81,16 +77,15 @@
 		</template>
 	</el-dialog>
 
-	<expression ref="expression" @update="updateExpression" :expressionValue="form.rule" />
 </template>
 
 <script>
-	import expression from './expression'
+	import scCron from '@/components/scCron';
 	export default {
 		emits: ['success', 'closed'],
 
 		components: {
-			expression
+			scCron
 		},
 
 		data() {

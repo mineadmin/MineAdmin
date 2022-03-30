@@ -14,7 +14,7 @@ namespace Mine\Event;
 
 class UserLoginBefore
 {
-    public $inputData;
+    public array $inputData;
 
     public function __construct(array $inputData)
     {

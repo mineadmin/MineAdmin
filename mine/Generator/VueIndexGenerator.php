@@ -20,6 +20,7 @@ use App\Setting\Model\SettingGenerateTables;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
+use Hyperf\Database\Model\Collection;
 
 /**
  * Vue index文件生成
@@ -31,22 +32,22 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
-     * @var array
+     * @var Collection
      */
-    protected $columns;
+    protected Collection $columns;
 
     /**
      * 设置生成信息
@@ -79,7 +80,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $path = BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}/index.vue";
         $this->filesystem->makeDirectory(
             BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
-            0755, true, false
+            0755, true, true
         );
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
     }
@@ -140,6 +141,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{DICT_LIST}',
             '{DICT_DATA}',
             '{PK}',
+            '{TABS}',
+            '{TABS_KEY}',
+            '{TABS_DICT_KEY}',
         ];
     }
 
@@ -159,6 +163,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getDictList(),
             $this->getDictData(),
             $this->getPk(),
+            $this->getTabs(),
+            $this->getTabsKey(),
+            $this->getTabsKey(2),
         ];
     }
 
@@ -364,6 +371,46 @@ js;
         foreach ($this->columns as $column) {
             if ($column->is_pk == '1') {
                 return $column->column_name;
+            }
+        }
+        return '';
+    }
+
+    /**
+     * 获取表格tabs
+     * @return string
+     */
+    protected function getTabs(): string
+    {
+        $jsCode = '';
+        $key = $this->getTabsKey();
+        foreach ($this->columns as $column) {
+            if ($column->view_type === 'tabs') {
+                $code = <<<js
+ 
+      <div style="padding-left: 12px;">
+        <el-tabs v-model="default_{$key}" class="demo-tabs" @tab-click="handleTabsClick">
+          <el-tab-pane v-for="(item,index) in {$column->dict_type}_data" :key="index" :name="item.value" :stretch="true" :label="item.label" />
+        </el-tabs>
+      </div>
+js;
+                $jsCode .= $code;
+                break;
+            }
+        }
+        return $jsCode;
+    }
+
+    /**
+     * 获取tabs key
+     * @param int $type
+     * @return string
+     */
+    public function getTabsKey(int $type = 1): string
+    {
+        foreach ($this->columns as $column) {
+            if ($column->view_type === 'tabs') {
+                return $type == 1 ? $column->column_name : $column->dict_type;
             }
         }
         return '';

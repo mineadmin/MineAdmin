@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types = 1);
 namespace App\System\Controller\Monitor;
 
 
@@ -16,23 +16,20 @@ use Swoole\Coroutine\Channel;
 /**
  * Class ServerMonitorController
  * @package App\System\Controller\Monitor
- * @Controller(prefix="system/server")
- * @Auth
  */
+#[Controller(prefix: "system/server"), Auth]
 class ServerMonitorController extends MineController
 {
-    /**
-     * @Inject
-     * @var ServerMonitorService
-     */
-    protected $service;
+    #[Inject]
+    protected ServerMonitorService $service;
 
     /**
      * 获取服务器信息
-     * @GetMapping("monitor")
      * @return \Psr\Http\Message\ResponseInterface
-     * @Permission("system:monitor:server")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("monitor"), Permission("system:monitor:server")]
     public function getServerInfo(): \Psr\Http\Message\ResponseInterface
     {
         $channel = new Channel();

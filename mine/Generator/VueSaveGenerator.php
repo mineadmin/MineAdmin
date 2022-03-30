@@ -18,6 +18,7 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Generator\Traits\VueSaveGeneratorTraits;
@@ -35,27 +36,29 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
-     * @var array
+     * @var Collection
      */
-    protected $columns;
+    protected Collection $columns;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return VueSaveGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): VueSaveGenerator
     {
@@ -82,7 +85,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
         $path = BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}/save.vue";
         $this->filesystem->makeDirectory(
             BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
-            0755, true, false
+            0755, true, true
         );
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
     }
@@ -142,7 +145,6 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             '{SET_FORM_DATA}',
             '{DICT_LIST}',
             '{DICT_DATA}',
-            '{SELECT_RESOURCE}',
             '{UPLOAD_IMAGE}',
             '{UPLOAD_FILE}',
             '{PK}',
@@ -164,7 +166,6 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             $this->getSetFormData(),
             $this->getDictList(),
             $this->getDictData(),
-            $this->getSelectResource(),
             $this->getUploadImage(),
             $this->getUploadFile(),
             $this->getPk(),
@@ -314,29 +315,6 @@ js;
                 $code = <<<js
  
          {$column->dict_type}_data: [],
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取资源选择处理代码
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getSelectResource(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            $name = Str::studly($column->column_name);
-            if ($column->view_type == 'selectResource') {
-                $code = <<<js
- 
-        uploadSuccess{$name} (dataList) {
-            this.form.{$column->column_name} = dataList
-        },
  js;
                 $jsCode .= $code;
             }

@@ -15,20 +15,19 @@ namespace Mine\Command\Creater;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Utils\Filesystem\FileNotFoundException;
 use Hyperf\Utils\Filesystem\Filesystem;
-use Hyperf\Utils\Str;
 use Mine\MineCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Class CreateFormRequest
- * @Command
  * @package System\Command\Creater
  */
+#[Command]
 class CreateFormRequest extends MineCommand
 {
     protected $name = 'mine:request-gen';
 
-    protected $module;
+    protected string $module;
 
     public function configure()
     {

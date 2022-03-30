@@ -22,22 +22,25 @@ class SystemDictDataService extends AbstractService
     public $mapper;
 
     /**
+     * 容器
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
+     * Redis
      * @var Redis
      */
-    protected $redis;
+    protected Redis $redis;
+
+    #[Value("cache.default.prefix")]
+    protected string $prefix;
+
 
     /**
-     * @Value("cache.default.prefix")
-     * @var string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    protected $prefix;
-
-
     public function __construct(SystemDictDataMapper $mapper, ContainerInterface $container)
     {
         $this->mapper = $mapper;
@@ -69,9 +72,10 @@ class SystemDictDataService extends AbstractService
     /**
      * 查询一个字典
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params = null): array
+    public function getList(?array $params = null, bool $isScope = false): array
     {
         if (! isset($params['code'])) {
             return [];
@@ -89,7 +93,7 @@ class SystemDictDataService extends AbstractService
             'orderBy' => 'sort',
             'orderType' => 'desc'
         ];
-        $data = $this->mapper->getList(array_merge($args, $params), false);
+        $data = $this->mapper->getList(array_merge($args, $params), $isScope);
 
         $this->redis->set($key, serialize($data));
 

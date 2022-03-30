@@ -32,17 +32,17 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * 设置生成信息
@@ -75,7 +75,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         } else {
             $path = BASE_PATH . "/app/{$module}/Model/";
         }
-        $this->filesystem->makeDirectory($path, 0755, false, true);
+        $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
 
         $command = [
             'command'  => 'mine:model-gen',

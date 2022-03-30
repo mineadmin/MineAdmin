@@ -12,7 +12,7 @@
 			<ul>
 				<li v-for="item in usercolumn" :key="item.prop">
 					<span class="move_b">
-						<el-tag class="move" style="cursor: move;"><i class="el-icon-d-caret"></i></el-tag>
+						<el-tag class="move" style="cursor: move;"><el-icon-d-caret style="width: 1em; height: 1em;"/></el-tag>
 					</span>
 					<span class="show_b">
 						<el-switch v-model="item.hide" :active-value="false" :inactive-value="true"></el-switch>

@@ -15,7 +15,6 @@ namespace Api;
 use App\System\Service\SystemApiService;
 use App\System\Service\SystemAppService;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\Guzzle\ClientFactory;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Helper\MineCode;
@@ -26,29 +25,29 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class ApiDocController
  * @package Api
- * @Controller(prefix="apiDoc")
  */
+#[Controller(prefix: "apiDoc")]
 class ApiDocController extends MineApi
 {
     /**
-     * @Inject
      * @var SystemAppService
      */
-    protected $systemAppService;
+    #[Inject]
+    protected SystemAppService $systemAppService;
 
     /**
-     * @Inject
      * @var SystemApiService
      */
-    protected $systemApiService;
+    #[Inject]
+    protected SystemApiService $systemApiService;
 
     /**
      * 登录文档
-     * @PostMapping("login")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("login")]
     public function login(): ResponseInterface
     {
         $app_id = $this->request->input('app_id', '');
@@ -67,20 +66,24 @@ class ApiDocController extends MineApi
 
     /**
      * 通过app id获取接口数据
-     * @GetMapping("getAppAndInterfaceList/{id}")
      * @param string $id
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getAppAndInterfaceList/{id}")]
     public function getAppAndInterfaceList(string $id): ResponseInterface
     {
         return $this->success($this->systemAppService->getAppAndInterfaceList($id));
     }
 
     /**
-     * @GetMapping("getColumnList/{id}")
      * @param string $id
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getColumnList/{id}")]
     public function getColumnList(string $id): ResponseInterface
     {
         return $this->success($this->systemApiService->getColumnListByApiId($id));

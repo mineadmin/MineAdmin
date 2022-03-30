@@ -22,23 +22,13 @@ use Mine\MineModel;
 /**
  * Class SaveAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class SaveAspect extends AbstractAspect
 {
     public $classes = [
         'Mine\MineModel::save'
     ];
-
-    /**
-     * @var LoginUser
-     */
-    protected $loginUser;
-
-    public function __construct(LoginUser $loginUser)
-    {
-        $this->loginUser = $loginUser;
-    }
 
     /**
      * @param ProceedingJoinPoint $proceedingJoinPoint
@@ -51,14 +41,27 @@ class SaveAspect extends AbstractAspect
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
         $instance = $proceedingJoinPoint->getInstance();
-        // 设置创建人
-        try {
-            $this->loginUser->check();
-            if ($instance instanceof MineModel && in_array('created_by', $instance->getFillable())) {
-                $instance->created_by = $this->loginUser->getId();
-            }
-        } catch (\Throwable $e) {}
 
+        if (config('mineadmin.data_scope_enabled')) {
+            try {
+                $user = user();
+                // 设置创建人
+                if ($instance instanceof MineModel &&
+                    in_array('created_by', $instance->getFillable()) &&
+                    is_null($instance->created_by)
+                ) {
+                    $user->check();
+                    $instance->created_by = $user->getId();
+                }
+
+                // 设置更新人
+                if ($instance instanceof MineModel && in_array('updated_by', $instance->getFillable())) {
+                    $user->check();
+                    $instance->updated_by = $user->getId();
+                }
+
+            } catch (\Throwable $e) {}
+        }
         // 生成ID
         if ($instance instanceof MineModel &&
             !$instance->incrementing &&

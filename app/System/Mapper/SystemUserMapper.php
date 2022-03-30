@@ -30,12 +30,11 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 通过用户名检查用户
      * @param string $username
-     * @return array
-     * @throws ModelNotFoundException
+     * @return Builder|\Hyperf\Database\Model\Model
      */
-    public function checkUserByUsername(string $username): array
+    public function checkUserByUsername(string $username)
     {
-        return $this->model::query()->where('username', $username)->firstOrFail()->toArray();
+        return $this->model::query()->where('username', $username)->firstOrFail();
     }
 
     /**

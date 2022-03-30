@@ -22,8 +22,8 @@ use Mine\Exception\MineException;
 /**
  * Class TransactionAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class TransactionAspect extends AbstractAspect
 {
 

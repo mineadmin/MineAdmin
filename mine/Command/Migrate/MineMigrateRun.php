@@ -21,9 +21,9 @@ use Hyperf\Command\Annotation\Command;
 
 /**
  * Class MineMigrateRun
- * @Command
  * @package System\Command\Migrate
  */
+#[Command]
 class MineMigrateRun extends BaseCommand
 {
     use ConfirmableTrait;

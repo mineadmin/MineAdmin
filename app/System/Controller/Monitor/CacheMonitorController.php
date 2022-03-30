@@ -19,23 +19,20 @@ use Psr\Http\Message\ResponseInterface;
  * 缓存监控
  * Class CacheMonitorController
  * @package App\System\Controller\Monitor
- * @Controller(prefix="system/cache")
- * @Auth
  */
+#[Controller(prefix: "system/cache"), Auth]
 class CacheMonitorController extends MineController
 {
-    /**
-     * @Inject
-     * @var CacheMonitorService
-     */
-    protected $service;
+    #[Inject]
+    protected CacheMonitorService $service;
 
     /**
      * 获取Redis服务器信息
-     * @GetMapping("monitor")
-     * @Permission("system:cache:monitor")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("monitor"), Permission("system:cache:monitor")]
     public function getCacheInfo(): ResponseInterface
     {
         return $this->success($this->service->getCacheServerInfo());
@@ -43,8 +40,11 @@ class CacheMonitorController extends MineController
 
     /**
      * 查看key内容
-     * @PostMapping("view")
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("view")]
     public function view(): ResponseInterface
     {
         return $this->success(['content' => $this->service->view($this->request->input('key'))]);
@@ -52,10 +52,11 @@ class CacheMonitorController extends MineController
 
     /**
      * 删除一个缓存
-     * @DeleteMapping("delete")
-     * @Permission("system:cache:delete")
-     * @OperationLog
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete"), Permission("system:cache:delete"), OperationLog]
     public function delete(): ResponseInterface
     {
         return $this->service->delete($this->request->input('key', null))
@@ -65,11 +66,11 @@ class CacheMonitorController extends MineController
 
     /**
      * 清空所有缓存
-     * @PostMapping("clear")
-     * @Permission("system:cache:clear")
-     * @OperationLog
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("clear"), Permission("system:cache:clear"), OperationLog]
     public function clear(): ResponseInterface
     {
         return $this->service->clear() ? $this->success() : $this->error();

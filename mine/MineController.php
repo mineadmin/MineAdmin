@@ -26,10 +26,10 @@ abstract class MineController
     use ControllerTrait;
 
     /**
-     * @Inject
      * @var Mine
      */
-    protected $mine;
+    #[Inject]
+    protected Mine $mine;
 
     /**
      * @param string $id

@@ -18,6 +18,7 @@ use Closure;
 use Hyperf\Contract\ApplicationInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Crontab\LoggerInterface;
+use Hyperf\Logger\Logger;
 use Mine\Crontab\Mutex\RedisServerMutex;
 use Mine\Crontab\Mutex\RedisTaskMutex;
 use Mine\Crontab\Mutex\ServerMutex;
@@ -35,24 +36,25 @@ class MineExecutor
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
-     * @var null|LoggerInterface
+     * @var Object
      */
-    protected $logger;
+    protected Object $logger;
 
     /**
      * @var TaskMutex
      */
-    protected $taskMutex;
+    protected TaskMutex $taskMutex;
 
     /**
      * @var ServerMutex
      */
-    protected $serverMutex;
+    protected ServerMutex $serverMutex;
 
     /**
+     * @param ContainerInterface $container
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -217,6 +219,11 @@ class MineExecutor
         return $this->serverMutex;
     }
 
+    /**
+     * @param MineCrontab $crontab
+     * @param Closure $runnable
+     * @return Closure
+     */
     protected function decorateRunnable(MineCrontab $crontab, Closure $runnable): Closure
     {
         if ($crontab->isSingleton()) {

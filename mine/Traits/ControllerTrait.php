@@ -21,24 +21,28 @@ use Psr\Http\Message\ResponseInterface;
 trait ControllerTrait
 {
     /**
-     * @Inject
-     * @var MineRequest
+     * Mine 请求处理
+     * MineRequest
      */
-    protected $request;
+    #[Inject]
+    protected MineRequest $request;
 
     /**
-     * @Inject
-     * @var MineResponse
+     * Mine 响应处理
+     * MineResponse
      */
-    protected $response;
+    #[Inject]
+    protected MineResponse $response;
 
     /**
-     * @param string | array $msgOrData
+     * @param string|array|object $msgOrData
      * @param array $data
      * @param int $code
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function success($msgOrData = '', $data = [], $code = 200): ResponseInterface
+    public function success(string|array|object $msgOrData = '', array|object $data = [], int $code = 200): ResponseInterface
     {
         if (is_string($msgOrData) || is_null($msgOrData)) {
             return $this->response->success($msgOrData, $data, $code);
@@ -51,9 +55,11 @@ trait ControllerTrait
 
     /**
      * @param string $message
-     * @param array $data
      * @param int $code
+     * @param array $data
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function error(string $message = '', int $code = 500, array $data = []): ResponseInterface
     {

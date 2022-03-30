@@ -13,9 +13,10 @@ class DataMaintainService extends AbstractService
     /**
      * 获取表状态分页列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getPageList(?array $params = []): array
+    public function getPageList(?array $params = [], bool $isScope = true): array
     {
         return $this->getArrayToPageList($params);
     }

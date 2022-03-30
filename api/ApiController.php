@@ -13,14 +13,12 @@ declare(strict_types=1);
 namespace Api;
 
 use App\System\Service\SystemAppService;
-use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 use Psr\Http\Message\ResponseInterface;
 use Api\Middleware\VerifyInterfaceMiddleware;
@@ -28,20 +26,20 @@ use Api\Middleware\VerifyInterfaceMiddleware;
 /**
  * Class ApiController
  * @package Api
- * @Controller(prefix="api")
  */
+#[Controller(prefix: "api")]
 class ApiController extends MineApi
 {
     public const SIGN_VERSION = '1.0';
 
     /**
      * 获取accessToken
-     * @PostMapping("v1/getAccessToken")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
+    #[PostMapping("v1/getAccessToken")]
     public function getAccessToken(): ResponseInterface
     {
         $service = container()->get(SystemAppService::class);
@@ -50,14 +48,11 @@ class ApiController extends MineApi
 
     /**
      * v1 版本
-     * @RequestMapping("v1/{method}")
-     * @Middlewares({
-     *     @Middleware(VerifyInterfaceMiddleware::class)
-     * })
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[RequestMapping("v1/{method}"), Middleware(VerifyInterfaceMiddleware::class)]
     public function v1(): ResponseInterface
     {
         $apiData = $this->__init();

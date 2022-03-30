@@ -22,23 +22,20 @@ use Psr\Http\Message\ResponseInterface;
  * 字典类型控制器
  * Class LogsController
  * @package App\System\Controller\DataCenter
- * @Controller(prefix="system/dataDict")
- * @Auth
  */
+#[Controller(prefix: "system/dataDict"), Auth]
 class DictDataController extends MineController
 {
-    /**
-     * 字典数据服务
-     * @Inject
-     * @var SystemDictDataService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemDictDataService $service;
 
     /**
-     * @GetMapping("index")
+     * 列表
      * @return ResponseInterface
-     * @Permission("system:dataDict:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:dataDict:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -46,9 +43,11 @@ class DictDataController extends MineController
 
     /**
      * 快捷查询一个字典
-     * @GetMapping("list")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("list")]
     public function list(): ResponseInterface
     {
         return $this->success($this->service->getList($this->request->all()));
@@ -56,30 +55,35 @@ class DictDataController extends MineController
 
     /**
      * 快捷查询多个字典
-     * @GetMapping("lists")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("lists")]
     public function lists(): ResponseInterface
     {
         return $this->success($this->service->getLists($this->request->all()));
     }
 
     /**
-     * @PostMapping("clearCache")
-     * @Permission("system:dataDict:clearCache")
-     * @OperationLog
+     * 清除字典缓存
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("clearCache"), Permission("system:dataDict:clearCache"), OperationLog]
     public function clearCache(): ResponseInterface
     {
         return $this->service->clearCache() ? $this->success() : $this->error();
     }
 
     /**
-     * @GetMapping("recycle")
+     * 回收站列表
      * @return ResponseInterface
-     * @Permission("system:dataDict:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:dataDict:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -87,12 +91,12 @@ class DictDataController extends MineController
 
     /**
      * 新增字典类型
-     * @PostMapping("save")
      * @param DictDataCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:dataDict:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:dataDict:save"), OperationLog]
     public function save(DictDataCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -100,11 +104,12 @@ class DictDataController extends MineController
 
     /**
      * 获取一个字典类型数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:dataDict:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:dataDict:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -112,12 +117,13 @@ class DictDataController extends MineController
 
     /**
      * 更新一个字典类型
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param DictDataCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:dataDict:update")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:dataDict:update"), OperationLog]
     public function update(int $id, DictDataCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -125,11 +131,12 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量字典数据
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dataDict:delete")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:dataDict:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -137,12 +144,12 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量真实删除字典 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dataDict:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:dataDict:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -150,11 +157,12 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量恢复在回收站的字典
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:dataDict:recovery")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:dataDict:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
@@ -162,12 +170,12 @@ class DictDataController extends MineController
 
     /**
      * 更改字典状态
-     * @PutMapping("changeStatus")
      * @param DictDataStatusRequest $request
      * @return ResponseInterface
-     * @Permission("system:dataDict:changeStatus")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("changeStatus"), Permission("system:dataDict:changeStatus"), OperationLog]
     public function changeStatus(DictDataStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))

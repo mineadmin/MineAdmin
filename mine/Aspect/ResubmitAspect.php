@@ -24,8 +24,8 @@ use Mine\Redis\MineLockRedis;
 /**
  * Class ResubmitAspect
  * @package Mine\Aspect
- * @Aspect
  */
+#[Aspect]
 class ResubmitAspect extends AbstractAspect
 {
 
@@ -41,7 +41,7 @@ class ResubmitAspect extends AbstractAspect
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
-        /** @var Resubmit $resubmit */
+        /** @var $resubmit Resubmit*/
         if (isset($proceedingJoinPoint->getAnnotationMetadata()->method[Resubmit::class])) {
             $resubmit = $proceedingJoinPoint->getAnnotationMetadata()->method[Resubmit::class];
         }
@@ -55,7 +55,7 @@ class ResubmitAspect extends AbstractAspect
 
         if ($lockRedis->check($key)) {
             $lockRedis = null;
-            throw new NormalStatusException(t('mineadmin.resubmit'), 500);
+            throw new NormalStatusException($resubmit->message ?: t('mineadmin.resubmit'), 500);
         }
 
         $lockRedis->lock($key, $resubmit->second);

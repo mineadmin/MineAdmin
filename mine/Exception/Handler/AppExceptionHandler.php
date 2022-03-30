@@ -16,18 +16,18 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\Codec\Json;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Hyperf\Logger\Logger;
 use Throwable;
 
 class AppExceptionHandler extends ExceptionHandler
 {
-    protected $logger;
+    protected Logger $logger;
 
     /**
      * @var StdoutLoggerInterface
      */
-    protected $console;
+    protected StdoutLoggerInterface $console;
 
     public function __construct()
     {

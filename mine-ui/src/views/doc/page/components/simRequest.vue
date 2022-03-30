@@ -6,6 +6,8 @@
           <el-select v-model="form.method">
             <el-option label="GET" value="GET">GET</el-option>
             <el-option label="POST" value="POST">POST</el-option>
+            <el-option label="PUT" value="PUT">PUT</el-option>
+            <el-option label="DELETE" value="DELETE">DELETE</el-option>
           </el-select>
         </template>
       </el-input>

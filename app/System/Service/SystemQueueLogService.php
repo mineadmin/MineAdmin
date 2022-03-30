@@ -25,16 +25,16 @@ class SystemQueueLogService extends AbstractService
     public $mapper;
 
     /**
-     * @Inject
      * @var SystemUserService
      */
-    public $userService;
+    #[Inject]
+    protected SystemUserService $userService;
 
     /**
-     * @Inject
      * @var DelayProducer
      */
-    protected $producer;
+    #[Inject]
+    protected DelayProducer $producer;
 
     /**
      * SystemQueueLogService constructor.

@@ -11,6 +11,7 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
@@ -20,42 +21,41 @@ use Mine\MineController;
  * 日志控制器
  * Class LogsController
  * @package App\System\Controller\Logs
- * @Controller(prefix="system/logs")
- * @Auth
  */
+#[Controller(prefix: "system/logs"), Auth]
 class LogsController extends MineController
 {
     /**
      * 登录日志服务
-     * @Inject
-     * @var SystemLoginLogService
      */
-    protected $loginLogService;
+    #[Inject]
+    protected SystemLoginLogService $loginLogService;
 
     /**
      * 操作日志服务
-     * @Inject
-     * @var SystemOperLogService
      */
-    protected $operLogService;
+    #[Inject]
+    protected SystemOperLogService $operLogService;
 
     /**
-     * @Inject
-     * @var SystemApiLogService
+     * 接口日志服务
      */
-    protected $apiLogService;
+    #[Inject]
+    protected SystemApiLogService $apiLogService;
 
     /**
-     * @Inject
-     * @var SystemQueueLogService
+     * 队列日志服务
      */
-    protected $queueLogService;
+    #[Inject]
+    protected SystemQueueLogService $queueLogService;
 
     /**
      * 获取登录日志列表
-     * @GetMapping("getLoginLogPageList")
-     * @Permission("system:loginLog")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getLoginLogPageList"), Permission("system:loginLog")]
     public function getLoginLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->loginLogService->getPageList($this->request->all()));
@@ -63,9 +63,11 @@ class LogsController extends MineController
 
     /**
      * 获取操作日志列表
-     * @GetMapping("getOperLogPageList")
-     * @Permission("system:operLog")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getOperLogPageList"), Permission("system:operLog")]
     public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->operLogService->getPageList($this->request->all()));
@@ -73,9 +75,11 @@ class LogsController extends MineController
 
     /**
      * 获取接口日志列表
-     * @GetMapping("getApiLogPageList")
-     * @Permission("system:apiLog")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getApiLogPageList"), Permission("system:apiLog")]
     public function getApiLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->apiLogService->getPageList($this->request->all()));
@@ -83,9 +87,11 @@ class LogsController extends MineController
 
     /**
      * 获取队列日志列表
-     * @GetMapping("getQueueLogPageList")
-     * @Permission("system:queueLog")
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getQueueLogPageList"), Permission("system:queueLog")]
     public function getQueueLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->queueLogService->getPageList($this->request->all()));
@@ -93,12 +99,12 @@ class LogsController extends MineController
 
     /**
      * 删除队列日志
-     * @DeleteMapping("deleteQueueLog/{ids}")
-     * @Permission("system:queueLog:delete")
-     * @OperationLog
      * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("deleteQueueLog/{ids}"), Permission("system:queueLog:delete"), OperationLog]
     public function deleteQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->queueLogService->delete($ids) ? $this->success() : $this->error();
@@ -106,12 +112,12 @@ class LogsController extends MineController
 
     /**
      * 重新加入队列
-     * @DeleteMapping("updateQueueLog/{ids}")
-     * @Permission("system:queueLog:produceStatus")
-     * @OperationLog
      * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("updateQueueLog/{ids}"), Permission("system:queueLog:produceStatus"), OperationLog]
     public function updateQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->queueLogService->updateProduceStatus($ids) ? $this->success() : $this->error();
@@ -119,12 +125,12 @@ class LogsController extends MineController
 
     /**
      * 删除操作日志
-     * @DeleteMapping("deleteOperLog/{ids}")
-     * @Permission("system:operLog:delete")
-     * @OperationLog
      * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("deleteOperLog/{ids}"), Permission("system:operLog:delete"), OperationLog]
     public function deleteOperLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->operLogService->delete($ids) ? $this->success() : $this->error();
@@ -132,12 +138,12 @@ class LogsController extends MineController
 
     /**
      * 删除登录日志
-     * @DeleteMapping("deleteLoginLog/{ids}")
-     * @Permission("system:loginLog:delete")
-     * @OperationLog
      * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("deleteLoginLog/{ids}"), Permission("system:loginLog:delete"), OperationLog]
     public function deleteLoginLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->loginLogService->delete($ids) ? $this->success() : $this->error();
@@ -145,12 +151,12 @@ class LogsController extends MineController
 
     /**
      * 删除API访问日志
-     * @DeleteMapping("deleteApiLog/{ids}")
-     * @Permission("system:apiLog:delete")
-     * @OperationLog
      * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("deleteApiLog/{ids}"), Permission("system:apiLog:delete"), OperationLog]
     public function deleteApiLog(String $ids): \Psr\Http\Message\ResponseInterface
     {
         return $this->apiLogService->delete($ids) ? $this->success() : $this->error();

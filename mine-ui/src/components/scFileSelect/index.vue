@@ -29,6 +29,7 @@
 					<el-upload class="sc-file-select__upload" action="" multiple :show-file-list="false" :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore" :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError" :http-request="uploadRequest">
 						<el-button type="primary" icon="el-icon-upload">本地上传</el-button>
 					</el-upload>
+					<el-button type="danger" icon="el-icon-picture" @click="$refs.network.open()" style="margin-left: 8px;">远程图片保存</el-button>
 					<span class="tips"><el-icon><el-icon-warning /></el-icon>大小不超过{{maxSize}}MB</span>
 				</div>
 				<div class="keyword">
@@ -75,212 +76,226 @@
 			</div>
 		</div>
 	</div>
+
+	<net-work ref="network" @saveSuccess="networkImage" />
 </template>
 
 <script>
-	import config from "@/config/fileSelect"
-	import uploadConfig from "@/config/upload"
+import config from "@/config/fileSelect"
+import uploadConfig from "@/config/upload"
+import netWork from './network.vue'
 
-	export default {
-		props: {
-			modelValue: null,
-			hideUpload: { type: Boolean, default: false },
-			multiple: { type: Boolean, default: false },
-			max: {type: Number, default: config.max},
-			onlyImage: { type: Boolean, default: true },
-			maxSize: {type: Number, default: uploadConfig.maxSize},
+export default {
+
+	components: {
+		netWork
+	},
+
+	props: {
+		modelValue: null,
+		hideUpload: { type: Boolean, default: false },
+		multiple: { type: Boolean, default: false },
+		max: {type: Number, default: config.max},
+		onlyImage: { type: Boolean, default: true },
+		maxSize: {type: Number, default: uploadConfig.maxSize},
+	},
+	data() {
+		return {
+			keyword: null,
+			pageSize: 20,
+			total: 0,
+			currentPage: 1,
+			data: [],
+			menu: [],
+			menuId: '',
+			value: this.multiple ? [] : '',
+			fileList: [],
+			accept: this.onlyImage ? "image/gif, image/jpeg, image/png" : "",
+			listLoading: false,
+			menuLoading: false,
+			treeProps: config.menuProps,
+			fileProps: config.fileProps,
+			files: config.files
+		}
+	},
+	watch: {
+		multiple(){
+			this.value = this.multiple ? [] : ''
+			this.$emit('update:modelValue', JSON.parse(JSON.stringify(this.value)));
+		}
+	},
+	mounted() {
+		this.getMenu()
+		this.getData()
+	},
+	methods: {
+
+		networkImage(data) {
+			this.data.push(data)
 		},
-		data() {
-			return {
-				keyword: null,
-				pageSize: 20,
-				total: 0,
-				currentPage: 1,
-				data: [],
-				menu: [],
-				menuId: '',
-				value: this.multiple ? [] : '',
-				fileList: [],
-				accept: this.onlyImage ? "image/gif, image/jpeg, image/png" : "",
-				listLoading: false,
-				menuLoading: false,
-				treeProps: config.menuProps,
-				fileProps: config.fileProps,
-				files: config.files
+
+		//获取分类数据
+		async getMenu(){
+			this.menuLoading = true
+			var res = await config.menuApiObj('attachment_type')
+			this.menu = res.data
+			this.menu.unshift({ label: '所有类型', value: undefined })
+			this.menuLoading = false
+		},
+		//获取列表数据
+		async getData(){
+			this.listLoading = true
+			var reqData = {
+				[config.request.menuKey]: this.menuId,
+				[config.request.page]: this.currentPage,
+				[config.request.pageSize]: this.pageSize,
+				[config.request.keyword]: this.keyword
 			}
-		},
-		watch: {
-			multiple(){
-				this.value = this.multiple ? [] : ''
-				this.$emit('update:modelValue', JSON.parse(JSON.stringify(this.value)));
+			if(this.onlyImage){
+				reqData.type = 'image'
 			}
+			var res = await config.listApiObj(reqData)
+			var parseData = config.listParseData(res)
+			this.data = parseData.rows.filter(item => {
+				return item.id
+			})
+			this.total = parseData.total
+			this.listLoading = false
+			this.$refs.scrollbar.setScrollTop(0)
 		},
-		mounted() {
-			this.getMenu()
+		//树点击事件
+		groupClick(data){
+			this.menuId = data.value
+			this.currentPage = 1
+			this.keyword = null
 			this.getData()
 		},
-		methods: {
-			//获取分类数据
-			async getMenu(){
-				this.menuLoading = true
-				var res = await config.menuApiObj()
-				this.menu = res.data
-				this.menuLoading = false
-			},
-			//获取列表数据
-			async getData(){
-				this.listLoading = true
-				var reqData = {
-					[config.request.menuKey]: this.menuId,
-					[config.request.page]: this.currentPage,
-					[config.request.pageSize]: this.pageSize,
-					[config.request.keyword]: this.keyword
+		//分页刷新表格
+		reload(){
+			this.getData()
+		},
+		search(){
+			this.currentPage = 1
+			this.getData()
+		},
+		select(item){
+			const itemUrl = item[this.fileProps.url]
+			if(this.multiple){
+				if (this.value.includes(itemUrl)) {
+					this.value.splice(this.value.findIndex(f => f == itemUrl), 1)
+				} else if(this.value.length<this.max) {
+					this.value.push(itemUrl)
 				}
-				if(this.onlyImage){
-					reqData.type = 'image'
-				}
-				var res = await config.listApiObj(reqData)
-				var parseData = config.listParseData(res)
-				this.data = parseData.rows.filter(item => {
-					return item.id
-				})
-				this.total = parseData.total
-				this.listLoading = false
-				this.$refs.scrollbar.setScrollTop(0)
-			},
-			//树点击事件
-			groupClick(data){
-				this.menuId = data.path
-				this.currentPage = 1
-				this.keyword = null
-				this.getData()
-			},
-			//分页刷新表格
-			reload(){
-				this.getData()
-			},
-			search(){
-				this.currentPage = 1
-				this.getData()
-			},
-			select(item){
-				const itemUrl = item[this.fileProps.url]
-				if(this.multiple){
-					if(this.value.includes(itemUrl)){
-						this.value.splice(this.value.findIndex(f => f == itemUrl), 1)
-					}else{
-						this.value.push(itemUrl)
-					}
+			}else{
+				if(this.value.includes(itemUrl)){
+					this.value = ''
 				}else{
-					if(this.value.includes(itemUrl)){
-						this.value = ''
-					}else{
-						this.value = itemUrl
-					}
+					this.value = itemUrl
 				}
-			},
-			submit(){
-				const value = JSON.parse(JSON.stringify(this.value))
-				this.$emit('update:modelValue', value);
-				this.$emit('submit', value);
-			},
-			//上传处理
-			uploadChange(file, fileList){
-				file.tempImg = URL.createObjectURL(file.raw);
-				this.fileList = fileList
-			},
-			uploadBefore(file){
-				const maxSize = file.size / 1024 / 1024 < this.maxSize;
-				if (!maxSize) {
-					this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`);
-					return false;
-				}
-			},
-			uploadRequest(param){
-				var apiObj = config.apiObj;
-				const data = new FormData();
-				data.append("image", param.file);
-				data.append([config.request.upPath], this.menuId);
-				apiObj(data, {
-					onUploadProgress: e => {
-						param.onProgress(e)
-					}
-				}).then(res => {
-					param.onSuccess(res)
-				}).catch(err => {
-					param.onError(err)
-				})
-			},
-			uploadProcess(event, file){
-				file.progress = Number((event.loaded / event.total * 100).toFixed(2))
-			},
-			uploadSuccess(res, file){
-				this.fileList.splice(this.fileList.findIndex(f => f.uid == file.uid), 1)
-				var response = config.uploadParseData(res);
-				this.data.unshift({
-					[this.fileProps.key]: response.id,
-					[this.fileProps.fileName]: response.fileName,
-					[this.fileProps.url]: response.url
-				})
-				if(!this.multiple){
-					this.value = response.url
-				}
-			},
-			uploadError(err){
-				this.$notify.error({
-					title: '上传文件错误',
-					message: err
-				})
-			},
-			//内置函数
-			_isImg(fileUrl){
-				const imgExt = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
-				const fileExt = fileUrl.substring(fileUrl.lastIndexOf("."))
-				return imgExt.indexOf(fileExt) != -1
-			},
-			_getExt(fileUrl){
-				return fileUrl.substring(fileUrl.lastIndexOf(".") + 1)
 			}
+		},
+		submit(){
+			const value = JSON.parse(JSON.stringify(this.value))
+			this.$emit('update:modelValue', value);
+			this.$emit('submit', value);
+		},
+		//上传处理
+		uploadChange(file, fileList){
+			file.tempImg = URL.createObjectURL(file.raw);
+			this.fileList = fileList
+		},
+		uploadBefore(file){
+			const maxSize = file.size / 1024 / 1024 < this.maxSize;
+			if (!maxSize) {
+				this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`);
+				return false;
+			}
+		},
+		uploadRequest(param){
+			var apiObj = config.apiObj;
+			const data = new FormData();
+			data.append("image", param.file);
+			data.append([config.request.upPath], this.menuId);
+			apiObj(data, {
+				onUploadProgress: e => {
+					param.onProgress(e)
+				}
+			}).then(res => {
+				param.onSuccess(res)
+			}).catch(err => {
+				param.onError(err)
+			})
+		},
+		uploadProcess(event, file){
+			file.progress = Number((event.loaded / event.total * 100).toFixed(2))
+		},
+		uploadSuccess(res, file){
+			this.fileList.splice(this.fileList.findIndex(f => f.uid == file.uid), 1)
+			var response = config.uploadParseData(res);
+			this.data.unshift({
+				[this.fileProps.key]: response.id,
+				[this.fileProps.fileName]: response.fileName,
+				[this.fileProps.url]: response.url
+			})
+			if(!this.multiple){
+				this.value = response.url
+			}
+		},
+		uploadError(err){
+			this.$notify.error({
+				title: '上传文件错误',
+				message: err
+			})
+		},
+		//内置函数
+		_isImg(fileUrl){
+			const imgExt = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
+			const fileExt = fileUrl.substring(fileUrl.lastIndexOf("."))
+			return imgExt.indexOf(fileExt) != -1
+		},
+		_getExt(fileUrl){
+			return fileUrl.substring(fileUrl.lastIndexOf(".") + 1)
 		}
 	}
+}
 </script>
 
 <style scoped>
-	.sc-file-select {display: flex;}
-	.sc-file-select__files {flex: 1;}
+.sc-file-select {display: flex;}
+.sc-file-select__files {flex: 1;}
 
-	.sc-file-select__list {height:400px;}
-	.sc-file-select__item {display: inline-block;float: left;margin:0 15px 25px 0;width:110px;cursor: pointer;}
-	.sc-file-select__item__file {width:110px;height:110px;position: relative;}
-	.sc-file-select__item__file .el-image {width:110px;height:110px;}
-	.sc-file-select__item__box {position: absolute;top:0;right:0;bottom:0;left:0;border: 2px solid var(--el-color-success);z-index: 1;display: none;}
-	.sc-file-select__item__box::before {content: '';position: absolute;top:0;right:0;bottom:0;left:0;background: var(--el-color-success);opacity: 0.2;display: none;}
-	.sc-file-select__item:hover .sc-file-select__item__box {display: block;}
-	.sc-file-select__item.active .sc-file-select__item__box {display: block;}
-	.sc-file-select__item.active .sc-file-select__item__box::before {display: block;}
-	.sc-file-select__item p {margin-top: 10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;-webkit-text-overflow:ellipsis;text-align: center;}
-	.sc-file-select__item__checkbox {position: absolute;width: 20px;height: 20px;top:7px;right:7px;z-index: 2;background: rgba(0,0,0,0.2);border: 1px solid #fff;display: flex;flex-direction: column;align-items: center;justify-content: center;}
-	.sc-file-select__item__checkbox i {font-size: 14px;color: #fff;font-weight: bold;display: none;}
-	.sc-file-select__item__select {position: absolute;width: 20px;height: 20px;top:0px;right:0px;z-index: 2;background: var(--el-color-success);display: none;flex-direction: column;align-items: center;justify-content: center;}
-	.sc-file-select__item__select i {font-size: 14px;color: #fff;font-weight: bold;}
-	.sc-file-select__item.active .sc-file-select__item__checkbox {background: var(--el-color-success);}
-	.sc-file-select__item.active .sc-file-select__item__checkbox i {display: block;}
-	.sc-file-select__item.active .sc-file-select__item__select {display: flex;}
-	.sc-file-select__item__file .item-file {width:110px;height:110px;display: flex;flex-direction: column;align-items: center;justify-content: center;}
-	.sc-file-select__item__file .item-file i {font-size: 40px;}
-	.sc-file-select__item__file .item-file.item-file-doc {color: #409eff;}
+.sc-file-select__list {height:400px;}
+.sc-file-select__item {display: inline-block;float: left;margin:0 15px 25px 0;width:110px;cursor: pointer;}
+.sc-file-select__item__file {width:110px;height:110px;position: relative;}
+.sc-file-select__item__file .el-image {width:110px;height:110px;}
+.sc-file-select__item__box {position: absolute;top:0;right:0;bottom:0;left:0;border: 2px solid var(--el-color-success);z-index: 1;display: none;}
+.sc-file-select__item__box::before {content: '';position: absolute;top:0;right:0;bottom:0;left:0;background: var(--el-color-success);opacity: 0.2;display: none;}
+.sc-file-select__item:hover .sc-file-select__item__box {display: block;}
+.sc-file-select__item.active .sc-file-select__item__box {display: block;}
+.sc-file-select__item.active .sc-file-select__item__box::before {display: block;}
+.sc-file-select__item p {margin-top: 10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;-webkit-text-overflow:ellipsis;text-align: center;}
+.sc-file-select__item__checkbox {position: absolute;width: 20px;height: 20px;top:7px;right:7px;z-index: 2;background: rgba(0,0,0,0.2);border: 1px solid #fff;display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.sc-file-select__item__checkbox i {font-size: 14px;color: #fff;font-weight: bold;display: none;}
+.sc-file-select__item__select {position: absolute;width: 20px;height: 20px;top:0px;right:0px;z-index: 2;background: var(--el-color-success);display: none;flex-direction: column;align-items: center;justify-content: center;}
+.sc-file-select__item__select i {font-size: 14px;color: #fff;font-weight: bold;}
+.sc-file-select__item.active .sc-file-select__item__checkbox {background: var(--el-color-success);}
+.sc-file-select__item.active .sc-file-select__item__checkbox i {display: block;}
+.sc-file-select__item.active .sc-file-select__item__select {display: flex;}
+.sc-file-select__item__file .item-file {width:110px;height:110px;display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.sc-file-select__item__file .item-file i {font-size: 40px;}
+.sc-file-select__item__file .item-file.item-file-doc {color: #409eff;}
 
-	.sc-file-select__item__upload {position: absolute;top:0;right:0;bottom:0;left:0;z-index: 1;background: rgba(255,255,255,0.7);display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.sc-file-select__item__upload {position: absolute;top:0;right:0;bottom:0;left:0;z-index: 1;background: rgba(255,255,255,0.7);display: flex;flex-direction: column;align-items: center;justify-content: center;}
 
-	.sc-file-select__side {width: 200px;margin-right: 15px;border-right: 1px solid rgba(128,128,128,0.2);display: flex;flex-flow: column;}
-	.sc-file-select__side-menu {flex: 1;}
-	.sc-file-select__side-msg {height:32px;line-height: 32px;}
+.sc-file-select__side {width: 200px;margin-right: 15px;border-right: 1px solid rgba(128,128,128,0.2);display: flex;flex-flow: column;}
+.sc-file-select__side-menu {flex: 1;}
+.sc-file-select__side-msg {height:32px;line-height: 32px;}
 
-	.sc-file-select__top {margin-bottom: 15px;display: flex;justify-content: space-between;}
-	.sc-file-select__upload {display: inline-block;}
-	.sc-file-select__top .tips {font-size: 12px;margin-left: 10px;color: #999;}
-	.sc-file-select__top .tips i {font-size: 14px;margin-right: 5px;position: relative;bottom: -0.125em;}
-	.sc-file-select__pagination {margin:15px 0;}
+.sc-file-select__top {margin-bottom: 15px;display: flex;justify-content: space-between;}
+.sc-file-select__upload {display: inline-block;}
+.sc-file-select__top .tips {font-size: 12px;margin-left: 10px;color: #999;}
+.sc-file-select__top .tips i {font-size: 14px;margin-right: 5px;position: relative;bottom: -0.125em;}
+.sc-file-select__pagination {margin:15px 0;}
 
-	.sc-file-select__do {text-align: right;}
+.sc-file-select__do {text-align: right;}
 </style>

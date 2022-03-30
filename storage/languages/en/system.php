@@ -15,6 +15,7 @@ return [
     'super_admin' => 'Super admin(Founder)',
     'no_permission' => 'No permission',
     'username_exists' => 'Username exists',
+    'unable_get_userinfo' => 'System exception, user information can not be obtained, please check the method -> SystemUserService@getInfo',
     'undefined_menu' => 'No menu defined',
     'no_login_user' => 'No login user',
     'rolecode_exists' => 'Role code already exists',

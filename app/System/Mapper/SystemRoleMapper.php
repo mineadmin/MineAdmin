@@ -49,6 +49,16 @@ class SystemRoleMapper extends AbstractMapper
     }
 
     /**
+     * 通过 code 查询角色名称
+     * @param string $code
+     * @return string
+     */
+    public function findNameByCode(string $code): ?string
+    {
+        return $this->model::query()->where('code', $code)->value('name');
+    }
+
+    /**
      * 检查角色code是否已存在
      * @param string $code
      * @return bool

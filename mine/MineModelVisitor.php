@@ -21,30 +21,26 @@ use Hyperf\Utils\Str;
  */
 class MineModelVisitor extends  Visitor
 {
+    /**
+     * @param string $type
+     * @return string|null
+     */
     protected function formatDatabaseType(string $type): ?string
     {
-        switch ($type) {
-            case 'tinyint':
-            case 'smallint':
-            case 'mediumint':
-            case 'int':
-            case 'bigint':
-                return 'integer';
-            case 'decimal':
-                // 设置为 decimal，并设置对应精度
-                return 'decimal:2';
-            case 'float':
-            case 'double':
-            case 'real':
-                return 'float';
-            case 'bool':
-            case 'boolean':
-                return 'boolean';
-            default:
-                return null;
-        }
+        return match ($type) {
+            'tinyint', 'smallint', 'mediumint', 'int', 'bigint' => 'integer',
+            'decimal' => 'decimal:2',
+            'float', 'double', 'real' => 'float',
+            'bool', 'boolean' => 'boolean',
+            default => null,
+        };
     }
 
+    /**
+     * @param string $type
+     * @param string|null $cast
+     * @return string|null
+     */
     protected function formatPropertyType(string $type, ?string $cast): ?string
     {
         if (! isset($cast)) {

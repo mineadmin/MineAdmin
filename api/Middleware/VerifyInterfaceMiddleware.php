@@ -18,7 +18,7 @@ use Mine\Event\ApiBefore;
 use App\System\Model\SystemApi;
 use App\System\Service\SystemApiService;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\Utils\Context;
+use Hyperf\Context\Context;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
 use Mine\MineRequest;
@@ -34,10 +34,10 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
 {
     /**
      * 事件调度器
-     * @Inject
      * @var EventDispatcherInterface
      */
-    protected $evDispatcher;
+    #[Inject]
+    protected EventDispatcherInterface $evDispatcher;
 
     /**
      * 验证检查接口
@@ -63,7 +63,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
     {
         $crossData = [
             'Access-Control-Allow-Origin'      => '*',
-            'Access-Control-Allow-Methods'     => 'POST,GET,OPTIONS',
+            'Access-Control-Allow-Methods'     => 'POST,GET,PUT,DELETE,OPTIONS',
             'Access-Control-Allow-Headers'     => 'Version, Access-Token, User-Token, Api-Auth, User-Agent, Keep-Alive, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
             'Access-Control-Allow-Credentials' => 'true'
         ];
@@ -92,11 +92,12 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
                     if (empty($queryParams['app_id'])) {
                         return MineCode::API_APP_ID_MISSING;
                     }
-                    if (empty($queryParams['app_secret'])) {
-                        return MineCode::API_APP_SECRET_MISSING;
+                    if (empty($queryParams['identity'])) {
+                        return MineCode::API_IDENTITY_MISSING;
                     }
-                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['app_secret']);
+                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity']);
                 case SystemApi::AUTH_MODE_NORMAL:
+
                     if (empty($queryParams['access_token'])) {
                         return MineCode::API_ACCESS_TOKEN_MISSING;
                     }

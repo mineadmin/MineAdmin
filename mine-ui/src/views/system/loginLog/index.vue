@@ -34,6 +34,10 @@
             </template>
             <el-form label-width="80px">
 
+              <el-form-item label="登录IP" prop="ip">
+                <el-input v-model="queryParams.ip" clearable placeholder="请输入登录IP"></el-input>
+              </el-form-item>
+
               <el-form-item label="状态" prop="status">
                 <el-select v-model="queryParams.status" placeholder="登录状态">
                   <el-option label="成功" value="0">成功</el-option>
@@ -100,6 +104,7 @@
         queryParams: {
           username: undefined,
           status: undefined,
+          ip: undefined,
           maxDate: undefined,
           minDate: undefined,
           orderBy: 'login_time',
@@ -189,6 +194,7 @@
         this.queryParams = {
           username: undefined,
           status: undefined,
+          ip: undefined,
           maxDate: undefined,
           minDate: undefined,
           orderBy: 'login_time',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\System\Service;
 
 use App\System\Mapper\SystemUploadFileMapper;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
@@ -21,10 +22,10 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 class SystemUploadFileService extends AbstractService
 {
     /**
-     * @Inject
-     * @var \Hyperf\Contract\ConfigInterface
+     * @var ConfigInterface
      */
-    public $config;
+    #[Inject]
+    protected $config;
 
     /**
      * @var SystemUploadFileMapper
@@ -34,7 +35,7 @@ class SystemUploadFileService extends AbstractService
     /**
      * @var MineUpload
      */
-    public $mineUpload;
+    protected MineUpload $mineUpload;
 
 
     public function __construct(SystemUploadFileMapper $mapper, MineUpload $mineUpload)
@@ -49,6 +50,8 @@ class SystemUploadFileService extends AbstractService
      * @param array $config
      * @return array
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
@@ -58,46 +61,6 @@ class SystemUploadFileService extends AbstractService
         } else {
             return [];
         }
-    }
-
-    /**
-     * 创建新目录
-     * @param array $params
-     * @return bool
-     */
-    public function createUploadDir(array $params): bool
-    {
-        $name = $params['name'];
-        if ($params['path'] ?? false) {
-            $name = $params['path'] . '/' . $name;
-        }
-        return $this->mineUpload->createUploadDir($name);
-    }
-
-    /**
-     * 删除目录
-     * @param array $params
-     * @return bool
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function deleteUploadDir(array $params): bool
-    {
-        if (! $this->mapper->checkDirDbExists($params['name'])) {
-            return $this->mineUpload->getFileSystem()->deleteDir($params['name']);
-        }
-        throw new NormalStatusException(t('system.directory_no_delete'), 500);
-    }
-
-    /**
-     * 获取根目录下所有目录
-     * @param string $path
-     * @param bool $isChildren
-     * @return array
-     */
-    public function getDirectory(string $path = '', bool $isChildren = false): array
-    {
-        return $this->mineUpload->getDirectory($path, $isChildren);
     }
 
     /**
@@ -161,7 +124,8 @@ class SystemUploadFileService extends AbstractService
      * 保存网络图片
      * @param array $data ['url', 'path']
      * @return array
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function saveNetworkImage(array $data): array
     {

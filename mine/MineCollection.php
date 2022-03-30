@@ -16,7 +16,6 @@ use Hyperf\Database\Model\Collection;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Mine\Exception\MineException;
-use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\MineModelExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -45,7 +44,7 @@ class MineCollection extends Collection
      */
     public function setRouter(&$menu): array
     {
-        $route = [
+        return [
             'id' => $menu['id'],
             'parent_id' => $menu['parent_id'],
             'name' => $menu['code'],
@@ -60,7 +59,6 @@ class MineCollection extends Collection
                 'hiddenBreadcrumb' => false
             ]
         ];
-        return $route;
     }
 
     /**
@@ -81,7 +79,7 @@ class MineCollection extends Collection
 
         foreach ($data as $value) {
             if ($value[$parentField] == $parentId) {
-                $child = $this->toTree($data, $value[$id]);
+                $child = $this->toTree($data, $value[$id], $id, $parentField, $children);
                 if (!empty($child)) {
                     $value[$children] = $child;
                 }
@@ -97,11 +95,13 @@ class MineCollection extends Collection
      * 导出数据
      * @param string $dto
      * @param string $filename
-     * @param null|Closure|array $closure
+     * @param array|\Closure|null $closure
      * @return object|\Psr\Http\Message\ResponseInterface|null
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function export(string $dto, string $filename, $closure = '')
+    public function export(string $dto, string $filename, array|\Closure $closure = null)
     {
         $data = $this->excelDataInit($dto, $closure);
         $spread = new Spreadsheet();
@@ -230,10 +230,10 @@ class MineCollection extends Collection
     /**
      * excel 数据导出初始化
      * @param string $dto
-     * @param null|Closure|array $closure
+     * @param array|Closure|null $closure
      * @return array
      */
-    protected function excelDataInit(string $dto, $closure = null): array
+    protected function excelDataInit(string $dto, array|\Closure $closure = null): array
     {
         $annMate = AnnotationCollector::get($dto);
         $annName = 'Mine\Annotation\ExcelProperty';

@@ -207,6 +207,14 @@
 				}
 				this.keyword = keyword;
 				this.getData()
+			},
+			// 触发select隐藏
+			blur(){
+				this.$refs.select.blur();
+			},
+			// 触发select显示
+			focus(){
+				this.$refs.select.focus();
 			}
 
 		}

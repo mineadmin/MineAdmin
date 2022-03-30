@@ -1,6 +1,9 @@
 # 项目介绍
 
 <p align="center">
+    <img src="https://doc.mineadmin.com/logo.svg" width="120" />
+</p>
+<p align="center">
     <a href="https://www.mineadmin.com" target="_blank">官网</a> |
     <a href="https://doc.mineadmin.com" target="_blank">文档</a> | 
     <a href="https://demo.mineadmin.com" target="_blank">演示</a> |
@@ -11,7 +14,7 @@
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.5.3" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v0.6.1" />
 </p>
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
@@ -22,6 +25,8 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 - 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
 - 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
+
+需要php7.4版本的请移步 `master74` 分支：[点此进入](https://gitee.com/xmo/MineAdmin/tree/master7.4/)
 
 ## 内置功能
 
@@ -48,9 +53,9 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 21. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
 
 ## 环境需求
-
+**PHP必须是8.0版本** **PHP必须是8.0版本** **PHP必须是8.0版本** 
 - Swoole >= 4.6.x 并关闭 `Short Name`
-- PHP >= 8.0 并开启以下扩展：
+- PHP = 8.0 并开启以下扩展：
     - mbstring
     - json
     - pdo

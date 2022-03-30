@@ -19,19 +19,19 @@ class MineCrontab extends Crontab
      * 失败策略
      * @var string
      */
-    protected $failPolicy = '3';
+    protected string $failPolicy = '3';
 
     /**
      * 调用参数
      * @var string
      */
-    protected $parameter;
+    protected string $parameter;
 
     /**
      * 任务ID
      * @var integer
      */
-    protected $crontab_id;
+    protected int $crontab_id;
 
     /**
      * @return string

@@ -7,31 +7,16 @@ use App\System\Model\SystemUser;
 use App\System\Service\SystemLoginLogService;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
-use Hyperf\Redis\Redis;
 use Mine\Event\UserLoginAfter;
 use Mine\Helper\Str;
 use Mine\MineRequest;
-use Psr\Container\ContainerInterface;
 
 /**
  * Class LoginListener
- * @Listener
  */
+#[Listener]
 class LoginListener implements ListenerInterface
 {
-    protected $request;
-
-    protected $sysLoginLogService;
-
-    protected $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-        $this->request = $this->container->get(MineRequest::class);
-        $this->sysLoginLogService = $this->container->get(SystemLoginLogService::class);
-    }
-
     public function listen(): array
     {
         return [
@@ -46,9 +31,13 @@ class LoginListener implements ListenerInterface
      */
     public function process(object $event)
     {
-        $agent = $this->request->getHeader('user-agent')[0];
-        $ip = $this->request->ip();
-        $this->sysLoginLogService->save([
+        $request = container()->get(MineRequest::class);
+        $service = container()->get(SystemLoginLogService::class);
+        $redis = redis();
+
+        $agent = $request->getHeader('user-agent')[0];
+        $ip = $request->ip();
+        $service->save([
             'username' => $event->userinfo['username'],
             'ip' => $ip,
             'ip_location' => Str::ipToRegion($ip),
@@ -59,9 +48,10 @@ class LoginListener implements ListenerInterface
             'login_time' => date('Y-m-d H:i:s')
         ]);
 
-        $redis = $this->container->get(Redis::class);
+        $key = sprintf("%sToken:%s", config('cache.default.prefix'), $event->userinfo['id']);
 
-        $redis->set(config('cache.default.prefix') .'Token:'.$event->userinfo['id'], $event->token);
+        $redis->exists($key) && $redis->del($key);
+        ($event->loginStatus && $event->token) && $redis->set( $key, $event->token, config('jwt.ttl') );
 
         if ($event->loginStatus) {
             $event->userinfo['login_ip'] = $ip;

@@ -20,8 +20,8 @@ use Mine\MineRequest;
 
 /**
  * API访问日志保存
- * @Listener
  */
+#[Listener]
 class ApiLogListener implements ListenerInterface
 {
 

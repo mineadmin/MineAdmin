@@ -105,7 +105,7 @@ export default {
   clear () {
     return request({
       url: 'system/cache/clear',
-      method: 'post'
+      method: 'delete'
     })
   },
 }

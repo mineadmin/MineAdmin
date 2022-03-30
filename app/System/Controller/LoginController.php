@@ -17,36 +17,33 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class LoginController
  * @package App\System\Controller
- * @Controller(prefix="system")
  */
+#[Controller(prefix: "system")]
 class LoginController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemUserService
-     */
-    protected $systemUserService;
+    #[Inject]
+    protected SystemUserService $systemUserService;
 
     /**
-     * @GetMapping("captcha")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
+    #[GetMapping("captcha")]
     public function captcha(): ResponseInterface
     {
         return $this->response->responseImage($this->systemUserService->getCaptcha());
     }
 
     /**
-     * @PostMapping("login")
      * @param SystemUserLoginRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
+    #[PostMapping("login")]
     public function login(SystemUserLoginRequest $request): ResponseInterface
     {
         $token = $this->systemUserService->login($request->validated());
@@ -54,11 +51,12 @@ class LoginController extends MineController
     }
 
     /**
-     * @Auth
-     * @PostMapping("logout")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
+    #[PostMapping("logout"), Auth]
     public function logout(): ResponseInterface
     {
         $this->systemUserService->logout();
@@ -66,9 +64,12 @@ class LoginController extends MineController
     }
 
     /**
-     * @Auth
-     * @GetMapping("getInfo")
+     * 用户信息
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getInfo"), Auth]
     public function getInfo(): ResponseInterface
     {
         return $this->success($this->systemUserService->getInfo());
@@ -76,11 +77,13 @@ class LoginController extends MineController
 
     /**
      * 刷新token
-     * @PostMapping("refresh")
      * @param LoginUser $user
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
+    #[PostMapping("refresh")]
     public function refresh(LoginUser $user): ResponseInterface
     {
         return $this->success(['token' => $user->refresh()]);

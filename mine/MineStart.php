@@ -12,10 +12,8 @@
 declare(strict_types=1);
 namespace Mine;
 
-use Hyperf\Contract\StdoutLoggerInterface;
+use App\Setting\Service\ModuleService;
 use Hyperf\Framework\Bootstrap\ServerStartCallback;
-use Hyperf\Utils\ApplicationContext;
-use Swoole\Timer;
 
 class MineStart extends ServerStartCallback
 {
@@ -25,6 +23,9 @@ class MineStart extends ServerStartCallback
      */
     public function beforeStart()
     {
+        $service = container()->get(ModuleService::class);
+        $service->setModuleEnabled();
+        $service->setModuleCache();
         $console = console();
         $console->info('MineAdmin start success...');
         $console->info($this->welcome());

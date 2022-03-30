@@ -14,9 +14,7 @@
 declare(strict_types=1);
 namespace Mine\Generator;
 
-use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
-use App\Setting\Service\SettingGenerateColumnsService;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
@@ -31,22 +29,24 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var SettingGenerateTables
      */
-    protected $model;
+    protected SettingGenerateTables $model;
 
     /**
      * @var string
      */
-    protected $codeContent;
+    protected string $codeContent;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
      * @return ApiGenerator
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function setGenInfo(SettingGenerateTables $model): ApiGenerator
     {

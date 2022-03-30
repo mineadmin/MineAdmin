@@ -14,13 +14,13 @@ namespace Mine\Event;
 
 class UserLoginAfter
 {
-    public $userinfo;
+    public array $userinfo;
 
-    public $loginStatus = true;
+    public bool $loginStatus = true;
 
-    public $message;
+    public string $message;
 
-    public $token;
+    public string $token;
 
     public function __construct(array $userinfo)
     {

@@ -23,30 +23,29 @@ use Psr\Http\Message\ResponseInterface;
  * 代码生成器控制器
  * Class CodeController
  * @package App\Setting\Controller\Tools
- * @Controller(prefix="setting/code")
- * @Auth
  */
+#[Controller(prefix: "setting/code"), Auth]
 class GenerateCodeController extends MineController
 {
     /**
      * 信息表服务
-     * @Inject
-     * @var SettingGenerateTablesService
      */
-    protected $tableService;
+    #[Inject]
+    protected SettingGenerateTablesService $tableService;
 
     /**
      * 信息字段表服务
-     * @Inject
-     * @var SettingGenerateColumnsService
      */
-    protected $columnService;
+    #[Inject]
+    protected SettingGenerateColumnsService $columnService;
 
     /**
      * 代码生成列表分页
-     * @GetMapping("index")
-     * @Permission("setting:code:index")
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("setting:code")]
     public function index(): ResponseInterface
     {
         return $this->success($this->tableService->getPageList($this->request->All()));
@@ -54,8 +53,11 @@ class GenerateCodeController extends MineController
 
     /**
      * 获取业务表字段信息
-     * @GetMapping("getTableColumns")
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("getTableColumns")]
     public function getTableColumns(): ResponseInterface
     {
         return $this->success($this->columnService->getList($this->request->all()));
@@ -63,10 +65,12 @@ class GenerateCodeController extends MineController
 
     /**
      * 预览代码
-     * @GetMapping("preview")
-     * @Permission("setting:code:preview")
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
+    #[GetMapping("preview"), Permission("setting:code:preview")]
     public function preview(): ResponseInterface
     {
         return $this->success($this->tableService->preview((int) $this->request->input('id', 0)));
@@ -75,23 +79,24 @@ class GenerateCodeController extends MineController
     /**
      * 更新业务表信息
      * @PostMapping("update")
-     * @Permission("setting:code:update")
      * @param GenerateUpdateRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("update"), Permission("setting:code:update"), OperationLog]
     public function update(GenerateUpdateRequest $request): ResponseInterface
     {
-        return $this->success($this->tableService->updateTableAndColumns($request->validated()));
+        return $this->tableService->updateTableAndColumns($request->validated()) ? $this->success() : $this->error();
     }
 
     /**
      * 生成代码
-     * @PostMapping("generate/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("setting:code:generate")
      * @throws \Exception
      */
+    #[PostMapping("generate/{ids}"), Permission("setting:code:generate"), OperationLog]
     public function generate(string $ids): ResponseInterface
     {
         return $this->_download($this->tableService->generate($ids), 'mineadmin.zip');
@@ -99,12 +104,12 @@ class GenerateCodeController extends MineController
 
     /**
      * 加载数据表
-     * @PostMapping("loadTable")
-     * @Permission("setting:code:loadTable")
-     * @OperationLog
      * @param LoadTableRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("loadTable"), Permission("setting:code:loadTable"), OperationLog]
     public function loadTable(LoadTableRequest $request): ResponseInterface
     {
         return $this->tableService->loadTable($request->input('names')) ? $this->success() : $this->error();
@@ -112,27 +117,27 @@ class GenerateCodeController extends MineController
 
     /**
      * 删除代码生成表
-     * @DeleteMapping("delete/{ids}")
-     * @Permission("setting:code:delete")
-     * @OperationLog
      * @param string $ids
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("setting:code:delete"), OperationLog]
     public function delete(string $ids): ResponseInterface
     {
-        return $this->success($this->tableService->delete($ids));
+        return $this->tableService->delete($ids) ? $this->success() : $this->error();
     }
 
     /**
      * 同步数据库中的表信息跟字段
-     * @PutMapping("sync/{id}")
-     * @Permission("setting:code:sync")
-     * @OperationLog
      * @param int $id
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("sync/{id}"), Permission("setting:code:sync"), OperationLog]
     public function sync(int $id): ResponseInterface
     {
-        return $this->success($this->tableService->sync($id));
+        return $this->tableService->sync($id) ? $this->success() : $this->error();
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Mine\Crontab;
 
 use App\Setting\Model\SettingCrontab;
-use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Crontab\Parser;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
@@ -28,40 +27,44 @@ use Psr\Container\ContainerInterface;
 class MineCrontabManage
 {
     /**
-     * @Inject
-     * @var ContainerInterface
+     * ContainerInterface
      */
-    protected $container;
+    #[Inject]
+    protected ContainerInterface $container;
 
     /**
-     * @Inject
-     * @var Parser
+     * Parser
      */
-    protected $parser;
+    #[Inject]
+    protected Parser $parser;
 
     /**
-     * @Inject
-     * @var ClientFactory
+     * ClientFactory
      */
-    protected $clientFactory;
+    #[Inject]
+    protected ClientFactory $clientFactory;
 
     /**
-     * @var Redis
+     * Redis
      */
-    protected $redis;
+    protected Redis $redis;
 
 
     /**
      * MineCrontabManage constructor.
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __construct()
     {
-        $this->redis = $this->container->get(Redis::class);
+        $this->redis = redis();
     }
 
     /**
      * 获取定时任务列表
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getCrontabList(): array
     {
@@ -77,7 +80,10 @@ class MineCrontabManage
             $data = unserialize($data);
         }
 
-        $logger = $this->container->get(StdoutLoggerInterface::class);
+        if (is_null($data)) {
+            return [];
+        }
+
         $last = time();
         $list = [];
 
@@ -93,7 +99,7 @@ class MineCrontabManage
             $crontab->setRule($item['rule']);
 
             if (!$this->parser->isValid($crontab->getRule())) {
-                $logger->info('Crontab task ['.$item['name'].'] rule error, skipping execution');
+                console()->info('Crontab task ['.$item['name'].'] rule error, skipping execution');
                 continue;
             }
 

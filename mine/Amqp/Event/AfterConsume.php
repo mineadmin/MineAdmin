@@ -23,10 +23,10 @@ class AfterConsume
     public $data;
     public $result;
 
-    public function __construct($message, $data, string $result)
+    public function __construct($message, $data, $result)
     {
         $this->message = $message;
-        $this->data = $data;
-        $this->result = $result;
+        $this->data    = $data;
+        $this->result  = $result;
     }
 }

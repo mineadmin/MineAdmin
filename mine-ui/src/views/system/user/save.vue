@@ -20,16 +20,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="头像" prop="avatar">
-            <el-avatar
-              class="avatar"
-              shape="square"
-              :size="96"
-              :src="form.avatar"
-              @error="() => true"
-            >
-              <i class="el-icon-s-custom" style="font-size: 96px" />
-            </el-avatar>
-            <ma-resource-select style="padding:0" :resource="true" @upload-data="handleResource" />
+            <sc-upload v-model="form.avatar" title="选择头像" file-select></sc-upload>
           </el-form-item>
         </el-col>
       </el-row>
@@ -193,7 +184,7 @@
       },
 
       handleResource(data) {
-        this.form.avatar = this.viewImage(data.pop().url)
+        this.form.avatar = this.viewImage(data)
       },
 
       // 请求部门、角色、岗位数据

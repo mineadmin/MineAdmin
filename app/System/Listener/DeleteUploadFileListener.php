@@ -12,8 +12,8 @@ use Mine\Event\RealDeleteUploadFile;
 /**
  * Class DeleteUploadFileListener
  * @package App\System\Listener
- * @Listener
  */
+#[Listener]
 class DeleteUploadFileListener implements ListenerInterface
 {
     public function listen(): array

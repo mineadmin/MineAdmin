@@ -12,6 +12,7 @@
 declare(strict_types = 1);
 namespace Mine\Annotation;
 
+use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
@@ -19,17 +20,18 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 class Transaction extends AbstractAnnotation
 {
     /**
      * retry 重试次数
      * @var int
      */
-    public $retry = 1;
+    public int $retry = 1;
 
-    public function __construct($value)
+    public function __construct($value = 1)
     {
         parent::__construct($value);
-        $this->bindMainProperty('retry', $value);
+        $this->bindMainProperty('retry', [ $value ]);
     }
 }

@@ -20,9 +20,9 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class CreateModel
- * @Command
  * @package System\Command\Creater
  */
+#[Command]
 class CreateModel extends MineCommand
 {
     protected $name = 'mine:model-gen';

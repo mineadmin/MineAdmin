@@ -26,7 +26,7 @@
         remoteSort
         remoteFilter
       >
-        
+
         <el-table-column
           label="用户名"
           prop="username"
@@ -61,7 +61,7 @@
             v-auth="['system:onlineUser:kick']"
             @click="handleKick(scope.row)"
           >强退用户</el-button>
-            
+
           </template>
         </el-table-column>
 

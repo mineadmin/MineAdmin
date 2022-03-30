@@ -25,32 +25,32 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class UserController
  * @package App\System\Controller
- * @Controller(prefix="system/user")
- * @Auth
  */
+#[Controller(prefix: "system/user"), Auth]
 class UserController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemUserService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemUserService $service;
 
     /**
-     * @GetMapping("index")
+     * 用户列表
      * @return ResponseInterface
-     * @Permission("system:user:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:user:index")]
     public function index(): ResponseInterface
     {
-        return $this->success($this->service->getPageList($this->request->all()));
+        return $this->success($this->service->getPageList($this->request->all(), false));
     }
 
     /**
-     * @GetMapping("recycle")
+     * 回收站列表
      * @return ResponseInterface
-     * @Permission("system:user:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:user:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -58,14 +58,12 @@ class UserController extends MineController
 
     /**
      * 新增一个用户
-     * @PostMapping("save")
      * @param SystemUserCreateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Permission("system:user:save")
-     * @OperationLog
      */
+    #[PostMapping("save"), Permission("system:user:save"), OperationLog]
     public function save(SystemUserCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -73,11 +71,12 @@ class UserController extends MineController
 
     /**
      * 获取一个用户信息
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:user:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:user:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -85,13 +84,13 @@ class UserController extends MineController
 
     /**
      * 更新一个用户信息
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemUserUpdateRequest $request
      * @return ResponseInterface
-     * @Permission("system:user:update")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:user:update"), OperationLog]
     public function update(int $id, SystemUserUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -99,12 +98,12 @@ class UserController extends MineController
 
     /**
      * 单个或批量删除用户到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:user:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{id}"), Permission("system:user:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -112,12 +111,12 @@ class UserController extends MineController
 
     /**
      * 单个或批量真实删除用户 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:user:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:user:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -125,12 +124,12 @@ class UserController extends MineController
 
     /**
      * 单个或批量恢复在回收站的用户
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:user:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:user:recovery"), OperationLog]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();
@@ -138,12 +137,12 @@ class UserController extends MineController
 
     /**
      * 更改用户状态
-     * @PutMapping("changeStatus")
      * @param SystemUserStatusRequest $request
      * @return ResponseInterface
-     * @Permission("system:user:changeStatus")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("changeStatus"), Permission("system:user:changeStatus"), OperationLog]
     public function changeStatus(SystemUserStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
@@ -152,26 +151,26 @@ class UserController extends MineController
 
     /**
      * 清除用户缓存
-     * @PostMapping("clearCache")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Permission("system:user:cache")
      */
+    #[PostMapping("clearCache"), Permission("system:user:cache")]
     public function clearCache(): ResponseInterface
     {
-        return $this->success($this->service->clearCache((string) $this->request->input('id', null)));
+        return $this->service->clearCache((string) $this->request->input('id', null))
+            ? $this->success()
+            : $this->error();
     }
 
     /**
      * 设置用户首页
-     * @PostMapping("setHomePage")
      * @param SystemUserHompPageRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Permission("system:user:homePage")
      */
+    #[PostMapping("setHomePage"), Permission("system:user:homePage")]
     public function setHomePage(SystemUserHompPageRequest $request): ResponseInterface
     {
         return $this->service->setHomePage($request->validated()) ? $this->success() : $this->error();
@@ -179,12 +178,12 @@ class UserController extends MineController
 
     /**
      * 初始化用户密码
-     * @PutMapping("initUserPassword/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:user:initUserPassword")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("initUserPassword/{id}"), Permission("system:user:initUserPassword"), OperationLog]
     public function initUserPassword(int $id): ResponseInterface
     {
         return $this->service->initUserPassword($id) ? $this->success() : $this->error();
@@ -192,22 +191,24 @@ class UserController extends MineController
 
     /**
      * 更改用户资料，含修改头像 (不验证权限)
-     * @PostMapping("updateInfo")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("updateInfo")]
     public function updateInfo(): ResponseInterface
     {
-        return $this->success($this->service->updateInfo($this->request->all()));
+        return $this->service->updateInfo($this->request->all()) ? $this->success() : $this->error();
     }
 
     /**
      * 修改密码 (不验证权限)
-     * @PostMapping("modifyPassword")
      * @param SystemUserPasswordRequest $request
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("modifyPassword")]
     public function modifyPassword(SystemUserPasswordRequest $request): ResponseInterface
     {
         return $this->service->modifyPassword($request->validated()) ? $this->success() : $this->error();
@@ -215,11 +216,10 @@ class UserController extends MineController
 
     /**
      * 用户导出
-     * @PostMapping("export")
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @Permission("system:user:export")
      * @return ResponseInterface
      */
+    #[PostMapping("export"), Permission("system:user:export"), OperationLog]
     public function export(): ResponseInterface
     {
         return $this->service->export($this->request->all(), \App\System\Dto\UserDto::class, '用户列表');
@@ -227,11 +227,12 @@ class UserController extends MineController
 
     /**
      * 用户导入
-     * @PostMapping("import")
-     * @Permission("system:user:import")
      * @return ResponseInterface
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("import"), Permission("system:user:import")]
     public function import(): ResponseInterface
     {
         return $this->service->import(\App\System\Dto\UserDto::class) ? $this->success() : $this->error();
@@ -239,10 +240,12 @@ class UserController extends MineController
 
     /**
      * 下载导入模板
-     * @PostMapping("downloadTemplate")
      * @return ResponseInterface
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("downloadTemplate")]
     public function downloadTemplate(): ResponseInterface
     {
         return (new MineCollection)->export(\App\System\Dto\UserDto::class, '模板下载', []);
@@ -250,11 +253,11 @@ class UserController extends MineController
 
     /**
      * 清除自己缓存
-     * @PostMapping("clearSelfCache")
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("clearSelfCache")]
     public function clearSelfCache(): ResponseInterface
     {
         return $this->service->clearCache(user()->getId()) ? $this->success() : $this->error();

@@ -26,10 +26,11 @@ class SystemAppGroupService extends AbstractService
     /**
      * 获取分组列表 无分页
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getList(?array $params = null): array
+    public function getList(?array $params = null, bool $isScope = true): array
     {
-        return $this->mapper->getList(['select' => ['id', 'name'], 'status' => '0']);
+        return $this->mapper->getList(['select' => ['id', 'name'], 'status' => '0'], $isScope);
     }
 }

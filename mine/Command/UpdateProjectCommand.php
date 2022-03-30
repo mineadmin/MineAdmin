@@ -20,9 +20,9 @@ use Mine\Mine;
 
 /**
  * Class UpdateProjectCommand
- * @Command
  * @package System\Command
  */
+#[Command]
 class UpdateProjectCommand extends MineCommand
 {
     /**
@@ -31,13 +31,11 @@ class UpdateProjectCommand extends MineCommand
      */
     protected $name = 'mine:update';
 
-    protected $database = [];
+    protected array $database = [];
 
-    protected $redis = [];
+    protected Seed $seed;
 
-    protected $seed;
-
-    protected $migrator;
+    protected Migrator $migrator;
 
     /**
      * UpdateProjectCommand constructor.

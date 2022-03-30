@@ -20,22 +20,27 @@ class SettingCrontabService extends AbstractService
     public $mapper;
 
     /**
-     * @Inject
      * @var ContainerInterface
      */
-    protected $container;
+    #[Inject]
+    protected ContainerInterface $container;
 
     /**
      * @var Redis
      */
-    protected $redis;
+    protected Redis $redis;
 
     /**
-     * @Value("cache.default.prefix")
      * @var string
      */
-    protected $prefix;
+    #[Value("cache.default.prefix")]
+    protected string $prefix;
 
+    /**
+     * @param SettingCrontabMapper $mapper
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function __construct(SettingCrontabMapper $mapper)
     {
         $this->mapper = $mapper;
@@ -86,6 +91,8 @@ class SettingCrontabService extends AbstractService
      * 立即执行一次定时任务
      * @param $id
      * @return bool|null
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function run($id): ?bool
     {

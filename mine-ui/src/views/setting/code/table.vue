@@ -27,6 +27,7 @@
       :api="api"
       rowKey="name"
       @selection-change="selectionChange"
+      :reserve-selection="true"
       stripe
       remoteSort
       remoteFilter
@@ -88,7 +89,6 @@ export default {
     // 显示表分页
     show () {
       this.dialogVisible = true
-      this.names = []
     },
 
     // 装载数据表

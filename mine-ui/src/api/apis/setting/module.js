@@ -17,11 +17,11 @@ export default {
    * 创建新模块
    * @returns
    */
-  save (params = {}) {
+  save (data = {}) {
     return request({
       url: 'setting/module/save',
       method: 'put',
-      params
+      data
     })
   },
 
@@ -33,6 +33,29 @@ export default {
     return request({
       url: 'setting/module/delete/' + name,
       method: 'delete'
+    })
+  },
+
+  /**
+   * 安装模块
+   * @returns
+   */
+  install (name) {
+    return request({
+      url: 'setting/module/install/' + name,
+      method: 'put'
+    })
+  },
+
+  /**
+   * 启停用模块
+   * @returns
+   */
+   modifyStatus (data = {}) {
+    return request({
+      url: 'setting/module/modifyStatus',
+      method: 'post',
+      data
     })
   }
 }

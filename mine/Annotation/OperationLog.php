@@ -12,6 +12,7 @@
 declare(strict_types = 1);
 namespace Mine\Annotation;
 
+use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
@@ -19,17 +20,18 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target({"METHOD"})
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 class OperationLog extends AbstractAnnotation
 {
     /**
      * 菜单名称
      * @var string
      */
-    public $menuName;
+    public string $menuName;
 
-    public function __construct($value = null)
+    public function __construct($value = '')
     {
         parent::__construct($value);
-        $this->bindMainProperty('menuName', $value);
+        $this->bindMainProperty('menuName', [ $value ]);
     }
 }

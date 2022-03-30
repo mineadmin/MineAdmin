@@ -28,7 +28,6 @@ class ValidationExceptionHandler extends ExceptionHandler
         $this->stopPropagation();
         /** @var \Hyperf\Validation\ValidationException $throwable */
         $body = $throwable->validator->errors()->first();
-        $this->stopPropagation();
         $format = [
             'success' => false,
             'message' => $body,

@@ -19,7 +19,7 @@
             </el-descriptions-item>
             <el-descriptions-item label="认证说明">
               <div v-if="apiData.auth_mode === '0'">
-                简易模式下，只需要在接口后面带上 <el-tag>app_id</el-tag> 和<el-tag>app_secret</el-tag>
+                简易模式下，只需要在接口后面带上 <el-tag>app_id</el-tag> 和<el-tag>identity</el-tag>
               </div>
               <div v-else>
                 复杂模式下，先需要获取 <el-tag>AccessToken</el-tag>，再以此请求接口

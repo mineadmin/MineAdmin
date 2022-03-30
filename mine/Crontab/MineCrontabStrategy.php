@@ -18,19 +18,21 @@ use Hyperf\Di\Annotation\Inject;
 class MineCrontabStrategy
 {
     /**
-     * @Inject
-     * @var MineCrontabManage
+     * MineCrontabManage
      */
-    protected $mineCrontabManage;
+    #[Inject]
+    protected MineCrontabManage $mineCrontabManage;
 
     /**
-     * @Inject
-     * @var MineExecutor
+     * MineExecutor
      */
-    protected $executor;
+    #[Inject]
+    protected MineExecutor $executor;
 
     /**
      * @param MineCrontab $crontab
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function dispatch(MineCrontab $crontab)
     {
@@ -46,6 +48,8 @@ class MineCrontabStrategy
     /**
      * 执行一次
      * @param MineCrontab $crontab
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function executeOnce(MineCrontab $crontab)
     {

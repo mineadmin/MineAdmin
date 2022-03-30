@@ -12,6 +12,7 @@
 declare(strict_types = 1);
 namespace Mine\Annotation;
 
+use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
@@ -19,9 +20,10 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
  * @Annotation
  * @Target("PROPERTY")
  */
+#[Attribute(Attribute::TARGET_PROPERTY)]
 class ExcelProperty extends AbstractAnnotation
 {
-    public $value;
+    public string $value;
 
-    public $index;
+    public string $index;
 }

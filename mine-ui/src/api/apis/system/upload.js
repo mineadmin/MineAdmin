@@ -3,18 +3,6 @@ import { request } from '@/utils/request.js'
 export default {
 
   /**
-   * 获取目录列表
-   * @returns
-   */
-  getDirectory (params = {}) {
-    return request({
-      url: 'system/getDirectory',
-      method: 'get',
-      params
-    })
-  },
-
-  /**
    * 获取所有文件
    * @returns
    */
@@ -27,30 +15,6 @@ export default {
   },
 
   /**
-   * 创建上传目录
-   * @returns
-   */
-  createUploadDir (params = {}) {
-    return request({
-      url: 'system/createUploadDir',
-      method: 'post',
-      params
-    })
-  },
-
-  /**
-   * 删除目录
-   * @returns
-   */
-  deleteUploadDir (data = {}) {
-    return request({
-      url: 'system/deleteUploadDir',
-      method: 'post',
-      data
-    })
-  },
-
-  /**
    * 上传图片接口
    * @returns
    */
@@ -58,6 +22,7 @@ export default {
     return request({
       url: 'system/uploadImage',
       method: 'post',
+      timeout: 30000,
       data
     })
   },
@@ -70,6 +35,7 @@ export default {
     return request({
       url: 'system/uploadFile',
       method: 'post',
+      timeout: 30000,
       data
     })
   },

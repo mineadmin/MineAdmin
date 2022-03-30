@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace App\System\Service;
 
@@ -13,9 +14,10 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Event\UserLoginAfter;
-use Mine\Event\UploadAfter;
 use Mine\Event\UserLoginBefore;
+use Mine\Event\UserLogout;
 use Mine\Exception\CaptchaException;
+use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
 use Mine\Exception\UserBanException;
 use Mine\Helper\MineCaptcha;
@@ -33,31 +35,31 @@ use Psr\SimpleCache\InvalidArgumentException;
 class SystemUserService extends AbstractService
 {
     /**
-     * @Inject
      * @var EventDispatcherInterface
      */
-    protected $evDispatcher;
+    #[InJect]
+    protected EventDispatcherInterface $evDispatcher;
 
     /**
-     * @Inject
      * @var MineRequest
      */
-    protected $request;
+    #[Inject]
+    protected MineRequest $request;
 
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @var SystemMenuService
      */
-    protected $sysMenuService;
+    protected SystemMenuService $sysMenuService;
 
     /**
      * @var SystemRoleService
      */
-    protected $sysRoleService;
+    protected SystemRoleService $sysRoleService;
 
     /**
      * @var SystemUserMapper
@@ -108,6 +110,7 @@ class SystemUserService extends AbstractService
      * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function checkCaptcha(String $code): bool
     {
@@ -135,7 +138,7 @@ class SystemUserService extends AbstractService
         try {
             $this->evDispatcher->dispatch(new UserLoginBefore($data));
             $userinfo = $this->mapper->checkUserByUsername($data['username']);
-            $userLoginAfter = new UserLoginAfter($userinfo);
+            $userLoginAfter = new UserLoginAfter($userinfo->toarray());
             $webLoginVerify = container()->get(SettingConfigService::class)->getConfigByKey('web_login_verify');
             if (isset($webLoginVerify['value']) && $webLoginVerify['value'] === '1') {
                 if (! $this->checkCaptcha($data['code'])) {
@@ -193,17 +196,22 @@ class SystemUserService extends AbstractService
     public function logout()
     {
         $user = user();
-        $this->evDispatcher->dispatch(new UploadAfter($user->getUserInfo()));
+        $this->evDispatcher->dispatch(new UserLogout($user->getUserInfo()));
         $user->getJwt()->logout();
     }
 
     /**
      * 获取用户信息
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getInfo(): array
     {
-        return $this->getCacheInfo(SystemUser::find((int) user()->getId()));
+        if ( ($uid = user()->getId()) ) {
+            return $this->getCacheInfo(SystemUser::find($uid));
+        }
+        throw new MineException(t('system.unable_get_userinfo'), 500);
     }
 
     /**
@@ -309,16 +317,14 @@ class SystemUserService extends AbstractService
      */
     public function getOnlineUserPageList(array $params = []): array
     {
-        // 从redis获取在线用户
-        $redis = $this->container->get(Redis::class);
-        $prefix = config('cache.default.prefix');
-        $users = $redis->keys("{$prefix}Token:*");
-
+        $redis = redis();
+        $key   = sprintf('%sToken:*', config('cache.default.prefix'));
+        $users = $redis->keys($key);
         $userIds = [];
 
         foreach ($users as $user) {
-            if ( preg_match('/(\d+)$/', $user, $match)) {
-                $userIds[] = $match[0];
+            if ( preg_match("/{$key}(\d+)$/", $user, $match) && isset($match[1])) {
+                $userIds[] = $match[1];
             }
         }
 
@@ -326,10 +332,7 @@ class SystemUserService extends AbstractService
             return [];
         }
 
-        return $this->getPageList(array_merge([
-            'showDept' => 1,
-            'userIds'  => $userIds
-        ], $params));
+        return $this->getPageList(array_merge([ 'showDept' => 1, 'userIds'  => $userIds ], $params));
     }
 
     /**
@@ -380,10 +383,13 @@ class SystemUserService extends AbstractService
      */
     public function kickUser(string $id): bool
     {
-        $redis = $this->container->get(Redis::class);
-        $prefix = config('cache.default.prefix');
-        user()->getJwt()->logout($redis->get("{$prefix}Token:{$id}"));
-        return $redis->del("{$prefix}Token:{$id}") > 0;
+        $redis = redis();
+        $key = sprintf("%sToken:%s", config('cache.default.prefix'), $id);
+        if ($redis->exists($key)) {
+            user()->getJwt()->logout($redis->get($key), 'default');
+//            $redis->del($key);
+        }
+        return true;
     }
 
     /**

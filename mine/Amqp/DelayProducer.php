@@ -33,11 +33,16 @@ class DelayProducer extends Producer
     protected $eventDispatcher;
 
     /**
+     * @param ProducerMessageInterface $producerMessage
+     * @param bool $confirm
+     * @param int $timeout
+     * @param int $delayTime
+     * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Throwable
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      */
-    public function produce(ProducerMessageInterface $producerMessage, bool $confirm = false, int $timeout = 5, $delayTime = 0): bool
+    public function produce(ProducerMessageInterface $producerMessage, bool $confirm = false, int $timeout = 5, int $delayTime = 0): bool
     {
         $this->eventDispatcher = ApplicationContext::getContainer()->get(EventDispatcherInterface::class);
         return retry(1, function () use ($producerMessage, $confirm, $timeout,$delayTime) {
@@ -54,7 +59,7 @@ class DelayProducer extends Producer
      * @return bool
      * @throws \Throwable
      */
-    private function produceMessage(ProducerMessageInterface $producerMessage, bool $confirm = false, int $timeout = 5,int $delayTime = 0): bool
+    private function produceMessage(ProducerMessageInterface $producerMessage, bool $confirm = false, int $timeout = 5, int $delayTime = 0): bool
     {
         // 连接ampq
         $connection = $this->factory->getConnection($producerMessage->getPoolName());

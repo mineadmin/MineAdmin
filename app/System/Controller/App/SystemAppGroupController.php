@@ -21,23 +21,20 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 应用分组控制器
  * Class SystemAppGroupController
- * @Controller(prefix="system/appGroup")
- * @Auth
  */
+#[Controller(prefix: "system/appGroup"), Auth]
 class SystemAppGroupController extends MineController
 {
-    /**
-     * @Inject
-     * @var SystemAppGroupService
-     */
-    protected $service;
+    #[Inject]
+    protected SystemAppGroupService $service;
 
     /**
      * 列表
-     * @GetMapping("index")
      * @return ResponseInterface
-     * @Permission("system:appGroup:index")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("index"), Permission("system:appGroup:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -45,9 +42,11 @@ class SystemAppGroupController extends MineController
 
     /**
      * 列表，无分页
-     * @GetMapping("list")
      * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("list")]
     public function list(): ResponseInterface
     {
         return $this->success($this->service->getList());
@@ -55,10 +54,11 @@ class SystemAppGroupController extends MineController
 
     /**
      * 回收站列表
-     * @GetMapping("recycle")
      * @return ResponseInterface
-     * @Permission("system:appGroup:recycle")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("recycle"), Permission("system:appGroup:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -66,12 +66,12 @@ class SystemAppGroupController extends MineController
 
     /**
      * 新增
-     * @PostMapping("save")
      * @param SystemAppGroupCreateRequest $request
      * @return ResponseInterface
-     * @Permission("system:appGroup:save")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PostMapping("save"), Permission("system:appGroup:save"), OperationLog]
     public function save(SystemAppGroupCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -79,11 +79,12 @@ class SystemAppGroupController extends MineController
 
     /**
      * 读取数据
-     * @GetMapping("read/{id}")
      * @param int $id
      * @return ResponseInterface
-     * @Permission("system:appGroup:read")
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[GetMapping("read/{id}"), Permission("system:appGroup:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -91,13 +92,13 @@ class SystemAppGroupController extends MineController
 
     /**
      * 更新
-     * @PutMapping("update/{id}")
      * @param int $id
      * @param SystemAppGroupUpdateRequest $request
      * @return ResponseInterface
-     * @Permission("system:appGroup:update")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("update/{id}"), Permission("system:appGroup:update"), OperationLog]
     public function update(int $id, SystemAppGroupUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -105,12 +106,12 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @DeleteMapping("delete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:appGroup:delete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("delete/{ids}"), Permission("system:appGroup:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
@@ -118,12 +119,12 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @DeleteMapping("realDelete/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:appGroup:realDelete")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[DeleteMapping("realDelete/{ids}"), Permission("system:appGroup:realDelete"), OperationLog]
     public function realDelete(String $ids): ResponseInterface
     {
         return $this->service->realDelete($ids) ? $this->success() : $this->error();
@@ -131,12 +132,12 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @PutMapping("recovery/{ids}")
      * @param String $ids
      * @return ResponseInterface
-     * @Permission("system:appGroup:recovery")
-     * @OperationLog
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[PutMapping("recovery/{ids}"), Permission("system:appGroup:recovery")]
     public function recovery(String $ids): ResponseInterface
     {
         return $this->service->recovery($ids) ? $this->success() : $this->error();

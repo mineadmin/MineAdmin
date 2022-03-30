@@ -73,7 +73,7 @@
 						data.append('image', blobInfo.blob() ,blobInfo.filename());
 						try {
 							const res = await API.upload.uploadImage(data)
-							success(res.data.url)
+							success(this.$TOOL.viewImage(res.data.url))
 						}catch (error) {
 							failure("图片上传失败")
 						}

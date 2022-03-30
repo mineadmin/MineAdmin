@@ -214,7 +214,7 @@
             </template>
           </el-table-column>
           <el-table-column label="创建时间" prop="created_at" width="180"></el-table-column>
-          <el-table-column label="操作" fixed="right" align="right" width="80" v-if="isDataRecycle">
+          <el-table-column label="操作" fixed="right" align="right" width="140" v-if="isDataRecycle">
             <template #default="scope">
               <el-button
                 type="text"

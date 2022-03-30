@@ -20,7 +20,7 @@ class AppVerify
     /**
      * @var JWT
      */
-    protected $jwt;
+    protected JWT $jwt;
 
 
     /**

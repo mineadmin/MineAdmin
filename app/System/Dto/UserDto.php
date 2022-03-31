@@ -11,18 +11,18 @@ use Mine\Annotation\ExcelProperty;
 #[ExcelData]
 class UserDto implements MineModelExcel
 {
-    #[ExcelProperty(value: "用户名", index: "0")]
+    #[ExcelProperty(value: "用户名", index: 0)]
     public string $username;
 
-    #[ExcelProperty(value: "密码", index: "3")]
+    #[ExcelProperty(value: "密码", index: 3)]
     public string $password;
 
-    #[ExcelProperty(value: "昵称", index: "1")]
+    #[ExcelProperty(value: "昵称", index: 1)]
     public string $nickname;
 
-    #[ExcelProperty(value: "手机", index: "2")]
+    #[ExcelProperty(value: "手机", index: 2)]
     public string $phone;
 
-    #[ExcelProperty(value: "状态", index: "4")]
+    #[ExcelProperty(value: "状态", index: 4)]
     public string $status;
 }

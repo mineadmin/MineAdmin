@@ -91,9 +91,8 @@ class SystemRoleMapper extends AbstractMapper
      * @param int $id
      * @param array $data
      * @return bool
-     * @Transaction
-     * @DeleteCache("loginInfo:*")
      */
+    #[DeleteCache("loginInfo:*"), Transaction]
     public function update(int $id, array $data): bool
     {
         $menuIds = $data['menu_ids'] ?? [];
@@ -115,8 +114,8 @@ class SystemRoleMapper extends AbstractMapper
      * 单个或批量软删除数据
      * @param array $ids
      * @return bool
-     * @DeleteCache("loginInfo:*")
      */
+    #[DeleteCache("loginInfo:*")]
     public function delete(array $ids): bool
     {
         $adminId = env('ADMIN_ROLE');
@@ -131,9 +130,8 @@ class SystemRoleMapper extends AbstractMapper
      * 批量真实删除角色
      * @param array $ids
      * @return bool
-     * @Transaction
-     * @DeleteCache("loginInfo:*")
      */
+    #[DeleteCache("loginInfo:*"), Transaction]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {

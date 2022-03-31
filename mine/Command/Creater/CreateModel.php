@@ -62,7 +62,7 @@ class CreateModel extends MineCommand
 
             $tables = Db::select('SHOW TABLES');
             $key = "Tables_in_{$db}";
-            /** @var Array $tableList */
+
             $tableList = [];
             foreach ($tables as $k) {
                 $tmp = $k->$key;

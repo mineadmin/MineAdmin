@@ -78,7 +78,6 @@ class GenerateCodeController extends MineController
 
     /**
      * 更新业务表信息
-     * @PostMapping("update")
      * @param GenerateUpdateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface

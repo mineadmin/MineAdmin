@@ -17,10 +17,8 @@ use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
 use Mine\Annotation\Auth;
-use Mine\Exception\MineException;
 use Mine\Exception\TokenException;
 use Mine\Helper\LoginUser;
-use Mine\MineRequest;
 
 /**
  * Class AuthAspect
@@ -49,7 +47,7 @@ class AuthAspect extends AbstractAspect
      * @return mixed
      * @throws Exception
      * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\N
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {

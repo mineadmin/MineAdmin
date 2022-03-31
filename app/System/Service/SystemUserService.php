@@ -208,8 +208,8 @@ class SystemUserService extends AbstractService
      */
     public function getInfo(): array
     {
-        if ( ($uid = user()->getId()) ) {
-            return $this->getCacheInfo(SystemUser::find($uid));
+        if (user()->getId()) {
+            return $this->getCacheInfo(new SystemUser);
         }
         throw new MineException(t('system.unable_get_userinfo'), 500);
     }
@@ -222,6 +222,7 @@ class SystemUserService extends AbstractService
     #[Cacheable(prefix: "loginInfo", ttl: 0, value: "userId_#{user.id}")]
     protected function getCacheInfo(SystemUser $user): array
     {
+        $user = $user->find((int) user()->getId());
         $user->addHidden('deleted_at', 'password');
         $data['user'] = $user->toArray();
         if (user()->isSuperAdmin()) {

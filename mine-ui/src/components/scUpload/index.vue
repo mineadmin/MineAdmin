@@ -4,7 +4,7 @@
 			<div class="mask">
 				<span class="del" @click.stop="del"><el-icon><el-icon-delete /></el-icon></span>
 			</div>
-			<el-image v-if="fileIsImg" class="image" :src="tempImg || img" :preview-src-list="[img]" fit="cover" hide-on-click-modal append-to-body :z-index="9999"></el-image>
+			<el-image v-if="fileIsImg" class="image" :src="tempImg || img" :preview-src-list="[img]" fit="cover" hide-on-click-modal preview-teleported :z-index="9999"></el-image>
 			<a v-else :href="img" class="file" target="_blank"><el-icon><el-icon-document /></el-icon></a>
 		</div>
 		<div v-else class="sc-upload-uploader" @click="fileSelect && showfileSelect()">
@@ -112,7 +112,7 @@
 			isImg(fileUrl){
 				var strRegex = "(.jpg|.png|.gif|.jpeg)$";
 				var re = new RegExp(strRegex);
-				if (re.test(fileUrl.toLowerCase())){
+				if (fileUrl && re.test(fileUrl.toLowerCase())){
 					this.fileIsImg=true;
 				}else{
 					this.fileIsImg=false;

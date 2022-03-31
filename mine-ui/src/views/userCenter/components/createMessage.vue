@@ -1,9 +1,9 @@
 <template>
-  <sc-dialog v-model="visible" title="发消息" :width="800" destroy-on-close> 
+  <el-dialog v-model="visible" title="发消息" :width="800" destroy-on-close> 
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
 
       <el-form-item label="消息标题" prop="title">
-        <el-input v-model="form.title" size="small" clearable placeholder="请输入消息标题"></el-input>
+        <el-input v-model="form.title"  clearable placeholder="请输入消息标题"></el-input>
       </el-form-item>
 
       <el-form-item label="接收人员" prop="users">
@@ -19,7 +19,7 @@
       <el-button @click="visible=false" >取 消</el-button>
       <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
     </template>
-  </sc-dialog>
+  </el-dialog>
 </template>
 
 <script>

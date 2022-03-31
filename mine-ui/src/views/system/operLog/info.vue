@@ -1,7 +1,7 @@
 <template>
 
 	<el-main style="padding:0 20px;">
-		<el-descriptions :column="1" border size="small">
+		<el-descriptions :column="1" border >
 			<el-descriptions-item label="请求路由">{{data.router}}</el-descriptions-item>
 			<el-descriptions-item label="请求方法">{{data.method}}</el-descriptions-item>
 			<el-descriptions-item label="状态代码">{{data.response_code}}</el-descriptions-item>

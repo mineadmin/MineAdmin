@@ -313,7 +313,7 @@
 	.el-pagination.is-background .el-pager li:not(.is-disabled).is-active{
 		color: #fff;
 	}
-
+	
 	.el-input__count {
 		background-color: #383838;
 	}
@@ -321,6 +321,28 @@
 	.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
 		background-color: #383838;
 	}
+
+	.el-input-number__decrease {
+		border-right: 1px solid #4a4a4a;
+	}
+
+	.el-input-number__increase {
+		border-left: 1px solid #4a4a4a;
+	}
+
+	.sc-icon-select__list li i {
+		background-color: rgba(0,0,0,0);
+		color: none;
+	}
+
+	.el-input-number.is-controls-right .el-input-number__decrease {
+		border-left: 1px solid #4a4a4a;
+	}
+
+	.el-input-number.is-controls-right .el-input-number__increase {
+		border-bottom: 1px solid #4a4a4a;
+	}
+
 
 	.sc-title {color: #d0d0d0;border-color: $--border-color;}
 	.sc-upload-uploader {border-color: $--border-color;}

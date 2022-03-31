@@ -134,7 +134,7 @@
           <template #default="scope">
             <el-button
               type="text"
-              size="small"
+              
               @click="deletes(scope.row.id)"
               v-auth="['system:queueLog:delete']"
             >删除</el-button>

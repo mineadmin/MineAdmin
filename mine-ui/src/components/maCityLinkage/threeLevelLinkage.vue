@@ -1,5 +1,5 @@
 <template>
-    <el-form size="small" label-width="40px">
+    <el-form  label-width="40px">
         <el-row :gutter="15">
             <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb15">
                 <el-form-item label="省级">

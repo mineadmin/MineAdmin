@@ -2,7 +2,7 @@
   <el-container>
     <el-aside width="355px">
       <el-main
-        v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.8)"
+        v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.01)"
         element-loading-text="菜单加载中..." style="height:100%; padding: 0">
         <el-container>
           <el-header>
@@ -35,23 +35,23 @@
                   <!-- 回收站数据显示按钮 -->
                   <span class="do" v-if="showRecycle">
 
-                    <el-icon>
-                      <el-tooltip class="item" effect="dark" content="恢复菜单" placement="top">
-                        <el-icon-refresh-left
-                          v-auth="'system:menu:recovery'"
-                          @click.stop="handleRecovery(data)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
+                    <el-tooltip class="item" effect="dark" content="恢复菜单" placement="top">
+                      <el-button
+                        class="mini-button"
+                        icon="el-icon-refresh-left"
+                        v-auth="'system:menu:recovery'"
+                        @click.stop="handleRecovery(data)"
+                      />
+                    </el-tooltip>
 
-                    <el-icon style="margin-left: 10px;">
-                      <el-tooltip class="item" effect="dark" content="物理删除" placement="top">
-                        <el-icon-delete
-                          v-auth="'system:menu:realDelete'"
-                          @click.stop="handleRealDelete(data)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
+                    <el-tooltip class="item" effect="dark" content="物理删除" placement="top">
+                      <el-button
+                        class="mini-button"
+                        icon="el-icon-delete"
+                        v-auth="'system:menu:realDelete'"
+                        @click.stop="handleRealDelete(data)"
+                      />
+                    </el-tooltip>
                   </span>
                   <!-- 正常数据显示按钮 -->
                   <span class="do" v-else>
@@ -61,24 +61,23 @@
                     <el-tag v-if="data.type === 'L'" type="warning">外链</el-tag>
                     <el-tag v-if="data.type === 'I'" type="danger">Iframe</el-tag>
 
-                    <el-icon>
-                      <el-tooltip class="item" effect="dark" content="新增子菜单" placement="top">
-                        <el-icon-plus
-                          style="font-size: 14px;"
-                          v-auth="'system:menu:save'"
-                          @click.stop="add(node, data)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
+                    <el-tooltip class="item" effect="dark" content="新增子菜单" placement="top">
+                      <el-button
+                        class="mini-button"
+                        icon="el-icon-plus"
+                        v-auth="'system:menu:save'"
+                        @click.stop="add(node, data)"
+                      />
+                    </el-tooltip>
 
-                    <el-icon style="margin-left: 10px;">
-                      <el-tooltip class="item" effect="dark" content="移动回收站" placement="top">
-                        <el-icon-delete
-                          v-auth="'system:menu:delete'"
-                          @click.stop="handleDelete(data)"
-                        />
-                      </el-tooltip>
-                    </el-icon>
+                    <el-tooltip class="item" effect="dark" content="移动回收站" placement="top">
+                      <el-button
+                        class="mini-button"
+                        icon="el-icon-delete"
+                        v-auth="'system:menu:delete'"
+                        @click.stop="handleDelete(data)"
+                      />
+                    </el-tooltip>
 
                   </span>
                 </span>
@@ -342,4 +341,9 @@
   .custom-tree-node .do i:hover {color: #333;}
 
   .custom-tree-node:hover .do {display: inline-block;}
+
+  .mini-button {
+    margin-left: 10px; margin-top: -1px; height: 23px;
+    padding: 0 5px;
+  }
 </style>

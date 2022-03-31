@@ -29,7 +29,7 @@
 					<el-upload class="sc-file-select__upload" action="" multiple :show-file-list="false" :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore" :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError" :http-request="uploadRequest">
 						<el-button type="primary" icon="el-icon-upload">本地上传</el-button>
 					</el-upload>
-					<el-button type="danger" icon="el-icon-picture" @click="$refs.network.open()" style="margin-left: 8px;">远程图片保存</el-button>
+					<el-button type="danger" icon="el-icon-picture" @click="$refs.network.open()" style="margin: -7px 0 0 8px;">远程图片保存</el-button>
 					<span class="tips"><el-icon><el-icon-warning /></el-icon>大小不超过{{maxSize}}MB</span>
 				</div>
 				<div class="keyword">
@@ -44,7 +44,7 @@
 							<div class="sc-file-select__item__upload">
 								<el-progress type="circle" :percentage="file.progress" :width="70"></el-progress>
 							</div>
-							<el-image :src="file.tempImg" fit="contain"></el-image>
+							<el-image :src="file.tempImg" fit="contain" preview-teleported></el-image>
 						</div>
 						<p>{{file.name}}</p>
 					</div>
@@ -57,7 +57,7 @@
 								<el-icon><el-icon-check /></el-icon>
 							</div>
 							<div class="sc-file-select__item__box"></div>
-							<el-image v-if="_isImg(item[fileProps.url])" :src="viewImage(item[fileProps.url])" fit="contain" lazy></el-image>
+							<el-image v-if="_isImg(item[fileProps.url])" :src="viewImage(item[fileProps.url])" fit="contain" lazy preview-teleported></el-image>
 							<div v-else class="item-file item-file-doc">
 								<i v-if="files[_getExt(item[fileProps.url])]" :class="files[_getExt(item[fileProps.url])].icon" :style="{color:files[_getExt(item[fileProps.url])].color}"></i>
 								<i v-else class="sc-icon-file-list-fill" style="color: #999;"></i>
@@ -86,6 +86,8 @@ import uploadConfig from "@/config/upload"
 import netWork from './network.vue'
 
 export default {
+
+	emits: ['submit', 'update:modelValue'],
 
 	components: {
 		netWork

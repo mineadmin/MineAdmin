@@ -13,9 +13,9 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="选择接口绑定" name="group">
           <el-button-group>
-            <el-button size="small" icon="el-icon-check" @click="selectAll">全选</el-button>
+            <el-button  icon="el-icon-check" @click="selectAll">全选</el-button>
 
-            <el-button size="small" icon="el-icon-minus" @click="clear">清除</el-button>
+            <el-button  icon="el-icon-minus" @click="clear">清除</el-button>
 
           </el-button-group>
 

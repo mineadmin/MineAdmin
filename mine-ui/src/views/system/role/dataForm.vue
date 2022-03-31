@@ -26,7 +26,7 @@
               label="角色权限"
               prop="dept_ids"
               v-loading="loading"
-              element-loading-background="rgba(255, 255, 255, 0.8)"
+              element-loading-background="rgba(255, 255, 255, 0.01)"
               element-loading-text="数据加载中..."
             >
               <el-checkbox @change="handleTreeExpand($event)">展开/折叠</el-checkbox>
@@ -41,7 +41,7 @@
                 :props="defaultProps"
               />
             </el-form-item>
-
+      
     </el-form>
     <template #footer>
       <el-button @click="visible=false" >取 消</el-button>
@@ -172,8 +172,13 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="scss">
 :deep(.el-form-item__content) {
   display: block;
+}
+[data-theme='dark'] {
+  .ma-tree-border {
+    border: 1px solid #383838;
+  }
 }
 </style>

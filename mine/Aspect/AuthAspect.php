@@ -19,6 +19,7 @@ use Hyperf\Di\Exception\Exception;
 use Mine\Annotation\Auth;
 use Mine\Exception\TokenException;
 use Mine\Helper\LoginUser;
+use Mine\MineRequest;
 
 /**
  * Class AuthAspect

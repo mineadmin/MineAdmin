@@ -17,6 +17,7 @@ use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
 use Mine\Annotation\Auth;
+use Mine\Exception\MineException;
 use Mine\Exception\TokenException;
 use Mine\Helper\LoginUser;
 use Mine\MineRequest;

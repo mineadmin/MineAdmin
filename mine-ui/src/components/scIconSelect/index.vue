@@ -82,7 +82,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.sc-icon-select {display: inline-block;}
 	.sc-icon-select__list {height:360px;overflow: auto;}
 	.sc-icon-select__list ul {}
@@ -91,4 +91,18 @@
 	.sc-icon-select__list li i {display: inline-block;width: 100%;height:100%;font-size: 26px;color: #6d7882;background: #fff;display: flex;justify-content: center;align-items: center;border-radius: 4px;}
 	.sc-icon-select__list li:hover {box-shadow: 0 0 1px 4px rgba(64,158,255,1);}
 	.sc-icon-select__list li:hover i {color: #409EFF;}
+
+	[data-theme='dark'] { 
+		.sc-icon-select__list li {
+			box-shadow: 0 0 0 1px #585858;
+		}
+		.sc-icon-select__list li i {
+			background: none;
+			color: #fff;
+		}
+		.sc-icon-select__list li:hover {box-shadow: 0 0 1px 4px rgba(64,158,255,1);}
+		.sc-icon-select__list li:hover i {color: #409EFF;}
+
+		:deep(.el-input .el-input__icon) { color: #fff }
+	}
 </style>

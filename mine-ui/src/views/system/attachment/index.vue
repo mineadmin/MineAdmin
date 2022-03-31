@@ -35,7 +35,6 @@
 
           <el-button-group>
             <el-button
-              plain
               v-if="! isRecycle"
               icon="el-icon-delete"
               v-auth="['system:attachment:delete']"
@@ -43,7 +42,6 @@
             >删除附件</el-button>
 
             <el-button
-              plain
               v-else
               icon="el-icon-refresh-left"
               v-auth="['system:attachment:recovery']"
@@ -197,4 +195,16 @@
 
 <style scoped lang="scss">
 @import './style/index.scss';
+.scTable-page {
+  position: absolute; width: 100%; bottom: 0;
+}
+[data-theme='dark'] { 
+  .el-upload-list--picture-card .el-upload-list__item {
+    background: #585858;
+  }
+  .el-image__error {
+    background: none;
+    color: #fff;
+  }
+}
 </style>

@@ -233,6 +233,8 @@
       //批量删除
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -252,6 +254,8 @@
       // 单个删除
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();

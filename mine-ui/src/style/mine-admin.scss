@@ -10,7 +10,7 @@
 .ma-state-2 {background: #F56C6C;}
 .ma-status-processing {position: relative;}
 .ma-status-processing:after {
-    position: absolute; 
+    position: absolute;
     top:0px;left:0px;
     width: 100%;height: 100%;
     border-radius: 50%;background: inherit;content: '';
@@ -38,4 +38,12 @@
 .ma-tree-border {
     border: 1px solid #e5e6e7;
     border-radius:4px;
+}
+
+.el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
+    color: #fff;
+}
+
+.sceditor {
+    width: 100%;
 }

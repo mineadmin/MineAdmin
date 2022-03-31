@@ -20,8 +20,6 @@
         >删除</el-button>
 
         <el-button
-          type="info"
-          plain
           icon="el-icon-sort"
           @click="handleExpand"
         > {{ isExpand ? '折叠' : '展开' }} </el-button>
@@ -256,6 +254,8 @@
       //批量删除
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
           const loading = this.$loading();
@@ -278,6 +278,8 @@
       // 单个删除
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
           const loading = this.$loading();

@@ -24,64 +24,64 @@
                 <span class="code">{{ data.code }}</span>
                 <span class="do" v-if="showTypeRecycle">
 
-                  <el-icon>
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="恢复数据"
-                      placement="top"
-                    >
-                      <el-icon-refresh-left
-                        v-auth="'system:dictType:recovery'"
-                        @click.stop="dictTypeRecoverys(data)"
-                      />
-                    </el-tooltip>
-                  </el-icon>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="恢复数据"
+                    placement="top"
+                  >
+                    <el-button
+                      class="mini-button"
+                      icon="el-icon-refresh-left"
+                      v-auth="'system:dictType:recovery'"
+                      @click.stop="dictTypeRecoverys(data)"
+                    />
+                  </el-tooltip>
 
-                  <el-icon style="margin-left: 10px;">
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="物理删除"
-                      placement="top"
-                    >
-                      <el-icon-delete
-                        v-auth="'system:dictType:realDelete'"
-                        @click.stop="dictTypeDelete(node, data)"
-                      />
-                    </el-tooltip>
-                  </el-icon>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="物理删除"
+                    placement="top"
+                  >
+                    <el-button
+                      class="mini-button"
+                      icon="el-icon-delete"
+                      v-auth="'system:dictType:realDelete'"
+                      @click.stop="dictTypeDelete(node, data)"
+                    />
+                  </el-tooltip>
 
                 </span>
                 <span class="do" v-else>
 
-                  <el-icon>
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="编辑字典类型"
-                      placement="top"
-                    >
-                      <el-icon-edit
-                        v-auth="'system:dictType:update'"
-                        @click.stop="dictTypeEdit(data)"
-                      />
-                    </el-tooltip>
-                  </el-icon>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="编辑字典类型"
+                    placement="top"
+                  >
+                    <el-button
+                      class="mini-button"
+                      icon="el-icon-edit"
+                      v-auth="'system:dictType:update'"
+                      @click.stop="dictTypeEdit(data)"
+                    />
+                  </el-tooltip>
 
-                  <el-icon style="margin-left: 10px;">
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="删除字典类型"
-                      placement="top"
-                    >
-                      <el-icon-delete
-                        v-auth="'system:dictType:delete'"
-                        @click.stop="dictTypeDelete(node, data)"
-                      />
-                    </el-tooltip>
-                  </el-icon>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="删除字典类型"
+                    placement="top"
+                  >
+                    <el-button
+                      class="mini-button"
+                      icon="el-icon-delete"
+                      v-auth="'system:dictType:delete'"
+                      @click.stop="dictTypeDelete(node, data)"
+                    />
+                  </el-tooltip>
 
                 </span>
               </span>
@@ -382,6 +382,8 @@
       //删除字典类型
       dictTypeDelete(node, data){
         this.$confirm(`确定删除 ${data.name} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.showDicloading = true;
@@ -425,6 +427,8 @@
       async dataDictDelete(id){
 
         await this.$confirm(`确定删除选中的该字典项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -457,6 +461,8 @@
       //批量删除字典
       async dataDictBatchDelete(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -576,4 +582,9 @@
   .custom-tree-node .do i:hover {color: #333;}
   .custom-tree-node:hover .code {display: none;}
   .custom-tree-node:hover .do {display: inline-block;}
+
+  .mini-button {
+    margin-left: 10px; margin-top: -1px; height: 23px;
+    padding: 0 5px;
+  }
 </style>

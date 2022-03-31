@@ -3,15 +3,15 @@
     <el-form :model="form" ref="dialogForm" label-width="80px">
 
       <el-form-item label="角色名称" prop="name">
-        <el-input v-model="form.name" size="small" :disabled="true" clearable placeholder="请输入角色名称"></el-input>
+        <el-input v-model="form.name"  :disabled="true" clearable placeholder="请输入角色名称"></el-input>
       </el-form-item>
 
       <el-form-item label="代码" prop="code">
-        <el-input v-model="form.code" size="small" :disabled="true" clearable placeholder="请输入角色代码"></el-input>
+        <el-input v-model="form.code"  :disabled="true" clearable placeholder="请输入角色代码"></el-input>
       </el-form-item>
 
             <el-form-item label="数据边界">
-                <el-select v-model="form.data_scope" size="small" placeholder="请选择数据权限边界" @change="handleChangeScope">
+                <el-select v-model="form.data_scope"  placeholder="请选择数据权限边界" @change="handleChangeScope">
                 <el-option
                     v-for="item in scopes"
                     :key="item.value"
@@ -41,7 +41,7 @@
                 :props="defaultProps"
               />
             </el-form-item>
-      
+
     </el-form>
     <template #footer>
       <el-button @click="visible=false" >取 消</el-button>
@@ -172,3 +172,8 @@
     }
   }
 </script>
+<style scoped>
+:deep(.el-form-item__content) {
+  display: block;
+}
+</style>

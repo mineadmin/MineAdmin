@@ -103,7 +103,7 @@ class UserController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{id}"), Permission("system:user:delete")]
+    #[DeleteMapping("delete/{ids}"), Permission("system:user:delete")]
     public function delete(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();

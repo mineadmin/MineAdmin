@@ -173,7 +173,7 @@ export default {
           .then(async () => {
             await this.$API.login.Logout().then((res) => {
               if (res.success) {
-                this.wsMessage.ws.close();
+                this.wsMessage && this.wsMessage.ws.close();
                 this.$store.commit("SET_ROUTERS", undefined);
                 this.$TOOL.data.clear();
                 this.$router.replace("login");

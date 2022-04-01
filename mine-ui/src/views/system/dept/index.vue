@@ -82,6 +82,7 @@
         :api="api"
         :showRecycle="true"
         row-key="id"
+        :hideDo="false"
         :hidePagination="true"
         :default-expand-all="isExpand"
         @selection-change="selectionChange"

@@ -29,7 +29,7 @@
 				</div>
 			</el-upload>
 		</div>
-		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close>
+		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close append-to-body>
 			<sc-file-select :max="maxSelect" multiple @submit="fileSelectSubmit">
 				<template #do>
 					<el-button @click="fileSelectDialogVisible=false" >取 消</el-button>

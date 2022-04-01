@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    append-to-body
     :title="titleMap[mode]"
     v-model="visible"
     :width="800"

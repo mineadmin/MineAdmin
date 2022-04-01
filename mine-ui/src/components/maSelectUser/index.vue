@@ -2,6 +2,7 @@
   <el-button icon="el-icon-finished" @click="open" >选择用户</el-button> <el-tag>已选择 {{modelValue.length}} 个用户</el-tag>
 
   <el-dialog
+    append-to-body
     v-model="showSelectPanel"
     title="选择用户"
     width="1020px"

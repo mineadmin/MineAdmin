@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="发消息" :width="800" destroy-on-close> 
+  <el-dialog v-model="visible" title="发消息" :width="800" destroy-on-close append-to-body> 
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
 
       <el-form-item label="消息标题" prop="title">

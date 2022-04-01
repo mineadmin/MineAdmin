@@ -124,7 +124,7 @@
     </el-main>
   </el-drawer>
 
-  <el-dialog v-model="sendDialog" title="接收人列表"> 
+  <el-dialog v-model="sendDialog" title="接收人列表" append-to-body destroy-on-close> 
     <maTable
       ref="receiveList"
       :api="receiveListApi"

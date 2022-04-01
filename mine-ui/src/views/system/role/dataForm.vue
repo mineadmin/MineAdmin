@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="数据权限" v-model="visible" :width="500" destroy-on-close>
+  <el-dialog title="数据权限" v-model="visible" :width="500" destroy-on-close append-to-body>
     <el-form :model="form" ref="dialogForm" label-width="80px">
 
       <el-form-item label="角色名称" prop="name">

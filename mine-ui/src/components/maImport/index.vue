@@ -9,6 +9,7 @@
     >导入</el-button>
 
     <el-dialog
+        append-to-body
         title="导入数据"
         v-model="visible"
         :width="400"

@@ -90,7 +90,6 @@ export default {
     },
     //树点击事件
     typeClick(data){
-      console.log(data)
       if (this.queryParams.mime_type == data.value) {
         return
       }

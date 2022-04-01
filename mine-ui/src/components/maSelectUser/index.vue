@@ -325,3 +325,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.el-form--inline .el-form-item {
+  margin-right: 5px;
+}
+:deep(.el-input--suffix .el-input__inner) {
+  padding-right: calc(5px + 14px + 6px);
+}
+.el-button+.el-button {
+  margin-left: 6px;
+}
+</style>

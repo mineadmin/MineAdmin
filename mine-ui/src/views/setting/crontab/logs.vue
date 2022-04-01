@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-main  style="padding:0 20px;">
+		<div style="padding:0 0 10px 20px;">
 			<el-button
 				type="danger"
 				plain
@@ -9,6 +9,8 @@
 				:disabled="selection.length==0"
 				@click="batchDel"
 			>删除</el-button>
+		</div>
+		<el-main style="padding:0 20px;">
 			<maTable
 				ref="table"
 				row-key="id"
@@ -98,7 +100,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 pre {
 	font-size: 12px;
 	color: #ccc;
@@ -108,5 +110,8 @@ pre {
 	line-height: 1.5;
 	overflow: auto;
 	border-radius: 4px;
+}
+.el-container {
+	flex-direction: column;
 }
 </style>

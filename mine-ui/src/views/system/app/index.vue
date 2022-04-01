@@ -91,7 +91,7 @@
         <el-table-column
            label="APP ID"
            prop="app_id"
-           width="100"
+           width="130"
         >
           <template #default="scope">
             <el-tooltip content="点击复制" placement="top">

@@ -125,6 +125,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.login .el-icon {
+  width: 100%; margin-left: 50px;
+}
 .lockscreen {
     position: fixed;
     top: 0;

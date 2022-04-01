@@ -153,6 +153,8 @@ export default {
     //批量删除
     async batchDel(){
       await this.$confirm(`确定删除选中的 ${this.checkList.length} 项吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         let ids = []
@@ -182,6 +184,8 @@ export default {
     // 单个删除
     async deletes(id) {
       await this.$confirm(`确定删除该数据吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         if (this.isRecycle) {

@@ -218,6 +218,8 @@
       async del(id, batch = false) {
         let msg = batch ? '确定要删除选中的消息吗？' : '确定删除该消息吗？';
         await this.$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$API.queueMessage.deletes(batch ? id.join(',') : id).then(res => {

@@ -59,7 +59,7 @@ class DataMaintainController extends MineController
     public function optimize(): ResponseInterface
     {
         $tables = $this->request->input('tables', []);
-        return $this->success($this->service->optimize($tables));
+        return $this->service->optimize($tables) ? $this->success() : $this->error();
     }
 
     /**
@@ -72,6 +72,6 @@ class DataMaintainController extends MineController
     public function fragment(): ResponseInterface
     {
         $tables = $this->request->input('tables', []);
-        return $this->success($this->service->fragment($tables));
+        return $this->service->fragment($tables) ? $this->success() : $this->error();
     }
 }

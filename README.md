@@ -26,8 +26,6 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 - 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
 - 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
 
-需要php7.4版本的请移步 `master74` 分支：[点此进入](https://gitee.com/xmo/MineAdmin/tree/master7.4/)
-
 ## 内置功能
 
 1.  用户管理，完成用户添加、修改、删除配置，支持不同用户登录后台看到不同的首页
@@ -55,7 +53,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ## 环境需求
 
 - Swoole >= 4.6.x 并关闭 `Short Name`
-- PHP >= 8.0 并开启以下扩展：
+- PHP === 8.0 并开启以下扩展：
     - mbstring
     - json
     - pdo

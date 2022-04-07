@@ -11,7 +11,6 @@
             class="menu"
             node-key="name"
             :props="props"
-            :load="loadNode"
             :data="fileType"
             :current-node-key="''"
             :highlight-current="true"

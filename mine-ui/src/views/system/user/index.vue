@@ -73,7 +73,7 @@
               </div>
             </div>
           </div>
-          <el-card class="filter-panel">
+          <el-card class="filter-panel" shadow="never">
             
             <el-form label-width="80px" :inline="true">
               <el-form-item label="状态" prop="status">

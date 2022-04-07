@@ -4,10 +4,13 @@
 .el-form-item-msg {font-size: 12px;color: #999;clear: both;}
 .el-container {height: 100%;}
 .el-aside {border-right: 1px solid #e6e6e6;background: #fff;}
-.el-header {background: #fff;border-bottom: 1px solid #e6e6e6;padding:13px 15px;display: flex;justify-content: space-between;align-items: center;}
+.el-header {background: #fff;border-bottom: 1px solid #e6e6e6;padding:13px 15px; display: flex;justify-content: space-between;align-items: center;}
+.el-header .panel-container {display: flex;justify-content: space-between;align-items: center;}
 .el-header .left-panel {display: flex;align-items: center;}
 .el-header .right-panel {display: flex;align-items: center;}
 .el-header .right-panel > * + * {margin-left:10px;}
+.mine-el-header { display: block; --el-header-height: auto;}
+.mine-el-header .filter-panel { margin-top: 10px; display: none; }
 .el-footer {background: #fff;border-top: 1px solid #e6e6e6;padding:13px 15px;}
 .el-main {padding:15px;}
 .el-main.nopadding {padding:0;background: #fff;}

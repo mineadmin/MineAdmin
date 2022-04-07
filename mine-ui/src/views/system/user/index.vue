@@ -21,83 +21,82 @@
       </el-container>
     </el-aside>
     <el-container>
-        <el-header>
-          <div class="left-panel">
+        <el-header class="mine-el-header">
+          <div class="panel-container">
+            <div class="left-panel">
+              <el-button
+                icon="el-icon-plus"
+                v-auth="['system:user:save']"
+                type="primary"
+                @click="add"
+              >新增</el-button>
 
-            <el-button
-              icon="el-icon-plus"
-              v-auth="['system:user:save']"
-              type="primary"
-              @click="add"
-            >新增</el-button>
+              <el-button
+                type="danger"
+                plain
+                icon="el-icon-delete"
+                v-auth="['system:user:delete']"
+                :disabled="selection.length==0"
+                @click="batchDel"
+              >删除</el-button>
 
-            <el-button
-              type="danger"
-              plain
-              icon="el-icon-delete"
-              v-auth="['system:user:delete']"
-              :disabled="selection.length==0"
-              @click="batchDel"
-            >删除</el-button>
+              <el-button
+                icon="el-icon-download"
+                v-auth="['system:user:export']"
+                @click="exportExcel"
+              >导出</el-button>
 
-            <el-button
-              icon="el-icon-download"
-              v-auth="['system:user:export']"
-              @click="exportExcel"
-            >导出</el-button>
+              <ma-import
+                :auth="['system:user:import']"
+                :upload-api="$API.user.importExcel"
+                :download-tpl-api="$API.user.downloadTemplate"
+                @success="handleSuccess()"
+              />
 
-            <ma-import
-              :auth="['system:user:import']"
-              :upload-api="$API.user.importExcel"
-              :download-tpl-api="$API.user.downloadTemplate"
-              @success="handleSuccess()"
-            />
+            </div>
+            <div class="right-panel">
+              <div class="right-panel-search">
+                <el-input v-model="queryParams.username" placeholder="搜索用户名" clearable></el-input>
 
-          </div>
-          <div class="right-panel">
-            <div class="right-panel-search">
-              <el-input v-model="queryParams.username" placeholder="搜索用户名" clearable></el-input>
+                <el-tooltip class="item" effect="dark" content="搜索" placement="top">
+                  <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
+                </el-tooltip>
 
-              <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-                <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
-              </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
+                  <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
+                </el-tooltip>
 
-              <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
-                <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
-              </el-tooltip>
-
-              <el-popover placement="bottom-end" :width="450" trigger="click" >
-                <template #reference>
-                  <el-button type="text" @click="povpoerShow = ! povpoerShow">
-                    更多筛选<i class="el-icon-arrow-down el-icon--right"></i>
-                  </el-button>
-                </template>
-                <el-form label-width="80px">
-                  <el-form-item label="状态" prop="status">
-                    <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
-                      <el-option label="启用" value="0">启用</el-option>
-                      <el-option label="停用" value="1">停用</el-option>
-                    </el-select>
-                  </el-form-item>
-
-                  <el-form-item label="创建时间">
-                    <el-date-picker
-                      clearable
-                      
-                      v-model="dateRange"
-                      type="daterange"
-                      range-separator="至"
-                      @change="handleDateChange"
-                      value-format="YYYY-MM-DD"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期"
-                    ></el-date-picker>
-                  </el-form-item>
-
-                </el-form>
-              </el-popover>
+                <el-button type="text" @click="toggleFilterPanel">
+                  {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
+                  <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
+                </el-button>
+              </div>
             </div>
           </div>
+          <el-card class="filter-panel">
+            
+            <el-form label-width="80px" :inline="true">
+              <el-form-item label="状态" prop="status">
+                <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
+                  <el-option label="启用" value="0">启用</el-option>
+                  <el-option label="停用" value="1">停用</el-option>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item label="创建时间">
+                <el-date-picker
+                  clearable
+                  v-model="dateRange"
+                  type="daterange"
+                  range-separator="至"
+                  @change="handleDateChange"
+                  value-format="YYYY-MM-DD"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                ></el-date-picker>
+              </el-form-item>
+            </el-form>
+          </el-card>
         </el-header>
         <el-main class="nopadding">
           <maTable
@@ -507,6 +506,11 @@
         }).catch(() => {
           row.status = row.status === '0' ? '1' : '0'
         })
+      },
+
+      toggleFilterPanel() {
+        this.povpoerShow = ! this.povpoerShow
+        document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
       },
 
       resetSearch() {

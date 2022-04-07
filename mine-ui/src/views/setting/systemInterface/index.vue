@@ -4,7 +4,7 @@
 
 <script setup>
 import { ref } from 'vue'
-const url = ref(process.env.VUE_APP_URL + '/swagger')
+const url = ref('https://swagger.mineadmin.com/swagger')
 </script>
 
 <style scoped>

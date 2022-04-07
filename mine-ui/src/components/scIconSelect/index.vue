@@ -12,7 +12,7 @@
 		<el-input v-model="defaultValue" :prefix-icon="defaultValue||'none'" :placeholder="placeholder" :clearable="clearable" :disabled="disabled">
 			<template #append><el-button icon="el-icon-more-filled" @click="open"></el-button></template>
 		</el-input>
-		<el-dialog title="图标选择器" v-model="dialogVisible" :width="780" destroy-on-close>
+		<el-dialog title="图标选择器" v-model="dialogVisible" :width="780" destroy-on-close append-to-body>
 			<el-tabs style="margin-top: -30px;">
 				<el-tab-pane  v-for="item in data" :key="item.name" lazy>
 					<template #label>

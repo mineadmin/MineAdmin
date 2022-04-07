@@ -3,6 +3,7 @@
     title="设置用户首页"
     v-model="visible" 
     :width="550"
+    append-to-body
     destroy-on-close
     @closed="$emit('closed')"
   >

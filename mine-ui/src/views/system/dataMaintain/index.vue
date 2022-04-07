@@ -132,6 +132,7 @@
       title="表结构数据"
       v-model="dialogVisible"
       destroy-on-close
+      append-to-body
       @closed="dialogVisible = false"
       width="50%"
     >

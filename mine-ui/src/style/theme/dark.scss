@@ -342,6 +342,18 @@
 	.el-input-number.is-controls-right .el-input-number__increase {
 		border-bottom: 1px solid #4a4a4a;
 	}
+	
+	.el-upload-dragger {
+		background-color: #383838;
+	}
+	.el-input-group__append, .el-input-group__prepend {
+		background: #383838;
+		box-shadow: none;
+	}
+	
+	.el-input-group__append button.el-button, .el-input-group__prepend button.el-button{
+		background-color: #383838;
+	}
 
 
 	.sc-title {color: #d0d0d0;border-color: $--border-color;}

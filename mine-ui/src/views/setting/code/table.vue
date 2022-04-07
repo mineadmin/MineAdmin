@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    append-to-body
     title="装载数据表"
     v-model="dialogVisible"
     width="800px"

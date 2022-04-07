@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="titleMap[mode]" v-model="visible" :width="700" destroy-on-close @closed="$emit('closed')">
+  <el-dialog :title="titleMap[mode]" v-model="visible" :width="700" destroy-on-close append-to-body @closed="$emit('closed')">
       <el-form :model="form" :rules="rules" ref="dialogForm" label-width="110px">
         <el-tabs v-model="activeName">
           <el-tab-pane label="基础信息" name="base">

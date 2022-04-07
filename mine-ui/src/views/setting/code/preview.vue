@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    append-to-body
     title="预览代码"
     v-model="dialogVisible"
     width="1220px"

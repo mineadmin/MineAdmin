@@ -71,18 +71,6 @@ export default {
       }
     },
 
-    async loadNode(node, resolve) {
-      if (node.data.name !== undefined) {
-        let data = await this.loadDirs(node.data.name)
-        if (data.length < 1) {
-          this.$message.info('没有子目录')
-          return resolve([])
-        } else {
-          return resolve(data)
-        }
-      }
-    },
-
     //树过滤
     filterNode(value, data){
       if (!value) return true;
@@ -90,7 +78,6 @@ export default {
     },
     //树点击事件
     typeClick(data){
-      console.log(data)
       if (this.queryParams.mime_type == data.value) {
         return
       }
@@ -153,6 +140,8 @@ export default {
     //批量删除
     async batchDel(){
       await this.$confirm(`确定删除选中的 ${this.checkList.length} 项吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         let ids = []
@@ -182,6 +171,8 @@ export default {
     // 单个删除
     async deletes(id) {
       await this.$confirm(`确定删除该数据吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         if (this.isRecycle) {

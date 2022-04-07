@@ -2,6 +2,7 @@
   <el-button icon="el-icon-finished" @click="open" >选择用户</el-button> <el-tag>已选择 {{modelValue.length}} 个用户</el-tag>
 
   <el-dialog
+    append-to-body
     v-model="showSelectPanel"
     title="选择用户"
     width="1020px"
@@ -324,3 +325,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.el-form--inline .el-form-item {
+  margin-right: 5px;
+}
+:deep(.el-input--suffix .el-input__inner) {
+  padding-right: calc(5px + 14px + 6px);
+}
+.el-button+.el-button {
+  margin-left: 6px;
+}
+</style>

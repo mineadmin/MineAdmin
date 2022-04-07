@@ -101,7 +101,7 @@
 
           <el-table-column
             label="操作"
-            width="150"
+            width="220"
           >
             <template #default="scope">
               <el-button type="text" @click="del(scope.row.id)">删除</el-button>
@@ -124,7 +124,7 @@
     </el-main>
   </el-drawer>
 
-  <el-dialog v-model="sendDialog" title="接收人列表"> 
+  <el-dialog v-model="sendDialog" title="接收人列表" append-to-body destroy-on-close> 
     <maTable
       ref="receiveList"
       :api="receiveListApi"
@@ -218,6 +218,8 @@
       async del(id, batch = false) {
         let msg = batch ? '确定要删除选中的消息吗？' : '确定删除该消息吗？';
         await this.$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$API.queueMessage.deletes(batch ? id.join(',') : id).then(res => {

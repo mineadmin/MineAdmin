@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    append-to-body
     v-model="dialogVisible"
     title="设置全局参数"
     width="700px"

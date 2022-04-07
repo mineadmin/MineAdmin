@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close append-to-body @closed="$emit('closed')">
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
       <el-form-item label="岗位名称" prop="name">
         <el-input v-model="form.name"  clearable placeholder="请输入岗位名称"></el-input>

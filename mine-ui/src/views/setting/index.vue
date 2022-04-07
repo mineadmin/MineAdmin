@@ -69,7 +69,7 @@
 								<span v-else>{{scope.row.key}}</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="配置Value" prop="value" width="350">
+						<el-table-column label="配置Value" prop="value" width="200">
 							<template #default="scope">
 								<template v-if="scope.row.isSet">
 									<el-input v-model="scope.row.value" placeholder="请输入配置Value"></el-input>
@@ -83,7 +83,7 @@
 								<span v-else>{{scope.row.name}}</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="备注说明" prop="remark" width="150">
+						<el-table-column label="备注说明" prop="remark" width="350">
 							<template #default="scope">
 								<el-input v-if="scope.row.isSet" v-model="scope.row.remark" placeholder="请输入备注说明"></el-input>
 								<span v-else>{{scope.row.remark}}</span>

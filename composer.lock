@@ -8321,11 +8321,11 @@
         },
         {
             "name": "xmo/jwt-auth",
-            "version": "v0.2.1",
+            "version": "v0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://gitee.com/xmo/jwt-auth",
-                "reference": "5a0c531b817ef8288d5cfe25b42deb7be57f1670"
+                "reference": "6c0beefed58c4505473822ac8ddc18ec8b2398a0"
             },
             "require": {
                 "ext-swoole": ">=4.6",
@@ -8367,7 +8367,7 @@
                 "hyperf",
                 "php"
             ],
-            "time": "2022-02-17T03:51:16+00:00"
+            "time": "2022-04-05T07:40:15+00:00"
         },
         {
             "name": "xxtime/flysystem-aliyun-oss",

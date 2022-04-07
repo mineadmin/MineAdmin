@@ -216,4 +216,7 @@
   [data-theme='dark'] { 
     h2 { color: #fff; }
   }
+  :deep(.el-form-item__content) {
+    display: block;
+  }
 </style>

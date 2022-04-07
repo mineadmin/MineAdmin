@@ -11,7 +11,6 @@
             class="menu"
             node-key="name"
             :props="props"
-            :load="loadNode"
             :data="fileType"
             :current-node-key="''"
             :highlight-current="true"
@@ -30,8 +29,6 @@
     <el-container>
       <el-header>
         <div class="left-panel">
-
-          <ma-resource-select :resource="false" @upload-data="handleSuccess" />
 
           <el-button-group>
             <el-button
@@ -159,7 +156,8 @@
           <div class="scTable-pagination">
             <el-pagination
               background
-              layout="prev, pager, next"
+              :small="true"
+              layout="prev, pager, next, jumper"
               :total="pageInfo.total"
               :page-size="queryParams.pageSize"
               v-model:currentPage="queryParams.page"

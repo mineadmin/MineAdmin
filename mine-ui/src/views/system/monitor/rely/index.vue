@@ -65,6 +65,7 @@
       title="依赖包详细"
       v-model="dialogVisible"
       destroy-on-close
+      append-to-body
       @closed="dialogVisible = false"
       width="50%"
     >

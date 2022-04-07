@@ -2,6 +2,7 @@
   <el-dialog
     :title="titleMap[mode]"
     v-model="visible" 
+    append-to-body
     :width="800"
     destroy-on-close
     @closed="$emit('closed')"

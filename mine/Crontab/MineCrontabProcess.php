@@ -49,11 +49,16 @@ class MineCrontabProcess extends AbstractProcess
     private $logger;
 
     /**
-     * @Inject
      * @var MineCrontabManage
      */
-    protected $mineCrontabManage;
+    #[Inject]
+    protected MineCrontabManage $mineCrontabManage;
 
+    /**
+     * @param ContainerInterface $container
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
@@ -81,6 +86,10 @@ class MineCrontabProcess extends AbstractProcess
         return true;
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function handle(): void
     {
         $this->event->dispatch(new CrontabDispatcherStarted());

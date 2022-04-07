@@ -45,7 +45,7 @@
               </el-form-item>
 
               <el-form-item label="状态" prop="status">
-                <el-select size="small" v-model="queryParams.status" style="width:100%" clearable placeholder="状态">
+                <el-select  v-model="queryParams.status" style="width:100%" clearable placeholder="状态">
                   <el-option label="启用" value="0">启用</el-option>
                   <el-option label="停用" value="1">停用</el-option>
                 </el-select>
@@ -54,7 +54,7 @@
               <el-form-item label="创建时间">
                 <el-date-picker
                   clearable
-                  size="small"
+                  
                   v-model="dateRange"
                   type="daterange"
                   range-separator="至"
@@ -132,14 +132,14 @@
 
             <el-button
               type="text"
-              size="small"
+              
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:post:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="deletes(scope.row.id)"
               v-auth="['system:post:delete']"
             >删除</el-button>
@@ -153,14 +153,14 @@
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:post:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:post:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>
@@ -233,6 +233,8 @@
       //批量删除
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -252,6 +254,8 @@
       // 单个删除
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();

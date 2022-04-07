@@ -154,7 +154,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .diy-grid-layout {
   padding: 15px;
 }
@@ -202,5 +202,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+[data-theme='dark'] { 
+  .table tbody tr { color: #ddd; }
+
+  .table tbody td, .table thead td {border-bottom: 1px solid #585858;}
 }
 </style>

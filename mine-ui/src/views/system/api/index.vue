@@ -150,33 +150,33 @@
         </el-table-column>
 
         <!-- 正常数据操作按钮 -->
-        <el-table-column label="操作" fixed="right" align="right" width="230" v-if="!isRecycle">
+        <el-table-column label="操作" fixed="right" align="right" width="260" v-if="!isRecycle">
           <template #default="scope">
 
             <el-button
               type="text"
-              size="small"
+              
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:api:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="goto('request', scope.row)"
               v-auth="['system:apiColumn']"
             >请求数据</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="goto('response', scope.row)"
               v-auth="['system:apiColumn']"
             >响应数据</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="deletes(scope.row.id)"
               v-auth="['system:api:delete']"
             >删除</el-button>
@@ -190,14 +190,14 @@
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:api:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:api:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>
@@ -287,6 +287,8 @@
       //批量删除
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -307,6 +309,8 @@
       // 单个删除
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
           const loading = this.$loading();

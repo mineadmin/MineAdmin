@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    append-to-body
     title="装载数据表"
     v-model="dialogVisible"
     width="800px"
@@ -12,12 +13,12 @@
       label-width="40px"
     >
       <el-form-item label="表名" class="ma-inline-form-item" prop="name">
-        <el-input size="small" v-model="queryParams.name" placeholder="请输入表名"></el-input>
+        <el-input  v-model="queryParams.name" placeholder="请输入表名"></el-input>
       </el-form-item>
 
       <el-form-item class="ma-inline-form-item">
-        <el-button size="small" type="primary" @click="handleSearch" icon="el-icon-search">搜索</el-button>
-        <el-button size="small" type="default" @click="resetSearch" icon="el-icon-refresh">重置</el-button>
+        <el-button  type="primary" @click="handleSearch" icon="el-icon-search">搜索</el-button>
+        <el-button  type="default" @click="resetSearch" icon="el-icon-refresh">重置</el-button>
       </el-form-item>
 
     </el-form>
@@ -60,8 +61,8 @@
     </maTable>
 
     <template #footer class="dialog-footer">
-      <el-button @click="handleDialogClose" size="small">关 闭</el-button>
-      <el-button type="primary" @click="loadTable" size="small">确 定</el-button>
+      <el-button @click="handleDialogClose" >关 闭</el-button>
+      <el-button type="primary" @click="loadTable" >确 定</el-button>
     </template>
   </el-dialog>
 </template>

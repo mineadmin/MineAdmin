@@ -9,6 +9,7 @@
     >导入</el-button>
 
     <el-dialog
+        append-to-body
         title="导入数据"
         v-model="visible"
         :width="400"
@@ -74,11 +75,9 @@ export default {
             let form = new FormData()
             form.append('file', param.file)
             await this.uploadApi(form).then( res => {
-                if (res.success) {
-                    this.$message.success(res.message)
-                    this.visible = false
-                    this.$emit('success')
-                }
+                this.$message.success('导入成功')
+                this.visible = false
+                this.$emit('success')
             })
         }
     }

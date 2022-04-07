@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 		<el-aside width="180px" style="border-right: 1px solid #e6e6e6; padding:10px;">
-			<el-menu size="small" @select="handleSelect" :default-active="defaultActive">
+			<el-menu  @select="handleSelect" :default-active="defaultActive">
         <el-menu-item index="send_box">
           <el-icon><el-icon-message-box /></el-icon>
           <template #title>已发送</template>
@@ -101,7 +101,7 @@
 
           <el-table-column
             label="操作"
-            width="150"
+            width="220"
           >
             <template #default="scope">
               <el-button type="text" @click="del(scope.row.id)">删除</el-button>
@@ -124,7 +124,7 @@
     </el-main>
   </el-drawer>
 
-  <sc-dialog v-model="sendDialog" title="接收人列表"> 
+  <el-dialog v-model="sendDialog" title="接收人列表" append-to-body destroy-on-close> 
     <maTable
       ref="receiveList"
       :api="receiveListApi"
@@ -135,7 +135,7 @@
       <el-table-column label="昵称" prop="nickname" />
       <el-table-column label="查看状态" prop="read_status" />
     </maTable>
-  </sc-dialog>
+  </el-dialog>
   
   <create-message ref="send_msg" />
 </template>
@@ -218,6 +218,8 @@
       async del(id, batch = false) {
         let msg = batch ? '确定要删除选中的消息吗？' : '确定删除该消息吗？';
         await this.$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$API.queueMessage.deletes(batch ? id.join(',') : id).then(res => {

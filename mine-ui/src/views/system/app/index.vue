@@ -91,7 +91,7 @@
         <el-table-column
            label="APP ID"
            prop="app_id"
-           width="100"
+           width="130"
         >
           <template #default="scope">
             <el-tooltip content="点击复制" placement="top">
@@ -123,32 +123,32 @@
         </el-table-column>
 
         <!-- 正常数据操作按钮 -->
-        <el-table-column label="操作" fixed="right" align="right" width="210" v-if="!isRecycle">
+        <el-table-column label="操作" fixed="right" align="right" width="240" v-if="!isRecycle">
           <template #default="scope">
 
             <el-button
               type="text"
-              size="small"
+              
               @click="apidoc(scope.row)"
             >查看文档</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="bind(scope.row)"
               v-auth="['system:app:bind']"
             >绑定接口</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:app:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               @click="deletes(scope.row.id)"
               v-auth="['system:app:delete']"
             >删除</el-button>
@@ -162,14 +162,14 @@
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:app:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:app:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>
@@ -276,6 +276,8 @@
       //批量删除
       async batchDel(){
         await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const loading = this.$loading();
@@ -296,6 +298,8 @@
       // 单个删除
       async deletes(id) {
         await this.$confirm(`确定删除该数据吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
           const loading = this.$loading();

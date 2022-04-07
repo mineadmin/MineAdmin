@@ -216,10 +216,10 @@ class SystemUserService extends AbstractService
 
     /**
      * 获取缓存用户信息
-     * @Cacheable(prefix="loginInfo", ttl=0, value="userId_#{user.id}")
      * @param SystemUser $user
      * @return array
      */
+    #[Cacheable(prefix: "loginInfo", ttl: 0, value: "userId_#{user.id}")]
     protected function getCacheInfo(SystemUser $user): array
     {
         $user->addHidden('deleted_at', 'password');
@@ -274,11 +274,11 @@ class SystemUserService extends AbstractService
 
     /**
      * 更新用户信息
-     * @CacheEvict(prefix="loginInfo", value="userId_#{id}")
      * @param int $id
      * @param array $data
      * @return bool
      */
+    #[CacheEvict(prefix: "loginInfo", value: "userId_#{id}")]
     public function update(int $id, array $data): bool
     {
         if (isset($data['username'])) unset($data['username']);

@@ -1,12 +1,12 @@
 <template>
-  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close append-to-body @closed="$emit('closed')">
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
       <el-form-item label="类型名称" prop="name">
-        <el-input v-model="form.name" size="small" placeholder="请输入类型名称"></el-input>
+        <el-input v-model="form.name"  placeholder="请输入类型名称"></el-input>
       </el-form-item>
 
       <el-form-item label="类型标识" prop="code">
-        <el-input v-model="form.code" size="small" placeholder="请输入类型标识"></el-input>
+        <el-input v-model="form.code"  placeholder="请输入类型标识"></el-input>
       </el-form-item>
 
       <el-form-item label="状态" prop="status" v-if="form.type !== 'B'">
@@ -17,7 +17,7 @@
       </el-form-item>
 
       <el-form-item label="备注" prop="remark">
-        <el-input type="textarea" size="small" :rows="3" placeholder="备注信息" v-model="form.remark">
+        <el-input type="textarea"  :rows="3" placeholder="备注信息" v-model="form.remark">
         </el-input>
       </el-form-item>
     </el-form>

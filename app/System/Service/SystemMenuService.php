@@ -135,9 +135,10 @@ class SystemMenuService extends AbstractService
     /**
      * 处理数据
      * @param $data
-     * @return mixed
+     * @return array
      */
-    protected function handleData($data) {
+    protected function handleData($data): array
+    {
         if ($data['parent_id'] == 0) {
             $data['level'] = '0';
             $data['type'] = SystemMenu::MENUS_LIST;

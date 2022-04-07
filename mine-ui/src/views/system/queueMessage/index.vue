@@ -86,7 +86,7 @@
 
             <el-button
               type="text"
-              size="small"
+              
 							@click="logs(scope.row)"
             >详情</el-button>
 
@@ -99,14 +99,14 @@
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:SystemQueueMessage:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
               type="text"
-              size="small"
+              
               v-auth="['system:SystemQueueMessage:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

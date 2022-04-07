@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="保存网络图片" v-model="openDialog" width="450px" :before-close="handleResClose">
+  <el-dialog title="保存网络图片" v-model="openDialog" width="450px" :before-close="handleResClose" append-to-body destroy-on-close>
     <div>
       网络图片地址：
       <el-input style="margin-top: 5px;" v-model="url">
@@ -17,14 +17,14 @@
 
     <template #footer class="dialog-footer">
 
-        <el-button @click="openDialog = false" size="small">
+        <el-button @click="openDialog = false" >
           关 闭
         </el-button>
 
         <el-button
           type="primary"
           @click="save"
-          size="small">
+          >
           保存到本地
         </el-button>
         

@@ -10,7 +10,7 @@
 						<div class="mask">
 							<span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
 						</div>
-						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal append-to-body>
+						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported>
 							<template #placeholder>
 								<div class="image-slot">
 									<el-icon><el-icon-more-filled /></el-icon>
@@ -29,7 +29,7 @@
 				</div>
 			</el-upload>
 		</div>
-		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close>
+		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close append-to-body>
 			<sc-file-select :max="maxSelect" multiple @submit="fileSelectSubmit">
 				<template #do>
 					<el-button @click="fileSelectDialogVisible=false" >取 消</el-button>

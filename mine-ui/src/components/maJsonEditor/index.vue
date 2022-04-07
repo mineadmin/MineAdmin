@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" ref="dom" :style="'height: ' + props.height + 'px'"></div>
+  <div class="editor" ref="dom" :style="'width: 100%; height: ' + props.height + 'px'"></div>
 </template>
 
 <script setup>

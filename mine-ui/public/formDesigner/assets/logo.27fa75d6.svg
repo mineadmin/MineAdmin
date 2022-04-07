@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 400" class="h-full w-full fill-current">
+  <ellipse stroke="null" ry="61.499919" rx="61.499919" id="svg_1" cy="307.226418" cx="494.749731" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#3C4F63"/>
+  <g transform="rotate(26.32123565673828 140.2502288818359,196.72657775878906) " id="svg_38">
+  <rect id="svg_35" height="250.999657" width="122.999832" y="71.726738" x="78.75029" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="null" fill="#419FFF"/>
+  <ellipse stroke="null" ry="61.499919" rx="61.499919" id="svg_2" cy="73.726737" cx="140.250208" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#419FFF"/>
+  <ellipse stroke="null" ry="61.499919" rx="61.499919" id="svg_3" cy="319.726401" cx="140.250208" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#419FFF"/>
+  </g>
+  <g transform="rotate(26.32123565673828 350.213684082031,196.72657775878903) " id="svg_34">
+  <rect id="svg_29" height="250.999657" width="122.999832" y="71.726738" x="288.713744" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="null" fill="#419FFF"/>
+  <ellipse stroke="null" ry="61.499919" rx="61.499919" id="svg_4" cy="73.726737" cx="350.213663" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#419FFF"/>
+  <ellipse stroke="null" ry="61.499919" rx="61.499919" id="svg_5" cy="319.726401" cx="350.213663" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#419FFF"/>
+  </g>
+</svg>

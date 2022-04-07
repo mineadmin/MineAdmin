@@ -69,7 +69,7 @@
 								<span v-else>{{scope.row.key}}</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="配置Value" prop="value" width="350">
+						<el-table-column label="配置Value" prop="value" width="200">
 							<template #default="scope">
 								<template v-if="scope.row.isSet">
 									<el-input v-model="scope.row.value" placeholder="请输入配置Value"></el-input>
@@ -83,7 +83,7 @@
 								<span v-else>{{scope.row.name}}</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="备注说明" prop="remark" width="150">
+						<el-table-column label="备注说明" prop="remark" width="350">
 							<template #default="scope">
 								<el-input v-if="scope.row.isSet" v-model="scope.row.remark" placeholder="请输入备注说明"></el-input>
 								<span v-else>{{scope.row.remark}}</span>
@@ -92,10 +92,10 @@
 						<el-table-column min-width="1"></el-table-column>
 						<el-table-column label="操作" fixed="right" width="100">
 							<template #default="scope">
-								<el-button @click="save(scope.row, scope.$index)" type="text" size="small">{{scope.row.isSet ? '保存' : '修改' }}</el-button>
+								<el-button @click="save(scope.row, scope.$index)" type="text" >{{scope.row.isSet ? '保存' : '修改' }}</el-button>
 								<el-popconfirm title="确定删除吗？" @confirm="del(scope.row, scope.$index)">
 									<template #reference>
-										<el-button type="text" size="small">删除</el-button>
+										<el-button type="text" >删除</el-button>
 									</template>
 								</el-popconfirm>
 							</template>

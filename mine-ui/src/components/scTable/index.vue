@@ -45,11 +45,10 @@
 					</template>
 					<el-form label-width="80px" label-position="left">
 						<el-form-item label="表格尺寸">
-							<el-radio-group v-model="config.size" size="mini" @change="configSizeChange">
+							<el-radio-group v-model="config.size"  @change="configSizeChange">
 								<el-radio-button label="large">大</el-radio-button>
-								<el-radio-button label="medium">中</el-radio-button>
-								<el-radio-button label="small">正常</el-radio-button>
-								<el-radio-button label="mini">小</el-radio-button>
+								<el-radio-button label="small">中</el-radio-button>
+								<el-radio-button label="default">正常</el-radio-button>
 							</el-radio-group>
 						</el-form-item>
 						<el-form-item label="样式">

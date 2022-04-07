@@ -1,20 +1,20 @@
 <template>
-  <el-dialog title="菜单权限" v-model="visible" :width="500" destroy-on-close>
+  <el-dialog title="菜单权限" v-model="visible" :width="500" destroy-on-close append-to-body>
     <el-form :model="form" ref="dialogForm" label-width="80px">
 
       <el-form-item label="角色名称" prop="name">
-        <el-input v-model="form.name" size="small" :disabled="true" clearable placeholder="请输入角色名称"></el-input>
+        <el-input v-model="form.name"  :disabled="true" clearable placeholder="请输入角色名称"></el-input>
       </el-form-item>
 
       <el-form-item label="代码" prop="code">
-        <el-input v-model="form.code" size="small" :disabled="true" clearable placeholder="请输入角色代码"></el-input>
+        <el-input v-model="form.code"  :disabled="true" clearable placeholder="请输入角色代码"></el-input>
       </el-form-item>
 
             <el-form-item
               label="角色权限"
               prop="menu_ids"
               v-loading="loading"
-              element-loading-background="rgba(255, 255, 255, 0.8)"
+              element-loading-background="rgba(255, 255, 255, 0.01)"
               element-loading-text="数据加载中..."
             >
               <el-checkbox @change="handleTreeExpand($event)">展开/折叠</el-checkbox>
@@ -138,3 +138,13 @@
     }
   }
 </script>
+<style scoped lang="scss">
+:deep(.el-form-item__content) {
+  display: block;
+}
+[data-theme='dark'] {
+  .ma-tree-border {
+    border: 1px solid #383838;
+  }
+}
+</style>

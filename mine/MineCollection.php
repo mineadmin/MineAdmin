@@ -99,7 +99,12 @@ class MineCollection extends Collection
      */
     public function export(string $dto, string $filename, array|\Closure $closure = null): \Psr\Http\Message\ResponseInterface
     {
-        $excel = extension_loaded('xlswriter') ? new XlsWriter($dto) : new PhpOffice($dto);
+        $excelDrive = config('mineadmin.excel_drive');
+        if ($excelDrive === 'auto') {
+            $excel = extension_loaded('xlswriter') ? new XlsWriter($dto) : new PhpOffice($dto);
+        } else {
+            $excel = $excelDrive === 'xlsWriter' ? new XlsWriter($dto) : new PhpOffice($dto);
+        }
         return $excel->export($filename, is_null($closure) ? $this->toArray() : $closure);
     }
 
@@ -110,13 +115,17 @@ class MineCollection extends Collection
      * @param \Closure|null $closure
      * @return bool
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function import(string $dto, MineModel $model, ?\Closure $closure = null): bool
     {
-        $excel = extension_loaded('xlswriter') ? new XlsWriter($dto) : new PhpOffice($dto);
+        $excelDrive = config('mineadmin.excel_drive');
+        if ($excelDrive === 'auto') {
+            $excel = extension_loaded('xlswriter') ? new XlsWriter($dto) : new PhpOffice($dto);
+        } else {
+            $excel = $excelDrive === 'xlsWriter' ? new XlsWriter($dto) : new PhpOffice($dto);
+        }
         return $excel->import($model, $closure);
     }
 

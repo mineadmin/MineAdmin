@@ -278,8 +278,7 @@
 
       // 标签页查询
       handleTabsClick(tab, event) {
-      	this.queryParams.{TABS_KEY} = tab.props.name;
-      	this.handlerSearch();
+      	{TABS_KEY}
       }
     }
   }

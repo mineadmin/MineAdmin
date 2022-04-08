@@ -408,12 +408,15 @@ js;
      */
     public function getTabsKey(int $type = 1): string
     {
+        $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->view_type === 'tabs') {
-                return $type == 1 ? $column->column_name : $column->dict_type;
+                $name = $type == 1 ? $column->column_name : $column->dict_type;
+                $jsCode = "this.queryParams.{$name} = tab.props.name\n\tthis.handlerSearch()";
+                break;
             }
         }
-        return '';
+        return $jsCode;
     }
 
     /**

@@ -84,8 +84,6 @@
       {UPLOAD_IMAGE}
 
       {UPLOAD_FILE}
-
-      {SELECT_RESOURCE}
     }
   }
 </script>

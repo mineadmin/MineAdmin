@@ -76,6 +76,19 @@
           <el-card class="filter-panel" shadow="never">
             
             <el-form label-width="80px" :inline="true">
+              
+              <el-form-item label="手机" prop="phone">
+                <el-input v-model="queryParams.phone" placeholder="用户手机" clearable />
+              </el-form-item>
+
+              <el-form-item label="昵称" prop="nickname">
+                <el-input v-model="queryParams.nickname" placeholder="用户昵称" clearable />
+              </el-form-item>
+
+              <el-form-item label="邮箱" prop="email">
+                <el-input v-model="queryParams.email" placeholder="用户邮箱" clearable />
+              </el-form-item>
+
               <el-form-item label="状态" prop="status">
                 <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
                   <el-option label="启用" value="0">启用</el-option>
@@ -293,6 +306,9 @@
         selection: [],
         queryParams: {
           username: undefined,
+          nickname: undefined,
+          phone: undefined,
+          email: undefined,
           dept_id: undefined,
           maxDate: undefined,
           minDate: undefined,
@@ -516,6 +532,9 @@
       resetSearch() {
         this.queryParams = {
           username: undefined,
+          nickname: undefined,
+          phone: undefined,
+          email: undefined,
           dept_id: undefined,
           maxDate: undefined,
           minDate: undefined,

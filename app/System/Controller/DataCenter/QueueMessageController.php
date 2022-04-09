@@ -12,7 +12,6 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
-use Mine\Annotation\OperationLog;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
 
@@ -88,8 +87,8 @@ class QueueMessageController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("deletes/{ids}")]
+    public function deletes(String $ids): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
     }

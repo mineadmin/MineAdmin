@@ -3283,16 +3283,16 @@
         },
         {
             "name": "hyperf/redis",
-            "version": "v2.2.26",
+            "version": "v2.2.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/redis.git",
-                "reference": "dea5124a56eb587db5349990eae0861f5549b4be"
+                "reference": "c983a646a1910cc5a6141971f499ac14caf906f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/redis/zipball/dea5124a56eb587db5349990eae0861f5549b4be",
-                "reference": "dea5124a56eb587db5349990eae0861f5549b4be",
+                "url": "https://api.github.com/repos/hyperf/redis/zipball/c983a646a1910cc5a6141971f499ac14caf906f1",
+                "reference": "c983a646a1910cc5a6141971f499ac14caf906f1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3345,7 +3345,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-02-14T09:03:01+00:00"
+            "time": "2022-03-30T05:21:10+00:00"
         },
         {
             "name": "hyperf/rpc",
@@ -3595,16 +3595,16 @@
         },
         {
             "name": "hyperf/utils",
-            "version": "v2.2.26",
+            "version": "v2.2.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/utils.git",
-                "reference": "f4a933f905ddb304f68e50324bdbc3ba486c45ad"
+                "reference": "797e6bd2c14c247056eed239c5ffcfb5eb9c410d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/utils/zipball/f4a933f905ddb304f68e50324bdbc3ba486c45ad",
-                "reference": "f4a933f905ddb304f68e50324bdbc3ba486c45ad",
+                "url": "https://api.github.com/repos/hyperf/utils/zipball/797e6bd2c14c247056eed239c5ffcfb5eb9c410d",
+                "reference": "797e6bd2c14c247056eed239c5ffcfb5eb9c410d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3664,7 +3664,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-02-16T03:17:15+00:00"
+            "time": "2022-04-03T10:50:03+00:00"
         },
         {
             "name": "hyperf/validation",

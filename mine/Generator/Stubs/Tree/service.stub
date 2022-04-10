@@ -25,9 +25,10 @@ class {CLASS_NAME} extends AbstractService
     /**
      * 获取树列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeList(?array $params = null): array
+    public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
@@ -39,9 +40,10 @@ class {CLASS_NAME} extends AbstractService
     /**
      * 从回收站获取树列表
      * @param array|null $params
+     * @param bool $isScope
      * @return array
      */
-    public function getTreeListByRecycle(?array $params = null): array
+    public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);

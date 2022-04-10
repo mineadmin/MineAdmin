@@ -143,7 +143,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{PK}',
             '{TABS}',
             '{TABS_KEY}',
-            '{TABS_DICT_KEY}',
+            '{TAB_HANDLE}',
         ];
     }
 
@@ -165,7 +165,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getPk(),
             $this->getTabs(),
             $this->getTabsKey(),
-            $this->getTabsKey(2),
+            $this->getTabsHandle(),
         ];
     }
 
@@ -278,13 +278,29 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_list === '1') {
-                $code = <<<js
+                if (!empty($column->dict_type)) {
+                    $code = <<<js
+ 
+          <el-table-column
+            label="{$column->column_comment}"
+            prop="{$column->column_name}"
+          >
+            <template #default="scope">
+              <ma-dict-tag :options="{$column->dict_type}_data" :value="scope.row.{$column->column_name}" />
+            </template>
+          </el-table-column>
+ js;
+                } else {
+
+                    $code = <<<js
  
          <el-table-column
             label="{$column->column_comment}"
             prop="{$column->column_name}"
          />
  js;
+
+                }
                 $jsCode .= $code;
             }
         }
@@ -387,12 +403,13 @@ js;
         foreach ($this->columns as $column) {
             if ($column->view_type === 'tabs') {
                 $code = <<<js
- 
-      <div style="padding-left: 12px;">
-        <el-tabs v-model="default_{$key}" class="demo-tabs" @tab-click="handleTabsClick">
-          <el-tab-pane v-for="(item,index) in {$column->dict_type}_data" :key="index" :name="item.value" :stretch="true" :label="item.label" />
-        </el-tabs>
-      </div>
+      <el-main class="nopadding">
+        <div style="padding-left: 12px;">
+          <el-tabs v-model="{$key}" class="demo-tabs" @tab-click="handleTabsClick">
+            <el-tab-pane v-for="(item,index) in {$column->dict_type}_data" :key="index" :name="item.value" :stretch="true" :label="item.label" />
+          </el-tabs>
+        </div>
+      </el-main>
 js;
                 $jsCode .= $code;
                 break;
@@ -403,16 +420,27 @@ js;
 
     /**
      * 获取tabs key
-     * @param int $type
      * @return string
      */
-    public function getTabsKey(int $type = 1): string
+    public function getTabsKey(): string
+    {
+        foreach ($this->columns as $column) {
+            if ($column->view_type === 'tabs') {
+                return $column->dict_type;
+            }
+        }
+    }
+
+    /**
+     * 获取tabs key
+     * @return string
+     */
+    public function getTabsHandle(): string
     {
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->view_type === 'tabs') {
-                $name = $type == 1 ? $column->column_name : $column->dict_type;
-                $jsCode = "this.queryParams.{$name} = tab.props.name\n\tthis.handlerSearch()";
+                $jsCode = "this.queryParams.{$column->dict_type} = tab.props.name\n\tthis.handlerSearch()";
                 break;
             }
         }

@@ -134,13 +134,11 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
         }
 
         // 检查接口请求方法
-        if ($apiModel['request_mode'] !== SystemApi::METHOD_ALL) {
-            if ($request->getMethod()[0] !== $apiModel['request_mode'] && $request->getMethod()[0] !== $apiModel['request_mode']) {
-                throw new NormalStatusException(
-                    t('mineadmin.not_allow_method', ['method' => $request->getMethod()]),
-                    MineCode::METHOD_NOT_ALLOW
-                );
-            }
+        if ($apiModel['request_mode'] !== SystemApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
+            throw new NormalStatusException(
+                t('mineadmin.not_allow_method', ['method' => $request->getMethod()]),
+                MineCode::METHOD_NOT_ALLOW
+            );
         }
 
         $this->_setApiData($apiModel->toArray());

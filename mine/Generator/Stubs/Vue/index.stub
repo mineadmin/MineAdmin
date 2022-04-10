@@ -274,12 +274,6 @@
       // 获取字典数据
       getDictData() {
         {DICT_LIST}
-      },
-
-      // 标签页查询
-      handleTabsClick(tab, event) {
-      	this.queryParams.{TABS_KEY} = tab.props.name;
-      	this.handlerSearch();
       }
     }
   }

@@ -137,8 +137,10 @@ class SystemUserService extends AbstractService
     {
         try {
             $this->evDispatcher->dispatch(new UserLoginBefore($data));
-            $userinfo = $this->mapper->checkUserByUsername($data['username']);
-            $userLoginAfter = new UserLoginAfter($userinfo->toarray());
+            $userinfo = $this->mapper->checkUserByUsername($data['username'])->toArray();
+            $password = $userinfo['password'];
+            unset($userinfo['password']);
+            $userLoginAfter = new UserLoginAfter($userinfo);
             $webLoginVerify = container()->get(SettingConfigService::class)->getConfigByKey('web_login_verify');
             if (isset($webLoginVerify['value']) && $webLoginVerify['value'] === '1') {
                 if (! $this->checkCaptcha($data['code'])) {
@@ -148,7 +150,7 @@ class SystemUserService extends AbstractService
                     throw new CaptchaException;
                 }
             }
-            if ($this->mapper->checkPass($data['password'], $userinfo['password'])) {
+            if ($this->mapper->checkPass($data['password'], $password)) {
                 if (
                     ($userinfo['status'] == SystemUser::USER_NORMAL)
                     ||

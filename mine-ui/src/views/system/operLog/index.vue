@@ -106,8 +106,8 @@
     name: 'system:operLog',
 
     components: {
-			info
-		},
+      info
+    },
 
     data() {
       return {
@@ -132,11 +132,11 @@
     methods: {
 
       rowClick(row){
-				this.infoDrawer = true
-				this.$nextTick(() => {
-					this.$refs.info.setData(row)
-				})
-			},
+        this.infoDrawer = true
+        this.$nextTick(() => {
+          this.$refs.info.setData(row)
+        })
+      },
 
       //批量删除
       async batchDel(){

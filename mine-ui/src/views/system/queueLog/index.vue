@@ -87,9 +87,11 @@
         :api="api"
         row-key="id"
         :hidePagination="false"
+        @row-click="rowClick"
         @selection-change="selectionChange"
         stripe
         remoteSort
+        highlightCurrentRow
       >
         <el-table-column type="selection" width="50"></el-table-column>
 
@@ -143,13 +145,20 @@
 
       </maTable>
     </el-main>
+
+    <el-drawer v-model="infoDrawer" title="队列日志详情" :size="600" destroy-on-close>
+      <info ref="info"></info>
+    </el-drawer>
   </el-container>
 
 </template>
 
 <script>
+  import info from './info'
   export default {
     name: 'system:queueLog',
+
+    components: { info },
 
     async created() {
         await this.getDictData();
@@ -160,6 +169,7 @@
         queue_produce_status_data: [],
         queue_consume_status_data: [],
         povpoerShow: false,
+        infoDrawer: false,
         dateRange:'',
         api: { list: this.$API.queueLog.getPageList },
         selection: [],
@@ -176,6 +186,13 @@
       }
     },
     methods: {
+      rowClick(row){
+        this.infoDrawer = true
+        this.$nextTick(() => {
+          this.$refs.info.setData(row)
+        })
+      },
+
       async deletes(id) {
         await this.$confirm(`确定删除该条日志吗？`, '提示', {
           type: 'warning'

@@ -21,249 +21,248 @@
       </el-container>
     </el-aside>
     <el-container>
-        <el-header class="mine-el-header">
-          <div class="panel-container">
-            <div class="left-panel">
-              <el-button
-                icon="el-icon-plus"
-                v-auth="['system:user:save']"
-                type="primary"
-                @click="add"
-              >新增</el-button>
+      <el-header class="mine-el-header">
+        <div class="panel-container">
+          <div class="left-panel">
+            <el-button
+              icon="el-icon-plus"
+              v-auth="['system:user:save']"
+              type="primary"
+              @click="add"
+            >新增</el-button>
 
-              <el-button
-                type="danger"
-                plain
-                icon="el-icon-delete"
-                v-auth="['system:user:delete']"
-                :disabled="selection.length==0"
-                @click="batchDel"
-              >删除</el-button>
+            <el-button
+              type="danger"
+              plain
+              icon="el-icon-delete"
+              v-auth="['system:user:delete']"
+              :disabled="selection.length==0"
+              @click="batchDel"
+            >删除</el-button>
 
-              <el-button
-                icon="el-icon-download"
-                v-auth="['system:user:export']"
-                @click="exportExcel"
-              >导出</el-button>
+            <el-button
+              icon="el-icon-download"
+              v-auth="['system:user:export']"
+              @click="exportExcel"
+            >导出</el-button>
 
-              <ma-import
-                :auth="['system:user:import']"
-                :upload-api="$API.user.importExcel"
-                :download-tpl-api="$API.user.downloadTemplate"
-                @success="handleSuccess()"
-              />
+            <ma-import
+              :auth="['system:user:import']"
+              :upload-api="$API.user.importExcel"
+              :download-tpl-api="$API.user.downloadTemplate"
+              @success="handleSuccess()"
+            />
 
-            </div>
-            <div class="right-panel">
-              <div class="right-panel-search">
-                <el-input v-model="queryParams.username" placeholder="搜索用户名" clearable></el-input>
+          </div>
+          <div class="right-panel">
+            <div class="right-panel-search">
+              <el-input v-model="queryParams.username" placeholder="搜索用户名" clearable></el-input>
 
-                <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-                  <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
-                </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="搜索" placement="top">
+                <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
+              </el-tooltip>
 
-                <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
-                  <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
-                </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
+                <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
+              </el-tooltip>
 
-                <el-button type="text" @click="toggleFilterPanel">
-                  {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
-                  <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
-                </el-button>
-              </div>
+              <el-button type="text" @click="toggleFilterPanel">
+                {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
+                <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
+              </el-button>
             </div>
           </div>
-          <el-card class="filter-panel" shadow="never">
+        </div>
+        <el-card class="filter-panel" shadow="never">
+          <el-form label-width="80px" :inline="true">
             
-            <el-form label-width="80px" :inline="true">
-              
-              <el-form-item label="手机" prop="phone">
-                <el-input v-model="queryParams.phone" placeholder="用户手机" clearable />
-              </el-form-item>
+            <el-form-item label="手机" prop="phone">
+              <el-input v-model="queryParams.phone" placeholder="用户手机" clearable />
+            </el-form-item>
 
-              <el-form-item label="昵称" prop="nickname">
-                <el-input v-model="queryParams.nickname" placeholder="用户昵称" clearable />
-              </el-form-item>
+            <el-form-item label="昵称" prop="nickname">
+              <el-input v-model="queryParams.nickname" placeholder="用户昵称" clearable />
+            </el-form-item>
 
-              <el-form-item label="邮箱" prop="email">
-                <el-input v-model="queryParams.email" placeholder="用户邮箱" clearable />
-              </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="queryParams.email" placeholder="用户邮箱" clearable />
+            </el-form-item>
 
-              <el-form-item label="状态" prop="status">
-                <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
-                  <el-option label="启用" value="0">启用</el-option>
-                  <el-option label="停用" value="1">停用</el-option>
-                </el-select>
-              </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <el-select  v-model="queryParams.status" clearable placeholder="用户状态">
+                <el-option label="启用" value="0">启用</el-option>
+                <el-option label="停用" value="1">停用</el-option>
+              </el-select>
+            </el-form-item>
 
-              <el-form-item label="创建时间">
-                <el-date-picker
-                  clearable
-                  v-model="dateRange"
-                  type="daterange"
-                  range-separator="至"
-                  @change="handleDateChange"
-                  value-format="YYYY-MM-DD"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                ></el-date-picker>
-              </el-form-item>
-            </el-form>
-          </el-card>
-        </el-header>
-        <el-main class="nopadding">
-          <maTable
-            ref="table"
-            :api="api"
-            :column="column"
-            :showRecycle="true"
-            @selection-change="selectionChange"
-            @switch-data="switchData"
-            stripe
-            remoteSort
-            remoteFilter
+            <el-form-item label="创建时间">
+              <el-date-picker
+                clearable
+                v-model="dateRange"
+                type="daterange"
+                range-separator="至"
+                @change="handleDateChange"
+                value-format="YYYY-MM-DD"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-header>
+      <el-main class="nopadding">
+        <maTable
+          ref="table"
+          :api="api"
+          :column="column"
+          :showRecycle="true"
+          @selection-change="selectionChange"
+          @switch-data="switchData"
+          stripe
+          remoteSort
+          remoteFilter
+        >
+          <el-table-column type="selection" width="50"></el-table-column>
+
+          <el-table-column label="头像" width="80">
+            <template #default="scope">
+              <el-avatar :src="scope.row.avatar" :style="{width: '30px', height: '30px'}"  @error="() => true">
+                <i class="el-icon-s-custom" />
+              </el-avatar>
+            </template>
+          </el-table-column>
+          
+          <el-table-column
+            label="登录账号"
+            prop="username"
+            width="200"
+            sortable='custom'
+          ></el-table-column>
+
+          <el-table-column
+            label="昵称"
+            width="160"
+            prop="nickname"
+          ></el-table-column>
+
+          <el-table-column
+            label="邮箱"
+            width="200"
+            prop="email"
+          ></el-table-column>
+
+          <el-table-column
+            label="状态"
+            width="160"
+            prop="status"
           >
-            <el-table-column type="selection" width="50"></el-table-column>
+            <template #default="scope">
+              <el-switch
+                v-model="scope.row.status"
+                @change="handleStatus($event, scope.row)"
+                active-value="0"
+                inactive-value="1"
+              ></el-switch>
+            </template>
+          </el-table-column>
 
-            <el-table-column label="头像" width="80">
-              <template #default="scope">
-                <el-avatar :src="scope.row.avatar" :style="{width: '30px', height: '30px'}"  @error="() => true">
-                  <i class="el-icon-s-custom" />
-                </el-avatar>
-              </template>
-            </el-table-column>
-            
-            <el-table-column
-              label="登录账号"
-              prop="username"
-              width="200"
-              sortable='custom'
-            ></el-table-column>
+          <el-table-column
+            label="用户类型"
+            width="160"
+            prop="user_type"
+          >
+            <template #default="scope">
+              {{ scope.row.user_type === '100' ? '系统用户' : '其他类型' }}
+            </template>
+          </el-table-column>
 
-            <el-table-column
-              label="昵称"
-              width="160"
-              prop="nickname"
-            ></el-table-column>
+          <el-table-column
+            label="创建时间"
+            prop="created_at"
+            width="260"
+            sortable='custom'
+          ></el-table-column>
 
-            <el-table-column
-              label="邮箱"
-              width="200"
-              prop="email"
-            ></el-table-column>
+          <!-- 正常数据操作按钮 -->
+          <el-table-column label="操作" fixed="right" align="right" width="150" v-if="!isRecycle">
+            <template #default="scope">
 
-            <el-table-column
-              label="状态"
-              width="160"
-              prop="status"
-            >
-              <template #default="scope">
-                <el-switch
-                  v-model="scope.row.status"
-                  @change="handleStatus($event, scope.row)"
-                  active-value="0"
-                  inactive-value="1"
-                ></el-switch>
-              </template>
-            </el-table-column>
-
-            <el-table-column
-              label="用户类型"
-              width="160"
-              prop="user_type"
-            >
-              <template #default="scope">
-                {{ scope.row.user_type === '100' ? '系统用户' : '其他类型' }}
-              </template>
-            </el-table-column>
-
-            <el-table-column
-              label="创建时间"
-              prop="created_at"
-              width="260"
-              sortable='custom'
-            ></el-table-column>
-
-            <!-- 正常数据操作按钮 -->
-            <el-table-column label="操作" fixed="right" align="right" width="150" v-if="!isRecycle">
-              <template #default="scope">
-
-                <el-button
-                  type="text"
-                  
-                  @click="show(scope.row, scope.$index)"
-                >查看</el-button>
-
-                <el-button
-                  v-if="scope.row.username === 'superAdmin'"
-                  type="text"
-                  
-                  @click="clearCache(scope.row)"
-                  v-auth="['system:user:cache']"
-                >更新缓存</el-button>
-
-                <el-dropdown v-if="scope.row.username !== 'superAdmin'">
-
-                  <el-button type="text">更多</el-button>
-
-                  <template #dropdown>
-                    <el-dropdown-menu>
-
-                      <el-dropdown-item
-                        @click="edit(scope.row, scope.$index)"
-                        v-if="$AUTH('system:user:update')"
-                      >编辑</el-dropdown-item>
-
-                      <el-dropdown-item 
-                        @click="setHomepage(scope.row)"
-                        v-if="$AUTH('system:user:homePage')"
-                      >设置首页</el-dropdown-item>
-
-                      <el-dropdown-item 
-                        @click="clearCache(scope.row)"
-                        v-if="$AUTH('system:user:cache')"
-                      >更新缓存</el-dropdown-item>
-
-                      <el-dropdown-item 
-                        @click="initUserPassword(scope.row.id)"
-                        v-if="$AUTH('system:user:initUserPassword')"
-                      >初始化密码</el-dropdown-item>
-
-                      <el-dropdown-item
-                        @click="deletes(scope.row.id)"
-                        divided
-                        v-if="$AUTH('system:user:delete')"
-                      >删除</el-dropdown-item>
-
-                    </el-dropdown-menu>
-                  </template>
-
-                </el-dropdown>
+              <el-button
+                type="text"
                 
-              </template>
-            </el-table-column>
+                @click="show(scope.row, scope.$index)"
+              >查看</el-button>
 
-            <!-- 回收站操作按钮 -->
-            <el-table-column label="操作" fixed="right" align="right" width="130" v-else>
-              <template #default="scope">
+              <el-button
+                v-if="scope.row.username === 'superAdmin'"
+                type="text"
+                
+                @click="clearCache(scope.row)"
+                v-auth="['system:user:cache']"
+              >更新缓存</el-button>
 
-                <el-button
-                  type="text"
-                  v-auth="['system:user:recovery']"
-                  @click="recovery(scope.row.id)"
-                >恢复</el-button>
+              <el-dropdown v-if="scope.row.username !== 'superAdmin'">
 
-                <el-button
-                  type="text"
-                  v-auth="['system:user:realDelete']"
-                  @click="deletes(scope.row.id)"
-                >删除</el-button>
+                <el-button type="text">更多</el-button>
 
-              </template>
-            </el-table-column>
+                <template #dropdown>
+                  <el-dropdown-menu>
 
-          </maTable>
-        </el-main>
+                    <el-dropdown-item
+                      @click="edit(scope.row, scope.$index)"
+                      v-if="$AUTH('system:user:update')"
+                    >编辑</el-dropdown-item>
+
+                    <el-dropdown-item 
+                      @click="setHomepage(scope.row)"
+                      v-if="$AUTH('system:user:homePage')"
+                    >设置首页</el-dropdown-item>
+
+                    <el-dropdown-item 
+                      @click="clearCache(scope.row)"
+                      v-if="$AUTH('system:user:cache')"
+                    >更新缓存</el-dropdown-item>
+
+                    <el-dropdown-item 
+                      @click="initUserPassword(scope.row.id)"
+                      v-if="$AUTH('system:user:initUserPassword')"
+                    >初始化密码</el-dropdown-item>
+
+                    <el-dropdown-item
+                      @click="deletes(scope.row.id)"
+                      divided
+                      v-if="$AUTH('system:user:delete')"
+                    >删除</el-dropdown-item>
+
+                  </el-dropdown-menu>
+                </template>
+
+              </el-dropdown>
+              
+            </template>
+          </el-table-column>
+
+          <!-- 回收站操作按钮 -->
+          <el-table-column label="操作" fixed="right" align="right" width="130" v-else>
+            <template #default="scope">
+
+              <el-button
+                type="text"
+                v-auth="['system:user:recovery']"
+                @click="recovery(scope.row.id)"
+              >恢复</el-button>
+
+              <el-button
+                type="text"
+                v-auth="['system:user:realDelete']"
+                @click="deletes(scope.row.id)"
+              >删除</el-button>
+
+            </template>
+          </el-table-column>
+
+        </maTable>
+      </el-main>
     </el-container>
   </el-container>
 

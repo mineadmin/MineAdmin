@@ -1,84 +1,81 @@
 <template>
   <el-container>
-    <el-header>
-      <div class="left-panel">
+    <el-header class="mine-el-header">
+      <div class="panel-container">
+        <div class="left-panel">
+          <el-button
+            icon="el-icon-plus"
+            v-auth="['system:api:save']"
+            type="primary"
+            @click="add"
+          >新增</el-button>
 
-        <el-button
-          icon="el-icon-plus"
-          v-auth="['system:api:save']"
-          type="primary"
-          @click="add"
-        >新增</el-button>
+          <el-button
+            type="danger"
+            plain
+            icon="el-icon-delete"
+            v-auth="['system:api:delete']"
+            :disabled="selection.length==0"
+            @click="batchDel"
+          >删除</el-button>
 
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          v-auth="['system:api:delete']"
-          :disabled="selection.length==0"
-          @click="batchDel"
-        >删除</el-button>
+        </div>
+        <div class="right-panel">
+          <div class="right-panel-search">
 
-      </div>
-      <div class="right-panel">
-        <div class="right-panel-search">
+            <el-input v-model="queryParams.name" placeholder="接口名称" clearable></el-input>
 
-          <el-input v-model="queryParams.name" placeholder="接口名称" clearable></el-input>
+            <el-tooltip class="item" effect="dark" content="搜索" placement="top">
+              <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
+            </el-tooltip>
 
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
-          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
+              <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
+            </el-tooltip>
 
-          <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
-            <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
-          </el-tooltip>
-
-          <el-popover placement="bottom-end" :width="450" trigger="click" >
-            <template #reference>
-              <el-button type="text" @click="povpoerShow = ! povpoerShow">
-                更多筛选<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-            </template>
-            <el-form label-width="80px">
-
-            <el-form-item label="应用名称" prop="group_id">
-              <el-select v-model="queryParams.group_id" style="width:100%" clearable placeholder="应用分组">
-                <el-option v-for="(item, index) in groupData" :key="index" :value="item.id" :label="item.name" />
-              </el-select>
-            </el-form-item>
-
-            <el-form-item label="认证模式" prop="auth_mode">
-                <el-input v-model="queryParams.auth_mode" placeholder="认证模式" clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label="请求模式" prop="request_mode">
-
-            <el-select v-model="queryParams.request_mode" style="width:100%" clearable placeholder="请求模式">
-                <el-option
-                    v-for="(item, index) in request_mode_data"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                >{{item.label}}</el-option>
-            </el-select>
-            </el-form-item>
-
-            <el-form-item label="状态" prop="status">
-
-            <el-select v-model="queryParams.status" style="width:100%" clearable placeholder="状态">
-                <el-option
-                    v-for="(item, index) in data_status_data"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                >{{item.label}}</el-option>
-            </el-select>
-            </el-form-item>
-
-            </el-form>
-          </el-popover>
+            <el-button type="text" @click="toggleFilterPanel">
+              {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
+              <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
+            </el-button>
+          </div>
         </div>
       </div>
+      <el-card class="filter-panel" shadow="never">
+        <el-form label-width="80px" :inline="true">
+          <el-form-item label="应用名称" prop="group_id">
+            <el-select v-model="queryParams.group_id" style="width:100%" clearable placeholder="应用分组">
+              <el-option v-for="(item, index) in groupData" :key="index" :value="item.id" :label="item.name" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="认证模式" prop="auth_mode">
+            <el-input v-model="queryParams.auth_mode" placeholder="认证模式" clearable></el-input>
+          </el-form-item>
+
+          <el-form-item label="请求模式" prop="request_mode">
+            <el-select v-model="queryParams.request_mode" style="width:100%" clearable placeholder="请求模式">
+              <el-option
+                  v-for="(item, index) in request_mode_data"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+              >{{item.label}}</el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="status">
+
+            <el-select v-model="queryParams.status" style="width:100%" clearable placeholder="状态">
+              <el-option
+                  v-for="(item, index) in data_status_data"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+              >{{item.label}}</el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </el-header>
     <el-main class="nopadding">
       <maTable
@@ -351,6 +348,11 @@
       goto(type, row) {
         let params = { apiId: row.id, title: row.name, type }
         this.$router.push({ path: '/apiColumn', query: params })
+      },
+
+      toggleFilterPanel() {
+        this.povpoerShow = ! this.povpoerShow
+        document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
       },
 
       //搜索

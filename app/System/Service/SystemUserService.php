@@ -137,8 +137,10 @@ class SystemUserService extends AbstractService
     {
         try {
             $this->evDispatcher->dispatch(new UserLoginBefore($data));
-            $userinfo = $this->mapper->checkUserByUsername($data['username']);
-            $userLoginAfter = new UserLoginAfter($userinfo->toarray());
+            $userinfo = $this->mapper->checkUserByUsername($data['username'])->toArray();
+            $password = $userinfo['password'];
+            unset($userinfo['password']);
+            $userLoginAfter = new UserLoginAfter($userinfo);
             $webLoginVerify = container()->get(SettingConfigService::class)->getConfigByKey('web_login_verify');
             if (isset($webLoginVerify['value']) && $webLoginVerify['value'] === '1') {
                 if (! $this->checkCaptcha($data['code'])) {
@@ -148,7 +150,7 @@ class SystemUserService extends AbstractService
                     throw new CaptchaException;
                 }
             }
-            if ($this->mapper->checkPass($data['password'], $userinfo['password'])) {
+            if ($this->mapper->checkPass($data['password'], $password)) {
                 if (
                     ($userinfo['status'] == SystemUser::USER_NORMAL)
                     ||
@@ -209,19 +211,20 @@ class SystemUserService extends AbstractService
     public function getInfo(): array
     {
         if ( ($uid = user()->getId()) ) {
-            return $this->getCacheInfo(SystemUser::find($uid));
+            return $this->getCacheInfo((int) $uid);
         }
         throw new MineException(t('system.unable_get_userinfo'), 500);
     }
 
     /**
      * 获取缓存用户信息
-     * @param SystemUser $user
+     * @param int $id
      * @return array
      */
-    #[Cacheable(prefix: "loginInfo", ttl: 0, value: "userId_#{user.id}")]
-    protected function getCacheInfo(SystemUser $user): array
+    #[Cacheable(prefix: "loginInfo", ttl: 0, value: "userId_#{id}")]
+    protected function getCacheInfo(int $id): array
     {
+        $user = $this->mapper->getModel()->find($id);
         $user->addHidden('deleted_at', 'password');
         $data['user'] = $user->toArray();
         if (user()->isSuperAdmin()) {

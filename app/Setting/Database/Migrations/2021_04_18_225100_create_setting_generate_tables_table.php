@@ -42,6 +42,6 @@ class CreateSettingGenerateTablesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('system_task_log');
+        Schema::dropIfExists('setting_generate_tables');
     }
 }

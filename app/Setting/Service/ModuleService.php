@@ -230,10 +230,20 @@ class ModuleService extends AbstractService
      */
     public function modifyStatus(array $data): bool
     {
-        $modules = $this->getModuleCache();
-        $this->setModuleEnabled($data['name'], $data['status']);
-        $modules[$data['name']]['enabled'] = $data['status'];
-        $this->setModuleCache($data['name'], $modules[$data['name']]);
-        return true;
+        $modules = make(Mine::class)->getModuleInfo();
+        if (isset($modules[$data['name']])) {
+            $filePath = BASE_PATH . '/app/' . $data['name'] . '/config.json';
+            $status = $data['status'] ? 'true' : 'false';
+            $content = preg_replace(
+                '/\"enabled\":\s(true|false),/',
+                '"enabled": ' . $status . ',',
+                file_get_contents($filePath)
+            );
+            $result = (bool) file_put_contents($filePath, $content);
+            $this->setModuleCache();
+            return $result;
+        } else {
+            return false;
+        }
     }
 }

@@ -4,9 +4,7 @@
         :options="cityLinkageList"
         :props="{ expandTrigger: expandType, value: valueType, label: 'name', checkStrictly: true }"
         filterable
-        
         :placeholder="placeholder"
-
         clearable
     ></el-cascader>
 </template>

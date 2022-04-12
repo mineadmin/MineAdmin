@@ -1,60 +1,60 @@
 <template>
   <el-container>
-    <el-header>
-      <div class="left-panel">
+    <el-header class="mine-el-header">
+      <div class="panel-container">
+        <div class="left-panel">
 
-        <el-button
-          type="danger"
-          plain
-          row-key="id"
-          icon="el-icon-delete"
-          v-auth="['system:apiLog:delete']"
-          :disabled="selection.length==0"
-          @click="batchDel"
-        >删除</el-button>
+          <el-button
+            type="danger"
+            plain
+            row-key="id"
+            icon="el-icon-delete"
+            v-auth="['system:apiLog:delete']"
+            :disabled="selection.length==0"
+            @click="batchDel"
+          >删除</el-button>
 
-      </div>
-      <div class="right-panel">
-        <div class="right-panel-search">
-          <el-input v-model="queryParams.api_name" clearable placeholder="请输入接口名称"></el-input>
+        </div>
+        <div class="right-panel">
+          <div class="right-panel-search">
+            <el-input v-model="queryParams.api_name" clearable placeholder="请输入接口名称"></el-input>
 
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
-          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="搜索" placement="top">
+              <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
+            </el-tooltip>
 
-          <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
-            <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
-          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
+              <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
+            </el-tooltip>
 
-          <el-popover placement="bottom-end" :width="450" trigger="click" >
-            <template #reference>
-              <el-button type="text" @click="povpoerShow = ! povpoerShow">
-                更多筛选<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-            </template>
-            <el-form label-width="80px">
+            <el-button type="text" @click="toggleFilterPanel">
+              {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
+              <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
+            </el-button>
 
-              <el-form-item label="访问名称" prop="access_name">
-                <el-input v-model="queryParams.access_name" clearable placeholder="请输入访问名称"></el-input>
-              </el-form-item>
-
-              <el-form-item label="访问时间">
-                <el-date-picker
-                  clearable
-                  v-model="dateRange"
-                  type="daterange"
-                  range-separator="至"
-                  @change="handleDateChange"
-                  value-format="YYYY-MM-DD"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                ></el-date-picker>
-              </el-form-item>
-
-            </el-form>
-          </el-popover>
+          </div>
         </div>
       </div>
+      <el-card class="filter-panel" shadow="never">
+        <el-form label-width="80px" :inline="true">
+          <el-form-item label="访问名称" prop="access_name">
+            <el-input v-model="queryParams.access_name" clearable placeholder="请输入访问名称"></el-input>
+          </el-form-item>
+
+          <el-form-item label="访问时间">
+            <el-date-picker
+              clearable
+              v-model="dateRange"
+              type="daterange"
+              range-separator="至"
+              @change="handleDateChange"
+              value-format="YYYY-MM-DD"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            ></el-date-picker>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </el-header>
     <el-main class="nopadding">
       <maTable
@@ -158,6 +158,11 @@
           this.queryParams.minDate = values[0]
           this.queryParams.maxDate = values[1]
         }
+      },
+
+      toggleFilterPanel() {
+        this.povpoerShow = ! this.povpoerShow
+        document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
       },
 
       //搜索

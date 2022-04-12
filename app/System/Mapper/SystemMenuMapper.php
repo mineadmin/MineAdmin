@@ -118,6 +118,17 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
+     * 新增菜单
+     * @param array $data
+     * @return int
+     */
+    #[DeleteCache("loginInfo:*")]
+    public function save(array $data): int
+    {
+        return parent::save($data);
+    }
+
+    /**
      * 更新菜单
      * @param int $id
      * @param array $data

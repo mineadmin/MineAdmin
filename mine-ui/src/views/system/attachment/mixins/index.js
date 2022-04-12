@@ -219,6 +219,11 @@ export default {
       }
     },
 
+    toggleFilterPanel() {
+      this.povpoerShow = ! this.povpoerShow
+      document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
+    },
+
     //搜索
     handlerSearch(){
       this.getList()

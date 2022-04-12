@@ -1,0 +1,50 @@
+version: '3'
+services:
+  # 容器内访问宿主机的地址用：host.docker.internal
+  # 宿主机也可以在hosts文件添加：127.0.0.1 host.docker.internal
+  # mine-ui的.env文件127.0.0.1替换为host.docker.internal
+  # mine-ui/src/config/index.js文件127.0.0.1替换为host.docker.internal
+  nginx-frontend:
+    image: nginx:latest
+    environment:
+      - "TIMEZONE=Asia/Shanghai"
+    ports: 
+      - 8101:80
+    volumes: 
+      - ./mine-ui/dist:/usr/share/nginx/html
+      - ./docker/nginx-frontend/servers:/etc/nginx/conf.d
+
+  # mineadmin的.env的mysql、redis如果连接到宿主机，地址用：host.docker.internal
+  # 如果是连接到docker内服务，则用服务名称，如:redis
+  hyperf:
+    image: ixmo/mine-admin:latest
+    restart: always
+    environment:
+      - "TIMEZONE=Asia/Shanghai"
+      - "APP_PROJECT=hyperf"
+      - "APP_SYSTEM_ENV=docker"
+    working_dir: "/opt/www"
+    ports: 
+      - 9501:9501
+      - 9502:9502
+      - 9503:9503
+    volumes:
+      - ./:/opt/www
+    entrypoint: ["php", "watch", "-c"]
+
+  # 没有将volumes映射出来，需要持久化自行百度一下
+
+  mysql: 
+    container_name: mysql:5.7
+    environment: 
+      - "TZ=Asia/Shanghai"
+      - MYSQL_ROOT_PASSWORD=12345678
+      - "explicit_defaults_for_timestamp=true"
+      - "lower_case_table_names=1"
+    image: mysql:5.7
+    restart: always
+    # command: "--default-authentication-plugin=mysql_native_password"
+  redis:
+    image: redis
+    container_name: redis
+    restart: always

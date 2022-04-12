@@ -44,6 +44,30 @@
     color: #fff;
 }
 
+.el-button--success:active,
+.el-button--info:active,
+.el-button--warning:active,
+.el-button--danger:active,
+.el-button--success.is-plain:active,
+.el-button--info.is-plain:active,
+.el-button--warning.is-plain:active,
+.el-button--danger.is-plain:active
+{
+    color: #fff;
+}
+.el-button--success:active, .el-button--success.is-plain:active {
+    border-color: var(--el-color-success-dark-2)
+}
+.el-button--info:active, .el-button--info.is-plain:active {
+    border-color: var(--el-color-info-dark-2)
+}
+.el-button--warning:active, .el-button--warning.is-plain:active {
+    border-color: var(--el-color-warning-dark-2)
+}
+.el-button--danger:active, .el-button--danger.is-plain:active {
+    border-color: var(--el-color-danger-dark-2)
+}
+
 .sceditor {
     width: 100%;
 }

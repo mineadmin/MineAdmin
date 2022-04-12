@@ -16,8 +16,7 @@ return [
     'data_scope_enabled' => true,
     /**
      * excel 导入、导出驱动类型 auto, xlsWriter, phpOffice
-     * auto 优先使用xlsWriter，否则使用phpOffice
-     * xlsWriter 使用
+     * auto 优先使用xlsWriter，若环境没有安装xlsWriter扩展则使用phpOffice
      */
     'excel_drive' => 'auto'
 ];

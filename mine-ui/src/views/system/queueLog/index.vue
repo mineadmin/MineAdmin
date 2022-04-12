@@ -1,85 +1,85 @@
 <template>
   <el-container>
-    <el-header>
-      <div class="left-panel">
+    <el-header class="mine-el-header">
+      <div class="panel-container">
+        <div class="left-panel">
 
-        <!-- <el-button
-          type="primary"
-          icon="el-icon-plus"
-          v-auth="['system:queueLog:produceStatus']"
-          :disabled="selection.length==0"
-          @click="batchDel"
-        >重新加入队列</el-button> -->
+          <!-- <el-button
+            type="primary"
+            icon="el-icon-plus"
+            v-auth="['system:queueLog:produceStatus']"
+            :disabled="selection.length==0"
+            @click="batchDel"
+          >重新加入队列</el-button> -->
 
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          v-auth="['system:queueLog:delete']"
-          :disabled="selection.length==0"
-          @click="batchDel"
-        >删除</el-button>
+          <el-button
+            type="danger"
+            plain
+            icon="el-icon-delete"
+            v-auth="['system:queueLog:delete']"
+            :disabled="selection.length==0"
+            @click="batchDel"
+          >删除</el-button>
 
-      </div>
-      <div class="right-panel">
-        <div class="right-panel-search">
-          
-          <el-input v-model="queryParams.queue_name" placeholder="队列名称" clearable></el-input>
+        </div>
+        <div class="right-panel">
+          <div class="right-panel-search">
+            
+            <el-input v-model="queryParams.queue_name" placeholder="队列名称" clearable></el-input>
 
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
-          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="搜索" placement="top">
+              <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
+            </el-tooltip>
 
-          <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
-            <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
-          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="清空条件" placement="top">
+              <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
+            </el-tooltip>
 
-          <el-popover placement="bottom-end" :width="450" trigger="click" >
-            <template #reference>
-              <el-button type="text" @click="povpoerShow = ! povpoerShow">
-                更多筛选<el-icon><el-icon-arrow-down /></el-icon>
-              </el-button>
-            </template>
-            <el-form label-width="100px">
+            <el-button type="text" @click="toggleFilterPanel">
+              {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
+              <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
+            </el-button>
 
-            <el-form-item label="交换机名称" prop="exchange_name">
-                <el-input v-model="queryParams.exchange_name" placeholder="交换机名称" clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label="路由名称" prop="routing_key_name">
-                <el-input v-model="queryParams.routing_key_name" placeholder="路由名称" clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label="生产状态" prop="produce_status">
-              <el-select v-model="queryParams.produce_status" style="width:100%" clearable placeholder="生产状态">
-                  <el-option
-                      v-for="(item, index) in queue_produce_status_data"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                  >{{item.label}}</el-option>
-              </el-select>
-            </el-form-item>
-
-            <el-form-item label="消费状态" prop="consume_status">
-              <el-select v-model="queryParams.consume_status" style="width:100%" clearable placeholder="消费状态">
-                  <el-option
-                      v-for="(item, index) in queue_consume_status_data"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                  >{{item.label}}</el-option>
-              </el-select>
-            </el-form-item>
-
-            <el-form-item label="延迟时间" prop="delay_time">
-                <el-input v-model="queryParams.delay_time" placeholder="延迟时间（秒）" clearable></el-input>
-            </el-form-item>
-
-            </el-form>
-          </el-popover>
+          </div>
         </div>
       </div>
+      <el-card class="filter-panel" shadow="never">
+        <el-form label-width="80px" :inline="true">
+          <el-form-item label="交换机" prop="exchange_name">
+            <el-input v-model="queryParams.exchange_name" placeholder="交换机名称" clearable></el-input>
+          </el-form-item>
+
+          <el-form-item label="路由名称" prop="routing_key_name">
+            <el-input v-model="queryParams.routing_key_name" placeholder="路由名称" clearable></el-input>
+          </el-form-item>
+
+          <el-form-item label="生产状态" prop="produce_status">
+            <el-select v-model="queryParams.produce_status" style="width:100%" clearable placeholder="生产状态">
+              <el-option
+                  v-for="(item, index) in queue_produce_status_data"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+              >{{item.label}}</el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="消费状态" prop="consume_status">
+            <el-select v-model="queryParams.consume_status" style="width:100%" clearable placeholder="消费状态">
+              <el-option
+                  v-for="(item, index) in queue_consume_status_data"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+              >{{item.label}}</el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="延迟时间" prop="delay_time">
+            <el-input v-model="queryParams.delay_time" placeholder="延迟时间（秒）" clearable></el-input>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </el-header>
     <el-main class="nopadding">
       <maTable
@@ -87,9 +87,11 @@
         :api="api"
         row-key="id"
         :hidePagination="false"
+        @row-click="rowClick"
         @selection-change="selectionChange"
         stripe
         remoteSort
+        highlightCurrentRow
       >
         <el-table-column type="selection" width="50"></el-table-column>
 
@@ -143,13 +145,20 @@
 
       </maTable>
     </el-main>
+
+    <el-drawer v-model="infoDrawer" title="队列日志详情" :size="600" destroy-on-close>
+      <info ref="info"></info>
+    </el-drawer>
   </el-container>
 
 </template>
 
 <script>
+  import info from './info'
   export default {
     name: 'system:queueLog',
+
+    components: { info },
 
     async created() {
         await this.getDictData();
@@ -160,6 +169,7 @@
         queue_produce_status_data: [],
         queue_consume_status_data: [],
         povpoerShow: false,
+        infoDrawer: false,
         dateRange:'',
         api: { list: this.$API.queueLog.getPageList },
         selection: [],
@@ -176,6 +186,13 @@
       }
     },
     methods: {
+      rowClick(row){
+        this.infoDrawer = true
+        this.$nextTick(() => {
+          this.$refs.info.setData(row)
+        })
+      },
+
       async deletes(id) {
         await this.$confirm(`确定删除该条日志吗？`, '提示', {
           type: 'warning'
@@ -220,6 +237,11 @@
           this.queryParams.minDate = values[0]
           this.queryParams.maxDate = values[1]
         }
+      },
+
+      toggleFilterPanel() {
+        this.povpoerShow = ! this.povpoerShow
+        document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
       },
 
       //搜索

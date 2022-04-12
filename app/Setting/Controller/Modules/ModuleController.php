@@ -43,7 +43,7 @@ class ModuleController extends MineController
 
     /**
      * 新增本地模块
-     * @param ModuleStatusRequest $request
+     * @param ModuleCreateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -57,7 +57,7 @@ class ModuleController extends MineController
 
     /**
      * 启停用模块
-     * @param string $name
+     * @param ModuleStatusRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

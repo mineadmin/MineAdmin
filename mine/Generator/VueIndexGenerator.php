@@ -429,6 +429,7 @@ js;
                 return $column->dict_type;
             }
         }
+        return '';
     }
 
     /**

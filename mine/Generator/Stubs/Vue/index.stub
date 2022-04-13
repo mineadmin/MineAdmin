@@ -145,7 +145,7 @@
             {QUERY_PARAMS}
         },
         isRecycle: false,
-        {TABS_KEY}: '-1',
+        {TAB_DEFAULT_VALUE}
       }
     },
     methods: {

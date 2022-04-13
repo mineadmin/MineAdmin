@@ -17,6 +17,9 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
+use App\System\Mapper\SystemDictDataMapper;
+use App\System\Model\SystemDictData;
+use App\System\Service\SystemDictDataService;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
@@ -144,11 +147,15 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{TABS}',
             '{TABS_KEY}',
             '{TAB_HANDLE}',
+            '{TAB_DEFAULT_VALUE}',
         ];
     }
 
     /**
      * 获取要替换占位符的内容
+     * @return string[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getReplaceContent(): array
     {
@@ -166,6 +173,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getTabs(),
             $this->getTabsKey(),
             $this->getTabsHandle(),
+            $this->getTabDefaultValue(),
         ];
     }
 
@@ -421,12 +429,27 @@ js;
     /**
      * 获取tabs key
      * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function getTabDefaultValue(): string
+    {
+        $tabName = $this->getTabsKey();
+        $list = container()->get(SystemDictDataService::class)->getList(
+            ['code' => str_replace('_tabs', '', $tabName)]
+        );
+        return empty($tabName) ? '' : $tabName . ': '. $list[0]['value'] ?? '';
+    }
+
+    /**
+     * 获取tabs key
+     * @return string
      */
     public function getTabsKey(): string
     {
         foreach ($this->columns as $column) {
             if ($column->view_type === 'tabs') {
-                return $column->dict_type;
+                return $column->dict_type . '_tabs';
             }
         }
         return '';
@@ -441,7 +464,7 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->view_type === 'tabs') {
-                $jsCode = "this.queryParams.{$column->dict_type} = tab.props.name\n\tthis.handlerSearch()";
+                $jsCode = "this.queryParams['{$column->column_name}'] = tab.props.name\n\tthis.handlerSearch()";
                 break;
             }
         }

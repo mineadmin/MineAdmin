@@ -209,7 +209,7 @@ trait MapperTrait
     /**
      * 读取一条数据
      * @param int $id
-     * @return MineModel
+     * @return MineModel|null
      */
     public function read(int $id): ?MineModel
     {

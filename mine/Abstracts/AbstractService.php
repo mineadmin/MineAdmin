@@ -32,7 +32,7 @@ abstract class AbstractService
 
     /**
      * 魔术方法，从类属性里获取数据
-     * @param $name
+     * @param string $name
      * @return mixed|string
      */
     public function __get(string $name)

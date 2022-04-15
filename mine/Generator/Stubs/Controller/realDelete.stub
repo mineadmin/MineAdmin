@@ -1,0 +1,13 @@
+
+    /**
+     * 单个或批量真实删除数据 （清空回收站）
+     * @param String $ids
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[DeleteMapping("realDelete/{ids}"), Permission("{REAL_DELETE_PERMISSION}"), OperationLog]
+    public function realDelete(String $ids): ResponseInterface
+    {
+        return $this->service->realDelete($ids) ? $this->success() : $this->error();
+    }

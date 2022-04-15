@@ -36,6 +36,14 @@ export default {
     })
   },
 
+  readTable (params = {}) {
+    return request({
+      url: 'setting/code/readTable',
+      method: 'get',
+      params
+    })
+  },
+
   /**
    * 生成代码
    * @returns

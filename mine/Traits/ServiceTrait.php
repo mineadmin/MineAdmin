@@ -262,19 +262,12 @@ trait ServiceTrait
      * 修改数据状态
      * @param int $id
      * @param string $value
+     * @param string $filed
      * @return bool
      */
-    public function changeStatus(int $id, string $value): bool
+    public function changeStatus(int $id, string $value, string $filed = 'status'): bool
     {
-        if ($value === '0') {
-            $this->mapper->enable([$id]);
-            return true;
-        } else if ($value === '1') {
-            $this->mapper->disable([$id]);
-            return true;
-        } else {
-            return false;
-        }
+        return $value === MineModel::ENABLE ? $this->mapper->enable([$id], $filed) : $this->mapper->disable([$id], $filed);
     }
 
     /**

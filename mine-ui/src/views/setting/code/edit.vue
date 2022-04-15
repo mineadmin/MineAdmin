@@ -1,10 +1,5 @@
 <template>
-
-  <el-drawer
-    title="修改生成配置"
-    v-model="drawer"
-    size="80%"
-  >
+  <el-main class="nopadding">
     <el-form
       ref="form"
       :model="form"
@@ -368,17 +363,12 @@
         <el-button @click="handleClose">关闭</el-button>
       </div>
     </el-form>
-
-  </el-drawer>
-
+  </el-main>
 </template>
 <script>
 export default {
-  emits: ['confirm'],
   data () {
     return {
-      // 显示抽屉
-      drawer: false,
       // 默认激活
       activeName: '',
       // 表单字段
@@ -457,6 +447,22 @@ export default {
     }
   },
 
+  async created () {
+    if (! this.$route.query.id) {
+      this.$message.error('请从正确来路访问页面，标签页已关闭')
+      useTabs.close()
+    }
+    const table = await this.$API.generate.readTable({ id: this.$route.query.id })
+    this.record = table.data
+    this.activeName = 'config'
+    this.setFormValue()
+
+    await this.getTableColumns()
+    await this.getSystemInfo()
+    await this.getMenu()
+    await this.getDictType()
+  },
+
   methods: {
 
     handleChangeGenType(value) {
@@ -469,18 +475,6 @@ export default {
           this.form.generate_type = '0'
         })
       }
-    },
-
-    async show (record) {
-      this.drawer = true
-      this.record = record
-      this.activeName = 'config'
-      this.setFormValue()
-
-      await this.getTableColumns()
-      await this.getSystemInfo()
-      await this.getMenu()
-      await this.getDictType()
     },
 
     handleClose () {
@@ -525,7 +519,6 @@ export default {
             let res = await this.$API.generate.update(this.form)
             this.saveLoading = false
             if (res.success) {
-              this.$emit('confirm')
               this.record = null
               this.$message.success(res.message)
               this.drawer = false

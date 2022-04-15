@@ -77,6 +77,18 @@ class GenerateCodeController extends MineController
     }
 
     /**
+     * 读取表数据
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("readTable")]
+    public function readTable(): ResponseInterface
+    {
+        return $this->success($this->tableService->read((int) $this->request->input('id')));
+    }
+
+    /**
      * 更新业务表信息
      * @param GenerateUpdateRequest $request
      * @return ResponseInterface

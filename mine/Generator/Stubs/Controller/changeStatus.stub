@@ -1,0 +1,15 @@
+
+    /**
+     * 更改数据状态
+     * @param SystemUserStatusRequest $request
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("{CHANGE_STATUS_PERMISSION}"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus(
+            (int) $request->input('id'), (string) $request->input('{STATUS_FIELD}'), '{STATUS_FIELD}'
+        ) ? $this->success() : $this->error();
+    }

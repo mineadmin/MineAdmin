@@ -19,9 +19,9 @@ class SystemMenuMapper extends AbstractMapper
 
     /**
      * 查询的菜单字段
-     * @var string[]
+     * @var array
      */
-    public $menuField = [
+    public array $menuField = [
         'id',
         'parent_id',
         'name',
@@ -46,7 +46,7 @@ class SystemMenuMapper extends AbstractMapper
     public function getSuperAdminRouters(): array
     {
         return $this->model::query()
-            ->select(...$this->menuField)
+            ->select($this->menuField)
             ->where('status', $this->model::ENABLE)
             ->orderBy('sort', 'desc')
             ->get()->sysMenuToRouterTree();
@@ -60,10 +60,10 @@ class SystemMenuMapper extends AbstractMapper
     public function getRoutersByIds(array $ids): array
     {
         return $this->model::query()
+            ->select($this->menuField)
             ->whereIn('id', $ids)
             ->where('status', $this->model::ENABLE)
             ->orderBy('sort', 'desc')
-            ->select(...$this->menuField)
             ->get()->sysMenuToRouterTree();
     }
 
@@ -92,7 +92,7 @@ class SystemMenuMapper extends AbstractMapper
     /**
      * 通过 code 查询菜单名称
      * @param string $code
-     * @return string
+     * @return string|null
      */
     public function findNameByCode(string $code): ?string
     {

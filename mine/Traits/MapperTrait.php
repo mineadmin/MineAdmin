@@ -116,7 +116,7 @@ trait MapperTrait
     /**
      * 排序处理器
      * @param Builder $query
-     * @param array $params
+     * @param array|null $params
      * @return Builder
      */
     public function handleOrder(Builder $query, ?array &$params = null): Builder
@@ -242,7 +242,7 @@ trait MapperTrait
      * 获取单列值
      * @param array $condition
      * @param string $columns
-     * @return array|null
+     * @return array
      */
     public function pluck(array $condition, string $columns = 'id'): array
     {
@@ -252,7 +252,7 @@ trait MapperTrait
     /**
      * 从回收站读取一条数据
      * @param int $id
-     * @return MineModel
+     * @return MineModel|null
      * @noinspection PhpUnused
      */
     public function readByRecycle(int $id): ?MineModel
@@ -362,7 +362,6 @@ trait MapperTrait
      * @param \Closure|null $closure
      * @return bool
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @Transaction
@@ -444,7 +443,6 @@ trait MapperTrait
     /**
      * 获取tabs数据统计
      * @param $field
-     * @param $dictDataService
      * @return array
      */
     public function getTabNum($field): array

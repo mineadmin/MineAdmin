@@ -29,6 +29,7 @@ class MineStart extends ServerStartCallback
         $console = console();
         $console->info('MineAdmin start success...');
         $console->info($this->welcome());
+        $console->info('current booting the user: ' . shell_exec('whoami'));
     }
 
     protected function welcome(): string

@@ -192,36 +192,6 @@ class ModuleService extends AbstractService
     }
 
     /**
-     * 设置模块状态
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function setModuleEnabled(?string $moduleName = null, bool $enabled = true): void
-    {
-        $key = $this->prefix . 'modules:';
-        if (empty($moduleName)) {
-            foreach ($this->getModuleCache() as $item) {
-                redis()->set($key . $item['name'], $item['enabled'] == '1');
-            }
-        } else {
-            redis()->set($key . $moduleName, $enabled);
-        }
-    }
-
-    /**
-     * 获取模块状态（缓存）
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function getModuleEnabled(string $moduleName): bool
-    {
-        $key = $this->prefix . 'modules:' . $moduleName;
-        $redis = redis();
-        $redis->exists($key) || $this->setModuleEnabled();
-        return $redis->get($key) == '1';
-    }
-
-    /**
      * 启停用模块
      * @param array $data
      * @return bool

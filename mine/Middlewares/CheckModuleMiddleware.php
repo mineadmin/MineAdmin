@@ -53,11 +53,11 @@ class CheckModuleMiddleware implements MiddlewareInterface
 
             $moduleName = Str::title($moduleName);
 
-            $moduleEnabled = $this->service->getModuleEnabled($moduleName);
+            $module = $this->service->getModuleCache($moduleName);
 
             $annotation = AnnotationCollector::getClassesByAnnotation('Hyperf\HttpServer\Annotation\Controller');
 
-            foreach ($annotation as $item) if ( $item->server === 'http' && $item->prefix === $path && !$moduleEnabled ) {
+            foreach ($annotation as $item) if ( $item->server === 'http' && $item->prefix === $path && !$module['enabled']) {
                 throw new NormalStatusException('模块被禁用', 500);
             }
         }

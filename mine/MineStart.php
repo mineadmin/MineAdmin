@@ -24,7 +24,6 @@ class MineStart extends ServerStartCallback
     public function beforeStart()
     {
         $service = container()->get(ModuleService::class);
-        $service->setModuleEnabled();
         $service->setModuleCache();
         $console = console();
         $console->info('MineAdmin start success...');

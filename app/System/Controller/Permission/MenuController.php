@@ -60,7 +60,7 @@ class MenuController extends MineController
     #[GetMapping("tree")]
     public function tree(): ResponseInterface
     {
-        return $this->success($this->service->getSelectTree());
+        return $this->success($this->service->getSelectTree($this->request->all()));
     }
 
     /**

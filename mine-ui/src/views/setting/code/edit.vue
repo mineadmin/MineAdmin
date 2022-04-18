@@ -1,4 +1,7 @@
 <template>
+	<sc-page-header :title="title" icon="el-icon-lock">
+		<el-button @click="$router.push('code')">返回代码生成器</el-button>
+	</sc-page-header>
   <el-main class="nopadding">
     <el-form
       ref="form"
@@ -255,13 +258,13 @@
 
             <el-table :data="columns" empty-text="表中无字段...">
 
-              <el-table-column prop="sort" label="排序">
+              <el-table-column prop="sort" label="排序" width="80">
                 <template v-slot="scope">
                   <el-input v-model="scope.row.sort" clearable placeholder="排序"></el-input>
                 </template>
               </el-table-column>
 
-              <el-table-column prop="column_name" label="字段名称" />
+              <el-table-column prop="column_name" label="字段名称"/>
 
               <el-table-column prop="column_comment" label="字段描述">
                 <template v-slot="scope">
@@ -269,7 +272,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column prop="column_type" label="物理类型" />
+              <el-table-column prop="column_type" label="物理类型" width="120" />
 
               <el-table-column prop="is_required" label="必填" width="60">
                 <template v-slot="scope">
@@ -353,6 +356,24 @@
                 </template>
               </el-table-column>
 
+              <el-table-column prop="allow_role" label="允许角色">
+                <template v-slot="scope">
+                  <el-select
+                    v-model="scope.row.allow_role"
+                    placeholder="允许查看的角色"
+                    style="width: 100%"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(item, index) in roles"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.code"
+                    />
+                  </el-select>
+                </template>
+              </el-table-column>
+
             </el-table>
 
           </el-tab-pane>
@@ -360,15 +381,17 @@
 
       <div style="text-align:center; margin-bottom: 20px; margin-top: 20px;">
         <el-button type="primary" @click="handleSubmit" :loading="saveLoading">提交</el-button>
-        <el-button @click="handleClose">关闭</el-button>
       </div>
     </el-form>
   </el-main>
 </template>
 <script>
+import useTabs from '@/utils/useTabs'
 export default {
+  name: 'setting:code:update',
   data () {
     return {
+      title: '',
       // 默认激活
       activeName: '',
       // 表单字段
@@ -395,7 +418,7 @@ export default {
       rules: {
         table_comment: [{ required: true, message: '请填写表描述', trigger: 'blur' }],
         module_name: [{ required: true, message: '请选择所属模块（注意对应表模块前缀）', trigger: 'change' }],
-        belong_menu_id: [{ required: true, message: '请选择所属菜单', trigger: 'change' }],
+        // belong_menu_id: [{ required: true, message: '请选择所属菜单', trigger: 'change' }],
         menu_name: [{ required: true, message: '请选择所属菜单', trigger: 'blur' }],
         // package_name: [{ required: false, pattern: /^[A-Za-z]{3,}$/g, message: '包名必须为3位字母及以上', trigger: 'blur' }]
       },
@@ -413,6 +436,8 @@ export default {
       columns: [],
       // 菜单列表
       menus: [],
+      // 角色列表
+      roles: [],
       // 字典列表
       dict: [],
       // 模块信息
@@ -433,10 +458,22 @@ export default {
         { label: '文本框', value: 'text' },
         { label: '密码框', value: 'password' },
         { label: '文本域', value: 'textarea' },
+        { label: '计数器', value: 'inputNumber' },
+        { label: 'Switch开关', value: 'switch' },
+        { label: '滑块', value: 'slider' },
         { label: '下拉框', value: 'select' },
         { label: '单选框', value: 'radio' },
         { label: '复选框', value: 'checkbox' },
-        { label: '日期控件', value: 'date' },
+        { label: '日期选择器', value: 'date' },
+        { label: '时间选择器', value: 'time' },
+        { label: '日期时间选择器', value: 'datetime' },
+        { label: '评分器', value: 'rate' },
+        { label: '颜色选择器', value: 'colorPicker' },
+        { label: '穿梭框', value: 'transfer' },
+        // { label: '分片上传', value: 'chunkUpload' },
+        { label: '用户选择器', value: 'userSelect' },
+        { label: '用户信息', value: 'userinfo' },
+        { label: '省市区联动', value: 'area' },
         { label: '资源选择单选', value: 'selectResourceRadio' },
         { label: '资源选择多选', value: 'selectResourceMulti' },
         { label: '图片上传', value: 'image' },
@@ -455,11 +492,14 @@ export default {
     const table = await this.$API.generate.readTable({ id: this.$route.query.id })
     this.record = table.data
     this.activeName = 'config'
+    this.title = '更新业务表 - ' + this.record.table_comment
+    useTabs.setTitle(this.title)
     this.setFormValue()
 
     await this.getTableColumns()
     await this.getSystemInfo()
     await this.getMenu()
+    await this.getRoles()
     await this.getDictType()
   },
 
@@ -482,8 +522,14 @@ export default {
     },
 
     getMenu () {
-      this.$API.menu.tree().then(res => {
+      this.$API.menu.tree({ onlyMenu: true }).then(res => {
         this.menus = res.data
+      })
+    },
+
+    getRoles () {
+      this.$API.role.getList().then(res => {
+        this.roles = res.data
       })
     },
 

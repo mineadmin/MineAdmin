@@ -35,7 +35,7 @@ class AuthAspect extends AbstractAspect
     /**
      * @var LoginUser
      */
-    protected $loginUser;
+    protected LoginUser $loginUser;
 
     public function __construct(LoginUser $loginUser)
     {

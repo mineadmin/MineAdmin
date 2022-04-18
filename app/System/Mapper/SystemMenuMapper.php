@@ -69,14 +69,19 @@ class SystemMenuMapper extends AbstractMapper
 
     /**
      * 获取前端选择树
+     * @param array $data
      * @return array
      */
-    public function getSelectTree(): array
+    public function getSelectTree(array $data): array
     {
-        return $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
-            ->where('status', $this->model::ENABLE)
-            ->orderBy('sort', 'desc')
-            ->get()->toTree();
+        $query = $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
+            ->where('status', $this->model::ENABLE)->orderBy('sort', 'desc');
+
+        if (!empty($data['onlyMenu'])) {
+            $query->where('type', SystemMenu::MENUS_LIST);
+        }
+
+        return $query->get()->toTree();
     }
 
     /**

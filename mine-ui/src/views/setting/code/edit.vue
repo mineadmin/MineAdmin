@@ -250,10 +250,6 @@
 
           </el-tab-pane>
 
-          <!-- <el-tab-pane label="菜单配置" name="menu">
-            选择菜单
-          </el-tab-pane> -->
-
           <el-tab-pane label="字段管理" name="field">
 
             <el-table :data="columns" empty-text="表中无字段...">
@@ -376,6 +372,10 @@
 
             </el-table>
 
+          </el-tab-pane>
+
+          <el-tab-pane label="关联配置" name="menu">
+            
           </el-tab-pane>
       </el-tabs>
 

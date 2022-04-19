@@ -1,5 +1,5 @@
 <template>
-	<sc-page-header :title="title" icon="el-icon-lock">
+	<sc-page-header :title="title" icon="el-icon-edit">
 		<el-button @click="$router.push('code')">返回代码生成器</el-button>
 	</sc-page-header>
   <el-main class="nopadding">
@@ -146,25 +146,6 @@
                   <el-input v-model="form.package_name"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="generate_type">
-                  <template #label>
-                    菜单选项
-                    <el-tooltip>
-                      <template #content>
-                        不构建菜单<br />
-                        生成代码时，系统不执行SQL语句<br />
-                        构建菜单<br />
-                        生成代码时，系统自动将菜单SQL语句导入菜单
-                      </template>
-                      <el-icon><el-icon-question-filled /></el-icon>
-                    </el-tooltip>
-                  </template>
-
-                  <el-radio-group v-model="form.build_menu" @change="handleBuildMenu">
-                    <el-radio-button label="0">不构建菜单</el-radio-button>
-                    <el-radio-button label="1">构建菜单</el-radio-button>
-                  </el-radio-group>
-                </el-form-item>
               </el-col>
 
               <el-col :xs="24" :md="12" :xl="12">
@@ -185,6 +166,26 @@
                   <el-radio-group v-model="form.generate_type" @change="handleChangeGenType">
                     <el-radio-button label="0">压缩包下载</el-radio-button>
                     <el-radio-button label="1">生成到模块</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>
+
+                <el-form-item prop="generate_type">
+                  <template #label>
+                    菜单选项
+                    <el-tooltip>
+                      <template #content>
+                        不构建菜单<br />
+                        生成代码时，系统不执行SQL语句<br />
+                        构建菜单<br />
+                        生成代码时，系统自动将菜单SQL语句导入菜单
+                      </template>
+                      <el-icon><el-icon-question-filled /></el-icon>
+                    </el-tooltip>
+                  </template>
+
+                  <el-radio-group v-model="form.build_menu" @change="handleBuildMenu">
+                    <el-radio-button label="0">不构建菜单</el-radio-button>
+                    <el-radio-button label="1">构建菜单</el-radio-button>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -707,7 +708,7 @@ export default {
 
     settingComponent(row, index) {
       let showDrawerList = [
-        'date', 'time', 'userinfo', 'tabs'
+        'date', 'userinfo'
       ]
       row.$index = index
       if (showDrawerList.includes(row.view_type)) {

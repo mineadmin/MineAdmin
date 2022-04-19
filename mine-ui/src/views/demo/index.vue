@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <ma-chunk-upload v-model="test" />
+    <!-- <ma-chunk-upload v-model="test" /> -->
     <el-row :gutter="15">
       <el-col :lg="24">
         <el-card shadow="never" header="选择资源组件">

@@ -271,7 +271,7 @@
           </el-tab-pane>
 
           <el-tab-pane label="字段管理" name="field">
-
+            <el-alert title="只有下拉框、复选框、单选框、标签页支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单" type="info" />
             <el-table :data="columns" empty-text="表中无字段...">
 
               <el-table-column prop="sort" label="排序" width="80">
@@ -342,6 +342,7 @@
                   <el-select
                     v-model="scope.row.view_type"
                     placeholder="请选择页面控件"
+                    @change="settingComponent(scope.row, scope.$index)"
                     style="width: 100%"
                   >
                     <el-option
@@ -395,7 +396,11 @@
           </el-tab-pane>
 
           <el-tab-pane label="菜单配置" name="menu">
-            <el-alert :title="`不生成某些菜单，后端也相应不生成某些方法，下面带有 ❌ 的则不会生成后端代码`" type="info" />
+            <el-alert :title="`未选择的菜单，后端也对应不生成方法。注意：列表按钮菜单是默认的`" type="info" />
+            <el-form-item label="选择" v-for="(menu,index) in menuList" :key="index">
+              <el-checkbox :value="menu.name" :label="menu.name" v-model="menu.check" true-label="1" false-label="0" />
+              <div class="el-form-item-msg" style="margin-left: 10px">{{menu.comment}}</div>
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="关联配置" name="relation">
@@ -444,6 +449,39 @@
       </div>
     </el-form>
   </el-main>
+
+  <el-drawer v-model="drawer" @close="handleClose" :size="'380px'">
+    <el-form :model="settingForm" style="padding-left: 20px;">
+      <!-- 用户信息 -->
+      <el-form-item label="用户信息" v-if="this.selectField.view_type === 'userinfo'" prop="userinfo">
+        <el-select v-model="settingForm.userinfo">
+          <el-option label="用户ID" value="id" />
+          <el-option label="用户账号" value="username" />
+          <el-option label="用户昵称" value="nickname" />
+          <el-option label="用户部门ID" value="dept_id" />
+          <el-option label="用户手机" value="phone" />
+          <el-option label="用户邮箱" value="email" />
+        </el-select>
+        <div class="el-form-item-msg">选择要保存的用户信息</div>
+      </el-form-item>
+
+      <!-- 日期选择器 -->
+      <el-form-item label="控件类型" v-if="this.selectField.view_type === 'date'" prop="date">
+        <el-select v-model="settingForm.date">
+          <el-option label="日期选择器" value="default" />
+          <el-option label="日期时间选择器" value="datetime" />
+          <el-option label="日期范围" value="date_range" />
+          <el-option label="日期时间范围" value="datetime_range" />
+          <el-option label="周选择器" value="week" />
+          <el-option label="月选择器" value="month" />
+          <el-option label="年选择器" value="year" />
+        </el-select>
+        <div class="el-form-item-msg">请选择日期控件类型</div>
+      </el-form-item>
+
+      <el-button @click="handleSetting">确定</el-button>
+    </el-form>
+  </el-drawer>
 </template>
 <script>
 import useTabs from '@/utils/useTabs'
@@ -451,6 +489,7 @@ export default {
   name: 'setting:code:update',
   data () {
     return {
+      drawer: false,
       title: '',
       // 默认激活
       activeName: '',
@@ -467,10 +506,29 @@ export default {
         belong_menu_id: '',
         namespace: '',
         generate_type: '0',
+        generate_menus: [],
         build_menu: '0',
         options: {},
         columns: [],
       },
+
+      settingForm: {
+        userinfo: 'id',
+        date: 'default',
+        tabs: []
+      },
+
+      menuList: [
+        { name: '新增', value: 'save', comment: '勾选生成新增数据按钮菜单及接口', check: '1' },
+        { name: '更新', value: 'update', comment: '勾选生成更新数据按钮菜单及接口', check: '1'  },
+        { name: '读取', value: 'read', comment: '勾选生成读取数据按钮菜单及接口', check: '1'  },
+        { name: '回收站列表', value: 'delete', comment: '勾选生成移到回收站列表、移到回收站、恢复菜单及接口，确定该表有deleted_at字段，且模型引入了软删除。', check: '1' },
+        { name: '真实删除', value: 'realDelete', comment: '勾选生成真实删除按钮菜单及接口', check: '1' },
+        { name: '修改状态', value: 'changeStatus', comment: '勾选生成修改状态按钮菜单及接口，该接口用于单个字段状态修改', check: '1' },
+        { name: '自增自减', value: 'numberOperation', comment: '勾选生成数据自增自减按钮菜单及接口，该接口用于单个字段增减操作', check: '1' },
+        { name: '导入', value: 'import', comment: '勾选生成导入按钮菜单、接口和DTO文件', check: '1' },
+        { name: '导出', value: 'export', comment: '勾选生成导出按钮菜单、接口和DTO文件', check: '1' },
+      ],
 
       // 保存loading
       saveLoading: false,
@@ -510,6 +568,9 @@ export default {
       dict: [],
       // 模块信息
       sysinfo: {},
+      
+      selectField: '',
+
       // 查询类型
       queryType: [
         { label: '=', value: 'eq' },
@@ -532,10 +593,10 @@ export default {
         { label: '下拉框', value: 'select' },
         { label: '单选框', value: 'radio' },
         { label: '复选框', value: 'checkbox' },
-        { label: '日期、时间选择器', value: 'date' },
+        { label: '日期选择器', value: 'date' },
+        { label: '时间选择器', value: 'time' },
         { label: '评分器', value: 'rate' },
         { label: '颜色选择器', value: 'colorPicker' },
-        { label: '穿梭框', value: 'transfer' },
         // { label: '分片上传', value: 'chunkUpload' },
         { label: '用户选择器', value: 'userSelect' },
         { label: '用户信息', value: 'userinfo' },
@@ -608,6 +669,8 @@ export default {
 
     handleClose () {
       this.drawer = false
+      this.selectField = ''
+      this.componentInfo = {}
     },
 
     getMenu () {
@@ -642,19 +705,51 @@ export default {
       })
     },
 
+    settingComponent(row, index) {
+      let showDrawerList = [
+        'date', 'time', 'userinfo', 'tabs'
+      ]
+      row.$index = index
+      if (showDrawerList.includes(row.view_type)) {
+        this.selectField = row
+        this.drawer = true
+      }
+    },
+
+    handleSetting() {
+      let index = this.selectField.$index;
+      if (! this.columns[index].options) {
+        this.columns[index].options = {}
+      }
+      if (this.selectField.view_type === 'userinfo') {
+        this.columns[index].options.userinfo = this.settingForm.userinfo
+      }
+
+      if (this.selectField.view_type === 'date') {
+        this.columns[index].options.date = this.settingForm.date
+      }
+
+      this.handleClose()
+    },
+
     // 提交数据
     handleSubmit () {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.form.columns = this.columns
-          this.saveLoading = true
+          // this.saveLoading = true
+          this.menuList.map(item => {
+            if (item.check === '1') this.form.generate_menus.push(item.value)
+          })
+          
           this.form.options = { relations: this.relations, tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
+          console.log(this.form)
+          return
           let res = await this.$API.generate.update(this.form)
           this.saveLoading = false
           if (res.success) {
             this.record = null
             this.$message.success(res.message)
-            this.drawer = false
           } else {
             this.$alert(res.message, "提示", { type: 'error' })
           }

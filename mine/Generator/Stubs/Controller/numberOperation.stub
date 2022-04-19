@@ -1,0 +1,18 @@
+
+    /**
+     * 数字运算操作
+     * @param SystemUserStatusRequest $request
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("numberOperation"), Permission("{NUMBER_OPERATION_PERMISSION}"), OperationLog]
+    public function numberOperation(): ResponseInterface
+    {
+        return $this->service->numberOperation(
+            (int) $request->input('{PK}'),
+            (string) $request->input('{FIELD_NAME}'),
+            (string) $request->input('{TYPE}', 'inc'),
+            (int) $request->input('{VALUE}', 1),
+        ) ? $this->success() : $this->error();
+    }

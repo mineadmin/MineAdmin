@@ -271,27 +271,23 @@ trait ServiceTrait
     }
 
     /**
-     * 自增
+     * 数字运算操作
      * @param int $id
      * @param string $field
-     * @param int $value
-     * @return mixed
-     */
-    public function inc(int $id, string $field, int $value = 1): bool
-    {
-        return $this->mapper->inc($id, $field, $value);
-    }
-
-    /**
-     * 自减
-     * @param int $id
-     * @param string $field
+     * @param string $type
      * @param int $value
      * @return bool
      */
-    public function dec(int $id, string $field, int $value = 1): bool
+    public function numberOperation(int $id, string $field, string $type = 'inc', int $value = 1): bool
     {
-        return $this->mapper->dec($id, $field, $value);
+        if ($type === 'inc') {
+            return $this->mapper->inc($id, $field, $value);
+        }
+        if ($type === 'dec') {
+            return $this->mapper->dec($id, $field, $value);
+        }
+
+        return false;
     }
 
     /**

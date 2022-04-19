@@ -10,6 +10,6 @@
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus(
-            (int) $request->input('id'), (string) $request->input('{STATUS_FIELD}'), '{STATUS_FIELD}'
+            (int) $request->input('{PK}'), (string) $request->input('{STATUS_FIELD}'), '{STATUS_FIELD}'
         ) ? $this->success() : $this->error();
     }

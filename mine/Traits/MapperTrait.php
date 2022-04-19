@@ -437,23 +437,26 @@ trait MapperTrait
     }
 
     /**
-     * 获取tabs数据统计
-     * @param $field
-     * @return array
+     * 自增
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return bool
      */
-    public function getTabNum($field): array
+    public function inc(int $id, string $field, int $value): bool
     {
-        $dictDataService = make(SystemDictDataService::class);
-        $result = [];
-        $data =  $dictDataService->getList(['code' =>$field]);
-        foreach ($data as $v) {
-            if ($v['value'] === '-1') {
-                $result[] = ['value' => $v['value'],'num' => $this->model::count()];
-            } else {
-                $result[] = ['value' => $v['value'],'num' => $this->model::where($field,$v['value'])->count()];
-            }
-        }
+        return $this->model::find($id, [ $field ])->increment($field, $value) > 0;
+    }
 
-        return  $result;
+    /**
+     * 自减
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return bool
+     */
+    public function dec(int $id, string $field, int $value): bool
+    {
+        return $this->model::find($id, [ $field ])->decrement($field, $value) > 0;
     }
 }

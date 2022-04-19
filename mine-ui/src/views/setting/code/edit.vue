@@ -83,7 +83,7 @@
                 <el-form-item prop="belong_menu_id">
                   <template #label>
                     所属菜单
-                    <el-tooltip content="分配业务功能在哪个菜单，例如：权限管理">
+                    <el-tooltip content="分配业务功能在哪个菜单，例如：权限管理。不选择则为顶级菜单">
                       <el-icon><el-icon-question-filled /></el-icon>
                     </el-tooltip>
                   </template>
@@ -144,6 +144,26 @@
                   </template>
 
                   <el-input v-model="form.package_name"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="generate_type">
+                  <template #label>
+                    菜单选项
+                    <el-tooltip>
+                      <template #content>
+                        不构建菜单<br />
+                        生成代码时，系统不执行SQL语句<br />
+                        构建菜单<br />
+                        生成代码时，系统自动将菜单SQL语句导入菜单
+                      </template>
+                      <el-icon><el-icon-question-filled /></el-icon>
+                    </el-tooltip>
+                  </template>
+
+                  <el-radio-group v-model="form.build_menu" @change="handleBuildMenu">
+                    <el-radio-button label="0">不构建菜单</el-radio-button>
+                    <el-radio-button label="1">构建菜单</el-radio-button>
+                  </el-radio-group>
                 </el-form-item>
               </el-col>
 
@@ -374,9 +394,49 @@
 
           </el-tab-pane>
 
-          <el-tab-pane label="关联配置" name="menu">
-            
+          <el-tab-pane label="菜单配置" name="menu">
+            <el-alert :title="`不生成某些菜单，后端也相应不生成某些方法，下面带有 ❌ 的则不会生成后端代码`" type="info" />
           </el-tab-pane>
+
+          <el-tab-pane label="关联配置" name="relation">
+            <el-alert :title="`
+            模型关联支持：一对一、一对多、一对多（反向）、多对多。
+            `" type="info" />
+            <el-button @click="addRelation" icon="el-icon-plus" style="margin-top: 10px;">新增关联</el-button>
+            <div v-for="(item, index) in relations" :key="index">
+              <el-divider content-position="left">
+                {{ item.name ? item.name : '定义新关联' }}
+                <el-button type="text" @click="delRelation(index)" icon="el-icon-delete" style="margin-left: 10px;">删除定义</el-button>
+              </el-divider>
+              <el-row :gutter="24">
+                <el-col :xs="24" :md="12" :xl="12">
+                  <el-form-item class="ma-inline-form-item" label="关联类型">
+                    <el-select v-model="item.type" style="width: 100%">
+                      <el-option v-for="type in realtionsType" :key="type.value" :value="type.value" :label="type.name" />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item class="ma-inline-form-item" label="关联模型">
+                    <el-input v-model="item.model" />
+                  </el-form-item>
+                  <el-form-item class="ma-inline-form-item" label="关联键名称">
+                    <el-input v-model="item.localKey" />
+                  </el-form-item>
+                </el-col>
+                <el-col :xs="24" :md="12" :xl="12">
+                  <el-form-item class="ma-inline-form-item" label="关联名称">
+                    <el-input v-model="item.name" />
+                  </el-form-item>
+                  <el-form-item class="ma-inline-form-item" v-show="item.type === 'belongsToMany'" label="中间表名称">
+                    <el-input v-model="item.table" />
+                  </el-form-item>
+                  <el-form-item class="ma-inline-form-item" label="外键名称">
+                    <el-input v-model="item.foreignKey" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+          </el-tab-pane>
+
       </el-tabs>
 
       <div style="text-align:center; margin-bottom: 20px; margin-top: 20px;">
@@ -406,7 +466,8 @@ export default {
         type: '',
         belong_menu_id: '',
         namespace: '',
-        generate_type: '',
+        generate_type: '0',
+        build_menu: '0',
         options: {},
         columns: [],
       },
@@ -424,10 +485,17 @@ export default {
       },
 
       tree_id: '',
-
       tree_parent_id: '',
-
       tree_name: '',
+
+      // 关联关系
+      relations: [],
+      realtionsType: [
+        { name: '一对一', value: 'hasOne' },
+        { name: '一对多', value: 'hasMany' },
+        { name: '一对多（反向)', value: 'belongsTo' },
+        { name: '多对多', value: 'belongsToMany' },
+      ],
 
       // 当前记录
       record: null,
@@ -464,9 +532,7 @@ export default {
         { label: '下拉框', value: 'select' },
         { label: '单选框', value: 'radio' },
         { label: '复选框', value: 'checkbox' },
-        { label: '日期选择器', value: 'date' },
-        { label: '时间选择器', value: 'time' },
-        { label: '日期时间选择器', value: 'datetime' },
+        { label: '日期、时间选择器', value: 'date' },
         { label: '评分器', value: 'rate' },
         { label: '颜色选择器', value: 'colorPicker' },
         { label: '穿梭框', value: 'transfer' },
@@ -505,6 +571,17 @@ export default {
 
   methods: {
 
+    addRelation() {
+      let relation = {
+        name: '', type: 'hasOne', model: '', foreignKey: '', localKey: '', table: ''
+      }
+      this.relations.push(relation)
+    },
+
+    delRelation(index) {
+      this.relations.splice(index, 1)
+    },
+
     handleChangeGenType(value) {
       if (value === '1') {
         this.$confirm('生成到模块会覆盖原文件，确定使用该方式吗？', '提示', {
@@ -513,6 +590,18 @@ export default {
           type: 'warning'
         }).then().catch(_=> {
           this.form.generate_type = '0'
+        })
+      }
+    },
+
+    handleBuildMenu(value) {
+      if (value === '1') {
+        this.$confirm('确定选择生成代码时执行菜单SQL语句', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then().catch(_=> {
+          this.form.build_menu = '0'
         })
       }
     },
@@ -557,20 +646,18 @@ export default {
     handleSubmit () {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-            this.form.columns = this.columns
-            this.saveLoading = true
-            if ( this.form.type == 'tree') {
-              this.form.options = { tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
-            }
-            let res = await this.$API.generate.update(this.form)
-            this.saveLoading = false
-            if (res.success) {
-              this.record = null
-              this.$message.success(res.message)
-              this.drawer = false
-            } else {
-              this.$alert(res.message, "提示", { type: 'error' })
-            }
+          this.form.columns = this.columns
+          this.saveLoading = true
+          this.form.options = { relations: this.relations, tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
+          let res = await this.$API.generate.update(this.form)
+          this.saveLoading = false
+          if (res.success) {
+            this.record = null
+            this.$message.success(res.message)
+            this.drawer = false
+          } else {
+            this.$alert(res.message, "提示", { type: 'error' })
+          }
         }
       })
     },

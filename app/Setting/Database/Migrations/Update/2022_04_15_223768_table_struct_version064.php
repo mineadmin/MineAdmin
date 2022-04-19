@@ -15,6 +15,7 @@ class TableStructVersion064 extends Migration
             $table->string('key', 32)->change();
         });
 
+
         Schema::table('setting_generate_columns', function (Blueprint $table) {
             if (! Schema::hasColumn('setting_generate_columns','allow_roles')) {
                 $table->addColumn('string', 'allow_roles', ['length' => 255])
@@ -29,6 +30,15 @@ class TableStructVersion064 extends Migration
                     ->nullable();
             }
         });
+
+        Schema::table('setting_generate_tables', function (Blueprint $table) {
+            if (!Schema::hasColumn('setting_generate_tables', 'build_menu')) {
+                $table->addColumn('char', 'build_menu', ['length' => 1, 'default' => '0'])
+                    ->comment('是否构建菜单')
+                    ->after('generate_type')
+                    ->nullable();
+            }
+        });
     }
 
     /**
@@ -38,6 +48,10 @@ class TableStructVersion064 extends Migration
     {
         Schema::table('setting_config', function (Blueprint $table) {
             $table->string('key', 255)->change();
+        });
+
+        Schema::table('setting_generate_tables', function (Blueprint $table) {
+            $table->dropColumn(['build_menu']);
         });
 
         Schema::table('setting_generate_columns', function (Blueprint $table) {

@@ -28,4 +28,6 @@ class {CLASS_NAME} extends MineModel
      * @var array
      */
     protected $casts = [];
+
+    {RELATIONS}
 }

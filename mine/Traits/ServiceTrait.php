@@ -271,6 +271,30 @@ trait ServiceTrait
     }
 
     /**
+     * 自增
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return mixed
+     */
+    public function inc(int $id, string $field, int $value = 1): bool
+    {
+        return $this->mapper->inc($id, $field, $value);
+    }
+
+    /**
+     * 自减
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return bool
+     */
+    public function dec(int $id, string $field, int $value = 1): bool
+    {
+        return $this->mapper->dec($id, $field, $value);
+    }
+
+    /**
      * 导出数据
      * @param array $params
      * @param string|null $dto
@@ -374,16 +398,5 @@ trait ServiceTrait
     protected function getArrayData(array $params = []): array
     {
         return [];
-    }
-
-    /**
-     * 获取tabs数据统计
-     * @param string $field
-     * @param $dictDataService
-     * @return array
-     */
-    public function getTabNum(string $field): array
-    {
-        return $this->mapper->getTabNum($field);
     }
 }

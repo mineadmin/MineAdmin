@@ -169,7 +169,7 @@
                   </el-radio-group>
                 </el-form-item>
 
-                <el-form-item prop="generate_type">
+                <el-form-item prop="build_menu">
                   <template #label>
                     菜单选项
                     <el-tooltip>
@@ -374,10 +374,10 @@
                 </template>
               </el-table-column>
 
-              <el-table-column prop="allow_role" label="允许角色">
+              <el-table-column prop="allow_roles" label="允许角色">
                 <template v-slot="scope">
                   <el-select
-                    v-model="scope.row.allow_role"
+                    v-model="scope.row.allow_roles"
                     placeholder="允许查看的角色"
                     style="width: 100%"
                     clearable
@@ -504,7 +504,7 @@ export default {
         package_name: '',
         remark: '',
         type: '',
-        belong_menu_id: '',
+        belong_menu_id: '0',
         namespace: '',
         generate_type: '0',
         generate_menus: [],
@@ -713,6 +713,12 @@ export default {
       row.$index = index
       if (showDrawerList.includes(row.view_type)) {
         this.selectField = row
+        if (row.options && row.options.userinfo) {
+          this.settingForm.userinfo = row.options.userinfo
+        }
+        if (row.options && row.options.date) {
+          this.settingForm.date = row.options.date
+        }
         this.drawer = true
       }
     },
@@ -738,14 +744,13 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.form.columns = this.columns
-          // this.saveLoading = true
+          this.saveLoading = true
+          this.form.generate_menus = []
           this.menuList.map(item => {
             if (item.check === '1') this.form.generate_menus.push(item.value)
           })
           
           this.form.options = { relations: this.relations, tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
-          console.log(this.form)
-          return
           let res = await this.$API.generate.update(this.form)
           this.saveLoading = false
           if (res.success) {
@@ -770,9 +775,17 @@ export default {
       this.form.remark = this.record.remark
       this.form.type = this.record.type
       this.form.generate_type = this.record.generate_type
+      this.form.build_menu = this.record.build_menu
 
-      if (this.form.type == 'single') {
-        this.form.options = {}
+      const menuList = this.record.generate_menus
+      this.menuList.map( (item, index) => {
+        this.menuList[index].check = menuList.includes(item.value) ? '1' : '0'
+      })
+
+      if (this.record.options && this.record.options.relations) {
+        this.record.options.relations.map(item => {
+          this.relations.push(item)
+        })
       }
 
       if (this.form.type == 'tree') {

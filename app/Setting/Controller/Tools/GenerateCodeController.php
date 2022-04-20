@@ -95,7 +95,7 @@ class GenerateCodeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("update"), Permission("setting:code:update"), OperationLog]
+    #[PostMapping("update"), Permission("setting:code:update")]
     public function update(GenerateUpdateRequest $request): ResponseInterface
     {
         return $this->tableService->updateTableAndColumns($request->validated()) ? $this->success() : $this->error();

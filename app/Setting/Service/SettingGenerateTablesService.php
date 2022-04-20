@@ -130,12 +130,15 @@ class SettingGenerateTablesService extends AbstractService
 
         unset($data['columns']);
 
-        if (is_array($data['belong_menu_id'])) {
+        if (!empty($data['belong_menu_id']) && is_array($data['belong_menu_id'])) {
             $data['belong_menu_id'] = array_pop($data['belong_menu_id']);
+        } else {
+            $data['belong_menu_id'] = 0;
         }
 
         $data['package_name'] = empty($data['package_name']) ? null : ucfirst($data['package_name']);
         $data['namespace'] = "App\\{$data['module_name']}";
+        $data['generate_menus'] = implode(',', $data['generate_menus']);
 
         if (empty($data['options'])) {
             unset($data['options']);

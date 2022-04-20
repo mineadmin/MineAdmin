@@ -23,8 +23,9 @@ class GenerateUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'belong_menu_id' => 'required',
             'generate_type' => 'required',
+            'build_menu' => 'required',
+            'generate_menus' => 'required|array',
             'menu_name' => 'required',
             'module_name' => 'required',
             'package_name' => '',

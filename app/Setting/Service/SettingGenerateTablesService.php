@@ -11,6 +11,7 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Generator\ApiGenerator;
 use Mine\Generator\ControllerGenerator;
+use Mine\Generator\DtoGenerator;
 use Mine\Generator\MapperGenerator;
 use Mine\Generator\ModelGenerator;
 use Mine\Generator\RequestGenerator;
@@ -158,7 +159,8 @@ class SettingGenerateTablesService extends AbstractService
      * 生成代码
      * @param string $ids
      * @return string
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function generate(string $ids): string
     {
@@ -197,16 +199,13 @@ class SettingGenerateTablesService extends AbstractService
             ApiGenerator::class,
             VueIndexGenerator::class,
             VueSaveGenerator::class,
-            SqlGenerator::class
+            SqlGenerator::class,
+            DtoGenerator::class,
         ];
 
         foreach ($classList as $cls) {
             $class = make($cls);
-            if (get_class($class) == 'Mine\Generator\RequestGenerator') {
-                list($create, $update) = $requestType;
-                $class->setGenInfo($model, $create)->generator();
-                $class->setGenInfo($model, $update)->generator();
-            } else if (get_class($class) == 'Mine\Generator\SqlGenerator'){
+            if (get_class($class) == 'Mine\Generator\SqlGenerator'){
                 $class->setGenInfo($model, $adminId)->generator();
             } else {
                 $class->setGenInfo($model)->generator();
@@ -316,15 +315,15 @@ class SettingGenerateTablesService extends AbstractService
                 'lang' => 'php',
             ],
             [
-                'tab_name' => 'CreateRequest.php',
-                'name' => 'create_request',
-                'code' => make(RequestGenerator::class)->setGenInfo($model, 'Create')->preview(),
+                'tab_name' => 'Request.php',
+                'name' => 'request',
+                'code' => make(RequestGenerator::class)->setGenInfo($model)->preview(),
                 'lang' => 'php',
             ],
             [
-                'tab_name' => 'UpdateRequest.php',
-                'name' => 'update_request',
-                'code' => make(RequestGenerator::class)->setGenInfo($model, 'Update')->preview(),
+                'tab_name' => 'Dto.php',
+                'name' => 'dto',
+                'code' => make(DtoGenerator::class)->setGenInfo($model)->preview(),
                 'lang' => 'php',
             ],
             [

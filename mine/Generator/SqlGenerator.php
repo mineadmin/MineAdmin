@@ -93,7 +93,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTemplatePath(): string
     {
-        return $this->getStubDir().'/sql.stub';
+        return $this->getStubDir().'/Sql/main.stub';
     }
 
     /**
@@ -126,6 +126,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     protected function getPlaceHolderContent(): array
     {
         return [
+            '{LOAD_MENU}',
             '{ID}',
             '{PARENT_ID}',
             '{TABLE_NAME}',
@@ -145,6 +146,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     protected function getReplaceContent(): array
     {
         return [
+            $this->getLoadMenu(),
             $this->getId(),
             $this->getParentId(),
             $this->getTableName(),
@@ -155,6 +157,11 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
             $this->getVueTemplate(),
             $this->getAdminId()
         ];
+    }
+
+    protected function getLoadMenu(): string
+    {
+        return '';
     }
 
     /**

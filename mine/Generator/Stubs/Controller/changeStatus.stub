@@ -6,10 +6,12 @@
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("{CHANGE_STATUS_PERMISSION}"), OperationLog]
+    #[PutMapping("changeStatus"), Permission("{UPDATE_PERMISSION}"), OperationLog]
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus(
-            (int) $request->input('{PK}'), (string) $request->input('{STATUS_FIELD}'), '{STATUS_FIELD}'
+            (int) $request->input('{PK}'),
+            (string) $request->input('{STATUS_VALUE}'),
+            (string) $request->input('{STATUS_FIELD}')
         ) ? $this->success() : $this->error();
     }

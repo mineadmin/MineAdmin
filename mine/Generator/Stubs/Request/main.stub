@@ -9,24 +9,18 @@ declare(strict_types=1);
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://gitee.com/xmo/MineAdmin
  */
-
 namespace {NAMESPACE};
 
-{USE}
-use Mine\Abstracts\AbstractService;
+use Mine\MineFormRequest;
 
 /**
  * {COMMENT}
  */
-class {CLASS_NAME} extends AbstractService
+class {CLASS_NAME} extends MineFormRequest
 {
-    /**
-     * @var {MAPPER}
-     */
-    public $mapper;
 
-    public function __construct({MAPPER} $mapper)
-    {
-        $this->mapper = $mapper;
-    }
+    {RULES}
+
+    {ATTRIBUTES}
+
 }

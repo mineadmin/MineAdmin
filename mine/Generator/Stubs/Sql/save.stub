@@ -1,0 +1,2 @@
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+3), @id, @level, CONCAT('{NAME}', '保存'), CONCAT('{CODE}',':save'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);

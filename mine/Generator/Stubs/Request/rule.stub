@@ -1,0 +1,11 @@
+
+    /**
+     * {METHOD_COMMENT}
+     * return array
+     */
+    public function {METHOD_NAME}(): array
+    {
+        return [
+{LIST}
+        ];
+    }

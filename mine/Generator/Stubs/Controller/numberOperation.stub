@@ -6,13 +6,13 @@
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("numberOperation"), Permission("{NUMBER_OPERATION_PERMISSION}"), OperationLog]
+    #[PutMapping("numberOperation"), Permission("{UPDATE_PERMISSION}"), OperationLog]
     public function numberOperation(): ResponseInterface
     {
         return $this->service->numberOperation(
             (int) $request->input('{PK}'),
-            (string) $request->input('{FIELD_NAME}'),
-            (string) $request->input('{TYPE}', 'inc'),
-            (int) $request->input('{VALUE}', 1),
+            (string) $request->input('{NUMBER_FIELD}'),
+            (string) $request->input('{NUMBER_TYPE}', 'inc'),
+            (int) $request->input('{NUMBER_VALUE}', 1),
         ) ? $this->success() : $this->error();
     }

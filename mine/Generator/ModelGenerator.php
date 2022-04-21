@@ -167,7 +167,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         $this->setCodeContent(str_replace(
             $this->getPlaceHolderContent(),
             $this->getReplaceContent(),
-            $this->readTemplate()
+            $this->readTemplate(),
         ));
 
         return $this;
@@ -183,6 +183,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             '{CLASS_NAME}',
             '{TABLE_NAME}',
             '{FILL_ABLE}',
+            '{RELATIONS}',
         ];
     }
 
@@ -196,6 +197,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             $this->getClassName(),
             $this->getTableName(),
             $this->getFillAble(),
+            $this->getRelations(),
         ];
     }
 
@@ -242,6 +244,27 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         return implode(', ', $columns);
     }
 
+    /**
+     * @return string
+     */
+    protected function getRelations(): string
+    {
+        if (!empty($this->model->options['relations'])) {
+            $path = $this->getStubDir() . 'ModelRelation/';
+            $phpCode = '';
+            foreach ($this->model->options['relations'] as $relation) {
+                $content = $this->filesystem->sharedGet($path . $relation['type'] . '.stub');
+                $content = str_replace(
+                    [ '{RELATION_NAME}', '{MODEL_NAME}', '{TABLE_NAME}', '{FOREIGN_KEY}', '{LOCAL_KEY}' ],
+                    [ $relation['name'], $relation['model'], $relation['table'], $relation['foreignKey'], $relation['localKey'] ],
+                    $content
+                );
+                $phpCode .= $content;
+            }
+            return $phpCode;
+        }
+        return '';
+    }
 
     /**
      * 获取业务名称

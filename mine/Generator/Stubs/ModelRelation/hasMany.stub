@@ -5,5 +5,5 @@
      */
     public function {RELATION_NAME}() : \Hyperf\Database\Model\Relations\hasMany
     {
-        return $this->hasMany({MODEL_NAME}, {FOREIGN_KEY}, {LOCAL_KEY});
+        return $this->hasMany({MODEL_NAME}::class, '{FOREIGN_KEY}', '{LOCAL_KEY}');
     }

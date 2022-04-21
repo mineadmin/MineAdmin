@@ -5,5 +5,5 @@
      */
     public function {RELATION_NAME}() : \Hyperf\Database\Model\Relations\belongsToMany
     {
-        return $this->belongsToMany({MODEL_NAME}, {TABLE_NAME}, {FOREIGN_KEY}, {LOCAL_KEY});
+        return $this->belongsToMany({MODEL_NAME}::class, '{TABLE_NAME}', '{FOREIGN_KEY}', '{LOCAL_KEY}');
     }

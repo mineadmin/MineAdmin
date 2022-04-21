@@ -191,8 +191,12 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getLevel(): string
     {
-        $model = SystemMenu::find($this->model->belong_menu_id, ['id', 'level']);
-        return $model->level . ',' . $model->id;
+        if ($this->model->belong_menu_id !== 0) {
+            $model = SystemMenu::find($this->model->belong_menu_id, ['id', 'level']);
+            return $model->level . ',' . $model->id;
+        } else {
+            return '0';
+        }
     }
 
     /**

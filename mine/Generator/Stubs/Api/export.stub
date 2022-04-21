@@ -1,0 +1,13 @@
+
+  /**
+   * {BUSINESS_NAME}导出
+   * @returns
+   */
+  exportExcel (params = {}) {
+    return request({
+      url: '{REQUEST_ROUTE}/export',
+      method: 'post',
+      responseType: 'blob',
+      params
+    })
+  },

@@ -161,7 +161,22 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
 
     protected function getLoadMenu(): string
     {
-        return '';
+        $menus = explode(',', $this->model->generate_menus);
+        $ignoreMenus = ['realDelete', 'recovery', 'changeStatus', 'numberOperation'];
+
+        foreach ($ignoreMenus as $menu) {
+            if (in_array($menu, $menus)) {
+                unset($menus[array_search($menu, $menus)]);
+            }
+        }
+
+        $sql = '';
+        $path = $this->getStubDir() . '/Sql/';
+        foreach ($menus as $menu) {
+            $content = $this->filesystem->sharedGet($path . $menu . '.stub');
+            $sql .= $content;
+        }
+        return $sql;
     }
 
     /**

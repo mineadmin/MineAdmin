@@ -1,0 +1,11 @@
+import { request } from '@/utils/request.js'
+
+/**
+ * {COMMENT}
+ */
+
+export default {
+
+{API_LIST}
+
+}

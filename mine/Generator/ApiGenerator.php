@@ -84,7 +84,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTemplatePath(): string
     {
-        return $this->getStubDir().'/api.stub';
+        return $this->getStubDir().'/Api/main.stub';
     }
 
     /**

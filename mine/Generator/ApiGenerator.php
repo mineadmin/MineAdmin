@@ -116,6 +116,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
     protected function getPlaceHolderContent(): array
     {
         return [
+            '{LOAD_API}',
             '{COMMENT}',
             '{BUSINESS_NAME}',
             '{REQUEST_ROUTE}',
@@ -128,10 +129,34 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
     protected function getReplaceContent(): array
     {
         return [
+            $this->getLoadApi(),
             $this->getComment(),
             $this->getBusinessName(),
             $this->getRequestRoute(),
         ];
+    }
+
+    protected function getLoadApi(): string
+    {
+        $menus = explode(',', $this->model->generate_menus);
+        $ignoreMenus = ['realDelete', 'recovery'];
+
+        array_unshift($menus, $this->model->type === 'single' ? 'singleList' : 'treeList');
+
+        foreach ($ignoreMenus as $menu) {
+            if (in_array($menu, $menus)) {
+                unset($menus[array_search($menu, $menus)]);
+            }
+        }
+
+        $jsCode = '';
+        $path = $this->getStubDir() . '/Api/';
+        foreach ($menus as $menu) {
+            $content = $this->filesystem->sharedGet($path . $menu . '.stub');
+            $jsCode .= $content;
+        }
+
+        return $jsCode;
     }
 
     /**

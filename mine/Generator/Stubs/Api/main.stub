@@ -5,7 +5,6 @@ import { request } from '@/utils/request.js'
  */
 
 export default {
-
-{API_LIST}
+{LOAD_API}
 
 }

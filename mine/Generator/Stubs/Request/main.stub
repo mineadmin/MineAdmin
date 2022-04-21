@@ -18,6 +18,13 @@ use Mine\MineFormRequest;
  */
 class {CLASS_NAME} extends MineFormRequest
 {
+    /**
+     * 公共规则
+     */
+    public function commonRules(): array
+    {
+        return [];
+    }
 
     {RULES}
 

@@ -7,7 +7,7 @@
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("{SAVE_PERMISSION}"), OperationLog]
-    public function save({CREATE_REQUEST} $request): ResponseInterface
+    public function save({REQUEST} $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }

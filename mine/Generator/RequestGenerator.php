@@ -199,7 +199,8 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
         foreach ($this->columns as $column) {
             if ($column['is_insert'] === '1') {
                 $createCode .= $this->getRuleCode($column);
-            } else {
+            }
+            if ($column['is_edit'] === '1') {
                 $updateCode .= $this->getRuleCode($column);
             }
         }

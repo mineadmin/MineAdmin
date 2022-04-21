@@ -25,6 +25,15 @@ class MineFormRequest extends FormRequest
     }
 
     /**
+     * 公共规则
+     * @return array
+     */
+    public function commonRules(): array
+    {
+        return [];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      * @return array
      */
@@ -32,7 +41,8 @@ class MineFormRequest extends FormRequest
     {
         $operation = $this->getOperation();
         $method = $operation . 'Rules';
-        return ( $operation && method_exists($this, $method) ) ? $this->$method() : [];
+        $rules = ( $operation && method_exists($this, $method) ) ? $this->$method() : [];
+        return array_merge($rules, $this->commonRules());
     }
 
     /**

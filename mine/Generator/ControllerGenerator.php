@@ -141,8 +141,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             '{SERVICE}',
             '{CONTROLLER_ROUTE}',
             '{FUNCTIONS}',
-            '{CREATE_REQUEST}',
-            '{UPDATE_REQUEST}',
+            '{REQUEST}',
             '{INDEX_PERMISSION}',
             '{RECYCLE_PERMISSION}',
             '{SAVE_PERMISSION}',
@@ -178,8 +177,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getServiceName(),
             $this->getControllerRoute(),
             $this->getFunctions(),
-            $this->getCreateRequestName(),
-            $this->getUpdateRequestName(),
+            $this->getRequestName(),
             $this->getMethodRoute('index'),
             $this->getMethodRoute('recycle'),
             $this->getMethodRoute('save'),
@@ -228,14 +226,9 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getUse(): string
     {
-        $namespace = "\\";
-        if (!empty($this->model->package_name)) {
-            $namespace = "\\" . Str::title($this->model->package_name) . "\\";
-        }
         return <<<UseNamespace
 use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
-use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}CreateRequest;
-use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}UpdateRequest;
+use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}Request;
 UseNamespace;
     }
 
@@ -371,21 +364,12 @@ UseNamespace;
     }
 
     /**
-     * 获取保存数据的验证器
+     * 获取验证器
      * @return string
      */
-    protected function getCreateRequestName(): string
+    protected function getRequestName(): string
     {
-        return $this->getBusinessName(). 'CreateRequest';
-    }
-
-    /**
-     * 获取更新数据的验证器
-     * @return string
-     */
-    protected function getUpdateRequestName(): string
-    {
-        return $this->getBusinessName(). 'UpdateRequest';
+        return $this->getBusinessName(). 'Request';
     }
 
     /**

@@ -778,9 +778,11 @@ export default {
       this.form.build_menu = this.record.build_menu
 
       const menuList = this.record.generate_menus
-      this.menuList.map( (item, index) => {
-        this.menuList[index].check = menuList.includes(item.value) ? '1' : '0'
-      })
+      if (menuList) {
+        this.menuList.map( (item, index) => {
+          this.menuList[index].check = menuList.includes(item.value) ? '1' : '0'
+        })
+      }
 
       if (this.record.options && this.record.options.relations) {
         this.record.options.relations.map(item => {

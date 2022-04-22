@@ -203,7 +203,7 @@ class SystemBossController extends MineController
     #[PostMapping("downloadTemplate")]
     public function downloadTemplate(): ResponseInterface
     {
-        return (new MineCollection)->export(\App\System\Dto\SystemBossDto::class, '模板下载', []);
+        return (new \Mine\MineCollection)->export(\App\System\Dto\SystemBossDto::class, '模板下载', []);
     }
 
     /**

@@ -152,11 +152,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
      */
     protected function initNamespace(): string
     {
-        $namespace = $this->getNamespace() . "\\Dto";
-        if (!empty($this->model->package_name)) {
-            return $namespace . "\\" . Str::title($this->model->package_name);
-        }
-        return $namespace;
+        return $this->getNamespace() . "\\Dto";
     }
 
     /**

@@ -3,9 +3,8 @@
     :title="titleMap[mode]"
     v-model="visible"
     :width="700"
-    destroy-on-close
     append-to-body
-    @closed="$emit('closed')"
+    @closed="emits('closed')"
   >
     <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
       <el-form-item label="老板名称" prop="name">
@@ -59,7 +58,12 @@ const form = reactive({
   sort: '',
   status: ''
 })
-const rules = reactive({})
+const rules = reactive({
+  name: [{required: true, message: '老板名称必填', trigger: 'blur' }],
+  code: [{required: true, message: '老板代码必填', trigger: 'blur' }],
+  sort: [{required: true, message: '排序必填', trigger: 'blur' }],
+  status: [{required: true, message: '状态 (0正常 1停用)必填', trigger: 'blur' }],
+})
 
 onMounted(async () => {
   await getDictData()

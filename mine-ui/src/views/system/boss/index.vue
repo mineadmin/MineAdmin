@@ -1,3 +1,4 @@
+<script> export default { name: 'system:boss' } </script>
 <template>
   <el-container>
     <el-header class="mine-el-header">
@@ -63,7 +64,6 @@
       <maTable
         ref="table"
         :api="api"
-        :column="column"
         :showRecycle="true"
         row-key="id"
         :hidePagination="false"
@@ -138,191 +138,162 @@
     </el-main>
   </el-container>
 
-  <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
+  <save-dialog v-if="dialog.save" ref="saveRef" @success="handleSuccess" @closed="dialog.save=false" />
 
 </template>
+<script setup>
+  import { ref, reactive, onMounted, nextTick } from 'vue'
+  import { ElMessage, ElPopconfirm } from 'element-plus'
+  import systemBoss from '@/api/apis/system/systemBoss'
+  import saveDialog from './save.vue'
 
-<script>
-  import saveDialog from './save'
+  const table = ref(null)
+  const saveRef = ref(null)
+  const povpoerShow = ref(false)
+  const isRecycle = ref(false)
+  const dateRange = ref()
+  const selection = ref([])
 
-  export default {
-    name: 'system:boss',
-    components: {
-      saveDialog
-    },
+  const dialog = reactive({ save: false })
+  const api = reactive({ list: systemBoss.getList, recycleList: systemBoss.getRecycleList })
+  const queryParams = reactive({
+    name: undefined,
+    code: undefined,
+    sort: undefined,
+    status: undefined,
+  })
 
-    async created() {
-        await this.getDictData();
-    },
+  // 获取字典数据
+  const getDictData = () => {
+  }
 
-    data() {
-      return {
-        dialog: {
-          save: false
-        },
-        
-        column: [],
-        povpoerShow: false,
-        dateRange:'',
-        api: {
-          list: this.$API.systemBoss.getList,
-          recycleList: this.$API.systemBoss.getRecycleList,
-        },
-        selection: [],
-        queryParams: {
-            
-          name: undefined,
-          code: undefined,
-          sort: undefined,
-          status: undefined,
-        },
-        isRecycle: false,
-        
-      }
-    },
-    methods: {
+  onMounted(() => {
+    getDictData()
+  })
 
-      //添加
-      add(){
-        this.dialog.save = true
-        this.$nextTick(() => {
-          this.$refs.saveDialog.open()
-        })
-      },
+  //添加
+  const add = async () => {
+    dialog.save = true
+    await nextTick()
+    saveRef.value.open()
+  }
 
-      //编辑
-      tableEdit(row){
-        this.dialog.save = true
-        this.$nextTick(() => {
-          this.$refs.saveDialog.open('edit')
-          this.$refs.saveDialog.setData(row)
-        })
-      },
+  //编辑
+  const tableEdit = async (row) => {
+    dialog.save = true
+    await nextTick()
+    saveRef.value.open('edit')
+    saveRef.value.setData(row)
+  }
 
-      //查看
-      tableShow(row){
-        this.dialog.save = true
-        this.$nextTick(() => {
-          this.$refs.saveDialog.open('show').setData(row)
-        })
-      },
+  //查看
+  const tableShow = async (row) => {
+    dialog.save = true
+    await nextTick()
+    saveRef.value.open('show')
+    saveRef.value.setData(row)
+  }
 
-      //批量删除
-      async batchDel(){
-        await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(() => {
-          const loading = this.$loading();
-          let ids = []
-          this.selection.map(item => ids.push(item.id))
-          if (this.isRecycle) {
-            this.$API.systemBoss.realDeletes(ids.join(',')).then(res => {
-              if(res.success) {
-                this.$message.success(res.message)
-                this.$refs.table.upData(this.queryParams)
-              } else {
-                this.$message.error(res.message)
-              }
-            })
-          } else {
-            this.$API.systemBoss.deletes(ids.join(',')).then(res => {
-              if(res.success) {
-                this.$message.success(res.message)
-                this.$refs.table.upData(this.queryParams)
-              } else {
-                this.$message.error(res.message)
-              }
-            })
-          }
-          loading.close();
-
-        })
-      },
-
-      // 单个删除
-      async deletes(id) {
-        await this.$confirm(`确定删除该数据吗？`, '提示', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(async () => {
-          const loading = this.$loading();
-          if (this.isRecycle) {
-            await this.$API.systemBoss.realDeletes(id)
+  //批量删除
+  const batchDel = async () =>{
+    await ElPopconfirm(`确定删除选中的 ${selection.value.length} 项吗？`, '提示', {
+      type: 'warning',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+    }).then(() => {
+      const loading = this.$loading();
+      let ids = []
+      this.selection.map(item => ids.push(item.id))
+      if (this.isRecycle) {
+        this.$API.systemBoss.realDeletes(ids.join(',')).then(res => {
+          if(res.success) {
+            this.$message.success(res.message)
             this.$refs.table.upData(this.queryParams)
           } else {
-            await this.$API.systemBoss.deletes(id)
-            this.$refs.table.upData(this.queryParams)
+            this.$message.error(res.message)
           }
-          loading.close();
-          this.$message.success("操作成功")
-        }).catch(()=>{})
-      },
-
-      // 恢复数据
-      async recovery (id) {
-        await this.$API.systemBoss.recoverys(id).then(res => {
-          this.$message.success(res.message)
-          this.$refs.table.upData(this.queryParams)
         })
-      },
-
-      //表格选择后回调事件
-      selectionChange(selection){
-        this.selection = selection;
-      },
-
-      // 选择时间事件
-      handleDateChange (values) {
-        if (values !== null) {
-          this.queryParams.minDate = values[0]
-          this.queryParams.maxDate = values[1]
-        }
-      },
-
-      toggleFilterPanel() {
-        this.povpoerShow = ! this.povpoerShow
-        document.querySelector('.filter-panel').style.display = this.povpoerShow ? 'block' : 'none'
-      },
-
-      //搜索
-      handlerSearch(){
-        this.$refs.table.upData(this.queryParams)
-      },
-
-      // 切换数据类型回调
-      switchData(isRecycle) {
-        this.isRecycle = isRecycle
-      },
-
-      resetSearch() {
-        this.queryParams = {
-          
-          name: undefined,
-          code: undefined,
-          sort: undefined,
-          status: undefined,
-        }
-        this.$refs.table.upData(this.queryParams)
-      },
-
-      //本地更新数据
-      handleSuccess(){
-        this.$refs.table.upData(this.queryParams)
-      },
-
-      // 获取字典数据
-      getDictData() {
-        
-      },
-
-      // 标签页查询
-      handleTabsClick(tab, event) {
-      	
+      } else {
+        this.$API.systemBoss.deletes(ids.join(',')).then(res => {
+          if(res.success) {
+            this.$message.success(res.message)
+            this.$refs.table.upData(this.queryParams)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
       }
+      loading.close();
+
+    })
+  }
+
+  // 单个删除
+  const deletes = async (id) => {
+    await this.$confirm(`确定删除该数据吗？`, '提示', {
+      type: 'warning',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+    }).then(async () => {
+      const loading = this.$loading();
+      if (this.isRecycle) {
+        await this.$API.systemBoss.realDeletes(id)
+        this.$refs.table.upData(this.queryParams)
+      } else {
+        await this.$API.systemBoss.deletes(id)
+        this.$refs.table.upData(this.queryParams)
+      }
+      loading.close();
+      this.$message.success("操作成功")
+    }).catch(()=>{})
+  }
+
+  // 恢复数据
+  const recovery = (id) => {
+    systemBoss.recoverys(id).then(res => {
+      ElMessage.success(res.message)
+      table.value.upData(queryParams)
+    })
+  }
+
+  //表格选择后回调事件
+  const selectionChange = (items) => {
+    selection.value = items
+  }
+
+  const toggleFilterPanel = () => {
+    povpoerShow.value = ! povpoerShow.value
+    document.querySelector('.filter-panel').style.display = povpoerShow.value ? 'block' : 'none'
+  }
+
+  //搜索
+  const handlerSearch = () => {
+    table.value.upData(queryParams)
+  }
+
+  // 切换数据类型回调
+  const switchData = (isRecycle) => {
+    isRecycle.value = isRecycle
+  }
+
+  const resetSearch = () => {
+    queryParams = {
+      name: undefined,
+      code: undefined,
+      sort: undefined,
+      status: undefined,
     }
+    table.value.upData(queryParams)
+  }
+
+  // 更新
+  const handleSuccess = () =>{
+    table.value.upData(queryParams)
+  }
+
+  // 标签页查询
+  const handleTabsClick = (tab, event) => {
+    
   }
 </script>
 <style>
@@ -330,7 +301,6 @@
 	padding: 0 20px;
 	height: 44px;
 	box-sizing: border-box;
-	/* line-height: 40px; */
 	display: inline-block;
 	list-style: none;
 	font-size: 14px;

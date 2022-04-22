@@ -33,6 +33,7 @@ class GenerateUpdateRequest extends FormRequest
             'table_name' => 'required',
             'type' => 'required',
             'columns' => 'required|array',
+            'belong_menu_id' => '',
             'options' => '',
             'remark' => '',
         ];

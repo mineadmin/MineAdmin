@@ -104,16 +104,24 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         if ($application->run($input, $output) === 0) {
 
             // 对模型文件处理
-            if ($modelName[strlen($modelName) - 1] == 's') {
+            if ($modelName[strlen($modelName) - 1] == 's' && $modelName[strlen($modelName) - 2] != 's') {
                 $oldName = Str::substr($modelName, 0, (strlen($modelName) - 1));
                 $oldPath = BASE_PATH . "/app/{$moduleName}/Model/{$oldName}.php";
                 $sourcePath = BASE_PATH . "/app/{$moduleName}/Model/{$modelName}.php";
-                $this->filesystem->put($sourcePath,
+                $this->filesystem->put(
+                    $sourcePath,
                     str_replace($oldName, $modelName, $this->filesystem->sharedGet($oldPath))
                 );
                 @unlink($oldPath);
             } else {
                 $sourcePath = BASE_PATH . "/app/{$moduleName}/Model/{$modelName}.php";
+            }
+
+            if (!empty($this->model->options['relations'])) {
+                $this->filesystem->put(
+                    $sourcePath,
+                    str_replace('}', $this->getRelations() . "\n}", $this->filesystem->sharedGet($sourcePath))
+                );
             }
 
             // 压缩包下载

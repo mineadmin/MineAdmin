@@ -16,6 +16,7 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Model\SystemMenu;
+use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
@@ -76,6 +77,13 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $path = BASE_PATH . "/runtime/generate/{$this->getRoute()}Menu.sql";
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+
+        if ($this->model->build_menu === '1') {
+            $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s", env('DB_HOST'), env('DB_PORT'), env('DB_DATABASE'));
+            $pdo = new \PDO($dsn, env('DB_USERNAME'), env('DB_PASSWORD'));
+            $pdo->exec( str_replace(["\r", "\n"], ['', ''], $this->placeholderReplace()->getCodeContent()) );
+            $pdo = null;
+        }
     }
 
     /**

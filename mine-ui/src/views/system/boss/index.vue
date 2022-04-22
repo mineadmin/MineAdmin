@@ -194,7 +194,8 @@
       tableEdit(row){
         this.dialog.save = true
         this.$nextTick(() => {
-          this.$refs.saveDialog.open('edit').setData(row)
+          this.$refs.saveDialog.open('edit')
+          this.$refs.saveDialog.setData(row)
         })
       },
 

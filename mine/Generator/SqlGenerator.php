@@ -79,10 +79,9 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
 
         if ($this->model->build_menu === '1') {
-            $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s", env('DB_HOST'), env('DB_PORT'), env('DB_DATABASE'));
-            $pdo = new \PDO($dsn, env('DB_USERNAME'), env('DB_PASSWORD'));
-            $pdo->exec( str_replace(["\r", "\n"], ['', ''], $this->placeholderReplace()->getCodeContent()) );
-            $pdo = null;
+            Db::connection()->getPdo()->exec(
+                str_replace(["\r", "\n"], ['', ''], $this->placeholderReplace()->getCodeContent())
+            );
         }
     }
 

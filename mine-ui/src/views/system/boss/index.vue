@@ -143,7 +143,7 @@
 </template>
 <script setup>
   import { ref, reactive, onMounted, nextTick } from 'vue'
-  import { ElMessage, ElPopconfirm } from 'element-plus'
+  import { ElMessage, ElMessageBox } from 'element-plus'
   import systemBoss from '@/api/apis/system/systemBoss'
   import saveDialog from './save.vue'
 
@@ -196,55 +196,29 @@
 
   //批量删除
   const batchDel = async () =>{
-    await ElPopconfirm(`确定删除选中的 ${selection.value.length} 项吗？`, '提示', {
-      type: 'warning',
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-    }).then(() => {
-      const loading = this.$loading();
-      let ids = []
-      this.selection.map(item => ids.push(item.id))
-      if (this.isRecycle) {
-        this.$API.systemBoss.realDeletes(ids.join(',')).then(res => {
-          if(res.success) {
-            this.$message.success(res.message)
-            this.$refs.table.upData(this.queryParams)
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else {
-        this.$API.systemBoss.deletes(ids.join(',')).then(res => {
-          if(res.success) {
-            this.$message.success(res.message)
-            this.$refs.table.upData(this.queryParams)
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }
-      loading.close();
-
-    })
-  }
-
-  // 单个删除
-  const deletes = async (id) => {
-    await this.$confirm(`确定删除该数据吗？`, '提示', {
+    await ElMessageBox.confirm(`确定删除选中的 ${selection.value.length} 项吗？`, '提示', {
       type: 'warning',
       confirmButtonText: '确定',
       cancelButtonText: '取消',
     }).then(async () => {
-      const loading = this.$loading();
-      if (this.isRecycle) {
-        await this.$API.systemBoss.realDeletes(id)
-        this.$refs.table.upData(this.queryParams)
-      } else {
-        await this.$API.systemBoss.deletes(id)
-        this.$refs.table.upData(this.queryParams)
-      }
-      loading.close();
-      this.$message.success("操作成功")
+      let ids = []
+      selection.value.map(item => ids.push(item.id))
+      let res = isRecycle.value ? await systemBoss.realDeletes(ids.join(',')) : await systemBoss.deletes(ids.join(','))
+      table.value.upData(queryParams)
+      ElMessage.success(res.message)
+    }).catch(()=>{})
+  }
+
+  // 单个删除
+  const deletes = async (id) => {
+    await ElMessageBox.confirm(`确定删除该数据吗？`, '提示', {
+      type: 'warning',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+    }).then(async () => {
+      let res = isRecycle.value ? await systemBoss.realDeletes(id) : await systemBoss.deletes(id)
+      table.value.upData(queryParams)
+      ElMessage.success(res.message)
     }).catch(()=>{})
   }
 
@@ -272,17 +246,12 @@
   }
 
   // 切换数据类型回调
-  const switchData = (isRecycle) => {
-    isRecycle.value = isRecycle
+  const switchData = () => {
+    isRecycle.value = ! isRecycle.value
   }
 
   const resetSearch = () => {
-    queryParams = {
-      name: undefined,
-      code: undefined,
-      sort: undefined,
-      status: undefined,
-    }
+    for (let k in queryParams) queryParams[k] = undefined
     table.value.upData(queryParams)
   }
 

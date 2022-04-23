@@ -73,8 +73,9 @@ class SystemQueueMessageMapper extends AbstractMapper
      */
     public function getReceiveUserList(int $id): array
     {
+        $prefix = env('DB_PREFIX');
         $paginate = Db::table('system_user as u')
-            ->select(Db::raw("u.username, u.nickname, if (r.read_status = '1', '已读', '未读') as read_status "))
+            ->select(Db::raw("{$prefix}u.username, {$prefix}u.nickname, if ({$prefix}r.read_status = '1', '已读', '未读') as read_status "))
             ->join('system_queue_message_receive as r', 'u.id', '=', 'r.user_id')
             ->where('r.message_id', $id)
             ->paginate(

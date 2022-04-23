@@ -22,6 +22,7 @@ use Hyperf\Database\Model\Collection;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Generator\Traits\VueSaveGeneratorTraits;
+use Mine\Generator\Traits\VueFunctionsVarsTraits;
 use Mine\Helper\Str;
 
 /**
@@ -31,7 +32,7 @@ use Mine\Helper\Str;
  */
 class VueSaveGenerator extends MineGenerator implements CodeGenerator
 {
-    use VueSaveGeneratorTraits;
+    use VueSaveGeneratorTraits, VueFunctionsVarsTraits;
 
     /**
      * @var SettingGenerateTables
@@ -142,7 +143,6 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             '{FORM_LIST}',
             '{FORM_DATA}',
             '{REQUIRED_LIST}',
-            '{SET_FORM_DATA}',
             '{DICT_LIST}',
             '{DICT_DATA}',
             '{UPLOAD_IMAGE}',
@@ -163,7 +163,6 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             $this->getFormList(),
             $this->getFormData(),
             $this->getRequiredList(),
-            $this->getSetFormData(),
             $this->getDictList(),
             $this->getDictData(),
             $this->getUploadImage(),
@@ -231,11 +230,11 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_pk === '1' || $column->is_insert === '1' || $column->is_edit === '1') {
-                $code = <<<js
-
-            {$column->column_name}: '',
- js;
-                $jsCode .= $code;
+                $type = match ($column->view_type) {
+                    'checkbox' => '[]',
+                    default => "''"
+                };
+                $jsCode .= sprintf("%s: %s,\n    ", $column->column_name, $type);
             }
         }
         return $jsCode;
@@ -251,72 +250,11 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_required === '1') {
-                $code = <<<js
-
-            {$column->column_name}: [{required: true, message: '{$column->column_comment}必填', trigger: 'blur' }],
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取表格显示列
-     * @return string
-     */
-    protected function getSetFormData(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->is_pk === '1' || $column->is_insert === '1' || $column->is_edit === '1') {
-                $code = <<<js
-
-           this.form.{$column->column_name} = data.{$column->column_name};
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典数据
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictList(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
-
-           this.getDict('{$column->dict_type}').then(res => {
-               this.{$column->dict_type}_data = res.data
-           })
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典变量
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictData(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
- 
-         {$column->dict_type}_data: [],
- js;
-                $jsCode .= $code;
+                $jsCode .= sprintf(
+                    "%s: [{required: true, message: '%s必填', trigger: 'blur' }],\n    ",
+                    $column->column_name,
+                    $column->column_comment
+                );
             }
         }
         return $jsCode;
@@ -333,15 +271,11 @@ js;
         foreach ($this->columns as $column) {
             $name = Str::studly($column->column_name);
             if ($column->view_type == 'image') {
-                $code = <<<js
- 
-        handlerUploadImage{$name} (res) {
-            if (res.success) {
-                this.form.{$column->column_name} = res.url
-            }
-        },
- js;
-                $jsCode .= $code;
+                $jsCode .= sprintf(
+                    "const handlerUploadImage%s = (res) => {\n    if (res.success) {\n        ".
+                    "form.%s = res.url\n    }\n  }\n  ",
+                    $name, $column->column_name
+                );
             }
         }
         return $jsCode;
@@ -358,15 +292,11 @@ js;
         foreach ($this->columns as $column) {
             $name = Str::studly($column->column_name);
             if ($column->view_type == 'file') {
-                $code = <<<js
- 
-        handlerUploadFile{$name} (res) {
-            if (res.success) {
-                this.form.{$column->column_name} = res.url
-            }
-        },
- js;
-                $jsCode .= $code;
+                $jsCode .= sprintf(
+                    "const handlerUploadFile%s = (res) => {\n    if (res.success) {\n        ".
+                    "form.%s = res.url\n    }\n  }\n  ",
+                    $name, $column->column_name
+                );
             }
         }
         return $jsCode;

@@ -1,0 +1,6 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-checkbox-group v-model="form.{COLUMN_NAME}">
+        {CHECKBOX_OPTION}
+        </el-checkbox-group>
+      </el-form-item>

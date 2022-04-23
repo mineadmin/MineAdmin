@@ -1,0 +1,6 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-select v-model="form.{COLUMN_NAME}" style="width:100%" clearable placeholder="请选择{LABEL_NAME}">
+        {SELECT_OPTION}
+        </el-select>
+      </el-form-item>

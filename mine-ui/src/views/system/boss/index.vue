@@ -145,6 +145,7 @@
   import { ref, reactive, onMounted, nextTick } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import systemBoss from '@/api/apis/system/systemBoss'
+  import systemDict from '@/api/apis/system/dataDict'
   import saveDialog from './save.vue'
 
   const table = ref(null)

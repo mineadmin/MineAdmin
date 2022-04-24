@@ -27,7 +27,7 @@ export default {
 
       settingForm: {
         userinfo: 'id',
-        date: 'default',
+        date: 'date',
         select: [],
         radio: [],
         checkbox: [],

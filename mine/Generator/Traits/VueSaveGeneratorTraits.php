@@ -183,27 +183,30 @@ trait VueSaveGeneratorTraits
      */
     protected function dateCode(SettingGenerateColumns $column): string
     {
-        return <<<VUE
-
-        <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
-            <el-date-picker
-                type="date"
-                placeholder="请选择{$column->column_comment}"
-                v-model="form.{$column->column_name}"
-                style="width: 100%;"
-            ></el-date-picker>
-        </el-form-item>
-
-VUE;
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}', '{DATE_TYPE}', '{WEEK_FORMAT}', '{RANGE_TIPS}'],
+            [
+                $column->column_name,
+                $column->column_comment,
+                $column->options['date'],
+                $column->options['date'] === 'week' ? 'format="第 ww 周"' : '',
+                strpos($column->options['date'], 'range') > 0 ? 'start-placeholder="起始时间" end-placeholder="结束时间"' : ''
+            ],
+            $this->getFormItemTemplate('date')
+        );
     }
 
     /**
-     * @param SettingGenerateColumns $columns
+     * @param SettingGenerateColumns $column
      * @return string
      */
-    protected function timeCode(SettingGenerateColumns $columns): string
+    protected function timeCode(SettingGenerateColumns $column): string
     {
-        return '';
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('time')
+        );
     }
 
     /**

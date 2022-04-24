@@ -1,0 +1,7 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-date-picker
+          v-model="form.{COLUMN_NAME}" placeholder="请选择{LABEL_NAME}"
+          type="{DATE_TYPE}" {WEEK_FORMAT} {RANGE_TIPS}
+        />
+      </el-form-item>

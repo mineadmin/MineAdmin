@@ -509,10 +509,12 @@
       <!-- 日期选择器 -->
       <el-form-item label="控件类型" v-if="selectField.view_type === 'date'" prop="date">
         <el-select v-model="settingForm.date">
-          <el-option label="日期选择器" value="default" />
+          <el-option label="日期选择器" value="date" />
+          <el-option label="多日期选择器" value="dates" />
           <el-option label="日期时间选择器" value="datetime" />
-          <el-option label="日期范围" value="date_range" />
-          <el-option label="日期时间范围" value="datetime_range" />
+          <el-option label="日期范围" value="daterange" />
+          <el-option label="日期时间范围" value="datetimerange" />
+          <el-option label="月份范围" value="monthrange" />
           <el-option label="周选择器" value="week" />
           <el-option label="月选择器" value="month" />
           <el-option label="年选择器" value="year" />

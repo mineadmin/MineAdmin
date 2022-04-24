@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-time-picker v-model="form.{COLUMN_NAME}" placeholder="请选择{LABEL_NAME}" />
+      </el-form-item>

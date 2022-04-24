@@ -20,6 +20,9 @@
             @click="batchDel"
           >删除</el-button>
 
+          {IMPORT}
+          {EXPORT}
+
         </div>
         <div class="right-panel">
           <div class="right-panel-search">
@@ -51,9 +54,9 @@
       <maTable
         ref="table"
         :api="api"
-        :showRecycle="true"
+        :showRecycle="{SHOW_RECYCLE}"
         row-key="{PK}"
-        :hidePagination="false"
+        :hidePagination="{HIDE_PAGE}"
         @selection-change="selectionChange"
         @switch-data="switchData"
         stripe

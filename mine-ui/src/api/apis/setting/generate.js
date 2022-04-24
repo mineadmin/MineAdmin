@@ -98,5 +98,13 @@ export default {
       method: 'get',
       params
     })
+  },
+
+  // 获取所有模型
+  getModels() {
+    return request({
+      url: 'setting/code/getModels',
+      method: 'get',
+    })
   }
 }

@@ -73,6 +73,20 @@ export default {
       })
     },
 
+    // 请求所有模型
+    getModels () {
+      this.$API.generate.getModels().then( res => {
+        this.models = res.data
+      })
+    },
+
+    // 请求所有数据表
+    getTables () {
+      this.$API.dataMaintain.getPageList({ pageSize: 999 }).then( res => {
+        this.tables = res.data.items
+      })
+    },
+
     settingComponent(row, index) {
       let showDrawerList = [
         'date', 'userinfo', 'select', 'radio', 'checkbox', 'area', 'tabs'
@@ -138,6 +152,7 @@ export default {
       this.form.type = this.record.type
       this.form.generate_type = this.record.generate_type
       this.form.build_menu = this.record.build_menu
+      this.form.component_type = this.record.component_type
 
       const menuList = this.record.generate_menus
       if (menuList) {

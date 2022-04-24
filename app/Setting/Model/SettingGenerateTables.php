@@ -17,6 +17,7 @@ use Mine\MineModel;
  * @property string $generate_type 0 压缩包下载 1 生成到模块
  * @property string $generate_menus 生成菜单列表
  * @property string $build_menu 是否构建菜单
+ * @property string $component_type 组件显示方式
  * @property string $options 其他业务选项
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -38,7 +39,7 @@ class SettingGenerateTables extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'table_name', 'table_comment', 'module_name', 'namespace', 'menu_name', 'belong_menu_id', 'package_name', 'type', 'generate_type', 'generate_menus', 'build_menu', 'options', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected $fillable = ['id', 'table_name', 'table_comment', 'module_name', 'namespace', 'menu_name', 'belong_menu_id', 'package_name', 'type', 'generate_type', 'generate_menus', 'build_menu', 'component_type', 'options', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *

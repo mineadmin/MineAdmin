@@ -146,6 +146,23 @@
                   <el-input v-model="form.package_name"></el-input>
                 </el-form-item>
 
+                <el-form-item prop="component_type">
+                  <template #label>
+                    组件样式
+                    <el-tooltip>
+                      <template #content>
+                        设置新增和修改组件显示方式，默认：模态框
+                      </template>
+                      <el-icon><el-icon-question-filled /></el-icon>
+                    </el-tooltip>
+                  </template>
+
+                  <el-radio-group v-model="form.component_type">
+                    <el-radio-button label="0">模态框</el-radio-button>
+                    <el-radio-button label="1">抽屉</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>
+
               </el-col>
 
               <el-col :xs="24" :md="12" :xl="12">
@@ -420,26 +437,46 @@
               <el-row :gutter="24">
                 <el-col :xs="24" :md="12" :xl="12">
                   <el-form-item class="ma-inline-form-item" label="关联类型">
-                    <el-select v-model="item.type" style="width: 100%">
+                    <el-select v-model="item.type" style="width: 100%" clearable placeholder="请选择关联类型">
                       <el-option v-for="type in realtionsType" :key="type.value" :value="type.value" :label="type.name" />
                     </el-select>
                   </el-form-item>
                   <el-form-item class="ma-inline-form-item" label="关联模型">
-                    <el-input v-model="item.model" />
+                    <el-select v-model="item.model" style="width: 100%" filterable clearable placeholder="请选择关联模型，可输入关键字过滤">
+                      <el-option v-for="model in models" :key="model" :value="model" :label="model" />
+                    </el-select>
                   </el-form-item>
-                  <el-form-item class="ma-inline-form-item" label="关联键名称">
-                    <el-input v-model="item.localKey" />
+                  <el-form-item class="ma-inline-form-item" :label="item.type === 'belongsToMany' ? '中间表外键' : '外键'">
+                    <el-input
+                      v-model="item.foreignKey"
+                      clearable
+                      :placeholder="item.type === 'belongsToMany' ? '中间表外键名称' : '关联表外键名称'"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :md="12" :xl="12">
                   <el-form-item class="ma-inline-form-item" label="关联名称">
-                    <el-input v-model="item.name" />
+                    <el-input v-model="item.name" clearable placeholder="设置关联名称" />
                   </el-form-item>
                   <el-form-item class="ma-inline-form-item" v-show="item.type === 'belongsToMany'" label="中间表名称">
-                    <el-input v-model="item.table" />
+                    <el-select v-model="item.table" style="width: 100%" filterable clearable placeholder="请选择中间表，可输入关键字过滤">
+                      <el-option
+                        v-for="table in tables"
+                        :key="table.name"
+                        :label="table.name + ' - ' + table.comment"
+                        :value="table.name"
+                      />
+                    </el-select>
                   </el-form-item>
-                  <el-form-item class="ma-inline-form-item" label="外键名称">
-                    <el-input v-model="item.foreignKey" />
+                  <el-form-item class="ma-inline-form-item" label="关联键">
+                    <el-select v-model="item.localKey" style="width: 100%" filterable clearable placeholder="请选择关联键，可输入关键字过滤">
+                      <el-option
+                        v-for="column in columns"
+                        :key="column.column_name"
+                        :label="column.column_name + ' - ' + column.column_comment"
+                        :value="column.column_name"
+                       />
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -487,7 +524,7 @@
       <el-form-item label="组件样式" v-if="selectField.view_type === 'area'" prop="type">
         <el-radio-group v-model="settingForm.area.type">
           <el-radio label="cascader">级联选择器样式</el-radio>
-          <el-radio label="select">下联选择器联动</el-radio>
+          <el-radio label="select">下拉选择器联动</el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -556,6 +593,8 @@ export default {
     await this.getMenu()
     await this.getRoles()
     await this.getDictType()
+    await this.getModels()
+    await this.getTables()
   }
 }
 </script>

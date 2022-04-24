@@ -41,7 +41,13 @@ class TableStructVersion064 extends Migration
             if (!Schema::hasColumn('setting_generate_tables', 'build_menu')) {
                 $table->addColumn('char', 'build_menu', ['length' => 1, 'default' => '0'])
                     ->comment('是否构建菜单')
-                    ->after('generate_type')
+                    ->after('generate_menus')
+                    ->nullable();
+            }
+            if (!Schema::hasColumn('setting_generate_tables', 'component_type')) {
+                $table->addColumn('char', 'component_type', ['length' => 1, 'default' => '0'])
+                    ->comment('组件显示方式')
+                    ->after('build_menu')
                     ->nullable();
             }
         });
@@ -57,7 +63,7 @@ class TableStructVersion064 extends Migration
         });
 
         Schema::table('setting_generate_tables', function (Blueprint $table) {
-            $table->dropColumn(['generate_menus', 'build_menu']);
+            $table->dropColumn(['generate_menus', 'build_menu', 'component_type']);
         });
 
         Schema::table('setting_generate_columns', function (Blueprint $table) {

@@ -44,6 +44,11 @@ class SettingGenerateTablesService extends AbstractService
     protected SettingGenerateColumnsService $settingGenerateColumnsService;
 
     /**
+     * @var ModuleService
+     */
+    protected ModuleService $moduleService;
+
+    /**
      * @var ContainerInterface
      */
     protected ContainerInterface $container;
@@ -53,18 +58,21 @@ class SettingGenerateTablesService extends AbstractService
      * @param SettingGenerateTablesMapper $mapper
      * @param DataMaintainService $dataMaintainService
      * @param SettingGenerateColumnsService $settingGenerateColumnsService
+     * @param ModuleService $moduleService
      * @param ContainerInterface $container
      */
     public function __construct(
         SettingGenerateTablesMapper $mapper,
         DataMaintainService $dataMaintainService,
         SettingGenerateColumnsService $settingGenerateColumnsService,
+        ModuleService $moduleService,
         ContainerInterface $container
     )
     {
         $this->mapper = $mapper;
         $this->dataMaintainService = $dataMaintainService;
         $this->settingGenerateColumnsService = $settingGenerateColumnsService;
+        $this->moduleService = $moduleService;
         $this->container = $container;
     }
 
@@ -276,6 +284,29 @@ class SettingGenerateTablesService extends AbstractService
         // 先删除再创建
         $fs->cleanDirectory($genDirectory);
         $fs->deleteDirectory($genDirectory);
+    }
+
+    /**
+     * 获取所有模型
+     * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function getModels(): array
+    {
+        $models = [];
+        foreach ($this->moduleService->getModuleCache() as $item) if ($item['enabled']) {
+            $path = sprintf("%s/app/%s/Model/*", BASE_PATH, $item['name']);
+            foreach (glob($path) as $file) {
+                $models[] = sprintf(
+                    '\App\%s\Model\%s',
+                    $item['name'],
+                    str_replace('.php', '', basename($file))
+                );
+            }
+        }
+
+        return $models;
     }
 
     /**

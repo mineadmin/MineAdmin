@@ -20,6 +20,7 @@ export default {
         generate_type: '0',
         generate_menus: [],
         build_menu: '0',
+        component_type: '0',
         options: {},
         columns: [],
       },
@@ -27,10 +28,10 @@ export default {
       settingForm: {
         userinfo: 'id',
         date: 'default',
-        select: [ { name: '', value: ''} ],
-        radio: [ { name: '', value: ''} ],
-        checkbox: [ { name: '', value: ''} ],
-        tabs: [ { name: '', value: ''} ],
+        select: [],
+        radio: [],
+        checkbox: [],
+        tabs: [],
         area: { type: 'select', value: 'code' },
       },
 
@@ -82,6 +83,10 @@ export default {
       roles: [],
       // 字典列表
       dict: [],
+      // 模型列表
+      models: [],
+      // 表列表
+      tables: [],
       // 模块信息
       sysinfo: {},
 

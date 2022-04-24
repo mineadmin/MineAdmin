@@ -5,6 +5,7 @@ namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\Tool\GenerateUpdateRequest;
 use App\Setting\Request\Tool\LoadTableRequest;
+use App\Setting\Service\ModuleService;
 use App\Setting\Service\SettingGenerateColumnsService;
 use App\Setting\Service\SettingGenerateTablesService;
 use Hyperf\Di\Annotation\Inject;
@@ -150,5 +151,17 @@ class GenerateCodeController extends MineController
     public function sync(int $id): ResponseInterface
     {
         return $this->tableService->sync($id) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 获取所有启用状态模块下的所有模型
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getModels")]
+    public function getModels(): ResponseInterface
+    {
+        return $this->success($this->tableService->getModels());
     }
 }

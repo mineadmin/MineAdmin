@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-switch v-model="form.{COLUMN_NAME}" active-value="0" inactive-value="1" />
+      </el-form-item>

@@ -1,7 +1,6 @@
 
     /**
      * 数字运算操作
-     * @param SystemUserStatusRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -10,9 +9,9 @@
     public function numberOperation(): ResponseInterface
     {
         return $this->service->numberOperation(
-            (int) $request->input('{PK}'),
-            (string) $request->input('{NUMBER_FIELD}'),
-            (string) $request->input('{NUMBER_TYPE}', 'inc'),
-            (int) $request->input('{NUMBER_VALUE}', 1),
+            (int) $this->request->input('{PK}'),
+            (string) $this->request->input('{NUMBER_FIELD}'),
+            (string) $this->request->input('{NUMBER_TYPE}', 'inc'),
+            (int) $this->request->input('{NUMBER_VALUE}', 1),
         ) ? $this->success() : $this->error();
     }

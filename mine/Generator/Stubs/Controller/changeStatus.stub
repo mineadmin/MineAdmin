@@ -1,7 +1,6 @@
 
     /**
      * 更改数据状态
-     * @param SystemUserStatusRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -10,8 +9,8 @@
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus(
-            (int) $request->input('{PK}'),
-            (string) $request->input('{STATUS_VALUE}'),
-            (string) $request->input('{STATUS_FIELD}')
+            (int) $this->request->input('{PK}'),
+            (string) $this->request->input('{STATUS_VALUE}'),
+            (string) $this->request->input('{STATUS_FIELD}')
         ) ? $this->success() : $this->error();
     }

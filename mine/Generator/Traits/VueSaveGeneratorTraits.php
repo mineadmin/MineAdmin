@@ -32,9 +32,16 @@ trait VueSaveGeneratorTraits
             'radio'     => $this->radioCode($column),
             'checkbox'  => $this->checkboxCode($column),
             'date'      => $this->dateCode($column),
+            'time'      => $this->dateCode($column),
             'image'     => $this->imageCode($column),
             'file'      => $this->fileCode($column),
             'editor'    => $this->editorCode($column),
+            'inputNumber' => $this->editorCode($column),
+            'switch'      => $this->switchCode($column),
+            'rate'        => $this->rateCode($column),
+            'area'        => $this->areaCode($column),
+            'userSelect'  => $this->userSelectCode($column),
+            'userinfo'    => $this->userinfoCode($column),
             'selectResourceRadio' => $this->selectResourceRadio($column),
             'selectResourceMulti' => $this->selectResourceMulti($column),
             default     => $this->textCode($column),
@@ -91,7 +98,15 @@ trait VueSaveGeneratorTraits
     protected function selectCode(SettingGenerateColumns $column): string
     {
         $dictCode = '';
-        if ($column->dict_type) {
+        if (!empty($column->options['select'])) {
+            foreach ($column->options['select'] as $item) {
+                $dictCode .= sprintf(
+                    "  <el-option label=\"%s\" value=\"%s\" />\n        ",
+                    $item['name'],
+                    $item['value']
+                );
+            }
+        } else if ($column->dict_type) {
             $dictCode = str_replace(
                 '{DICT_COLUMN}', $column->dict_type, $this->getFormItemTemplate('selectOption')
             );
@@ -111,7 +126,15 @@ trait VueSaveGeneratorTraits
     protected function radioCode(SettingGenerateColumns $column): string
     {
         $dictCode = '';
-        if ($column->dict_type) {
+        if (!empty($column->options['radio'])) {
+            foreach ($column->options['radio'] as $item) {
+                $dictCode .= sprintf(
+                    "  <el-radio label=\"%s\" value=\"%s\" />\n        ",
+                    $item['name'],
+                    $item['value']
+                );
+            }
+        } else if ($column->dict_type) {
             $dictCode = str_replace(
                 '{DICT_COLUMN}', $column->dict_type, $this->getFormItemTemplate('radioOption')
             );
@@ -131,7 +154,15 @@ trait VueSaveGeneratorTraits
     protected function checkboxCode(SettingGenerateColumns $column): string
     {
         $dictCode = '';
-        if ($column->dict_type) {
+        if (!empty($column->options['checkbox'])) {
+            foreach ($column->options['checkbox'] as $item) {
+                $dictCode .= sprintf(
+                    "  <el-checkbox label=\"%s\" value=\"%s\" />\n        ",
+                    $item['name'],
+                    $item['value']
+                );
+            }
+        } else if ($column->dict_type) {
             $dictCode = str_replace(
                 '{DICT_COLUMN}', $column->dict_type, $this->getFormItemTemplate('checkboxOption')
             );
@@ -237,12 +268,86 @@ VUE;
     }
 
     /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function switchCode(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('switch')
+        );
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function rateCode(SettingGenerateColumns $column): string
+    {
+        return '';
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function areaCode(SettingGenerateColumns $column): string
+    {
+        $type = $column->options['area']['type'] === 'select' ? 'areaSelect' : 'areaCascader';
+        $value = $column->options['area']['type'] === 'code' ? 'code' : 'name';
+
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}', '{AREA_VALUE_TYPE}'],
+            [$column->column_name, $column->column_comment, $value],
+            $this->getFormItemTemplate($type)
+        );
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function userSelectCode(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('userSelect')
+        );
+    }
+
+    /**
+     * 用户信息
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function userinfoCode(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('userinfo')
+        );
+    }
+
+    /**
      * @param string $tpl
      * @return string
      */
     protected function getFormItemTemplate(string $tpl): string
     {
         return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/formItem/{$tpl}.stub");
+    }
+
+    /**
+     * @param string $tpl
+     * @return string
+     */
+    protected function getOtherTemplate(string $tpl): string
+    {
+        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/Other/{$tpl}.stub");
     }
 
 }

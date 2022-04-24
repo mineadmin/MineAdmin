@@ -106,7 +106,8 @@ export default {
       if (! this.columns[index].options) {
         this.columns[index].options = {}
       }
-      let view_type = ['userinfo', 'date', 'select', 'redio', 'checkbox', 'area', 'tabs']
+      
+      let view_type = ['userinfo', 'date', 'select', 'radio', 'checkbox', 'area', 'tabs']
       
       if (view_type.includes(this.selectField.view_type)) {
         this.columns[index].options[this.selectField.view_type] = this.settingForm[this.selectField.view_type]

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog
+  <{COMPONENT_TYPE}
     :title="titleMap[mode]"
     v-model="visible"
     :width="700"
@@ -7,22 +7,28 @@
     append-to-body
     @closed="emits('closed')"
   >
-    <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
+    <el-form
+      :model="form"
+      :rules="rules"
+      ref="dialogForm"
+      label-width="80px"
+      :style="'{COMPONENT_TYPE}' === 'el-drawer' ? 'padding:0 20px' : ''"
+    >
       {FORM_LIST}
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取 消</el-button>
       <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
     </template>
-  </el-dialog>
+  </{COMPONENT_TYPE}>
 </template>
 
 <script setup>
   import { ref, reactive, defineEmits, defineExpose, onMounted } from 'vue'
   import { ElMessage } from 'element-plus'
-  import editor from '@/components/scEditor'
   import {BUSINESS_EN_NAME} from '@/api/apis/system/{BUSINESS_EN_NAME}'
   import systemDict from '@/api/apis/system/dataDict'
+{IMPORT_COMPONENT}
 
   const emits = defineEmits(['success', 'closed'])
 
@@ -81,11 +87,10 @@
       }
     }
   }
-
-  {UPLOAD_IMAGE}
-
-  {UPLOAD_FILE}
-
+{INPUT_NUMBER}
+{SWITCH_STATUS}
+{UPLOAD_IMAGE}
+{UPLOAD_FILE}
   defineExpose({
     open, setData
   })

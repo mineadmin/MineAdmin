@@ -19,7 +19,7 @@ import { handleError } from "vue-demi";
 import cityLinkageJson from "./lib/cityLinkage.json";
 export default {
   name: "cityLinkage",
-
+  emits: ['update:modelValue'],
   props: {
     modelValue: {
       type: Object,

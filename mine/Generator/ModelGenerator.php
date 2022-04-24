@@ -257,6 +257,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRelations(): string
     {
+        $prefix = env('DB_PREFIX');
         if (!empty($this->model->options['relations'])) {
             $path = $this->getStubDir() . 'ModelRelation/';
             $phpCode = '';
@@ -264,7 +265,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
                 $content = $this->filesystem->sharedGet($path . $relation['type'] . '.stub');
                 $content = str_replace(
                     [ '{RELATION_NAME}', '{MODEL_NAME}', '{TABLE_NAME}', '{FOREIGN_KEY}', '{LOCAL_KEY}' ],
-                    [ $relation['name'], $relation['model'], $relation['table'], $relation['foreignKey'], $relation['localKey'] ],
+                    [ $relation['name'], $relation['model'], str_replace($prefix, '', $relation['table']), $relation['foreignKey'], $relation['localKey'] ],
                     $content
                 );
                 $phpCode .= $content;

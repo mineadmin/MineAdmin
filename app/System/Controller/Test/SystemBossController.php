@@ -146,7 +146,6 @@ class SystemBossController extends MineController
 
     /**
      * 更改数据状态
-     * @param SystemUserStatusRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -155,15 +154,14 @@ class SystemBossController extends MineController
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus(
-            (int) $request->input('id'),
-            (string) $request->input('statusValue'),
-            (string) $request->input('statusName')
+            (int) $this->request->input('id'),
+            (string) $this->request->input('statusValue'),
+            (string) $this->request->input('statusName')
         ) ? $this->success() : $this->error();
     }
 
     /**
      * 数字运算操作
-     * @param SystemUserStatusRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -172,10 +170,10 @@ class SystemBossController extends MineController
     public function numberOperation(): ResponseInterface
     {
         return $this->service->numberOperation(
-            (int) $request->input('id'),
-            (string) $request->input('numberName'),
-            (string) $request->input('numberType', 'inc'),
-            (int) $request->input('numberValue', 1),
+            (int) $this->request->input('id'),
+            (string) $this->request->input('numberName'),
+            (string) $this->request->input('numberType', 'inc'),
+            (int) $this->request->input('numberValue', 1),
         ) ? $this->success() : $this->error();
     }
 

@@ -1,0 +1,7 @@
+
+  const numberOperation = (numberName, numberType = 'inc', numberValue = 1) => {
+    let data = { id: form.{PK}, numberName, numberType, numberValue }
+    {BUSINESS_EN_NAME}.numberOperation(data).then( res => {
+      res.success && ElMessage.success(res.message)
+    }).catch( e => { console.log(e) } )
+  }

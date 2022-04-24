@@ -32,6 +32,7 @@ class GenerateUpdateRequest extends FormRequest
             'table_comment' => 'required',
             'table_name' => 'required',
             'type' => 'required',
+            'component_type' => 'required',
             'columns' => 'required|array',
             'belong_menu_id' => '',
             'options' => '',

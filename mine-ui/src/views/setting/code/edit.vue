@@ -272,7 +272,8 @@
           </el-tab-pane>
 
           <el-tab-pane label="字段管理" name="field">
-            <el-alert title="只有下拉框、复选框、单选框、标签页支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单" type="info" />
+            <el-alert title="只有下拉框、复选框、单选框、标签页支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单。" type="info" />
+            <el-alert title="注意：复选框提交是数组数据，但会被前端转化成字符串（已逗号分隔），回显会被还原成数组。如需要数组数据，请自行修改处理" type="success" style="margin-top: 10px" />
             <el-table :data="columns" empty-text="表中无字段...">
 
               <el-table-column prop="sort" label="排序" width="80">
@@ -324,6 +325,7 @@
               <el-table-column prop="query_type" label="查询方式">
                 <template v-slot="scope">
                   <el-select
+                    clearable
                     v-model="scope.row.query_type"
                     placeholder="请选择查询方式"
                     style="width: 100%"
@@ -341,6 +343,7 @@
               <el-table-column prop="view_type" label="页面控件">
                 <template v-slot="scope">
                   <el-select
+                    clearable
                     v-model="scope.row.view_type"
                     placeholder="请选择页面控件"
                     @change="settingComponent(scope.row, scope.$index)"
@@ -359,10 +362,10 @@
               <el-table-column prop="dict_type" label="数据字典">
                 <template v-slot="scope">
                   <el-select
+                    clearable
                     v-model="scope.row.dict_type"
                     placeholder="请选择数据字典"
                     style="width: 100%"
-                    clearable
                   >
                     <el-option
                       v-for="(item, index) in dict"
@@ -377,10 +380,10 @@
               <el-table-column prop="allow_roles" label="允许角色">
                 <template v-slot="scope">
                   <el-select
+                    clearable
                     v-model="scope.row.allow_roles"
                     placeholder="允许查看的角色"
                     style="width: 100%"
-                    clearable
                   >
                     <el-option
                       v-for="(item, index) in roles"
@@ -454,7 +457,7 @@
   <el-drawer v-model="drawer" @close="handleClose" :size="'380px'">
     <el-form :model="settingForm" style="padding-left: 20px;">
       <!-- 用户信息 -->
-      <el-form-item label="用户信息" v-if="this.selectField.view_type === 'userinfo'" prop="userinfo">
+      <el-form-item label="用户信息" v-if="selectField.view_type === 'userinfo'" prop="userinfo">
         <el-select v-model="settingForm.userinfo">
           <el-option label="用户ID" value="id" />
           <el-option label="用户账号" value="username" />
@@ -467,7 +470,7 @@
       </el-form-item>
 
       <!-- 日期选择器 -->
-      <el-form-item label="控件类型" v-if="this.selectField.view_type === 'date'" prop="date">
+      <el-form-item label="控件类型" v-if="selectField.view_type === 'date'" prop="date">
         <el-select v-model="settingForm.date">
           <el-option label="日期选择器" value="default" />
           <el-option label="日期时间选择器" value="datetime" />
@@ -480,138 +483,62 @@
         <div class="el-form-item-msg">请选择日期控件类型</div>
       </el-form-item>
 
-      <el-button @click="handleSetting">确定</el-button>
+      <!-- 日期选择器 -->
+      <el-form-item label="组件样式" v-if="selectField.view_type === 'area'" prop="type">
+        <el-radio-group v-model="settingForm.area.type">
+          <el-radio label="cascader">级联选择器样式</el-radio>
+          <el-radio label="select">下联选择器联动</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <!-- 省市 -->
+      <el-form-item label="数据格式" v-if="selectField.view_type === 'area'" prop="value">
+        <el-radio-group v-model="settingForm.area.value">
+          <el-radio label="code">保存省市代码</el-radio>
+          <el-radio label="name">保存省市名称</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <div style="font-size: 16px" v-if="['radio', 'checkbox', 'select', 'tabs'].includes(selectField.view_type)">
+        设置数据
+        <div style="margin-top: 10px;"><el-button @click="() => {
+           settingForm[selectField.view_type].push({ name: '', value: ''})
+        }">添加</el-button></div>
+        <el-card
+          style="width: 95%; margin-top: 10px"
+          shadow="never"
+          v-for="(item, index) in settingForm[selectField.view_type]"
+          :key="index"
+        >
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="settingForm[selectField.view_type][index].name" />
+          </el-form-item>
+          <el-form-item label="&nbsp;&nbsp;&nbsp;值" prop="value">
+            <el-input v-model="settingForm[selectField.view_type][index].value" />
+          </el-form-item>
+          <el-button type="danger" @click="(index) => {
+            settingForm[selectField.view_type].splice(index, 1)
+          }" >删除</el-button>
+        </el-card>
+      </div>
+      <div style="margin-top: 10px">
+        <el-button @click="handleSetting" type="primary">确定</el-button>
+        <el-button
+          @click="drawer = false"
+          v-if="['radio', 'checkbox', 'select', 'tabs'].includes(selectField.view_type)"
+        >不设置，使用字典数据</el-button>
+      </div>
     </el-form>
   </el-drawer>
 </template>
 <script>
 import useTabs from '@/utils/useTabs'
+import datas from './js/datas'
+import methods from './js/methods'
+
 export default {
   name: 'setting:code:update',
-  data () {
-    return {
-      drawer: false,
-      title: '',
-      // 默认激活
-      activeName: '',
-      // 表单字段
-      form: {
-        id: '',
-        table_name: '',
-        module_name: '',
-        table_comment: '',
-        menu_name: '',
-        package_name: '',
-        remark: '',
-        type: '',
-        belong_menu_id: '0',
-        namespace: '',
-        generate_type: '0',
-        generate_menus: [],
-        build_menu: '0',
-        options: {},
-        columns: [],
-      },
-
-      settingForm: {
-        userinfo: 'id',
-        date: 'default',
-        tabs: []
-      },
-
-      menuList: [
-        { name: '新增', value: 'save', comment: '勾选生成新增数据按钮菜单及接口', check: '1' },
-        { name: '更新', value: 'update', comment: '勾选生成更新数据按钮菜单及接口', check: '1'  },
-        { name: '读取', value: 'read', comment: '勾选生成读取数据按钮菜单及接口', check: '1'  },
-        { name: '删除', value: 'delete', comment: '勾选生成真实删除按钮菜单及接口', check: '1' },
-        { name: '回收站列表', value: 'recycle', comment: '勾选生成移到回收站列表、真实删除、恢复菜单及接口，确定该表有deleted_at字段，且模型引入了软删除。', check: '1' },
-        { name: '修改状态', value: 'changeStatus', comment: '勾选生成修改状态按钮菜单及接口，该接口用于单个字段状态修改', check: '1' },
-        { name: '自增自减', value: 'numberOperation', comment: '勾选生成数据自增自减按钮菜单及接口，该接口用于单个字段增减操作', check: '1' },
-        { name: '导入', value: 'import', comment: '勾选生成导入按钮菜单、接口和DTO文件', check: '1' },
-        { name: '导出', value: 'export', comment: '勾选生成导出按钮菜单、接口和DTO文件', check: '1' },
-      ],
-
-      // 保存loading
-      saveLoading: false,
-
-      // 验证规则
-      rules: {
-        table_comment: [{ required: true, message: '请填写表描述', trigger: 'blur' }],
-        module_name: [{ required: true, message: '请选择所属模块（注意对应表模块前缀）', trigger: 'change' }],
-        // belong_menu_id: [{ required: true, message: '请选择所属菜单', trigger: 'change' }],
-        menu_name: [{ required: true, message: '请选择所属菜单', trigger: 'blur' }],
-        // package_name: [{ required: false, pattern: /^[A-Za-z]{3,}$/g, message: '包名必须为3位字母及以上', trigger: 'blur' }]
-      },
-
-      tree_id: '',
-      tree_parent_id: '',
-      tree_name: '',
-
-      // 关联关系
-      relations: [],
-      realtionsType: [
-        { name: '一对一', value: 'hasOne' },
-        { name: '一对多', value: 'hasMany' },
-        { name: '一对多（反向)', value: 'belongsTo' },
-        { name: '多对多', value: 'belongsToMany' },
-      ],
-
-      // 当前记录
-      record: null,
-
-      // 字段列表
-      columns: [],
-      // 菜单列表
-      menus: [],
-      // 角色列表
-      roles: [],
-      // 字典列表
-      dict: [],
-      // 模块信息
-      sysinfo: {},
-      
-      selectField: '',
-
-      // 查询类型
-      queryType: [
-        { label: '=', value: 'eq' },
-        { label: '!=', value: 'neq' },
-        { label: '>', value: 'gt' },
-        { label: '>=', value: 'gte' },
-        { label: '<', value: 'lt' },
-        { label: '<=', value: 'lte' },
-        { label: 'LIKE', value: 'like' },
-        { label: 'BETWEEN', value: 'between' },
-      ],
-      // 页面控件
-      viewComponent: [
-        { label: '文本框', value: 'text' },
-        { label: '密码框', value: 'password' },
-        { label: '文本域', value: 'textarea' },
-        { label: '计数器', value: 'inputNumber' },
-        { label: 'Switch开关', value: 'switch' },
-        { label: '滑块', value: 'slider' },
-        { label: '下拉框', value: 'select' },
-        { label: '单选框', value: 'radio' },
-        { label: '复选框', value: 'checkbox' },
-        { label: '日期选择器', value: 'date' },
-        { label: '时间选择器', value: 'time' },
-        { label: '评分器', value: 'rate' },
-        { label: '颜色选择器', value: 'colorPicker' },
-        // { label: '分片上传', value: 'chunkUpload' },
-        { label: '用户选择器', value: 'userSelect' },
-        { label: '用户信息', value: 'userinfo' },
-        { label: '省市区联动', value: 'area' },
-        { label: '资源选择单选', value: 'selectResourceRadio' },
-        { label: '资源选择多选', value: 'selectResourceMulti' },
-        { label: '图片上传', value: 'image' },
-        { label: '文件上传', value: 'file' },
-        { label: '富文本控件', value: 'editor' },
-        { label: '标签页', value: 'tabs' },
-      ]
-    }
-  },
-
+  mixins: [datas, methods],
   async created () {
     if (! this.$route.query.id) {
       this.$message.error('请从正确来路访问页面，标签页已关闭')
@@ -629,178 +556,6 @@ export default {
     await this.getMenu()
     await this.getRoles()
     await this.getDictType()
-  },
-
-  methods: {
-
-    addRelation() {
-      let relation = {
-        name: '', type: 'hasOne', model: '', foreignKey: '', localKey: '', table: ''
-      }
-      this.relations.push(relation)
-    },
-
-    delRelation(index) {
-      this.relations.splice(index, 1)
-    },
-
-    handleChangeGenType(value) {
-      if (value === '1') {
-        this.$confirm('生成到模块会覆盖原文件，确定使用该方式吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then().catch(_=> {
-          this.form.generate_type = '0'
-        })
-      }
-    },
-
-    handleBuildMenu(value) {
-      if (value === '1') {
-        this.$confirm('确定选择生成代码时执行菜单SQL语句', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then().catch(_=> {
-          this.form.build_menu = '0'
-        })
-      }
-    },
-
-    handleClose () {
-      this.drawer = false
-      this.selectField = ''
-      this.componentInfo = {}
-    },
-
-    getMenu () {
-      this.$API.menu.tree({ onlyMenu: true }).then(res => {
-        this.menus = res.data
-      })
-    },
-
-    getRoles () {
-      this.$API.role.getList().then(res => {
-        this.roles = res.data
-      })
-    },
-
-    getSystemInfo () {
-      this.$API.table.getSystemInfo().then(res => {
-        this.sysinfo = res.data
-      })
-    },
-
-    // 请求字典列表
-    getDictType () {
-      this.$API.dictType.getTypeList().then(res => {
-        this.dict = res.data
-      })
-    },
-
-    // 请求表字段
-    getTableColumns () {
-      this.$API.generate.getTableColumns({ table_id: this.record.id }).then(res => {
-        this.columns = res.data
-      })
-    },
-
-    settingComponent(row, index) {
-      let showDrawerList = [
-        'date', 'userinfo'
-      ]
-      row.$index = index
-      if (showDrawerList.includes(row.view_type)) {
-        this.selectField = row
-        if (row.options && row.options.userinfo) {
-          this.settingForm.userinfo = row.options.userinfo
-        }
-        if (row.options && row.options.date) {
-          this.settingForm.date = row.options.date
-        }
-        this.drawer = true
-      }
-    },
-
-    handleSetting() {
-      let index = this.selectField.$index;
-      if (! this.columns[index].options) {
-        this.columns[index].options = {}
-      }
-      if (this.selectField.view_type === 'userinfo') {
-        this.columns[index].options.userinfo = this.settingForm.userinfo
-      }
-
-      if (this.selectField.view_type === 'date') {
-        this.columns[index].options.date = this.settingForm.date
-      }
-
-      this.handleClose()
-    },
-
-    // 提交数据
-    handleSubmit () {
-      this.$refs.form.validate(async (valid) => {
-        if (valid) {
-          this.form.columns = this.columns
-          this.saveLoading = true
-          this.form.generate_menus = []
-          this.menuList.map(item => {
-            if (item.check === '1') this.form.generate_menus.push(item.value)
-          })
-          
-          this.form.options = { relations: this.relations, tree_id: this.tree_id, tree_parent_id: this.tree_parent_id, tree_name: this.tree_name }
-          let res = await this.$API.generate.update(this.form)
-          this.saveLoading = false
-          if (res.success) {
-            this.record = null
-            this.$message.success(res.message)
-          } else {
-            this.$alert(res.message, "提示", { type: 'error' })
-          }
-        }
-      })
-    },
-
-    // 为form赋值
-    setFormValue () {
-      this.form.id = this.record.id
-      this.form.table_name = this.record.table_name
-      this.form.table_comment = this.record.table_comment
-      this.form.module_name = this.record.module_name
-      this.form.menu_name = this.record.menu_name
-      this.form.belong_menu_id = this.record.belong_menu_id
-      this.form.package_name = this.record.package_name
-      this.form.remark = this.record.remark
-      this.form.type = this.record.type
-      this.form.generate_type = this.record.generate_type
-      this.form.build_menu = this.record.build_menu
-
-      const menuList = this.record.generate_menus
-      if (menuList) {
-        this.menuList.map( (item, index) => {
-          this.menuList[index].check = menuList.includes(item.value) ? '1' : '0'
-        })
-      }
-
-      if (this.record.options && this.record.options.relations) {
-        this.record.options.relations.map(item => {
-          this.relations.push(item)
-        })
-      }
-
-      if (this.form.type == 'tree') {
-        this.tree_id = this.record.options.tree_id
-        this.tree_parent_id = this.record.options.tree_parent_id
-        this.tree_name = this.record.options.tree_name
-      }
-    },
-
-    // 选择模块处理
-    hanldeChangeModule (val) {
-      this.form.module_name = val
-    },
   }
 }
 </script>

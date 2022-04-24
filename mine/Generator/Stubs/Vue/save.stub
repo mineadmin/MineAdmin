@@ -87,8 +87,6 @@
       }
     }
   }
-{INPUT_NUMBER}
-{SWITCH_STATUS}
 {UPLOAD_IMAGE}
 {UPLOAD_FILE}
   defineExpose({

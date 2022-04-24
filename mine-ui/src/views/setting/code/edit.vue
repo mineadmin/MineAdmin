@@ -536,7 +536,7 @@
         </el-radio-group>
       </el-form-item>
 
-      <div style="font-size: 16px" v-if="['radio', 'checkbox', 'select', 'tabs'].includes(selectField.view_type)">
+      <div style="font-size: 16px" v-if="['radio', 'checkbox', 'select'].includes(selectField.view_type)">
         设置数据
         <div style="margin-top: 10px;"><el-button @click="() => {
            settingForm[selectField.view_type].push({ name: '', value: ''})
@@ -562,7 +562,7 @@
         <el-button @click="handleSetting" type="primary">确定</el-button>
         <el-button
           @click="drawer = false"
-          v-if="['radio', 'checkbox', 'select', 'tabs'].includes(selectField.view_type)"
+          v-if="['radio', 'checkbox', 'select'].includes(selectField.view_type)"
         >不设置，使用字典数据</el-button>
       </div>
     </el-form>

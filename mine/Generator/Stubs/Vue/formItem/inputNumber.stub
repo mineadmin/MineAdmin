@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-input-number v-model="form.{COLUMN_NAME}" controls-position="right" />
+      </el-form-item>

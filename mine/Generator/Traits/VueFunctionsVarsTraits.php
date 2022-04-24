@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Mine\Generator\Traits;
 
-use Mine\Helper\Str;
-
 trait VueFunctionsVarsTraits
 {
 
@@ -68,45 +66,5 @@ trait VueFunctionsVarsTraits
             );
         }
         return '';
-    }
-
-    /**
-     * 获取图片上传处理代码
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getUploadImage(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->view_type == 'image') {
-                $jsCode .= str_replace(
-                    ['{FUN_NAME}', '{COLUMN_NAME}'],
-                    [Str::studly($column->column_name), $column->column_name],
-                    $this->getOtherTemplate('uploadImage')
-                );
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取文件上传处理代码
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getUploadFile(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->view_type == 'file') {
-                $jsCode .= str_replace(
-                    ['{FUN_NAME}', '{COLUMN_NAME}'],
-                    [Str::studly($column->column_name), $column->column_name],
-                    $this->getOtherTemplate('uploadFile')
-                );
-            }
-        }
-        return $jsCode;
     }
 }

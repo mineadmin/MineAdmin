@@ -144,18 +144,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{DICT_LIST}',
             '{DICT_DATA}',
             '{PK}',
-            '{TABS}',
-            '{TABS_KEY}',
-            '{TAB_HANDLE}',
-            '{TAB_DEFAULT_VALUE}',
         ];
     }
 
     /**
      * 获取要替换占位符的内容
      * @return string[]
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function getReplaceContent(): array
     {
@@ -170,10 +164,6 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getDictList(),
             $this->getDictData(),
             $this->getPk(),
-            $this->getTabs(),
-            $this->getTabsKey(),
-            $this->getTabsHandle(),
-            $this->getTabDefaultValue(),
         ];
     }
 
@@ -398,77 +388,6 @@ js;
             }
         }
         return '';
-    }
-
-    /**
-     * 获取表格tabs
-     * @return string
-     */
-    protected function getTabs(): string
-    {
-        $jsCode = '';
-        $key = $this->getTabsKey();
-        foreach ($this->columns as $column) {
-            if ($column->view_type === 'tabs') {
-                $code = <<<js
-      <el-main class="nopadding">
-        <div style="padding-left: 12px;">
-          <el-tabs v-model="{$key}" class="demo-tabs" @tab-click="handleTabsClick">
-            <el-tab-pane v-for="(item,index) in {$column->dict_type}_data" :key="index" :name="item.value" :stretch="true" :label="item.label" />
-          </el-tabs>
-        </div>
-      </el-main>
-js;
-                $jsCode .= $code;
-                break;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取tabs key
-     * @return string
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function getTabDefaultValue(): string
-    {
-        $tabName = $this->getTabsKey();
-        $list = container()->get(SystemDictDataService::class)->getList(
-            ['code' => str_replace('_tabs', '', $tabName)]
-        );
-        return empty($tabName) ? '' : $tabName . ': '. $list[0]['value'] ?? '';
-    }
-
-    /**
-     * 获取tabs key
-     * @return string
-     */
-    public function getTabsKey(): string
-    {
-        foreach ($this->columns as $column) {
-            if ($column->view_type === 'tabs') {
-                return $column->dict_type . '_tabs';
-            }
-        }
-        return '';
-    }
-
-    /**
-     * 获取tabs key
-     * @return string
-     */
-    public function getTabsHandle(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->view_type === 'tabs') {
-                $jsCode = "this.queryParams['{$column->column_name}'] = tab.props.name\n\tthis.handlerSearch()";
-                break;
-            }
-        }
-        return $jsCode;
     }
 
     /**

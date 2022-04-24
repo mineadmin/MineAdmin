@@ -89,7 +89,7 @@ export default {
 
     settingComponent(row, index) {
       let showDrawerList = [
-        'date', 'userinfo', 'select', 'radio', 'checkbox', 'area', 'tabs'
+        'date', 'userinfo', 'select', 'radio', 'checkbox', 'area'
       ]
       row.$index = index
       if (showDrawerList.includes(row.view_type)) {
@@ -107,7 +107,7 @@ export default {
         this.columns[index].options = {}
       }
       
-      let view_type = ['userinfo', 'date', 'select', 'radio', 'checkbox', 'area', 'tabs']
+      let view_type = ['userinfo', 'date', 'select', 'radio', 'checkbox', 'area']
       
       if (view_type.includes(this.selectField.view_type)) {
         this.columns[index].options[this.selectField.view_type] = this.settingForm[this.selectField.view_type]

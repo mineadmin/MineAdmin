@@ -31,15 +31,17 @@ trait VueSaveGeneratorTraits
             'select'    => $this->selectCode($column),
             'radio'     => $this->radioCode($column),
             'checkbox'  => $this->checkboxCode($column),
-            'date'      => $this->dateCode($column),
-            'time'      => $this->dateCode($column),
+            'date'      => $this->dateCode($column),        // 1
+            'time'      => $this->timeCode($column),        // 1
             'image'     => $this->imageCode($column),
             'file'      => $this->fileCode($column),
             'editor'    => $this->editorCode($column),
-            'inputNumber' => $this->editorCode($column),
+            'inputNumber' => $this->inputNumber($column),
             'switch'      => $this->switchCode($column),
             'rate'        => $this->rateCode($column),
+            'slider'      => $this->sliderCode($column),
             'area'        => $this->areaCode($column),
+            'colorPicker' => $this->colorPickerCode($column),
             'userSelect'  => $this->userSelectCode($column),
             'userinfo'    => $this->userinfoCode($column),
             'selectResourceRadio' => $this->selectResourceRadio($column),
@@ -196,6 +198,15 @@ VUE;
     }
 
     /**
+     * @param SettingGenerateColumns $columns
+     * @return string
+     */
+    protected function timeCode(SettingGenerateColumns $columns): string
+    {
+        return '';
+    }
+
+    /**
      * 资源选择单选模式
      * selectResourceRadio
      * @param SettingGenerateColumns $column
@@ -271,6 +282,19 @@ VUE;
      * @param SettingGenerateColumns $column
      * @return string
      */
+    protected function inputNumber(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('inputNumber')
+        );
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
     protected function switchCode(SettingGenerateColumns $column): string
     {
         return str_replace(
@@ -286,7 +310,24 @@ VUE;
      */
     protected function rateCode(SettingGenerateColumns $column): string
     {
-        return '';
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('rate')
+        );
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function sliderCode(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('slider')
+        );
     }
 
     /**
@@ -302,6 +343,19 @@ VUE;
             ['{COLUMN_NAME}', '{LABEL_NAME}', '{AREA_VALUE_TYPE}'],
             [$column->column_name, $column->column_comment, $value],
             $this->getFormItemTemplate($type)
+        );
+    }
+
+    /**
+     * @param SettingGenerateColumns $column
+     * @return string
+     */
+    protected function colorPickerCode(SettingGenerateColumns $column): string
+    {
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getFormItemTemplate('colorPicker')
         );
     }
 

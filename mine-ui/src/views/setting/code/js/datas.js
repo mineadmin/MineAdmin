@@ -31,7 +31,6 @@ export default {
         select: [],
         radio: [],
         checkbox: [],
-        tabs: [],
         area: { type: 'select', value: 'code' },
       },
 
@@ -54,9 +53,7 @@ export default {
       rules: {
         table_comment: [{ required: true, message: '请填写表描述', trigger: 'blur' }],
         module_name: [{ required: true, message: '请选择所属模块（注意对应表模块前缀）', trigger: 'change' }],
-        // belong_menu_id: [{ required: true, message: '请选择所属菜单', trigger: 'change' }],
         menu_name: [{ required: true, message: '请选择所属菜单', trigger: 'blur' }],
-        // package_name: [{ required: false, pattern: /^[A-Za-z]{3,}$/g, message: '包名必须为3位字母及以上', trigger: 'blur' }]
       },
 
       tree_id: '',
@@ -127,7 +124,6 @@ export default {
         { label: '图片上传', value: 'image' },
         { label: '文件上传', value: 'file' },
         { label: '富文本控件', value: 'editor' },
-        { label: '标签页', value: 'tabs' },
       ]
     }
   },

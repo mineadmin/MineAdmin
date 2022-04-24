@@ -47,7 +47,6 @@
         </el-form>
       </el-card>
     </el-header>
-    {TABS}
     <el-main class="nopadding">
       <maTable
         ref="table"
@@ -230,26 +229,7 @@
     {DICT_LIST}
   }
 
-  // 标签页查询
-  const handleTabsClick = (tab, event) => {
-    {TAB_HANDLE}
-  }
-
   onMounted(() => {
     getDictData()
   })
 </script>
-<style>
-.el-tabs__item {
-	padding: 0 20px;
-	height: 44px;
-	box-sizing: border-box;
-	display: inline-block;
-	list-style: none;
-	font-size: 14px;
-	font-weight: 500;
-	color: var(--el-text-color-primary);
-	position: relative;
-	margin-top: 10px;
-}
-</style>

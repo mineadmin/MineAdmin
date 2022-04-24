@@ -16,33 +16,49 @@
     >
       
       <el-form-item label="老板名称" prop="name">
-        <el-radio-group v-model="form.name">
-          <el-radio label="1" value="1" />
-          <el-radio label="2" value="2" />
-          <el-radio label="3" value="3" />
+        <el-select v-model="form.name" style="width:100%" clearable placeholder="请选择老板名称">
+        
+          <el-option
+            v-for="(item, index) in dictData.upload_mode"
+            :key="index" :label="item.label"
+            :value="item.value"
+          >{{ item.label }}</el-option>
+
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="老板代码" prop="code">
+        <el-radio-group v-model="form.code">
+          <el-radio label="a" value="a" />
+          <el-radio label="b" value="b" />
+          <el-radio label="c" value="c" />
         
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="老板代码" prop="code">
-        <editor v-model="form.code" placeholder="请输入老板代码" :height="400" />
-      </el-form-item>
-
       <el-form-item label="排序" prop="sort">
-        <sc-upload
-          v-model="form.sort"
-          title="上传排序"
-          type="file"
-          @success="handlerUploadFileSort"
-        />
+        <el-checkbox-group v-model="form.sort">
+          <el-checkbox label="aa" value="aa" />
+          <el-checkbox label="bb" value="bb" />
+        
+        </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="状态 (0正常 1停用)" prop="status">
-        <city-linkage v-model="form.status" valueType="name" />
+      <el-form-item label="状态" prop="status">
+        <el-rate v-model="form.status" />
       </el-form-item>
+
+        <el-form-item label="创建时间" prop="created_at">
+            <el-date-picker
+                type="date"
+                placeholder="请选择创建时间"
+                v-model="form.created_at"
+                style="width: 100%;"
+            ></el-date-picker>
+        </el-form-item>
 
       <el-form-item label="备注" prop="remark">
-        <el-switch v-model="form.remark" active-value="0" inactive-value="1" />
+        <el-slider v-model="form.remark" />
       </el-form-item>
 
     </el-form>
@@ -58,9 +74,6 @@
   import { ElMessage } from 'element-plus'
   import systemBoss from '@/api/apis/system/systemBoss'
   import systemDict from '@/api/apis/system/dataDict'
-  import editor from '@/components/scEditor'
-  import cityLinkage from '@/components/maCityLinkage'
-  import threeLevelLinkage from '@/components/maCityLinkage/threeLevelLinkage'
 
 
   const emits = defineEmits(['success', 'closed'])
@@ -71,20 +84,28 @@
   const isSaveing = ref(false)
   const dialogForm = ref(null)
 
-  const titleMap = reactive({ add: '新增老板', edit: '编辑老板' })
+  const titleMap = reactive({ add: '新增老板信息', edit: '编辑老板信息' })
   const dictData = reactive({
+    upload_mode: [],
+    data_status: [],
     
   })
   const form = reactive({
     id: '',
     name: '',
     code: '',
-    sort: '',
-    status: [],
+    sort: [],
+    status: '',
+    created_at: '',
+    updated_at: '',
     remark: '',
     
   })
   const rules = reactive({
+    name: [{required: true, message: '老板名称必填', trigger: 'blur' }],
+    code: [{required: true, message: '老板代码必填', trigger: 'blur' }],
+    sort: [{required: true, message: '排序必填', trigger: 'blur' }],
+    status: [{required: true, message: '状态必填', trigger: 'blur' }],
     
   })
 
@@ -93,6 +114,12 @@
   })
 
   const getDictData = () => {
+    systemDict.getDict('upload_mode').then(res => {
+      dictData.upload_mode = res.data
+    })
+    systemDict.getDict('data_status').then(res => {
+      dictData.data_status = res.data
+    })
     
   }
 
@@ -127,20 +154,7 @@
     }
   }
 
-  const numberOperation = (numberName, numberType = 'inc', numberValue = 1) => {
-    let data = { id: form.id, numberName, numberType, numberValue }
-    systemBoss.numberOperation(data).then( res => {
-      res.success && ElMessage.success(res.message)
-    }).catch( e => { console.log(e) } )
-  }
-// {SWITCH_STATUS}
 
-
-  const handlerUploadFileSort = (res) => {
-    if (res.success) {
-      form.sort = res.url
-    }
-  }
   defineExpose({
     open, setData
   })

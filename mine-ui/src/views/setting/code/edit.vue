@@ -290,7 +290,6 @@
 
           <el-tab-pane label="字段管理" name="field">
             <el-alert title="只有下拉框、复选框、单选框、标签页支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单。" type="info" />
-            <el-alert title="注意：复选框提交是数组数据，但会被前端转化成字符串（已逗号分隔），回显会被还原成数组。如需要数组数据，请自行修改处理" type="success" style="margin-top: 10px" />
             <el-table :data="columns" empty-text="表中无字段...">
 
               <el-table-column prop="sort" label="排序" width="80">

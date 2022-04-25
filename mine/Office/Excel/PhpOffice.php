@@ -44,10 +44,11 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
             $reader = IOFactory::createReader(IOFactory::identify($tempFilePath));
             $reader->setReadDataOnly(true);
             $sheet = $reader->load($tempFilePath);
+            $endCell = isset($this->property[0]) ? chr(count($this->property[0]) + 65) : null;
             try {
                 foreach ($sheet->getActiveSheet()->getRowIterator(2) as $row) {
                     $temp = [];
-                    foreach ($row->getCellIterator() as $index => $item) {
+                    foreach ($row->getCellIterator('A', $endCell) as $index => $item) {
                         $propertyIndex = ord($index) - 65;
                         if (isset($this->property[$propertyIndex])) {
                             $temp[$this->property[$propertyIndex]['name']] = $item->getFormattedValue();
@@ -65,7 +66,6 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
         } else {
             return false;
         }
-
         if ($closure instanceof \Closure) {
             return $closure($model, $data);
         }

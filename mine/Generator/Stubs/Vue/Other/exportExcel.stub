@@ -1,0 +1,7 @@
+
+  const exportExcel = () => {
+    ElMessage.info('正在处理数据...')
+    {BUSINESS_EN_NAME}.exportExcel(queryParams).then( res => {
+      tool.download(res)
+    }).catch( e => { console.log(e) } )
+  }

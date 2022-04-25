@@ -74,7 +74,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
                 'column_name', 'column_comment', 'is_required', 'options',
                 'is_pk', 'is_insert', 'is_edit', 'view_type', 'dict_type',
         ]);
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -88,7 +88,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
             0755, true, true
         );
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path, $this->replace()->getCodeContent());
     }
 
     /**
@@ -96,7 +96,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**

@@ -227,15 +227,16 @@ class UserController extends MineController
     /**
      * 用户导入
      * @return ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     #[PostMapping("import"), Permission("system:user:import")]
     public function import(): ResponseInterface
     {
-        return $this->service->import(\App\System\Dto\UserDto::class) ? $this->success() : $this->error();
+        return $this->service->import(\App\System\Dto\UserDto::class, function($model, $data){
+            print_r($data);
+            return true;
+        }) ? $this->success() : $this->error();
     }
 
     /**

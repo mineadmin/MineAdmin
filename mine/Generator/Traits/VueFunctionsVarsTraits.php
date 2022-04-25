@@ -59,12 +59,51 @@ trait VueFunctionsVarsTraits
     protected function getInputNumber(): string
     {
         if (in_array('numberOperation' , explode(',', $this->model->generate_menus))) {
-            return str_replace(
-                ['{PK}', '{BUSINESS_EN_NAME}'],
-                [$this->model->getKeyName(), $this->getBusinessEnName()],
-                $this->getOtherTemplate('numberOperation')
-            );
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('numberOperation'));
         }
         return '';
+    }
+
+    /**
+     * 计数器组件方法
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getSwitchStatus(): string
+    {
+        if (in_array('changeStatus' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('switchStatus'));
+        }
+        return '';
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getExportExcel(): string
+    {
+        if (in_array('export' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('exportExcel'));
+        }
+        return '';
+    }
+
+    /**
+     * @param string $tpl
+     * @return string
+     */
+    protected function getFormItemTemplate(string $tpl): string
+    {
+        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/formItem/{$tpl}.stub");
+    }
+
+    /**
+     * @param string $tpl
+     * @return string
+     */
+    protected function getOtherTemplate(string $tpl): string
+    {
+        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/Other/{$tpl}.stub");
     }
 }

@@ -55,7 +55,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
         if (empty($model->module_name) || empty($model->menu_name)) {
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -67,7 +67,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
         $module = Str::lower($this->model->module_name);
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/vue/src/api/apis/{$module}", 0755, true, true);
         $path = BASE_PATH . "/runtime/generate/vue/src/api/apis/{$module}/{$filename}.js";
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path, $this->replace()->getCodeContent());
     }
 
     /**
@@ -75,7 +75,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**

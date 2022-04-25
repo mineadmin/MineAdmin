@@ -317,17 +317,12 @@ trait ServiceTrait
      * 数据导入
      * @param string $dto
      * @param \Closure|null $closure
-     * @param bool $isExportErrorData
-     * @return array|ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return bool
      * @Transaction
      */
-    public function import(string $dto, ?\Closure $closure = null, bool $isExportErrorData = false): bool
+    public function import(string $dto, ?\Closure $closure = null): bool
     {
-        return $this->mapper->import($dto, $closure, $isExportErrorData);
+        return $this->mapper->import($dto, $closure);
     }
 
     /**

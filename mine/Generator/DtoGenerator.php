@@ -44,7 +44,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
-     * @return ControllerGenerator
+     * @return DtoGenerator
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -61,7 +61,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
             ->where('table_id', $model->id)->orderByDesc('sort')
             ->get([ 'column_name', 'column_comment' ]);
 
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -76,7 +76,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
             $path = BASE_PATH . "/app/{$module}/Dto/";
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
-        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
     }
 
     /**
@@ -84,7 +84,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
 

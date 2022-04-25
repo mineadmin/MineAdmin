@@ -67,5 +67,8 @@ abstract class MineGenerator
         $this->namespace = $namespace;
     }
 
-
+    public function replace(): self
+    {
+        return $this;
+    }
 }

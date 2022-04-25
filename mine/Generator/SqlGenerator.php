@@ -56,6 +56,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      * @return SqlGenerator
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function setGenInfo(SettingGenerateTables $model, string $adminId): SqlGenerator
     {
@@ -65,7 +66,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         if (empty($model->module_name) || empty($model->menu_name)) {
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -80,18 +81,17 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
 
         if ($this->model->build_menu === '1') {
             Db::connection()->getPdo()->exec(
-                str_replace(["\r", "\n"], ['', ''], $this->placeholderReplace()->getCodeContent())
+                str_replace(["\r", "\n"], ['', ''], $this->replace()->getCodeContent())
             );
         }
     }
 
     /**
      * 预览代码
-     * @throws \Exception
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**

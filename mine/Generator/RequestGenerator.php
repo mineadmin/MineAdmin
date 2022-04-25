@@ -50,7 +50,6 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
-     * @param string $type
      * @return RequestGenerator
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -72,7 +71,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
             ->orderByDesc('sort')
             ->get([ 'column_name', 'column_comment', 'is_insert', 'is_edit' ])->toArray();
 
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -87,7 +86,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
             $path = BASE_PATH . "/app/{$module}/Request/";
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
-        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
     }
 
     /**
@@ -95,7 +94,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**

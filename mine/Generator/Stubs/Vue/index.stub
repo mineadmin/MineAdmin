@@ -19,10 +19,8 @@
             :disabled="selection.length==0"
             @click="batchDel"
           >删除</el-button>
-
           {IMPORT}
           {EXPORT}
-
         </div>
         <div class="right-panel">
           <div class="right-panel-search">
@@ -119,6 +117,7 @@
   import { ref, reactive, onMounted, nextTick } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import {BUSINESS_EN_NAME} from '@/api/apis/system/{BUSINESS_EN_NAME}'
+  import tool from '@/utils/tool'
   import systemDict from '@/api/apis/system/dataDict'
   import saveDialog from './save.vue'
 
@@ -231,7 +230,9 @@
   const getDictData = () => {
     {DICT_LIST}
   }
-
+  {EXPORT_EXCEL}
+  {INPUT_NUMBER}
+  {SWITCH_STATUS}
   onMounted(() => {
     getDictData()
   })

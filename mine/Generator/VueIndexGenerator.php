@@ -1,7 +1,4 @@
 <?php
-/** @noinspection ThisExpressionReferencesGlobalObjectJS */
-/** @noinspection PhpExpressionResultUnusedInspection */
-/** @noinspection PhpSignatureMismatchDuringInheritanceInspection */
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -17,11 +14,9 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
-use App\System\Mapper\SystemDictDataMapper;
-use App\System\Model\SystemDictData;
-use App\System\Service\SystemDictDataService;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
+use Mine\Generator\Traits\VueFunctionsVarsTraits;
 use Mine\Helper\Str;
 use Hyperf\Database\Model\Collection;
 
@@ -32,6 +27,8 @@ use Hyperf\Database\Model\Collection;
  */
 class VueIndexGenerator extends MineGenerator implements CodeGenerator
 {
+    use VueFunctionsVarsTraits;
+
     /**
      * @var SettingGenerateTables
      */
@@ -69,9 +66,11 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)->orderByDesc('sort')
             ->get([
-                'column_name', 'column_comment', 'is_query', 'is_pk', 'is_list', 'view_type', 'dict_type',
-        ]);
-        return $this;
+                'column_name', 'column_comment', 'allow_roles', 'options',
+                'is_query', 'is_pk', 'is_list', 'view_type', 'dict_type',
+            ]);
+
+        return $this->placeholderReplace();
     }
 
     /**
@@ -85,7 +84,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
             0755, true, true
         );
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path, $this->replace()->getCodeContent());
     }
 
     /**
@@ -93,7 +92,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**
@@ -135,6 +134,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             '{CODE}',
+            '{IMPORT}',
+            '{EXPORT}',
+            '{SHOW_RECYCLE}',
             '{HIDE_PAGE}',
             '{FIRST_SEARCH}',
             '{SEARCH_LIST}',
@@ -143,6 +145,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{QUERY_PARAMS}',
             '{DICT_LIST}',
             '{DICT_DATA}',
+            '{EXPORT_EXCEL}',
+            '{INPUT_NUMBER}',
+            '{SWITCH_STATUS}',
             '{PK}',
         ];
     }
@@ -155,6 +160,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             $this->getCode(),
+            $this->getImport(),
+            $this->getExport(),
+            $this->getShowRecycle(),
             $this->getHidePage(),
             $this->getFirstSearch(),
             $this->getSearchList(),
@@ -163,8 +171,45 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getQueryParams(),
             $this->getDictList(),
             $this->getDictData(),
+            $this->getExportExcel(),
+            $this->getInputNumber(),
+            $this->getSwitchStatus(),
             $this->getPk(),
         ];
+    }
+
+    /**
+     * 获取标识代码
+     * @return string
+     */
+    protected function getCode(): string
+    {
+        return Str::lower($this->model->module_name) . ':' . $this->getShortBusinessName();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getImport(): string
+    {
+        if ( strpos($this->model->generate_menus, 'import') > 0 ) {
+            return str_replace('{CODE}', $this->getCode(), $this->getFormItemTemplate('import'));
+        }
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExport(): string
+    {
+        if ( strpos($this->model->generate_menus, 'export') > 0 ) {
+            return str_replace(
+                ['{CODE}', '{BUSINESS_EN_NAME}'], [ $this->getCode(), $this->getBusinessEnName()],
+                $this->getFormItemTemplate('export')
+            );
+        }
+        return '';
     }
 
     /**
@@ -177,12 +222,11 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     }
 
     /**
-     * 获取标识代码
      * @return string
      */
-    protected function getCode(): string
+    protected function getShowRecycle(): string
     {
-        return Str::lower($this->model->module_name) . ':' . $this->getShortBusinessName();
+        return ( strpos($this->model->generate_menus, 'recycle') > 0 ) ? 'true' : 'false';
     }
 
     /**
@@ -324,53 +368,14 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_query === '1') {
-                $code = <<<js
-
-           {$column->column_name}: undefined,
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典数据
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictList(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
-
-           this.getDict('{$column->dict_type}').then(res => {
-               this.{$column->dict_type}_data = res.data
-           })
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典变量
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictData(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
- 
-         {$column->dict_type}_data: [],
- js;
-                $jsCode .= $code;
+                $type = match ($column->view_type) {
+                    'checkbox', 'userSelect', 'area' => '[]',
+                    'userinfo' => !empty($column->options['userinfo'])
+                        ? sprintf("'%s'", user()->getUserInfo()[$column->options['userinfo']])
+                        : "''",
+                    default => "''"
+                };
+                $jsCode .= sprintf("%s: %s,\n    ", $column->column_name, $type);
             }
         }
         return $jsCode;

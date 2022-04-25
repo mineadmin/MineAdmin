@@ -388,23 +388,4 @@ trait VueSaveGeneratorTraits
             $this->getFormItemTemplate('userinfo')
         );
     }
-
-    /**
-     * @param string $tpl
-     * @return string
-     */
-    protected function getFormItemTemplate(string $tpl): string
-    {
-        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/formItem/{$tpl}.stub");
-    }
-
-    /**
-     * @param string $tpl
-     * @return string
-     */
-    protected function getOtherTemplate(string $tpl): string
-    {
-        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/Other/{$tpl}.stub");
-    }
-
 }

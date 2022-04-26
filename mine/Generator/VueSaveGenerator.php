@@ -149,6 +149,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             '{DICT_DATA}',
             '{UPLOAD_IMAGE}',
             '{UPLOAD_FILE}',
+            '{MODULE_NAME}',
             '{PK}',
         ];
     }
@@ -171,6 +172,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             $this->getDictData(),
             $this->getUploadImage(),
             $this->getUploadFile(),
+            $this->getModuleName(),
             $this->getPk(),
         ];
     }
@@ -305,6 +307,14 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
     protected function getBusinessName(): string
     {
         return str_replace('管理', '', $this->model->menu_name);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModuleName(): string
+    {
+        return Str::lower($this->model->module_name);
     }
 
     /**

@@ -110,7 +110,7 @@
 <script setup>
   import { ref, reactive, onMounted, nextTick } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
-  import {BUSINESS_EN_NAME} from '@/api/apis/system/{BUSINESS_EN_NAME}'
+  import {BUSINESS_EN_NAME} from '@/api/apis/{MODULE_NAME}/{BUSINESS_EN_NAME}'
   import tool from '@/utils/tool'
   import systemDict from '@/api/apis/system/dataDict'
   import saveDialog from './save.vue'

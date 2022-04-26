@@ -148,6 +148,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '{EXPORT_EXCEL}',
             '{INPUT_NUMBER}',
             '{SWITCH_STATUS}',
+            '{MODULE_NAME}',
             '{PK}',
         ];
     }
@@ -174,6 +175,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $this->getExportExcel(),
             $this->getInputNumber(),
             $this->getSwitchStatus(),
+            $this->getModuleName(),
             $this->getPk(),
         ];
     }
@@ -397,6 +399,14 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             }
         }
         return $jsCode;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModuleName(): string
+    {
+        return Str::lower($this->model->module_name);
     }
 
     /**

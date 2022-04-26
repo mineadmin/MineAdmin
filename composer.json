@@ -16,7 +16,6 @@
     "ext-openssl": "*",
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
-    "ext-zip": "*",
     "ext-redis": "*",
     "ext-swoole": ">=4.5",
     "doctrine/dbal": "^3.1",

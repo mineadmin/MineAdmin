@@ -333,7 +333,8 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         $jsCode = '';
         $viewTypes = ['inputNumber', 'switch'];
-        $tagTypes = ['radio', 'select', 'checkbox'];
+        $tagTypes = ['radio', 'select'];
+        $notNeedDictType = ['checkbox'];
         foreach ($this->columns as $column) if ($column->is_list === '1') {
             $roleCode = empty($column->allow_roles) ? '' : "v-if=\"\$ROLE('{$column->allow_roles}')\"";
             if (in_array($column->view_type, $viewTypes)) {
@@ -342,7 +343,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                     [$column->column_comment, $column->column_name, $roleCode],
                     $this->getOtherTemplate('columnBy' . Str::title($column->view_type))
                 );
-            } else if (!empty($column->dict_type)) {
+            } else if (!empty($column->dict_type) && ! in_array($column->view_type, $notNeedDictType)) {
                 $jsCode .= str_replace(
                     ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{DICT_TYPE}'],
                     [$column->column_comment, $column->column_name, $roleCode, $column->dict_type],
@@ -355,7 +356,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 }
                 $jsCode .= str_replace(
                     ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{CUSTOM_DATA}'],
-                    [$column->column_comment, $column->column_name, $roleCode, json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)],
+                    [$column->column_comment, $column->column_name, $roleCode, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)],
                     $this->getOtherTemplate('columnByArray')
                 );
             } else {

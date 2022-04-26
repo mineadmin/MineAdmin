@@ -131,6 +131,10 @@
     {DICT_DATA}
   })
 
+  onMounted(async () => {
+    await getDictData()
+  })
+
   //添加
   const add = async () => {
     dialog.save = true
@@ -210,6 +214,7 @@
     isRecycle.value = ! isRecycle.value
   }
 
+  // 重置搜索
   const resetSearch = () => {
     for (let k in queryParams) queryParams[k] = undefined
     table.value.upData(queryParams)
@@ -220,14 +225,11 @@
     table.value.upData(queryParams)
   }
 
-   // 获取字典数据
+  // 获取字典数据
   const getDictData = () => {
     {DICT_LIST}
   }
   {EXPORT_EXCEL}
   {INPUT_NUMBER}
   {SWITCH_STATUS}
-  onMounted(() => {
-    getDictData()
-  })
 </script>

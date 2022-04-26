@@ -289,7 +289,8 @@
           </el-tab-pane>
 
           <el-tab-pane label="字段管理" name="field">
-            <el-alert title="只有下拉框、复选框、单选框、标签页支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单。" type="info" />
+            <el-alert title="只有下拉框、复选框、单选框支持数据字典，Switch开关和计数器在【菜单配置】里请勾选相应菜单。" type="info" />
+            <el-alert title="使用复选框组件请在模型文件的 casts 里设置相应字段为 array 类型。" type="success" style="margin-top: 10px" />
             <el-table :data="columns" empty-text="表中无字段...">
 
               <el-table-column prop="sort" label="排序" width="80">

@@ -131,9 +131,9 @@ trait VueSaveGeneratorTraits
         if (!empty($column->options['radio'])) {
             foreach ($column->options['radio'] as $item) {
                 $dictCode .= sprintf(
-                    "  <el-radio label=\"%s\" value=\"%s\" />\n        ",
-                    $item['name'],
-                    $item['value']
+                    "  <el-radio label=\"%s\">%s</el-radio>\n        ",
+                    $item['value'],
+                    $item['name']
                 );
             }
         } else if ($column->dict_type) {
@@ -159,9 +159,9 @@ trait VueSaveGeneratorTraits
         if (!empty($column->options['checkbox'])) {
             foreach ($column->options['checkbox'] as $item) {
                 $dictCode .= sprintf(
-                    "  <el-checkbox label=\"%s\" value=\"%s\" />\n        ",
-                    $item['name'],
-                    $item['value']
+                    "  <el-checkbox label=\"%s\" />%s</el-checkbox>\n        ",
+                    $item['value'],
+                    $item['name']
                 );
             }
         } else if ($column->dict_type) {

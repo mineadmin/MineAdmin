@@ -17,7 +17,9 @@ use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
 use Mine\Annotation\Auth;
+use Mine\Exception\MineException;
 use Mine\Exception\TokenException;
+use Mine\MineRequest;
 
 /**
  * Class AuthAspect
@@ -40,6 +42,11 @@ class AuthAspect extends AbstractAspect
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
+        $request = container()->get(MineRequest::class);
+        if ($request->getMethod() != 'GET') {
+            throw new MineException('为了正常运行，演示环境禁止该操作，如需要请下载部署体验');
+        }
+
         /** @var Auth $auth */
         if (isset($proceedingJoinPoint->getAnnotationMetadata()->method[Auth::class])) {
             $auth = $proceedingJoinPoint->getAnnotationMetadata()->method[Auth::class];

@@ -1,0 +1,8 @@
+            <el-select v-model="queryParams.{COLUMN_NAME}" placeholder="请选择{LABEL_NAME}" clearable>
+              <el-option
+                v-for='(item, index) in {OPTION_LIST}'
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>

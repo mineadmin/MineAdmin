@@ -25,7 +25,7 @@
         <div class="right-panel">
           <div class="right-panel-search">
 
-            {FIRST_SEARCH}
+{FIRST_SEARCH}
 
             <el-tooltip class="item" effect="dark" content="搜索" placement="top">
               <el-button type="primary" icon="el-icon-search" @click="handlerSearch"></el-button>
@@ -68,14 +68,12 @@
 
             <el-button
               type="text"
-              size="small"
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['{CODE}:update']"
             >编辑</el-button>
 
             <el-button
               type="text"
-              size="small"
               @click="deletes(scope.row.{PK})"
               v-auth="['{CODE}:delete']"
             >删除</el-button>
@@ -89,14 +87,12 @@
 
             <el-button
               type="text"
-              size="small"
               v-auth="['{CODE}:recovery']"
               @click="recovery(scope.row.{PK})"
             >恢复</el-button>
 
             <el-button
               type="text"
-              size="small"
               v-auth="['{CODE}:realDelete']"
               @click="deletes(scope.row.{PK})"
             >删除</el-button>

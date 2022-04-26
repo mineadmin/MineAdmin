@@ -235,14 +235,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getFirstSearch(): string
     {
-        $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_query === '1') {
-                $jsCode .= $this->getHtmlType($column);
-                break;
+                return $this->getHtmlType($column);
             }
         }
-        return $jsCode;
+        return '';
     }
 
     /**
@@ -252,22 +250,18 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     protected function getSearchList(): string
     {
         $jsCode = '';
-        $k = 0;
+        $first = false;
         foreach ($this->columns as $column) {
             if ($column->is_query === '1') {
-                if ($k > 0) {
-                    $code = <<<js
-
-            <el-form-item label="{$column->column_comment}" prop="{$column->column_name}">
-                {$this->getHtmlType($column)}
-            </el-form-item>
-        
-js;
-                    $jsCode .= $code;
-
-                } else {
-                    $k = 1;
+                if (! $first) {
+                    $first = true;
+                    continue;
                 }
+                $jsCode .= str_replace(
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{FORM_ITEM}'],
+                    [$column->column_comment, $column->column_name, $this->getHtmlType($column)],
+                    $this->getOtherTemplate('searchFormItem')
+                );
             }
         }
         return $jsCode;
@@ -280,34 +274,52 @@ js;
      */
     protected function getHtmlType($column): string
     {
+        $tagTypes = ['radio', 'select', 'checkbox'];
         if (!empty($column->dict_type)) {
-            return <<<js
-        
-            <el-select v-model="queryParams.{$column->column_name}" style="width:100%" clearable placeholder="{$column->column_comment}">
-                <el-option
-                    v-for="(item, index) in {$column->dict_type}_data"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                >{{item.label}}</el-option>
-            </el-select>
-js;
+            return str_replace(
+                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
+                [$column->column_comment, $column->column_name, 'dictData.' . $column->dict_type],
+                $this->getOtherTemplate('searchSelect')
+            );
+        } else if (in_array($column->view_type, $tagTypes)) {
+            $data = [];
+            foreach ($column->options[$column->view_type] as $item) {
+                $data[] = ['label' => $item['name'], 'value' => $item['value']];
+            }
+            return str_replace(
+                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
+                [$column->column_comment, $column->column_name, json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)],
+                $this->getOtherTemplate('searchSelect')
+            );
+        } else {
+            if ($column->view_type === 'date') {
+                return str_replace(
+                    ['{COLUMN_NAME}', '{LABEL_NAME}', '{DATE_TYPE}', '{WEEK_FORMAT}', '{RANGE_TIPS}'],
+                    [
+                        $column->column_name,
+                        $column->column_comment,
+                        $column->options['date'],
+                        $column->options['date'] === 'week' ? 'format="第 ww 周"' : '',
+                        strpos($column->options['date'], 'range') > 0 ? 'start-placeholder="起始时间" end-placeholder="结束时间"' : ''
+                    ],
+                    $this->getOtherTemplate('searchDate')
+                );
+            }
+
+            if ($column->view_type === 'time') {
+                return str_replace(
+                    ['{COLUMN_NAME}', '{LABEL_NAME}'],
+                    [$column->column_name, $column->column_comment],
+                    $this->getOtherTemplate('searchTime')
+                );
+            }
         }
 
-        if ($column->view_type == 'date') {
-            return <<<js
-<el-date-picker
-                    v-model="queryParams.{$column->column_name}"
-                    type="date"
-                    placeholder="选择{$column->column_comment}">
-                </el-date-picker>
-js;
-
-        }
-
-        return <<<js
-<el-input v-model="queryParams.{$column->column_name}" placeholder="{$column->column_comment}" clearable></el-input>
-js;
+        return str_replace(
+            ['{COLUMN_NAME}', '{LABEL_NAME}'],
+            [$column->column_name, $column->column_comment],
+            $this->getOtherTemplate('searchDefault')
+        );
     }
 
     /**
@@ -319,23 +331,35 @@ js;
     {
         $jsCode = '';
         $viewTypes = ['inputNumber', 'switch'];
+        $tagTypes = ['radio', 'select', 'checkbox'];
         foreach ($this->columns as $column) if ($column->is_list === '1') {
+            $roleCode = empty($column->allow_roles) ? '' : "v-if=\"\$ROLE('{$column->allow_roles}')\"";
             if (in_array($column->view_type, $viewTypes)) {
                 $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}'],
-                    [$column->column_comment, $column->column_name],
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
+                    [$column->column_comment, $column->column_name, $roleCode],
                     $this->getOtherTemplate('columnBy' . Str::title($column->view_type))
                 );
             } else if (!empty($column->dict_type)) {
                 $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{DICT_TYPE}'],
-                    [$column->column_comment, $column->column_name, $column->dict_type],
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{DICT_TYPE}'],
+                    [$column->column_comment, $column->column_name, $roleCode, $column->dict_type],
                     $this->getOtherTemplate('columnByDictType')
+                );
+            } else if (in_array($column->view_type, $tagTypes)) {
+                $data = [];
+                foreach ($column->options[$column->view_type] as $item) {
+                    $data[] = ['label' => $item['name'], 'value' => $item['value']];
+                }
+                $jsCode .= str_replace(
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{CUSTOM_DATA}'],
+                    [$column->column_comment, $column->column_name, $roleCode, json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)],
+                    $this->getOtherTemplate('columnByArray')
                 );
             } else {
                 $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}'],
-                    [$column->column_comment, $column->column_name],
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
+                    [$column->column_comment, $column->column_name, $roleCode],
                     $this->getOtherTemplate('column')
                 );
             }

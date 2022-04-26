@@ -1,0 +1,4 @@
+
+          <el-form-item label="{LABEL_COMMENT}" prop="{COLUMN_NAME}">
+{FORM_ITEM}
+          </el-form-item>

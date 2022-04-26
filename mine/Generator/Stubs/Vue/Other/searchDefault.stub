@@ -1,0 +1,1 @@
+            <el-input v-model="queryParams.{COLUMN_NAME}" placeholder="请输入{LABEL_NAME}" clearable />

@@ -1,5 +1,5 @@
 
-          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}">
+          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}" {ROLE_CODE}>
             <template #default="scope">
               <el-switch
                 v-model="scope.row.{COLUMN_NAME}"

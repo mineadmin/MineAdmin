@@ -35,7 +35,7 @@ services:
   # 没有将volumes映射出来，需要持久化自行百度一下
 
   mysql: 
-    container_name: mysql:5.7
+    container_name: mysql
     environment: 
       - "TZ=Asia/Shanghai"
       - MYSQL_ROOT_PASSWORD=12345678

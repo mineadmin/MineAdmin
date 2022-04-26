@@ -262,19 +262,24 @@ trait ServiceTrait
      * 修改数据状态
      * @param int $id
      * @param string $value
+     * @param string $filed
      * @return bool
      */
-    public function changeStatus(int $id, string $value): bool
+    public function changeStatus(int $id, string $value, string $filed = 'status'): bool
     {
-        if ($value === '0') {
-            $this->mapper->enable([$id]);
-            return true;
-        } else if ($value === '1') {
-            $this->mapper->disable([$id]);
-            return true;
-        } else {
-            return false;
-        }
+        return $value === MineModel::ENABLE ? $this->mapper->enable([$id], $filed) : $this->mapper->disable([$id], $filed);
+    }
+
+    /**
+     * 数字更新操作
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return bool
+     */
+    public function numberOperation(int $id, string $field, int $value): bool
+    {
+        return $this->mapper->numberOperation($id, $field, $value);
     }
 
     /**
@@ -304,17 +309,12 @@ trait ServiceTrait
      * 数据导入
      * @param string $dto
      * @param \Closure|null $closure
-     * @param bool $isExportErrorData
-     * @return array|ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return bool
      * @Transaction
      */
-    public function import(string $dto, ?\Closure $closure = null, bool $isExportErrorData = false): bool
+    public function import(string $dto, ?\Closure $closure = null): bool
     {
-        return $this->mapper->import($dto, $closure, $isExportErrorData);
+        return $this->mapper->import($dto, $closure);
     }
 
     /**
@@ -381,16 +381,5 @@ trait ServiceTrait
     protected function getArrayData(array $params = []): array
     {
         return [];
-    }
-
-    /**
-     * 获取tabs数据统计
-     * @param string $field
-     * @param $dictDataService
-     * @return array
-     */
-    public function getTabNum(string $field): array
-    {
-        return $this->mapper->getTabNum($field);
     }
 }

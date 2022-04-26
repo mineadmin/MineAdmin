@@ -29,10 +29,11 @@ export default {
      * 获取菜单选择树
      * @returns
      */
-    tree () {
+    tree (params = {}) {
         return request({
             url: 'system/menu/tree',
-            method: 'get'
+            method: 'get',
+            params
         })
     },
 

@@ -16,6 +16,7 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Model\SystemMenu;
+use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
@@ -55,6 +56,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      * @return SqlGenerator
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      */
     public function setGenInfo(SettingGenerateTables $model, string $adminId): SqlGenerator
     {
@@ -64,7 +66,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         if (empty($model->module_name) || empty($model->menu_name)) {
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -76,15 +78,20 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $path = BASE_PATH . "/runtime/generate/{$this->getRoute()}Menu.sql";
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+
+        if ($this->model->build_menu === '1') {
+            Db::connection()->getPdo()->exec(
+                str_replace(["\r", "\n"], ['', ''], $this->replace()->getCodeContent())
+            );
+        }
     }
 
     /**
      * 预览代码
-     * @throws \Exception
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**
@@ -93,7 +100,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTemplatePath(): string
     {
-        return $this->getStubDir().'/sql.stub';
+        return $this->getStubDir().'/Sql/main.stub';
     }
 
     /**
@@ -126,6 +133,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     protected function getPlaceHolderContent(): array
     {
         return [
+            '{LOAD_MENU}',
             '{ID}',
             '{PARENT_ID}',
             '{TABLE_NAME}',
@@ -145,6 +153,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     protected function getReplaceContent(): array
     {
         return [
+            $this->getLoadMenu(),
             $this->getId(),
             $this->getParentId(),
             $this->getTableName(),
@@ -155,6 +164,26 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
             $this->getVueTemplate(),
             $this->getAdminId()
         ];
+    }
+
+    protected function getLoadMenu(): string
+    {
+        $menus = explode(',', $this->model->generate_menus);
+        $ignoreMenus = ['realDelete', 'recovery', 'changeStatus', 'numberOperation'];
+
+        foreach ($ignoreMenus as $menu) {
+            if (in_array($menu, $menus)) {
+                unset($menus[array_search($menu, $menus)]);
+            }
+        }
+
+        $sql = '';
+        $path = $this->getStubDir() . '/Sql/';
+        foreach ($menus as $menu) {
+            $content = $this->filesystem->sharedGet($path . $menu . '.stub');
+            $sql .= $content;
+        }
+        return $sql;
     }
 
     /**
@@ -191,8 +220,12 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getLevel(): string
     {
-        $model = SystemMenu::find($this->model->belong_menu_id, ['id', 'level']);
-        return $model->level . ',' . $model->id;
+        if ($this->model->belong_menu_id !== 0) {
+            $model = SystemMenu::find($this->model->belong_menu_id, ['id', 'level']);
+            return $model->level . ',' . $model->id;
+        } else {
+            return '0';
+        }
     }
 
     /**

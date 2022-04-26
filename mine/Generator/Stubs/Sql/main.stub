@@ -1,0 +1,8 @@
+SET @id := {ID};
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, {PARENT_ID}, '{LEVEL}', '{NAME}', '{CODE}', 'el-icon-menu', '{ROUTE}', '{VUE_TEMPLATE}', NULL, '1', 'M', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+
+SET @level := CONCAT('{LEVEL}', ',', @id);
+
+INSERT INTO `{TABLE_NAME}`(`id`, `parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ((@id+1), @id, @level, CONCAT('{NAME}', '列表'), CONCAT('{CODE}',':index'), NULL, NULL, NULL, NULL, '1', 'B', '0', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
+{LOAD_MENU}

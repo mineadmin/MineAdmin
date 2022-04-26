@@ -116,7 +116,7 @@ trait MapperTrait
     /**
      * 排序处理器
      * @param Builder $query
-     * @param array $params
+     * @param array|null $params
      * @return Builder
      */
     public function handleOrder(Builder $query, ?array &$params = null): Builder
@@ -209,7 +209,7 @@ trait MapperTrait
     /**
      * 读取一条数据
      * @param int $id
-     * @return MineModel
+     * @return MineModel|null
      */
     public function read(int $id): ?MineModel
     {
@@ -242,7 +242,7 @@ trait MapperTrait
      * 获取单列值
      * @param array $condition
      * @param string $columns
-     * @return array|null
+     * @return array
      */
     public function pluck(array $condition, string $columns = 'id'): array
     {
@@ -252,7 +252,7 @@ trait MapperTrait
     /**
      * 从回收站读取一条数据
      * @param int $id
-     * @return MineModel
+     * @return MineModel|null
      * @noinspection PhpUnused
      */
     public function readByRecycle(int $id): ?MineModel
@@ -280,11 +280,7 @@ trait MapperTrait
     public function update(int $id, array $data): bool
     {
         $this->filterExecuteAttributes($data, true);
-        $model = $this->model::find($id);
-        foreach ($data as $name => $val) {
-            $model[$name] = $val;
-        }
-        return $model->save();
+        return $this->model::find($id)->update($data) > 0;
     }
 
     /**
@@ -362,7 +358,6 @@ trait MapperTrait
      * @param \Closure|null $closure
      * @return bool
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @Transaction
@@ -442,24 +437,14 @@ trait MapperTrait
     }
 
     /**
-     * 获取tabs数据统计
-     * @param $field
-     * @param $dictDataService
-     * @return array
+     * 数字更新操作
+     * @param int $id
+     * @param string $field
+     * @param int $value
+     * @return bool
      */
-    public function getTabNum($field): array
+    public function numberOperation(int $id, string $field, int $value): bool
     {
-        $dictDataService = make(SystemDictDataService::class);
-        $result = [];
-        $data =  $dictDataService->getList(['code' =>$field]);
-        foreach ($data as $v) {
-            if ($v['value'] === '-1') {
-                $result[] = ['value' => $v['value'],'num' => $this->model::count()];
-            } else {
-                $result[] = ['value' => $v['value'],'num' => $this->model::where($field,$v['value'])->count()];
-            }
-        }
-
-        return  $result;
+        return $this->update($id, [ $field => $value]);
     }
 }

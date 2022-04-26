@@ -104,16 +104,24 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         if ($application->run($input, $output) === 0) {
 
             // 对模型文件处理
-            if ($modelName[strlen($modelName) - 1] == 's') {
+            if ($modelName[strlen($modelName) - 1] == 's' && $modelName[strlen($modelName) - 2] != 's') {
                 $oldName = Str::substr($modelName, 0, (strlen($modelName) - 1));
                 $oldPath = BASE_PATH . "/app/{$moduleName}/Model/{$oldName}.php";
                 $sourcePath = BASE_PATH . "/app/{$moduleName}/Model/{$modelName}.php";
-                $this->filesystem->put($sourcePath,
+                $this->filesystem->put(
+                    $sourcePath,
                     str_replace($oldName, $modelName, $this->filesystem->sharedGet($oldPath))
                 );
                 @unlink($oldPath);
             } else {
                 $sourcePath = BASE_PATH . "/app/{$moduleName}/Model/{$modelName}.php";
+            }
+
+            if (!empty($this->model->options['relations'])) {
+                $this->filesystem->put(
+                    $sourcePath,
+                    str_replace('}', $this->getRelations() . "\n}", $this->filesystem->sharedGet($sourcePath))
+                );
             }
 
             // 压缩包下载
@@ -167,7 +175,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         $this->setCodeContent(str_replace(
             $this->getPlaceHolderContent(),
             $this->getReplaceContent(),
-            $this->readTemplate()
+            $this->readTemplate(),
         ));
 
         return $this;
@@ -183,6 +191,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             '{CLASS_NAME}',
             '{TABLE_NAME}',
             '{FILL_ABLE}',
+            '{RELATIONS}',
         ];
     }
 
@@ -196,6 +205,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             $this->getClassName(),
             $this->getTableName(),
             $this->getFillAble(),
+            $this->getRelations(),
         ];
     }
 
@@ -242,6 +252,28 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         return implode(', ', $columns);
     }
 
+    /**
+     * @return string
+     */
+    protected function getRelations(): string
+    {
+        $prefix = env('DB_PREFIX');
+        if (!empty($this->model->options['relations'])) {
+            $path = $this->getStubDir() . 'ModelRelation/';
+            $phpCode = '';
+            foreach ($this->model->options['relations'] as $relation) {
+                $content = $this->filesystem->sharedGet($path . $relation['type'] . '.stub');
+                $content = str_replace(
+                    [ '{RELATION_NAME}', '{MODEL_NAME}', '{TABLE_NAME}', '{FOREIGN_KEY}', '{LOCAL_KEY}' ],
+                    [ $relation['name'], $relation['model'], str_replace($prefix, '', $relation['table']), $relation['foreignKey'], $relation['localKey'] ],
+                    $content
+                );
+                $phpCode .= $content;
+            }
+            return $phpCode;
+        }
+        return '';
+    }
 
     /**
      * 获取业务名称

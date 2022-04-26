@@ -19,6 +19,8 @@ use Mine\MineModel;
  * @property string $query_type 查询方式 eq 等于, neq 不等于, gt 大于, lt 小于, like 范围
  * @property string $view_type 页面控件，text, textarea, password, select, checkbox, radio, date, upload, ma-upload（封装的上传控件）
  * @property string $dict_type 字典类型
+ * @property string $allow_roles 允许查看该字段的角色
+ * @property string $options 字段其他设置
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -40,11 +42,11 @@ class SettingGenerateColumns extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'query_type', 'view_type', 'dict_type', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'table_id' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'table_id' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
 }

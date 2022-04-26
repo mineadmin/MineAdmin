@@ -1,0 +1,11 @@
+
+          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}" {ROLE_CODE}>
+            <template #default="scope">
+              <el-switch
+                v-model="scope.row.{COLUMN_NAME}"
+                active-value="0"
+                inactive-value="1"
+                @change="switchStatus($event, scope.row.{PK}, '{COLUMN_NAME}')"
+              />
+            </template>
+          </el-table-column>

@@ -47,6 +47,8 @@ class SettingGenerateColumnsService extends AbstractService
                 'query_type' => 'eq',
                 'view_type' => 'text',
                 'sort' => count($data) - $k,
+                'allow_roles' => $item['allow_roles'],
+                'options' => $item['options']
             ];
 
             // 设置默认选项

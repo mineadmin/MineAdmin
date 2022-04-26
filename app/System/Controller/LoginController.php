@@ -11,7 +11,9 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Helper\LoginUser;
+use Mine\Interfaces\UserServiceInterface;
 use Mine\MineController;
+use Mine\Vo\UserServiceVo;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -23,6 +25,9 @@ class LoginController extends MineController
 {
     #[Inject]
     protected SystemUserService $systemUserService;
+
+    #[Inject]
+    protected UserServiceInterface $userService;
 
     /**
      * @return ResponseInterface
@@ -46,8 +51,12 @@ class LoginController extends MineController
     #[PostMapping("login")]
     public function login(SystemUserLoginRequest $request): ResponseInterface
     {
-        $token = $this->systemUserService->login($request->validated());
-        return $this->success(['token' => $token]);
+        $requestData = $request->validated();
+        $vo = new UserServiceVo();
+        $vo->setUsername($requestData['username']);
+        $vo->setPassword($requestData['password']);
+        $vo->setVerifyCode($requestData['code']);
+        return $this->success(['token' => $this->userService->login($vo)]);
     }
 
     /**
@@ -59,7 +68,7 @@ class LoginController extends MineController
     #[PostMapping("logout"), Auth]
     public function logout(): ResponseInterface
     {
-        $this->systemUserService->logout();
+        $this->userService->logout();
         return $this->success();
     }
 

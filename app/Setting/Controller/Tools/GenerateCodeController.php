@@ -5,6 +5,7 @@ namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\Tool\GenerateUpdateRequest;
 use App\Setting\Request\Tool\LoadTableRequest;
+use App\Setting\Service\ModuleService;
 use App\Setting\Service\SettingGenerateColumnsService;
 use App\Setting\Service\SettingGenerateTablesService;
 use Hyperf\Di\Annotation\Inject;
@@ -77,13 +78,25 @@ class GenerateCodeController extends MineController
     }
 
     /**
+     * 读取表数据
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("readTable")]
+    public function readTable(): ResponseInterface
+    {
+        return $this->success($this->tableService->read((int) $this->request->input('id')));
+    }
+
+    /**
      * 更新业务表信息
      * @param GenerateUpdateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("update"), Permission("setting:code:update"), OperationLog]
+    #[PostMapping("update"), Permission("setting:code:update")]
     public function update(GenerateUpdateRequest $request): ResponseInterface
     {
         return $this->tableService->updateTableAndColumns($request->validated()) ? $this->success() : $this->error();
@@ -93,7 +106,8 @@ class GenerateCodeController extends MineController
      * 生成代码
      * @param String $ids
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("generate/{ids}"), Permission("setting:code:generate"), OperationLog]
     public function generate(string $ids): ResponseInterface
@@ -138,5 +152,17 @@ class GenerateCodeController extends MineController
     public function sync(int $id): ResponseInterface
     {
         return $this->tableService->sync($id) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 获取所有启用状态模块下的所有模型
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getModels")]
+    public function getModels(): ResponseInterface
+    {
+        return $this->success($this->tableService->getModels());
     }
 }

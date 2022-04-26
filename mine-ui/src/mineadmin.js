@@ -10,6 +10,7 @@ import maPhoto from './components/maPhoto'
 import maImport from './components/maImport'
 import maDictTag from './components/maDictTag'
 import maSelectUser from './components/maSelectUser'
+import maChunkUpload from './components/maChunkUpload'
 
 import scTable from './components/scTable'
 import scFilterBar from './components/scFilterBar'
@@ -70,6 +71,7 @@ export default {
 		app.component('maImport', maImport)
 		app.component('maPhoto', maPhoto)
 		app.component('maSelectUser', maSelectUser)
+		app.component('maChunkUpload', maChunkUpload)
 		app.component('scTable', scTable)
 		app.component('scFilterBar', scFilterBar)
 		app.component('scUpload', scUpload)

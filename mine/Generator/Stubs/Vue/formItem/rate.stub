@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-rate v-model="form.{COLUMN_NAME}" style="margin-top: 8px;" />
+      </el-form-item>

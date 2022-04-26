@@ -149,7 +149,7 @@ class SystemAppService extends AbstractService
             return MineCode::APP_BAN;
         }
 
-        if ($identity != md5($model->app_id . $model->app_secret)) {
+        if ($identity != md5($appId . $model->app_secret)) {
             throw new NormalStatusException(t('mineadmin.api_auth_fail'), MineCode::API_SIGN_ERROR);
         }
 

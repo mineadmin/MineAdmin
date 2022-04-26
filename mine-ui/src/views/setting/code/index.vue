@@ -98,34 +98,30 @@
 
             <el-dropdown v-if="scope.row.username !== 'superAdmin'">
 
-              <el-button
-                type="text"
-              >
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
+              <el-button type="text">更多</el-button>
 
               <template #dropdown>
                 <el-dropdown-menu>
 
                   <el-dropdown-item
-                    @click="$refs.editForm.show(scope.row)"
-                    v-auth="['setting:code:edit']"
+                    @click="edit(scope.row)"
+                    v-if="$AUTH('setting:code:edit')"
                   >编辑</el-dropdown-item>
 
                   <el-dropdown-item
                     @click="handleSync(scope.row.id)"
-                    v-auth="['setting:code:sync']"
+                    v-if="$AUTH('setting:code:sync')"
                   >同步</el-dropdown-item>
 
                   <el-dropdown-item
                     @click="generateCode(scope.row.id)"
-                    v-auth="['setting:code:generate']"
+                    v-if="$AUTH('setting:code:generate')"
                   >生成代码</el-dropdown-item>
 
                   <el-dropdown-item
                     @click="handleDelete(scope.row.id)"
                     divided
-                    v-auth="['setting:code:delete']"
+                    v-if="$AUTH('setting:code:delete')"
                   >删除</el-dropdown-item>
 
                 </el-dropdown-menu>
@@ -142,14 +138,11 @@
 
   <table-list ref="tableList" @confirm="confirm" />
 
-  <edit-form ref="editForm" @confirm="confirm" />
-
   <preview ref="preview" />
 
 </template>
 
 <script>
-  import editForm from './edit'
   import tableList from './table'
   import preview from './preview'
 
@@ -157,7 +150,6 @@
     name: 'setting:code',
     components: {
       tableList,
-      editForm,
       preview
     },
 
@@ -181,8 +173,11 @@
         this.selection = selection;
       },
 
-      // 装载数据表后处理方法
-      confirm () {
+      edit(row) {
+        this.$router.push({ path: '/codeEdit', query: { id: row.id } })
+      },
+
+      confirm() {
         this.handleSuccess()
       },
 

@@ -1,0 +1,6 @@
+
+          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}" {ROLE_CODE}>
+            <template #default="scope">
+              <ma-dict-tag :options="dictData.{DICT_TYPE}" :value="scope.row.{COLUMN_NAME}" />
+            </template>
+          </el-table-column>

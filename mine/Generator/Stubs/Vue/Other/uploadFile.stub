@@ -1,0 +1,6 @@
+
+  const handlerUploadFile{FUN_NAME} = (res) => {
+    if (res.success) {
+      form.{COLUMN_NAME} = res.url
+    }
+  }

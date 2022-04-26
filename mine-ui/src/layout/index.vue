@@ -327,7 +327,7 @@ export default {
       }
       this.pmenu = route;
       this.nextMenu = this.filterUrl(route.children);
-      if (!route.children && route.component) {
+      if( ( !route.children || route.children.length === 0 ) && route.component ){
         this.$router.push({ path: route.path });
       }
     },

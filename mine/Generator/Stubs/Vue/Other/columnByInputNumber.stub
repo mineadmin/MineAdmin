@@ -1,0 +1,9 @@
+
+          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}" {ROLE_CODE}>
+            <template #default="scope">
+              <el-input-number
+                v-model="scope.row.{COLUMN_NAME}"
+                @change="numberOperation($event, scope.row.{PK}, '{COLUMN_NAME}')"
+              />
+            </template>
+          </el-table-column>

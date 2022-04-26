@@ -15,6 +15,7 @@
 declare(strict_types=1);
 namespace Mine\Generator;
 
+use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
@@ -57,7 +58,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
         $this->setNamespace($this->model->namespace);
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -75,7 +76,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $path .= Str::title($this->model->package_name) . '/';
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
-        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
     }
 
     /**
@@ -83,7 +84,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**
@@ -101,7 +102,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTemplatePath(): string
     {
-        return $this->getStubDir().$this->getType().'/controller.stub';
+        return $this->getStubDir() . 'Controller/main.stub';
     }
 
     /**
@@ -139,6 +140,8 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             '{CLASS_NAME}',
             '{SERVICE}',
             '{CONTROLLER_ROUTE}',
+            '{FUNCTIONS}',
+            '{REQUEST}',
             '{INDEX_PERMISSION}',
             '{RECYCLE_PERMISSION}',
             '{SAVE_PERMISSION}',
@@ -147,9 +150,18 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             '{DELETE_PERMISSION}',
             '{REAL_DELETE_PERMISSION}',
             '{RECOVERY_PERMISSION}',
-            '{CREATE_REQUEST}',
-            '{UPDATE_REQUEST}'
+            '{IMPORT_PERMISSION}',
+            '{EXPORT_PERMISSION}',
+            '{DTO_CLASS}',
+            '{PK}',
+            '{STATUS_VALUE}',
+            '{STATUS_FIELD}',
+            '{NUMBER_FIELD}',
+            '{NUMBER_TYPE}',
+            '{NUMBER_VALUE}',
         ];
+
+
     }
 
     /**
@@ -164,6 +176,8 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getClassName(),
             $this->getServiceName(),
             $this->getControllerRoute(),
+            $this->getFunctions(),
+            $this->getRequestName(),
             $this->getMethodRoute('index'),
             $this->getMethodRoute('recycle'),
             $this->getMethodRoute('save'),
@@ -172,8 +186,15 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getMethodRoute('delete'),
             $this->getMethodRoute('realDelete'),
             $this->getMethodRoute('recovery'),
-            $this->getCreateRequestName(),
-            $this->getUpdateRequestName(),
+            $this->getMethodRoute('import'),
+            $this->getMethodRoute('export'),
+            $this->getDtoClass(),
+            $this->getPk(),
+            $this->getStatusValue(),
+            $this->getStatusField(),
+            $this->getNumberField(),
+            $this->getNumberType(),
+            $this->getNumberValue(),
         ];
     }
 
@@ -196,7 +217,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getComment(): string
     {
-        return $this->model->menu_name. '控制器';
+        return $this->model->menu_name . '控制器';
     }
 
     /**
@@ -205,14 +226,9 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getUse(): string
     {
-        $namespace = "\\";
-        if (!empty($this->model->package_name)) {
-            $namespace = "\\" . Str::title($this->model->package_name). "\\";
-        }
         return <<<UseNamespace
 use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
-use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}CreateRequest;
-use {$this->getNamespace()}\\Request$namespace{$this->getBusinessName()}UpdateRequest;
+use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}Request;
 UseNamespace;
     }
 
@@ -222,7 +238,7 @@ UseNamespace;
      */
     protected function getClassName(): string
     {
-        return $this->getBusinessName().'Controller';
+        return $this->getBusinessName() . 'Controller';
     }
 
     /**
@@ -231,7 +247,7 @@ UseNamespace;
      */
     protected function getServiceName(): string
     {
-        return $this->getBusinessName().'Service';
+        return $this->getBusinessName() . 'Service';
     }
 
     /**
@@ -245,6 +261,28 @@ UseNamespace;
             Str::lower($this->model->module_name),
             $this->getShortBusinessName()
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFunctions(): string
+    {
+        $menus = explode(',', $this->model->generate_menus);
+        $otherMenu = [$this->model->type === 'single' ? 'singleList' : 'treeList'];
+        if (in_array('recycle', $menus)) {
+            $otherMenu[] = $this->model->type === 'single' ? 'singleRecycleList' : 'treeRecycleList';
+            array_push($otherMenu, ...['realDelete', 'recovery']);
+            unset($menus[array_search('recycle', $menus)]);
+        }
+        array_unshift($menus, ...$otherMenu);
+        $phpCode = '';
+        $path = $this->getStubDir() . 'Controller/';
+        foreach ($menus as $menu) {
+            $content = $this->filesystem->sharedGet($path . $menu . '.stub');
+            $phpCode .= $content;
+        }
+        return $phpCode;
     }
 
     /**
@@ -263,21 +301,75 @@ UseNamespace;
     }
 
     /**
-     * 获取保存数据的验证器
      * @return string
      */
-    protected function getCreateRequestName(): string
+    protected function getDtoClass(): string
     {
-        return $this->getBusinessName(). 'CreateRequest';
+        return sprintf(
+            "\%s\Dto\%s::class",
+            $this->model->namespace,
+            $this->getBusinessName() . 'Dto'
+        );
     }
 
     /**
-     * 获取更新数据的验证器
      * @return string
      */
-    protected function getUpdateRequestName(): string
+    protected function getPk(): string
     {
-        return $this->getBusinessName(). 'UpdateRequest';
+        return SettingGenerateColumns::query()
+            ->where('table_id', $this->model->id)
+            ->where('is_pk', '1')
+            ->value('column_name');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStatusValue(): string
+    {
+        return 'statusValue';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStatusField(): string
+    {
+        return 'statusName';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNumberField(): string
+    {
+        return 'numberName';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNumberType(): string
+    {
+        return 'numberType';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNumberValue(): string
+    {
+        return 'numberValue';
+    }
+
+    /**
+     * 获取验证器
+     * @return string
+     */
+    protected function getRequestName(): string
+    {
+        return $this->getBusinessName(). 'Request';
     }
 
     /**

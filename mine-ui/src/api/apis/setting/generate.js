@@ -36,6 +36,14 @@ export default {
     })
   },
 
+  readTable (params = {}) {
+    return request({
+      url: 'setting/code/readTable',
+      method: 'get',
+      params
+    })
+  },
+
   /**
    * 生成代码
    * @returns
@@ -89,6 +97,14 @@ export default {
       url: 'setting/code/getTableColumns',
       method: 'get',
       params
+    })
+  },
+
+  // 获取所有模型
+  getModels() {
+    return request({
+      url: 'setting/code/getModels',
+      method: 'get',
     })
   }
 }

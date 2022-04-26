@@ -30,11 +30,11 @@
 import cityLinkageJson from './lib/cityLinkage.json';
 export default {
     name: 'threeLevelLinkage',
-
+    emits: ['update:modelValue'],
     props: {
         modelValue: {
-            type: Object, 
-            default: () => {} 
+            type: Array, 
+            default: () => [] 
         },
         valueType: {
             type: String,

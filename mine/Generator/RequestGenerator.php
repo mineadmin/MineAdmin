@@ -16,7 +16,6 @@ namespace Mine\Generator;
 
 use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
-use App\Setting\Service\SettingGenerateColumnsService;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
@@ -44,28 +43,35 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
     protected Filesystem $filesystem;
 
     /**
-     * @var string
+     * @var array
      */
-    protected string $type;
+    protected array $columns;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
-     * @param string $type
      * @return RequestGenerator
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function setGenInfo(SettingGenerateTables $model, string $type): RequestGenerator
+    public function setGenInfo(SettingGenerateTables $model): RequestGenerator
     {
         $this->model = $model;
-        $this->type  = $type;
         $this->filesystem = make(Filesystem::class);
         if (empty($model->module_name) || empty($model->menu_name)) {
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
         $this->setNamespace($this->model->namespace);
-        return $this;
+
+        $this->columns = SettingGenerateColumns::query()
+            ->where('table_id', $model->id)
+            ->where('is_insert', '1')
+            ->orWhere('is_edit', '1')
+            ->where('is_required', '1')
+            ->orderByDesc('sort')
+            ->get([ 'column_name', 'column_comment', 'is_insert', 'is_edit' ])->toArray();
+
+        return $this->placeholderReplace();
     }
 
     /**
@@ -79,11 +85,8 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
         } else {
             $path = BASE_PATH . "/app/{$module}/Request/";
         }
-        if (!empty($this->model->package_name)) {
-            $path .= Str::title($this->model->package_name) . '/';
-        }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
-        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
     }
 
     /**
@@ -91,7 +94,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**
@@ -100,7 +103,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTemplatePath(): string
     {
-        return $this->getStubDir().'/request.stub';
+        return $this->getStubDir() . '/Request/main.stub';
     }
 
     /**
@@ -135,7 +138,8 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
             '{NAMESPACE}',
             '{COMMENT}',
             '{CLASS_NAME}',
-            '{RULES}'
+            '{RULES}',
+            '{ATTRIBUTES}',
         ];
     }
 
@@ -149,29 +153,26 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
             $this->getComment(),
             $this->getClassName(),
             $this->getRules(),
+            $this->getAttributes(),
         ];
     }
 
     /**
-     * 初始化控制器命名空间
+     * 初始化命名空间
      * @return string
      */
     protected function initNamespace(): string
     {
-        $namespace = $this->getNamespace() . "\\Request";
-        if (!empty($this->model->package_name)) {
-            return $namespace . "\\" . Str::title($this->model->package_name);
-        }
-        return $namespace;
+        return $this->getNamespace() . "\\Request";
     }
 
     /**
-     * 获取控制器注释
+     * 获取注释
      * @return string
      */
     protected function getComment(): string
     {
-        return $this->model->menu_name. '验证数据类 ('.$this->type.')';
+        return $this->model->menu_name . '验证数据类';
     }
 
     /**
@@ -180,7 +181,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getClassName(): string
     {
-        return $this->getBusinessName().$this->type.'Request';
+        return $this->getBusinessName() . 'Request';
     }
 
     /**
@@ -189,34 +190,71 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRules(): string
     {
-        /* @var SettingGenerateColumns $model */
-        $model = make(SettingGenerateColumnsService::class)->mapper->getModel();
-        $query = $model->newQuery()->where('table_id', $this->model->id);
-
-        if ($this->type == 'Create') {
-            $query = $query->where('is_insert', 1)->where('is_required', 1);
-        } else {
-            $query = $query->where('is_edit', 1)->where('is_required', 1);
-        }
-
-        $columns = $query->get(['column_name', 'column_comment', 'query_type'])->toArray();
-
         $phpContent = '';
-        foreach ($columns as $column) {
-            $phpContent .= $this->getRuleCode($column);
+        $createCode = '';
+        $updateCode = '';
+        $path = $this->getStubDir() . '/Request/rule.stub';
+
+        foreach ($this->columns as $column) {
+            if ($column['is_insert'] === '1') {
+                $createCode .= $this->getRuleCode($column);
+            }
+            if ($column['is_edit'] === '1') {
+                $updateCode .= $this->getRuleCode($column);
+            }
         }
+
+        $phpContent .= str_replace(
+            ['{METHOD_COMMENT}', '{METHOD_NAME}', '{LIST}'],
+            ['新增数据验证规则', 'saveRules', $createCode],
+            $this->filesystem->sharedGet($path)
+        );
+        $phpContent .= str_replace(
+            ['{METHOD_COMMENT}', '{METHOD_NAME}', '{LIST}'],
+            ['更新数据验证规则', 'updateRules', $updateCode],
+            $this->filesystem->sharedGet($path)
+        );
 
         return $phpContent;
     }
 
-    protected function getRuleCode(array $column): string
+    /**
+     * @param array $column
+     * @return string
+     */
+    protected function getRuleCode(array &$column): string
     {
-        return <<<php
+        $space = '            ';
+        return sprintf(
+            "%s//%s 验证\n%s'%s' => 'required',\n",
+            $space,  $column['column_comment'],
+            $space, $column['column_name']
+        );
+    }
 
-            // {$column['column_comment']} 验证
-            '{$column['column_name']}' => 'required',
+    /**
+     * @return string
+     */
+    protected function getAttributes(): string
+    {
+        $phpCode = '';
+        $path = $this->getStubDir() . '/Request/attribute.stub';
+        foreach ($this->columns as $column) {
+            $phpCode .= $this->getAttributeCode($column);
+        }
+        return str_replace('{LIST}', $phpCode, $this->filesystem->sharedGet($path));
+    }
 
-php;
+    /**
+     * @param array $column
+     * @return string
+     */
+    protected function getAttributeCode(array &$column): string
+    {
+        $space = '            ';
+        return sprintf(
+            "%s'%s' => '%s',\n", $space, $column['column_name'], $column['column_comment']
+        );
     }
 
     /**

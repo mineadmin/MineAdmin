@@ -48,11 +48,12 @@ class SystemMenuService extends AbstractService
 
     /**
      * 获取前端选择树
+     * @param array $data
      * @return array
      */
-    public function getSelectTree(): array
+    public function getSelectTree(array $data): array
     {
-        return $this->mapper->getSelectTree();
+        return $this->mapper->getSelectTree($data);
     }
 
     /**

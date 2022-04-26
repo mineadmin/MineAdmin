@@ -1,0 +1,9 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <sc-upload
+          v-model="form.{COLUMN_NAME}"
+          title="上传{LABEL_NAME}"
+          type="file"
+          @success="handlerUploadFile{COLUMN_TITLE_NAME}"
+        />
+      </el-form-item>

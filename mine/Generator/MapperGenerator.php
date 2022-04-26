@@ -61,7 +61,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
             throw new NormalStatusException(t('setting.gen_code_edit'));
         }
         $this->setNamespace($this->model->namespace);
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -76,7 +76,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
             $path = BASE_PATH . "/app/{$module}/Mapper/";
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
-        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
     }
 
     /**
@@ -84,7 +84,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**

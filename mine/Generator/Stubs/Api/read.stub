@@ -1,0 +1,12 @@
+
+  /**
+   * 读取{BUSINESS_NAME}
+   * @returns
+   */
+  read (params = {}) {
+    return request({
+      url: '{REQUEST_ROUTE}/read',
+      method: 'post',
+      data: params
+    })
+  },

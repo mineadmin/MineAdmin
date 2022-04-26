@@ -1,89 +1,95 @@
 <template>
-  <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close append-to-body @closed="$emit('closed')">
-    <el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px">
+  <{COMPONENT_TYPE}
+    :title="titleMap[mode]"
+    v-model="visible"
+    :width="700"
+    destroy-on-close
+    append-to-body
+    @closed="emits('closed')"
+  >
+    <el-form
+      :model="form"
+      :rules="rules"
+      ref="dialogForm"
+      label-width="80px"
+      :style="'{COMPONENT_TYPE}' === 'el-drawer' ? 'padding:0 20px' : ''"
+    >
       {FORM_LIST}
     </el-form>
     <template #footer>
-      <el-button @click="visible=false" >取 消</el-button>
+      <el-button @click="visible = false">取 消</el-button>
       <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
     </template>
-  </el-dialog>
+  </{COMPONENT_TYPE}>
 </template>
 
-<script>
-  import editor from '@/components/scEditor'
+<script setup>
+  import { ref, reactive, defineEmits, defineExpose, onMounted } from 'vue'
+  import { ElMessage } from 'element-plus'
+  import {BUSINESS_EN_NAME} from '@/api/apis/system/{BUSINESS_EN_NAME}'
+  import systemDict from '@/api/apis/system/dataDict'
+{IMPORT_COMPONENT}
 
-  export default {
-    emits: ['success', 'closed'],
-    components: {
-      editor
-    },
-    data() {
-      return {
-        mode: "add",
-        titleMap: {
-          add: '新增{BUSINESS_NAME}',
-          edit: '编辑{BUSINESS_NAME}'
-        },
-        treeList: [],
-        form: {
-          {FORM_DATA}
-        },
-        rules: {
-          {REQUIRED_LIST}
-        },
-        visible: false,
-        isSaveing: false,
-        {DICT_DATA}
+  const emits = defineEmits(['success', 'closed'])
+
+  const mode = ref('add')
+  const treeList = ref([])
+  const visible = ref(false)
+  const isSaveing = ref(false)
+  const dialogForm = ref(null)
+
+  const titleMap = reactive({ add: '新增{BUSINESS_NAME}', edit: '编辑{BUSINESS_NAME}' })
+  const dictData = reactive({
+    {DICT_DATA}
+  })
+  const form = reactive({
+    {FORM_DATA}
+  })
+  const rules = reactive({
+    {REQUIRED_LIST}
+  })
+
+  onMounted(async () => {
+    await getDictData()
+  })
+
+  const getDictData = () => {
+    {DICT_LIST}
+  }
+
+  const open = (type = 'add') => {
+    mode.value = type
+    visible.value = true
+    {TREE_REQUEST}
+  }
+
+  const submit = () => {
+    dialogForm.value.validate(async (valid) => {
+      if (valid) {
+        isSaveing.value = true
+        const res = mode.value === 'add' ? await {BUSINESS_EN_NAME}.save(form) : await {BUSINESS_EN_NAME}.update(form.id, form)
+        if (res.success) {
+          emits('success', form, mode.value)
+          visible.value = false
+          ElMessage.success(res.message)
+        } else {
+          ElMessage.error(res.message)
+        }
+        isSaveing.value = false
       }
-    },
-    async created() {
-        await this.getDictData();
-    },
-    methods: {
-      //显示
-      open(mode='add'){
-        this.mode = mode;
-        this.visible = true;
-        {TREE_REQUEST}
-        return this;
-      },
-      //表单提交方法
-      submit(){
-        this.$refs.dialogForm.validate(async (valid) => {
-          if (valid) {
-            this.isSaveing = true;
-            let res = null
-            if (this.mode == 'add') {
-              res = await this.$API.{BUSINESS_EN_NAME}.save(this.form)
-            } else {
-              res = await this.$API.{BUSINESS_EN_NAME}.update(this.form.{PK}, this.form)
-            }
-            this.isSaveing = false;
-            if(res.success){
-              this.$emit('success', this.form, this.mode)
-              this.visible = false;
-              this.$message.success(res.message)
-            }else{
-              this.$alert(res.message, "提示", {type: 'error'})
-            }
-          }
-        })
-      },
+    })
+  }
 
-      //表单注入数据
-      setData(data){
-        {SET_FORM_DATA}
-      },
-
-      // 获取字典数据
-      getDictData() {
-        {DICT_LIST}
-      },
-
-      {UPLOAD_IMAGE}
-
-      {UPLOAD_FILE}
+  const setData = (data) => {
+    for (let k in form) {
+      if (data[k] || data[k] === 0) {
+        form[k] = data[k]
+      }
     }
   }
+{UPLOAD_IMAGE}
+{UPLOAD_FILE}
+  defineExpose({
+    open, setData
+  })
 </script>

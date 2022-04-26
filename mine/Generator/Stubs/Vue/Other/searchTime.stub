@@ -1,0 +1,1 @@
+            <el-time-picker v-model="queryParams.{COLUMN_NAME}" placeholder="请选择{LABEL_NAME}时间" />

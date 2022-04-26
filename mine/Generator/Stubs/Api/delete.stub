@@ -1,0 +1,11 @@
+
+  /**
+   * 将{BUSINESS_NAME}删除，有软删除则移动到回收站
+   * @returns
+   */
+  deletes (ids) {
+    return request({
+      url: '{REQUEST_ROUTE}/delete/' + ids,
+      method: 'delete'
+    })
+  },

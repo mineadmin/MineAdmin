@@ -24,11 +24,11 @@ class MineStart extends ServerStartCallback
     public function beforeStart()
     {
         $service = container()->get(ModuleService::class);
-        $service->setModuleEnabled();
         $service->setModuleCache();
         $console = console();
         $console->info('MineAdmin start success...');
         $console->info($this->welcome());
+        $console->info('current booting the user: ' . shell_exec('whoami'));
     }
 
     protected function welcome(): string

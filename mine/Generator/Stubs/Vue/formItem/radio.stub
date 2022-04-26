@@ -1,0 +1,6 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <el-radio-group v-model="form.{COLUMN_NAME}">
+        {RADIO_OPTION}
+        </el-radio-group>
+      </el-form-item>

@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <editor v-model="form.{COLUMN_NAME}" placeholder="请输入{LABEL_NAME}" :height="400" />
+      </el-form-item>

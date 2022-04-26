@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <city-linkage v-model="form.{COLUMN_NAME}" valueType="{AREA_VALUE_TYPE}" />
+      </el-form-item>

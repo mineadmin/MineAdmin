@@ -18,7 +18,6 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\Filesystem\FilesystemFactory;
 use League\Flysystem\Filesystem;
 use Mine\Exception\NormalStatusException;
-use Mine\Helper\Id;
 use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\Helper\Str;
 use Psr\EventDispatcher\EventDispatcherInterface;

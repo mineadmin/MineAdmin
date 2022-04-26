@@ -23,15 +23,18 @@ class GenerateUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'belong_menu_id' => 'required',
             'generate_type' => 'required',
+            'build_menu' => 'required',
+            'generate_menus' => 'required|array',
             'menu_name' => 'required',
             'module_name' => 'required',
             'package_name' => '',
             'table_comment' => 'required',
             'table_name' => 'required',
             'type' => 'required',
+            'component_type' => 'required',
             'columns' => 'required|array',
+            'belong_menu_id' => '',
             'options' => '',
             'remark' => '',
         ];

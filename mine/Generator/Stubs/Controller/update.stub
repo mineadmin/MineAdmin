@@ -1,0 +1,14 @@
+
+    /**
+     * 更新
+     * @param int $id
+     * @param {UPDATE_REQUEST} $request
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("update/{id}"), Permission("{UPDATE_PERMISSION}"), OperationLog]
+    public function update(int $id, {REQUEST} $request): ResponseInterface
+    {
+        return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
+    }

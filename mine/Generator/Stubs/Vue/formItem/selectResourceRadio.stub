@@ -1,0 +1,4 @@
+
+      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
+        <sc-upload v-model="form.{COLUMN_NAME}" title="选择{LABEL_NAME}" file-select />
+      </el-form-item>

@@ -22,6 +22,7 @@ use Hyperf\Database\Model\Collection;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Generator\Traits\VueSaveGeneratorTraits;
+use Mine\Generator\Traits\VueFunctionsVarsTraits;
 use Mine\Helper\Str;
 
 /**
@@ -31,7 +32,7 @@ use Mine\Helper\Str;
  */
 class VueSaveGenerator extends MineGenerator implements CodeGenerator
 {
-    use VueSaveGeneratorTraits;
+    use VueSaveGeneratorTraits, VueFunctionsVarsTraits;
 
     /**
      * @var SettingGenerateTables
@@ -70,10 +71,10 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)->orderByDesc('sort')
             ->get([
-                'column_name', 'column_comment', 'is_required',
+                'column_name', 'column_comment', 'is_required', 'options',
                 'is_pk', 'is_insert', 'is_edit', 'view_type', 'dict_type',
         ]);
-        return $this;
+        return $this->placeholderReplace();
     }
 
     /**
@@ -87,7 +88,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
             BASE_PATH . "/runtime/generate/vue/src/views/{$module}/{$this->getShortBusinessName()}",
             0755, true, true
         );
-        $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
+        $this->filesystem->put($path, $this->replace()->getCodeContent());
     }
 
     /**
@@ -95,7 +96,7 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
      */
     public function preview(): string
     {
-        return $this->placeholderReplace()->getCodeContent();
+        return $this->replace()->getCodeContent();
     }
 
     /**
@@ -136,13 +137,14 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
     protected function getPlaceHolderContent(): array
     {
         return [
+            '{IMPORT_COMPONENT}',
+            '{COMPONENT_TYPE}',
             '{BUSINESS_EN_NAME}',
             '{TREE_REQUEST}',
             '{BUSINESS_NAME}',
             '{FORM_LIST}',
             '{FORM_DATA}',
             '{REQUIRED_LIST}',
-            '{SET_FORM_DATA}',
             '{DICT_LIST}',
             '{DICT_DATA}',
             '{UPLOAD_IMAGE}',
@@ -157,13 +159,14 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
     protected function getReplaceContent(): array
     {
         return [
+            $this->importComponent(),
+            $this->getComponentType(),
             $this->getBusinessEnName(),
             $this->getTreeRequest(),
             $this->getBusinessName(),
             $this->getFormList(),
             $this->getFormData(),
             $this->getRequiredList(),
-            $this->getSetFormData(),
             $this->getDictList(),
             $this->getDictData(),
             $this->getUploadImage(),
@@ -172,14 +175,47 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
         ];
     }
 
+    protected function importComponent(): string
+    {
+        $importCode = '';
+        foreach ($this->columns as $column) {
+            if ($column->view_type === 'editor' && ! $this->model->importEditorCode) {
+                $importCode .= str_replace(
+                    ['{NAME}', '{PATH}'],
+                    ['editor', '@/components/scEditor'],
+                    $this->getOtherTemplate('import')
+                );
+                $this->model->importEditorCode = true;
+            }
+            if ($column->view_type === 'area' && ! $this->model->improtAreaCode) {
+                $importCode .= str_replace(
+                    ['{NAME}', '{PATH}'],
+                    ['cityLinkage', '@/components/maCityLinkage'],
+                    $this->getOtherTemplate('import')
+                );
+                $importCode .= str_replace(
+                    ['{NAME}', '{PATH}'],
+                    ['threeLevelLinkage', '@/components/maCityLinkage/threeLevelLinkage'],
+                    $this->getOtherTemplate('import')
+                );
+                $this->model->improtAreaCode = true;
+            }
+        }
+        return $importCode;
+    }
+
+    protected function getComponentType(): string
+    {
+        return $this->model->component_type === '0' ? 'el-dialog' : 'el-drawer';
+    }
+
     protected function getTreeRequest(): string
     {
         if ($this->model->type === 'tree') {
-            return <<<js
-    this.\$API.{$this->getBusinessEnName()}.tree().then(res => {
-                this.treeList = res.data
-            })
-js;
+            return sprintf(
+                "%s.tree().then( res => {\n      treeList.value = res.data\n    })",
+                $this->getBusinessEnName()
+            );
         } else {
             return '';
         }
@@ -192,22 +228,11 @@ js;
     protected function getFormList(): string
     {
         $jsCode = '';
+
         // 对树表生成级联选择器
         if (!empty($this->model->options['tree_parent_id'])) {
             $parent_id = $this->model->options['tree_parent_id'];
-$jsCode .= <<<js
-
-        <el-form-item label="父ID" prop="{$parent_id}">
-            <el-cascader
-                v-model="form.{$parent_id}"
-                clearable
-                style="width:100%"
-                :options="treeList"
-                :props="{ checkStrictly: true }"
-            ></el-cascader>
-        </el-form-item>
-
-js;
+            $jsCode .= str_replace('{COLUMN_NAME}', $parent_id, $this->getFormItemTemplate('treeCascader'));
         }
 
         foreach ($this->columns as $column) {
@@ -231,11 +256,14 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_pk === '1' || $column->is_insert === '1' || $column->is_edit === '1') {
-                $code = <<<js
-
-            {$column->column_name}: '',
- js;
-                $jsCode .= $code;
+                $type = match ($column->view_type) {
+                    'checkbox', 'userSelect', 'area' => '[]',
+                    'userinfo' => !empty($column->options['userinfo'])
+                        ? sprintf("'%s'", user()->getUserInfo()[$column->options['userinfo']])
+                        : "''",
+                    default => "''"
+                };
+                $jsCode .= sprintf("%s: %s,\n    ", $column->column_name, $type);
             }
         }
         return $jsCode;
@@ -251,122 +279,11 @@ js;
         $jsCode = '';
         foreach ($this->columns as $column) {
             if ($column->is_required === '1') {
-                $code = <<<js
-
-            {$column->column_name}: [{required: true, message: '{$column->column_comment}必填', trigger: 'blur' }],
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取表格显示列
-     * @return string
-     */
-    protected function getSetFormData(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->is_pk === '1' || $column->is_insert === '1' || $column->is_edit === '1') {
-                $code = <<<js
-
-           this.form.{$column->column_name} = data.{$column->column_name};
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典数据
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictList(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
-
-           this.getDict('{$column->dict_type}').then(res => {
-               this.{$column->dict_type}_data = res.data
-           })
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取字典变量
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getDictData(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if (!empty($column->dict_type)) {
-                $code = <<<js
- 
-         {$column->dict_type}_data: [],
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取图片上传处理代码
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getUploadImage(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            $name = Str::studly($column->column_name);
-            if ($column->view_type == 'image') {
-                $code = <<<js
- 
-        handlerUploadImage{$name} (res) {
-            if (res.success) {
-                this.form.{$column->column_name} = res.url
-            }
-        },
- js;
-                $jsCode .= $code;
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取文件上传处理代码
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getUploadFile(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            $name = Str::studly($column->column_name);
-            if ($column->view_type == 'file') {
-                $code = <<<js
- 
-        handlerUploadFile{$name} (res) {
-            if (res.success) {
-                this.form.{$column->column_name} = res.url
-            }
-        },
- js;
-                $jsCode .= $code;
+                $jsCode .= sprintf(
+                    "%s: [{required: true, message: '%s必填', trigger: 'blur' }],\n    ",
+                    $column->column_name,
+                    $column->column_comment
+                );
             }
         }
         return $jsCode;
@@ -415,6 +332,46 @@ js;
             '',
             str_replace(env('DB_PREFIX'), '', $this->model->table_name)
         ));
+    }
+
+    /**
+     * 获取图片上传处理代码
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getUploadImage(): string
+    {
+        $jsCode = '';
+        foreach ($this->columns as $column) {
+            if ($column->view_type == 'image') {
+                $jsCode .= str_replace(
+                    ['{FUN_NAME}', '{COLUMN_NAME}'],
+                    [Str::studly($column->column_name), $column->column_name],
+                    $this->getOtherTemplate('uploadImage')
+                );
+            }
+        }
+        return $jsCode;
+    }
+
+    /**
+     * 获取文件上传处理代码
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getUploadFile(): string
+    {
+        $jsCode = '';
+        foreach ($this->columns as $column) {
+            if ($column->view_type == 'file') {
+                $jsCode .= str_replace(
+                    ['{FUN_NAME}', '{COLUMN_NAME}'],
+                    [Str::studly($column->column_name), $column->column_name],
+                    $this->getOtherTemplate('uploadFile')
+                );
+            }
+        }
+        return $jsCode;
     }
 
     /**

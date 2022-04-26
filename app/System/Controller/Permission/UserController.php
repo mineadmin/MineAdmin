@@ -215,8 +215,10 @@ class UserController extends MineController
 
     /**
      * 用户导出
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @return ResponseInterface
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("export"), Permission("system:user:export"), OperationLog]
     public function export(): ResponseInterface
@@ -227,10 +229,8 @@ class UserController extends MineController
     /**
      * 用户导入
      * @return ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     #[PostMapping("import"), Permission("system:user:import")]
     public function import(): ResponseInterface

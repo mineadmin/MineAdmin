@@ -39,7 +39,6 @@ trait MapperGeneratorTraits
      * @param $mark
      * @param $comment
      * @return string
-     * @noinspection PhpUndefinedVariableInspection
      */
     protected function getSearchPHPString($name, $mark, $comment): string
     {

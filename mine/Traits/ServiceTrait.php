@@ -271,23 +271,15 @@ trait ServiceTrait
     }
 
     /**
-     * 数字运算操作
+     * 数字更新操作
      * @param int $id
      * @param string $field
-     * @param string $type
      * @param int $value
      * @return bool
      */
-    public function numberOperation(int $id, string $field, string $type = 'inc', int $value = 1): bool
+    public function numberOperation(int $id, string $field, int $value): bool
     {
-        if ($type === 'inc') {
-            return $this->mapper->inc($id, $field, $value);
-        }
-        if ($type === 'dec') {
-            return $this->mapper->dec($id, $field, $value);
-        }
-
-        return false;
+        return $this->mapper->numberOperation($id, $field, $value);
     }
 
     /**

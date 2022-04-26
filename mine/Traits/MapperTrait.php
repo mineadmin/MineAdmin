@@ -437,26 +437,14 @@ trait MapperTrait
     }
 
     /**
-     * 自增
+     * 数字更新操作
      * @param int $id
      * @param string $field
      * @param int $value
      * @return bool
      */
-    public function inc(int $id, string $field, int $value): bool
+    public function numberOperation(int $id, string $field, int $value): bool
     {
-        return $this->model::find($id, [ $field ])->increment($field, $value) > 0;
-    }
-
-    /**
-     * 自减
-     * @param int $id
-     * @param string $field
-     * @param int $value
-     * @return bool
-     */
-    public function dec(int $id, string $field, int $value): bool
-    {
-        return $this->model::find($id, [ $field ])->decrement($field, $value) > 0;
+        return $this->update($id, [ $field => $value]);
     }
 }

@@ -318,32 +318,26 @@ js;
     protected function getColumnList(): string
     {
         $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->is_list === '1') {
-                if (!empty($column->dict_type)) {
-                    $code = <<<js
- 
-          <el-table-column
-            label="{$column->column_comment}"
-            prop="{$column->column_name}"
-          >
-            <template #default="scope">
-              <ma-dict-tag :options="{$column->dict_type}_data" :value="scope.row.{$column->column_name}" />
-            </template>
-          </el-table-column>
- js;
-                } else {
-
-                    $code = <<<js
- 
-         <el-table-column
-            label="{$column->column_comment}"
-            prop="{$column->column_name}"
-         />
- js;
-
-                }
-                $jsCode .= $code;
+        $viewTypes = ['inputNumber', 'switch'];
+        foreach ($this->columns as $column) if ($column->is_list === '1') {
+            if (in_array($column->view_type, $viewTypes)) {
+                $jsCode .= str_replace(
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}'],
+                    [$column->column_comment, $column->column_name],
+                    $this->getOtherTemplate('columnBy' . Str::title($column->view_type))
+                );
+            } else if (!empty($column->dict_type)) {
+                $jsCode .= str_replace(
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{DICT_TYPE}'],
+                    [$column->column_comment, $column->column_name, $column->dict_type],
+                    $this->getOtherTemplate('columnByDictType')
+                );
+            } else {
+                $jsCode .= str_replace(
+                    ['{LABEL_COMMENT}', '{COLUMN_NAME}'],
+                    [$column->column_comment, $column->column_name],
+                    $this->getOtherTemplate('column')
+                );
             }
         }
         return $jsCode;

@@ -2,10 +2,8 @@
     /**
      * 数据导入
      * @return ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     #[PostMapping("import"), Permission("{IMPORT_PERMISSION}")]
     public function import(): ResponseInterface

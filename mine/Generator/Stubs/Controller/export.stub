@@ -1,8 +1,10 @@
 
     /**
      * 数据导出
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @return ResponseInterface
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("export"), Permission("{EXPORT_PERMISSION}"), OperationLog]
     public function export(): ResponseInterface

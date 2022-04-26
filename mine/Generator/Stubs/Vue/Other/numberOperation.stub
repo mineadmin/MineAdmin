@@ -1,6 +1,6 @@
 
-  const numberOperation = (id, numberName, numberType = 'inc', numberValue = 1) => {
-    {BUSINESS_EN_NAME}.numberOperation({ id, numberName, numberType, numberValue }).then( res => {
+  const numberOperation = (newValue, id, numberName) => {
+    {BUSINESS_EN_NAME}.numberOperation({ id, numberName, numberValue: newValue }).then( res => {
       res.success && ElMessage.success(res.message)
     }).catch( e => { console.log(e) } )
   }

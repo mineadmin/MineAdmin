@@ -233,7 +233,7 @@
           name: undefined,
           code: undefined,
           maxDate: undefined,
-              minDate: undefined,
+          minDate: undefined,
           status: undefined
         },
         isRecycle: false,
@@ -362,7 +362,7 @@
           name: undefined,
           code: undefined,
           maxDate: undefined,
-              minDate: undefined,
+          minDate: undefined,
           status: undefined
         }
         this.$refs.table.upData(this.queryParams)

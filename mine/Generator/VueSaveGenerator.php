@@ -212,11 +212,10 @@ class VueSaveGenerator extends MineGenerator implements CodeGenerator
     protected function getTreeRequest(): string
     {
         if ($this->model->type === 'tree') {
-            return <<<js
-    this.\$API.{$this->getBusinessEnName()}.tree().then(res => {
-                this.treeList = res.data
-            })
-js;
+            return sprintf(
+                "%s.tree().then( res => {\n      treeList.value = res.data\n    })",
+                $this->getBusinessEnName()
+            );
         } else {
             return '';
         }
@@ -229,22 +228,11 @@ js;
     protected function getFormList(): string
     {
         $jsCode = '';
+
         // 对树表生成级联选择器
         if (!empty($this->model->options['tree_parent_id'])) {
             $parent_id = $this->model->options['tree_parent_id'];
-$jsCode .= <<<js
-
-        <el-form-item label="父ID" prop="{$parent_id}">
-            <el-cascader
-                v-model="form.{$parent_id}"
-                clearable
-                style="width:100%"
-                :options="treeList"
-                :props="{ checkStrictly: true }"
-            ></el-cascader>
-        </el-form-item>
-
-js;
+            $jsCode .= str_replace('{COLUMN_NAME}', $parent_id, $this->getFormItemTemplate('treeCascader'));
         }
 
         foreach ($this->columns as $column) {

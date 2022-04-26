@@ -106,7 +106,8 @@ class GenerateCodeController extends MineController
      * 生成代码
      * @param String $ids
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("generate/{ids}"), Permission("setting:code:generate"), OperationLog]
     public function generate(string $ids): ResponseInterface

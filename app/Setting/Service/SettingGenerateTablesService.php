@@ -139,8 +139,8 @@ class SettingGenerateTablesService extends AbstractService
 
         unset($data['columns']);
 
-        if (!empty($data['belong_menu_id']) && is_array($data['belong_menu_id'])) {
-            $data['belong_menu_id'] = array_pop($data['belong_menu_id']);
+        if (!empty($data['belong_menu_id'])) {
+            $data['belong_menu_id'] = is_array($data['belong_menu_id']) ? array_pop($data['belong_menu_id']) : $data['belong_menu_id'];
         } else {
             $data['belong_menu_id'] = 0;
         }

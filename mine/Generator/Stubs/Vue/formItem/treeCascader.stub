@@ -1,0 +1,7 @@
+
+      <el-form-item label="所属上级" prop="{COLUMN_NAME}">
+        <el-cascader
+          v-model="form.{COLUMN_NAME}" clearable style="width:100%"
+          :options="treeList" :props="{ checkStrictly: true }"
+        />
+      </el-form-item>

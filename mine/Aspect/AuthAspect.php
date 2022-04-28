@@ -42,10 +42,10 @@ class AuthAspect extends AbstractAspect
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
-        $request = container()->get(MineRequest::class);
-        if ($request->getMethod() != 'GET') {
-            throw new MineException('为了正常运行，演示环境禁止该操作，如需要请下载部署体验');
-        }
+//        $request = container()->get(MineRequest::class);
+//        if ($request->getMethod() != 'GET') {
+//            throw new MineException('为了正常运行，演示环境禁止该操作，如需要请下载部署体验');
+//        }
 
         /** @var Auth $auth */
         if (isset($proceedingJoinPoint->getAnnotationMetadata()->method[Auth::class])) {

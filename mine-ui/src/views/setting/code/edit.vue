@@ -180,7 +180,7 @@
                     </el-tooltip>
                   </template>
 
-                  <el-radio-group v-model="form.generate_type" @change="handleChangeGenType">
+                  <el-radio-group v-model="form.generate_type" @change="handleChangeGenType" :disabled="true">
                     <el-radio-button label="0">压缩包下载</el-radio-button>
                     <el-radio-button label="1">生成到模块</el-radio-button>
                   </el-radio-group>
@@ -200,7 +200,7 @@
                     </el-tooltip>
                   </template>
 
-                  <el-radio-group v-model="form.build_menu" @change="handleBuildMenu">
+                  <el-radio-group v-model="form.build_menu" @change="handleBuildMenu" :disabled="true">
                     <el-radio-button label="0">不构建菜单</el-radio-button>
                     <el-radio-button label="1">构建菜单</el-radio-button>
                   </el-radio-group>

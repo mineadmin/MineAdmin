@@ -298,8 +298,7 @@ export default {
     submitForm() {
       if (! this.$refs.Verify.checkResult(this.ruleForm.code) && this.verifyType === "0") {
         return false;
-      }
-      if (! this.ruleForm.code && this.verifyType !== "1") {
+      } else if (! this.ruleForm.code && this.verifyType !== "1") {
         this.ruleForm.code = "code"
       }
       this.$refs["ruleForm"].validate((valid) => {

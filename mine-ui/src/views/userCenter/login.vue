@@ -133,7 +133,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="isPassing" v-else>
+          <el-form-item prop="code" v-else>
             <el-input
               type="text"
               v-model="ruleForm.code"
@@ -191,8 +191,7 @@ export default {
         user: "superAdmin",
         password: "admin123",
         code: "",
-        autologin: false,
-        isPassing: false,
+        autologin: false
       },
       rules: {
         user: [
@@ -297,11 +296,11 @@ export default {
     },
 
     submitForm() {
-      if (!this.ruleForm.code && this.verifyType !== "1")
-        this.ruleForm.code = "code";
-      if (!this.ruleForm.isPassing && this.verifyType === "0") {
-        this.$message.error("请滑动验证码进行验证");
+      if (! this.$refs.Verify.checkResult(this.ruleForm.code) && this.verifyType === "0") {
         return false;
+      }
+      if (! this.ruleForm.code && this.verifyType !== "1") {
+        this.ruleForm.code = "code"
       }
       this.$refs["ruleForm"].validate((valid) => {
         if (valid) {

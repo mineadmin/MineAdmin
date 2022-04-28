@@ -43,14 +43,8 @@ function createService () {
 						message: error.response.data.message ? error.response.data.message : '服务器内部错误'
 					})
 				} else if (error.response.status == 401) {
-					ElMessageBox.confirm('登录状态已过期，是否重新登录？', '系统提示', {
-						confirmButtonText: '重新登录',
-						cancelButtonText: '取消',
-						type: 'warning'
-					}).then(() => {
-						tool.data.set('token', null)
-						location.href = '/'
-					}).catch(() => {})
+					tool.data.clear()
+					location.href = '/'
 					return
 				} else if (error.response.status == 403) {
 					ElNotification.error({
@@ -71,7 +65,7 @@ function createService () {
 			}
 			return Promise.reject(error.response.data)
 		}
-	
+
 	)
 	return service
 }
@@ -111,7 +105,7 @@ function createRequest (service) {
 			option.url = option.url + '?' + stringify(option.params)
 			option.params = {}
 		}
-		
+
 		// form
 		if (!isEmpty(option.data) && option.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8') {
 			option.data = stringify(option.data)
@@ -119,7 +113,7 @@ function createRequest (service) {
 		return service(option)
 	}
 }
-  
+
 // 用于真实网络请求的实例和请求方法
 export const service = createService()
 export const request = createRequest(service)

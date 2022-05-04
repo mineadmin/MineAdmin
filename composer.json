@@ -21,6 +21,7 @@
     "doctrine/dbal": "^3.1",
     "easyswoole/verifycode": "3.x",
     "hyperf/amqp": "^2.2",
+    "hyperf/async-queue": "^2.2",
     "hyperf/cache": "2.2.*",
     "hyperf/command": "2.2.*",
     "hyperf/config": "2.2.*",
@@ -48,6 +49,7 @@
     "tangwei/apidocs": "^1.0",
     "xmo/jwt-auth": "0.2.*",
     "xxtime/flysystem-aliyun-oss": "^1.5",
+    "yurunsoft/phpmailer-swoole": "^1.0",
     "zoujingli/ip2region": "^1.0"
   },
   "require-dev": {

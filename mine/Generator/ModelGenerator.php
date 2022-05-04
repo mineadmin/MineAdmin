@@ -120,7 +120,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             if (!empty($this->model->options['relations'])) {
                 $this->filesystem->put(
                     $sourcePath,
-                    str_replace('}', $this->getRelations() . "\n}", $this->filesystem->sharedGet($sourcePath))
+                    preg_replace('/}$/', $this->getRelations() . "}", $this->filesystem->sharedGet($sourcePath))
                 );
             }
 

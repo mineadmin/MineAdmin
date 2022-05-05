@@ -72,8 +72,8 @@ class SystemRoleMapper extends AbstractMapper
      * 新建角色
      * @param array $data
      * @return int
-     * @Transaction
      */
+    #[Transaction]
     public function save(array $data): int
     {
         $menuIds = $data['menu_ids'] ?? [];

@@ -62,8 +62,8 @@ class SystemUserMapper extends AbstractMapper
      * 新增用户
      * @param array $data
      * @return int
-     * @Transaction
      */
+    #[Transaction]
     public function save(array $data): int
     {
         $role_ids = $data['role_ids'] ?? [];
@@ -81,8 +81,8 @@ class SystemUserMapper extends AbstractMapper
      * @param int $id
      * @param array $data
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function update(int $id, array $data): bool
     {
         $role_ids = $data['role_ids'] ?? [];
@@ -103,8 +103,8 @@ class SystemUserMapper extends AbstractMapper
      * 真实批量删除用户
      * @param array $ids
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {

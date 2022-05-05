@@ -28,8 +28,8 @@ class SettingGenerateTablesMapper extends AbstractMapper
     /**
      * 删除业务信息表和字段信息表
      * @throws \Exception
-     * @Transaction
      */
+    #[Transaction]
     public function delete(array $ids): bool
     {
         /* @var SettingGenerateTables $model */

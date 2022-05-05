@@ -128,9 +128,9 @@ trait ServiceTrait
     /**
      * 批量新增
      * @param array $collects
-     * @Transaction
      * @return bool
      */
+    #[Transaction]
     public function batchSave(array $collects): bool
     {
         foreach ($collects as $collect) {
@@ -310,8 +310,11 @@ trait ServiceTrait
      * @param string $dto
      * @param \Closure|null $closure
      * @return bool
-     * @Transaction
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[Transaction]
     public function import(string $dto, ?\Closure $closure = null): bool
     {
         return $this->mapper->import($dto, $closure);

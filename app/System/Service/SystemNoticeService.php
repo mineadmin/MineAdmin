@@ -28,11 +28,11 @@ class SystemNoticeService extends AbstractService
 
     /**
      * 保存公告
-     * @Transaction
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Throwable
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[Transaction]
     public function save(array $data): int
     {
         $message = new QueueMessageVo();

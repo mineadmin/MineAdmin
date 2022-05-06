@@ -13,9 +13,9 @@ class ClearLogCrontab
 {
     /**
      * 清理所有日志
-     * @Transaction
      * @return string
      */
+    #[Transaction]
     public function execute(): string
     {
         SystemOperLog::truncate();

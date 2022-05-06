@@ -53,8 +53,8 @@ class SystemAppService extends AbstractService
      * @param int $id
      * @param array $ids
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function bind(int $id, array $ids): bool
     {
         return $this->mapper->bind($id, $ids);

@@ -28,8 +28,8 @@ class SystemDictTypeMapper extends AbstractMapper
      * @param int $id
      * @param array $data
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function update(int $id, array $data): bool
     {
         parent::update($id, $data);
@@ -40,8 +40,8 @@ class SystemDictTypeMapper extends AbstractMapper
     /**
      * @param array $ids
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {

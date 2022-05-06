@@ -90,10 +90,10 @@ class SystemQueueMessageMapper extends AbstractMapper
 
     /**
      * 保存数据
-     * @Transaction
      * @param array $data
      * @return int
      */
+    #[Transaction]
     public function save(array $data): int
     {
         $receiveUsers = $data['receive_users'];
@@ -108,8 +108,8 @@ class SystemQueueMessageMapper extends AbstractMapper
      * @param array $ids
      * @return bool
      * @throws \Exception
-     * @Transaction
      */
+    #[Transaction]
     public function delete(array $ids): bool
     {
         foreach ($ids as $id) {

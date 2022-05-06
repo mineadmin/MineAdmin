@@ -360,8 +360,8 @@ trait MapperTrait
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @Transaction
      */
+    #[Transaction]
     public function import(string $dto, ?\Closure $closure = null): bool
     {
         return (new MineCollection())->import($dto, $this->getModel(), $closure);

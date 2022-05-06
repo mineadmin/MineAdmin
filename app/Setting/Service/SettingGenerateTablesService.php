@@ -80,8 +80,8 @@ class SettingGenerateTablesService extends AbstractService
      * 装载数据表
      * @param array $names
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function loadTable(array $names): bool
     {
         foreach ($names as $item) {
@@ -107,8 +107,8 @@ class SettingGenerateTablesService extends AbstractService
      * 同步数据表
      * @param int $id
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function sync(int $id): bool
     {
         $table = $this->read($id);
@@ -130,8 +130,8 @@ class SettingGenerateTablesService extends AbstractService
      * 更新业务表
      * @param array $data
      * @return bool
-     * @Transaction
      */
+    #[Transaction]
     public function updateTableAndColumns(array $data): bool
     {
         $id = $data['id'];

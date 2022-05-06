@@ -24,8 +24,8 @@ class SettingCrontabMapper extends AbstractMapper
      * @param array $ids
      * @return bool
      * @throws \Exception
-     * @Transaction
      */
+    #[Transaction]
     public function delete(array $ids): bool
     {
         foreach ($ids as $id) {

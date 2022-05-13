@@ -296,7 +296,7 @@ export default {
     },
 
     submitForm() {
-      if (! this.$refs.Verify.checkResult(this.ruleForm.code) && this.verifyType === "0") {
+      if (this.$refs.Verify && ! this.$refs.Verify.checkResult(this.ruleForm.code) && this.verifyType === "0") {
         return false;
       }
       this.$refs["ruleForm"].validate((valid) => {

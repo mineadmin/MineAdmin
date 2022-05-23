@@ -4,7 +4,7 @@ import { ElMessage as Message } from 'element-plus'
 const codeText = ref('')
 const verfiyCanvas = ref(null)
 const canvasSetting = reactive({
-  pool: 'abcdefghijklmnopqrstuvwxyz1234567890',
+  pool: 'abcdefghjkmnpqrstuvwxyz23456789',
   width: 120,
   height: 38,
   size: 4

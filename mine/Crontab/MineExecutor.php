@@ -96,8 +96,8 @@ class MineExecutor
                                 $result = true;
                                 $res = null;
                                 $instance = make($class);
-                                if ($parameters && is_array($parameters)) {
-                                    $res = $instance->{$method}(...$parameters);
+                                if (!empty($parameters)) {
+                                    $res = $instance->{$method}($parameters);
                                 } else {
                                     $res = $instance->{$method}();
                                 }

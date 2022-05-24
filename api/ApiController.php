@@ -12,13 +12,14 @@
 declare(strict_types=1);
 namespace Api;
 
+use Api\Middleware\VerifyParamsMiddleware;
 use App\System\Service\SystemAppService;
+use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
 use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 use Psr\Http\Message\ResponseInterface;
 use Api\Middleware\VerifyInterfaceMiddleware;
@@ -52,7 +53,8 @@ class ApiController extends MineApi
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[RequestMapping("v1/{method}"), Middleware(VerifyInterfaceMiddleware::class)]
+    #[RequestMapping("v1/{method}")]
+    #[Middlewares(VerifyInterfaceMiddleware::class, VerifyParamsMiddleware::class)]
     public function v1(): ResponseInterface
     {
         $apiData = $this->__init();

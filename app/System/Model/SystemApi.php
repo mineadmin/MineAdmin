@@ -34,6 +34,8 @@ class SystemApi extends MineModel
     public const METHOD_ALL = 'A';
     public const METHOD_POST = 'P';
     public const METHOD_GET = 'G';
+    public const METHOD_PUT = 'U';
+    public const METHOD_DELETE = 'D';
 
     public const AUTH_MODE_EASY = '0';
     public const AUTH_MODE_NORMAL = '1';

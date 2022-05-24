@@ -65,7 +65,7 @@ class XlsWriter extends MineExcel implements ExcelPropertyInterface
                 @unlink($tempFilePath);
             } catch (\Exception $e) {
                 @unlink($tempFilePath);
-                throw new \Exception($e);
+                throw new \Exception($e->getMessage());
             }
             return true;
         } else {
@@ -143,9 +143,8 @@ class XlsWriter extends MineExcel implements ExcelPropertyInterface
             $exportData[] = $yield;
         }
 
-        $fileObject->data($exportData);
         $response = container()->get(MineResponse::class);
-        $filePath = $fileObject->output();
+        $filePath = $fileObject->data($exportData)->output();
 
         $response->download($filePath, $filename);
 

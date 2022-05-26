@@ -43,7 +43,7 @@ export default {
               // 设置布局
               commit("SET_layout", backend_setting.layout)
               // 是否黑夜模式
-              document.body.setAttribute('data-theme', backend_setting.theme)
+              backend_setting.theme === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
               // 设置主题颜色
               document.documentElement.style.setProperty('--el-color-primary', backend_setting.colorPrimary);
               for (let i = 1; i <= 9; i++) {

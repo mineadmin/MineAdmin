@@ -203,4 +203,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.dark { 
+  .table tbody tr { color: #ddd; }
+
+  .table tbody td, .table thead td {border-bottom: 1px solid #585858;}
+}
 </style>

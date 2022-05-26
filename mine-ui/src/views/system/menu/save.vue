@@ -216,4 +216,7 @@
   :deep(.el-form-item__content) {
     display: block;
   }
+  .dark { 
+    h2 { color: #fff; }
+  }
 </style>

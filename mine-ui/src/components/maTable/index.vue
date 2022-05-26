@@ -417,7 +417,7 @@
 		font-size: 13px;
 	}
 
-	[data-theme='dark'] {
+	.dark {
 		.scTable-table:deep(.el-table th.el-table__cell) {
 			background: #282828;
 		}

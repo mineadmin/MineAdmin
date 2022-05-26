@@ -12,7 +12,6 @@ import maDictTag from './components/maDictTag'
 import maSelectUser from './components/maSelectUser'
 import maChunkUpload from './components/maChunkUpload'
 
-import scTable from './components/scTable'
 import scFilterBar from './components/scFilterBar'
 import scUpload from './components/scUpload'
 import scUploadMultiple from './components/scUpload/multiple'
@@ -34,7 +33,7 @@ import time from './directives/time'
 import copy from './directives/copy'
 import errorHandler from './utils/errorHandler'
 
-import * as elIcons from '@element-plus/icons'
+import * as elIcons from '@element-plus/icons-vue'
 import * as maIcons from './assets/maicons'
 import * as scIcons from './assets/icons'
 
@@ -72,7 +71,6 @@ export default {
     app.component('maPhoto', maPhoto)
     app.component('maSelectUser', maSelectUser)
     app.component('maChunkUpload', maChunkUpload)
-    app.component('scTable', scTable)
     app.component('scFilterBar', scFilterBar)
     app.component('scUpload', scUpload)
     app.component('scUploadMultiple', scUploadMultiple)

@@ -122,7 +122,7 @@
         </el-table-column>
 
         <!-- 正常数据操作按钮 -->
-        <el-table-column label="操作" fixed="right" align="right" width="240" v-if="!isRecycle">
+        <el-table-column label="操作" fixed="right" align="right" width="250" v-if="!isRecycle">
           <template #default="scope">
 
             <el-button

@@ -301,13 +301,7 @@ export default {
   align-items: center;
 }
 
-[data-theme="dark"] .msg-list__main h2 {
-  color: #d0d0d0;
-}
-[data-theme="dark"] .msg-list li {
-  border-top: 1px solid #363636;
-}
-[data-theme="dark"] .msg-list li a:hover {
-  background: #383838;
-}
+.dark .msg-list__main h2 {color: #d0d0d0;}
+.dark .msg-list li {border-top:1px solid #363636;}
+.dark .msg-list li a:hover {background: #383838;}
 </style>

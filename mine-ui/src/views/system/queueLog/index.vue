@@ -131,18 +131,7 @@
            label="延迟时间（秒）"
            prop="delay_time"
         />
-
-        <el-table-column label="操作" fixed="right" align="right" width="130">
-          <template #default="scope">
-            <el-button
-              type="text"
-              
-              @click="deletes(scope.row.id)"
-              v-auth="['system:queueLog:delete']"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-
+        
       </maTable>
     </el-main>
 

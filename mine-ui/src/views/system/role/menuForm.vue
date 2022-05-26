@@ -156,9 +156,4 @@ export default {
 :deep(.el-form-item__content) {
   display: block;
 }
-[data-theme="dark"] {
-  .ma-tree-border {
-    border: 1px solid #383838;
-  }
-}
 </style>

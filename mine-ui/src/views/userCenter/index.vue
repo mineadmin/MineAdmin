@@ -217,7 +217,7 @@ export default {
       this.$store.commit("TOGGLE_layoutTags")
 		},
     'config.theme'(val){
-      document.body.setAttribute('data-theme', val)
+      val === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
       this.$TOOL.data.set("APP_THEME", val);
     },
     'config.lang'(val){
@@ -335,11 +335,6 @@ export default {
   .activity-item label {color: #333;margin-right:10px;}
   .activity-item .el-avatar {margin-right:10px;}
   .activity-item .el-tag {margin-right:10px;}
-
-  [data-theme='dark'] .user-info-bottom {border-color: var(--el-border-color-base);}
-
-  [data-theme='dark'] .activity-item label {color: #999;}
-
 
   .user-avatar {
     position: relative;

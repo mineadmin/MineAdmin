@@ -26,4 +26,8 @@ html.dark {
   .el-aside {background: var(--el-bg-color-overlay);border-color: var(--el-border-color-light);}
   .el-table .el-table__body-wrapper {background: var(--el-bg-color);}
   .el-table th.is-sortable:hover {background: #111;}
+
+  .scTable-page {
+    background: var(--el-bg-color-overlay);border-color: var(--el-border-color-light);
+  }
 }

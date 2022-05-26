@@ -195,13 +195,16 @@
 .scTable-page {
   position: absolute; width: 100%; bottom: 0;
 }
-[data-theme='dark'] { 
+.dark { 
   .el-upload-list--picture-card .el-upload-list__item {
     background: #585858;
   }
   .el-image__error {
     background: none;
     color: #fff;
+  }
+  .el-main.file .scTable-page {
+    background: var(--el-bg-color-overlay);border-color: var(--el-border-color-light);
   }
 }
 </style>

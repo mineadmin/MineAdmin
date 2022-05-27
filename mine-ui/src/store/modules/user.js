@@ -47,15 +47,21 @@ export default {
               // 设置主题颜色
               document.documentElement.style.setProperty('--el-color-primary', backend_setting.colorPrimary);
               for (let i = 1; i <= 9; i++) {
-                document.documentElement.style.setProperty(
-                  `--el-color-primary-light-${i}`,
-                  colorTool.lighten(backend_setting.colorPrimary, i / 10)
-                );
+                if (backend_setting.theme === 'default') {
+                  document.documentElement.style.setProperty(
+                    `--el-color-primary-light-${i}`,
+                    colorTool.lighten(backend_setting.colorPrimary, i / 10)
+                  )
+                } else {
+                  document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
+                }
               }
-              document.documentElement.style.setProperty(
-                `--el-color-primary-darken-1`,
-                colorTool.darken(backend_setting.colorPrimary, 0.1)
-              );
+              for (let i = 1; i <= 2; i++) {
+                document.documentElement.style.setProperty(
+                  `--el-color-primary-dark-${i}`,
+                  colorTool.darken(backend_setting.colorPrimary, i / 10)
+                )
+              }
             }
             // commit('TOGGLE_layoutTags')
             commit('SET_ROUTERS', response.data.routers)

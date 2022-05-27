@@ -12,12 +12,25 @@
     created() {
       //设置主题颜色
       const app_color = this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR
+      const theme = this.$TOOL.data.get('APP_THEME')
       if(app_color){
         document.documentElement.style.setProperty('--el-color-primary', app_color);
         for (let i = 1; i <= 9; i++) {
-          document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(app_color,i/10));
+          if (theme === 'default') {
+            document.documentElement.style.setProperty(
+              `--el-color-primary-light-${i}`,
+              colorTool.lighten(app_color, i / 10)
+            )
+          } else {
+            document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
+          }
         }
-        document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(app_color,0.1));
+        for (let i = 1; i <= 2; i++) {
+          document.documentElement.style.setProperty(
+            `--el-color-primary-dark-${i}`,
+            colorTool.darken(app_color, i / 10)
+          )
+        }
       }
       // 获取配置信息
       this.$API.config.getSysConfig().then(res => {

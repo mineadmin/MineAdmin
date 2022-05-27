@@ -16,12 +16,6 @@
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript
         enabled. Please enable it to continue.</strong>
   </noscript>
-  <script type="text/javascript">
-    var theme = window.localStorage.getItem('APP_THEME');
-    if (theme) {
-      document.body.setAttribute('data-theme', JSON.parse(theme))
-    }
-  </script>
   <div id="app" class="aminui">
     <div class="app-loading">
       <div class="app-loading__logo">

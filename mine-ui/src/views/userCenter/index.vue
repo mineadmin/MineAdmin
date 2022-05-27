@@ -217,8 +217,25 @@ export default {
       this.$store.commit("TOGGLE_layoutTags")
 		},
     'config.theme'(val){
+      console.log(val)
       val === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
-      this.$TOOL.data.set("APP_THEME", val);
+      const app_color = this.$TOOL.data.get("APP_COLOR")
+      for (let i = 1; i <= 9; i++) {
+        if (val === 'default') {
+          document.documentElement.style.setProperty(
+            `--el-color-primary-light-${i}`,
+            colorTool.lighten(app_color, i / 10)
+          )
+        } else {
+          document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
+        }
+      }
+      for (let i = 1; i <= 2; i++) {
+        document.documentElement.style.setProperty(
+          `--el-color-primary-dark-${i}`,
+          colorTool.darken(app_color, i / 10)
+        )
+      }
     },
     'config.lang'(val){
       this.$i18n.locale = val
@@ -226,10 +243,23 @@ export default {
     },
     'config.colorPrimary'(val){
       document.documentElement.style.setProperty('--el-color-primary', val);
+      const theme = this.$TOOL.data.get('APP_THEME')
       for (let i = 1; i <= 9; i++) {
-        document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(val,i/10));
+        if (theme === 'default') {
+          document.documentElement.style.setProperty(
+            `--el-color-primary-light-${i}`,
+            colorTool.lighten(val, i / 10)
+          )
+        } else {
+          document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
+        }
       }
-      document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(val,0.1));
+      for (let i = 1; i <= 2; i++) {
+        document.documentElement.style.setProperty(
+          `--el-color-primary-dark-${i}`,
+          colorTool.darken(val, i / 10)
+        )
+      }
       this.$TOOL.data.set("APP_COLOR", val);
     }
   },

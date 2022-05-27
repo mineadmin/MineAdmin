@@ -16,7 +16,9 @@
 .static-table td {border-bottom: 1px solid #dcdfe6;padding: 15px;max-width: 250px;color: #606266;}
 
 /*header-tabs*/
-.header-tabs {padding:0;display:block;border:0!important;height:auto;}
-.header-tabs .el-tabs {border:0;box-shadow:none;}
+.header-tabs {padding:10px 0 0 0;display:block;border:0!important;height:50px;background: none;}
+.header-tabs .el-tabs__header {padding-left:10px;margin: 0;}
 .header-tabs .el-tabs__content {display: none;}
-.header-tabs .el-tabs__item {font-size: 12px;}
+.header-tabs .el-tabs__nav {border-radius: 0 !important;}
+.header-tabs .el-tabs__item {font-size: 13px;}
+.header-tabs .el-tabs__item.is-active {background-color: var(--el-bg-color-overlay);}

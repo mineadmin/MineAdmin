@@ -88,7 +88,8 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" :rows="3" placeholder="用户备注信息" v-model="form.remark" maxlength="255" show-word-limit />
+            <!-- <el-input type="textarea" :rows="3" placeholder="用户备注信息" v-model="form.remark" maxlength="255" show-word-limit /> -->
+            <editor v-model="form.remark" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -101,8 +102,10 @@
 </template>
 
 <script>
+  import editor from '@/components/scEditor'
   export default {
     emits: ['success', 'closed'],
+    components: { editor },
     data() {
       return {
         mode: "add",

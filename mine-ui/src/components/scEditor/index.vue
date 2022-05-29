@@ -14,11 +14,16 @@
 
   // 引入编辑器插件
   import 'tinymce/plugins/code'  //编辑源码
-  import 'tinymce/plugins/image'  //插入编辑图片
-  import 'tinymce/plugins/link'  //超链接
-  import 'tinymce/plugins/preview'//预览
-  import 'tinymce/plugins/table'  //表格
-  import 'tinymce/plugins/quickbars'  //快速工具条
+	import 'tinymce/plugins/image'  //插入编辑图片
+	import 'tinymce/plugins/media'  //插入视频
+	import 'tinymce/plugins/link'  //超链接
+	import 'tinymce/plugins/preview'//预览
+	import 'tinymce/plugins/template'//模板
+	import 'tinymce/plugins/table'  //表格
+	import 'tinymce/plugins/pagebreak'  //分页
+	import 'tinymce/plugins/lists'  //列
+	import 'tinymce/plugins/advlist'  //列
+	import 'tinymce/plugins/quickbars'  //快速工具条
 
   export default {
     components: {
@@ -35,7 +40,7 @@
       },
       height: {
         type: Number,
-        default: 300,
+        default: 500,
       },
       disabled: {
         type: Boolean,
@@ -43,13 +48,14 @@
       },
       plugins: {
         type: [String, Array],
-        default: 'code image link preview table quickbars'
+        default: 'code image media link preview table quickbars template pagebreak lists advlist'
       },
       toolbar: {
         type: [String, Array],
-        default: 'undo redo |  forecolor backcolor bold italic underline strikethrough link | blocks fontfamily fontsize | \
-          alignleft aligncenter alignright alignjustify outdent indent lineheight | bullist numlist | \
-          image table  preview | code selectall'
+        default: () => [
+          'undo redo forecolor backcolor bold italic underline strikethrough link alignleft aligncenter alignright alignjustify outdent indent',
+          'fontsize numlist bullist pagebreak image media table template preview code meeting'
+        ]
       }
     },
     data() {
@@ -59,7 +65,7 @@
           language: 'zh_CN',
           skin_url: 'tinymce/skins/ui/oxide',
           content_css: "tinymce/skins/content/default/content.css",
-          menubar: false,
+          menubar: true,
           statusbar: true,
           plugins: this.plugins,
           toolbar: this.toolbar,
@@ -86,11 +92,24 @@
               })
             })
           },
-          setup: function(editor) {
-            editor.on('init', function() {
-              this.getBody().style.fontSize = '14px';
+          setup: (editor) => {
+            tinymce.PluginManager.add('meeting', () =>{
+              editor.on('init', () => {
+                editor.getBody().style.fontSize = '14px';
+                editor.ui.registry.addButton('meeting', {
+                  text:'套用模板',
+                  icon: 'title',
+                  onAction: () => {
+                      editor.windowManager.openUrl({
+                          title:"选择会议模板",
+                          url:'https://www.163.com',
+                          width:840,
+                          height:300
+                      });
+                  }
+                })
+              })
             })
-
           }
         },
         contentValue: this.modelValue

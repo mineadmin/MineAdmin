@@ -1,6 +1,16 @@
 <template>
   <div class="sceditor">
     <Editor v-model="contentValue" :init="init" :disabled="disabled" :placeholder="placeholder" @onClick="onClick" />
+
+    <el-dialog
+      title="资源选择器"
+      v-model="fileSelectDialogVisible"
+      :width="880"
+      destroy-on-close
+      append-to-body
+    >
+      <sc-file-select @submit="fileSelectSubmit" multiple />
+    </el-dialog>
   </div>
 </template>
 
@@ -25,9 +35,13 @@
 	import 'tinymce/plugins/advlist'  //列
 	import 'tinymce/plugins/quickbars'  //快速工具条
 
+  
+  import scFileSelect from "@/components/scFileSelect"
+
   export default {
     components: {
-      Editor
+      Editor,
+      scFileSelect
     },
     props: {
       modelValue: {
@@ -54,7 +68,7 @@
         type: [String, Array],
         default: () => [
           'undo redo forecolor backcolor bold italic underline strikethrough link alignleft aligncenter alignright alignjustify outdent indent',
-          'fontsize numlist bullist pagebreak image media table template preview code meeting'
+          'fontsize numlist bullist pagebreak image media table template preview code resource'
         ]
       }
     },
@@ -93,26 +107,20 @@
             })
           },
           setup: (editor) => {
-            tinymce.PluginManager.add('meeting', () =>{
-              editor.on('init', () => {
-                editor.getBody().style.fontSize = '14px';
-                editor.ui.registry.addButton('meeting', {
-                  text:'套用模板',
-                  icon: 'title',
-                  onAction: () => {
-                      editor.windowManager.openUrl({
-                          title:"选择会议模板",
-                          url:'https://www.163.com',
-                          width:840,
-                          height:300
-                      });
-                  }
-                })
-              })
+
+            editor.on('init', () => {
+              editor.getBody().style.fontSize = '14px';
+            })
+            editor.ui.registry.addButton('resource', {
+              text:'资源选择器',
+              onAction: () => {
+                this.fileSelectDialogVisible = true
+              }
             })
           }
         },
-        contentValue: this.modelValue
+        contentValue: this.modelValue,
+        fileSelectDialogVisible: false,
       }
     },
     watch: {
@@ -129,6 +137,13 @@
     methods: {
       onClick(e){
         this.$emit('onClick', e, tinymce)
+      },
+
+      fileSelectSubmit (files) {
+        files.map(item => {
+          this.contentValue += `<img src=${this.$TOOL.viewImage(item)} width="500" />`
+        })
+        this.fileSelectDialogVisible = false
       }
     }
   }

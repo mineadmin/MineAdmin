@@ -104,9 +104,9 @@
             width="220"
           >
             <template #default="scope">
-              <el-button type="text" @click="del(scope.row.id)">删除</el-button>
-              <el-button type="text" @click="showDetails(scope.row)">详细</el-button>
-              <el-button type="text" v-if="defaultActive === 'send_box'" @click="showReceiveList(scope.row.id)">接收人员</el-button>
+              <el-button type="primary" link @click="del(scope.row.id)">删除</el-button>
+              <el-button type="primary" link @click="showDetails(scope.row)">详细</el-button>
+              <el-button type="primary" link v-if="defaultActive === 'send_box'" @click="showReceiveList(scope.row.id)">接收人员</el-button>
             </template>
           </el-table-column>
 

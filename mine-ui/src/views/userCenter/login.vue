@@ -116,7 +116,7 @@
           </el-form-item>
           <el-form-item prop="code" v-if="verifyType === '1'">
             <el-input
-              type="text"
+              type="primary" link
               v-model="ruleForm.code"
               clearable
               prefix-icon="el-icon-camera"
@@ -135,7 +135,7 @@
 
           <el-form-item prop="code" v-else>
             <el-input
-              type="text"
+              type="primary" link
               v-model="ruleForm.code"
               clearable
               prefix-icon="el-icon-camera"
@@ -154,7 +154,7 @@
                 <el-checkbox :label="$t('login.rememberMe')" v-model="ruleForm.autologin"></el-checkbox>
               </el-col>
               <el-col :span="12" style="text-align: right;">
-                <el-button type="text">{{ $t('login.forgetPassword') }}？</el-button>
+                <el-button type="primary" link>{{ $t('login.forgetPassword') }}？</el-button>
               </el-col>
             </el-row>
           </el-form-item> -->

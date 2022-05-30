@@ -47,7 +47,7 @@
         </el-input>
 
         <div style="text-align:center">
-          <el-button type="text" size="large" @click="goLogin = false"><span style="color: #fff">关闭</span></el-button>
+          <el-button type="primary" link size="large" @click="goLogin = false"><span style="color: #fff">关闭</span></el-button>
         </div>
 
       </div>

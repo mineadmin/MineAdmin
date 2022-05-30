@@ -24,7 +24,7 @@
               <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
             </el-tooltip>
 
-            <el-button type="text" @click="toggleFilterPanel">
+            <el-button type="primary" link @click="toggleFilterPanel">
               {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
               <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
             </el-button>
@@ -81,21 +81,21 @@
 
           <template #default="scope">
             <el-button
-              type="text"
+              type="primary" link
               :disabled="scope.row.name == 'System' || scope.row.name == 'Setting'"
               v-auth="['setting:module:install']"
               @click="handleInstall(scope.row.name)"
             >安装数据</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               :disabled="scope.row.name == 'System' || scope.row.name == 'Setting'"
               v-auth="['setting:module:delete']"
               @click="handleStatus(scope.row)"
             >{{ scope.row.enabled ? '停用' : '启用' }}</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               :disabled="scope.row.name == 'System' || scope.row.name == 'Setting'"
               v-auth="['setting:module:delete']"
               @click="handleDelete(scope.row.name)"

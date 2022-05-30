@@ -33,7 +33,7 @@
               <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
             </el-tooltip>
 
-            <el-button type="text" @click="toggleFilterPanel">
+            <el-button type="primary" link @click="toggleFilterPanel">
               {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
               <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
             </el-button>
@@ -130,14 +130,14 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="show(scope.row, scope.$index)"
             >查看</el-button>
 
             <el-dropdown v-if="scope.row.code !== 'superAdmin'">
 
-              <el-button type="text">更多</el-button>
+              <el-button type="primary" link>更多</el-button>
 
               <template #dropdown>
                 <el-dropdown-menu>
@@ -176,13 +176,13 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               v-auth="['system:role:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               v-auth="['system:role:realDelete']"
               @click="deletes(scope.row.id)"
             >删除</el-button>

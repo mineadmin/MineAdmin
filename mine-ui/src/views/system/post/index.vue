@@ -33,7 +33,7 @@
               <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
             </el-tooltip>
 
-            <el-button type="text" @click="toggleFilterPanel">
+            <el-button type="primary" link @click="toggleFilterPanel">
               {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
               <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
             </el-button>
@@ -130,14 +130,14 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:post:update']"
             >编辑</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="deletes(scope.row.id)"
               v-auth="['system:post:delete']"
@@ -151,14 +151,14 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:post:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:post:realDelete']"
               @click="deletes(scope.row.id)"

@@ -25,7 +25,7 @@
 
           <el-popover placement="bottom-end" :width="450" trigger="click" >
             <template #reference>
-              <el-button type="text" @click="povpoerShow = ! povpoerShow">
+              <el-button type="primary" link @click="povpoerShow = ! povpoerShow">
                 更多筛选<el-icon><el-icon-arrow-down /></el-icon>
               </el-button>
             </template>
@@ -85,7 +85,7 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
 							@click="logs(scope.row)"
             >详情</el-button>
@@ -98,14 +98,14 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:SystemQueueMessage:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:SystemQueueMessage:realDelete']"
               @click="deletes(scope.row.id)"

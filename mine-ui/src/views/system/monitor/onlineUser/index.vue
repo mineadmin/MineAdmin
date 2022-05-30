@@ -57,7 +57,7 @@
           <template #default="scope">
 
             <el-button
-            type="text"
+            type="primary" link
             v-auth="['system:onlineUser:kick']"
             @click="handleKick(scope.row)"
           >强退用户</el-button>

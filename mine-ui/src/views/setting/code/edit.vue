@@ -432,7 +432,7 @@
             <div v-for="(item, index) in relations" :key="index">
               <el-divider content-position="left">
                 {{ item.name ? item.name : '定义新关联' }}
-                <el-button type="text" @click="delRelation(index)" icon="el-icon-delete" style="margin-left: 10px;">删除定义</el-button>
+                <el-button type="primary" link @click="delRelation(index)" icon="el-icon-delete" style="margin-left: 10px;">删除定义</el-button>
               </el-divider>
               <el-row :gutter="24">
                 <el-col :xs="24" :md="12" :xl="12">

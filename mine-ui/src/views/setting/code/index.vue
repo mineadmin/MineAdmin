@@ -91,14 +91,14 @@
         <el-table-column label="操作" fixed="right" align="right" width="130" >
 
           <template #default="scope">
-            <el-button type="text"
+            <el-button type="primary" link
               v-auth="['setting:code:preview']"
               @click="$refs.preview.show(scope.row.id)"
             >预览</el-button>
 
             <el-dropdown v-if="scope.row.username !== 'superAdmin'">
 
-              <el-button type="text">更多</el-button>
+              <el-button type="primary" link>更多</el-button>
 
               <template #dropdown>
                 <el-dropdown-menu>

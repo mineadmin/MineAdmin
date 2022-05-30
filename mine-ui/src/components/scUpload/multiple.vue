@@ -1,44 +1,44 @@
 <template>
-	<div class="sc-upload-multiple">
-		<div class="sc-upload-list">
-			<ul>
-				<li v-for="(file, index) in fileList" :key="index">
-					<div v-if="file.status!='success'" class="sc-upload-item" v-loading="true" element-loading-background="rgba(0, 0, 0, 0.5)">
-						<el-image class="image" :src="file.tempImg" fit="cover" :z-index="9999"></el-image>
-					</div>
-					<div v-else class="sc-upload-item">
-						<div class="mask">
-							<span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
-						</div>
-						<el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported>
-							<template #placeholder>
-								<div class="image-slot">
-									<el-icon><el-icon-more-filled /></el-icon>
-								</div>
-							</template>
-						</el-image>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="sc-upload-uploader" @click="fileSelect && showfileSelect()" v-if="enableAdd">
-			<el-upload ref="upload" class="uploader" :disabled="fileSelect" :action="action" :accept="accept" multiple  :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
-				<div class="file-empty">
-					<el-icon><component :is="icon" /></el-icon>
-					<h4 v-if="title">{{title}}</h4>
-				</div>
-			</el-upload>
-		</div>
-		<el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close append-to-body>
-			<sc-file-select :max="maxSelect" multiple @submit="fileSelectSubmit">
-				<template #do>
-					<el-button @click="fileSelectDialogVisible=false" >取 消</el-button>
-				</template>
-			</sc-file-select>
-		</el-dialog>
-		<span style="display:none!important"><el-input v-model="value"></el-input></span>
+  <div class="sc-upload-multiple">
+    <div class="sc-upload-list">
+      <ul>
+        <li v-for="(file, index) in fileList" :key="index">
+          <div v-if="file.status!='success'" class="sc-upload-item" v-loading="true" element-loading-background="rgba(0, 0, 0, 0.5)">
+            <el-image class="image" :src="file.tempImg" fit="cover" :z-index="9999"></el-image>
+          </div>
+          <div v-else class="sc-upload-item">
+            <div class="mask">
+              <span class="del" @click.stop="del(index)"><el-icon><el-icon-delete /></el-icon></span>
+            </div>
+            <el-image class="image" :src="file.url" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported>
+              <template #placeholder>
+                <div class="image-slot">
+                  <el-icon><el-icon-more-filled /></el-icon>
+                </div>
+              </template>
+            </el-image>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="sc-upload-uploader" @click="fileSelect && showfileSelect()" v-if="enableAdd">
+      <el-upload ref="upload" class="uploader" :disabled="fileSelect" :action="action" :accept="accept" multiple :show-file-list="false" :file-list="defaultFileList" :before-upload="before" :on-progress="progress" :on-success="success" :on-change="change" :on-remove="remove" :on-error="error" :http-request="request">
+        <div class="file-empty">
+          <el-icon><component :is="icon" /></el-icon>
+          <h4 v-if="title">{{title}}</h4>
+        </div>
+      </el-upload>
+    </div>
+    <el-dialog title="打开" v-model="fileSelectDialogVisible" :width="880" destroy-on-close append-to-body>
+      <sc-file-select :max="maxSelect" multiple @submit="fileSelectSubmit">
+        <template #do>
+          <el-button @click="fileSelectDialogVisible=false" >取 消</el-button>
+        </template>
+      </sc-file-select>
+    </el-dialog>
+    <span style="display:none!important"><el-input v-model="value"></el-input></span>
 
-	</div>
+  </div>
 </template>
 
 <script>
@@ -47,152 +47,169 @@ import config from "@/config/upload";
 const scFileSelect = defineAsyncComponent(() => import('@/components/scFileSelect'))
 
 export default {
-	props: {
-		modelValue: { type: String, default: "" },
-		action: { type: String, default: "" },
-		apiObj: { type: Object, default: () => {} },
-		accept: { type: String, default: "image/gif, image/jpeg, image/png" },
-		maxSize: { type: Number, default: config.maxSize },
-		maxSelect: {type: Number, default: 20},
-		title: { type: String, default: "" },
-		icon: { type: String, default: "el-icon-plus" },
-		fileSelect: { type: Boolean, default: false }
-	},
-	components: {
-		scFileSelect
-	},
-	data(){
-		return {
-			value: "",
-			defaultFileList: [],
-			fileList: [],
-			fileSelectDialogVisible: false,
-		}
-	},
-	watch:{
-		modelValue(){
-			this.$refs.upload.uploadFiles=this.modelValuetoArr
-			this.fileList = this.modelValuetoArr
-			this.value = this.modelValue
-		},
-		fileList: {
-			handler(){
-				if(this.isAllSuccess){
-					this.$emit('update:modelValue', this.fileListtoStr);
-				}
-			},
-			deep: true
-		}
-	},
-	computed: {
-		modelValuetoArr(){
-			return this.toArr(this.modelValue)
-		},
-		fileListtoStr(){
-			return this.toStr(this.fileList)
-		},
-		preview(){
-			return this.fileList.map(v => v.url)
-		},
-		isAllSuccess(){
-			var all_length = this.fileList.length;
-			var success_length = 0
-			this.fileList.forEach(item => {
-				if(item.status == "success"){
-					success_length += 1
-				}
-			})
-			return success_length == all_length
-		},
-		enableAdd(){
-			 return this.fileList.length<this.maxSelect;
-		},
-	},
-	mounted() {
-		this.defaultFileList = this.toArr(this.modelValue);
-		this.fileList = this.toArr(this.modelValue)
-		this.value = this.modelValue
-	},
-	methods: {
-		showfileSelect(){
-			this.fileSelectDialogVisible = true
-		},
-		fileSelectSubmit(val){
-			val.map((item, index) => {
-				val[index] = this.$TOOL.viewImage(item)
-			})
-			const newval = [...this.modelValue.split(","), ...val].join(",")
-			this.$emit('update:modelValue', newval);
-			this.fileSelectDialogVisible = false
-		},
-		//默认值转换为数组
-		toArr(str){
-			var _arr = [];
-			var arr = str.split(",");
-			arr.forEach(item => {
-				if(item){
-					_arr.push({
-						name: "F",
-						status: "success",
-						url: item
-					})
-				}
-			})
-			return _arr;
-		},
-		//数组转换为原始值
-		toStr(arr){
-			var _arr = [];
-			arr.forEach(item => {
-				_arr.push(item.url)
-			})
-			var str = _arr.join(",")
-			return str;
-		},
-		before(file){
-			const maxSize = file.size / 1024 / 1024 < this.maxSize;
-			if (!maxSize) {
-				this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`);
-				return false;
-			}
-		},
-		change(file, fileList){
-			file.tempImg = URL.createObjectURL(file.raw);
-			this.fileList = fileList
-		},
-		success(res, file){
-			var response = config.parseData(res);
-			file.url = response.src
-		},
-		progress(){
+  props: {
+    modelValue: { type: String, default: "" },
+    action: { type: String, default: "" },
+    api: { type: Object, default: () => {} },
+    accept: { type: String, default: "*" },
+    type: { type: String, default: "image" },
+    maxSize: { type: Number, default: config.maxSize },
+    maxSelect: {type: Number, default: 20},
+    title: { type: String, default: "" },
+    icon: { type: String, default: "el-icon-plus" },
+    fileSelect: { type: Boolean, default: false }
+  },
+  components: {
+    scFileSelect
+  },
+  data(){
+    return {
+      value: "",
+      defaultFileList: [],
+      fileList: [],
+      fileSelectDialogVisible: false,
+    }
+  },
+  watch:{
+    modelValue(){
+      this.$refs.upload.uploadFiles=this.modelValuetoArr
+      this.fileList = this.modelValuetoArr
+      this.value = this.modelValue
+    },
+    fileList: {
+      handler(){
+        if(this.isAllSuccess){
+          this.$emit('update:modelValue', this.fileListtoStr);
+        }
+      },
+      deep: true
+    }
+  },
+  computed: {
+    modelValuetoArr(){
+      return this.toArr(this.modelValue)
+    },
+    fileListtoStr(){
+      return this.toStr(this.fileList)
+    },
+    preview(){
+      return this.fileList.map(v => v.url)
+    },
+    isAllSuccess(){
+      var all_length = this.fileList.length;
+      var success_length = 0
+      this.fileList.forEach(item => {
+        if(item.status == "success"){
+          success_length += 1
+        }
+      })
+      return success_length == all_length
+    },
+    enableAdd(){
+       return this.fileList.length<this.maxSelect;
+    },
+  },
+  mounted() {
+    this.defaultFileList = this.toArr(this.modelValue);
+    this.fileList = this.toArr(this.modelValue)
+    this.value = this.modelValue
+  },
+  methods: {
+    showfileSelect(){
+      this.fileSelectDialogVisible = true
+    },
+    fileSelectSubmit(val){
+      val.map((item, index) => {
+        val[index] = this.$TOOL.viewImage(item)
+      })
+      const newval = [...this.modelValue.split(","), ...val].join(",")
+      this.$emit('update:modelValue', newval);
+      this.fileSelectDialogVisible = false
+    },
+    //默认值转换为数组
+    toArr(str){
+      var _arr = [];
+      var arr = str.split(",");
+      arr.forEach(item => {
+        if(item){
+          _arr.push({
+            name: "F",
+            status: "success",
+            url: item
+          })
+        }
+      })
+      return _arr;
+    },
+    //数组转换为原始值
+    toStr(arr){
+      var _arr = [];
+      arr.forEach(item => {
+        _arr.push(item.url)
+      })
+      var str = _arr.join(",")
+      return str;
+    },
+    before(file){
+      const maxSize = file.size / 1024 / 1024 < this.maxSize;
+      if (!maxSize) {
+        this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`);
+        return false;
+      }
+    },
+    change(file, fileList){
+      file.tempImg = URL.createObjectURL(file.raw);
+      this.fileList = fileList
+    },
+    success(res, file){
+      var response = config.parseData(res);
+      file.url = response.src
+    },
+    progress(){
 
-		},
-		remove(){
+    },
+    remove(){
 
-		},
-		error(err){
-			this.$notify.error({
-				title: '上传文件错误',
-				message: err
-			})
-		},
-		del(index){
-			this.fileList.splice(index, 1);
-		},
-		request(param){
-			var apiObj = config.apiObj;
-			if(this.apiObj){
-				apiObj = this.apiObj;
-			}
-			const data = new FormData();
-			data.append("file", param.file);
-			apiObj.post(data).then(res => {
-				param.onSuccess(res)
-			}).catch(err => {
-				param.onError(err)
-			})
-		}
-	}
+    },
+    error(err){
+      this.$notify.error({
+        title: '上传文件错误',
+        message: err
+      })
+    },
+    del(index){
+      this.fileList.splice(index, 1);
+    },
+    request(param){
+       let api = config.api;
+      if (this.api) {
+        api = this.api;
+      }
+      const data = new FormData();
+      data.append(this.type, param.file);
+      if (this.type === "image") {
+        api
+          .uploadImage(data)
+          .then((res) => {
+            this.$emit("success", res.data);
+            param.onSuccess(res);
+          })
+          .catch((err) => {
+            param.onError(err);
+          });
+      } else {
+        api
+          .uploadFile(data)
+          .then((res) => {
+            this.$emit("success", res.data);
+            param.onSuccess(res);
+          })
+          .catch((err) => {
+            param.onError(err);
+          });
+      }
+    }
+  }
 }
 </script>
 

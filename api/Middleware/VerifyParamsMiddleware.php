@@ -38,6 +38,8 @@ class VerifyParamsMiddleware implements MiddlewareInterface
             ->getColumnListByApiId((string) $apiData['id'])['api_column'];
 
 
+        // todo...
+
         return $handler->handle($request);
     }
 

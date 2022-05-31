@@ -45,23 +45,7 @@ export default {
               // 是否黑夜模式
               backend_setting.theme === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
               // 设置主题颜色
-              document.documentElement.style.setProperty('--el-color-primary', backend_setting.colorPrimary);
-              for (let i = 1; i <= 9; i++) {
-                if (backend_setting.theme === 'default') {
-                  document.documentElement.style.setProperty(
-                    `--el-color-primary-light-${i}`,
-                    colorTool.lighten(backend_setting.colorPrimary, i / 10)
-                  )
-                } else {
-                  document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
-                }
-              }
-              for (let i = 1; i <= 2; i++) {
-                document.documentElement.style.setProperty(
-                  `--el-color-primary-dark-${i}`,
-                  colorTool.darken(backend_setting.colorPrimary, i / 10)
-                )
-              }
+              colorTool.setPrimaryColor(backend_setting.colorPrimary, backend_setting.theme)
             }
             // commit('TOGGLE_layoutTags')
             commit('SET_ROUTERS', response.data.routers)

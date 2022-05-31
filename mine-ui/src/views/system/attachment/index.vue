@@ -72,7 +72,7 @@
                 <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
               </el-tooltip>
 
-              <el-button type="text" @click="toggleFilterPanel">
+              <el-button type="primary" link @click="toggleFilterPanel">
                 {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
                 <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
               </el-button>
@@ -195,13 +195,16 @@
 .scTable-page {
   position: absolute; width: 100%; bottom: 0;
 }
-[data-theme='dark'] { 
+.dark { 
   .el-upload-list--picture-card .el-upload-list__item {
     background: #585858;
   }
   .el-image__error {
     background: none;
     color: #fff;
+  }
+  .el-main.file .scTable-page {
+    background: var(--el-bg-color-overlay);border-color: var(--el-border-color-light);
   }
 }
 </style>

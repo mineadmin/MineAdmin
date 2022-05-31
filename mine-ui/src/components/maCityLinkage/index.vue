@@ -44,7 +44,7 @@ export default {
       this.defaultType = val !== "code" ? "name" : "code";
     },
     modelValue: {
-      handle(val) {
+      handler(val) {
         this.defaultValue = val;
       },
       immediate: true,

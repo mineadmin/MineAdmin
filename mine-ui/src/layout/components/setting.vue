@@ -85,7 +85,7 @@ export default {
       this.$store.commit("TOGGLE_layoutTags");
     },
     theme(val) {
-      document.body.setAttribute("data-theme", val);
+      val === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
       this.$TOOL.data.set("APP_THEME", val);
     },
     lang(val) {

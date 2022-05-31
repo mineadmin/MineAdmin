@@ -259,7 +259,7 @@ export default {
   border-bottom: 1px solid #ebeef5;
   padding: 10px 0;
 }
-[data-theme='dark'] { 
+.dark { 
   .table tbody tr { color: #ddd; }
 
   .table tbody td {border-bottom: 1px solid #585858;}

@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, defineProps } from 'vue'
+import { ref, reactive } from 'vue'
 import tool from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 

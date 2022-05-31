@@ -50,7 +50,7 @@
           <template #default="scope">
 
             <el-button
-            type="text"
+            type="primary" link
             v-auth="['system:monitor:relyDetail']"
             @click="handleDetail(scope.row.name)"
           >详细</el-button>

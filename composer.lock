@@ -2863,16 +2863,16 @@
         },
         {
             "name": "hyperf/logger",
-            "version": "v2.2.14",
+            "version": "v2.2.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/logger.git",
-                "reference": "7474e7cb4a8d3ec237771b3023707d6da7bdc02b"
+                "reference": "d99a262b74f27a5a7fbfa3901d17f38e18a98494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/logger/zipball/7474e7cb4a8d3ec237771b3023707d6da7bdc02b",
-                "reference": "7474e7cb4a8d3ec237771b3023707d6da7bdc02b",
+                "url": "https://api.github.com/repos/hyperf/logger/zipball/d99a262b74f27a5a7fbfa3901d17f38e18a98494",
+                "reference": "d99a262b74f27a5a7fbfa3901d17f38e18a98494",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2888,6 +2888,9 @@
                 "php": ">=7.2",
                 "psr/container": "^1.0|^2.0",
                 "psr/log": "^1.0|^2.0|^3.0"
+            },
+            "conflict": {
+                "monolog/monolog": ">=2.6.0"
             },
             "type": "library",
             "extra": {
@@ -2920,7 +2923,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-10-28T10:13:44+00:00"
+            "time": "2022-05-16T02:53:41+00:00"
         },
         {
             "name": "hyperf/macroable",

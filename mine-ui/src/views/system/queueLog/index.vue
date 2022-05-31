@@ -35,7 +35,7 @@
               <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
             </el-tooltip>
 
-            <el-button type="text" @click="toggleFilterPanel">
+            <el-button type="primary" link @click="toggleFilterPanel">
               {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
               <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
             </el-button>
@@ -131,18 +131,7 @@
            label="延迟时间（秒）"
            prop="delay_time"
         />
-
-        <el-table-column label="操作" fixed="right" align="right" width="130">
-          <template #default="scope">
-            <el-button
-              type="text"
-              
-              @click="deletes(scope.row.id)"
-              v-auth="['system:queueLog:delete']"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-
+        
       </maTable>
     </el-main>
 

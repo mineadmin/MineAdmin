@@ -416,11 +416,11 @@
 
           </el-tab-pane>
 
-          <el-tab-pane label="菜单配置" name="menu">
+          <el-tab-pane label="菜单配置" name="menu" class="menu-config">
             <el-alert :title="`未选择的菜单，后端也对应不生成方法。注意：列表按钮菜单是默认的`" type="info" />
             <el-form-item label="选择" v-for="(menu,index) in menuList" :key="index">
               <el-checkbox :value="menu.name" :label="menu.name" v-model="menu.check" true-label="1" false-label="0" />
-              <div class="el-form-item-msg" style="margin-left: 10px">{{menu.comment}}</div>
+              <div class="el-form-item-msg">{{menu.comment}}</div>
             </el-form-item>
           </el-tab-pane>
 
@@ -432,7 +432,7 @@
             <div v-for="(item, index) in relations" :key="index">
               <el-divider content-position="left">
                 {{ item.name ? item.name : '定义新关联' }}
-                <el-button type="text" @click="delRelation(index)" icon="el-icon-delete" style="margin-left: 10px;">删除定义</el-button>
+                <el-button type="primary" link @click="delRelation(index)" icon="el-icon-delete" style="margin-left: 10px;">删除定义</el-button>
               </el-divider>
               <el-row :gutter="24">
                 <el-col :xs="24" :md="12" :xl="12">
@@ -600,11 +600,17 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .form {
   padding: 0 30px;
 }
 :deep(.el-form-item--small .el-form-item__content) {
   line-height: 22px;
+}
+:deep(.menu-config .el-form-item__content) {
+  width: 100%; flex-wrap: inherit;
+  .el-form-item-msg {
+    margin-left: 20px;
+  }
 }
 </style>

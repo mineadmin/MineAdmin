@@ -34,7 +34,7 @@
               <el-button icon="el-icon-refresh" @click="resetSearch"></el-button>
             </el-tooltip>
 
-            <el-button type="text" @click="toggleFilterPanel">
+            <el-button type="primary" link @click="toggleFilterPanel">
               {{ povpoerShow ? '关闭更多筛选' : '显示更多筛选'}}
               <el-icon><el-icon-arrow-down v-if="povpoerShow" /><el-icon-arrow-up v-else /></el-icon>
             </el-button>
@@ -122,31 +122,31 @@
         </el-table-column>
 
         <!-- 正常数据操作按钮 -->
-        <el-table-column label="操作" fixed="right" align="right" width="240" v-if="!isRecycle">
+        <el-table-column label="操作" fixed="right" align="right" width="250" v-if="!isRecycle">
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="apidoc(scope.row)"
             >查看文档</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="bind(scope.row)"
               v-auth="['system:app:bind']"
             >绑定接口</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="tableEdit(scope.row, scope.$index)"
               v-auth="['system:app:update']"
             >编辑</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               @click="deletes(scope.row.id)"
               v-auth="['system:app:delete']"
@@ -160,14 +160,14 @@
           <template #default="scope">
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:app:recovery']"
               @click="recovery(scope.row.id)"
             >恢复</el-button>
 
             <el-button
-              type="text"
+              type="primary" link
               
               v-auth="['system:app:realDelete']"
               @click="deletes(scope.row.id)"

@@ -25,5 +25,27 @@ export default {
 		var rgbc = this.HexToRgb(color)
 		for (var i = 0; i < 3; i++) rgbc[i] = Math.floor((255 - rgbc[i]) * level + rgbc[i])
 		return this.RgbToHex(rgbc[0], rgbc[1], rgbc[2])
-	}
+	},
+  setPrimaryColor(color, theme) {
+    document.documentElement.style.setProperty('--el-color-primary', color);
+      for (let i = 1; i <= 9; i++) {
+        if (theme === 'default') {
+          document.documentElement.style.setProperty(
+            `--el-color-primary-light-${i}`,
+            this.lighten(color, i / 10)
+          )
+        } else {
+          document.documentElement.style.removeProperty(`--el-color-primary-light-${i}`)
+        }
+      }
+      for (let i = 1; i <= 2; i++) {
+        document.documentElement.style.setProperty(
+          `--el-color-primary-dark-${i}`,
+          this.darken(color, i / 10)
+        )
+      }
+      document.documentElement.style.setProperty(`--el-color-primary-light-3`, this.lighten(color, 3 / 10))
+      document.documentElement.style.setProperty(`--el-color-primary-light-5`, this.lighten(color, 5 / 10))
+      document.documentElement.style.setProperty(`--el-color-primary-light-7`, this.lighten(color, 3 / 10))
+  }
 }

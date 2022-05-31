@@ -134,6 +134,8 @@ npm run dev
 
 [Element Plus 桌面端组件库](https://element-plus.gitee.io/zh-CN/)
 
+[Jetbrains 生产力工具](https://www.jetbrains.com/)
+
 ## 演示图片
 <table>
     <tr>

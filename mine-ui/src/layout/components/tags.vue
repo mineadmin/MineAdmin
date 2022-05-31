@@ -272,8 +272,8 @@ export default {
   width: 200px;
   margin: 0;
   border-radius: 0px;
-  background: #fff;
-  border: 1px solid #e4e7ed;
+  background: var(--el-bg-color-overlay);
+	border: 1px solid var(--el-border-color-light);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   z-index: 3000;
   list-style-type: none;
@@ -284,7 +284,7 @@ export default {
   border: none;
   height: 1px;
   font-size: 0px;
-  background-color: #ebeef5;
+  background-color: var(--el-border-color-light);
 }
 .contextmenu li {
   display: flex;
@@ -308,4 +308,5 @@ export default {
   color: #bbb;
   background: transparent;
 }
+.dark .contextmenu li {color: var(--el-text-color-primary);}
 </style>

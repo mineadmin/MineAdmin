@@ -117,7 +117,7 @@
           <template #default="scope">
 
             <el-button
-            type="text"
+            type="primary" link
             v-auth="['system:dataMaintain:detailed']"
             @click="handleDetail(scope.row.name)"
           >查看</el-button>

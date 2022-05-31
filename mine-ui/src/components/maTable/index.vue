@@ -37,10 +37,10 @@
 			</div>
 			<div class="scTable-do" v-if="!hideDo">
 
-				<el-tooltip class="item" effect="dark" :content="getRecycleText" placement="top">
+				<el-tooltip class="item" effect="dark" :content="getRecycleText" placement="top"
+						v-if="showRecycle">
 					<el-button
 						@click="switchData"
-						v-if="showRecycle"
 						icon="el-icon-delete"
 						circle
 						style="margin-left:15px"
@@ -50,7 +50,7 @@
 				<el-tooltip class="item" effect="dark" content="刷新表格" placement="top">
 					<el-button @click="refresh" icon="el-icon-refresh" circle style="margin-left:15px"></el-button>
 				</el-tooltip>
-				
+
 				<el-popover v-if="column" placement="top" title="列设置" :width="500" trigger="click" :hide-after="0" @show="customColumnShow=true" @after-leave="customColumnShow=false">
 					<template #reference>
 						<el-button icon="el-icon-set-up" circle style="margin-left:15px"></el-button>
@@ -74,7 +74,7 @@
 							<el-checkbox v-model="config.stripe" label="斑马纹"></el-checkbox>
 						</el-form-item>
 					</el-form>
-					
+
 				</el-popover>
 			</div>
 		</div>
@@ -417,7 +417,7 @@
 		font-size: 13px;
 	}
 
-	[data-theme='dark'] {
+	.dark {
 		.scTable-table:deep(.el-table th.el-table__cell) {
 			background: #282828;
 		}

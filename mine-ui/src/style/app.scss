@@ -7,14 +7,6 @@ a:-webkit-any-link {text-decoration: none;}
 a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: border-box;outline:none !important; -webkit-appearance: none;}
 * {margin: 0;padding: 0;box-sizing: border-box;outline: none;}
 
-/* 全局滚动条样式 */
-.scrollable {-webkit-overflow-scrolling: touch;}
-::-webkit-scrollbar {width: 5px;height: 5px;}
-::-webkit-scrollbar-thumb {background-color: rgba(50, 50, 50, 0.3);}
-::-webkit-scrollbar-thumb:hover {background-color: rgba(50, 50, 50, 0.6);}
-::-webkit-scrollbar-track {background-color: rgba(50, 50, 50, 0.1);}
-::-webkit-scrollbar-track:hover {background-color: rgba(50, 50, 50, 0.2);}
-
 /* 大布局样式 */
 .aminui {display: flex;flex-flow: column;}
 .aminui-wrapper {display: flex;flex:1;overflow: auto;}
@@ -24,11 +16,11 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .layout-setting i {font-size: 18px;color: #fff;}
 
 /* 头部 */
-.adminui-header {height: 60px;background: #222b45;color: #fff;display: flex;justify-content:space-between;}
+.adminui-header {height: 58px;background: #222b45;color: #fff;display: flex;justify-content:space-between;}
 .adminui-header-left {display: flex;align-items: center;padding-left:20px;}
 .adminui-header-right {display: flex;align-items: center;}
 .adminui-header .logo-bar {font-size: 20px;font-weight: bold;display: flex;align-items: center;}
-.adminui-header .logo-bar .logo {margin-right: 10px;width: 38px;height: 38px; background: #fff; border-radius: 38px; padding: 3px;}
+.adminui-header .logo-bar .logo {margin-right: 10px;width: 35px;height: 35px;}
 .adminui-header .nav {display: flex;height: 100%;margin-left: 40px;}
 .adminui-header .nav li {padding:0 10px;margin: 0 10px 0 0;font-size: 14px;color: rgba(255, 255, 255, 0.6);list-style: none;height: 100%;display: flex;align-items: center;cursor: pointer;}
 .adminui-header .nav li i {margin-right: 5px;}
@@ -37,23 +29,17 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-header .user-bar .panel-item:hover {background: rgba(255, 255, 255, 0.1)!important;}
 .adminui-header .user-bar .user label{color: #fff;}
 
-.adminui-header-menu {}
-.adminui-header-menu .el-menu {background: transparent;}
-.adminui-header-menu .el-menu .el-sub-menu__title {color: #fff;}
-.adminui-header-menu .el-menu .el-sub-menu__title:hover {color: #fff;background: var(--el-color-primary-light-2);}
-.adminui-header-menu .el-menu .el-sub-menu.is-active .el-sub-menu__title {color: #fff;background: var(--el-color-primary-light-2);border-bottom-color:transparent;}
-.adminui-header-menu .el-menu .el-menu-item {color: #fff;}
-.adminui-header-menu .el-menu .el-menu-item:hover {color: #fff;background: var(--el-color-primary-light-2);}
-.adminui-header-menu .el-menu .el-menu-item.is-active {color: #fff!important;background: var(--el-color-primary-light-2);border-bottom-color:transparent;}
-
 /* 左侧菜单 */
-.aminui-side-split {width:65px;flex-shrink:0;background: #252c36;}
-.adminui-side-split-scroll {overflow: auto;overflow-x:hidden;height: 100%;}
+.aminui-side-split {width:65px;flex-shrink:0;background: #222b45;display: flex;flex-flow: column;}
+.aminui-side-split-top {height: 49px;}
+.aminui-side-split-top a {display: inline-block;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;}
+.aminui-side-split-top .logo {height:30px;vertical-align: bottom;}
+.adminui-side-split-scroll {overflow: auto;overflow-x:hidden;height: 100%;flex: 1;}
 .aminui-side-split li {cursor: pointer;width: 65px;height: 65px;color: #fff;text-align: center;display: flex;flex-direction: column;align-items: center;justify-content: center;}
 .aminui-side-split li i {font-size: 18px;}
 .aminui-side-split li p {margin-top:5px;}
 .aminui-side-split li:hover {background: rgba(255, 255, 255, 0.1);}
-.aminui-side-split li.active {background: #0960bd;}
+.aminui-side-split li.active {background: #409EFF;}
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {background-color: rgba(255, 255, 255, 0.4);border-radius:5px;}
 .adminui-side-split-scroll::-webkit-scrollbar-thumb:hover {background-color: rgba(255, 255, 255, 0.5);}
@@ -64,7 +50,10 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 .adminui-side-top {border-bottom: 1px solid #ebeef5;height:50px;line-height: 50px;}
 .adminui-side-top h2 {padding:0 20px;font-size: 17px;color: #3c4a54;}
 .adminui-side-scroll {overflow: auto;overflow-x:hidden;flex: 1;}
-.aminui-side.isCollapse {width: 64px;}
+.adminui-side-bottom {border-top: 1px solid #ebeef5;height:51px;cursor: pointer;display: flex;align-items: center;justify-content: center;}
+.adminui-side-bottom i {font-size: 16px;}
+.adminui-side-bottom:hover {color: var(--el-color-primary);}
+.aminui-side.isCollapse {width: 65px;}
 
 /* 右侧内容 */
 .aminui-body {flex: 1;display: flex;flex-flow: column;}

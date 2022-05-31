@@ -217,19 +217,15 @@ export default {
       this.$store.commit("TOGGLE_layoutTags")
 		},
     'config.theme'(val){
-      document.body.setAttribute('data-theme', val)
-      this.$TOOL.data.set("APP_THEME", val);
+      val === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
+      colorTool.setPrimaryColor(this.$TOOL.data.get("APP_COLOR"), val)
     },
     'config.lang'(val){
       this.$i18n.locale = val
       this.$TOOL.data.set("APP_LANG", val);
     },
     'config.colorPrimary'(val){
-      document.documentElement.style.setProperty('--el-color-primary', val);
-      for (let i = 1; i <= 9; i++) {
-        document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(val,i/10));
-      }
-      document.documentElement.style.setProperty(`--el-color-primary-darken-1`, colorTool.darken(val,0.1));
+      colorTool.setPrimaryColor(val, this.$TOOL.data.get('APP_THEME'))
       this.$TOOL.data.set("APP_COLOR", val);
     }
   },
@@ -335,11 +331,6 @@ export default {
   .activity-item label {color: #333;margin-right:10px;}
   .activity-item .el-avatar {margin-right:10px;}
   .activity-item .el-tag {margin-right:10px;}
-
-  [data-theme='dark'] .user-info-bottom {border-color: var(--el-border-color-base);}
-
-  [data-theme='dark'] .activity-item label {color: #999;}
-
 
   .user-avatar {
     position: relative;

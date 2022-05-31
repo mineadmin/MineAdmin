@@ -98,7 +98,7 @@ export default {
 		hideUpload: { type: Boolean, default: false },
 		multiple: { type: Boolean, default: false },
 		max: {type: Number, default: config.max},
-		onlyImage: { type: Boolean, default: true },
+		onlyImage: { type: Boolean, default: false },
 		maxSize: {type: Number, default: uploadConfig.maxSize},
 	},
 	data() {

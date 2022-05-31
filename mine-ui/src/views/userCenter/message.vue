@@ -1,6 +1,6 @@
 <template>
 	<el-container>
-		<el-aside width="180px" style="border-right: 1px solid #e6e6e6; padding:10px;">
+		<el-aside width="180px" style="border-right: 1px solid #e6e6e6; padding:10px; background: var(--el-menu-bg-color);">
 			<el-menu  @select="handleSelect" :default-active="defaultActive">
         <el-menu-item index="send_box">
           <el-icon><el-icon-message-box /></el-icon>

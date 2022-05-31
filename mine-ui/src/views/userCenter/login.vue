@@ -315,7 +315,8 @@ export default {
     },
 
     configTheme() {
-      this.config.theme = this.config.theme == "default" ? "dark" : "default";
+      this.config.theme = this.config.theme == "default" ? "dark" : "default"
+      this.config.theme === 'dark' ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
     },
     configLang(command) {
       this.config.lang = command.value;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8913ebd7ce384db557fbd144523c743b",
+    "content-hash": "c43b1450741ba2822aa9b23bdbf987f2",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -3603,6 +3603,67 @@
                 "source": "https://github.com/hyperf/hyperf"
             },
             "time": "2021-12-13T08:49:35+00:00"
+        },
+        {
+            "name": "hyperf/snowflake",
+            "version": "v2.2.33.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/snowflake.git",
+                "reference": "7e982676083761f3eb8f9c5267cd2c7e1253917b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/snowflake/zipball/7e982676083761f3eb8f9c5267cd2c7e1253917b",
+                "reference": "7e982676083761f3eb8f9c5267cd2c7e1253917b",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "hyperf/contract": "~2.2.0",
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "hyperf/config": "Required to read snowflake config.",
+                "hyperf/redis": "Required to use RedisMilliSecondMetaGenerator or RedisSecondMetaGenerator.",
+                "psr/container": "Required to use MetaGeneratorFactory."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                },
+                "hyperf": {
+                    "config": "Hyperf\\Snowflake\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Snowflake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A snowflake library",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "php",
+                "snowflake"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2022-05-30T11:55:54+00:00"
         },
         {
             "name": "hyperf/translation",

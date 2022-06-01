@@ -9,12 +9,14 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
+use Hyperf\Snowflake\IdGeneratorInterface;
 use Mine\Annotation\Auth;
 use Mine\Helper\LoginUser;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\MineController;
 use Mine\Vo\UserServiceVo;
 use Psr\Http\Message\ResponseInterface;
+use Swoole\Coroutine\Channel;
 
 /**
  * Class LoginController

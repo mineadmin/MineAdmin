@@ -39,6 +39,7 @@
     "hyperf/pool": "^2.2",
     "hyperf/process": "2.2.*",
     "hyperf/redis": "2.2.*",
+    "hyperf/snowflake": "v2.2.33.1",
     "hyperf/translation": "2.2.*",
     "hyperf/validation": "2.2.*",
     "hyperf/websocket-server": "^2.2",

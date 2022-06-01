@@ -14,7 +14,7 @@ class CreateSystemUploadfileTable extends Migration
         Schema::create('system_uploadfile', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('上传文件信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('char', 'storage_mode', ['length' => 1, 'default' => '1', 'comment' => '状态 (1 本地 2 阿里云 3 七牛云 4 腾讯云)'])->nullable();
             $table->addColumn('string', 'origin_name', ['length' => 255, 'comment' => '原文件名'])->nullable();
             $table->addColumn('string', 'object_name', ['length' => 50, 'comment' => '新文件名'])->nullable();

@@ -105,7 +105,7 @@ class MineUpload
         $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
         if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
-            throw new NormalStatusException($uploadedFile->getError(), 500);
+            throw new NormalStatusException((string) $uploadedFile->getError(), 500);
         }
 
         $fileInfo = [
@@ -260,7 +260,7 @@ class MineUpload
      */
     public function getNewName(): string
     {
-        return snowflake_id();
+        return (string) container()->get(\Hyperf\Snowflake\IdGeneratorInterface::class)->generate();
     }
 
     /**

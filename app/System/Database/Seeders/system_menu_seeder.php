@@ -24,7 +24,7 @@ class SystemMenuSeeder extends Seeder
     {
         $model = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
         return [
-            "INSERT INTO `{$model}` VALUES (1000, 0, '0', '权限管理', 'permission', 'ma-icon-permission', 'permission', '', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-25 18:48:47', '2021-07-25 18:48:47', NULL, NULL)",
+            "INSERT INTO `{$model}` VALUES (1000, 0, '0', '权限', 'permission', 'ma-icon-permission', 'permission', '', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-25 18:48:47', '2021-07-25 18:48:47', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (1100, 1000, '0,1000', '用户管理', 'system:user', 'ma-icon-user', 'user', 'system/user/index', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-25 18:50:15', '2021-07-25 18:50:15', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (1101, 1100, '0,1000,1100', '用户列表', 'system:user:index', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-25 18:50:15', '2021-07-25 18:50:15', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (1102, 1100, '0,1000,1100', '用户回收站列表', 'system:user:recycle', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-25 18:50:15', '2021-07-25 18:50:15', NULL, NULL)",
@@ -87,7 +87,7 @@ class SystemMenuSeeder extends Seeder
             "INSERT INTO `{$model}` VALUES (1508, 1500, '0,1000,1500', '岗位真实删除', 'system:post:realDelete', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-25 20:46:38', '2021-07-25 20:46:38', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (1509, 1500, '0,1000,1500', '岗位导入', 'system:post:import', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-25 20:46:38', '2021-07-25 20:46:38', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (1510, 1500, '0,1000,1500', '岗位导出', 'system:post:export', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-25 20:46:38', '2021-07-25 20:46:38', NULL, NULL)",
-            "INSERT INTO `{$model}` VALUES (2000, 0, '0', '数据中心', 'dataCenter', 'el-icon-coin', 'dataCenter', '', NULL, '1', 'M', '0', 98, NULL, NULL, '2021-07-31 17:17:03', '2021-07-31 17:17:03', NULL, NULL)",
+            "INSERT INTO `{$model}` VALUES (2000, 0, '0', '数据', 'dataCenter', 'icon-storage', 'dataCenter', '', NULL, '1', 'M', '0', 98, NULL, NULL, '2021-07-31 17:17:03', '2021-07-31 17:17:03', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (2100, 2000, '0,2000', '数据字典', 'system:dataDict', 'ma-icon-dict', 'dataDict', 'system/dataDict/index', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-31 17:23:58', '2021-07-31 17:23:58', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (2101, 2100, '0,2000,2100', '数据字典列表', 'system:dataDict:index', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 17:23:58', '2021-07-31 17:23:58', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (2102, 2100, '0,2000,2100', '数据字典回收站', 'system:dataDict:recycle', NULL, NULL, NULL, NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 17:23:58', '2021-07-31 17:23:58', NULL, NULL)",
@@ -121,7 +121,7 @@ class SystemMenuSeeder extends Seeder
             "INSERT INTO `{$model}` VALUES (2402, 2400, '0,2000,2400', '数据表详细', 'system:dataMaintain:detailed', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 18:45:17', '2021-07-31 18:45:17', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (2403, 2400, '0,2000,2400', '数据表清理碎片', 'system:dataMaintain:fragment', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 18:46:04', '2021-07-31 18:46:04', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (2404, 2400, '0,2000,2400', '数据表优化', 'system:dataMaintain:optimize', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 18:46:31', '2021-07-31 18:46:31', NULL, NULL)",
-            "INSERT INTO `{$model}` VALUES (3000, 0, '0', '系统监控', 'monitor', 'el-icon-aim', 'monitor', '', NULL, '1', 'M', '0', 97, NULL, NULL, '2021-07-31 18:49:24', '2021-07-31 18:49:24', NULL, NULL)",
+            "INSERT INTO `{$model}` VALUES (3000, 0, '0', '监控', 'monitor', 'icon-desktop', 'monitor', '', NULL, '1', 'M', '0', 97, NULL, NULL, '2021-07-31 18:49:24', '2021-07-31 18:49:24', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (3100, 3000, '0,3000', '依赖监控', 'system:monitor:rely', 'ma-icon-rely', 'rely', 'system/monitor/rely/index', NULL, '1', 'M', '0', 97, NULL, NULL, '2021-07-31 18:51:48', '2021-07-31 18:51:48', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (3101, 3100, '0,3000,3100', '依赖包详细', 'system:monitor:relyDetail', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-08-09 11:44:20', '2021-08-09 11:44:20', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (3200, 3000, '0,3000', '服务监控', 'system:monitor:server', 'el-icon-umbrella', 'server', 'system/monitor/server/index', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-31 18:52:46', '2021-07-31 18:52:46', NULL, NULL)",
@@ -133,7 +133,7 @@ class SystemMenuSeeder extends Seeder
             "INSERT INTO `{$model}` VALUES (3600, 3000, '0,3000', '在线用户', 'system:onlineUser', 'ma-icon-online', 'onlineUser', 'system/monitor/onlineUser/index', NULL, '1', 'M', '0', 98, NULL, NULL, '2021-08-08 18:26:31', '2021-08-08 18:26:31', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (3601, 3500, '0,3000,3500', '在线用户列表', 'system:onlineUser:index', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-08-08 18:26:55', '2021-08-08 18:26:55', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (3602, 3500, '0,3000,3500', '强退用户', 'system:onlineUser:kick', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-08-08 18:27:21', '2021-08-08 18:27:21', NULL, NULL)",
-            "INSERT INTO `{$model}` VALUES (4000, 0, '0', '开发工具', 'devTools', 'ma-icon-tool', 'devTools', '', NULL, '1', 'M', '0', 95, NULL, NULL, '2021-07-31 19:03:32', '2021-07-31 19:03:32', NULL, NULL)",
+            "INSERT INTO `{$model}` VALUES (4000, 0, '0', '工具', 'devTools', 'ma-icon-tool', 'devTools', '', NULL, '1', 'M', '0', 95, NULL, NULL, '2021-07-31 19:03:32', '2021-07-31 19:03:32', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4100, 4000, '0,4000', '模块管理', 'setting:module', 'el-icon-brush', 'module', 'setting/module/index', NULL, '1', 'M', '0', 99, NULL, NULL, '2021-07-31 19:33:49', '2021-07-31 19:33:49', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4101, 4100, '0,4000,4100', '新增模块', 'setting:module:save', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 19:45:29', '2021-07-31 19:45:29', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4102, 4100, '0,4000,4100', '模块删除', 'setting:module:delete', '', NULL, '', NULL, '1', 'B', '0', 0, NULL, NULL, '2021-07-31 19:34:15', '2021-07-31 19:34:15', NULL, NULL)",

@@ -19,7 +19,6 @@ use Mine\MineModel;
  */
 class SystemQueueMessage extends MineModel
 {
-    public $incrementing = false;
 
     /**
      * 消息类型：通知

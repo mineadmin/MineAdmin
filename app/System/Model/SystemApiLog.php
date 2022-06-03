@@ -19,7 +19,6 @@ use Mine\MineModel;
  */
 class SystemApiLog extends MineModel
 {
-    public $incrementing = false;
     public $timestamps = false;
     /**
      * The table associated with the model.

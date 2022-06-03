@@ -30,7 +30,6 @@ use Mine\MineModel;
  */
 class SettingGenerateColumns extends MineModel
 {
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

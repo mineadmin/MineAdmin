@@ -30,7 +30,6 @@ use Mine\MineModel;
 class SystemMenu extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * 类型
      */

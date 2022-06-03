@@ -41,7 +41,6 @@ class SystemUser extends MineModel
      * 系统用户
      */
     public const TYPE_SYS_USER = '100';
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

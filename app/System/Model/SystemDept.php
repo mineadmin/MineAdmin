@@ -25,7 +25,6 @@ use Mine\MineModel;
 class SystemDept extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

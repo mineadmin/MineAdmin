@@ -27,7 +27,6 @@ use Mine\MineModel;
  */
 class SettingGenerateTables extends MineModel
 {
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

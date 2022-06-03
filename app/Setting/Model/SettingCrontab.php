@@ -30,7 +30,6 @@ class SettingCrontab extends MineModel
     public const URL_CRONTAB = '3';
     // EVAL 任务
     public const EVAL_CRONTAB = '4';
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

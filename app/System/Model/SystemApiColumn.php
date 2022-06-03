@@ -26,7 +26,6 @@ use Mine\MineModel;
 class SystemApiColumn extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

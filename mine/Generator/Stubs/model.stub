@@ -7,7 +7,6 @@ use Mine\MineModel;
 
 class {CLASS_NAME} extends MineModel
 {
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

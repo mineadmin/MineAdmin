@@ -63,7 +63,6 @@ class SystemQueueLog extends MineModel
      */
     const CONSUME_STATUS_4 = 4;
 
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

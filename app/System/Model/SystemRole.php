@@ -25,7 +25,6 @@ use Mine\MineModel;
 class SystemRole extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     // 所有
     public const ALL_SCOPE = '0';
     // 自定义

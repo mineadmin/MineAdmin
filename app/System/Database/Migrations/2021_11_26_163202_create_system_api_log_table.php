@@ -23,7 +23,7 @@ class CreateSystemApiLogTable extends Migration
         Schema::create('system_api_log', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('接口日志表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'api_id', ['unsigned' => true, 'comment' => 'api ID']);
             $table->addColumn('string', 'api_name', ['length' => 32, 'comment' => '接口名称']);
             $table->addColumn('string', 'access_name', ['length' => 64, 'comment' => '接口访问名称']);
@@ -34,7 +34,6 @@ class CreateSystemApiLogTable extends Migration
             $table->addColumn('string', 'ip_location', ['length' => 255, 'comment' => 'IP所属地'])->nullable();
             $table->addColumn('timestamp', 'access_time', ['precision' => 0, 'comment' => '访问时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
             $table->index(['api_id']);
         });
     }

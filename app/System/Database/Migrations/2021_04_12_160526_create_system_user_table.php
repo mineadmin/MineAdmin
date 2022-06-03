@@ -28,6 +28,7 @@ class CreateSystemUserTable extends Migration
             $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
             $table->addColumn('ipAddress', 'login_ip', ['comment' => '最后登陆IP'])->nullable();
             $table->addColumn('timestamp', 'login_time', ['comment' => '最后登陆时间'])->nullable();
+            $table->addColumn('string', 'backend_setting', ['length' => 500, 'comment' => '后台设置数据'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();

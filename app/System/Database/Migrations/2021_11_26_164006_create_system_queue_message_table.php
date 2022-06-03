@@ -13,26 +13,27 @@ use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
 
-class CreateSystemApiGroupTable extends Migration
+class CreateSystemQueueMessageTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('system_api_group', function (Blueprint $table) {
+        Schema::create('system_queue_message', function (Blueprint $table) {
             $table->engine = 'Innodb';
-            $table->comment('接口分组表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
-            $table->addColumn('string', 'name', ['length' => 32, 'comment' => '接口组名称']);
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
+            $table->comment('队列消息表');
+            $table->bigIncrements('id')->comment('主键');
+            $table->addColumn('bigInteger', 'content_id', ['unsigned' => true, 'comment' => '内容ID'])->nullable();
+            $table->addColumn('string', 'content_type', ['length' => 64, 'comment' => '内容类型'])->nullable();
+            $table->addColumn('string', 'title', ['length' => 255, 'comment' => '消息标题'])->nullable();
+            $table->addColumn('longtext', 'content', ['comment' => '消息内容'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
+            $table->index(['content_type', 'send_by']);
         });
     }
 
@@ -41,6 +42,6 @@ class CreateSystemApiGroupTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('system_api_group');
+        Schema::dropIfExists('system_queue_message');
     }
 }

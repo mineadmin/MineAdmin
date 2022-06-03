@@ -17,7 +17,7 @@ class CreateSystemOperLogTable extends Migration
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
             $table->addColumn('string', 'method', ['length' => 20, 'comment' => '请求方式']);
-            $table->addColumn('string', 'router', ['length' => 100, 'comment' => '请求路由']);
+            $table->addColumn('string', 'router', ['length' => 500, 'comment' => '请求路由']);
             $table->addColumn('string', 'service_name', ['length' => 30, 'comment' => '业务名称']);
             $table->addColumn('ipAddress', 'ip', ['comment' => '请求IP地址'])->nullable();
             $table->addColumn('string', 'ip_location', ['length' => 255, 'comment' => 'IP所属地'])->nullable();

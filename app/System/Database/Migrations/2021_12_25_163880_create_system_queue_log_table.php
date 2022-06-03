@@ -23,7 +23,7 @@ class CreateSystemQueueLogTable extends Migration
         Schema::create('system_queue_log', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('队列日志表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'exchange_name', ['length' => 32, 'comment' => '交换机名称']);
             $table->addColumn('string', 'routing_key_name', ['length' => 32, 'comment' => '路由名称']);
             $table->addColumn('string', 'queue_name', ['length' => 64, 'comment' => '队列名称']);
@@ -36,7 +36,6 @@ class CreateSystemQueueLogTable extends Migration
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->primary('id');
         });
     }
 

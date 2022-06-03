@@ -23,7 +23,8 @@ class CreateSystemNoticeTable extends Migration
         Schema::create('system_notice', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('系统公告表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
+            $table->addColumn('bigInteger', 'message_id')->comment('消息ID');
             $table->addColumn('string', 'title', ['length' => 255, 'comment' => '标题']);
             $table->addColumn('char', 'type', ['length' => 1, 'comment' => '公告类型（1通知 2公告）']);
             $table->addColumn('text', 'content', ['length' => 1, 'comment' => '公告内容'])->nullable();
@@ -34,7 +35,7 @@ class CreateSystemNoticeTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
+            $table->index('message_id');
         });
     }
 

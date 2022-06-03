@@ -204,7 +204,6 @@ class InstallProjectCommand extends MineCommand
     protected function generatorEnvFile()
     {
         try {
-            $id = new Id();
             $env = parse_ini_file(BASE_PATH . '/.env.example', true);
             $env['APP_NAME'] = 'MineAdmin';
             $env['APP_ENV'] = 'dev';
@@ -227,8 +226,8 @@ class InstallProjectCommand extends MineCommand
             $env['AMQP_PASSWORD'] = 'guest';
             $env['AMQP_VHOST'] = '/';
             $env['AMQP_ENABLE'] = 'false';
-            $env['SUPER_ADMIN'] = (string) $id->getId();
-            $env['ADMIN_ROLE'] = (string) ($id->getId());
+            $env['SUPER_ADMIN'] = 1;
+            $env['ADMIN_ROLE'] = 1;
             $env['CONSOLE_SQL'] = 'true';
             $env['JWT_SECRET'] = base64_encode(random_bytes(64));
             $env['JWT_API_SECRET'] = base64_encode(random_bytes(64));

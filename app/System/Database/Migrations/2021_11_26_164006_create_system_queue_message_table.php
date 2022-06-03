@@ -33,7 +33,7 @@ class CreateSystemQueueMessageTable extends Migration
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->index(['content_type', 'send_by']);
+            $table->index(['content_type']);
         });
     }
 

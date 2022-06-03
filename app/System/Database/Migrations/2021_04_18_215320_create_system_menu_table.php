@@ -14,7 +14,7 @@ class CreateSystemMenuTable extends Migration
         Schema::create('system_menu', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('菜单信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'parent_id', ['unsigned' => true, 'comment' => '父ID']);
             $table->addColumn('string', 'level', ['length' => 500, 'comment' => '组级集合']);
             $table->addColumn('string', 'name', ['length' => 50, 'comment' => '菜单名称']);
@@ -33,7 +33,6 @@ class CreateSystemMenuTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
         });
     }
 

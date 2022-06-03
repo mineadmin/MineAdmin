@@ -14,7 +14,7 @@ class CreateSystemLoginLogTable extends Migration
         Schema::create('system_login_log', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('登录日志表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
             $table->addColumn('ipAddress', 'ip', ['comment' => '登录IP地址'])->nullable();
             $table->addColumn('string', 'ip_location', ['length' => 255, 'comment' => 'IP所属地'])->nullable();
@@ -24,7 +24,6 @@ class CreateSystemLoginLogTable extends Migration
             $table->addColumn('string', 'message', ['length' => 50, 'comment' => '提示消息'])->nullable();
             $table->addColumn('timestamp', 'login_time', ['comment' => '登录时间']);
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
         });
     }
 

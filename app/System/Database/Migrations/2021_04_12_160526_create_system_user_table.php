@@ -14,7 +14,7 @@ class CreateSystemUserTable extends Migration
         Schema::create('system_user', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('用户信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '用户ID，主键']);
+            $table->bigIncrements('id')->comment('用户ID，主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
             $table->addColumn('string', 'password', ['length' => 100, 'comment' => '密码']);
             $table->addColumn('string', 'user_type', ['length' => 3, 'comment' => '用户类型：(100系统用户)', 'default' => '100'])->nullable();
@@ -34,7 +34,6 @@ class CreateSystemUserTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
             $table->unique('username');
             $table->index('dept_id');
         });

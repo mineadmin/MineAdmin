@@ -14,7 +14,7 @@ class CreateSystemPostTable extends Migration
         Schema::create('system_post', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('岗位信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'name', ['length' => 50, 'comment' => '岗位名称']);
             $table->addColumn('string', 'code', ['length' => 100, 'comment' => '岗位代码']);
             $table->addColumn('tinyInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
@@ -25,7 +25,6 @@ class CreateSystemPostTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
         });
     }
 

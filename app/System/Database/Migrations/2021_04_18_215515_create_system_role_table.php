@@ -14,7 +14,7 @@ class CreateSystemRoleTable extends Migration
         Schema::create('system_role', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('角色信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键，角色ID']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'name', ['length' => 30, 'comment' => '角色名称']);
             $table->addColumn('string', 'code', ['length' => 100, 'comment' => '角色代码']);
             $table->addColumn(
@@ -32,7 +32,6 @@ class CreateSystemRoleTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
         });
     }
 

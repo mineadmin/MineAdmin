@@ -14,7 +14,7 @@ class CreateSystemDictDataTable extends Migration
         Schema::create('system_dict_data', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('字典数据表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'type_id', ['unsigned' => true, 'comment' => '字典类型ID']);
             $table->addColumn('string', 'label', ['length' => 50, 'comment' => '字典标签'])->nullable();
             $table->addColumn('string', 'value', ['length' => 100, 'comment' => '字典值'])->nullable();
@@ -27,7 +27,6 @@ class CreateSystemDictDataTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
             $table->index('type_id');
         });
     }

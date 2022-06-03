@@ -24,6 +24,7 @@ class SettingConfigSeeder extends Seeder
             "INSERT INTO `{$tableName}` VALUES ('site_name', NULL, '网站名称', 'system', 99, NULL)",
             "INSERT INTO `{$tableName}` VALUES ('site_record_number', NULL, '网站备案号', 'system', 95, NULL)",
             "INSERT INTO `{$tableName}` VALUES ('site_storage_mode', 'local', '上传存储模式', 'system', 93, NULL)",
+            "INSERT INTO `{$tableName}` VALUES ('web_login_verify', '0', '后台登录验证码方式', 'extend', 0, '0 前端验证，1 后端验证')"
         ];
         foreach ($sql as $item) {
             Db::insert($item);

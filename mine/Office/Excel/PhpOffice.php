@@ -44,7 +44,7 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
             $reader = IOFactory::createReader(IOFactory::identify($tempFilePath));
             $reader->setReadDataOnly(true);
             $sheet = $reader->load($tempFilePath);
-            $endCell = isset($this->property[0]) ? chr(count($this->property[0]) + 65) : null;
+            $endCell = isset($this->property) ? chr(count($this->property) + 65) : null;
             try {
                 foreach ($sheet->getActiveSheet()->getRowIterator(2) as $row) {
                     $temp = [];

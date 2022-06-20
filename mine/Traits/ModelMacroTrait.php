@@ -72,12 +72,9 @@ trait ModelMacroTrait
                 public function execute(): Builder
                 {
                     $this->getUserDataScope();
-                    if (empty($this->userIds)) {
-                        return $this->builder;
-                    } else {
-                        array_push($this->userIds, $this->userid);
-                        return $this->builder->whereIn('created_by', array_unique($this->userIds));
-                    }
+                    return empty($this->userIds)
+                        ? $this->builder
+                        : $this->builder->whereIn('created_by', array_unique($this->userIds));
                 }
 
                 protected function getUserDataScope(): void
@@ -97,6 +94,7 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
+                                $this->userIds[] = $this->userid;
                                 break;
                             case SystemRole::SELF_DEPT_SCOPE:
                                 // 本部门数据权限
@@ -104,6 +102,7 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->where('dept_id', $userModel->dept_id)->pluck('id')->toArray()
                                 );
+                                $this->userIds[] = $this->userid;
                                 break;
                             case SystemRole::DEPT_BELOW_SCOPE:
                                 // 本部门及子部门数据权限
@@ -113,8 +112,11 @@ trait ModelMacroTrait
                                     $this->userIds,
                                     SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
                                 );
+                                $this->userIds[] = $this->userid;
                                 break;
                             case SystemRole::SELF_SCOPE:
+                                $this->userIds[] = $this->userid;
+                                break;
                             default:
                                 break;
                         }

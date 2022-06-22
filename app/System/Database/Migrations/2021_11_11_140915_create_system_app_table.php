@@ -28,7 +28,7 @@ class CreateSystemAppTable extends Migration
             $table->addColumn('string', 'app_name', ['length' => 32, 'comment' => '应用名称']);
             $table->addColumn('string', 'app_id', ['length' => 16, 'comment' => '应用ID']);
             $table->addColumn('string', 'app_secret', ['length' => 128, 'comment' => '应用密钥']);
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
             $table->addColumn('text', 'description', ['comment' => '应用介绍'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

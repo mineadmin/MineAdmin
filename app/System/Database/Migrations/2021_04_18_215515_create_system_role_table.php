@@ -27,14 +27,14 @@ class CreateSystemRoleTable extends Migration
             $table->addColumn('string', 'name', ['length' => 30, 'comment' => '角色名称']);
             $table->addColumn('string', 'code', ['length' => 100, 'comment' => '角色代码']);
             $table->addColumn(
-                'char', 'data_scope',
+                'smallInteger', 'data_scope',
                 [
                     'length' => 1,
-                    'default' => '0',
-                    'comment' => '数据范围（0：全部数据权限 1：自定义数据权限 2：本部门数据权限 3：本部门及以下数据权限 4：本人数据权限）'
+                    'default' => 1,
+                    'comment' => '数据范围（1：全部数据权限 2：自定义数据权限 3：本部门数据权限 4：本部门及以下数据权限 5：本人数据权限）'
                 ])->nullable();
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
-            $table->addColumn('tinyInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
+            $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();

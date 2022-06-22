@@ -29,7 +29,7 @@ class CreateSystemLoginLogTable extends Migration
             $table->addColumn('string', 'ip_location', ['length' => 255, 'comment' => 'IP所属地'])->nullable();
             $table->addColumn('string', 'os', ['length' => 50, 'comment' => '操作系统'])->nullable();
             $table->addColumn('string', 'browser', ['length' => 50, 'comment' => '浏览器'])->nullable();
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '登录状态 (0成功 1失败)']);
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '登录状态 (1成功 2失败)']);
             $table->addColumn('string', 'message', ['length' => 50, 'comment' => '提示消息'])->nullable();
             $table->addColumn('timestamp', 'login_time', ['comment' => '登录时间']);
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();

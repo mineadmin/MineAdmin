@@ -29,8 +29,8 @@ class CreateSystemDeptTable extends Migration
             $table->addColumn('string', 'name', ['length' => 30, 'comment' => '部门名称']);
             $table->addColumn('string', 'leader', ['length' => 20, 'comment' => '负责人'])->nullable();
             $table->addColumn('string', 'phone', ['length' => 11, 'comment' => '联系电话'])->nullable();
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
-            $table->addColumn('tinyInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
+            $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();

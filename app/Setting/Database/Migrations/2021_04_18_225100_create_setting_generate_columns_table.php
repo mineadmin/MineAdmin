@@ -19,12 +19,12 @@ class CreateSettingGenerateColumnsTable extends Migration
             $table->addColumn('string', 'column_name', ['length' => 200, 'comment' => '字段名称'])->nullable();
             $table->addColumn('string', 'column_comment', ['length' => 255, 'comment' => '字段注释'])->nullable();
             $table->addColumn('string', 'column_type', ['length' => 50, 'comment' => '字段类型'])->nullable();
-            $table->addColumn('char', 'is_pk', ['length' => 1, 'default' => '0', 'comment' => '0 非主键 1 主键'])->nullable();
-            $table->addColumn('char', 'is_required', ['length' => 1, 'default' => '0', 'comment' => '0 非必填 1 必填'])->nullable();
-            $table->addColumn('char', 'is_insert', ['length' => 1, 'default' => '0', 'comment' => '0 非插入字段 1 插入字段'])->nullable();
-            $table->addColumn('char', 'is_edit', ['length' => 1, 'default' => '0', 'comment' => '0 非编辑字段 1 编辑字段'])->nullable();
-            $table->addColumn('char', 'is_list', ['length' => 1, 'default' => '0', 'comment' => '0 非列表显示字段 1 列表显示字段'])->nullable();
-            $table->addColumn('char', 'is_query', ['length' => 1, 'default' => '0', 'comment' => '0 非查询字段 1 查询字段'])->nullable();
+            $table->addColumn('smallInteger', 'is_pk', ['default' => 1, 'comment' => '1 非主键 2 主键'])->nullable();
+            $table->addColumn('smallInteger', 'is_required', ['default' => 1, 'comment' => '1 非必填 2 必填'])->nullable();
+            $table->addColumn('smallInteger', 'is_insert', ['default' => 1, 'comment' => '1 非插入字段 2 插入字段'])->nullable();
+            $table->addColumn('smallInteger', 'is_edit', ['default' => 1, 'comment' => '1 非编辑字段 2 编辑字段'])->nullable();
+            $table->addColumn('smallInteger', 'is_list', ['default' => 1, 'comment' => '1 非列表显示字段 2 列表显示字段'])->nullable();
+            $table->addColumn('smallInteger', 'is_query', ['default' => 1, 'comment' => '1 非查询字段 2 查询字段'])->nullable();
             $table->addColumn(
                 'string', 'query_type',
                 [

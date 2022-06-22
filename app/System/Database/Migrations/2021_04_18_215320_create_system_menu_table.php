@@ -32,10 +32,10 @@ class CreateSystemMenuTable extends Migration
             $table->addColumn('string', 'route', ['length' => 200, 'comment' => '路由地址'])->nullable();
             $table->addColumn('string', 'component', ['length' => 255, 'comment' => '组件路径'])->nullable();
             $table->addColumn('string', 'redirect', ['length' => 255, 'comment' => '跳转地址'])->nullable();
-            $table->addColumn('char', 'is_hidden', ['length' => 1,'default' => '1', 'comment' => '是否隐藏 (0是 1否)']);
+            $table->addColumn('smallInteger', 'is_hidden', ['default' => 1, 'comment' => '是否隐藏 (1是 2否)']);
             $table->addColumn('char', 'type', ['length' => 1, 'default' => '', 'comment' => '菜单类型, (M菜单 B按钮 L链接 I iframe)']);
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
-            $table->addColumn('tinyInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
+            $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();

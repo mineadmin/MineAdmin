@@ -26,11 +26,11 @@ class CreateSystemApiColumnTable extends Migration
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'api_id', ['unsigned' => true, 'comment' => '接口主键']);
             $table->addColumn('string', 'name', ['length' => 64, 'comment' => '字段名称']);
-            $table->addColumn('char', 'type', ['length' => 1, 'default' => '0', 'comment' => '字段类型 0 请求 1 返回']);
+            $table->addColumn('smallInteger', 'type', ['default' => 1, 'comment' => '字段类型 1 请求 2 返回']);
             $table->addColumn('string', 'data_type', ['length' => 16, 'comment' => '数据类型']);
-            $table->addColumn('char', 'is_required', ['length' => 1, 'default' => '0', 'comment' => '是否必填 0 非必填 1 必填']);
+            $table->addColumn('smallInteger', 'is_required', ['default' => 1, 'comment' => '是否必填 1 非必填 2 必填']);
             $table->addColumn('string', 'default_value', ['length' => 500, 'comment' => '默认值'])->nullable();
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
             $table->addColumn('string', 'description', ['length' => 500, 'comment' => '字段说明'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

@@ -25,7 +25,7 @@ class CreateSystemUserTable extends Migration
             $table->addColumn('string', 'signed', ['length' => 255, 'comment' => '个人签名'])->nullable();
             $table->addColumn('string', 'dashboard', ['length' => 100, 'comment' => '后台首页类型'])->nullable();
             $table->addColumn('bigInteger', 'dept_id', ['unsigned' => true, 'comment' => '部门ID'])->nullable();
-            $table->addColumn('char', 'status', ['length' => 1, 'default' => '0', 'comment' => '状态 (0正常 1停用)'])->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
             $table->addColumn('ipAddress', 'login_ip', ['comment' => '最后登陆IP'])->nullable();
             $table->addColumn('timestamp', 'login_time', ['comment' => '最后登陆时间'])->nullable();
             $table->addColumn('string', 'backend_setting', ['length' => 500, 'comment' => '后台设置数据'])->nullable();

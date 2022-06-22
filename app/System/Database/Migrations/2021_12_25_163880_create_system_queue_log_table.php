@@ -29,8 +29,8 @@ class CreateSystemQueueLogTable extends Migration
             $table->addColumn('string', 'queue_name', ['length' => 64, 'comment' => '队列名称']);
             $table->addColumn('longtext', 'queue_content', ['comment' => '队列数据'])->nullable();
             $table->addColumn('text', 'log_content', ['comment' => '队列日志'])->nullable();
-            $table->addColumn('char', 'produce_status', ['length' => 1, 'default' => '0', 'comment' => '生产状态 0:未生产 1:生产中 2:生产成功 3:生产失败 4:生产重复'])->nullable();
-            $table->addColumn('char', 'consume_status', ['length' => 1, 'default' => '0', 'comment' => '消费状态 0:未消费 1:消费中 2:消费成功 3:消费失败 4:消费重复'])->nullable();
+            $table->addColumn('smallInteger', 'produce_status', ['default' => 1, 'comment' => '生产状态 1:未生产 2:生产中 3:生产成功 4:生产失败 5:生产重复'])->nullable();
+            $table->addColumn('smallInteger', 'consume_status', ['default' => 1, 'comment' => '消费状态 1:未消费 2:消费中 3:消费成功 4:消费失败 5:消费重复'])->nullable();
             $table->addColumn('integer', 'delay_time', ['unsigned' => true, 'comment' => '延迟时间（秒）']);
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

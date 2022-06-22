@@ -26,10 +26,10 @@ class CreateSettingGenerateTablesTable extends Migration
                 'string', 'type',
                 ['length' => 100, 'comment' => '生成类型，single 单表CRUD，tree 树表CRUD，parent_sub父子表CRUD'])
                 ->nullable();
-            $table->addColumn('char', 'generate_type', ['length' => 1, 'default' => '0', 'comment' => '0 压缩包下载 1 生成到模块'])->nullable();
+            $table->addColumn('smallInteger', 'generate_type', ['default' => 1, 'comment' => '1 压缩包下载 2 生成到模块'])->nullable();
             $table->addColumn('string', 'generate_menus', ['length' => 255, 'comment' => '生成菜单列表'])->nullable();
-            $table->addColumn('char', 'build_menu', ['length' => 1, 'default' => '0', 'comment' => '是否构建菜单'])->nullable();
-            $table->addColumn('char', 'component_type', ['length' => 1, 'default' => '0', 'comment' => '组件显示方式'])->nullable();
+            $table->addColumn('smallInteger', 'build_menu', ['default' => 1, 'comment' => '是否构建菜单'])->nullable();
+            $table->addColumn('smallInteger', 'component_type', ['default' => 1, 'comment' => '组件显示方式'])->nullable();
             $table->addColumn('string', 'options', ['length' => 1500, 'comment' => '其他业务选项'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

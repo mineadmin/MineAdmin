@@ -10,6 +10,7 @@ use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\Redis\Redis;
 use Mine\Annotation\Auth;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
@@ -80,5 +81,18 @@ class CommonController extends MineController
     public function getPostList(): ResponseInterface
     {
         return $this->success($this->postService->getList());
+    }
+
+    /**
+     * 清除所有缓存
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("clearAllCache")]
+    public function clearAllCache(): ResponseInterface
+    {
+        $this->userService->clearCache(user()->getId());
+        return $this->success();
     }
 }

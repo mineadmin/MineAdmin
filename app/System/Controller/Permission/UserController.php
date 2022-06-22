@@ -250,16 +250,4 @@ class UserController extends MineController
     {
         return (new MineCollection)->export(\App\System\Dto\UserDto::class, '模板下载', []);
     }
-
-    /**
-     * 清除自己缓存
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PostMapping("clearSelfCache")]
-    public function clearSelfCache(): ResponseInterface
-    {
-        return $this->service->clearCache(user()->getId()) ? $this->success() : $this->error();
-    }
 }

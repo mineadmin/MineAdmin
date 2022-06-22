@@ -24,10 +24,10 @@ use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
 
 /**
- * Class MessageController
+ * Class ServerController
  * @package App\System\Controller
  */
-class MessageController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
+class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
     /**
      * @var int

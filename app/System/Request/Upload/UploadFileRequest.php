@@ -22,6 +22,7 @@ class UploadFileRequest extends FormRequest
         return [
             'file' => 'required|mimes:txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md',
             'path' => 'max:30',
+            'isChunk' => '',
         ];
     }
 }

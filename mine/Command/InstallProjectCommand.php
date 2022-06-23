@@ -314,7 +314,7 @@ class InstallProjectCommand extends MineCommand
             'dashboard' => 'statistics',
             'created_by' => 0,
             'updated_by' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
@@ -327,7 +327,7 @@ class InstallProjectCommand extends MineCommand
             'sort' => 0,
             'created_by' => env('SUPER_ADMIN', 0),
             'updated_by' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
             'remark' => '系统内置角色，不可删除'

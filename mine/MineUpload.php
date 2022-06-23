@@ -101,6 +101,7 @@ class MineUpload
      */
     protected function handleUpload(UploadedFile $uploadedFile, array $config): array
     {
+        $tmpFile = $uploadedFile->getPath() . '/' . $uploadedFile->getFilename();
         $path = $this->getPath($config['path'] ?? null, $this->getMappingMode() !== 1);
         $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
@@ -114,6 +115,7 @@ class MineUpload
             'object_name' => $filename,
             'mime_type' => $uploadedFile->getClientMediaType(),
             'storage_path' => $path,
+            'hash' => md5_file($tmpFile),
             'suffix' => Str::lower($uploadedFile->getExtension()),
             'size_byte' => $uploadedFile->getSize(),
             'size_info' => format_size($uploadedFile->getSize() * 1024),
@@ -171,6 +173,7 @@ class MineUpload
             'mime_type' => 'image/jpg',
             'storage_path' => $path,
             'suffix' => 'jpg',
+//            'hash' => ,
             'size_byte' => $size,
             'size_info' => format_size($size * 1024),
             'url' => $this->assembleUrl($data['path'] ?? null, $filename),

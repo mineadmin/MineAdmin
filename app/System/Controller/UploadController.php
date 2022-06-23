@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace App\System\Controller;
 
-use App\System\Model\SystemRole;
-use App\System\Request\Upload\CreateUploadDirRequest;
 use App\System\Request\Upload\NetworkImageRequest;
 use App\System\Request\Upload\UploadFileRequest;
 use App\System\Request\Upload\UploadImageRequest;
@@ -39,7 +37,7 @@ class UploadController extends MineController
     {
         if ($request->validated() && $request->file('file')->isValid()) {
             $data = $this->service->upload(
-                $request->file('file'), ['path' => $request->input('path', null)]
+                $request->file('file'), $request->all()
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
@@ -60,7 +58,7 @@ class UploadController extends MineController
     {
         if ($request->validated() && $request->file('image')->isValid()) {
             $data = $this->service->upload(
-                $request->file('image'), ['path' => $request->input('path', null)]
+                $request->file('image'), $request->all()
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
@@ -114,8 +112,8 @@ class UploadController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("download")]
-    public function download(): \Psr\Http\Message\ResponseInterface
+    #[GetMapping("downloadById")]
+    public function downloadById(): \Psr\Http\Message\ResponseInterface
     {
         $id = $this->request->input('id');
         if (empty($id)) {

@@ -11,7 +11,7 @@ use Mine\MineModel;
  * @property string $app_name 应用名称
  * @property string $app_id 应用ID
  * @property string $app_secret 应用密钥
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property string $description 应用介绍
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -20,6 +20,7 @@ use Mine\MineModel;
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property-read \Hyperf\Database\Model\Collection|SystemApi[] $apis 
+ * @property-read SystemAppGroup $appGroup 
  */
 class SystemApp extends MineModel
 {
@@ -41,7 +42,7 @@ class SystemApp extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'group_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'group_id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表关联API
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -50,7 +51,6 @@ class SystemApp extends MineModel
     {
         return $this->belongsToMany(SystemApi::class, 'system_app_api', 'app_id', 'api_id');
     }
-
     /**
      * 关联APP分组
      * @return \Hyperf\Database\Model\Relations\HasOne

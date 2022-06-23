@@ -16,7 +16,7 @@ use Mine\MineModel;
  * @property string $signed 个人签名
  * @property string $dashboard 后台首页类型
  * @property int $dept_id 部门ID
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property string $login_ip 最后登陆IP
  * @property string $login_time 最后登陆时间
  * @property string $backend_setting 后台设置数据
@@ -36,7 +36,6 @@ class SystemUser extends MineModel
     use SoftDeletes;
     public const USER_NORMAL = '0';
     public const USER_BAN = '1';
-
     /**
      * 系统用户
      */
@@ -58,7 +57,7 @@ class SystemUser extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
+    protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表关联角色
      * @return \Hyperf\Database\Model\Relations\BelongsToMany

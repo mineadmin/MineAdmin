@@ -9,7 +9,7 @@ use Mine\MineModel;
  * @property int $id 主键
  * @property int $message_id 消息ID
  * @property string $title 标题
- * @property string $type 公告类型（1通知 2公告）
+ * @property int $type 公告类型（1通知 2公告）
  * @property string $content 公告内容
  * @property int $click_num 浏览次数
  * @property int $created_by 创建者
@@ -39,5 +39,5 @@ class SystemNotice extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'message_id' => 'integer', 'click_num' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'message_id' => 'integer', 'type' => 'integer', 'click_num' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

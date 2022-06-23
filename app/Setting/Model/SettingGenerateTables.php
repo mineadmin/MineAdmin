@@ -14,10 +14,10 @@ use Mine\MineModel;
  * @property int $belong_menu_id 所属菜单
  * @property string $package_name 控制器包名
  * @property string $type 生成类型，single 单表CRUD，tree 树表CRUD，parent_sub父子表CRUD
- * @property string $generate_type 0 压缩包下载 1 生成到模块
+ * @property int $generate_type 1 压缩包下载 2 生成到模块
  * @property string $generate_menus 生成菜单列表
- * @property string $build_menu 是否构建菜单
- * @property string $component_type 组件显示方式
+ * @property int $build_menu 是否构建菜单
+ * @property int $component_type 组件显示方式
  * @property string $options 其他业务选项
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -44,8 +44,7 @@ class SettingGenerateTables extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array', ];
-
+    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'generate_type' => 'integer', 'build_menu' => 'integer', 'component_type' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联生成业务字段信息表
      * @return \Hyperf\Database\Model\Relations\HasMany

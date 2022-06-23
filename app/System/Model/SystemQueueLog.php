@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace App\System\Model;
 
-use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 /**
  * @property int $id 主键
@@ -12,8 +11,8 @@ use Mine\MineModel;
  * @property string $queue_name 队列名称
  * @property string $queue_content 队列数据
  * @property string $log_content 队列日志
- * @property string $produce_status 生产状态 0:未生产 1:生产中 2:生产成功 3:生产失败 4:生产重复
- * @property string $consume_status 消费状态 0:未消费 1:消费中 2:消费成功 3:消费失败 4:消费重复
+ * @property int $produce_status 生产状态 1:未生产 2:生产中 3:生产成功 4:生产失败 5:生产重复
+ * @property int $consume_status 消费状态 1:未消费 2:消费中 3:消费成功 4:消费失败 5:消费重复
  * @property int $delay_time 延迟时间（秒）
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -62,7 +61,6 @@ class SystemQueueLog extends MineModel
      * @Message("消费重复")
      */
     const CONSUME_STATUS_4 = 4;
-
     /**
      * The table associated with the model.
      *
@@ -80,5 +78,5 @@ class SystemQueueLog extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'delay_time' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'produce_status' => 'integer', 'consume_status' => 'integer', 'delay_time' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

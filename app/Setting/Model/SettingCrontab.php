@@ -7,12 +7,12 @@ use Mine\MineModel;
 /**
  * @property int $id 主键
  * @property string $name 任务名称
- * @property string $type 任务类型 (1 command, 2 class, 3 url, 4 eval)
+ * @property int $type 任务类型 (1 command, 2 class, 3 url, 4 eval)
  * @property string $target 调用任务字符串
  * @property string $parameter 调用任务参数
  * @property string $rule 任务执行表达式
- * @property string $singleton 是否单次执行 (0 是 1 不是)
- * @property string $status 状态 (0正常 1停用)
+ * @property int $singleton 是否单次执行 (1 是 2 不是)
+ * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
@@ -47,7 +47,7 @@ class SettingCrontab extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'type' => 'integer', 'singleton' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联字典任务日志表
      * @return \Hyperf\Database\Model\Relations\HasMany

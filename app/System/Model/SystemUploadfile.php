@@ -10,6 +10,7 @@ use Mine\MineModel;
  * @property string $storage_mode 状态 (1 本地 2 阿里云 3 七牛云 4 腾讯云)
  * @property string $origin_name 原文件名
  * @property string $object_name 新文件名
+ * @property string $hash 文件hash
  * @property string $mime_type 资源类型
  * @property string $storage_path 存储目录
  * @property string $suffix 文件后缀
@@ -26,7 +27,6 @@ use Mine\MineModel;
 class SystemUploadfile extends MineModel
 {
     use SoftDeletes;
-
     /**
      * The table associated with the model.
      *
@@ -38,7 +38,7 @@ class SystemUploadfile extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'storage_mode', 'origin_name', 'object_name', 'mime_type', 'storage_path', 'suffix', 'size_byte', 'size_info', 'url', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected $fillable = ['id', 'storage_mode', 'origin_name', 'object_name', 'hash', 'mime_type', 'storage_path', 'suffix', 'size_byte', 'size_info', 'url', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *

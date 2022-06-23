@@ -51,7 +51,11 @@ class MineFormRequest extends FormRequest
     protected function getOperation(): ?string
     {
         $path = explode('/', $this->path());
-        return array_pop($path);
+        do {
+            $operation = array_pop($path);
+        } while (is_numeric($operation));
+
+        return $operation;
     }
 
 

@@ -24,27 +24,27 @@ class SystemQueueLog extends MineModel
     /**
      * @Message("未生产")
      */
-    const PRODUCE_STATUS_WAITING = 0;
+    const PRODUCE_STATUS_WAITING = 1;
     /**
      * @Message("生产中")
      */
-    const PRODUCE_STATUS_DOING = 1;
+    const PRODUCE_STATUS_DOING = 2;
     /**
      * @Message("生产成功")
      */
-    const PRODUCE_STATUS_SUCCESS = 2;
+    const PRODUCE_STATUS_SUCCESS = 3;
     /**
      * @Message("生产失败")
      */
-    const PRODUCE_STATUS_FAIL = 3;
+    const PRODUCE_STATUS_FAIL = 4;
     /**
      * @Message("生产重复")
      */
-    const PRODUCE_STATUS_4 = 4;
+    const PRODUCE_STATUS_4 = 5;
     /**
      * @Message("未消费")
      */
-    const CONSUME_STATUS_0 = 0;
+    const CONSUME_STATUS_0 = 6;
     /**
      * @Message("消费中")
      */

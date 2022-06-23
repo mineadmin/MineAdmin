@@ -23,13 +23,13 @@ use Mine\MineModel;
 class SettingCrontab extends MineModel
 {
     // 命令任务
-    public const COMMAND_CRONTAB = '1';
+    public const COMMAND_CRONTAB = 1;
     // 类任务
-    public const CLASS_CRONTAB = '2';
+    public const CLASS_CRONTAB = 2;
     // URL任务
-    public const URL_CRONTAB = '3';
+    public const URL_CRONTAB = 3;
     // EVAL 任务
-    public const EVAL_CRONTAB = '4';
+    public const EVAL_CRONTAB = 4;
     /**
      * The table associated with the model.
      *

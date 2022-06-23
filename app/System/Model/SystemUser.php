@@ -34,8 +34,8 @@ use Mine\MineModel;
 class SystemUser extends MineModel
 {
     use SoftDeletes;
-    public const USER_NORMAL = '0';
-    public const USER_BAN = '1';
+    public const USER_NORMAL = 1;
+    public const USER_BAN = 2;
     /**
      * 系统用户
      */

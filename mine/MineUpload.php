@@ -86,7 +86,10 @@ class MineUpload
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
-        return $this->handleUpload($uploadedFile, $config);
+        return
+            (isset($config['isChunk']) && $config['isChunk'] === true)
+            ? $this->handleUpload($uploadedFile, $config)
+            : $this->handleChunkUpload($uploadedFile, $config);
     }
 
     /**
@@ -125,6 +128,12 @@ class MineUpload
         $this->evDispatcher->dispatch(new \Mine\Event\UploadAfter($fileInfo));
 
         return $fileInfo;
+    }
+
+    protected function handleChunkUpload(UploadedFile $uploadedFile, array $config): array
+    {
+        print_r($config);
+        return [];
     }
 
     /**
@@ -235,7 +244,7 @@ class MineUpload
 
     /**
      * 组装url
-     * @param string $path
+     * @param string|null $path
      * @param string $filename
      * @return string
      */

@@ -303,7 +303,13 @@ class SystemUserService extends AbstractService
         $redis = $this->container->get(Redis::class);
         $prefix = config('cache.default.prefix');
         foreach(['crontab', 'config:*', 'modules', 'Dict:*'] as $item) {
-            $redis->del($prefix . $item);
+            if (in_array($item, ['config:*', 'Dict:*'])) {
+                foreach($redis->keys($prefix . $item) as $key) {
+                    $redis->exists($key) && $redis->del($key);
+                }
+            } else {
+                $redis->exists($prefix . $item) && $redis->del($prefix . $item);
+            }
         }
         return $redis->del("{$prefix}loginInfo:userId_{$id}") > 0;
     }

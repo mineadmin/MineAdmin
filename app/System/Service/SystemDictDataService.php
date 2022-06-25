@@ -88,7 +88,7 @@ class SystemDictDataService extends AbstractService
         }
 
         $args = [
-            'select' => ['id', 'label', 'value'],
+            'select' => ['id', 'label as title', 'value as key'],
             'status' => \Mine\MineModel::ENABLE,
             'orderBy' => 'sort',
             'orderType' => 'desc'

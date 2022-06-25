@@ -160,7 +160,7 @@ trait MapperTrait
         $model = new $this->model;
         $attrs = $model->getFillable();
         foreach ($fields as $key => $field) {
-            if (!in_array(trim($field), $attrs)) {
+            if (!in_array(trim($field), $attrs) && mb_strpos(str_replace('AS', 'as', $field), 'as') === false) {
                 unset($fields[$key]);
             } else {
                 $fields[$key] = trim($field);

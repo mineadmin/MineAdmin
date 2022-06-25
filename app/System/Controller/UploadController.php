@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller;
 
+use App\System\Request\Upload\ChunkUploadRequest;
 use App\System\Request\Upload\NetworkImageRequest;
 use App\System\Request\Upload\UploadFileRequest;
 use App\System\Request\Upload\UploadImageRequest;
@@ -64,6 +65,19 @@ class UploadController extends MineController
         } else {
             return $this->error(t('system.upload_image_verification_fail'));
         }
+    }
+
+    /**
+     * 分块上传
+     * @param ChunkUploadRequest $request
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("chunkUpload"), Auth]
+    public function chunkUpload(ChunkUploadRequest $request): \Psr\Http\Message\ResponseInterface
+    {
+        return ($data = $this->service->chunkUpload($request->validated())) ? $this->success($data) : $this->error();
     }
 
     /**

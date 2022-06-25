@@ -4,7 +4,7 @@ namespace App\System\Request\Upload;
 
 use Hyperf\Validation\Request\FormRequest;
 
-class UploadFileRequest extends FormRequest
+class ChunkUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,8 +20,14 @@ class UploadFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md',
-            'path' => 'max:30',
+            'package' => 'required',
+            'total'   => 'required',
+            'index'   => 'required',
+            'hash'    => 'required',
+            'ext'     => 'required',
+            'type'    => 'required',
+            'name'    => 'required',
+            'size'    => 'required',
         ];
     }
 }

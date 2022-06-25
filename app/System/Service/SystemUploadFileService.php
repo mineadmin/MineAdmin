@@ -71,6 +71,18 @@ class SystemUploadFileService extends AbstractService
         }
     }
 
+    public function chunkUpload(array $data): array
+    {
+        if ($model = $this->mapper->getFileInfoByHash($data['hash'])) {
+            return $model->toArray();
+        }
+        $result = $this->mineUpload->handleChunkUpload($data);
+        if (isset($result['hash'])) {
+            $this->save($result);
+        }
+        return $result;
+    }
+
     /**
      * 获取当前目录下所有文件（包含目录）
      * @param array $params

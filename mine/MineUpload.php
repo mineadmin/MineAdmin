@@ -86,10 +86,7 @@ class MineUpload
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
-        return
-            (isset($config['isChunk']) && $config['isChunk'] === true)
-            ? $this->handleUpload($uploadedFile, $config)
-            : $this->handleChunkUpload($uploadedFile, $config);
+        return $this->handleUpload($uploadedFile, $config);
     }
 
     /**
@@ -130,10 +127,53 @@ class MineUpload
         return $fileInfo;
     }
 
-    protected function handleChunkUpload(UploadedFile $uploadedFile, array $config): array
+    /**
+     * 处理分块上传
+     * @param array $data
+     * @return array
+     */
+    public function handleChunkUpload(array $data): array
     {
-        print_r($config);
-        return [];
+        $uploadFile = $data['package'];
+        /* @var UploadedFile $uploadFile */
+        $path = BASE_PATH . '/runtime/chunk/';
+        $chunkName = "{$path}{$data['hash']}_{$data['total']}_{$data['index']}.chunk";
+        $fs = container()->get(\Hyperf\Utils\Filesystem\Filesystem::class);
+        $fs->isDirectory($path) || $fs->makeDirectory($path);
+        $uploadFile->moveTo($chunkName);
+        if ($data['index'] === $data['total']) {
+            $content = '';
+            for($i = 1; $i <= $data['total']; $i++) {
+                $chunkFile = "{$path}{$data['hash']}_{$data['total']}_{$i}.chunk";
+                if (! $fs->isFile($chunkFile)) {
+                    return ['chunk' => $data['index'], 'code' => 500, 'status' => 'fail'];
+                }
+                $content .= $fs->get($chunkFile);
+                $fs->delete($chunkFile);
+            }
+            $fileName = $this->getNewName().'.'.Str::lower($data['ext']);
+            $storeagePath = $this->getPath(null, $this->getMappingMode() !== 1);
+            if (! $this->filesystem->write($storeagePath.'/'.$fileName, $content)) {
+                throw new NormalStatusException('分块上传失败', 500);
+            }
+            $fileInfo = [
+                'storage_mode' => $this->getMappingMode(),
+                'origin_name' => $data['name'],
+                'object_name' => $fileName,
+                'mime_type' => $data['type'],
+                'storage_path' => $storeagePath,
+                'hash' => $data['hash'],
+                'suffix' => $data['ext'],
+                'size_byte' => $data['size'],
+                'size_info' => format_size(((int) $data['size'] * 1024)),
+                'url' => $this->assembleUrl(null, $fileName),
+            ];
+
+            $this->evDispatcher->dispatch(new \Mine\Event\UploadAfter($fileInfo));
+
+            return $fileInfo;
+        }
+        return ['chunk' => $data['index'], 'code' => 201, 'status' => 'success'];
     }
 
     /**

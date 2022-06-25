@@ -22,7 +22,6 @@ class UploadImageRequest extends FormRequest
         return [
             'image' => 'required|image',
             'path'  => 'max:30',
-            'isChunk' => '',
         ];
     }
 }

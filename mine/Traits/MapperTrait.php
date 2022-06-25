@@ -11,7 +11,6 @@
 
 namespace Mine\Traits;
 
-use App\System\Service\SystemDictDataService;
 use Hyperf\Contract\LengthAwarePaginatorInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
@@ -86,8 +85,8 @@ trait MapperTrait
         string $children='children'
     ): array
     {
-        $params['_mainAdmin_tree'] = true;
-        $params['_mainAdmin_tree_pid'] = $parentField;
+        $params['_mineadmin_tree'] = true;
+        $params['_mineadmin_tree_pid'] = $parentField;
         $data = $this->listQuerySetting($params, $isScope)->get();
         return $data->toTree([], $data[0]->{$parentField} ?? 0, $id, $parentField, $children);
     }
@@ -122,8 +121,8 @@ trait MapperTrait
     public function handleOrder(Builder $query, ?array &$params = null): Builder
     {
         // 对树型数据强行加个排序
-        if (isset($params['_mainAdmin_tree'])) {
-            $query->orderBy($params['_mainAdmin_tree_pid']);
+        if (isset($params['_mineadmin_tree'])) {
+            $query->orderBy($params['_mineadmin_tree_pid']);
         }
 
         if ($params['orderBy'] ?? false) {

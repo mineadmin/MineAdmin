@@ -152,8 +152,8 @@ class MineUpload
                 $fs->delete($chunkFile);
             }
             $fileName = $this->getNewName().'.'.Str::lower($data['ext']);
-            $storeagePath = $this->getPath(null, $this->getMappingMode() !== 1);
-            if (! $this->filesystem->write($storeagePath.'/'.$fileName, $content)) {
+            $storagePath = $this->getPath(null, $this->getMappingMode() !== 1);
+            if (! $this->filesystem->write($storagePath.'/'.$fileName, $content)) {
                 throw new NormalStatusException('分块上传失败', 500);
             }
             $fileInfo = [
@@ -161,7 +161,7 @@ class MineUpload
                 'origin_name' => $data['name'],
                 'object_name' => $fileName,
                 'mime_type' => $data['type'],
-                'storage_path' => $storeagePath,
+                'storage_path' => $storagePath,
                 'hash' => $data['hash'],
                 'suffix' => $data['ext'],
                 'size_byte' => $data['size'],
@@ -207,18 +207,24 @@ class MineUpload
                 }
             }
 
-            if (!$this->filesystem->write($path . '/' . $filename, $content)) {
-                throw new \Exception(t('network_image_save_fail'));
-            }
+            $realPath = BASE_PATH . '/runtime/' . $filename;
+            $fs = container()->get(\Hyperf\Utils\Filesystem\Filesystem::class);
+            $fs->put($realPath, $content);
 
-            $hash = md5_file(BASE_PATH . '/public/' . $path . '/' . $filename);
+            $hash = md5_file($realPath);
+
             if (! $hash) {
+                $fs->delete($realPath);
                 throw new \Exception(t('network_image_save_fail'));
             }
 
             if ($model = (new \App\System\Mapper\SystemUploadFileMapper)->getFileInfoByHash($hash)) {
-                @unlink(BASE_PATH . '/public/' . $path . '/' . $filename);
+                $fs->delete($realPath);
                 return $model->toArray();
+            }
+
+            if (!$this->filesystem->write($path . '/' . $filename, $content)) {
+                throw new \Exception(t('network_image_save_fail'));
             }
 
         } catch (\Throwable $e) {

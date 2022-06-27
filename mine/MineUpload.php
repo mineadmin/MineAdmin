@@ -211,6 +211,16 @@ class MineUpload
                 throw new \Exception(t('network_image_save_fail'));
             }
 
+            $hash = md5_file(BASE_PATH . '/public/' . $path . '/' . $filename);
+            if (! $hash) {
+                throw new \Exception(t('network_image_save_fail'));
+            }
+
+            if ($model = (new \App\System\Mapper\SystemUploadFileMapper)->getFileInfoByHash($hash)) {
+                @unlink(BASE_PATH . '/public/' . $path . '/' . $filename);
+                return $model->toArray();
+            }
+
         } catch (\Throwable $e) {
             throw new NormalStatusException($e->getMessage(), 500);
         }
@@ -222,7 +232,7 @@ class MineUpload
             'mime_type' => 'image/jpg',
             'storage_path' => $path,
             'suffix' => 'jpg',
-//            'hash' => ,
+            'hash' => $hash,
             'size_byte' => $size,
             'size_info' => format_size($size * 1024),
             'url' => $this->assembleUrl($data['path'] ?? null, $filename),

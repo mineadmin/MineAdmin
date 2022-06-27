@@ -150,10 +150,10 @@ class SystemUploadFileService extends AbstractService
     public function saveNetworkImage(array $data): array
     {
         $data = $this->mineUpload->handleSaveNetworkImage($data);
-        if ($this->save($data)) {
+        if (! isset($data['id']) && $this->save($data)) {
             return $data;
         } else {
-            return [];
+            return $data;
         }
     }
 }

@@ -212,14 +212,13 @@ class MineUpload
             $fs->put($realPath, $content);
 
             $hash = md5_file($realPath);
+            $fs->delete($realPath);
 
             if (! $hash) {
-                $fs->delete($realPath);
                 throw new \Exception(t('network_image_save_fail'));
             }
 
             if ($model = (new \App\System\Mapper\SystemUploadFileMapper)->getFileInfoByHash($hash)) {
-                $fs->delete($realPath);
                 return $model->toArray();
             }
 

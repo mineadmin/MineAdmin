@@ -9,6 +9,7 @@ use Mine\MineModel;
  * @property int $content_id 内容ID
  * @property string $content_type 内容类型
  * @property string $title 消息标题
+ * @property int $send_by 发送人
  * @property string $content 消息内容
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -56,13 +57,13 @@ class SystemQueueMessage extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'content_id', 'content_type', 'title', 'content', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected $fillable = ['id', 'content_id', 'content_type', 'title', 'send_by', 'content', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'content_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'content_id' => 'integer', 'send_by' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联发送人
      * @return \Hyperf\Database\Model\Relations\HasOne

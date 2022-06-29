@@ -27,6 +27,7 @@ class CreateSystemQueueMessageTable extends Migration
             $table->addColumn('bigInteger', 'content_id', ['unsigned' => true, 'comment' => '内容ID'])->nullable();
             $table->addColumn('string', 'content_type', ['length' => 64, 'comment' => '内容类型'])->nullable();
             $table->addColumn('string', 'title', ['length' => 255, 'comment' => '消息标题'])->nullable();
+            $table->addColumn('bigInteger', 'send_by', ['unsigned' => true, 'comment' => '发送人'])->nullable();
             $table->addColumn('longtext', 'content', ['comment' => '消息内容'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

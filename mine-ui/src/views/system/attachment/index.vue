@@ -121,7 +121,7 @@
                   <div class="icon" v-if="item.mime_type && item.mime_type.indexOf('image') === -1">
                     <el-icon><el-icon-document /></el-icon>
                   </div>
-                  <el-image v-else :src="viewImage(item.url)" fit="cover" :preview-src-list="preview" hide-on-click-modal preview-teleported />
+                  <el-image v-else :src="viewImage(item.url)" fit="cover" :initial-index="preview_index(viewImage(item.url))" :preview-src-list="preview" hide-on-click-modal preview-teleported />
                   <el-tooltip placement="bottom">
                     <div class="filename"> {{ item.origin_name }} </div>
                     <template #content>

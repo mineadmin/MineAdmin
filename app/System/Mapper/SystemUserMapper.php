@@ -218,4 +218,13 @@ class SystemUserMapper extends AbstractMapper
         }
         return false;
     }
+
+    /**
+     * 根据用户ID列表获取用户基础信息
+     */
+    public function getUserInfoByIds(array $ids, ?array $select = null): array
+    {
+        if (! $select) $select = ['id', 'dept_id', 'username', 'nickname', 'phone', 'email', 'created_at'];
+        return $this->model::query()->whereIn('id', $ids)->select($select)->get()->toArray();
+    }
 }

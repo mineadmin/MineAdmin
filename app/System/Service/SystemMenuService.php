@@ -155,7 +155,6 @@ class SystemMenuService extends AbstractService
 
     /**
      * 真实删除菜单
-     * @param string $ids
      * @return array
      */
     public function realDel(string $ids): ?array

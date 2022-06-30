@@ -104,7 +104,6 @@ class GenerateCodeController extends MineController
 
     /**
      * 生成代码
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -130,13 +129,12 @@ class GenerateCodeController extends MineController
 
     /**
      * 删除代码生成表
-     * @param string $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("setting:code:delete"), OperationLog]
-    public function delete(string $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("setting:code:delete"), OperationLog]
+    public function delete(): ResponseInterface
     {
         return $this->tableService->delete($ids) ? $this->success() : $this->error();
     }

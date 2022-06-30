@@ -93,26 +93,24 @@ class MenuController extends MineController
 
     /**
      * 单个或批量删除菜单到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:menu:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:menu:delete")]
+    public function delete(): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除菜单 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:menu:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:menu:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
         $menus = $this->service->realDel($ids);
         return is_null($menus) ? 
@@ -122,14 +120,13 @@ class MenuController extends MineController
 
     /**
      * 单个或批量恢复在回收站的菜单
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:menu:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:menu:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 }

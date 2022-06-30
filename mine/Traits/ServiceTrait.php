@@ -186,12 +186,12 @@ trait ServiceTrait
 
     /**
      * 单个或批量软删除数据
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function delete(String $ids): bool
+    public function delete(array $ids): bool
     {
-        return !empty($ids) && $this->mapper->delete(explode(',', $ids));
+        return !empty($ids) && $this->mapper->delete($ids);
     }
 
     /**
@@ -218,44 +218,44 @@ trait ServiceTrait
 
     /**
      * 单个或批量真实删除数据
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function realDelete(string $ids): bool
+    public function realDelete(array $ids): bool
     {
-        return !empty($ids) && $this->mapper->realDelete(explode(',', $ids));
+        return !empty($ids) && $this->mapper->realDelete($ids);
     }
 
     /**
      * 单个或批量从回收站恢复数据
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function recovery(string $ids): bool
+    public function recovery(array $ids): bool
     {
-        return !empty($ids) && $this->mapper->recovery(explode(',', $ids));
+        return !empty($ids) && $this->mapper->recovery((array) $this->request->input('ids', []));
     }
 
     /**
      * 单个或批量禁用数据
-     * @param string $ids
+     * @param array $ids
      * @param string $field
      * @return bool
      */
-    public function disable(string $ids, string $field = 'status'): bool
+    public function disable(array $ids, string $field = 'status'): bool
     {
-        return !empty($ids) && $this->mapper->disable(explode(',', $ids), $field);
+        return !empty($ids) && $this->mapper->disable($ids, $field);
     }
 
     /**
      * 单个或批量启用数据
-     * @param string $ids
+     * @param array $ids
      * @param string $field
      * @return bool
      */
-    public function enable(string $ids, string $field = 'status'): bool
+    public function enable(array $ids, string $field = 'status'): bool
     {
-        return !empty($ids) && $this->mapper->enable(explode(',', $ids), $field);
+        return !empty($ids) && $this->mapper->enable($ids, $field);
     }
 
     /**
@@ -267,7 +267,7 @@ trait ServiceTrait
      */
     public function changeStatus(int $id, string $value, string $filed = 'status'): bool
     {
-        return $value === MineModel::ENABLE ? $this->mapper->enable([$id], $filed) : $this->mapper->disable([$id], $filed);
+        return $value == MineModel::ENABLE ? $this->mapper->enable([ $id ], $filed) : $this->mapper->disable([ $id ], $filed);
     }
 
     /**

@@ -10,6 +10,7 @@ use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Redis\Redis;
 use Mine\Annotation\Auth;
 use Mine\MineController;
@@ -45,6 +46,18 @@ class CommonController extends MineController
     public function getUserList(): ResponseInterface
     {
         return $this->success($this->userService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 通过 id 列表获取用户基础信息
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("getUserInfoByIds")]
+    public function getUserInfoByIds(): ResponseInterface
+    {
+        return $this->success($this->userService->getUserInfoByIds((array) $this->request->input('ids', [])));
     }
 
     /**

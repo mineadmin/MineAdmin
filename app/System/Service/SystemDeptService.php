@@ -95,7 +95,6 @@ class SystemDeptService extends AbstractService
 
     /**
      * 真实删除部门
-     * @param string $ids
      * @return array|null
      */
     public function realDel(string $ids): ?array

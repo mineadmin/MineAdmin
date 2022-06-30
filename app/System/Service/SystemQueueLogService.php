@@ -47,7 +47,6 @@ class SystemQueueLogService extends AbstractService
 
     /**
      * 修改队列日志的生产状态
-     * @param string $ids
      * @return bool
      */
     public function updateProduceStatus(string $ids): bool

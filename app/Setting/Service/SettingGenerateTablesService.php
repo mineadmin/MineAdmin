@@ -166,7 +166,6 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成代码
-     * @param string $ids
      * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

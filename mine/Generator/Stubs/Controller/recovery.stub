@@ -1,13 +1,12 @@
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("{RECOVERY_PERMISSION}"), OperationLog]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("{RECOVERY_PERMISSION}"), OperationLog]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }

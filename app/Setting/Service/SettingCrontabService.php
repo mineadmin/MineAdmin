@@ -76,10 +76,10 @@ class SettingCrontabService extends AbstractService
 
     /**
      * 删除
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function delete(string $ids): bool
+    public function delete(array $ids): bool
     {
         $res = parent::delete($ids);
         $this->redis->del($this->prefix . 'crontab');

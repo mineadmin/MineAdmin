@@ -121,20 +121,18 @@ class CrontabController extends MineController
 
     /**
      * 单个或批量删除
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("setting:crontab:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("setting:crontab:delete")]
+    public function delete(): ResponseInterface
     {
         return $this->service->delete($ids) ? $this->success() : $this->error();
     }
 
     /**
      * 删除定时任务日志
-     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

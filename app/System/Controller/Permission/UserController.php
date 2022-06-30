@@ -98,41 +98,38 @@ class UserController extends MineController
 
     /**
      * 单个或批量删除用户到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:user:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:user:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除用户 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:user:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:user:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        return $this->service->realDelete($ids) ? $this->success() : $this->error();
+        return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量恢复在回收站的用户
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:user:recovery"), OperationLog]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:user:recovery"), OperationLog]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -177,15 +174,14 @@ class UserController extends MineController
 
     /**
      * 初始化用户密码
-     * @param int $id
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("initUserPassword/{id}"), Permission("system:user:initUserPassword"), OperationLog]
-    public function initUserPassword(int $id): ResponseInterface
+    #[PutMapping("initUserPassword"), Permission("system:user:initUserPassword"), OperationLog]
+    public function initUserPassword(): ResponseInterface
     {
-        return $this->service->initUserPassword($id) ? $this->success() : $this->error();
+        return $this->service->initUserPassword((int) $this->request->input('id')) ? $this->success() : $this->error();
     }
 
     /**
@@ -231,6 +227,7 @@ class UserController extends MineController
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
     #[PostMapping("import"), Permission("system:user:import")]
     public function import(): ResponseInterface

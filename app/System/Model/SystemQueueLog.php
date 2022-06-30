@@ -15,9 +15,7 @@ use Mine\MineModel;
  * @property int $consume_status 消费状态 1:未消费 2:消费中 3:消费成功 4:消费失败 5:消费重复
  * @property int $delay_time 延迟时间（秒）
  * @property int $created_by 创建者
- * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
  */
 class SystemQueueLog extends MineModel
 {
@@ -40,27 +38,27 @@ class SystemQueueLog extends MineModel
     /**
      * @Message("生产重复")
      */
-    const PRODUCE_STATUS_4 = 5;
+    const PRODUCE_STATUS_REPEAT = 5;
     /**
      * @Message("未消费")
      */
-    const CONSUME_STATUS_0 = 6;
+    const CONSUME_STATUS_NO = 1;
     /**
      * @Message("消费中")
      */
-    const CONSUME_STATUS_DOING = 1;
+    const CONSUME_STATUS_DOING = 2;
     /**
      * @Message("消费成功")
      */
-    const CONSUME_STATUS_SUCCESS = 2;
+    const CONSUME_STATUS_SUCCESS = 3;
     /**
      * @Message("消费失败")
      */
-    const CONSUME_STATUS_FAIL = 3;
+    const CONSUME_STATUS_FAIL = 4;
     /**
      * @Message("消费重复")
      */
-    const CONSUME_STATUS_4 = 4;
+    const CONSUME_STATUS_REPEAT = 5;
     /**
      * The table associated with the model.
      *
@@ -72,11 +70,11 @@ class SystemQueueLog extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'exchange_name', 'routing_key_name', 'queue_name', 'queue_content', 'log_content', 'produce_status', 'consume_status', 'delay_time', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'exchange_name', 'routing_key_name', 'queue_name', 'queue_content', 'log_content', 'produce_status', 'consume_status', 'delay_time', 'created_by', 'created_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'produce_status' => 'integer', 'consume_status' => 'integer', 'delay_time' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'produce_status' => 'integer', 'consume_status' => 'integer', 'delay_time' => 'integer', 'created_by' => 'integer', 'created_at' => 'datetime'];
 }

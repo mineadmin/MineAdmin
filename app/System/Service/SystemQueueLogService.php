@@ -84,12 +84,12 @@ class SystemQueueLogService extends AbstractService
      * 推送消息到队列
      * @param QueueMessageVo $message
      * @param array $receiveUsers
-     * @return int
+     * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
      */
-    public function pushMessage(QueueMessageVo $message, array $receiveUsers = []): int
+    public function pushMessage(QueueMessageVo $message, array $receiveUsers = []): bool
     {
         $producer = AnnotationCollector::get(\App\System\Queue\Producer\MessageProducer::class);
         $consumer = AnnotationCollector::get(\App\System\Queue\Consumer\MessageConsumer::class);
@@ -115,7 +115,6 @@ class SystemQueueLogService extends AbstractService
         }
 
         $data = [
-            'id'            => (int) snowflake_id(),
             'title'         => $message->getTitle(),
             'content'       => $message->getContent(),
             'content_type'  => $message->getContentType(),
@@ -128,6 +127,6 @@ class SystemQueueLogService extends AbstractService
             $message->getIsConfirm(),
             $message->getTimeout(),
             $message->getDelayTime()
-        ) ? $data['id'] : -1;
+        );
     }
 }

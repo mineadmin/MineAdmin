@@ -129,7 +129,7 @@ class SystemQueueMessageMapper extends AbstractMapper
      * @param string $value
      * @return bool
      */
-    public function updateDataStatus(array $ids, string $columnName = 'read_status', string $value = '1'): bool
+    public function updateDataStatus(array $ids, string $columnName = 'read_status', int $value = 2): bool
     {
         foreach ($ids as $id) {
             $result = Db::table('system_queue_message_receive')

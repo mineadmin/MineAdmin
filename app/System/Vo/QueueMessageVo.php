@@ -29,9 +29,9 @@ class QueueMessageVo
 
     /**
      * 发送人
-     * @var string
+     * @var int
      */
-    protected string $sendBy;
+    protected int $sendBy;
 
     /**
      * 备注
@@ -114,7 +114,7 @@ class QueueMessageVo
     /**
      * @return string
      */
-    public function getSendBy(): string
+    public function getSendBy(): int
     {
         return $this->sendBy;
     }
@@ -123,7 +123,7 @@ class QueueMessageVo
      * @param string $sendBy
      * @return QueueMessageVo
      */
-    public function setSendBy(string $sendBy): QueueMessageVo
+    public function setSendBy(int $sendBy): QueueMessageVo
     {
         $this->sendBy = $sendBy;
         return $this;

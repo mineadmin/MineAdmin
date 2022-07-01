@@ -34,12 +34,16 @@ class SystemQueueMessageMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['title'])) {
-            $query->where('title', 'like', '%'.$params['content_type'].'%');
+            $query->where('title', 'like', '%'.$params['title'].'%');
         }
 
         // 内容类型
-        if (isset($params['content_type'])) {
+        if (isset($params['content_type']) && $params['content_type'] !== 'all') {
             $query->where('content_type', '=', $params['content_type']);
+        }
+
+        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) === 2) {
+            $query->whereBetween('created_at', [ $params['created_at'][0], $params['created_at'][1] ]);
         }
 
         // 获取收信数据
@@ -75,7 +79,7 @@ class SystemQueueMessageMapper extends AbstractMapper
     {
         $prefix = env('DB_PREFIX');
         $paginate = Db::table('system_user as u')
-            ->select(Db::raw("{$prefix}u.username, {$prefix}u.nickname, if ({$prefix}r.read_status = '1', '已读', '未读') as read_status "))
+            ->select(Db::raw("{$prefix}u.username, {$prefix}u.nickname, if ({$prefix}r.read_status = 2, '已读', '未读') as read_status "))
             ->join('system_queue_message_receive as r', 'u.id', '=', 'r.user_id')
             ->where('r.message_id', $id)
             ->paginate(

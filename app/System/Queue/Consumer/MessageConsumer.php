@@ -22,8 +22,6 @@ class MessageConsumer extends ConsumerMessage
      */
     public function consumeMessage($data, AMQPMessage $message): string
     {
-        print_r($data);
-        console()->error('cm');
         return parent::consumeMessage($data, $message);
     }
 

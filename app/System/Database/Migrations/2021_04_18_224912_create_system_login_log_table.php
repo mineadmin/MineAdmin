@@ -33,6 +33,7 @@ class CreateSystemLoginLogTable extends Migration
             $table->addColumn('string', 'message', ['length' => 50, 'comment' => '提示消息'])->nullable();
             $table->addColumn('timestamp', 'login_time', ['comment' => '登录时间']);
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->index('username');
         });
     }
 

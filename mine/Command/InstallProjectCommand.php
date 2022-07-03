@@ -250,7 +250,7 @@ class InstallProjectCommand extends MineCommand
             $pdo = new \PDO($dsn, $this->database['dbuser'], $this->database['dbpass']);
             $isSuccess = $pdo->query(
                 sprintf(
-                    'CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
+                    'CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARSET %s COLLATE %s_general_ci;',
                     $this->database['dbname'], $this->database['charset'], $this->database['charset']
                 )
             );
@@ -311,6 +311,7 @@ class InstallProjectCommand extends MineCommand
             'nickname' => '创始人',
             'email' => 'admin@adminmine.com',
             'phone' => '16858888988',
+            'signed' => '广阔天地，大有所为',
             'dashboard' => 'statistics',
             'created_by' => 0,
             'updated_by' => 0,

@@ -45,8 +45,9 @@ class UpdateProjectCommand extends MineCommand
      * @param Migrator $migrator
      * @param Seed $seed
      */
-    public function __construct(Migrator $migrator, Seed $seed)
+    public function __construct(string $name = null, Migrator $migrator, Seed $seed)
     {
+        parent::__construct($name);
         $this->migrator = $migrator;
         $this->seed = $seed;
     }

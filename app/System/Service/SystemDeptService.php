@@ -78,12 +78,10 @@ class SystemDeptService extends AbstractService
 
         if ($pid === 0) {
             $data['level'] = $data['parent_id'] = '0';
-        } else if (is_array($pid)){
-            array_unshift($pid, '0');
-            $data['level'] = implode(',', $pid);
-            $data['parent_id'] = array_pop($pid);
-        } else {
+        } else if ($data['id']) {
             $data['level'] = $this->read($data['id'])->level . ',' . $data['parent_id'];
+        } else {
+            $data['level'] = $this->read($data['parent_id'])->level . ',' . $data['parent_id'];
         }
 
         if ($data['id'] == $data['parent_id']) {
@@ -95,18 +93,18 @@ class SystemDeptService extends AbstractService
 
     /**
      * 真实删除部门
+     * @param array $ids
      * @return array|null
      */
-    public function realDel(string $ids): ?array
+    public function realDel(array $ids): ?array
     {
-        $ids = explode(',', $ids);
         // 跳过的部门
         $ctuIds = [];
         if (count($ids)) foreach ($ids as $id) {
             if (!$this->checkChildrenExists( (int) $id)) {
                 $this->mapper->realDelete([$id]);
             } else {
-                array_push($ctuIds, $id);
+                $ctuIds[] = $id;
             }
         }
         return count($ctuIds) ? $this->mapper->getDeptName($ctuIds) : null;

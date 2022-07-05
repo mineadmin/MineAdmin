@@ -144,9 +144,6 @@ class SystemMenuService extends AbstractService
             $data['level'] = '0';
             $data['type'] = SystemMenu::MENUS_LIST;
         } else {
-            if (is_array($data['parent_id'])) {
-                $data['parent_id'] = array_pop($data['parent_id']);
-            }
             $parentMenu = $this->mapper->read((int) $data['parent_id']);
             $data['level'] = $parentMenu['level'] . ',' . $parentMenu['id'];
         }
@@ -157,16 +154,15 @@ class SystemMenuService extends AbstractService
      * 真实删除菜单
      * @return array
      */
-    public function realDel(string $ids): ?array
+    public function realDel(array $ids): ?array
     {
-        $ids = explode(',', $ids);
         // 跳过的菜单
         $ctuIds = [];
         if (count($ids)) foreach ($ids as $id) {
             if (!$this->checkChildrenExists( (int) $id)) {
                 $this->mapper->realDelete([$id]);
             } else {
-                array_push($ctuIds, $id);
+                $ctuIds[] = $id;
             }
         }
         return count($ctuIds) ? $this->mapper->getMenuName($ctuIds) : null;

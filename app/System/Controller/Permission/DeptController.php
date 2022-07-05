@@ -100,7 +100,7 @@ class DeptController extends MineController
     #[DeleteMapping("delete"), Permission("system:dept:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -112,7 +112,7 @@ class DeptController extends MineController
     #[DeleteMapping("realDelete"), Permission("system:dept:realDelete"), OperationLog]
     public function realDelete(): ResponseInterface
     {
-        $data = $this->service->realDel($ids);
+        $data = $this->service->realDel((array) $this->request->input('ids', []));
         return is_null($data) ?
             $this->success() :
             $this->success(t('system.exists_children_ctu', ['names' => implode(',', $data)]));

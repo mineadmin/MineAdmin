@@ -233,7 +233,7 @@ trait ServiceTrait
      */
     public function recovery(array $ids): bool
     {
-        return !empty($ids) && $this->mapper->recovery((array) $this->request->input('ids', []));
+        return !empty($ids) && $this->mapper->recovery($ids);
     }
 
     /**

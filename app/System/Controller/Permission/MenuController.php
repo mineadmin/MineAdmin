@@ -100,7 +100,7 @@ class MenuController extends MineController
     #[DeleteMapping("delete"), Permission("system:menu:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -112,7 +112,7 @@ class MenuController extends MineController
     #[DeleteMapping("realDelete"), Permission("system:menu:realDelete"), OperationLog]
     public function realDelete(): ResponseInterface
     {
-        $menus = $this->service->realDel($ids);
+        $menus = $this->service->realDel((array) $this->request->input('ids', []));
         return is_null($menus) ? 
         $this->success() :
         $this->success(t('system.exists_children_ctu', ['names' => implode(',', $menus)]));

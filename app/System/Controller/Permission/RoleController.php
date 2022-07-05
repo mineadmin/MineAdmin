@@ -153,7 +153,7 @@ class RoleController extends MineController
     #[DeleteMapping("delete"), Permission("system:role:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**

@@ -105,7 +105,7 @@ class CommonController extends MineController
     #[GetMapping("clearAllCache")]
     public function clearAllCache(): ResponseInterface
     {
-        $this->userService->clearCache(user()->getId());
+        $this->userService->clearCache((string) user()->getId());
         return $this->success();
     }
 }

@@ -176,11 +176,8 @@ class SystemRoleMapper extends AbstractMapper
             $query->whereNotIn('id', [env('ADMIN_ROLE')]);
         }
 
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
-            $query->whereBetween(
-                'created_at',
-                [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
-            );
+        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+            $query->whereBetween('created_at', [ $params['created_at'][0], $params['created_at'][1] ]);
         }
         return $query;
     }

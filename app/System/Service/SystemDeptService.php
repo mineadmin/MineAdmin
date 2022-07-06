@@ -74,18 +74,16 @@ class SystemDeptService extends AbstractService
      */
     protected function handleData($data): array
     {
+        if (isset($data['id']) && $data['id'] == $data['parent_id']) {
+            throw new NormalStatusException(t('system.parent_dept_error'), 500);
+        }
+
         $pid = $data['parent_id'] ?? 0;
 
         if ($pid === 0) {
             $data['level'] = $data['parent_id'] = '0';
-        } else if ($data['id']) {
-            $data['level'] = $this->read($data['id'])->level . ',' . $data['parent_id'];
         } else {
             $data['level'] = $this->read($data['parent_id'])->level . ',' . $data['parent_id'];
-        }
-
-        if ($data['id'] == $data['parent_id']) {
-            throw new NormalStatusException(t('system.parent_dept_error'), 500);
         }
 
         return $data;

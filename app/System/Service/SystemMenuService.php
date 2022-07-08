@@ -31,7 +31,7 @@ class SystemMenuService extends AbstractService
      */
     public function getTreeList(?array $params = null, bool $isScope = true): array
     {
-        $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
+        $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc', 'noButton' => true], $params);
         return parent::getTreeList($params, $isScope);
     }
 
@@ -42,7 +42,7 @@ class SystemMenuService extends AbstractService
      */
     public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
     {
-        $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
+        $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc', 'noButton' => true], $params);
         return parent::getTreeListByRecycle($params, $isScope);
     }
 

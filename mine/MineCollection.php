@@ -52,7 +52,7 @@ class MineCollection extends Collection
                 'type'   => $menu['type'],
                 'icon'   => $menu['icon'],
                 'title'  => $menu['name'],
-                'hidden' => ($menu['is_hidden'] == 0),
+                'hidden' => ($menu['is_hidden'] === 1),
                 'hiddenBreadcrumb' => false
             ]
         ];

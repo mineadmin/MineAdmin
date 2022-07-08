@@ -82,7 +82,7 @@ class SystemMenuService extends AbstractService
         $id = $this->mapper->save($this->handleData($data));
 
         // 生成RESTFUL按钮菜单
-        if ($data['type'] == SystemMenu::MENUS_LIST && $data['restful'] == '0') {
+        if ($data['type'] == SystemMenu::MENUS_LIST && $data['restful'] == '1') {
             $model = $this->mapper->model::find($id, ['id', 'name', 'code']);
             $this->genButtonMenu($model);
         }
@@ -140,9 +140,10 @@ class SystemMenuService extends AbstractService
      */
     protected function handleData($data): array
     {
-        if ($data['parent_id'] == 0) {
+        if (empty($data['parent_id']) || $data['parent_id'] == 0) {
             $data['level'] = '0';
-            $data['type'] = SystemMenu::MENUS_LIST;
+            $data['parent_id'] = 0;
+            $data['type'] = $data['type'] === SystemMenu::BUTTON ? SystemMenu::MENUS_LIST : $data['type'];
         } else {
             $parentMenu = $this->mapper->read((int) $data['parent_id']);
             $data['level'] = $parentMenu['level'] . ',' . $parentMenu['id'];

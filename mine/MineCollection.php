@@ -40,7 +40,7 @@ class MineCollection extends Collection
      */
     public function setRouter(&$menu): array
     {
-        $route = $menu['type'] == 'L' ? $menu['route'] : '/' . $menu['route'];
+        $route = ($menu['type'] == 'L' || $menu['type'] == 'I') ? $menu['route'] : '/' . $menu['route'];
         return [
             'id' => $menu['id'],
             'parent_id' => $menu['parent_id'],

@@ -36,10 +36,10 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:dictType:index")]
+    #[GetMapping("index"), Permission("system:dict:index")]
     public function index(): ResponseInterface
     {
-        return $this->success($this->service->getList($this->request->all()));
+        return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**
@@ -48,10 +48,10 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("recycle"), Permission("system:dictType:recycle")]
+    #[GetMapping("recycle"), Permission("system:dict:recycle")]
     public function recycle(): ResponseInterface
     {
-        return $this->success($this->service->getListByRecycle($this->request->all()));
+        return $this->success($this->service->getPageListByRecycle($this->request->all()));
     }
 
     /**
@@ -61,7 +61,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("system:dictType:save"), OperationLog]
+    #[PostMapping("save"), Permission("system:dict:save"), OperationLog]
     public function save(DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -74,7 +74,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("read/{id}"), Permission("system:dictType:read")]
+    #[GetMapping("read/{id}"), Permission("system:dict:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -88,7 +88,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("system:dictType:update"), OperationLog]
+    #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog]
     public function update(int $id, DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -100,10 +100,10 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete"), Permission("system:dictType:delete")]
+    #[DeleteMapping("delete"), Permission("system:dict:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -112,7 +112,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete"), Permission("system:dictType:realDelete"), OperationLog]
+    #[DeleteMapping("realDelete"), Permission("system:dict:realDelete"), OperationLog]
     public function realDelete(): ResponseInterface
     {
         return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
@@ -124,7 +124,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery"), Permission("system:dictType:recovery")]
+    #[PutMapping("recovery"), Permission("system:dict:recovery")]
     public function recovery(): ResponseInterface
     {
         return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();

@@ -99,6 +99,7 @@ class LogsController extends MineController
 
     /**
      * 删除队列日志
+     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -111,6 +112,7 @@ class LogsController extends MineController
 
     /**
      * 重新加入队列
+     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -123,6 +125,7 @@ class LogsController extends MineController
 
     /**
      * 删除操作日志
+     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -135,6 +138,7 @@ class LogsController extends MineController
 
     /**
      * 删除登录日志
+     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -147,6 +151,7 @@ class LogsController extends MineController
 
     /**
      * 删除API访问日志
+     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

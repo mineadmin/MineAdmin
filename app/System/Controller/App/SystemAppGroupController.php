@@ -113,7 +113,7 @@ class SystemAppGroupController extends MineController
     #[DeleteMapping("delete"), Permission("system:appGroup:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -138,5 +138,18 @@ class SystemAppGroupController extends MineController
     public function recovery(): ResponseInterface
     {
         return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改状态
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:appGroup:update"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

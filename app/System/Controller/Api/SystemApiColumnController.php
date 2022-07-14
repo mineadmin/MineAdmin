@@ -102,7 +102,7 @@ class SystemApiColumnController extends MineController
     #[DeleteMapping("delete"), Permission("system:apiColumn:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -164,5 +164,18 @@ class SystemApiColumnController extends MineController
     public function downloadTemplate(): ResponseInterface
     {
         return (new MineCollection)->export(\App\System\Dto\ApiColumnDto::class, '模板下载', []);
+    }
+
+    /**
+     * 更改状态
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:apiColumn:update"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

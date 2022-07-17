@@ -23,7 +23,7 @@ class CreateSystemApiTable extends Migration
         Schema::create('system_api', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('接口表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'group_id', ['unsigned' => true, 'comment' => '接口组ID']);
             $table->addColumn('string', 'name', ['length' => 32, 'comment' => '接口名称']);
             $table->addColumn('string', 'access_name', ['length' => 64, 'comment' => '接口访问名称']);
@@ -40,7 +40,6 @@ class CreateSystemApiTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
             $table->index('group_id');
             $table->index('access_name');
         });

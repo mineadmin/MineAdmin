@@ -45,12 +45,17 @@ class SystemApiColumnMapper extends AbstractMapper
             $query->where('name', '=', $params['name']);
         }
 
-        // 是否必填 0 非必填 1 必填
+        // 数据类型
+        if (isset($params['data_type'])) {
+            $query->where('data_type', '=', $params['data_type']);
+        }
+
+        // 是否必填 1 非必填 2 必填
         if (isset($params['is_required'])) {
             $query->where('is_required', '=', $params['is_required']);
         }
 
-        // 状态 (0正常 1停用)
+        // 状态 (1正常 2停用)
         if (isset($params['status'])) {
             $query->where('status', '=', $params['status']);
         }

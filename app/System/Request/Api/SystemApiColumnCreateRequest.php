@@ -27,6 +27,8 @@ class SystemApiColumnCreateRequest extends FormRequest
             // 字段名称 验证
             'name' => 'required',
 
+            'api_id' => 'required',
+
             // 字段类型 0 请求 1 返回 验证
             'type' => 'required',
 

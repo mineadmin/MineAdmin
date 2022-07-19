@@ -19,6 +19,10 @@ use Mine\MineModel;
 class SystemLoginLog extends MineModel
 {
     public $timestamps = false;
+
+    public const SUCCESS = 1;
+    public const FAIL = 2;
+
     /**
      * The table associated with the model.
      *

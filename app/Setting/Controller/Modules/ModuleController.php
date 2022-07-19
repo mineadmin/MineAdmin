@@ -75,10 +75,10 @@ class ModuleController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("install/{name}"), Permission("setting:module:install"), OperationLog]
-    public function install(string $name): ResponseInterface
+    #[PutMapping("install"), Permission("setting:module:install"), OperationLog]
+    public function install(): ResponseInterface
     {
-        return $this->service->installModuleData($name) ? $this->success() : $this->error();
+        return $this->service->installModuleData($this->request->input('name')) ? $this->success() : $this->error();
     }
 
     /**
@@ -89,10 +89,10 @@ class ModuleController extends MineController
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
      */
-    #[DeleteMapping("delete/{name}"), Permission("setting:module:delete"), OperationLog]
-    public function delete(string $name): ResponseInterface
+    #[DeleteMapping("delete"), Permission("setting:module:delete"), OperationLog]
+    public function delete(): ResponseInterface
     {
-        return $this->service->uninstallModule($name) ? $this->success() : $this->error();
+        return $this->service->uninstallModule($this->request->input('name')) ? $this->success() : $this->error();
     }
 
 }

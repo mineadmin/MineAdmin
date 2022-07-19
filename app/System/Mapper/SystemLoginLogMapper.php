@@ -33,19 +33,19 @@ class SystemLoginLogMapper extends AbstractMapper
         if (isset($params['ip'])) {
             $query->where('ip', $params['ip']);
         }
+
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
+
         if (isset($params['status'])) {
             $query->where('status', $params['status']);
         }
-        if (isset($params['method'])) {
-            $query->where('method', $params['method']);
-        }
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
+
+        if (isset($params['login_time']) && is_array($params['login_time']) && count($params['login_time']) == 2) {
             $query->whereBetween(
                 'login_time',
-                [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
+                [ $params['login_time'][0] . '00:00:00', $params['login_time'][1] . '23:59:59' ]
             );
         }
         return $query;

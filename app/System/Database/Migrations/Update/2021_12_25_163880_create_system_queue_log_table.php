@@ -33,7 +33,6 @@ class CreateSystemQueueLogTable extends Migration
             $table->addColumn('char', 'consume_status', ['length' => 1, 'default' => '0', 'comment' => '消费状态 0:未消费 1:消费中 2:消费成功 3:消费失败 4:消费重复'])->nullable();
             $table->addColumn('integer', 'delay_time', ['unsigned' => true, 'comment' => '延迟时间（秒）']);
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->primary('id');

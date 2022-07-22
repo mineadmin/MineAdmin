@@ -28,7 +28,9 @@ services:
         php -m
         cd /app-src
         composer install -o
+        composer update -o
         composer dump-autoload -o
+        php bin/hyperf.php vendor:publish hyperf/watcher
         rm -rf runtime/container
         php bin/hyperf.php server:watch
   # mine_develop_redis:

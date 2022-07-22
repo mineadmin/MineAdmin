@@ -4,6 +4,11 @@ export default {
     preview(){
       return this.dataList.filter( item => item.mime_type.indexOf('image') > -1).map(v => this.viewImage(v.url))
     },
+		preview_index() {
+			return function (e) {
+				return this.preview.indexOf(e)
+			}
+		}
   },
 
   data() {

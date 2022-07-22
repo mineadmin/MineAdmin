@@ -8,9 +8,9 @@ services:
     image: nginx:latest
     environment:
       - "TIMEZONE=Asia/Shanghai"
-    ports: 
+    ports:
       - 8101:80
-    volumes: 
+    volumes:
       - ./mine-ui/dist:/usr/share/nginx/html
       - ./docker/nginx-frontend/servers:/etc/nginx/conf.d
 
@@ -24,7 +24,7 @@ services:
       - "APP_PROJECT=hyperf"
       - "APP_SYSTEM_ENV=docker"
     working_dir: "/opt/www"
-    ports: 
+    ports:
       - 9501:9501
       - 9502:9502
       - 9503:9503
@@ -34,9 +34,9 @@ services:
 
   # 没有将volumes映射出来，需要持久化自行百度一下
 
-  mysql: 
+  mysql:
     container_name: mysql
-    environment: 
+    environment:
       - "TZ=Asia/Shanghai"
       - MYSQL_ROOT_PASSWORD=12345678
       - "explicit_defaults_for_timestamp=true"

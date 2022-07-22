@@ -251,7 +251,7 @@ class InstallProjectCommand extends MineCommand
             $pdo = new \PDO($dsn, $this->database['dbuser'], $this->database['dbpass']);
             $isSuccess = $pdo->query(
                 sprintf(
-                    'CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
+                    'CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARSET %s COLLATE %s_general_ci;',
                     $this->database['dbname'], $this->database['charset'], $this->database['charset']
                 )
             );

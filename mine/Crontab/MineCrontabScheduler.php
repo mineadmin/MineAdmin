@@ -12,7 +12,6 @@
 declare(strict_types=1);
 namespace Mine\Crontab;
 
-use JetBrains\PhpStorm\Pure;
 
 class MineCrontabScheduler
 {

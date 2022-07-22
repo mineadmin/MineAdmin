@@ -1,50 +1,72 @@
-version: '3'
+version: "3"
 services:
-  # 容器内访问宿主机的地址用：host.docker.internal
-  # 宿主机也可以在hosts文件添加：127.0.0.1 host.docker.internal
-  # mine-ui的.env文件127.0.0.1替换为host.docker.internal
-  # mine-ui/src/config/index.js文件127.0.0.1替换为host.docker.internal
-  nginx-frontend:
-    image: nginx:latest
-    environment:
-      - "TIMEZONE=Asia/Shanghai"
-    ports:
-      - 8101:80
+  mine_develop:
+    container_name: mine_develop
+    hostname: mine_develop
+    image: littleof/php:8.0-swoole
     volumes:
-      - ./mine-ui/dist:/usr/share/nginx/html
-      - ./docker/nginx-frontend/servers:/etc/nginx/conf.d
-
-  # mineadmin的.env的mysql、redis如果连接到宿主机，地址用：host.docker.internal
-  # 如果是连接到docker内服务，则用服务名称，如:redis
-  hyperf:
-    image: ixmo/mine-admin:latest
-    restart: always
-    environment:
-      - "TIMEZONE=Asia/Shanghai"
-      - "APP_PROJECT=hyperf"
-      - "APP_SYSTEM_ENV=docker"
-    working_dir: "/opt/www"
+      - ./:/app-src/
     ports:
       - 9501:9501
       - 9502:9502
       - 9503:9503
-    volumes:
-      - ./:/opt/www
-    entrypoint: ["php", "watch", "-c"]
-
-  # 没有将volumes映射出来，需要持久化自行百度一下
-
-  mysql:
-    container_name: mysql
+    restart: on-failure
     environment:
-      - "TZ=Asia/Shanghai"
-      - MYSQL_ROOT_PASSWORD=12345678
-      - "explicit_defaults_for_timestamp=true"
-      - "lower_case_table_names=1"
-    image: mysql:5.7
-    restart: always
-    # command: "--default-authentication-plugin=mysql_native_password"
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
+      - APP_ENV=dev  #节点名称
+      - APP_NAME=MineAdmin #节点名称
+      - APP_VERSION=1.0 #节点版本
+      - APP_DEBUG=true #节点是否debug模式
+      - APP_NODE=NODE1 #节点url
+    network_mode: bridge
+    # entrypoint: ["php", "bin/hyperf.php", "start"]
+    command:
+      - bash
+      - -c
+      - |
+        php -v
+        php --ri swoole
+        php -m
+        cd /app-src
+        composer install -o
+        composer dump-autoload -o
+        rm -rf runtime/container
+        php bin/hyperf.php server:watch
+  # mine_develop_redis:
+  #   container_name: mine_develop_redis
+  #   hostname: mine_develop_redis
+  #   image: redis:latest
+  #   env_file: env.cnf
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - "/usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro"
+  #   restart: always
+  #   network_mode: bridge
+  # mine_develop_db:
+  #   container_name: mine_develop_db
+  #   hostname: mine_develop_db
+  #   image: mysql:latest
+  #   env_file: env.cnf
+  #   volumes:
+  #     - "./data/mysql:/var/lib/mysql:rw"
+  #     - "/usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro"
+  #   ports:
+  #     - "3306:3306"
+  #   restart: always
+  #   command: --default-authentication-plugin=mysql_native_password --skip-external-locking
+  #   network_mode: bridge
+  # mine_develop_rabbit:
+  #   container_name: mine_develop_rabbit
+  #   hostname: mine_develop_rabbit
+  #   image: rabbitmq:management
+  #   env_file: env.cnf
+  #   volumes:
+  #     - "/usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro"
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+  #     - 25672:25672
+  #     - 61613:61613
+  #     - 1883:1883
+  #   restart: always
+  #   network_mode: bridge

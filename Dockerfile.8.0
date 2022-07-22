@@ -71,7 +71,7 @@ RUN set -ex \
     # for extension libaio linux-headers
     && apk add --no-cache libstdc++ openssl git bash  php8-pear php8-dev autoconf pcre2-dev c-ares-dev zlib-dev re2c gcc g++ make \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libaio-dev openssl-dev curl-dev  \
-    # php extension:swool
+    # php extension:swoole
     && ln -s /usr/bin/pecl8 /usr/local/bin/pecl \
     && pecl channel-update pecl.php.net \
     && pecl install --configureoptions 'enable-sockets="no" enable-openssl="yes" enable-http2="yes" enable-mysqlnd="no" enable-swoole-json="yes" enable-swoole-curl="yes" enable-cares="no"' swoole \
@@ -122,7 +122,8 @@ RUN set -ex \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
 
 RUN set -ex apk update \
-    && apk add --no-cache libstdc++ openssl git bash php8-pear php8-dev php8-tokenizer php8-fileinfo php8-simplexml php8-xmlwriter autoconf pcre2-dev zlib-dev re2c gcc g++ make \
+    && apk add --no-cache libstdc++ openssl git bash autoconf pcre2-dev zlib-dev re2c gcc g++ make \
+    php8-pear php8-dev php8-tokenizer php8-fileinfo php8-simplexml php8-xmlwriter \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS zlib-dev libaio-dev openssl-dev curl-dev  c-ares-dev \
     && pecl channel-update pecl.php.net \
     && ln -s /usr/bin/phpize8 /usr/local/bin/phpize \

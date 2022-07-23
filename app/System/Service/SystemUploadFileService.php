@@ -156,4 +156,14 @@ class SystemUploadFileService extends AbstractService
             return $data;
         }
     }
+
+    /**
+     * 通过hash获取文件信息
+     * @param string $hash
+     * @return \Hyperf\Database\Model\Builder|\Hyperf\Database\Model\Model|object|null
+     */
+    public function readByHash(string $hash)
+    {
+        return $this->mapper->getFileInfoByHash($hash);
+    }
 }

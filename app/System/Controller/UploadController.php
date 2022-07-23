@@ -13,6 +13,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
+use Mine\Exception\MineException;
 use Mine\MineController;
 
 /**
@@ -121,7 +122,7 @@ class UploadController extends MineController
     }
 
     /**
-     * 下载文件
+     * 根据id下载文件
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -133,7 +134,30 @@ class UploadController extends MineController
         if (empty($id)) {
             return $this->error("附件ID必填");
         }
-        $model = $this->service->read($id);
+        $model = $this->service->read((int) $id);
+        if (! $model) {
+            throw new \Mine\Exception\MineException('附件不存在', 500);
+        }
+        return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
+    }
+
+    /**
+     * 根据hash下载文件
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("downloadByHash")]
+    public function downloadByHash(): \Psr\Http\Message\ResponseInterface
+    {
+        $hash = $this->request->input('hash');
+        if (empty($hash)) {
+            return $this->error("附件hash必填");
+        }
+        $model = $this->service->readByHash($hash);
+        if (! $model) {
+            throw new \Mine\Exception\MineException('附件不存在', 500);
+        }
         return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
     }
 }

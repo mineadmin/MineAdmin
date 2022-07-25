@@ -62,7 +62,7 @@ class SystemConfigController extends MineController
     #[PostMapping("update"), Permission("setting:config:update"), OperationLog]
     public function update(SettingConfigRequest $request): \Psr\Http\Message\ResponseInterface
     {
-        return $this->service->updated($request->validated()) ? $this->success() : $this->error();
+        return $this->service->updated($this->request->input('key'), $request->validated()) ? $this->success() : $this->error();
     }
 
     /**

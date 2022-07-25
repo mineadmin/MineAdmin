@@ -63,7 +63,7 @@ class SystemConfigGroupController extends MineController
     #[PostMapping("update"), Permission("setting:config:update"), OperationLog("更新配置组")]
     public function update(SettingConfigGroupRequest $request): \Psr\Http\Message\ResponseInterface
     {
-        return $this->service->updated($request->validated()) ? $this->success() : $this->error();
+        return $this->service->update((int) $this->request->input('id'), $request->validated()) ? $this->success() : $this->error();
     }
 
     /**
@@ -75,6 +75,6 @@ class SystemConfigGroupController extends MineController
     #[DeleteMapping("delete"), Permission("setting:config:delete"), OperationLog("删除配置组")]
     public function delete(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->service->delete($this->request->input('id')) ? $this->success() : $this->error();
+        return $this->service->deleteConfigGroup((int) $this->request->input('id')) ? $this->success() : $this->error();
     }
 }

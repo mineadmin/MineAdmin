@@ -18,6 +18,7 @@ class SettingConfigRequest extends MineFormRequest
             'key' => 'required|max:32',
             'value' => 'required|max:255',
             'name' => 'required|max:255',
+            'input_type' => '',
             'config_select_data' => '',
             'sort' => '',
             'remark' => '',

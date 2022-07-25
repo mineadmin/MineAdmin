@@ -34,4 +34,13 @@ class SettingConfigGroup extends MineModel
      * @var array
      */
     protected $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    /**
+     * 关联config表
+     * @return \Hyperf\Database\Model\Relations\HasMany
+     */
+    public function configs(): \Hyperf\Database\Model\Relations\HasMany
+    {
+        return $this->hasMany(SettingConfig::class, 'group_id', 'id');
+    }
 }

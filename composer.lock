@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "360a54289cc7b19f277d207112e91fa7",
+    "content-hash": "446534e1fff2deaf4d26eb704e70f448",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -1468,22 +1468,11 @@
         {
             "name": "hyperf/amqp",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/amqp.git",
-                "reference": "a379fcca73be52cc9e2e8ebfcfd641ee831c7f3e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/amqp/zipball/a379fcca73be52cc9e2e8ebfcfd641ee831c7f3e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/amqp/v2.2.33/hyperf-amqp-v2.2.33.zip",
                 "reference": "a379fcca73be52cc9e2e8ebfcfd641ee831c7f3e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2.0",
@@ -1515,7 +1504,6 @@
                     "Hyperf\\Amqp\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1526,33 +1514,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/async-queue",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/async-queue.git",
-                "reference": "6e8da55c8b19322023d5fdd970bcbddf774e79f0"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/async-queue/zipball/6e8da55c8b19322023d5fdd970bcbddf774e79f0",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/async-queue/v2.2.33/hyperf-async-queue-v2.2.33.zip",
                 "reference": "6e8da55c8b19322023d5fdd970bcbddf774e79f0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/command": "~2.2.0",
@@ -1582,7 +1553,6 @@
                     "Hyperf\\AsyncQueue\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1593,33 +1563,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/cache",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/cache.git",
-                "reference": "5d133778db7b38bd40be8ef970dcb2d75a5b68ed"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/cache/zipball/5d133778db7b38bd40be8ef970dcb2d75a5b68ed",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/cache/v2.2.33/hyperf-cache-v2.2.33.zip",
                 "reference": "5d133778db7b38bd40be8ef970dcb2d75a5b68ed",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -1646,7 +1599,6 @@
                     "Hyperf\\Cache\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1657,33 +1609,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/command",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/command.git",
-                "reference": "c6f9b3a0a7ca610a64e7ed01ab3d26a0b4042706"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/command/zipball/c6f9b3a0a7ca610a64e7ed01ab3d26a0b4042706",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/command/v2.2.33/hyperf-command-v2.2.33.zip",
                 "reference": "c6f9b3a0a7ca610a64e7ed01ab3d26a0b4042706",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -1705,7 +1640,6 @@
                     "Hyperf\\Command\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1715,31 +1649,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/command/issues",
-                "source": "https://github.com/hyperf/command/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/config",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/config.git",
-                "reference": "9437f45aea36358840c907691e9b28492550e9a3"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/config/zipball/9437f45aea36358840c907691e9b28492550e9a3",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/config/v2.2.33/hyperf-config-v2.2.33.zip",
                 "reference": "9437f45aea36358840c907691e9b28492550e9a3",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -1771,7 +1690,6 @@
                     "Hyperf\\Config\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1784,33 +1702,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/context",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/context.git",
-                "reference": "f2e77442693a07d47f7ca97f8b2fdb8e17196a47"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/context/zipball/f2e77442693a07d47f7ca97f8b2fdb8e17196a47",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/context/v2.2.33/hyperf-context-v2.2.33.zip",
                 "reference": "f2e77442693a07d47f7ca97f8b2fdb8e17196a47",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/engine": "^1.1",
@@ -1827,7 +1728,6 @@
                     "Hyperf\\Context\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1839,33 +1739,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/contract",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/contract.git",
-                "reference": "1ebf037c91d76ec05af9e5cb3335b0f5ec810e27"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/contract/zipball/1ebf037c91d76ec05af9e5cb3335b0f5ec810e27",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/contract/v2.2.33/hyperf-contract-v2.2.33.zip",
                 "reference": "1ebf037c91d76ec05af9e5cb3335b0f5ec810e27",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
@@ -1881,7 +1764,6 @@
                     "Hyperf\\Contract\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1892,33 +1774,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/crontab",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/crontab.git",
-                "reference": "64e1a6db961fdf46a111ec172956abb5a386511c"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/crontab/zipball/64e1a6db961fdf46a111ec172956abb5a386511c",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/crontab/v2.2.33/hyperf-crontab-v2.2.33.zip",
                 "reference": "64e1a6db961fdf46a111ec172956abb5a386511c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -1939,7 +1804,6 @@
                     "Hyperf\\Crontab\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1951,33 +1815,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/database",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/database.git",
-                "reference": "e3c879f238fd92d79aef3196515aa7894aeff5a0"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/database/zipball/e3c879f238fd92d79aef3196515aa7894aeff5a0",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/database/v2.2.33/hyperf-database-v2.2.33.zip",
                 "reference": "e3c879f238fd92d79aef3196515aa7894aeff5a0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/macroable": "~2.2.0",
@@ -2003,7 +1850,6 @@
                     "Hyperf\\Database\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2014,33 +1860,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/db-connection",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/db-connection.git",
-                "reference": "05d2a1e858f01682739e066430b339a9bcdef837"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/db-connection/zipball/05d2a1e858f01682739e066430b339a9bcdef837",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/db-connection/v2.2.33/hyperf-db-connection-v2.2.33.zip",
                 "reference": "05d2a1e858f01682739e066430b339a9bcdef837",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/database": "~2.2.0",
@@ -2065,7 +1894,6 @@
                     "Hyperf\\DbConnection\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2077,33 +1905,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/di",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/di.git",
-                "reference": "471c3cf9e0c02ab3aaa0c6e9884062bd541e4577"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/di/zipball/471c3cf9e0c02ab3aaa0c6e9884062bd541e4577",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/di/v2.2.33/hyperf-di-v2.2.33.zip",
                 "reference": "471c3cf9e0c02ab3aaa0c6e9884062bd541e4577",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.6",
@@ -2133,7 +1944,6 @@
                     "Hyperf\\Di\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2146,33 +1956,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/dispatcher",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/dispatcher.git",
-                "reference": "bcffa8faa11367204c4e00e93f6425d600603e03"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/dispatcher/zipball/bcffa8faa11367204c4e00e93f6425d600603e03",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/dispatcher/v2.2.33/hyperf-dispatcher-v2.2.33.zip",
                 "reference": "bcffa8faa11367204c4e00e93f6425d600603e03",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2195,7 +1988,6 @@
                     "Hyperf\\Dispatcher\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2209,33 +2001,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/engine",
             "version": "v1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/engine.git",
-                "reference": "be371c486d1e0809fd84d248f554229c985409a7"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/engine/zipball/be371c486d1e0809fd84d248f554229c985409a7",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/engine/v1.2.1/hyperf-engine-v1.2.1.zip",
                 "reference": "be371c486d1e0809fd84d248f554229c985409a7",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
@@ -2261,7 +2036,6 @@
                     "Hyperf\\Engine\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2269,31 +2043,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/engine/issues",
-                "source": "https://github.com/hyperf/engine/tree/v1.2.1"
-            },
             "time": "2022-01-22T14:24:31+00:00"
         },
         {
             "name": "hyperf/event",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/event.git",
-                "reference": "cd92f5c1218c65f29b15c4d12dcf5835e0426ac8"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/event/zipball/cd92f5c1218c65f29b15c4d12dcf5835e0426ac8",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/event/v2.2.33/hyperf-event-v2.2.33.zip",
                 "reference": "cd92f5c1218c65f29b15c4d12dcf5835e0426ac8",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2317,7 +2076,6 @@
                     "Hyperf\\Event\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2329,33 +2087,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/exception-handler",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/exception-handler.git",
-                "reference": "4ec8f6debf530b661bb2b436ef96da53ce0abbdc"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/exception-handler/zipball/4ec8f6debf530b661bb2b436ef96da53ce0abbdc",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/exception-handler/v2.2.33/hyperf-exception-handler-v2.2.33.zip",
                 "reference": "4ec8f6debf530b661bb2b436ef96da53ce0abbdc",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2379,7 +2120,6 @@
                     "Hyperf\\ExceptionHandler\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2390,33 +2130,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/filesystem",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/filesystem.git",
-                "reference": "58fe056bf50f732482fe4bd8946a8e3b9a1640d3"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/filesystem/zipball/58fe056bf50f732482fe4bd8946a8e3b9a1640d3",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/filesystem/v2.2.33/hyperf-filesystem-v2.2.33.zip",
                 "reference": "58fe056bf50f732482fe4bd8946a8e3b9a1640d3",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/di": "~2.2.0",
@@ -2450,7 +2173,6 @@
                     "Hyperf\\Filesystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2459,31 +2181,16 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/filesystem/issues",
-                "source": "https://github.com/hyperf/filesystem/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/framework",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/framework.git",
-                "reference": "49e98fb747214bcac79aecadda8349e70b8f2891"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/framework/zipball/49e98fb747214bcac79aecadda8349e70b8f2891",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/framework/v2.2.33/hyperf-framework-v2.2.33.zip",
                 "reference": "49e98fb747214bcac79aecadda8349e70b8f2891",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "fig/http-message-util": "^1.1.2",
@@ -2515,7 +2222,6 @@
                     "Hyperf\\Framework\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2529,33 +2235,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/guzzle",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/guzzle.git",
-                "reference": "ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/guzzle/zipball/ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/guzzle/v2.2.33/hyperf-guzzle-v2.2.33.zip",
                 "reference": "ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3|^7.0",
@@ -2581,7 +2270,6 @@
                     "Hyperf\\Guzzle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2592,31 +2280,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/guzzle/issues",
-                "source": "https://github.com/hyperf/guzzle/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/http-message",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/http-message.git",
-                "reference": "d71d796177ec72fe30d116c57ed8bd8121a57b6e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/http-message/zipball/d71d796177ec72fe30d116c57ed8bd8121a57b6e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/http-message/v2.2.33/hyperf-http-message-v2.2.33.zip",
                 "reference": "d71d796177ec72fe30d116c57ed8bd8121a57b6e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/utils": "~2.2.0",
@@ -2640,7 +2313,6 @@
                     "Hyperf\\HttpMessage\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2651,31 +2323,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/http-message/issues",
-                "source": "https://github.com/hyperf/http-message/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/http-server",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/http-server.git",
-                "reference": "0f1f22d408de82c9f8fb3f2cf57457e319210798"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/http-server/zipball/0f1f22d408de82c9f8fb3f2cf57457e319210798",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/http-server/v2.2.33/hyperf-http-server-v2.2.33.zip",
                 "reference": "0f1f22d408de82c9f8fb3f2cf57457e319210798",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2707,7 +2364,6 @@
                     "Hyperf\\HttpServer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2720,33 +2376,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/json-rpc",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/json-rpc.git",
-                "reference": "bcd5b395edb4a4d237fbfbc08cb187cbea8088b5"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/json-rpc/zipball/bcd5b395edb4a4d237fbfbc08cb187cbea8088b5",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/json-rpc/v2.2.33/hyperf-json-rpc-v2.2.33.zip",
                 "reference": "bcd5b395edb4a4d237fbfbc08cb187cbea8088b5",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2778,7 +2417,6 @@
                     "Hyperf\\JsonRpc\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2790,33 +2428,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/load-balancer",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/load-balancer.git",
-                "reference": "aa7dfcf274db9905aaf8a54bd88067b1e9170c28"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/load-balancer/zipball/aa7dfcf274db9905aaf8a54bd88067b1e9170c28",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/load-balancer/v2.2.33/hyperf-load-balancer-v2.2.33.zip",
                 "reference": "aa7dfcf274db9905aaf8a54bd88067b1e9170c28",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "markrogoyski/math-php": "^2.0",
@@ -2836,7 +2457,6 @@
                     "Hyperf\\LoadBalancer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2848,33 +2468,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/logger",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/logger.git",
-                "reference": "f19929efaeca4aba2b91e7452f4f1b3245bfac51"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/logger/zipball/f19929efaeca4aba2b91e7452f4f1b3245bfac51",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/logger/v2.2.33/hyperf-logger-v2.2.33.zip",
                 "reference": "f19929efaeca4aba2b91e7452f4f1b3245bfac51",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -2901,7 +2504,6 @@
                     "Hyperf\\Logger\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2912,33 +2514,16 @@
                 "logger",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/macroable",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/macroable.git",
-                "reference": "e4e1b3ed614a5a9d4c24a48b0b3a554eb712af9f"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/macroable/zipball/e4e1b3ed614a5a9d4c24a48b0b3a554eb712af9f",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/macroable/v2.2.33/hyperf-macroable-v2.2.33.zip",
                 "reference": "e4e1b3ed614a5a9d4c24a48b0b3a554eb712af9f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.3"
@@ -2954,7 +2539,6 @@
                     "Hyperf\\Macroable\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2966,33 +2550,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/memory",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/memory.git",
-                "reference": "8adfac46a0f52385a4ad2e8bc4f956c34cb6f25e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/memory/zipball/8adfac46a0f52385a4ad2e8bc4f956c34cb6f25e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/memory/v2.2.33/hyperf-memory-v2.2.33.zip",
                 "reference": "8adfac46a0f52385a4ad2e8bc4f956c34cb6f25e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
@@ -3011,7 +2578,6 @@
                     "Hyperf\\Memory\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3023,33 +2589,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/model-cache",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/model-cache.git",
-                "reference": "f1e4148da7f6dc4b5eae74594311e53674fd532d"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/model-cache/zipball/f1e4148da7f6dc4b5eae74594311e53674fd532d",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/model-cache/v2.2.33/hyperf-model-cache-v2.2.33.zip",
                 "reference": "f1e4148da7f6dc4b5eae74594311e53674fd532d",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3076,7 +2625,6 @@
                     "Hyperf\\ModelCache\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3087,33 +2635,16 @@
                 "model-cache",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/model-listener",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/model-listener.git",
-                "reference": "0ac64b517db0d9e192650cd70f81a2962cd54e63"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/model-listener/zipball/0ac64b517db0d9e192650cd70f81a2962cd54e63",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/model-listener/v2.2.33/hyperf-model-listener-v2.2.33.zip",
                 "reference": "0ac64b517db0d9e192650cd70f81a2962cd54e63",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3138,7 +2669,6 @@
                     "Hyperf\\ModelListener\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3150,33 +2680,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/paginator",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/paginator.git",
-                "reference": "dc9429ecbd579ef54fa81be9c1de149248f87d0a"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/paginator/zipball/dc9429ecbd579ef54fa81be9c1de149248f87d0a",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/paginator/v2.2.33/hyperf-paginator-v2.2.33.zip",
                 "reference": "dc9429ecbd579ef54fa81be9c1de149248f87d0a",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3202,7 +2715,6 @@
                     "Hyperf\\Paginator\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3213,33 +2725,16 @@
                 "paginator",
                 "php"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/pool",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/pool.git",
-                "reference": "b66965453f404f09570a166e9c103a074d2dbd4e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/pool/zipball/b66965453f404f09570a166e9c103a074d2dbd4e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/pool/v2.2.33/hyperf-pool-v2.2.33.zip",
                 "reference": "b66965453f404f09570a166e9c103a074d2dbd4e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3261,7 +2756,6 @@
                     "Hyperf\\Pool\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3273,33 +2767,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/process",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/process.git",
-                "reference": "a93b2a4bf0455e3f639649046705e7b3b6ccd137"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/process/zipball/a93b2a4bf0455e3f639649046705e7b3b6ccd137",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/process/v2.2.33/hyperf-process-v2.2.33.zip",
                 "reference": "a93b2a4bf0455e3f639649046705e7b3b6ccd137",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3327,7 +2804,6 @@
                     "Hyperf\\Process\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3338,33 +2814,16 @@
                 "php",
                 "process"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/redis",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/redis.git",
-                "reference": "f0b858bec45b479d7b8cc4a70a792b144a6a680e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/redis/zipball/f0b858bec45b479d7b8cc4a70a792b144a6a680e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/redis/v2.2.33/hyperf-redis-v2.2.33.zip",
                 "reference": "f0b858bec45b479d7b8cc4a70a792b144a6a680e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-redis": "*",
@@ -3392,7 +2851,6 @@
                     "Hyperf\\Redis\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3404,33 +2862,16 @@
                 "pool",
                 "redis"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/rpc",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/rpc.git",
-                "reference": "5d8dafe3d1787fc9af8a57b788e57d70bad1472f"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/rpc/zipball/5d8dafe3d1787fc9af8a57b788e57d70bad1472f",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/rpc/v2.2.33/hyperf-rpc-v2.2.33.zip",
                 "reference": "5d8dafe3d1787fc9af8a57b788e57d70bad1472f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3449,7 +2890,6 @@
                     "Hyperf\\Rpc\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3461,33 +2901,16 @@
                 "rpc",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/rpc-server",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/rpc-server.git",
-                "reference": "e0416764f4f0a6f15ca64f52eed1f3da3d1d97d5"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/rpc-server/zipball/e0416764f4f0a6f15ca64f52eed1f3da3d1d97d5",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/rpc-server/v2.2.33/hyperf-rpc-server-v2.2.33.zip",
                 "reference": "e0416764f4f0a6f15ca64f52eed1f3da3d1d97d5",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/http-server": "~2.2.0",
@@ -3511,7 +2934,6 @@
                     "Hyperf\\RpcServer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3524,33 +2946,16 @@
                 "rpc-server",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/server",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/server.git",
-                "reference": "1d3364520e37777a7ed83d8bc1597da42f8d6c1b"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/server/zipball/1d3364520e37777a7ed83d8bc1597da42f8d6c1b",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/server/v2.2.33/hyperf-server-v2.2.33.zip",
                 "reference": "1d3364520e37777a7ed83d8bc1597da42f8d6c1b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3579,7 +2984,6 @@
                     "Hyperf\\Server\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3591,33 +2995,16 @@
                 "server",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/snowflake",
             "version": "v2.2.33.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/snowflake.git",
-                "reference": "7e982676083761f3eb8f9c5267cd2c7e1253917b"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/snowflake/zipball/7e982676083761f3eb8f9c5267cd2c7e1253917b",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/snowflake/v2.2.33.1/hyperf-snowflake-v2.2.33.1.zip",
                 "reference": "7e982676083761f3eb8f9c5267cd2c7e1253917b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3642,7 +3029,6 @@
                     "Hyperf\\Snowflake\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3652,33 +3038,16 @@
                 "php",
                 "snowflake"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-30T11:55:54+00:00"
         },
         {
             "name": "hyperf/translation",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/translation.git",
-                "reference": "66c018e6e1605a446db212b0d3905e1d816dba77"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/translation/zipball/66c018e6e1605a446db212b0d3905e1d816dba77",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/translation/v2.2.33/hyperf-translation-v2.2.33.zip",
                 "reference": "66c018e6e1605a446db212b0d3905e1d816dba77",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3704,7 +3073,6 @@
                     "Hyperf\\Translation\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3713,31 +3081,16 @@
                 "hyperf",
                 "translation"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/translation/issues",
-                "source": "https://github.com/hyperf/translation/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/utils",
             "version": "v2.2.34",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/utils.git",
-                "reference": "9c8519392166a6c8057cc52f7d02e1ac638581f5"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/utils/zipball/9c8519392166a6c8057cc52f7d02e1ac638581f5",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/utils/v2.2.34/hyperf-utils-v2.2.34.zip",
                 "reference": "9c8519392166a6c8057cc52f7d02e1ac638581f5",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^2.0",
@@ -3772,7 +3125,6 @@
                     "Hyperf\\Utils\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3784,33 +3136,16 @@
                 "swoole",
                 "utils"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-07-21T05:42:54+00:00"
         },
         {
             "name": "hyperf/validation",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/validation.git",
-                "reference": "d4513923ed4cac88b4b5368bc6497b460465c1e0"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/validation/zipball/d4513923ed4cac88b4b5368bc6497b460465c1e0",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/validation/v2.2.33/hyperf-validation-v2.2.33.zip",
                 "reference": "d4513923ed4cac88b4b5368bc6497b460465c1e0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "egulias/email-validator": "^3.0",
@@ -3842,7 +3177,6 @@
                     "Hyperf\\Validation\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3851,31 +3185,16 @@
                 "hyperf",
                 "validation"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/validation/issues",
-                "source": "https://github.com/hyperf/validation/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/websocket-server",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/websocket-server.git",
-                "reference": "ef6e1ed5de23555b7f33c5423f2fab146367ae1d"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/websocket-server/zipball/ef6e1ed5de23555b7f33c5423f2fab146367ae1d",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/websocket-server/v2.2.33/hyperf-websocket-server-v2.2.33.zip",
                 "reference": "ef6e1ed5de23555b7f33c5423f2fab146367ae1d",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -3900,7 +3219,6 @@
                     "Hyperf\\WebSocketServer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3912,12 +3230,6 @@
                 "swoole",
                 "websocket"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
@@ -9189,22 +8501,11 @@
         {
             "name": "hyperf/devtool",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/devtool.git",
-                "reference": "f447311bf7507ff2b13658250ef3bcff7a9bc881"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/devtool/zipball/f447311bf7507ff2b13658250ef3bcff7a9bc881",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/devtool/v2.2.33/hyperf-devtool-v2.2.33.zip",
                 "reference": "f447311bf7507ff2b13658250ef3bcff7a9bc881",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/command": "~2.2.0",
@@ -9227,7 +8528,6 @@
                     "Hyperf\\Devtool\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -9239,33 +8539,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/ide-helper",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/ide-helper.git",
-                "reference": "e7e26af552f7cf5512c357df9604ff9aa77ed3f3"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/ide-helper/zipball/e7e26af552f7cf5512c357df9604ff9aa77ed3f3",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/ide-helper/v2.2.33/hyperf-ide-helper-v2.2.33.zip",
                 "reference": "e7e26af552f7cf5512c357df9604ff9aa77ed3f3",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "type": "library",
             "extra": {
@@ -9273,7 +8556,6 @@
                     "dev-master": "2.2-dev"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -9285,33 +8567,16 @@
                 "php",
                 "swoole"
             ],
-            "support": {
-                "docs": "https://hyperf.wiki",
-                "issues": "https://github.com/hyperf/hyperf/issues",
-                "pull-request": "https://github.com/hyperf/hyperf/pulls",
-                "source": "https://github.com/hyperf/hyperf"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/testing",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/testing.git",
-                "reference": "63726e3b4e999a96dd4dd62a54f8b2f8f48f850e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/testing/zipball/63726e3b4e999a96dd4dd62a54f8b2f8f48f850e",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/testing/v2.2.33/hyperf-testing-v2.2.33.zip",
                 "reference": "63726e3b4e999a96dd4dd62a54f8b2f8f48f850e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "hyperf/contract": "~2.2.0",
@@ -9336,7 +8601,6 @@
                     "Hyperf\\Testing\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -9346,30 +8610,16 @@
                 "swoole",
                 "testing"
             ],
-            "support": {
-                "source": "https://github.com/hyperf/testing/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
             "name": "hyperf/watcher",
             "version": "v2.2.33",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hyperf/watcher.git",
-                "reference": "bee6a3dbc67a355fc608d44242f1be8cfec97b2f"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/watcher/zipball/bee6a3dbc67a355fc608d44242f1be8cfec97b2f",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/hyperf/watcher/v2.2.33/hyperf-watcher-v2.2.33.zip",
                 "reference": "bee6a3dbc67a355fc608d44242f1be8cfec97b2f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-swoole": ">=4.5",
@@ -9392,7 +8642,6 @@
                     "Hyperf\\Watcher\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -9401,10 +8650,6 @@
                 "hyperf",
                 "php"
             ],
-            "support": {
-                "issues": "https://github.com/hyperf/watcher/issues",
-                "source": "https://github.com/hyperf/watcher/tree/v2.2.33"
-            },
             "time": "2022-05-24T13:10:54+00:00"
         },
         {
@@ -12453,5 +11698,5 @@
         "ext-swoole": ">=4.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.0.0"
 }

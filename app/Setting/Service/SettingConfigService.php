@@ -8,6 +8,7 @@ use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\Transaction;
 use Psr\Container\ContainerInterface;
 
 class SettingConfigService extends AbstractService
@@ -108,6 +109,20 @@ class SettingConfigService extends AbstractService
     public function updated(string $key, array $data): bool
     {
         return $this->mapper->updateConfig($key, $data);
+    }
+
+    /**
+     * 按 keys 更新配置
+     * @param array $data
+     * @return bool
+     */
+    #[Transaction]
+    public function updatedByKeys(array $data): bool
+    {
+        foreach ($data as $name => $value) {
+            $this->mapper->updateByKey($name, $value);
+        }
+        return true;
     }
 
     /**

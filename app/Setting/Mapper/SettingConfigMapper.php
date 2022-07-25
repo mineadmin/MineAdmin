@@ -44,6 +44,17 @@ class SettingConfigMapper extends AbstractMapper
     }
 
     /**
+     * 按 keys 更新配置
+     * @param string $key
+     * @param array $data
+     * @return bool
+     */
+    public function updateByKey(string $key, string $value): bool
+    {
+        return $this->model::query()->where('key', $key)->update(['value' => $value]) > 0;
+    }
+
+    /**
      * 保存配置
      * @param array $data
      * @return int
@@ -62,6 +73,12 @@ class SettingConfigMapper extends AbstractMapper
     {
         if (isset($params['group_id']) && !empty($params['group_id'])) {
             $query->where('group_id', $params['group_id']);
+        }
+        if (isset($params['name']) && !empty($params['name'])) {
+            $query->where('name', $params['name']);
+        }
+        if (isset($params['key']) && !empty($params['key'])) {
+            $query->where('key', 'like',  '%'.$params['key'].'%');
         }
         return $query;
     }

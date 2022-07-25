@@ -66,6 +66,19 @@ class SystemConfigController extends MineController
     }
 
     /**
+     * 按 keys 更新配置
+     * @param SettingConfigRequest $request
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("updateByKeys"), Permission("setting:config:update"), OperationLog]
+    public function updateByKeys(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->service->updatedByKeys($this->request->all()) ? $this->success() : $this->error();
+    }
+
+    /**
      * 删除配置
      * @param string $key
      * @return \Psr\Http\Message\ResponseInterface
@@ -75,7 +88,7 @@ class SystemConfigController extends MineController
     #[DeleteMapping("delete"), Permission("setting:config:delete"), OperationLog]
     public function delete(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->service->delete($this->request->input('key')) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**

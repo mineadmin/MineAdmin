@@ -99,7 +99,7 @@ class SettingCrontabService extends AbstractService
         $crontab = new MineCrontab();
         $model = $this->read($id);
         $crontab->setCallback($model->target);
-        $crontab->setType($model->type);
+        $crontab->setType((string) $model->type);
         $crontab->setEnable(true);
         $crontab->setCrontabId($model->id);
         $crontab->setName($model->name);

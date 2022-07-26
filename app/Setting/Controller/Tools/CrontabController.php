@@ -149,7 +149,7 @@ class CrontabController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("system:crontab:update"), OperationLog]
+    #[PutMapping("changeStatus"), Permission("setting:crontab:update"), OperationLog]
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))

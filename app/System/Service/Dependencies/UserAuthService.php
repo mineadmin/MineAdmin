@@ -36,28 +36,6 @@ class UserAuthService implements UserServiceInterface
 {
 
     /**
-     * 检查用户提交的验证码
-     * @param String $code
-     * @return bool
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Exception
-     */
-    public function checkCaptcha(String $code): bool
-    {
-        try {
-            $cache = container()->get(CacheInterface::class);
-            $request = container()->get(MineRequest::class);
-            $key = 'captcha:' . $request->ip() .'-'. \Mine\Helper\Str::lower($code);
-            $result = (\Mine\Helper\Str::lower($code) == $cache->get($key));
-            $cache->delete($key);
-            return $result;
-        } catch (InvalidArgumentException $e) {
-            throw new \Exception;
-        }
-    }
-
-    /**
      * 登录
      * @param UserServiceVo $userServiceVo
      * @return string
@@ -74,15 +52,6 @@ class UserAuthService implements UserServiceInterface
             $password = $userinfo['password'];
             unset($userinfo['password']);
             $userLoginAfter = new UserLoginAfter($userinfo);
-            $webLoginVerify = container()->get(SettingConfigService::class)->getConfigByKey('web_login_verify');
-            if (isset($webLoginVerify['value']) && $webLoginVerify['value'] === '1') {
-                if (! $this->checkCaptcha($userServiceVo->getVerifyCode())) {
-                    $userLoginAfter->message = t('jwt.code_error');
-                    $userLoginAfter->loginStatus = false;
-                    event($userLoginAfter);
-                    throw new CaptchaException;
-                }
-            }
             if ($mapper->checkPass($userServiceVo->getPassword(), $password)) {
                 if (
                     ($userinfo['status'] == SystemUser::USER_NORMAL)
@@ -115,9 +84,6 @@ class UserAuthService implements UserServiceInterface
             }
             if ($e instanceof UserBanException) {
                 throw new NormalStatusException(t('jwt.user_ban'), MineCode::USER_BAN);
-            }
-            if ($e instanceof CaptchaException) {
-                throw new NormalStatusException(t('jwt.code_error'));
             }
             console()->error($e->getMessage());
             throw new NormalStatusException(t('jwt.unknown_error'));

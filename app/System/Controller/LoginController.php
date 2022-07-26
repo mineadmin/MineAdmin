@@ -32,18 +32,6 @@ class LoginController extends MineController
     protected UserServiceInterface $userService;
 
     /**
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    #[GetMapping("captcha")]
-    public function captcha(): ResponseInterface
-    {
-        return $this->response->responseImage($this->systemUserService->getCaptcha());
-    }
-
-    /**
      * @param SystemUserLoginRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface

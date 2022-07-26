@@ -25,6 +25,7 @@ use Mine\Crontab\Mutex\ServerMutex;
 use Mine\Crontab\Mutex\TaskMutex;
 use Hyperf\Guzzle\ClientFactory;
 use Hyperf\Utils\Coroutine;
+use Mine\MineModel;
 use Psr\Container\ContainerInterface;
 use Swoole\Timer;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -253,7 +254,7 @@ class MineExecutor
             'target' => $crontab->getCallback(),
             'parameter' => $crontab->getParameter(),
             'exception_info' => $result,
-            'status' => $isSuccess ? '0' : '1',
+            'status' => $isSuccess ? MineModel::ENABLE : MineModel::DISABLE,
             'created_at' => date('Y-m-d H:i:s')
         ];
         $logService->save($data);

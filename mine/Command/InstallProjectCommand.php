@@ -16,7 +16,6 @@ namespace Mine\Command;
 
 use Hyperf\Command\Annotation\Command;
 use Hyperf\DbConnection\Db;
-use Mine\Helper\Id;
 use Mine\MineCommand;
 use Mine\Mine;
 use Symfony\Component\Console\Input\InputOption;

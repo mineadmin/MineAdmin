@@ -47,7 +47,7 @@ class CrontabController extends MineController
     #[GetMapping("index"), Permission("setting:crontab:index")]
     public function index(): ResponseInterface
     {
-        return $this->success($this->service->getList($this->request->all()));
+        return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**
@@ -128,7 +128,7 @@ class CrontabController extends MineController
     #[DeleteMapping("delete"), Permission("setting:crontab:delete")]
     public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -137,9 +137,22 @@ class CrontabController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteCrontabLog/{ids}"), Permission("setting:crontab:deleteCrontabLog"), OperationLog]
-    public function deleteCrontabLog(String $ids): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping("deleteCrontabLog"), Permission("setting:crontab:deleteCrontabLog"), OperationLog]
+    public function deleteCrontabLog(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->logService->delete($ids) ? $this->success() : $this->error();
+        return $this->logService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改状态
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:crontab:update"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

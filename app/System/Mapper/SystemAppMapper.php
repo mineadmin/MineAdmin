@@ -82,7 +82,7 @@ class SystemAppMapper extends AbstractMapper
     {
         return $this->model::query()->where('app_id', $appId)
             ->with(['apis' => function($query) {
-                $query->where('status', '0');
+                $query->where('status', SystemApp::ENABLE);
             }])->first(['id', 'app_id', 'app_secret', 'app_name', 'updated_at', 'description'])->toArray();
     }
 }

@@ -128,7 +128,15 @@
       </div>
       <div class="adminui-header-right">
         <div v-if="!ismobile" class="adminui-header-menu">
-          <el-menu mode="horizontal" :default-active="active" router background-color="#222b45" text-color="#fff" active-text-color="var(--el-color-primary)">
+          <el-menu
+            mode="horizontal"
+            :default-active="active"
+            router
+            background-color="var(--el-color-primary)"
+            active-background-color="var(--el-color-primary-light-7)"
+            text-color="#fff"
+            active-text-color="#fff"
+          >
             <NavMenu :navMenus="menu"></NavMenu>
           </el-menu>
         </div>

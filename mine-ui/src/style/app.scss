@@ -17,6 +17,7 @@ a,button,input,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);box-sizing: bo
 
 /* 头部 */
 .adminui-header {height: 58px;background: #222b45;color: #fff;display: flex;justify-content:space-between;}
+.adminui-header, .aminui-side-split li.active { background-color: var(--el-color-primary);}
 .adminui-header-left {display: flex;align-items: center;padding-left:20px;}
 .adminui-header-right {display: flex;align-items: center;}
 .adminui-header .logo-bar {font-size: 20px;font-weight: bold;display: flex;align-items: center;}

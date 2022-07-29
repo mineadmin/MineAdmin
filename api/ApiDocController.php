@@ -57,7 +57,7 @@ class ApiDocController extends MineApi
             return $this->error(t('mineadmin.api_auth_fail'), MineCode::API_PARAMS_ERROR);
         }
 
-        if (($code = $this->systemAppService->verifyEasyMode($app_id, $app_secret)) !== MineCode::API_VERIFY_PASS) {
+        if (($code = $this->systemAppService->loginDoc($app_id, $app_secret)) !== MineCode::API_VERIFY_PASS) {
             return $this->error(t('mineadmin.api_auth_fail'), $code);
         }
 

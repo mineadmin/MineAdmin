@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\System\Controller;
 
 use App\System\Service\SystemDeptService;
+use App\System\Service\SystemNoticeService;
 use App\System\Service\SystemPostService;
 use App\System\Service\SystemRoleService;
 use App\System\Service\SystemUserService;
@@ -35,6 +36,9 @@ class CommonController extends MineController
 
     #[Inject]
     protected SystemPostService $postService;
+
+    #[Inject]
+    protected SystemNoticeService $noticeService;
 
     /**
      * 获取用户列表
@@ -94,6 +98,18 @@ class CommonController extends MineController
     public function getPostList(): ResponseInterface
     {
         return $this->success($this->postService->getList());
+    }
+
+    /**
+     * 获取公告列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getNoticeList")]
+    public function getNoticeList(): ResponseInterface
+    {
+        return $this->success($this->noticeService->getPageList($this->request->all()));
     }
 
     /**

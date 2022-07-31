@@ -32,21 +32,10 @@ class ServerMonitorController extends MineController
     #[GetMapping("monitor"), Permission("system:monitor:server")]
     public function getServerInfo(): \Psr\Http\Message\ResponseInterface
     {
-        $channel = new Channel();
-        co(function () use($channel) {
-            $channel->push(['cpu' => $this->service->getCpuInfo()]);
-        });
-        co(function () use($channel) {
-            $channel->push(['net' => $this->service->getNetInfo()]);
-        });
-
-        $result = $channel->pop();
-
         return $this->success([
-            'cpu' => $result['cpu'] ?? $channel->pop()['cpu'],
+            'cpu' => $this->service->getCpuInfo(),
             'memory' => $this->service->getMemInfo(),
             'phpenv' => $this->service->getPhpAndEnvInfo(),
-            'net'    => $result['net'] ?? $channel->pop()['net'],
             'disk'   => $this->service->getDiskInfo()
         ]);
     }

@@ -52,7 +52,7 @@ class SystemQueueMessageMapper extends AbstractMapper
         // 获取收信数据
         if (isset($params['getReceive'])) {
             $query->with(['sendUser' => function($query) {
-                $query->select([ 'id', 'username', 'nickname' ]);
+                $query->select([ 'id', 'username', 'nickname', 'avatar' ]);
             }]);
             $prefix = env('DB_PREFIX');
             $readStatus = $params['read_status'] ?? 'all';

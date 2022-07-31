@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\System\Service;
 
 use App\System\Mapper\SystemNoticeMapper;
+use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
 use Co\System;
@@ -44,7 +45,14 @@ class SystemNoticeService extends AbstractService
         );
         $message->setContent($data['content']);
         $message->setSendBy(user()->getId());
-        $data['message_id'] = push_queue_message($message, $data['users']);
+
+        // 待发送用户
+        $userIds = $data['users'] ?? [];
+        if (empty($userIds)) {
+            $userMapper = container()->get(SystemUserMapper::class);
+            $userIds = $userMapper->pluck(['status' => \Mine\MineModel::ENABLE]);
+        }
+        $data['message_id'] = push_queue_message($message, $userIds);
 
         if ($data['message_id'] !== -1) {
             return parent::save($data);

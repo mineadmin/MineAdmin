@@ -172,7 +172,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("system:dict:changeStatus"), OperationLog]
+    #[PutMapping("changeStatus"), Permission("system:dict:update"), OperationLog]
     public function changeStatus(DictDataStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))

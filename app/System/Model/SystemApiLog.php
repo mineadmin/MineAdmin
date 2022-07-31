@@ -37,5 +37,5 @@ class SystemApiLog extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'api_id' => 'integer'];
+    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'request_data' => 'array', 'response_data' => 'array'];
 }

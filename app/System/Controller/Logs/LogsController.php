@@ -138,7 +138,7 @@ class LogsController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteApiLog}"), Permission("system:apiLog:delete"), OperationLog]
+    #[DeleteMapping("deleteApiLog"), Permission("system:apiLog:delete"), OperationLog]
     public function deleteApiLog(): \Psr\Http\Message\ResponseInterface
     {
         return $this->apiLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();

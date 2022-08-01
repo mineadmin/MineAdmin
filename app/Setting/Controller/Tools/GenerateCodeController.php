@@ -5,7 +5,6 @@ namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\Tool\GenerateUpdateRequest;
 use App\Setting\Request\Tool\LoadTableRequest;
-use App\Setting\Service\ModuleService;
 use App\Setting\Service\SettingGenerateColumnsService;
 use App\Setting\Service\SettingGenerateTablesService;
 use Hyperf\Di\Annotation\Inject;
@@ -108,10 +107,13 @@ class GenerateCodeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("generate/{ids}"), Permission("setting:code:generate"), OperationLog]
-    public function generate(string $ids): ResponseInterface
+    #[PostMapping("generate"), Permission("setting:code:generate"), OperationLog]
+    public function generate(): ResponseInterface
     {
-        return $this->_download($this->tableService->generate($ids), 'mineadmin.zip');
+        return $this->_download(
+            $this->tableService->generate((array) $this->request->input('ids', [])),
+            'mineadmin.zip'
+        );
     }
 
     /**
@@ -136,7 +138,7 @@ class GenerateCodeController extends MineController
     #[DeleteMapping("delete"), Permission("setting:code:delete"), OperationLog]
     public function delete(): ResponseInterface
     {
-        return $this->tableService->delete($ids) ? $this->success() : $this->error();
+        return $this->tableService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**

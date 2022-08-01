@@ -166,17 +166,17 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成代码
+     * @param array $ids
      * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function generate(string $ids): string
+    public function generate(array $ids): string
     {
-        $ids = explode(',', $ids);
         $this->initGenerateSetting();
         $adminId = user()->getId();
         foreach ($ids as $id) {
-            $this->generateCodeFile((int) $id, $adminId);
+            $this->generateCodeFile((int) $id, (string) $adminId);
         }
 
         return $this->packageCodeFile();

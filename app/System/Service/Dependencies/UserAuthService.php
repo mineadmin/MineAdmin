@@ -12,22 +12,17 @@ declare(strict_types=1);
  */
 namespace App\System\Service\Dependencies;
 
-use App\Setting\Service\SettingConfigService;
 use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Mine\Event\UserLoginAfter;
 use Mine\Event\UserLoginBefore;
 use Mine\Event\UserLogout;
-use Mine\Exception\CaptchaException;
 use Mine\Exception\NormalStatusException;
 use Mine\Exception\UserBanException;
 use Mine\Helper\MineCode;
 use Mine\Interfaces\UserServiceInterface;
-use Mine\MineRequest;
 use Mine\Vo\UserServiceVo;
-use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 用户登录

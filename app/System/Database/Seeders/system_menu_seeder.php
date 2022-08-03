@@ -230,7 +230,6 @@ class SystemMenuSeeder extends Seeder
             "INSERT INTO `{$model}` VALUES (4104, 4100, '0,4000,4100', '模块启停用', 'setting:module:status', NULL, NULL, NULL, NULL, '1', 'B', 1, 0, NULL, NULL, '2022-02-13 18:10:20', '2022-02-13 18:10:20', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4105, 4100, '0,4000,4100', '安装模块', 'setting:module:install', NULL, NULL, NULL, NULL, '1', 'B', 1, 0, NULL, NULL, '2022-02-13 18:10:20', '2022-02-13 18:10:20', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4600, 4000, '0,4000', '系统接口', 'systemInterface', 'icon-compass', 'systemInterface', 'setting/systemInterface/index', NULL, '2', 'M', 1, 0, NULL, NULL, '2022-03-30 10:00:28', '2022-03-30 10:00:28', NULL, NULL)",
-            "INSERT INTO `{$model}` VALUES (4206, 4200, '0,4000,4200', '更新业务表', 'setting:code:update', '', 'codeEdit', 'setting/code/edit', NULL, '1', 'M', 1, 0, NULL, NULL, '2021-07-31 19:43:12', '2022-04-15 16:21:32', NULL, NULL)"
         ];
     }
 }

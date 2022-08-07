@@ -70,7 +70,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
     public function generator(): void
     {
         $module = Str::title($this->model->module_name);
-        if ($this->model->generate_type == '0') {
+        if ($this->model->generate_type === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Model/";
         } else {
             $path = BASE_PATH . "/app/{$module}/Model/";
@@ -125,7 +125,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             }
 
             // 压缩包下载
-            if ($this->model->generate_type == '0') {
+            if ($this->model->generate_type === 1) {
                 $toPath = BASE_PATH . "/runtime/generate/php/app/{$moduleName}/Model/{$modelName}.php";
 
                 $isFile = is_file($sourcePath);

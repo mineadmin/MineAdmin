@@ -47,7 +47,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     /**
      * @var string
      */
-    protected $adminId;
+    protected int $adminId;
 
     /**
      * 设置生成信息
@@ -58,7 +58,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
-    public function setGenInfo(SettingGenerateTables $model, string $adminId): SqlGenerator
+    public function setGenInfo(SettingGenerateTables $model, int $adminId): SqlGenerator
     {
         $this->model = $model;
         $this->adminId = $adminId;
@@ -79,7 +79,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
 
-        if ($this->model->build_menu === '1') {
+        if ($this->model->build_menu === 2) {
             Db::connection()->getPdo()->exec(
                 str_replace(["\r", "\n"], ['', ''], $this->replace()->getCodeContent())
             );

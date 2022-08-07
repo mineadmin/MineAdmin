@@ -37,7 +37,6 @@ class SystemApi extends MineModel
     public const METHOD_DELETE = 'D';
     public const AUTH_MODE_EASY = 1;
     public const AUTH_MODE_NORMAL = 2;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *

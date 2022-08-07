@@ -176,7 +176,7 @@ class SettingGenerateTablesService extends AbstractService
         $this->initGenerateSetting();
         $adminId = user()->getId();
         foreach ($ids as $id) {
-            $this->generateCodeFile((int) $id, (string) $adminId);
+            $this->generateCodeFile((int) $id, $adminId);
         }
 
         return $this->packageCodeFile();
@@ -185,13 +185,13 @@ class SettingGenerateTablesService extends AbstractService
     /**
      * 生成步骤
      * @param int $id
-     * @param string $adminId
+     * @param int $adminId
      * @return SettingGenerateTables
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
-    protected function generateCodeFile(int $id, string $adminId): SettingGenerateTables
+    protected function generateCodeFile(int $id, int $adminId): SettingGenerateTables
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);

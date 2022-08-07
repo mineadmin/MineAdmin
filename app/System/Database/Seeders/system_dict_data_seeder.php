@@ -45,7 +45,7 @@ class SystemDictDataSeeder extends Seeder
             "INSERT INTO `{$tableName}` VALUES (10, 4, '工作台', 'work', 'dashboard', 0, 1, NULL, NULL, '2021-08-09 12:54:18', '2021-08-09 12:54:18', NULL, '员工使用')",
             "INSERT INTO `{$tableName}` VALUES (11, 5, '男', '1', 'sex', 0, 1, NULL, NULL, '2021-08-09 12:55:00', '2021-08-09 12:55:00', NULL, NULL)",
             "INSERT INTO `{$tableName}` VALUES (12, 5, '女', '2', 'sex', 0, 1, NULL, NULL, '2021-08-09 12:55:08', '2021-08-09 12:55:08', NULL, NULL)",
-            "INSERT INTO `{$tableName}` VALUES (13, 5, '未知', 1, 'sex', 0, 1, NULL, NULL, '2021-08-09 12:55:16', '2021-08-09 12:55:16', NULL, NULL)",
+            "INSERT INTO `{$tableName}` VALUES (13, 5, '未知', '3', 'sex', 0, 1, NULL, NULL, '2021-08-09 12:55:16', '2021-08-09 12:55:16', NULL, NULL)",
             "INSERT INTO `{$tableName}` VALUES (14, 6, 'String', '1', 'api_data_type', 7, 1, NULL, NULL, '2021-11-23 10:49:00', '2021-11-23 10:49:00', NULL, NULL)",
             "INSERT INTO `{$tableName}` VALUES (15, 6, 'Integer', '2', 'api_data_type', 6, 1, NULL, NULL, '2021-11-23 10:49:29', '2021-11-23 10:49:29', NULL, NULL)",
             "INSERT INTO `{$tableName}` VALUES (16, 6, 'Array', '3', 'api_data_type', 5, 1, NULL, NULL, '2021-11-23 10:49:38', '2021-11-23 10:49:38', NULL, NULL)",

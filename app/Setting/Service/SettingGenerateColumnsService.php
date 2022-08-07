@@ -43,7 +43,7 @@ class SettingGenerateColumnsService extends AbstractService
                 'column_name' => $item['column_name'],
                 'column_comment' => $item['column_comment'],
                 'column_type' => $item['data_type'],
-                'is_pk' => empty($item['column_key']) ? '0' : '1' ,
+                'is_pk' => empty($item['column_key']) ? 1 : 2 ,
                 'query_type' => 'eq',
                 'view_type' => 'text',
                 'sort' => count($data) - $k,
@@ -55,7 +55,7 @@ class SettingGenerateColumnsService extends AbstractService
             if (!in_array($item['column_name'], $default_column) && empty($item['column_key'])) {
                 $column = array_merge(
                     $column,
-                    ['is_insert' => 1, 'is_edit' => '1', 'is_list' => '1', 'is_query' => '1']
+                    ['is_insert' => 2, 'is_edit' => 2, 'is_list' => 2, 'is_query' => 2]
                 );
             }
 

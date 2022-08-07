@@ -44,7 +44,7 @@ class SettingGenerateTables extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'generate_type' => 'integer', 'build_menu' => 'integer', 'component_type' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'belong_menu_id' => 'integer', 'generate_type' => 'integer', 'build_menu' => 'integer', 'component_type' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
     /**
      * 关联生成业务字段信息表
      * @return \Hyperf\Database\Model\Relations\HasMany

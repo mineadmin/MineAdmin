@@ -148,7 +148,7 @@ class SystemMenuSeeder extends Seeder
             "INSERT INTO `{$model}` VALUES (4406, 4400, '0,4000,4400', '定时任务导入', 'setting:crontab:import', NULL, NULL, NULL, NULL, '1', 'B', 1, 0, NULL, NULL, '2021-07-31 19:47:49', '2021-07-31 19:47:49', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4407, 4400, '0,4000,4400', '定时任务导出', 'setting:crontab:export', NULL, NULL, NULL, NULL, '1', 'B', 1, 0, NULL, NULL, '2021-07-31 19:47:49', '2021-07-31 19:47:49', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4408, 4400, '0,4000,4400', '定时任务执行', 'setting:crontab:run', '', NULL, '', NULL, '1', 'B', 1, 0, NULL, NULL, '2021-08-07 23:44:06', '2021-08-07 23:44:06', NULL, NULL)",
-            "INSERT INTO `{$model}` VALUES (4500, 0, '0', '系统设置', 'setting:config', '', 'setting', '', '', '1', 'M', 1, 0, NULL, NULL, '2021-07-31 19:58:57', '2021-07-31 19:58:57', NULL, NULL)",
+            "INSERT INTO `{$model}` VALUES (4500, 0, '0', '系统设置', 'setting:config', '', 'system', 'setting/config/index', '', '1', 'M', 1, 0, NULL, NULL, '2021-07-31 19:58:57', '2021-07-31 19:58:57', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4502, 4500, '0,4500', '配置列表', 'setting:config:index', '', NULL, '', NULL, '1', 'B', 1, 0, NULL, NULL, '2021-08-10 13:09:18', '2021-08-10 13:09:18', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4504, 4500, '0,4500', '新增配置 ', 'setting:config:save', '', NULL, '', NULL, '1', 'B', 1, 0, NULL, NULL, '2021-08-10 13:11:56', '2021-08-10 13:11:56', NULL, NULL)",
             "INSERT INTO `{$model}` VALUES (4505, 4500, '0,4500', '更新配置', 'setting:config:update', '', NULL, '', NULL, '1', 'B', 1, 0, NULL, NULL, '2021-08-10 13:12:25', '2021-08-10 13:12:25', NULL, NULL)",

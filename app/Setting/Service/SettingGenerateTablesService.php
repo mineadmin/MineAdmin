@@ -367,19 +367,13 @@ class SettingGenerateTablesService extends AbstractService
                 'tab_name' => 'Index.vue',
                 'name' => 'index',
                 'code' => make(VueIndexGenerator::class)->setGenInfo($model)->preview(),
-                'lang' => 'vue',
-            ],
-            [
-                'tab_name' => 'Save.vue',
-                'name' => 'save',
-                'code' => make(VueSaveGenerator::class)->setGenInfo($model)->preview(),
-                'lang' => 'vue',
+                'lang' => 'html',
             ],
             [
                 'tab_name' => 'Menu.sql',
                 'name' => 'sql',
                 'code' => make(SqlGenerator::class)->setGenInfo($model, user()->getId())->preview(),
-                'lang' => 'sql',
+                'lang' => 'mysql',
             ],
         ];
     }

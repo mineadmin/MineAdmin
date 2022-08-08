@@ -21,6 +21,8 @@ use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\Id;
 use Mine\Helper\Str;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 菜单SQL文件生成
@@ -45,17 +47,17 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     protected Filesystem $filesystem;
 
     /**
-     * @var string
+     * @var int
      */
     protected int $adminId;
 
     /**
      * 设置生成信息
      * @param SettingGenerateTables $model
-     * @param string $adminId
+     * @param int $adminId
      * @return SqlGenerator
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     public function setGenInfo(SettingGenerateTables $model, int $adminId): SqlGenerator
@@ -134,7 +136,6 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             '{LOAD_MENU}',
-            '{ID}',
             '{PARENT_ID}',
             '{TABLE_NAME}',
             '{LEVEL}',
@@ -154,7 +155,6 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             $this->getLoadMenu(),
-            $this->getId(),
             $this->getParentId(),
             $this->getTableName(),
             $this->getLevel(),
@@ -184,16 +184,6 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
             $sql .= $content;
         }
         return $sql;
-    }
-
-    /**
-     * 获取菜单ID
-     * @return int
-     * @throws \Exception
-     */
-    protected function getId(): int
-    {
-        return (new Id())->getId();
     }
 
     /**
@@ -243,7 +233,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRoute(): string
     {
-        return $this->getShortBusinessName();
+        return Str::lower($this->model->module_name) . '/' . $this->getShortBusinessName();
     }
 
 

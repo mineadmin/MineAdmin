@@ -16,7 +16,6 @@ use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
-use Mine\Generator\Traits\VueFunctionsVarsTraits;
 use Mine\Helper\Str;
 use Hyperf\Database\Model\Collection;
 
@@ -27,8 +26,6 @@ use Hyperf\Database\Model\Collection;
  */
 class VueIndexGenerator extends MineGenerator implements CodeGenerator
 {
-    use VueFunctionsVarsTraits;
-
     /**
      * @var SettingGenerateTables
      */
@@ -134,18 +131,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             '{CODE}',
-            '{IMPORT}',
-            '{EXPORT}',
-            '{SHOW_RECYCLE}',
-            '{HIDE_PAGE}',
-            '{FIRST_SEARCH}',
-            '{SEARCH_LIST}',
-            '{COLUMN_LIST}',
+            '{CONST_CRUD}',
+            '{CONST_COLUMNS}',
             '{BUSINESS_EN_NAME}',
-            '{QUERY_PARAMS}',
-            '{DICT_LIST}',
-            '{DICT_DATA}',
-            '{EXPORT_EXCEL}',
             '{INPUT_NUMBER}',
             '{SWITCH_STATUS}',
             '{MODULE_NAME}',
@@ -161,18 +149,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             $this->getCode(),
-            $this->getImport(),
-            $this->getExport(),
-            $this->getShowRecycle(),
-            $this->getHidePage(),
-            $this->getFirstSearch(),
-            $this->getSearchList(),
-            $this->getColumnList(),
+            $this->getCrud(),
+            $this->getColumns(),
             $this->getBusinessEnName(),
-            $this->getQueryParams(),
-            $this->getDictList(),
-            $this->getDictData(),
-            $this->getExportExcel(),
             $this->getInputNumber(),
             $this->getSwitchStatus(),
             $this->getModuleName(),
@@ -190,37 +169,21 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     }
 
     /**
+     * 获取CRUD配置代码
      * @return string
      */
-    protected function getImport(): string
+    protected function getCrud(): string
     {
-        if ( strpos($this->model->generate_menus, 'import') > 0 ) {
-            return str_replace('{CODE}', $this->getCode(), $this->getFormItemTemplate('import'));
-        }
         return '';
     }
 
     /**
+     * 获取列配置代码
      * @return string
      */
-    protected function getExport(): string
+    protected function getColumns(): string
     {
-        if ( strpos($this->model->generate_menus, 'export') > 0 ) {
-            return str_replace(
-                ['{CODE}', '{BUSINESS_EN_NAME}'], [ $this->getCode(), $this->getBusinessEnName()],
-                $this->getFormItemTemplate('export')
-            );
-        }
         return '';
-    }
-
-    /**
-     * 获取是否隐藏分页
-     * @return string
-     */
-    protected function getHidePage(): string
-    {
-        return $this->model->type === 'single' ? 'false' : 'true';
     }
 
     /**
@@ -232,174 +195,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     }
 
     /**
-     * 获取第一个搜索
-     * @return string
-     */
-    protected function getFirstSearch(): string
-    {
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                return $this->getHtmlType($column);
-            }
-        }
-        return '';
-    }
-
-    /**
-     * 获取其余搜索列表
-     * @return string
-     */
-    protected function getSearchList(): string
-    {
-        $jsCode = '';
-        $first = false;
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                if (! $first) {
-                    $first = true;
-                    continue;
-                }
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{FORM_ITEM}'],
-                    [$column->column_comment, $column->column_name, $this->getHtmlType($column)],
-                    $this->getOtherTemplate('searchFormItem')
-                );
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取html类型
-     * @param $column
-     * @return string
-     */
-    protected function getHtmlType($column): string
-    {
-        $tagTypes = ['radio', 'select', 'checkbox'];
-        if (!empty($column->dict_type)) {
-            return str_replace(
-                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
-                [$column->column_comment, $column->column_name, 'dictData.' . $column->dict_type],
-                $this->getOtherTemplate('searchSelect')
-            );
-        } else if (in_array($column->view_type, $tagTypes)) {
-            $data = [];
-            foreach ($column->options[$column->view_type] as $item) {
-                $data[] = ['label' => $item['name'], 'value' => $item['value']];
-            }
-            return str_replace(
-                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
-                [$column->column_comment, $column->column_name, json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)],
-                $this->getOtherTemplate('searchSelect')
-            );
-        } else {
-            if ($column->view_type === 'date') {
-                return str_replace(
-                    ['{COLUMN_NAME}', '{LABEL_NAME}', '{DATE_TYPE}', '{WEEK_FORMAT}', '{RANGE_TIPS}'],
-                    [
-                        $column->column_name,
-                        $column->column_comment,
-                        $column->options['date'],
-                        $column->options['date'] === 'week' ? 'format="第 ww 周"' : '',
-                        strpos($column->options['date'], 'range') > 0 ? 'start-placeholder="起始时间" end-placeholder="结束时间"' : ''
-                    ],
-                    $this->getOtherTemplate('searchDate')
-                );
-            }
-
-            if ($column->view_type === 'time') {
-                return str_replace(
-                    ['{COLUMN_NAME}', '{LABEL_NAME}'],
-                    [$column->column_name, $column->column_comment],
-                    $this->getOtherTemplate('searchTime')
-                );
-            }
-        }
-
-        return str_replace(
-            ['{COLUMN_NAME}', '{LABEL_NAME}'],
-            [$column->column_name, $column->column_comment],
-            $this->getOtherTemplate('searchDefault')
-        );
-    }
-
-    /**
-     * 获取表格显示列
-     * @return string
-     * @noinspection CheckTagEmptyBody
-     */
-    protected function getColumnList(): string
-    {
-        $jsCode = '';
-        $viewTypes = ['inputNumber', 'switch'];
-        $tagTypes = ['radio', 'select'];
-        $notNeedDictType = ['checkbox'];
-        foreach ($this->columns as $column) if ($column->is_list === '1') {
-            $roleCode = empty($column->allow_roles) ? '' : "v-if=\"\$ROLE('{$column->allow_roles}')\"";
-            if (in_array($column->view_type, $viewTypes)) {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
-                    [$column->column_comment, $column->column_name, $roleCode],
-                    $this->getOtherTemplate('columnBy' . Str::title($column->view_type))
-                );
-            } else if (!empty($column->dict_type) && ! in_array($column->view_type, $notNeedDictType)) {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{DICT_TYPE}'],
-                    [$column->column_comment, $column->column_name, $roleCode, $column->dict_type],
-                    $this->getOtherTemplate('columnByDictType')
-                );
-            } else if (in_array($column->view_type, $tagTypes)) {
-                $data = [];
-                foreach ($column->options[$column->view_type] as $item) {
-                    $data[] = ['label' => $item['name'], 'value' => $item['value']];
-                }
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{CUSTOM_DATA}'],
-                    [$column->column_comment, $column->column_name, $roleCode, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)],
-                    $this->getOtherTemplate('columnByArray')
-                );
-            } else {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
-                    [$column->column_comment, $column->column_name, $roleCode],
-                    $this->getOtherTemplate('column')
-                );
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
      * 获取业务英文名
      * @return string
      */
     protected function getBusinessEnName(): string
     {
         return Str::camel(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
-    }
-
-    /**
-     * 获取需要搜索的字段列表
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getQueryParams(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                $type = match ($column->view_type) {
-                    'checkbox', 'userSelect', 'area' => '[]',
-                    'userinfo' => !empty($column->options['userinfo'])
-                        ? sprintf("'%s'", user()->getUserInfo()[$column->options['userinfo']])
-                        : "''",
-                    default => "''"
-                };
-                $jsCode .= sprintf("%s: %s,\n    ", $column->column_name, $type);
-            }
-        }
-        return $jsCode;
     }
 
     /**
@@ -417,11 +218,46 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     protected function getPk(): string
     {
         foreach ($this->columns as $column) {
-            if ($column->is_pk == '1') {
+            if ($column->is_pk == '2') {
                 return $column->column_name;
             }
         }
         return '';
+    }
+
+    /**
+     * 计数器组件方法
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getInputNumber(): string
+    {
+        if (in_array('numberOperation' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('numberOperation'));
+        }
+        return '';
+    }
+
+    /**
+     * 计数器组件方法
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getSwitchStatus(): string
+    {
+        if (in_array('changeStatus' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('switchStatus'));
+        }
+        return '';
+    }
+
+    /**
+     * @param string $tpl
+     * @return string
+     */
+    protected function getOtherTemplate(string $tpl): string
+    {
+        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/{$tpl}.stub");
     }
 
     /**

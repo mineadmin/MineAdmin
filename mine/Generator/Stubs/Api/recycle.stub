@@ -15,10 +15,11 @@
    * 恢复{BUSINESS_NAME}数据
    * @returns
    */
-  recoverys (ids) {
+  recoverys (data) {
     return request({
-      url: '{REQUEST_ROUTE}/recovery/' + ids,
-      method: 'put'
+      url: '{REQUEST_ROUTE}/recovery',
+      method: 'put',
+      data
     })
   },
 
@@ -26,9 +27,10 @@
    * 真实删除{BUSINESS_NAME}
    * @returns
    */
-  realDeletes (ids) {
+  realDeletes (data) {
     return request({
-      url: '{REQUEST_ROUTE}/realDelete/' + ids,
-      method: 'delete'
+      url: '{REQUEST_ROUTE}/realDelete',
+      method: 'delete',
+      data
     })
   },

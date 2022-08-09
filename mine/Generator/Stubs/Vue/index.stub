@@ -7,15 +7,15 @@
   </div>
 </template>
 <script setup>
-  import { ref, reactive } from 'vue'
-  import {BUSINESS_EN_NAME} from '@/api/apis/{MODULE_NAME}/{BUSINESS_EN_NAME}'
-  import tool from '@/utils/tool'
+import { ref, reactive } from 'vue'
+import {BUSINESS_EN_NAME} from '@/api/{MODULE_NAME}/{BUSINESS_EN_NAME}'
+import tool from '@/utils/tool'
 
-  const crudRef = ref()
+const crudRef = ref()
 
-  {INPUT_NUMBER}
-  {SWITCH_STATUS}
+{INPUT_NUMBER}
+{SWITCH_STATUS}
 
-  {CONST_CRUD}
-  {CONST_COLUMNS}
+{CRUD}
+{COLUMNS}
 </script>

@@ -183,7 +183,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getColumns(): string
     {
-        return 'const crud = reactive(' . $this->jsonFormat([['name' => '莫羿', 'age' => 33], ['name'=>'小曼', 'age' => 28]]) . ')';
+        return 'const columns = reactive(' . $this->jsonFormat([['name' => 'aa', 'age' => 33], ['name'=>'bb', 'age' => 28]]) . ')';
     }
 
     /**
@@ -276,44 +276,14 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     /**
      * array 到 json 数据格式化
      * @param array $data
-     * @param string $indent
      * @return string
      */
-    protected function jsonFormat(array $data, string $indent = ' '): string
+    protected function jsonFormat(array $data): string
     {
-        $data = json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
-
-        $ret = '';
-        $pos = 0;
-        $length = mb_strlen($data);
-        $newline = "\n";
-        $prevChar = '';
-        $outQuotes = true;
-
-        for( $i = 0; $i <= $length; $i++){
-            $char = substr($data, $i, 1);
-
-            if ( $char == '"' && $prevChar != '\\' ) {
-                $outQuotes = !$outQuotes;
-            } else if ( ($char == '}' || $char == ']') && $outQuotes ) {
-                $ret .= $newline;
-                $pos--;
-                $ret .= str_repeat($indent, $pos);
-            }
-
-            $ret .= $char;
-
-            if ( ($char==',' || $char=='{' || $char=='[') && $outQuotes ){
-                if ( $char=='{' || $char=='[' ) {
-                    $pos++;
-                }
-                $ret .= str_repeat($indent, $pos);
-            }
-
-            $prevChar = $char;
-        }
-
-        return $ret;
+        return preg_replace(
+            '/(\s+)\"(.+)\":/', "\\1\\2:",
+            str_replace('    ', '  ', json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT))
+        );
     }
 
     /**

@@ -17,5 +17,6 @@ const crudRef = ref()
 {SWITCH_STATUS}
 
 {CRUD}
+
 {COLUMNS}
 </script>

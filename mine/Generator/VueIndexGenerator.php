@@ -174,7 +174,43 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getCrud(): string
     {
-        return 'const crud = reactive(' . $this->jsonFormat(['ok' => '111']) . ')';
+        // 配置项
+        $options = [];
+        $options['rowSelection'] = [ 'showCheckedAll' => true ];
+        $options['searchLabelWidth'] = "'75px'";
+        $options['api'] = $this->getBusinessEnName() . '.getList';
+        if (Str::contains($this->model->generate_menus, 'recycle')) {
+            $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';
+        }
+        if (Str::contains($this->model->generate_menus, 'save')) {
+            $options['add'] = [
+                'show' => true, 'api' => $this->getBusinessEnName() . '.save',
+                'auth' => "['".$this->getCode().":save']"
+            ];
+        }
+        if (Str::contains($this->model->generate_menus, 'update')) {
+            $options['edit'] = [
+                'show' => true, 'api' => $this->getBusinessEnName() . '.update',
+                'auth' => "['".$this->getCode().":update']"
+            ];
+        }
+        if (Str::contains($this->model->generate_menus, 'delete')) {
+            $options['delete'] = [
+                'show' => true,
+                'api' => $this->getBusinessEnName() . '.delete',
+                'auth' => "['".$this->getCode().":delete']"
+            ];
+            if (Str::contains($this->model->generate_menus, 'recycle')) {
+                $options['delete']['realApi'] = $this->getBusinessEnName() . '.realDeletes';
+                $options['delete']['realAuth'] = "['".$this->getCode().":realDeletes']";
+                $options['recovery'] = [
+                    'show' => true,
+                    'api' => $this->getBusinessEnName() . '.recoverys',
+                    'auth' => "['".$this->getCode().":recovery']"
+                ];
+            }
+        }
+        return 'const crud = reactive(' . $this->jsonFormat($options, true) . ')';
     }
 
     /**
@@ -183,7 +219,16 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getColumns(): string
     {
-        return 'const columns = reactive(' . $this->jsonFormat([['name' => 'aa', 'age' => 33], ['name'=>'bb', 'age' => 28]]) . ')';
+        // 字段配置项
+        $options = [];
+        // 常用项
+        $commons = [
+            'addDisplayFalse' => [ 'addDisplay' => false ],
+            'editDisplayFalse' => [ 'editDisplay' => false ],
+            'hideTrue' => [ 'hide' => true ],
+            'props' => [ 'label' => 'title', 'value' => 'key' ]
+        ];
+        return 'const columns = reactive(' . $this->jsonFormat($options) . ')';
     }
 
     /**
@@ -276,14 +321,18 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     /**
      * array 到 json 数据格式化
      * @param array $data
+     * @param bool $removeValueQuotes
      * @return string
      */
-    protected function jsonFormat(array $data): string
+    protected function jsonFormat(array $data, bool $removeValueQuotes = false): string
     {
-        return preg_replace(
-            '/(\s+)\"(.+)\":/', "\\1\\2:",
-            str_replace('    ', '  ', json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT))
-        );
+        $data = str_replace('    ', '  ', json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+        $data = str_replace(['"true"', '"false"'], [ true, false ], $data);
+        $data = preg_replace('/(\s+)\"(.+)\":/', "\\1\\2:", $data);
+        if ($removeValueQuotes) {
+            $data = preg_replace('/(:\s)\"(.+)\"/', "\\1\\2", $data);
+        }
+        return $data;
     }
 
     /**

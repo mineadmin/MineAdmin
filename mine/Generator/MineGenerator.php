@@ -31,6 +31,9 @@ abstract class MineGenerator
      */
     protected ContainerInterface $container;
 
+    public const NO  = 1;
+    public const YES = 2;
+
     /**
      * MineGenerator constructor.
      * @param ContainerInterface $container

@@ -178,6 +178,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options = [];
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['searchLabelWidth'] = "'75px'";
+        $options['pk'] = $this->getPk();
         $options['api'] = $this->getBusinessEnName() . '.getList';
         if (Str::contains($this->model->generate_menus, 'recycle')) {
             $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';
@@ -221,13 +222,55 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         // 字段配置项
         $options = [];
-        // 常用项
-        $commons = [
-            'addDisplayFalse' => [ 'addDisplay' => false ],
-            'editDisplayFalse' => [ 'editDisplay' => false ],
-            'hideTrue' => [ 'hide' => true ],
-            'props' => [ 'label' => 'title', 'value' => 'key' ]
-        ];
+        foreach ($this->columns as $column) {
+            $tmp = [
+                'title' => $column->column_comment,
+                'dataIndex' => $column->column_name,
+                'formType' => $this->getViewType($column->view_type),
+            ];
+            // 基础
+            if ($column->is_query == self::YES) {
+                $tmp['search'] = true;
+            }
+            if ($column->is_insert == self::NO) {
+                $tmp['addDisplay'] = false;
+            }
+            if ($column->is_edit == self::NO) {
+                $tmp['editDisplay'] = false;
+            }
+            if ($column->is_list == self::NO) {
+                $tmp['hide'] = false;
+            }
+            if ($column->is_required == self::YES) {
+                $tmp['rules'] = [
+                    'required' => true,
+                    'message' => '请输入' . $column->column_comment
+                ];
+            }
+            // 扩展项
+            if (!empty($column->options)) {
+                $collection = $column->options['collection'];
+                unset($column->options['collection']);
+                // 日期、时间处理
+                if ($column->view_type == 'date' || $column->view_type == 'time') {
+                    $tmp = array_merge($tmp, $column->options);
+                }
+                // 自定义数据
+                if (in_array($column->view_type, ['checkbox', 'radio', 'select', 'transfer']) && !empty($collection)) {
+                    $tmp['dict'] = [ 'data' => $collection ];
+                }
+            }
+            // 字典
+            if (!empty($column->dict_type)) {
+                $tmp['dict'] = [
+                    'name' => $column->dict_type,
+                    'props' => [ 'label' => 'title', 'value' => 'key' ]
+                ];
+            }
+            // 允许查看字段的角色（前端还待支持）
+            // todo...
+            $options[] = $tmp;
+        }
         return 'const columns = reactive(' . $this->jsonFormat($options) . ')';
     }
 
@@ -263,7 +306,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     protected function getPk(): string
     {
         foreach ($this->columns as $column) {
-            if ($column->is_pk == '2') {
+            if ($column->is_pk == self::YES) {
                 return $column->column_name;
             }
         }
@@ -316,6 +359,45 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '',
             str_replace(env('DB_PREFIX'), '', $this->model->table_name)
         ));
+    }
+
+    /**
+     * 视图组件
+     * @param string $viewType
+     * @return string
+     */
+    protected function getViewType(string $viewType): string
+    {
+        $viewTypes = [
+            'text' => 'input',
+            'password' => 'password',
+            'textarea' => 'textarea',
+            'inputNumber' => 'input-number',
+            'inputTag' => 'input-tag',
+            'mention' => 'mention',
+            'switch' => 'switch',
+            'slider' => 'slider',
+            'select' => 'select',
+            'radio' => 'radio',
+            'checkbox' => 'checkbox',
+            'treeSelect' => 'tree-select',
+            'date' => 'date',
+            'time' => 'time',
+            'rate' => 'rate',
+            'cascader' => 'cascader',
+            'transfer' => 'transfer',
+            'selectUser' => 'user-select',
+            'userInfo' => 'user-info',
+            'cityLinkage' => 'city-linkage',
+            'icon' => 'icon',
+            'formGroup' => 'form-group',
+            'upload' => 'upload',
+            'selectResource' => 'select-resource',
+            'editor' => 'editor',
+            'codeEditor' => 'code-editor',
+        ];
+
+        return $viewTypes[$viewType] ?? 'input';
     }
 
     /**

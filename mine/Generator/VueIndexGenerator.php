@@ -250,13 +250,13 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             // 扩展项
             if (!empty($column->options)) {
                 $collection = $column->options['collection'];
-                unset($column->options['collection']);
                 // 合并
                 $tmp = array_merge($tmp, $column->options);
                 // 自定义数据
                 if (in_array($column->view_type, ['checkbox', 'radio', 'select', 'transfer']) && !empty($collection)) {
                     $tmp['dict'] = [ 'data' => $collection, 'translation' => true ];
                 }
+                unset($tmp['collection']);
             }
             // 字典
             if (!empty($column->dict_type)) {

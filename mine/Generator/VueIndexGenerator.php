@@ -178,7 +178,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options = [];
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['searchLabelWidth'] = "'75px'";
-        $options['pk'] = $this->getPk();
+        $options['pk'] = "'".$this->getPk()."'";
         $options['api'] = $this->getBusinessEnName() . '.getList';
         if (Str::contains($this->model->generate_menus, 'recycle')) {
             $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';
@@ -239,7 +239,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 $tmp['editDisplay'] = false;
             }
             if ($column->is_list == self::NO) {
-                $tmp['hide'] = false;
+                $tmp['hide'] = true;
             }
             if ($column->is_required == self::YES) {
                 $tmp['rules'] = [
@@ -251,20 +251,19 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             if (!empty($column->options)) {
                 $collection = $column->options['collection'];
                 unset($column->options['collection']);
-                // 日期、时间处理
-                if ($column->view_type == 'date' || $column->view_type == 'time') {
-                    $tmp = array_merge($tmp, $column->options);
-                }
+                // 合并
+                $tmp = array_merge($tmp, $column->options);
                 // 自定义数据
                 if (in_array($column->view_type, ['checkbox', 'radio', 'select', 'transfer']) && !empty($collection)) {
-                    $tmp['dict'] = [ 'data' => $collection ];
+                    $tmp['dict'] = [ 'data' => $collection, 'translation' => true ];
                 }
             }
             // 字典
             if (!empty($column->dict_type)) {
                 $tmp['dict'] = [
                     'name' => $column->dict_type,
-                    'props' => [ 'label' => 'title', 'value' => 'key' ]
+                    'props' => [ 'label' => 'title', 'value' => 'key' ],
+                    'translation' => true
                 ];
             }
             // 允许查看字段的角色（前端还待支持）

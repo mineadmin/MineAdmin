@@ -30,6 +30,8 @@ use Mine\MineModel;
  */
 class SettingGenerateColumns extends MineModel
 {
+    public const YES = 2;
+    public const NO = 1;
     /**
      * The table associated with the model.
      *

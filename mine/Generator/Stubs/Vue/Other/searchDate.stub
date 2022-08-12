@@ -1,5 +1,0 @@
-            <el-date-picker
-              v-model="queryParams.{COLUMN_NAME}" placeholder="请选择{LABEL_NAME}时间"
-              type="{DATE_TYPE}" {WEEK_FORMAT} {RANGE_TIPS}
-              value-format="YYYY-MM-DD HH:mm:ss"
-            />

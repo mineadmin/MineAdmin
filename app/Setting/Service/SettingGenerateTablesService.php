@@ -206,7 +206,6 @@ class SettingGenerateTablesService extends AbstractService
             RequestGenerator::class,
             ApiGenerator::class,
             VueIndexGenerator::class,
-            VueSaveGenerator::class,
             SqlGenerator::class,
             DtoGenerator::class,
         ];

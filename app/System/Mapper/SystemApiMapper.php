@@ -1,15 +1,5 @@
 <?php
 declare(strict_types=1);
-/**
- * MineAdmin is committed to providing solutions for quickly building web applications
- * Please view the LICENSE file that was distributed with this source code,
- * For the full copyright and license information.
- * Thank you very much for using MineAdmin.
- *
- * @Author X.Mo<root@imoi.cn>
- * @Link   https://gitee.com/xmo/MineAdmin
- */
-
 namespace App\System\Mapper;
 
 use App\System\Model\SystemApi;
@@ -17,7 +7,8 @@ use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
 
 /**
- * 接口表Mapper类
+ * Class SystemApiMapper
+ * @package App\System\Mapper
  */
 class SystemApiMapper extends AbstractMapper
 {
@@ -39,7 +30,18 @@ class SystemApiMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        
         return $query;
+    }
+
+    /**
+     * 通过api获取字段列表
+     * @param string $id
+     * @return array
+     */
+    public function getColumnListByApiId(string $id): array
+    {
+        return $this->model::query()->where('id', $id)->with(['apiColumn' => function($query) {
+            $query->where('status', $this->model::ENABLE);
+        }])->first()->toArray();
     }
 }

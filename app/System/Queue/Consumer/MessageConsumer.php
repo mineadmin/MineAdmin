@@ -12,7 +12,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 /**
  * 后台内部消息队列消费处理
  */
-#[Consumer(exchange: "mineadmin", routingKey: "message.routing", queue: "message.queue", name: "message.queue", nums: 1)]
+//#[Consumer(exchange: "mineadmin", routingKey: "message.routing", queue: "message.queue", name: "message.queue", nums: 1)]
 class MessageConsumer extends ConsumerMessage
 {
     /**

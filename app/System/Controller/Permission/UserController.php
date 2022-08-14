@@ -3,11 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller\Permission;
 
-use App\System\Request\User\SystemUserCreateRequest;
-use App\System\Request\User\SystemUserHompPageRequest;
-use App\System\Request\User\SystemUserPasswordRequest;
-use App\System\Request\User\SystemUserStatusRequest;
-use App\System\Request\User\SystemUserUpdateRequest;
+use App\System\Request\SystemUserRequest;
 use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -58,13 +54,13 @@ class UserController extends MineController
 
     /**
      * 新增一个用户
-     * @param SystemUserCreateRequest $request
+     * @param SystemUserRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:user:save"), OperationLog]
-    public function save(SystemUserCreateRequest $request): ResponseInterface
+    public function save(SystemUserRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -85,13 +81,13 @@ class UserController extends MineController
     /**
      * 更新一个用户信息
      * @param int $id
-     * @param SystemUserUpdateRequest $request
+     * @param SystemUserRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:user:update"), OperationLog]
-    public function update(int $id, SystemUserUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemUserRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -134,13 +130,13 @@ class UserController extends MineController
 
     /**
      * 更改用户状态
-     * @param SystemUserStatusRequest $request
+     * @param SystemUserRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:user:changeStatus"), OperationLog]
-    public function changeStatus(SystemUserStatusRequest $request): ResponseInterface
+    public function changeStatus(SystemUserRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();
@@ -161,13 +157,13 @@ class UserController extends MineController
 
     /**
      * 设置用户首页
-     * @param SystemUserHompPageRequest $request
+     * @param SystemUserRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("setHomePage"), Permission("system:user:homePage")]
-    public function setHomePage(SystemUserHompPageRequest $request): ResponseInterface
+    public function setHomePage(SystemUserRequest $request): ResponseInterface
     {
         return $this->service->setHomePage($request->validated()) ? $this->success() : $this->error();
     }
@@ -198,13 +194,13 @@ class UserController extends MineController
 
     /**
      * 修改密码 (不验证权限)
-     * @param SystemUserPasswordRequest $request
+     * @param SystemUserRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("modifyPassword")]
-    public function modifyPassword(SystemUserPasswordRequest $request): ResponseInterface
+    public function modifyPassword(SystemUserRequest $request): ResponseInterface
     {
         return $this->service->modifyPassword($request->validated()) ? $this->success() : $this->error();
     }

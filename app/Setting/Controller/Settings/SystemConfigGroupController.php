@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\Setting\Controller\Settings;
 
-use App\Setting\Request\Setting\SettingConfigGroupRequest;
+use App\Setting\Request\SettingConfigGroupRequest;
 use App\Setting\Service\SettingConfigGroupService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -11,7 +11,6 @@ use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
-use Mine\Annotation\DeleteCache;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;

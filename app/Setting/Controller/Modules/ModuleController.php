@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace App\Setting\Controller\Modules;
 
-use App\Setting\Request\Module\ModuleCreateRequest;
-use App\Setting\Request\Module\ModuleStatusRequest;
+use App\Setting\Request\ModuleRequest;
 use App\Setting\Service\ModuleService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -43,13 +42,13 @@ class ModuleController extends MineController
 
     /**
      * 新增本地模块
-     * @param ModuleCreateRequest $request
+     * @param ModuleRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("save"), Permission("setting:module:save"), OperationLog]
-    public function save(ModuleCreateRequest $request): ResponseInterface
+    public function save(ModuleRequest $request): ResponseInterface
     {
         $this->service->createModule($request->validated());
         return $this->success();
@@ -57,13 +56,13 @@ class ModuleController extends MineController
 
     /**
      * 启停用模块
-     * @param ModuleStatusRequest $request
+     * @param ModuleRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("modifyStatus"), Permission("setting:module:status"), OperationLog]
-    public function modifyStatus(ModuleStatusRequest $request): ResponseInterface
+    public function modifyStatus(ModuleRequest $request): ResponseInterface
     {
         return $this->service->modifyStatus($request->validated()) ? $this->success() : $this->error();
     }

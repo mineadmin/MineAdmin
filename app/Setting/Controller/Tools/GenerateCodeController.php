@@ -3,8 +3,7 @@
 declare(strict_types = 1);
 namespace App\Setting\Controller\Tools;
 
-use App\Setting\Request\Tool\GenerateUpdateRequest;
-use App\Setting\Request\Tool\LoadTableRequest;
+use App\Setting\Request\GenerateRequest;
 use App\Setting\Service\SettingGenerateColumnsService;
 use App\Setting\Service\SettingGenerateTablesService;
 use Hyperf\Di\Annotation\Inject;
@@ -90,13 +89,13 @@ class GenerateCodeController extends MineController
 
     /**
      * 更新业务表信息
-     * @param GenerateUpdateRequest $request
+     * @param GenerateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("update"), Permission("setting:code:update")]
-    public function update(GenerateUpdateRequest $request): ResponseInterface
+    public function update(GenerateRequest $request): ResponseInterface
     {
         return $this->tableService->updateTableAndColumns($request->validated()) ? $this->success() : $this->error();
     }
@@ -118,13 +117,13 @@ class GenerateCodeController extends MineController
 
     /**
      * 加载数据表
-     * @param LoadTableRequest $request
+     * @param GenerateRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("loadTable"), Permission("setting:code:loadTable"), OperationLog]
-    public function loadTable(LoadTableRequest $request): ResponseInterface
+    public function loadTable(GenerateRequest $request): ResponseInterface
     {
         return $this->tableService->loadTable($request->input('names')) ? $this->success() : $this->error();
     }

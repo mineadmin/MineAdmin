@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\Setting\Controller\Tools;
 
-use App\Setting\Request\Tool\SettingCrontabCreateRequest;
+use App\Setting\Request\SettingCrontabRequest;
 use App\Setting\Service\SettingCrontabLogService;
 use App\Setting\Service\SettingCrontabService;
 use Hyperf\Di\Annotation\Inject;
@@ -64,13 +64,13 @@ class CrontabController extends MineController
 
     /**
      * 保存数据
-     * @param SettingCrontabCreateRequest $request
+     * @param SettingCrontabRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("setting:crontab:save"), OperationLog]
-    public function save(SettingCrontabCreateRequest $request): ResponseInterface
+    public function save(SettingCrontabRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -108,13 +108,13 @@ class CrontabController extends MineController
     /**
      * 更新数据
      * @param int $id
-     * @param SettingCrontabCreateRequest $request
+     * @param SettingCrontabRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("setting:crontab:update"), OperationLog]
-    public function update(int $id, SettingCrontabCreateRequest $request): ResponseInterface
+    public function update(int $id, SettingCrontabRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }

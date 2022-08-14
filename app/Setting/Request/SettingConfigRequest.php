@@ -1,12 +1,11 @@
 <?php
 
-
-namespace App\Setting\Request\Setting;
-
+declare(strict_types=1);
+namespace App\Setting\Request;
 
 use Mine\MineFormRequest;
 
-class SettingConfigGroupRequest extends MineFormRequest
+class SettingConfigRequest extends MineFormRequest
 {
     /**
      * 公共规则
@@ -14,8 +13,14 @@ class SettingConfigGroupRequest extends MineFormRequest
     public function commonRules(): array
     {
         return [
-            'name' => 'required|max:32',
-            'code' => 'required|max:64',
+            'group_id' => 'required',
+            'key' => 'required|max:32',
+            'value' => 'required|max:255',
+            'name' => 'required|max:255',
+            'input_type' => '',
+            'config_select_data' => '',
+            'sort' => '',
+            'remark' => '',
         ];
     }
 
@@ -24,7 +29,8 @@ class SettingConfigGroupRequest extends MineFormRequest
      */
     public function saveRules(): array
     {
-        return [];
+        return [
+        ];
     }
 
     /**
@@ -33,7 +39,6 @@ class SettingConfigGroupRequest extends MineFormRequest
     public function updateRules(): array
     {
         return [
-            'id' => 'required'
         ];
     }
 
@@ -44,9 +49,10 @@ class SettingConfigGroupRequest extends MineFormRequest
     public function attributes(): array
     {
         return [
-            'id' => '主键',
-            'name' => '配置组名称',
-            'code' => '配置组标识',
+            'group_id' => '组ID',
+            'key' => '配置键名',
+            'value' => '配置值',
+            'name' => '配置名称',
         ];
     }
 }

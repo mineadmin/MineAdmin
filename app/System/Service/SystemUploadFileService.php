@@ -55,12 +55,32 @@ class SystemUploadFileService extends AbstractService
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
+        try {
+            $hash = md5_file($uploadedFile->getPath() . '/' . $uploadedFile->getFilename());
+            if ($model = $this->mapper->getFileInfoByHash($hash)) {
+                return $model->toArray();
+            }
+        } catch (Exception $e) {
+            throw new NormalStatusException('获取文件Hash失败', 500);
+        }
         $data = $this->mineUpload->upload($uploadedFile, $config);
         if ($this->save($data)) {
             return $data;
         } else {
             return [];
         }
+    }
+
+    public function chunkUpload(array $data): array
+    {
+        if ($model = $this->mapper->getFileInfoByHash($data['hash'])) {
+            return $model->toArray();
+        }
+        $result = $this->mineUpload->handleChunkUpload($data);
+        if (isset($result['hash'])) {
+            $this->save($result);
+        }
+        return $result;
     }
 
     /**
@@ -130,10 +150,20 @@ class SystemUploadFileService extends AbstractService
     public function saveNetworkImage(array $data): array
     {
         $data = $this->mineUpload->handleSaveNetworkImage($data);
-        if ($this->save($data)) {
+        if (! isset($data['id']) && $this->save($data)) {
             return $data;
         } else {
-            return [];
+            return $data;
         }
+    }
+
+    /**
+     * 通过hash获取文件信息
+     * @param string $hash
+     * @return \Hyperf\Database\Model\Builder|\Hyperf\Database\Model\Model|object|null
+     */
+    public function readByHash(string $hash)
+    {
+        return $this->mapper->getFileInfoByHash($hash);
     }
 }

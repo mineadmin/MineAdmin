@@ -9,7 +9,7 @@ use Mine\MineModel;
  * @property int $id 主键
  * @property string $name 字典名称
  * @property string $code 字典标示
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
@@ -21,7 +21,6 @@ use Mine\MineModel;
 class SystemDictType extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *
@@ -39,7 +38,7 @@ class SystemDictType extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联字典数据表
      * @return \Hyperf\Database\Model\Relations\HasMany

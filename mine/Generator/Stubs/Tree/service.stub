@@ -106,12 +106,10 @@ class {CLASS_NAME} extends AbstractService
 
     /**
      * 真实删除数据，跳过存在子节点的数据
-     * @param string $ids
      * @return array
      */
-    public function realDel(string $ids): ?array
+    public function realDel(array $ids): ?array
     {
-        $ids = explode(',', $ids);
         // 存在子节点，跳过的数据
         $ctuIds = [];
         if (count($ids)) foreach ($ids as $id) {

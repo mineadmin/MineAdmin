@@ -11,15 +11,18 @@ use Mine\MineModel;
  * @property string $ip_location IP所属地
  * @property string $os 操作系统
  * @property string $browser 浏览器
- * @property string $status 登录状态 (0成功 1失败)
+ * @property int $status 登录状态 (1成功 2失败)
  * @property string $message 提示消息
  * @property string $login_time 登录时间
  * @property string $remark 备注
  */
 class SystemLoginLog extends MineModel
 {
-    public $incrementing = false;
     public $timestamps = false;
+
+    public const SUCCESS = 1;
+    public const FAIL = 2;
+
     /**
      * The table associated with the model.
      *
@@ -37,5 +40,5 @@ class SystemLoginLog extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer'];
+    protected $casts = ['id' => 'integer', 'status' => 'integer'];
 }

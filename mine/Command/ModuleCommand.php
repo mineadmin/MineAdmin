@@ -48,7 +48,7 @@ class ModuleCommand extends MineCommand
     public function configure()
     {
         parent::configure();
-        $this->mine = make(Mine::Class);
+        $this->mine = make(Mine::class);
         $this->setHelp('run "php bin/hyperf.php mine:module --name cms --option install"');
         $this->setDescription('install command of module MineAdmin');
         $this->addOption(

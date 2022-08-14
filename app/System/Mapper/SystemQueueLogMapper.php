@@ -55,11 +55,6 @@ class SystemQueueLogMapper extends AbstractMapper
             $query->where('consume_status', '=', $params['consume_status']);
         }
 
-        // 延迟时间 (秒)
-        if (isset($params['delay_time'])) {
-            $query->where('delay_time', '=', $params['delay_time']);
-        }
-
         return $query;
     }
 }

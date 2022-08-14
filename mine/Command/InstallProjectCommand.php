@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -10,11 +11,11 @@
  */
 
 declare(strict_types=1);
+
 namespace Mine\Command;
 
 use Hyperf\Command\Annotation\Command;
 use Hyperf\DbConnection\Db;
-use Mine\Helper\Id;
 use Mine\MineCommand;
 use Mine\Mine;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,9 +33,9 @@ class InstallProjectCommand extends MineCommand
      */
     protected $name = 'mine:install';
 
-    protected CONST CONSOLE_GREEN_BEGIN = "\033[32;5;1m";
-    protected CONST CONSOLE_RED_BEGIN = "\033[31;5;1m";
-    protected CONST CONSOLE_END = "\033[0m";
+    protected const CONSOLE_GREEN_BEGIN = "\033[32;5;1m";
+    protected const CONSOLE_RED_BEGIN = "\033[31;5;1m";
+    protected const CONSOLE_END = "\033[0m";
 
     protected array $database = [];
 
@@ -78,7 +79,6 @@ class InstallProjectCommand extends MineCommand
 
                 // 安装完成
                 $this->finish();
-
             } else {
 
                 // 欢迎
@@ -131,7 +131,7 @@ class InstallProjectCommand extends MineCommand
 
             $extensions = ['swoole', 'mbstring', 'json', 'openssl', 'pdo', 'xml'];
 
-            foreach($extensions as $ext) {
+            foreach ($extensions as $ext) {
                 $this->checkExtension($ext);
             }
         }
@@ -154,7 +154,7 @@ class InstallProjectCommand extends MineCommand
             $dbpass = '';
 
             $i = 3;
-            while($i > 0) {
+            while ($i > 0) {
                 if ($i === 3) {
                     $dbpass = $this->ask('Please input database password. Press "enter" 3 number of times, not setting the password');
                 } else {
@@ -204,7 +204,6 @@ class InstallProjectCommand extends MineCommand
     protected function generatorEnvFile()
     {
         try {
-            $id = new Id();
             $env = parse_ini_file(BASE_PATH . '/.env.example', true);
             $env['APP_NAME'] = 'MineAdmin';
             $env['APP_ENV'] = 'dev';
@@ -227,8 +226,8 @@ class InstallProjectCommand extends MineCommand
             $env['AMQP_PASSWORD'] = 'guest';
             $env['AMQP_VHOST'] = '/';
             $env['AMQP_ENABLE'] = 'false';
-            $env['SUPER_ADMIN'] = (string) $id->getId();
-            $env['ADMIN_ROLE'] = (string) ($id->getId());
+            $env['SUPER_ADMIN'] = 1;
+            $env['ADMIN_ROLE'] = 1;
             $env['CONSOLE_SQL'] = 'true';
             $env['JWT_SECRET'] = base64_encode(random_bytes(64));
             $env['JWT_API_SECRET'] = base64_encode(random_bytes(64));
@@ -237,8 +236,8 @@ class InstallProjectCommand extends MineCommand
 
             $envContent = '';
             foreach ($env as $key => $e) {
-                if (is_string($e)) {
-                    $envContent .= sprintf('%s = %s', $key, $e === '1' ? 'true' : ($e === '' ? '' : $e)) . PHP_EOL. PHP_EOL;
+                if (!is_array($e)) {
+                    $envContent .= sprintf('%s = %s', $key, $e === '1' ? 'true' : ($e === '' ? '' : $e)) . PHP_EOL . PHP_EOL;
                 } else {
                     $envContent .= sprintf('[%s]', $key) . PHP_EOL;
                     foreach ($e as $k => $v) {
@@ -251,8 +250,10 @@ class InstallProjectCommand extends MineCommand
             $pdo = new \PDO($dsn, $this->database['dbuser'], $this->database['dbpass']);
             $isSuccess = $pdo->query(
                 sprintf(
-                    'CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
-                    $this->database['dbname'], $this->database['charset'], $this->database['charset']
+                    'CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARSET %s COLLATE %s_general_ci;',
+                    $this->database['dbname'],
+                    $this->database['charset'],
+                    $this->database['charset']
                 )
             );
 
@@ -264,7 +265,6 @@ class InstallProjectCommand extends MineCommand
             } else {
                 $this->line($this->getRedText(sprintf('Failed to create database "%s". Please create it manually', $this->database['dbname'])));
             }
-
         } catch (\RuntimeException $e) {
             $this->line($this->getRedText($e->getMessage()));
             exit;
@@ -312,10 +312,11 @@ class InstallProjectCommand extends MineCommand
             'nickname' => '创始人',
             'email' => 'admin@adminmine.com',
             'phone' => '16858888988',
+            'signed' => '广阔天地，大有所为',
             'dashboard' => 'statistics',
             'created_by' => 0,
             'updated_by' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
@@ -328,7 +329,7 @@ class InstallProjectCommand extends MineCommand
             'sort' => 0,
             'created_by' => env('SUPER_ADMIN', 0),
             'updated_by' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
             'remark' => '系统内置角色，不可删除'
@@ -343,7 +344,7 @@ class InstallProjectCommand extends MineCommand
     {
         $i = 5;
         $this->output->write(PHP_EOL . $this->getGreenText('The installation is almost complete'), false);
-        while($i > 0) {
+        while ($i > 0) {
             $this->output->write($this->getGreenText('.'), false);
             $i--;
             sleep(1);

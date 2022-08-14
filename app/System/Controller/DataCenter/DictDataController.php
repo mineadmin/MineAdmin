@@ -35,7 +35,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:dataDict:index")]
+    #[GetMapping("index"), Permission("system:dict:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -71,7 +71,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("clearCache"), Permission("system:dataDict:clearCache"), OperationLog]
+    #[PostMapping("clearCache"), Permission("system:dict:clearCache"), OperationLog]
     public function clearCache(): ResponseInterface
     {
         return $this->service->clearCache() ? $this->success() : $this->error();
@@ -83,7 +83,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("recycle"), Permission("system:dataDict:recycle")]
+    #[GetMapping("recycle"), Permission("system:dict:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -96,7 +96,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("system:dataDict:save"), OperationLog]
+    #[PostMapping("save"), Permission("system:dict:save"), OperationLog]
     public function save(DictDataCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -109,7 +109,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("read/{id}"), Permission("system:dataDict:read")]
+    #[GetMapping("read/{id}"), Permission("system:dict:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -123,7 +123,7 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("system:dataDict:update"), OperationLog]
+    #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog]
     public function update(int $id, DictDataCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -131,41 +131,38 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量字典数据
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:dataDict:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:dict:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除字典 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:dataDict:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:dict:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        return $this->service->realDelete($ids) ? $this->success() : $this->error();
+        return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量恢复在回收站的字典
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:dataDict:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:dict:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -175,10 +172,26 @@ class DictDataController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("system:dataDict:changeStatus"), OperationLog]
+    #[PutMapping("changeStatus"), Permission("system:dict:update"), OperationLog]
     public function changeStatus(DictDataStatusRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();
+    }
+
+    /**
+     * 数字运算操作
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("numberOperation"), Permission("system:dict:update"), OperationLog]
+    public function numberOperation(): ResponseInterface
+    {
+        return $this->service->numberOperation(
+            (int) $this->request->input('id'),
+            (string) $this->request->input('numberName'),
+            (int) $this->request->input('numberValue', 1),
+        ) ? $this->success() : $this->error();
     }
 }

@@ -11,7 +11,6 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
-use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
@@ -99,66 +98,49 @@ class LogsController extends MineController
 
     /**
      * 删除队列日志
-     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteQueueLog/{ids}"), Permission("system:queueLog:delete"), OperationLog]
-    public function deleteQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping("deleteQueueLog"), Permission("system:queueLog:delete"), OperationLog]
+    public function deleteQueueLog(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->queueLogService->delete($ids) ? $this->success() : $this->error();
-    }
-
-    /**
-     * 重新加入队列
-     * @param String $ids
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PutMapping("updateQueueLog/{ids}"), Permission("system:queueLog:produceStatus"), OperationLog]
-    public function updateQueueLog(String $ids): \Psr\Http\Message\ResponseInterface
-    {
-        return $this->queueLogService->updateProduceStatus($ids) ? $this->success() : $this->error();
+        return $this->queueLogService->delete((array)$this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除操作日志
-     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteOperLog/{ids}"), Permission("system:operLog:delete"), OperationLog]
-    public function deleteOperLog(String $ids): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping("deleteOperLog"), Permission("system:operLog:delete"), OperationLog]
+    public function deleteOperLog(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->operLogService->delete($ids) ? $this->success() : $this->error();
+        return $this->operLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除登录日志
-     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteLoginLog/{ids}"), Permission("system:loginLog:delete"), OperationLog]
-    public function deleteLoginLog(String $ids): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping("deleteLoginLog"), Permission("system:loginLog:delete"), OperationLog]
+    public function deleteLoginLog(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->loginLogService->delete($ids) ? $this->success() : $this->error();
+        return $this->loginLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除API访问日志
-     * @param String $ids
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteApiLog/{ids}"), Permission("system:apiLog:delete"), OperationLog]
-    public function deleteApiLog(String $ids): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping("deleteApiLog"), Permission("system:apiLog:delete"), OperationLog]
+    public function deleteApiLog(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->apiLogService->delete($ids) ? $this->success() : $this->error();
+        return $this->apiLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 }

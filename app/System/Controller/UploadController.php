@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller;
 
-use App\System\Model\SystemRole;
-use App\System\Request\Upload\CreateUploadDirRequest;
+use App\System\Request\Upload\ChunkUploadRequest;
 use App\System\Request\Upload\NetworkImageRequest;
 use App\System\Request\Upload\UploadFileRequest;
 use App\System\Request\Upload\UploadImageRequest;
@@ -14,6 +13,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
+use Mine\Exception\MineException;
 use Mine\MineController;
 
 /**
@@ -39,7 +39,7 @@ class UploadController extends MineController
     {
         if ($request->validated() && $request->file('file')->isValid()) {
             $data = $this->service->upload(
-                $request->file('file'), ['path' => $request->input('path', null)]
+                $request->file('file'), $request->all()
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
@@ -60,12 +60,25 @@ class UploadController extends MineController
     {
         if ($request->validated() && $request->file('image')->isValid()) {
             $data = $this->service->upload(
-                $request->file('image'), ['path' => $request->input('path', null)]
+                $request->file('image'), $request->all()
             );
             return empty($data) ? $this->error() : $this->success($data);
         } else {
             return $this->error(t('system.upload_image_verification_fail'));
         }
+    }
+
+    /**
+     * 分块上传
+     * @param ChunkUploadRequest $request
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("chunkUpload"), Auth]
+    public function chunkUpload(ChunkUploadRequest $request): \Psr\Http\Message\ResponseInterface
+    {
+        return ($data = $this->service->chunkUpload($request->validated())) ? $this->success($data) : $this->error();
     }
 
     /**
@@ -109,19 +122,42 @@ class UploadController extends MineController
     }
 
     /**
-     * 下载文件
+     * 根据id下载文件
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("download")]
-    public function download(): \Psr\Http\Message\ResponseInterface
+    #[GetMapping("downloadById")]
+    public function downloadById(): \Psr\Http\Message\ResponseInterface
     {
         $id = $this->request->input('id');
         if (empty($id)) {
             return $this->error("附件ID必填");
         }
-        $model = $this->service->read($id);
+        $model = $this->service->read((int) $id);
+        if (! $model) {
+            throw new \Mine\Exception\MineException('附件不存在', 500);
+        }
+        return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
+    }
+
+    /**
+     * 根据hash下载文件
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("downloadByHash")]
+    public function downloadByHash(): \Psr\Http\Message\ResponseInterface
+    {
+        $hash = $this->request->input('hash');
+        if (empty($hash)) {
+            return $this->error("附件hash必填");
+        }
+        $model = $this->service->readByHash($hash);
+        if (! $model) {
+            throw new \Mine\Exception\MineException('附件不存在', 500);
+        }
         return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
     }
 }

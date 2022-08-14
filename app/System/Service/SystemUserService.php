@@ -225,18 +225,17 @@ class SystemUserService extends AbstractService
 
     /**
      * 删除用户
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function delete(string $ids): bool
+    public function delete(array $ids): bool
     {
         if (!empty($ids)) {
-            $userIds = explode(',', $ids);
-            if (($key = array_search(env('SUPER_ADMIN'), $userIds)) !== false) {
-                unset($userIds[$key]);
+            if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
+                unset($ids[$key]);
             }
 
-            return $this->mapper->delete($userIds);
+            return $this->mapper->delete($ids);
         }
 
         return false;
@@ -244,18 +243,17 @@ class SystemUserService extends AbstractService
 
     /**
      * 真实删除用户
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function realDelete(string $ids): bool
+    public function realDelete(array $ids): bool
     {
         if (!empty($ids)) {
-            $userIds = explode(',', $ids);
-            if (($key = array_search(env('SUPER_ADMIN'), $userIds)) !== false) {
-                unset($userIds[$key]);
+            if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
+                unset($ids[$key]);
             }
 
-            return $this->mapper->realDelete($userIds);
+            return $this->mapper->realDelete($ids);
         }
 
         return false;
@@ -302,6 +300,15 @@ class SystemUserService extends AbstractService
     {
         $redis = $this->container->get(Redis::class);
         $prefix = config('cache.default.prefix');
+        foreach(['crontab', 'config:*', 'modules', 'Dict:*'] as $item) {
+            if (in_array($item, ['config:*', 'Dict:*'])) {
+                foreach($redis->keys($prefix . $item) as $key) {
+                    $redis->exists($key) && $redis->del($key);
+                }
+            } else {
+                $redis->exists($prefix . $item) && $redis->del($prefix . $item);
+            }
+        }
         return $redis->del("{$prefix}loginInfo:userId_{$id}") > 0;
     }
 
@@ -353,5 +360,13 @@ class SystemUserService extends AbstractService
     public function modifyPassword(array $params): bool
     {
         return $this->mapper->initUserPassword((int) user()->getId(), $params['newPassword']);
+    }
+
+    /**
+     * 通过 id 列表获取用户基础信息
+     */
+    public function getUserInfoByIds(array $ids): array
+    {
+        return $this->mapper->getUserInfoByIds($ids);
     }
 }

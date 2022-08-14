@@ -22,13 +22,12 @@ class MessageConsumer extends ConsumerMessage
      */
     public function consumeMessage($data, AMQPMessage $message): string
     {
-        parent::consumeMessage($data, $message);
+        return parent::consumeMessage($data, $message);
+    }
 
-        if(empty($data['data'])) {
-            return Result::DROP;
-        }
-
-        return Result::ACK;
+    public function consume($data): string
+    {
+        return empty($data) ? Result::DROP : Result::ACK;
     }
 
     /**

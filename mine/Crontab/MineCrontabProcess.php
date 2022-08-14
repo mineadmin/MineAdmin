@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -10,16 +11,18 @@
  */
 
 declare(strict_types=1);
+
 namespace Mine\Crontab;
 
-use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Crontab\Event\CrontabDispatcherStarted;
-use Hyperf\Crontab\Strategy\StrategyInterface;
-use Hyperf\Di\Annotation\Inject;
-use Hyperf\Process\AbstractProcess;
-use Hyperf\Process\ProcessManager;
-use Psr\Container\ContainerInterface;
 use Swoole\Server;
+use Hyperf\Crontab\Crontab;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\Process\ProcessManager;
+use Hyperf\Process\AbstractProcess;
+use Psr\Container\ContainerInterface;
+use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Crontab\Strategy\StrategyInterface;
+use Hyperf\Crontab\Event\CrontabDispatcherStarted;
 
 class MineCrontabProcess extends AbstractProcess
 {
@@ -89,6 +92,7 @@ class MineCrontabProcess extends AbstractProcess
     /**
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+
      */
     public function handle(): void
     {
@@ -96,8 +100,11 @@ class MineCrontabProcess extends AbstractProcess
         while (ProcessManager::isRunning()) {
             $this->sleep();
             $crontabs = $this->scheduler->schedule();
-            while (! $crontabs->isEmpty()) {
-                $crontab = $crontabs->dequeue();
+            while (!$crontabs->isEmpty()) {
+                /**
+                 * @var Crontab  $crontab
+                 */
+                $crontab =  $crontabs->dequeue();
                 $this->strategy->dispatch($crontab);
             }
         }

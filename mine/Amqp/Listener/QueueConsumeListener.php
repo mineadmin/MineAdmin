@@ -101,7 +101,7 @@ class QueueConsumeListener implements ListenerInterface
     {
         $this->service->update(
             (int)$event->data['queue_id'], [
-            'consume_status' => SystemQueueLog::CONSUME_STATUS_4,
+            'consume_status' => SystemQueueLog::CONSUME_STATUS_REPEAT,
             'log_content' => $event->throwable ?: $event->throwable->getMessage()
         ]);
     }

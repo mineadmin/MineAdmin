@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -10,6 +11,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Mine\Command;
 
 use Hyperf\Command\Annotation\Command;
@@ -83,6 +85,4 @@ class UpdateProjectCommand extends MineCommand
 
         $this->line($this->getGreenText('updated successfully...'));
     }
-
-
 }

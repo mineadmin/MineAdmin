@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Listener;
 
+use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemUser;
 use App\System\Service\SystemLoginLogService;
 use Hyperf\Event\Annotation\Listener;
@@ -43,7 +44,7 @@ class LoginListener implements ListenerInterface
             'ip_location' => Str::ipToRegion($ip),
             'os' => $this->os($agent),
             'browser' => $this->browser($agent),
-            'status' => !$event->loginStatus,
+            'status' => $event->loginStatus ? SystemLoginLog::SUCCESS : SystemLoginLog::FAIL,
             'message' => $event->message,
             'login_time' => date('Y-m-d H:i:s')
         ]);

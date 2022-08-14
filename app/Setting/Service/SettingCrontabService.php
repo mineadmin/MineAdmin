@@ -76,10 +76,10 @@ class SettingCrontabService extends AbstractService
 
     /**
      * 删除
-     * @param string $ids
+     * @param array $ids
      * @return bool
      */
-    public function delete(string $ids): bool
+    public function delete(array $ids): bool
     {
         $res = parent::delete($ids);
         $this->redis->del($this->prefix . 'crontab');
@@ -99,7 +99,7 @@ class SettingCrontabService extends AbstractService
         $crontab = new MineCrontab();
         $model = $this->read($id);
         $crontab->setCallback($model->target);
-        $crontab->setType($model->type);
+        $crontab->setType((string) $model->type);
         $crontab->setEnable(true);
         $crontab->setCrontabId($model->id);
         $crontab->setName($model->name);

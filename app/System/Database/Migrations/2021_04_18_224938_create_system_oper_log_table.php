@@ -14,10 +14,10 @@ class CreateSystemOperLogTable extends Migration
         Schema::create('system_oper_log', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('操作日志表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
+            $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
             $table->addColumn('string', 'method', ['length' => 20, 'comment' => '请求方式']);
-            $table->addColumn('string', 'router', ['length' => 100, 'comment' => '请求路由']);
+            $table->addColumn('string', 'router', ['length' => 500, 'comment' => '请求路由']);
             $table->addColumn('string', 'service_name', ['length' => 30, 'comment' => '业务名称']);
             $table->addColumn('ipAddress', 'ip', ['comment' => '请求IP地址'])->nullable();
             $table->addColumn('string', 'ip_location', ['length' => 255, 'comment' => 'IP所属地'])->nullable();
@@ -30,7 +30,7 @@ class CreateSystemOperLogTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
+            $table->index('username');
         });
     }
 

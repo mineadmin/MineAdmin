@@ -1,7 +1,0 @@
-
-          <ma-import
-            :auth="['{CODE}:import']"
-            :upload-api="{BUSINESS_EN_NAME}.importExcel"
-            :download-tpl-api="{BUSINESS_EN_NAME}.downloadTemplate"
-            @success="handleSuccess()"
-          />

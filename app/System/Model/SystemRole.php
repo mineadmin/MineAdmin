@@ -6,11 +6,11 @@ namespace App\System\Model;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 /**
- * @property int $id 主键，角色ID
+ * @property int $id 主键
  * @property string $name 角色名称
  * @property string $code 角色代码
- * @property string $data_scope 数据范围（0：全部数据权限 1：自定义数据权限 2：本部门数据权限 3：本部门及以下数据权限 4：本人数据权限）
- * @property string $status 状态 (0正常 1停用)
+ * @property int $data_scope 数据范围（1：全部数据权限 2：自定义数据权限 3：本部门数据权限 4：本部门及以下数据权限 5：本人数据权限）
+ * @property int $status 状态 (1正常 2停用)
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -25,17 +25,16 @@ use Mine\MineModel;
 class SystemRole extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     // 所有
-    public const ALL_SCOPE = '0';
+    public const ALL_SCOPE = 1;
     // 自定义
-    public const CUSTOM_SCOPE = '1';
+    public const CUSTOM_SCOPE = 2;
     // 本部门
-    public const SELF_DEPT_SCOPE = '2';
+    public const SELF_DEPT_SCOPE = 3;
     // 本部门及子部门
-    public const DEPT_BELOW_SCOPE = '3';
+    public const DEPT_BELOW_SCOPE = 4;
     // 本人
-    public const SELF_SCOPE = '4';
+    public const SELF_SCOPE = 5;
     /**
      * The table associated with the model.
      *
@@ -53,7 +52,7 @@ class SystemRole extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'data_scope' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表获取菜单
      */

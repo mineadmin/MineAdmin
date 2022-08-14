@@ -128,6 +128,26 @@ class SystemAppService extends AbstractService
     }
 
     /**
+     * 登录文档
+     */
+    public function loginDoc(string $appId, string $appSecret): int
+    {
+        $model = $this->mapper->one(function($query) use($appId, $appSecret){
+            $query->where('app_id', $appId)->where('app_secret', $appSecret);
+        }, ['id', 'status']);
+
+        if (! $model) {
+            return MineCode::API_PARAMS_ERROR;
+        }
+
+        if ($model->status != SystemApp::ENABLE) {
+            return MineCode::APP_BAN;
+        }
+
+        return MineCode::API_VERIFY_PASS;
+    }
+
+    /**
      * 简易验证方式
      * @param string $appId
      * @param string $identity

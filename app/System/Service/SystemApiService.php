@@ -1,15 +1,22 @@
 <?php
-
 declare(strict_types=1);
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://gitee.com/xmo/MineAdmin
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemApiMapper;
 use Mine\Abstracts\AbstractService;
 
 /**
- * api接口业务
- * Class SystemAppService
- * @package App\System\Service
+ * 接口表服务类
  */
 class SystemApiService extends AbstractService
 {
@@ -21,15 +28,5 @@ class SystemApiService extends AbstractService
     public function __construct(SystemApiMapper $mapper)
     {
         $this->mapper = $mapper;
-    }
-
-    /**
-     * 获取字段列
-     * @param string $id
-     * @return array
-     */
-    public function getColumnListByApiId(string $id): array
-    {
-        return $this->mapper->getColumnListByApiId($id);
     }
 }

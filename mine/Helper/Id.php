@@ -52,9 +52,13 @@ class Id
      * @return int
      * @throws \Exception
      */
-    public function getId()
+    public function getId(?int $workerId = null)
     {
         $timestamp = $this->timeGen();
+
+        if (! is_null($workerId)) {
+            $this->workerId = $workerId;
+        }
 
         if ($timestamp < $this->lastTimestamp) {
             $diffTimestamp = $this->lastTimestamp - $timestamp;

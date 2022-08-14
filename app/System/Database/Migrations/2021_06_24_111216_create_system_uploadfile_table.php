@@ -1,4 +1,13 @@
 <?php
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://gitee.com/xmo/MineAdmin
+ */
 
 use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
@@ -14,10 +23,11 @@ class CreateSystemUploadfileTable extends Migration
         Schema::create('system_uploadfile', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('上传文件信息表');
-            $table->addColumn('bigInteger', 'id', ['unsigned' => true, 'comment' => '主键']);
-            $table->addColumn('char', 'storage_mode', ['length' => 1, 'default' => '1', 'comment' => '状态 (1 本地 2 阿里云 3 七牛云 4 腾讯云)'])->nullable();
+            $table->bigIncrements('id')->comment('主键');
+            $table->addColumn('smallInteger', 'storage_mode', ['default' => 1, 'comment' => '存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)'])->nullable();
             $table->addColumn('string', 'origin_name', ['length' => 255, 'comment' => '原文件名'])->nullable();
             $table->addColumn('string', 'object_name', ['length' => 50, 'comment' => '新文件名'])->nullable();
+            $table->addColumn('string', 'hash', ['length' => 64, 'comment' => '文件hash'])->nullable();
             $table->addColumn('string', 'mime_type', ['length' => 255, 'comment' => '资源类型'])->nullable();
             $table->addColumn('string', 'storage_path', ['length' => 100, 'comment' => '存储目录'])->nullable();
             $table->addColumn('string', 'suffix', ['length' => 10, 'comment' => '文件后缀'])->nullable();
@@ -30,8 +40,8 @@ class CreateSystemUploadfileTable extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
-            $table->primary('id');
             $table->index('storage_path');
+            $table->unique('hash');
         });
     }
 

@@ -17,6 +17,7 @@ use Hyperf\Crontab\Parser;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
 use Hyperf\Redis\Redis;
+use Mine\MineModel;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -73,7 +74,7 @@ class MineCrontabManage
 
         if ($data === false) {
             $data = SettingCrontab::query()
-                ->where('status', '0')
+                ->where('status', MineModel::ENABLE)
                 ->get(explode(',', 'id,name,type,target,rule,parameter'))->toArray();
             $this->redis->set($prefix . 'crontab', serialize($data));
         } else {
@@ -91,7 +92,7 @@ class MineCrontabManage
 
             $crontab = new MineCrontab();
             $crontab->setCallback($item['target']);
-            $crontab->setType($item['type']);
+            $crontab->setType((string) $item['type']);
             $crontab->setEnable(true);
             $crontab->setCrontabId($item['id']);
             $crontab->setName($item['name']);

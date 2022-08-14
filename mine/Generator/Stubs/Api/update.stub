@@ -3,10 +3,10 @@
    * 更新{BUSINESS_NAME}数据
    * @returns
    */
-  update (id, params = {}) {
+  update (id, data = {}) {
     return request({
       url: '{REQUEST_ROUTE}/update/' + id,
       method: 'put',
-      data: params
+      data
     })
   },

@@ -93,28 +93,26 @@ class MenuController extends MineController
 
     /**
      * 单个或批量删除菜单到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:menu:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:menu:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除菜单 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:menu:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:menu:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        $menus = $this->service->realDel($ids);
+        $menus = $this->service->realDel((array) $this->request->input('ids', []));
         return is_null($menus) ? 
         $this->success() :
         $this->success(t('system.exists_children_ctu', ['names' => implode(',', $menus)]));
@@ -122,14 +120,42 @@ class MenuController extends MineController
 
     /**
      * 单个或批量恢复在回收站的菜单
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:menu:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:menu:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改菜单状态
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:menu:update"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
+    }
+
+    /**
+     * 数字运算操作
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("numberOperation"), Permission("system:menu:update"), OperationLog]
+    public function numberOperation(): ResponseInterface
+    {
+        return $this->service->numberOperation(
+            (int) $this->request->input('id'),
+            (string) $this->request->input('numberName'),
+            (int) $this->request->input('numberValue', 1),
+        ) ? $this->success() : $this->error();
     }
 }

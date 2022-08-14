@@ -15,9 +15,9 @@ use Mine\MineModel;
  * @property string $route 路由地址
  * @property string $component 组件路径
  * @property string $redirect 跳转地址
- * @property string $is_hidden 是否隐藏 (0是 1否)
+ * @property int $is_hidden 是否隐藏 (1是 2否)
  * @property string $type 菜单类型, (M菜单 B按钮 L链接 I iframe)
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -30,7 +30,6 @@ use Mine\MineModel;
 class SystemMenu extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * 类型
      */
@@ -55,7 +54,7 @@ class SystemMenu extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'is_hidden' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表获取角色
      */

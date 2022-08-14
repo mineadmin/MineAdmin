@@ -93,28 +93,26 @@ class DeptController extends MineController
 
     /**
      * 单个或批量删除部门到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:dept:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:dept:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除部门 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:dept:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:dept:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        $data = $this->service->realDel($ids);
+        $data = $this->service->realDel((array) $this->request->input('ids', []));
         return is_null($data) ?
             $this->success() :
             $this->success(t('system.exists_children_ctu', ['names' => implode(',', $data)]));
@@ -122,15 +120,14 @@ class DeptController extends MineController
 
     /**
      * 单个或批量恢复在回收站的部门
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:dept:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:dept:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -145,5 +142,21 @@ class DeptController extends MineController
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();
+    }
+
+    /**
+     * 数字运算操作
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("numberOperation"), Permission("system:dept:update"), OperationLog]
+    public function numberOperation(): ResponseInterface
+    {
+        return $this->service->numberOperation(
+            (int) $this->request->input('id'),
+            (string) $this->request->input('numberName'),
+            (int) $this->request->input('numberValue', 1),
+        ) ? $this->success() : $this->error();
     }
 }

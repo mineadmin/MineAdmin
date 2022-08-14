@@ -8,6 +8,7 @@ use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\Transaction;
 use Psr\Container\ContainerInterface;
 
 class SettingConfigService extends AbstractService
@@ -60,45 +61,6 @@ class SettingConfigService extends AbstractService
     }
 
     /**
-     * 获取系统组配置
-     * @return array
-     */
-    public function getSystemGroupConfig(): array
-    {
-        return $this->mapper->getConfigByGroup('system');
-    }
-
-    /**
-     * 获取扩展组配置
-     * @return array
-     */
-    public function getExtendGroupConfig(): array
-    {
-        return $this->mapper->getConfigByGroup('extend');
-    }
-
-    /**
-     * 按组获取配置，并缓存
-     * @param string $groupName
-     * @return array
-     */
-    public function getConfigByGroup(string $groupName): array
-    {
-        if (empty($groupName)) return [];
-        $cacheKey = $this->getCacheGroupName() . $groupName;
-        if ($data = $this->redis->get($cacheKey)) {
-            return unserialize($data);
-        } else {
-            $data = $this->mapper->getConfigByGroup($groupName);
-            if ($data) {
-                $this->redis->set($cacheKey, serialize($data));
-                return $data;
-            }
-            return [];
-        }
-    }
-
-    /**
      * 按key获取配置，并缓存
      * @param string $key
      * @return array
@@ -139,27 +101,28 @@ class SettingConfigService extends AbstractService
     }
 
     /**
-     * 保存系统配置组
+     * 更新配置
+     * @param string $key
      * @param array $data
      * @return bool
      */
-    public function saveSystemConfig(array $data): bool
+    public function updated(string $key, array $data): bool
     {
-        foreach ($data as $key => $value) {
-            $this->mapper->updateConfig($key, $value);
-        }
-        $this->clearCache();
-        return true;
+        return $this->mapper->updateConfig($key, $data);
     }
 
     /**
-     * 更新配置
-     * @param $data
+     * 按 keys 更新配置
+     * @param array $data
      * @return bool
      */
-    public function updated($data): bool
+    #[Transaction]
+    public function updatedByKeys(array $data): bool
     {
-        return $this->mapper->updateConfig($data['key'], $data['value']);
+        foreach ($data as $name => $value) {
+            $this->mapper->updateByKey($name, $value);
+        }
+        return true;
     }
 
     /**

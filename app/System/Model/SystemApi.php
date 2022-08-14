@@ -12,11 +12,11 @@ use Mine\MineModel;
  * @property string $access_name 接口访问名称
  * @property string $class_name 类命名空间
  * @property string $method_name 方法名
- * @property string $auth_mode 认证模式 (0简易 1复杂)
+ * @property int $auth_mode 认证模式 (1简易 2复杂)
  * @property string $request_mode 请求模式 (A 所有 P POST G GET)
  * @property string $description 接口说明介绍
  * @property string $response 返回内容示例
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
@@ -30,16 +30,13 @@ use Mine\MineModel;
 class SystemApi extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     public const METHOD_ALL = 'A';
     public const METHOD_POST = 'P';
     public const METHOD_GET = 'G';
     public const METHOD_PUT = 'U';
     public const METHOD_DELETE = 'D';
-
-    public const AUTH_MODE_EASY = '0';
-    public const AUTH_MODE_NORMAL = '1';
-
+    public const AUTH_MODE_EASY = 1;
+    public const AUTH_MODE_NORMAL = 2;
     /**
      * The table associated with the model.
      *
@@ -57,7 +54,7 @@ class SystemApi extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'group_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'group_id' => 'integer', 'auth_mode' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表关联APP
      * @return \Hyperf\Database\Model\Relations\BelongsToMany

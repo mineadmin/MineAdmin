@@ -3,10 +3,10 @@
    * 读取{BUSINESS_NAME}
    * @returns
    */
-  read (params = {}) {
+  read (data = {}) {
     return request({
       url: '{REQUEST_ROUTE}/read',
       method: 'get',
-      data: params
+      data
     })
   },

@@ -10,7 +10,7 @@ use Mine\MineModel;
  * @property string $name 岗位名称
  * @property string $code 岗位代码
  * @property int $sort 排序
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
@@ -22,7 +22,6 @@ use Mine\MineModel;
 class SystemPost extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *
@@ -40,7 +39,7 @@ class SystemPost extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'sort' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表获取用户
      */

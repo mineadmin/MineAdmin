@@ -1,13 +1,12 @@
 
     /**
      * 单个或批量删除数据到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("{DELETE_PERMISSION}"), OperationLog]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("{DELETE_PERMISSION}"), OperationLog]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }

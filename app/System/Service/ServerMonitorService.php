@@ -161,50 +161,9 @@ class ServerMonitorService
 
         $result['mineadmin_version'] = \Mine\Mine::getVersion();
 
-        preg_match('/(\d\.\d\.\d)/', shell_exec('composer info | grep hyperf/framework'), $hv);
-        $result['hyperf_version'] = $hv[1];
+        $result['hyperf_version'] = '2.2.33';
 
         return $result;
-    }
-
-    /**
-     * 获取网络数据信息
-     * @return array
-     */
-    public function getNetInfo(): array
-    {
-        if (PHP_OS == 'Linux') {
-            $secondsBefore = $this->calculationNetInfo();
-            sleep(1);
-            $secondsAfter = $this->calculationNetInfo();
-
-            return [
-                'receive_total' => $secondsAfter['receive_total'],
-                'receive_pack' => sprintf('%.2f', $secondsAfter['receive_total'] - $secondsBefore['receive_total']),
-                'send_total' => $secondsAfter['send_total'],
-                'send_pack' => sprintf('%.2f', $secondsAfter['send_total'] - $secondsBefore['send_total']),
-            ];
-        } else {
-            return [
-                'receive_total' => 0,
-                'receive_pack' => 0,
-                'send_total' => 0,
-                'send_pack' => 0,
-            ];
-        }
-    }
-
-    /**
-     * 网络数据信息
-     * @return array
-     */
-    protected function calculationNetInfo(): array
-    {
-        preg_match_all('/(\d{2,})/', shell_exec('cat /proc/net/dev | grep eth0'), $net);
-        return [
-            'receive_total' => sprintf('%.2f', $net[0][0] / 1024 / 1024),
-            'send_total'    => sprintf('%.2f', $net[0][2] / 1024 / 1024),
-        ];
     }
 
     /**

@@ -106,41 +106,38 @@ class PostController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:post:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:post:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:post:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:post:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        return $this->service->realDelete($ids) ? $this->success() : $this->error();
+        return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:post:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:post:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -155,5 +152,21 @@ class PostController extends MineController
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();
+    }
+
+    /**
+     * 数字运算操作
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("numberOperation"), Permission("system:post:update"), OperationLog]
+    public function numberOperation(): ResponseInterface
+    {
+        return $this->service->numberOperation(
+            (int) $this->request->input('id'),
+            (string) $this->request->input('numberName'),
+            (int) $this->request->input('numberValue', 1),
+        ) ? $this->success() : $this->error();
     }
 }

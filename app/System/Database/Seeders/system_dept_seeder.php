@@ -1,4 +1,13 @@
 <?php
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://gitee.com/xmo/MineAdmin
+ */
 
 declare(strict_types=1);
 
@@ -16,11 +25,9 @@ class SystemDeptSeeder extends Seeder
      */
     public function run()
     {
-        $id = snowflake_id();
         Db::table('system_dept')->truncate();
         Db::table('system_dept')->insert(
             [
-                'id' => $id,
                 'parent_id' => 0,
                 'level' => '0',
                 'name' => '曼艺科技',
@@ -33,6 +40,6 @@ class SystemDeptSeeder extends Seeder
         );
         Db::table('system_user')
             ->where('id', env('SUPER_ADMIN', 1))
-            ->update(['dept_id' => $id]);
+            ->update(['dept_id' => 1]);
     }
 }

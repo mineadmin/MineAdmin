@@ -1,6 +1,0 @@
-
-          <el-option
-            v-for="(item, index) in dictData.{DICT_COLUMN}"
-            :key="index" :label="item.label"
-            :value="item.value"
-          >{{ item.label }}</el-option>

@@ -1,2 +1,0 @@
-
-          <el-table-column label="{LABEL_COMMENT}" prop="{COLUMN_NAME}" {ROLE_CODE} />

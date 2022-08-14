@@ -19,7 +19,6 @@ use Mine\MineModel;
  */
 class SystemApiLog extends MineModel
 {
-    public $incrementing = false;
     public $timestamps = false;
     /**
      * The table associated with the model.
@@ -38,5 +37,5 @@ class SystemApiLog extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'request_data' => 'array'];
+    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'request_data' => 'array', 'response_data' => 'array'];
 }

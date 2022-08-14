@@ -166,14 +166,13 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成代码
-     * @param string $ids
+     * @param array $ids
      * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function generate(string $ids): string
+    public function generate(array $ids): string
     {
-        $ids = explode(',', $ids);
         $this->initGenerateSetting();
         $adminId = user()->getId();
         foreach ($ids as $id) {
@@ -186,13 +185,13 @@ class SettingGenerateTablesService extends AbstractService
     /**
      * 生成步骤
      * @param int $id
-     * @param string $adminId
+     * @param int $adminId
      * @return SettingGenerateTables
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
-    protected function generateCodeFile(int $id, string $adminId): SettingGenerateTables
+    protected function generateCodeFile(int $id, int $adminId): SettingGenerateTables
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);
@@ -207,7 +206,6 @@ class SettingGenerateTablesService extends AbstractService
             RequestGenerator::class,
             ApiGenerator::class,
             VueIndexGenerator::class,
-            VueSaveGenerator::class,
             SqlGenerator::class,
             DtoGenerator::class,
         ];
@@ -368,19 +366,13 @@ class SettingGenerateTablesService extends AbstractService
                 'tab_name' => 'Index.vue',
                 'name' => 'index',
                 'code' => make(VueIndexGenerator::class)->setGenInfo($model)->preview(),
-                'lang' => 'vue',
-            ],
-            [
-                'tab_name' => 'Save.vue',
-                'name' => 'save',
-                'code' => make(VueSaveGenerator::class)->setGenInfo($model)->preview(),
-                'lang' => 'vue',
+                'lang' => 'html',
             ],
             [
                 'tab_name' => 'Menu.sql',
                 'name' => 'sql',
                 'code' => make(SqlGenerator::class)->setGenInfo($model, user()->getId())->preview(),
-                'lang' => 'sql',
+                'lang' => 'mysql',
             ],
         ];
     }

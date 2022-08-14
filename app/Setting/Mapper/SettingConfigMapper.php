@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingConfig;
+use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
 
 class SettingConfigMapper extends AbstractMapper
@@ -19,20 +20,6 @@ class SettingConfigMapper extends AbstractMapper
     }
 
     /**
-     * 按组获取配置
-     * @param string $groupName
-     * @return array
-     */
-    public function getConfigByGroup(string $groupName): array
-    {
-        return $this->model::query()
-            ->where('group_name', $groupName)
-            ->orderByDesc('sort')->get([
-            'group_name', 'name', 'key', 'value', 'sort', 'remark'
-        ])->toArray();
-    }
-
-    /**
      * 按Key获取配置
      * @param string $key
      * @return array
@@ -40,26 +27,59 @@ class SettingConfigMapper extends AbstractMapper
     public function getConfigByKey(string $key): array
     {
         $model = $this->model::query()->find($key, [
-            'group_name', 'name', 'key', 'value', 'sort', 'remark'
+            'group_id', 'name', 'key', 'value', 'sort', 'input_type', 'config_select_data'
         ]);
         return $model ? $model->toArray() : [];
     }
 
     /**
      * 更新配置
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param array $data
      * @return bool
      */
-    public function updateConfig($key, $value): bool
+    public function updateConfig(string $key, array $data): bool
+    {
+        return $this->model::query()->where('key', $key)->update($data) > 0;
+    }
+
+    /**
+     * 按 keys 更新配置
+     * @param string $key
+     * @param array $data
+     * @return bool
+     */
+    public function updateByKey(string $key, string $value): bool
     {
         return $this->model::query()->where('key', $key)->update(['value' => $value]) > 0;
     }
 
+    /**
+     * 保存配置
+     * @param array $data
+     * @return int
+     */
     public function save(array $data): int
     {
         $this->filterExecuteAttributes($data);
         $model = $this->model::create($data);
         return ($model->{$model->getKeyName()}) ? 1 : 0;
+    }
+
+    /**
+     * 搜索处理器
+     */
+    public function handleSearch(Builder $query, array $params): Builder
+    {
+        if (isset($params['group_id']) && !empty($params['group_id'])) {
+            $query->where('group_id', $params['group_id']);
+        }
+        if (isset($params['name']) && !empty($params['name'])) {
+            $query->where('name', $params['name']);
+        }
+        if (isset($params['key']) && !empty($params['key'])) {
+            $query->where('key', 'like',  '%'.$params['key'].'%');
+        }
+        return $query;
     }
 }

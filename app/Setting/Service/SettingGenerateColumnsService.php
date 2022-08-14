@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingGenerateColumnsMapper;
+use App\Setting\Model\SettingGenerateColumns;
 use Mine\Abstracts\AbstractService;
 
 /**
@@ -43,24 +44,44 @@ class SettingGenerateColumnsService extends AbstractService
                 'column_name' => $item['column_name'],
                 'column_comment' => $item['column_comment'],
                 'column_type' => $item['data_type'],
-                'is_pk' => empty($item['column_key']) ? '0' : '1' ,
+                'is_pk' => empty($item['column_key']) ? SettingGenerateColumns::NO : SettingGenerateColumns::YES ,
                 'query_type' => 'eq',
                 'view_type' => 'text',
                 'sort' => count($data) - $k,
-                'allow_roles' => $item['allow_roles'],
-                'options' => $item['options']
+                'allow_roles' => $item['allow_roles'] ?? null,
+                'options' => $item['options'] ?? null
             ];
 
             // 设置默认选项
             if (!in_array($item['column_name'], $default_column) && empty($item['column_key'])) {
                 $column = array_merge(
                     $column,
-                    ['is_insert' => 1, 'is_edit' => '1', 'is_list' => '1', 'is_query' => '1']
+                    [
+                        'is_insert' => SettingGenerateColumns::YES,
+                        'is_edit' => SettingGenerateColumns::YES,
+                        'is_list' => SettingGenerateColumns::YES,
+                        'is_query' => SettingGenerateColumns::YES
+                    ]
                 );
             }
 
             $this->mapper->save($column);
         }
         return 1;
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
+    {
+        $data['is_insert'] = $data['is_insert'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        $data['is_edit'] = $data['is_edit'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        $data['is_list'] = $data['is_list'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        $data['is_query'] = $data['is_query'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        $data['is_required'] = $data['is_required'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        return $this->mapper->update($id, $data);
     }
 }

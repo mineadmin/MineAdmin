@@ -15,8 +15,8 @@ namespace Mine\Middlewares;
 use App\Setting\Service\ModuleService;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\Di\Annotation\Inject;
-use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
+use Mine\Exception\NormalStatusException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -51,9 +51,14 @@ class CheckModuleMiddleware implements MiddlewareInterface
 
             $path = $moduleName . '/' . $controllerName;
 
-            $moduleName = Str::title($moduleName);
+            $moduleName = Str::lower($moduleName);
 
-            $module = $this->service->getModuleCache($moduleName);
+            $module['enabled'] = false;
+
+            foreach ($this->service->getModuleCache() as $name => $item) if (Str::lower($name) === $moduleName) {
+                $module = $item;
+                break;
+            }
 
             $annotation = AnnotationCollector::getClassesByAnnotation('Hyperf\HttpServer\Annotation\Controller');
 

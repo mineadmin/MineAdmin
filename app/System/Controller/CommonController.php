@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace App\System\Controller;
 
 use App\System\Service\SystemDeptService;
+use App\System\Service\SystemNoticeService;
 use App\System\Service\SystemPostService;
 use App\System\Service\SystemRoleService;
 use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\PostMapping;
+use Hyperf\Redis\Redis;
 use Mine\Annotation\Auth;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
@@ -34,6 +37,9 @@ class CommonController extends MineController
     #[Inject]
     protected SystemPostService $postService;
 
+    #[Inject]
+    protected SystemNoticeService $noticeService;
+
     /**
      * 获取用户列表
      * @return ResponseInterface
@@ -44,6 +50,18 @@ class CommonController extends MineController
     public function getUserList(): ResponseInterface
     {
         return $this->success($this->userService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 通过 id 列表获取用户基础信息
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("getUserInfoByIds")]
+    public function getUserInfoByIds(): ResponseInterface
+    {
+        return $this->success($this->userService->getUserInfoByIds((array) $this->request->input('ids', [])));
     }
 
     /**
@@ -80,5 +98,30 @@ class CommonController extends MineController
     public function getPostList(): ResponseInterface
     {
         return $this->success($this->postService->getList());
+    }
+
+    /**
+     * 获取公告列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getNoticeList")]
+    public function getNoticeList(): ResponseInterface
+    {
+        return $this->success($this->noticeService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 清除所有缓存
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("clearAllCache")]
+    public function clearAllCache(): ResponseInterface
+    {
+        $this->userService->clearCache((string) user()->getId());
+        return $this->success();
     }
 }

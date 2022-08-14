@@ -141,7 +141,7 @@ class SystemUserMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['dept_id'])) {
+        if (isset($params['dept_id']) && is_string($params['dept_id'])) {
             $query->whereIn('dept_id', explode(',', $params['dept_id']));
         }
         if (isset($params['username'])) {
@@ -164,12 +164,13 @@ class SystemUserMapper extends AbstractMapper
             $query->whereNotIn('id', [env('SUPER_ADMIN')]);
         }
 
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
+        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
+                [ $params['created_at'][0] . '00:00:00', $params['created_at'][1] . '23:59:59' ]
             );
         }
+
         if (isset($params['userIds'])) {
             $query->whereIn('id', $params['userIds']);
         }
@@ -217,5 +218,14 @@ class SystemUserMapper extends AbstractMapper
             return $model->save();
         }
         return false;
+    }
+
+    /**
+     * 根据用户ID列表获取用户基础信息
+     */
+    public function getUserInfoByIds(array $ids, ?array $select = null): array
+    {
+        if (! $select) $select = ['id', 'dept_id', 'username', 'nickname', 'phone', 'email', 'created_at'];
+        return $this->model::query()->whereIn('id', $ids)->select($select)->get()->toArray();
     }
 }

@@ -82,27 +82,25 @@ class QueueMessageController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deletes/{ids}")]
-    public function deletes(String $ids): ResponseInterface
+    #[DeleteMapping("deletes")]
+    public function deletes(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 更新状态到已读
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("updateReadStatus/{ids}")]
-    public function updateReadStatus(String $ids): ResponseInterface
+    #[PutMapping("updateReadStatus")]
+    public function updateReadStatus(): ResponseInterface
     {
-        return $this->service->updateDataStatus($ids) ? $this->success() : $this->error();
+        return $this->service->updateDataStatus((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 }

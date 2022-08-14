@@ -35,7 +35,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:apiColumn:index")]
+    #[GetMapping("index"), Permission("system:api:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -47,7 +47,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("recycle"), Permission("system:apiColumn:recycle")]
+    #[GetMapping("recycle"), Permission("system:api:recycle")]
     public function recycle(): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($this->request->all()));
@@ -60,7 +60,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("system:apiColumn:save"), OperationLog]
+    #[PostMapping("save"), Permission("system:api:save"), OperationLog]
     public function save(SystemApiColumnCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -73,7 +73,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("read/{id}"), Permission("system:apiColumn:read")]
+    #[GetMapping("read/{id}"), Permission("system:api:read")]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
@@ -87,7 +87,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("system:apiColumn:update"), OperationLog]
+    #[PutMapping("update/{id}"), Permission("system:api:update"), OperationLog]
     public function update(int $id, SystemApiColumnUpdateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -95,41 +95,38 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量删除数据到回收站
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete/{ids}"), Permission("system:apiColumn:delete")]
-    public function delete(String $ids): ResponseInterface
+    #[DeleteMapping("delete"), Permission("system:api:delete")]
+    public function delete(): ResponseInterface
     {
-        return $this->service->delete($ids) ? $this->success() : $this->error();
+        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量真实删除数据 （清空回收站）
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete/{ids}"), Permission("system:apiColumn:realDelete"), OperationLog]
-    public function realDelete(String $ids): ResponseInterface
+    #[DeleteMapping("realDelete"), Permission("system:api:realDelete"), OperationLog]
+    public function realDelete(): ResponseInterface
     {
-        return $this->service->realDelete($ids) ? $this->success() : $this->error();
+        return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 单个或批量恢复在回收站的数据
-     * @param String $ids
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery/{ids}"), Permission("system:apiColumn:recovery")]
-    public function recovery(String $ids): ResponseInterface
+    #[PutMapping("recovery"), Permission("system:api:recovery")]
+    public function recovery(): ResponseInterface
     {
-        return $this->service->recovery($ids) ? $this->success() : $this->error();
+        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
@@ -137,7 +134,7 @@ class SystemApiColumnController extends MineController
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @return ResponseInterface
      */
-    #[PostMapping("export"), Permission("system:apiColumn:export")]
+    #[PostMapping("export")]
     public function export(): ResponseInterface
     {
         return $this->service->export($this->request->all(), \App\System\Dto\ApiColumnDto::class, '字段列表');
@@ -150,7 +147,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("import"), Permission("system:apiColumn:import")]
+    #[PostMapping("import")]
     public function import(): ResponseInterface
     {
         return $this->service->import(\App\System\Dto\ApiColumnDto::class) ? $this->success() : $this->error();
@@ -167,5 +164,18 @@ class SystemApiColumnController extends MineController
     public function downloadTemplate(): ResponseInterface
     {
         return (new MineCollection)->export(\App\System\Dto\ApiColumnDto::class, '模板下载', []);
+    }
+
+    /**
+     * 更改状态
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:api:update"), OperationLog]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

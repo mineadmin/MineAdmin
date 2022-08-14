@@ -16,7 +16,6 @@ use App\Setting\Model\SettingGenerateColumns;
 use App\Setting\Model\SettingGenerateTables;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
-use Mine\Generator\Traits\VueFunctionsVarsTraits;
 use Mine\Helper\Str;
 use Hyperf\Database\Model\Collection;
 
@@ -27,8 +26,6 @@ use Hyperf\Database\Model\Collection;
  */
 class VueIndexGenerator extends MineGenerator implements CodeGenerator
 {
-    use VueFunctionsVarsTraits;
-
     /**
      * @var SettingGenerateTables
      */
@@ -134,18 +131,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             '{CODE}',
-            '{IMPORT}',
-            '{EXPORT}',
-            '{SHOW_RECYCLE}',
-            '{HIDE_PAGE}',
-            '{FIRST_SEARCH}',
-            '{SEARCH_LIST}',
-            '{COLUMN_LIST}',
+            '{CRUD}',
+            '{COLUMNS}',
             '{BUSINESS_EN_NAME}',
-            '{QUERY_PARAMS}',
-            '{DICT_LIST}',
-            '{DICT_DATA}',
-            '{EXPORT_EXCEL}',
             '{INPUT_NUMBER}',
             '{SWITCH_STATUS}',
             '{MODULE_NAME}',
@@ -161,18 +149,9 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             $this->getCode(),
-            $this->getImport(),
-            $this->getExport(),
-            $this->getShowRecycle(),
-            $this->getHidePage(),
-            $this->getFirstSearch(),
-            $this->getSearchList(),
-            $this->getColumnList(),
+            $this->getCrud(),
+            $this->getColumns(),
             $this->getBusinessEnName(),
-            $this->getQueryParams(),
-            $this->getDictList(),
-            $this->getDictData(),
-            $this->getExportExcel(),
             $this->getInputNumber(),
             $this->getSwitchStatus(),
             $this->getModuleName(),
@@ -190,37 +169,108 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     }
 
     /**
+     * 获取CRUD配置代码
      * @return string
      */
-    protected function getImport(): string
+    protected function getCrud(): string
     {
-        if ( strpos($this->model->generate_menus, 'import') > 0 ) {
-            return str_replace('{CODE}', $this->getCode(), $this->getFormItemTemplate('import'));
+        // 配置项
+        $options = [];
+        $options['rowSelection'] = [ 'showCheckedAll' => true ];
+        $options['searchLabelWidth'] = "'75px'";
+        $options['pk'] = "'".$this->getPk()."'";
+        $options['api'] = $this->getBusinessEnName() . '.getList';
+        if (Str::contains($this->model->generate_menus, 'recycle')) {
+            $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';
         }
-        return '';
+        if (Str::contains($this->model->generate_menus, 'save')) {
+            $options['add'] = [
+                'show' => true, 'api' => $this->getBusinessEnName() . '.save',
+                'auth' => "['".$this->getCode().":save']"
+            ];
+        }
+        if (Str::contains($this->model->generate_menus, 'update')) {
+            $options['edit'] = [
+                'show' => true, 'api' => $this->getBusinessEnName() . '.update',
+                'auth' => "['".$this->getCode().":update']"
+            ];
+        }
+        if (Str::contains($this->model->generate_menus, 'delete')) {
+            $options['delete'] = [
+                'show' => true,
+                'api' => $this->getBusinessEnName() . '.delete',
+                'auth' => "['".$this->getCode().":delete']"
+            ];
+            if (Str::contains($this->model->generate_menus, 'recycle')) {
+                $options['delete']['realApi'] = $this->getBusinessEnName() . '.realDeletes';
+                $options['delete']['realAuth'] = "['".$this->getCode().":realDeletes']";
+                $options['recovery'] = [
+                    'show' => true,
+                    'api' => $this->getBusinessEnName() . '.recoverys',
+                    'auth' => "['".$this->getCode().":recovery']"
+                ];
+            }
+        }
+        return 'const crud = reactive(' . $this->jsonFormat($options, true) . ')';
     }
 
     /**
+     * 获取列配置代码
      * @return string
      */
-    protected function getExport(): string
+    protected function getColumns(): string
     {
-        if ( strpos($this->model->generate_menus, 'export') > 0 ) {
-            return str_replace(
-                ['{CODE}', '{BUSINESS_EN_NAME}'], [ $this->getCode(), $this->getBusinessEnName()],
-                $this->getFormItemTemplate('export')
-            );
+        // 字段配置项
+        $options = [];
+        foreach ($this->columns as $column) {
+            $tmp = [
+                'title' => $column->column_comment,
+                'dataIndex' => $column->column_name,
+                'formType' => $this->getViewType($column->view_type),
+            ];
+            // 基础
+            if ($column->is_query == self::YES) {
+                $tmp['search'] = true;
+            }
+            if ($column->is_insert == self::NO) {
+                $tmp['addDisplay'] = false;
+            }
+            if ($column->is_edit == self::NO) {
+                $tmp['editDisplay'] = false;
+            }
+            if ($column->is_list == self::NO) {
+                $tmp['hide'] = true;
+            }
+            if ($column->is_required == self::YES) {
+                $tmp['rules'] = [
+                    'required' => true,
+                    'message' => '请输入' . $column->column_comment
+                ];
+            }
+            // 扩展项
+            if (!empty($column->options)) {
+                $collection = $column->options['collection'];
+                // 合并
+                $tmp = array_merge($tmp, $column->options);
+                // 自定义数据
+                if (in_array($column->view_type, ['checkbox', 'radio', 'select', 'transfer']) && !empty($collection)) {
+                    $tmp['dict'] = [ 'data' => $collection, 'translation' => true ];
+                }
+                unset($tmp['collection']);
+            }
+            // 字典
+            if (!empty($column->dict_type)) {
+                $tmp['dict'] = [
+                    'name' => $column->dict_type,
+                    'props' => [ 'label' => 'title', 'value' => 'key' ],
+                    'translation' => true
+                ];
+            }
+            // 允许查看字段的角色（前端还待支持）
+            // todo...
+            $options[] = $tmp;
         }
-        return '';
-    }
-
-    /**
-     * 获取是否隐藏分页
-     * @return string
-     */
-    protected function getHidePage(): string
-    {
-        return $this->model->type === 'single' ? 'false' : 'true';
+        return 'const columns = reactive(' . $this->jsonFormat($options) . ')';
     }
 
     /**
@@ -232,174 +282,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     }
 
     /**
-     * 获取第一个搜索
-     * @return string
-     */
-    protected function getFirstSearch(): string
-    {
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                return $this->getHtmlType($column);
-            }
-        }
-        return '';
-    }
-
-    /**
-     * 获取其余搜索列表
-     * @return string
-     */
-    protected function getSearchList(): string
-    {
-        $jsCode = '';
-        $first = false;
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                if (! $first) {
-                    $first = true;
-                    continue;
-                }
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{FORM_ITEM}'],
-                    [$column->column_comment, $column->column_name, $this->getHtmlType($column)],
-                    $this->getOtherTemplate('searchFormItem')
-                );
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
-     * 获取html类型
-     * @param $column
-     * @return string
-     */
-    protected function getHtmlType($column): string
-    {
-        $tagTypes = ['radio', 'select', 'checkbox'];
-        if (!empty($column->dict_type)) {
-            return str_replace(
-                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
-                [$column->column_comment, $column->column_name, 'dictData.' . $column->dict_type],
-                $this->getOtherTemplate('searchSelect')
-            );
-        } else if (in_array($column->view_type, $tagTypes)) {
-            $data = [];
-            foreach ($column->options[$column->view_type] as $item) {
-                $data[] = ['label' => $item['name'], 'value' => $item['value']];
-            }
-            return str_replace(
-                ['{LABEL_NAME}', '{COLUMN_NAME}', '{OPTION_LIST}'],
-                [$column->column_comment, $column->column_name, json_encode($data, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)],
-                $this->getOtherTemplate('searchSelect')
-            );
-        } else {
-            if ($column->view_type === 'date') {
-                return str_replace(
-                    ['{COLUMN_NAME}', '{LABEL_NAME}', '{DATE_TYPE}', '{WEEK_FORMAT}', '{RANGE_TIPS}'],
-                    [
-                        $column->column_name,
-                        $column->column_comment,
-                        $column->options['date'],
-                        $column->options['date'] === 'week' ? 'format="第 ww 周"' : '',
-                        strpos($column->options['date'], 'range') > 0 ? 'start-placeholder="起始时间" end-placeholder="结束时间"' : ''
-                    ],
-                    $this->getOtherTemplate('searchDate')
-                );
-            }
-
-            if ($column->view_type === 'time') {
-                return str_replace(
-                    ['{COLUMN_NAME}', '{LABEL_NAME}'],
-                    [$column->column_name, $column->column_comment],
-                    $this->getOtherTemplate('searchTime')
-                );
-            }
-        }
-
-        return str_replace(
-            ['{COLUMN_NAME}', '{LABEL_NAME}'],
-            [$column->column_name, $column->column_comment],
-            $this->getOtherTemplate('searchDefault')
-        );
-    }
-
-    /**
-     * 获取表格显示列
-     * @return string
-     * @noinspection CheckTagEmptyBody
-     */
-    protected function getColumnList(): string
-    {
-        $jsCode = '';
-        $viewTypes = ['inputNumber', 'switch'];
-        $tagTypes = ['radio', 'select'];
-        $notNeedDictType = ['checkbox'];
-        foreach ($this->columns as $column) if ($column->is_list === '1') {
-            $roleCode = empty($column->allow_roles) ? '' : "v-if=\"\$ROLE('{$column->allow_roles}')\"";
-            if (in_array($column->view_type, $viewTypes)) {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
-                    [$column->column_comment, $column->column_name, $roleCode],
-                    $this->getOtherTemplate('columnBy' . Str::title($column->view_type))
-                );
-            } else if (!empty($column->dict_type) && ! in_array($column->view_type, $notNeedDictType)) {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{DICT_TYPE}'],
-                    [$column->column_comment, $column->column_name, $roleCode, $column->dict_type],
-                    $this->getOtherTemplate('columnByDictType')
-                );
-            } else if (in_array($column->view_type, $tagTypes)) {
-                $data = [];
-                foreach ($column->options[$column->view_type] as $item) {
-                    $data[] = ['label' => $item['name'], 'value' => $item['value']];
-                }
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}', '{CUSTOM_DATA}'],
-                    [$column->column_comment, $column->column_name, $roleCode, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)],
-                    $this->getOtherTemplate('columnByArray')
-                );
-            } else {
-                $jsCode .= str_replace(
-                    ['{LABEL_COMMENT}', '{COLUMN_NAME}', '{ROLE_CODE}'],
-                    [$column->column_comment, $column->column_name, $roleCode],
-                    $this->getOtherTemplate('column')
-                );
-            }
-        }
-        return $jsCode;
-    }
-
-    /**
      * 获取业务英文名
      * @return string
      */
     protected function getBusinessEnName(): string
     {
         return Str::camel(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
-    }
-
-    /**
-     * 获取需要搜索的字段列表
-     * @return string
-     * @noinspection BadExpressionStatementJS
-     */
-    protected function getQueryParams(): string
-    {
-        $jsCode = '';
-        foreach ($this->columns as $column) {
-            if ($column->is_query === '1') {
-                $type = match ($column->view_type) {
-                    'checkbox', 'userSelect', 'area' => '[]',
-                    'userinfo' => !empty($column->options['userinfo'])
-                        ? sprintf("'%s'", user()->getUserInfo()[$column->options['userinfo']])
-                        : "''",
-                    default => "''"
-                };
-                $jsCode .= sprintf("%s: %s,\n    ", $column->column_name, $type);
-            }
-        }
-        return $jsCode;
     }
 
     /**
@@ -417,11 +305,46 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     protected function getPk(): string
     {
         foreach ($this->columns as $column) {
-            if ($column->is_pk == '1') {
+            if ($column->is_pk == self::YES) {
                 return $column->column_name;
             }
         }
         return '';
+    }
+
+    /**
+     * 计数器组件方法
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getInputNumber(): string
+    {
+        if (in_array('numberOperation' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('numberOperation'));
+        }
+        return '';
+    }
+
+    /**
+     * 计数器组件方法
+     * @return string
+     * @noinspection BadExpressionStatementJS
+     */
+    protected function getSwitchStatus(): string
+    {
+        if (in_array('changeStatus' , explode(',', $this->model->generate_menus))) {
+            return str_replace('{BUSINESS_EN_NAME}', $this->getBusinessEnName(), $this->getOtherTemplate('switchStatus'));
+        }
+        return '';
+    }
+
+    /**
+     * @param string $tpl
+     * @return string
+     */
+    protected function getOtherTemplate(string $tpl): string
+    {
+        return $this->filesystem->sharedGet($this->getStubDir() . "/Vue/{$tpl}.stub");
     }
 
     /**
@@ -435,6 +358,62 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             '',
             str_replace(env('DB_PREFIX'), '', $this->model->table_name)
         ));
+    }
+
+    /**
+     * 视图组件
+     * @param string $viewType
+     * @return string
+     */
+    protected function getViewType(string $viewType): string
+    {
+        $viewTypes = [
+            'text' => 'input',
+            'password' => 'password',
+            'textarea' => 'textarea',
+            'inputNumber' => 'input-number',
+            'inputTag' => 'input-tag',
+            'mention' => 'mention',
+            'switch' => 'switch',
+            'slider' => 'slider',
+            'select' => 'select',
+            'radio' => 'radio',
+            'checkbox' => 'checkbox',
+            'treeSelect' => 'tree-select',
+            'date' => 'date',
+            'time' => 'time',
+            'rate' => 'rate',
+            'cascader' => 'cascader',
+            'transfer' => 'transfer',
+            'selectUser' => 'user-select',
+            'userInfo' => 'user-info',
+            'cityLinkage' => 'city-linkage',
+            'icon' => 'icon',
+            'formGroup' => 'form-group',
+            'upload' => 'upload',
+            'selectResource' => 'select-resource',
+            'editor' => 'editor',
+            'codeEditor' => 'code-editor',
+        ];
+
+        return $viewTypes[$viewType] ?? 'input';
+    }
+
+    /**
+     * array 到 json 数据格式化
+     * @param array $data
+     * @param bool $removeValueQuotes
+     * @return string
+     */
+    protected function jsonFormat(array $data, bool $removeValueQuotes = false): string
+    {
+        $data = str_replace('    ', '  ', json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+        $data = str_replace(['"true"', '"false"'], [ true, false ], $data);
+        $data = preg_replace('/(\s+)\"(.+)\":/', "\\1\\2:", $data);
+        if ($removeValueQuotes) {
+            $data = preg_replace('/(:\s)\"(.+)\"/', "\\1\\2", $data);
+        }
+        return $data;
     }
 
     /**

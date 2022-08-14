@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\System\Service;
 
 use App\System\Mapper\SystemAppGroupMapper;
+use App\System\Model\SystemAppGroup;
 use Mine\Abstracts\AbstractService;
 
 /**
@@ -31,6 +32,6 @@ class SystemAppGroupService extends AbstractService
      */
     public function getList(?array $params = null, bool $isScope = true): array
     {
-        return $this->mapper->getList(['select' => ['id', 'name'], 'status' => '0'], $isScope);
+        return $this->mapper->getList(['select' => ['id', 'name'], 'status' => SystemAppGroup::ENABLE], $isScope);
     }
 }

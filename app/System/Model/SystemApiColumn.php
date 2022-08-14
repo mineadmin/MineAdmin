@@ -9,11 +9,11 @@ use Mine\MineModel;
  * @property int $id 主键
  * @property int $api_id 接口主键
  * @property string $name 字段名称
- * @property string $type 字段类型 0 请求 1 返回
+ * @property int $type 字段类型 1 请求 2 返回
  * @property string $data_type 数据类型
- * @property string $is_required 是否必填 0 非必填 1 必填
+ * @property int $is_required 是否必填 1 非必填 2 必填
  * @property string $default_value 默认值
- * @property string $status 状态 (0正常 1停用)
+ * @property int $status 状态 (1正常 2停用)
  * @property string $description 字段说明
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -26,7 +26,6 @@ use Mine\MineModel;
 class SystemApiColumn extends MineModel
 {
     use SoftDeletes;
-    public $incrementing = false;
     /**
      * The table associated with the model.
      *
@@ -44,7 +43,7 @@ class SystemApiColumn extends MineModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'type' => 'integer', 'is_required' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联API
      * @return \Hyperf\Database\Model\Relations\BelongsTo

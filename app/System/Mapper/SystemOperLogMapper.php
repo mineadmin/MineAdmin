@@ -37,13 +37,10 @@ class SystemOperLogMapper extends AbstractMapper
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
-        if (isset($params['method'])) {
-            $query->where('method', $params['method']);
-        }
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
+        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
+                [ $params['created_at'][0] . '00:00:00', $params['created_at'][1] . '23:59:59' ]
             );
         }
         return $query;

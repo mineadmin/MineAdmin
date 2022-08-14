@@ -15,6 +15,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -61,7 +63,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("system:dict:save"), OperationLog]
+    #[PostMapping("save"), Permission("system:dict:save"), OperationLog("新增字典类型")]
     public function save(DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -88,7 +90,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog]
+    #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog("更新字典类型")]
     public function update(int $id, DictTypeCreateRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -112,7 +114,7 @@ class DictTypeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete"), Permission("system:dict:realDelete"), OperationLog]
+    #[DeleteMapping("realDelete"), Permission("system:dict:realDelete"), OperationLog("删除字典类型")]
     public function realDelete(): ResponseInterface
     {
         return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
@@ -128,5 +130,18 @@ class DictTypeController extends MineController
     public function recovery(): ResponseInterface
     {
         return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 更改字典类型状态
+     * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    #[PutMapping("changeStatus"), Permission("system:dict:update"), OperationLog("修改字典类型状态")]
+    public function changeStatus(): ResponseInterface
+    {
+        return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
+            ? $this->success() : $this->error();
     }
 }

@@ -1,0 +1,120 @@
+{
+  "name": "xmo/mineadmin",
+  "type": "project",
+  "keywords": [
+    "mineadmin",
+    "swoole",
+    "hyperf"
+  ],
+  "homepage": "https://www.mineadmin.com/",
+  "description": "Quickly build a background management system for web applications",
+  "license": "Apache-2.0",
+  "require": {
+    "php": ">=8.0",
+    "ext-gd": "*",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-redis": "*",
+    "ext-swoole": ">=4.5",
+    "doctrine/dbal": "^3.1",
+    "easyswoole/verifycode": "3.x",
+    "hyperf/amqp": "^2.2.33",
+    "hyperf/async-queue": "^2.2.33",
+    "hyperf/cache": "^2.2.33",
+    "hyperf/command": "^2.2.33",
+    "hyperf/config": "^2.2.33",
+    "hyperf/crontab": "^2.2.33",
+    "hyperf/database": "^2.2.33",
+    "hyperf/db-connection": "^2.2.33",
+    "hyperf/filesystem": "^2.2.33",
+    "hyperf/framework": "^2.2.33",
+    "hyperf/guzzle": "^2.2.33",
+    "hyperf/http-server": "^2.2.33",
+    "hyperf/logger": "^2.2.33",
+    "hyperf/memory": "^2.2.33",
+    "hyperf/model-cache": "^2.2.33",
+    "hyperf/paginator": "^2.2.33",
+    "hyperf/pool": "^2.2.33",
+    "hyperf/process": "^2.2.33",
+    "hyperf/redis": "^2.2.33",
+    "hyperf/snowflake": "^2.2.33",
+    "hyperf/translation": "^2.2.33",
+    "hyperf/validation": "^2.2.33",
+    "hyperf/websocket-server": "^2.2.33",
+    "overtrue/flysystem-cos": "^3.0",
+    "overtrue/flysystem-qiniu": "^1.0",
+    "phpoffice/phpspreadsheet": "^1.18",
+    "symfony/property-access": "^6.0",
+    "tangwei/apidocs": "^1.0",
+    "xmo/jwt-auth": "0.2.*",
+    "xxtime/flysystem-aliyun-oss": "^1.5",
+    "yurunsoft/phpmailer-swoole": "^1.0",
+    "zoujingli/ip2region": "^1.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.9",
+    "hyperf/devtool": "^2.2.33",
+    "hyperf/ide-helper": "^2.2.33",
+    "hyperf/testing": "^2.2.33",
+    "hyperf/watcher": "^2.2.33",
+    "mockery/mockery": "^1.0",
+    "phpstan/phpstan": "^0.12",
+    "qiutuleng/hyperf-dump-server": "^1.2",
+    "swoole/ide-helper": "^4.5"
+  },
+  "suggest": {
+    "ext-openssl": "Required to use HTTPS.",
+    "ext-json": "Required to use JSON.",
+    "ext-pdo": "Required to use MySQL Client.",
+    "ext-pdo_mysql": "Required to use MySQL Client.",
+    "ext-redis": "Required to use Redis Client."
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Mine\\": "mine/",
+      "Api\\": "api/"
+    },
+    "files": [
+      "mine/Helper/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "HyperfTest\\": "./test/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "extra": [],
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-autoload-dump": [
+      "rm -rf runtime/container"
+    ],
+    "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
+    "cs-fix": "php-cs-fixer fix $1",
+    "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./app ./config ./mine",
+    "start": [
+      "Composer\\Config::disableProcessTimeout",
+      "php ./bin/hyperf.php start"
+    ]
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.cloud.tencent.com/composer/"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+
+  /**
+   * 读取{BUSINESS_NAME}
+   * @returns
+   */
+  read (data = {}) {
+    return request({
+      url: '{REQUEST_ROUTE}/read',
+      method: 'get',
+      data
+    })
+  },

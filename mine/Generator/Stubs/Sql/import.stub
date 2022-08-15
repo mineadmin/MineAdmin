@@ -1,0 +1,2 @@
+
+INSERT INTO `{TABLE_NAME}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, @level, CONCAT('{NAME}', '导入'), CONCAT('{CODE}',':import'), NULL, NULL, NULL, NULL, '2', 'B', '1', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);

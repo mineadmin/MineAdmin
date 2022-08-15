@@ -1,0 +1,12 @@
+
+  /**
+   * 添加{BUSINESS_NAME}
+   * @returns
+   */
+  save (data = {}) {
+    return request({
+      url: '{REQUEST_ROUTE}/save',
+      method: 'post',
+      data
+    })
+  },

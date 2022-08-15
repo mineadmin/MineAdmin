@@ -1,0 +1,6 @@
+
+const switchStatus = (statusValue, id, statusName) => {
+  {BUSINESS_EN_NAME}.changeStatus({ id, statusName, statusValue }).then( res => {
+    res.success && Message.success(res.message)
+  }).catch( e => { console.log(e) } )
+}

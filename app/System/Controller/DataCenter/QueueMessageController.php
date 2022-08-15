@@ -3,8 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\DataCenter;
 
+use App\System\Request\MessageRequest;
 use App\System\Service\SystemQueueMessageService;
-use App\System\Request\Message\SendPrivateMessageRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -51,14 +51,14 @@ class QueueMessageController extends MineController
 
     /**
      * 发私信
-     * @param SendPrivateMessageRequest $request
+     * @param MessageRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
      */
     #[PostMapping("sendPrivateMessage")]
-    public function sendPrivateMessage(SendPrivateMessageRequest $request): ResponseInterface
+    public function sendPrivateMessage(MessageRequest $request): ResponseInterface
     {
         return $this->service->sendPrivateMessage($request->validated()) ? $this->success() : $this->error();
     }

@@ -3,17 +3,13 @@
 declare(strict_types=1);
 namespace App\System\Controller;
 
-use App\System\Request\Upload\ChunkUploadRequest;
-use App\System\Request\Upload\NetworkImageRequest;
-use App\System\Request\Upload\UploadFileRequest;
-use App\System\Request\Upload\UploadImageRequest;
+use App\System\Request\UploadRequest;
 use App\System\Service\SystemUploadFileService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
-use Mine\Exception\MineException;
 use Mine\MineController;
 
 /**
@@ -28,14 +24,14 @@ class UploadController extends MineController
 
     /**
      * 上传文件
-     * @param UploadFileRequest $request
+     * @param UploadRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("uploadFile"), Auth]
-    public function uploadFile(UploadFileRequest $request): \Psr\Http\Message\ResponseInterface
+    public function uploadFile(UploadRequest $request): \Psr\Http\Message\ResponseInterface
     {
         if ($request->validated() && $request->file('file')->isValid()) {
             $data = $this->service->upload(
@@ -49,14 +45,14 @@ class UploadController extends MineController
 
     /**
      * 上传图片
-     * @param UploadImageRequest $request
+     * @param UploadRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FileExistsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("uploadImage"), Auth]
-    public function uploadImage(UploadImageRequest $request): \Psr\Http\Message\ResponseInterface
+    public function uploadImage(UploadRequest $request): \Psr\Http\Message\ResponseInterface
     {
         if ($request->validated() && $request->file('image')->isValid()) {
             $data = $this->service->upload(
@@ -70,27 +66,27 @@ class UploadController extends MineController
 
     /**
      * 分块上传
-     * @param ChunkUploadRequest $request
+     * @param UploadRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("chunkUpload"), Auth]
-    public function chunkUpload(ChunkUploadRequest $request): \Psr\Http\Message\ResponseInterface
+    public function chunkUpload(UploadRequest $request): \Psr\Http\Message\ResponseInterface
     {
         return ($data = $this->service->chunkUpload($request->validated())) ? $this->success($data) : $this->error();
     }
 
     /**
      * 保存网络图片
-     * @param NetworkImageRequest $request
+     * @param UploadRequest $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
     #[PostMapping("saveNetworkImage"), Auth]
-    public function saveNetworkImage(NetworkImageRequest $request): \Psr\Http\Message\ResponseInterface
+    public function saveNetworkImage(UploadRequest $request): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->saveNetworkImage($request->validated()));
     }

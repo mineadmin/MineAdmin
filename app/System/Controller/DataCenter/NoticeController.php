@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\DataCenter;
 
+use App\System\Request\SystemNoticeRequest;
 use App\System\Service\SystemNoticeService;
-use App\System\Request\Notice\SystemNoticeCreateRequest;
-use App\System\Request\Notice\SystemNoticeUpdateRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -54,14 +53,14 @@ class NoticeController extends MineController
 
     /**
      * 新增
-     * @param SystemNoticeCreateRequest $request
+     * @param SystemNoticeRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
      */
     #[PostMapping("save"), Permission("system:notice:save"), OperationLog]
-    public function save(SystemNoticeCreateRequest $request): ResponseInterface
+    public function save(SystemNoticeRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -82,13 +81,13 @@ class NoticeController extends MineController
     /**
      * 更新
      * @param int $id
-     * @param SystemNoticeUpdateRequest $request
+     * @param SystemNoticeRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:notice:update"), OperationLog]
-    public function update(int $id, SystemNoticeUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemNoticeRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }

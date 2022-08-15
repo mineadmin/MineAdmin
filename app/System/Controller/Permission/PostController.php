@@ -3,8 +3,7 @@
 declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
-use App\System\Request\Post\SystemPostCreateRequest;
-use App\System\Request\Post\SystemPostStatusRequest;
+use App\System\Request\SystemPostRequest;
 use App\System\Service\SystemPostService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -66,13 +65,13 @@ class PostController extends MineController
 
     /**
      * 保存数据
-     * @param SystemPostCreateRequest $request
+     * @param SystemPostRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:post:save"), OperationLog]
-    public function save(SystemPostCreateRequest $request): ResponseInterface
+    public function save(SystemPostRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -93,13 +92,13 @@ class PostController extends MineController
     /**
      * 更新数据
      * @param int $id
-     * @param SystemPostCreateRequest $request
+     * @param SystemPostRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:post:update"), OperationLog]
-    public function update(int $id, SystemPostCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemPostRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -142,13 +141,13 @@ class PostController extends MineController
 
     /**
      * 更改岗位状态
-     * @param SystemPostStatusRequest $request
+     * @param SystemPostRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:post:changeStatus"), OperationLog]
-    public function changeStatus(SystemPostStatusRequest $request): ResponseInterface
+    public function changeStatus(SystemPostRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();

@@ -3,8 +3,7 @@
 declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
-use App\System\Request\Role\SystemRoleStatusRequest;
-use App\System\Request\Role\SystemRoleCreateRequest;
+use App\System\Request\SystemRoleRequest;
 use App\System\Service\SystemRoleService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -16,7 +15,6 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Mine\Traits\ControllerTrait;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -93,13 +91,13 @@ class RoleController extends MineController
 
     /**
      * 新增角色
-     * @param SystemRoleCreateRequest $request
+     * @param SystemRoleRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:role:save"), OperationLog]
-    public function save(SystemRoleCreateRequest $request): ResponseInterface
+    public function save(SystemRoleRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -107,13 +105,13 @@ class RoleController extends MineController
     /**
      * 更新角色
      * @param int $id
-     * @param SystemRoleCreateRequest $request
+     * @param SystemRoleRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:role:update"), OperationLog]
-    public function update(int $id, SystemRoleCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemRoleRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -182,13 +180,13 @@ class RoleController extends MineController
 
     /**
      * 更改角色状态
-     * @param SystemRoleStatusRequest $request
+     * @param SystemRoleRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:role:changeStatus"), OperationLog]
-    public function changeStatus(SystemRoleStatusRequest $request): ResponseInterface
+    public function changeStatus(SystemRoleRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();

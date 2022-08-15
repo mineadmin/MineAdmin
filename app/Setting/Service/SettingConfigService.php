@@ -63,9 +63,10 @@ class SettingConfigService extends AbstractService
     /**
      * 按key获取配置，并缓存
      * @param string $key
-     * @return array
+     * @return array|null
+     * @throws \RedisException
      */
-    public function getConfigByKey(string $key): array
+    public function getConfigByKey(string $key): ?array
     {
         if (empty($key)) return [];
         $cacheKey = $this->getCacheName() . $key;
@@ -77,13 +78,14 @@ class SettingConfigService extends AbstractService
                 $this->redis->set($cacheKey, serialize($data));
                 return $data;
             }
-            return [];
+            return null;
         }
     }
 
     /**
      * 清除缓存
      * @return bool
+     * @throws \RedisException
      */
     public function clearCache(): bool
     {

@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\Api;
 
+use App\System\Request\SystemApiColumnRequest;
 use App\System\Service\SystemApiColumnService;
-use App\System\Request\Api\SystemApiColumnCreateRequest;
-use App\System\Request\Api\SystemApiColumnUpdateRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -17,6 +16,8 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineCollection;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -55,13 +56,13 @@ class SystemApiColumnController extends MineController
 
     /**
      * 新增
-     * @param SystemApiColumnCreateRequest $request
+     * @param SystemApiColumnRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:api:save"), OperationLog]
-    public function save(SystemApiColumnCreateRequest $request): ResponseInterface
+    public function save(SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -82,13 +83,13 @@ class SystemApiColumnController extends MineController
     /**
      * 更新
      * @param int $id
-     * @param SystemApiColumnUpdateRequest $request
+     * @param SystemApiColumnRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:api:update"), OperationLog]
-    public function update(int $id, SystemApiColumnUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -168,12 +169,13 @@ class SystemApiColumnController extends MineController
 
     /**
      * 更改状态
+     * @param SystemApiColumnRequest $request
      * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:api:update"), OperationLog]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

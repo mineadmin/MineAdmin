@@ -3,8 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller\DataCenter;
 
-use App\System\Request\DictData\DictDataCreateRequest;
-use App\System\Request\DictData\DictDataStatusRequest;
+use App\System\Request\SystemDictDataRequest;
 use App\System\Service\SystemDictDataService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -91,13 +90,13 @@ class DictDataController extends MineController
 
     /**
      * 新增字典类型
-     * @param DictDataCreateRequest $request
+     * @param SystemDictDataRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:dict:save"), OperationLog]
-    public function save(DictDataCreateRequest $request): ResponseInterface
+    public function save(SystemDictDataRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -118,13 +117,13 @@ class DictDataController extends MineController
     /**
      * 更新一个字典类型
      * @param int $id
-     * @param DictDataCreateRequest $request
+     * @param SystemDictDataRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog]
-    public function update(int $id, DictDataCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemDictDataRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -167,13 +166,13 @@ class DictDataController extends MineController
 
     /**
      * 更改字典状态
-     * @param DictDataStatusRequest $request
+     * @param SystemDictDataRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:dict:update"), OperationLog]
-    public function changeStatus(DictDataStatusRequest $request): ResponseInterface
+    public function changeStatus(SystemDictDataRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();

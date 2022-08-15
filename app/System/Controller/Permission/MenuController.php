@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
-use App\System\Request\Menu\SystemMenuCreateRequest;
+use App\System\Request\SystemMenuRequest;
 use App\System\Service\SystemMenuService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -13,8 +13,9 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
-use Mine\Helper\LoginUser;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -65,13 +66,13 @@ class MenuController extends MineController
 
     /**
      * 新增菜单
-     * @param SystemMenuCreateRequest $request
+     * @param SystemMenuRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:menu:save"), OperationLog]
-    public function save(SystemMenuCreateRequest $request): ResponseInterface
+    public function save(SystemMenuRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -79,13 +80,13 @@ class MenuController extends MineController
     /**
      * 更新菜单
      * @param int $id
-     * @param SystemMenuCreateRequest $request
+     * @param SystemMenuRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:menu:update"), OperationLog]
-    public function update(int $id, SystemMenuCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemMenuRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all())
             ? $this->success() : $this->error(t('mineadmin.data_no_change'));
@@ -132,12 +133,13 @@ class MenuController extends MineController
 
     /**
      * 更改菜单状态
+     * @param SystemMenuRequest $request
      * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:menu:update"), OperationLog]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemMenuRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

@@ -3,8 +3,7 @@
 declare(strict_types = 1);
 namespace App\System\Controller\Permission;
 
-use App\System\Request\Dept\SystemDeptCreateRequest;
-use App\System\Request\Dept\SystemDeptStatusRequest;
+use App\System\Request\SystemDeptRequest;
 use App\System\Service\SystemDeptService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -66,13 +65,13 @@ class DeptController extends MineController
 
     /**
      * 新增部门
-     * @param SystemDeptCreateRequest $request
+     * @param SystemDeptRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:dept:save"), OperationLog]
-    public function save(SystemDeptCreateRequest $request): ResponseInterface
+    public function save(SystemDeptRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -80,13 +79,13 @@ class DeptController extends MineController
     /**
      * 更新部门
      * @param int $id
-     * @param SystemDeptCreateRequest $request
+     * @param SystemDeptRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:dept:update"), OperationLog]
-    public function update(int $id, SystemDeptCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemDeptRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -132,13 +131,13 @@ class DeptController extends MineController
 
     /**
      * 更改部门状态
-     * @param SystemDeptStatusRequest $request
+     * @param SystemDeptRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:dept:changeStatus"), OperationLog]
-    public function changeStatus(SystemDeptStatusRequest $request): ResponseInterface
+    public function changeStatus(SystemDeptRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $request->input('id'), (string) $request->input('status'))
             ? $this->success() : $this->error();

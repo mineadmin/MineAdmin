@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\Api;
 
+use App\System\Request\SystemApiGroupRequest;
 use App\System\Service\SystemApiGroupService;
-use App\System\Request\Api\SystemApiGroupCreateRequest;
-use App\System\Request\Api\SystemApiGroupUpdateRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -16,6 +15,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -66,13 +67,13 @@ class SystemApiGroupController extends MineController
 
     /**
      * 新增
-     * @param SystemApiGroupCreateRequest $request
+     * @param SystemApiGroupRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:apiGroup:save"), OperationLog]
-    public function save(SystemApiGroupCreateRequest $request): ResponseInterface
+    public function save(SystemApiGroupRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -93,13 +94,13 @@ class SystemApiGroupController extends MineController
     /**
      * 更新
      * @param int $id
-     * @param SystemApiGroupUpdateRequest $request
+     * @param SystemApiGroupRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:apiGroup:update"), OperationLog]
-    public function update(int $id, SystemApiGroupUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemApiGroupRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -142,12 +143,13 @@ class SystemApiGroupController extends MineController
 
     /**
      * 更改状态
+     * @param SystemApiGroupRequest $request
      * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:apiGroup:update"), OperationLog]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemApiGroupRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

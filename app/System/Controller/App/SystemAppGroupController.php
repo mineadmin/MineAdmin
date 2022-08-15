@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\App;
 
+use App\System\Request\SystemAppGroupRequest;
 use App\System\Service\SystemAppGroupService;
-use App\System\Request\App\SystemAppGroupCreateRequest;
-use App\System\Request\App\SystemAppGroupUpdateRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -16,6 +15,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -66,13 +67,13 @@ class SystemAppGroupController extends MineController
 
     /**
      * 新增
-     * @param SystemAppGroupCreateRequest $request
+     * @param SystemAppGroupRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:appGroup:save"), OperationLog]
-    public function save(SystemAppGroupCreateRequest $request): ResponseInterface
+    public function save(SystemAppGroupRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -93,13 +94,13 @@ class SystemAppGroupController extends MineController
     /**
      * 更新
      * @param int $id
-     * @param SystemAppGroupUpdateRequest $request
+     * @param SystemAppGroupRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:appGroup:update"), OperationLog]
-    public function update(int $id, SystemAppGroupUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemAppGroupRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -142,12 +143,13 @@ class SystemAppGroupController extends MineController
 
     /**
      * 更改状态
+     * @param SystemAppGroupRequest $request
      * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:appGroup:update"), OperationLog]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemAppGroupRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

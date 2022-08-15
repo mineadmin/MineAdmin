@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\System\Controller\DataCenter;
 
-use App\System\Request\DictType\DictTypeCreateRequest;
+use App\System\Request\SystemDictTypeRequest;
 use App\System\Service\SystemDictTypeService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -58,13 +58,13 @@ class DictTypeController extends MineController
 
     /**
      * 新增字典类型
-     * @param DictTypeCreateRequest $request
+     * @param SystemDictTypeRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:dict:save"), OperationLog("新增字典类型")]
-    public function save(DictTypeCreateRequest $request): ResponseInterface
+    public function save(SystemDictTypeRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -85,13 +85,13 @@ class DictTypeController extends MineController
     /**
      * 更新一个字典类型
      * @param int $id
-     * @param DictTypeCreateRequest $request
+     * @param SystemDictTypeRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:dict:update"), OperationLog("更新字典类型")]
-    public function update(int $id, DictTypeCreateRequest $request): ResponseInterface
+    public function update(int $id, SystemDictTypeRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -134,12 +134,13 @@ class DictTypeController extends MineController
 
     /**
      * 更改字典类型状态
+     * @param SystemDictTypeRequest $request
      * @return ResponseInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:dict:update"), OperationLog("修改字典类型状态")]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemDictTypeRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

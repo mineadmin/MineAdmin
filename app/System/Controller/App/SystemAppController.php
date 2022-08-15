@@ -3,9 +3,8 @@
 declare(strict_types=1);
 namespace App\System\Controller\App;
 
+use App\System\Request\SystemAppRequest;
 use App\System\Service\SystemAppService;
-use App\System\Request\App\SystemAppCreateRequest;
-use App\System\Request\App\SystemAppUpdateRequest;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -16,6 +15,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -92,13 +93,13 @@ class SystemAppController extends MineController
 
     /**
      * 新增
-     * @param SystemAppCreateRequest $request
+     * @param SystemAppRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping("save"), Permission("system:app:save"), OperationLog]
-    public function save(SystemAppCreateRequest $request): ResponseInterface
+    public function save(SystemAppRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
     }
@@ -119,13 +120,13 @@ class SystemAppController extends MineController
     /**
      * 更新
      * @param int $id
-     * @param SystemAppUpdateRequest $request
+     * @param SystemAppRequest $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("update/{id}"), Permission("system:app:update"), OperationLog]
-    public function update(int $id, SystemAppUpdateRequest $request): ResponseInterface
+    public function update(int $id, SystemAppRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
@@ -181,12 +182,13 @@ class SystemAppController extends MineController
 
     /**
      * 更改状态
+     * @param SystemAppRequest $request
      * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("system:apiGroup:update"), OperationLog]
-    public function changeStatus(): ResponseInterface
+    public function changeStatus(SystemAppRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();

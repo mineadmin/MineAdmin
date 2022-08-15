@@ -1,9 +1,0 @@
-
-    /**
-     * 定义 {RELATION_NAME} 关联
-     * @return \Hyperf\Database\Model\Relations\hasOne
-     */
-    public function {RELATION_NAME}() : \Hyperf\Database\Model\Relations\hasOne
-    {
-        return $this->hasOne({MODEL_NAME}::class, '{FOREIGN_KEY}', '{LOCAL_KEY}');
-    }

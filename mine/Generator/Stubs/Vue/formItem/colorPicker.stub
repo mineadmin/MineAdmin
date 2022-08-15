@@ -1,4 +1,0 @@
-
-      <el-form-item label="{LABEL_NAME}" prop="{COLUMN_NAME}">
-        <el-color-picker v-model="form.{COLUMN_NAME}" />
-      </el-form-item>

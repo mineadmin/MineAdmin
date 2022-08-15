@@ -114,7 +114,7 @@
   "repositories": {
     "packagist": {
       "type": "composer",
-      "url": "https://mirrors.aliyun.com/composer/"
+      "url": "https://mirrors.cloud.tencent.com/composer/"
     }
   }
 }

@@ -1,0 +1,9 @@
+
+    /**
+     * 定义 {RELATION_NAME} 关联
+     * @return \Hyperf\Database\Model\Relations\belongsToMany
+     */
+    public function {RELATION_NAME}() : \Hyperf\Database\Model\Relations\belongsToMany
+    {
+        return $this->belongsToMany({MODEL_NAME}::class, '{TABLE_NAME}', '{FOREIGN_KEY}', '{LOCAL_KEY}');
+    }

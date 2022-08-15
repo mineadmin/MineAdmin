@@ -1,0 +1,13 @@
+
+    /**
+     * 数据导出
+     * @return ResponseInterface
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("export"), Permission("{EXPORT_PERMISSION}"), OperationLog]
+    public function export(): ResponseInterface
+    {
+        return $this->service->export($this->request->all(), {DTO_CLASS}, '导出数据列表');
+    }

@@ -1,0 +1,11 @@
+
+    /**
+     * 字段映射名称
+     * return array
+     */
+    public function attributes(): array
+    {
+        return [
+{LIST}
+        ];
+    }

@@ -1,0 +1,12 @@
+
+    /**
+     * 回收站列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("recycle"), Permission("{RECYCLE_PERMISSION}")]
+    public function recycle(): ResponseInterface
+    {
+        return $this->success($this->service->getPageListByRecycle($this->request->all()));
+    }

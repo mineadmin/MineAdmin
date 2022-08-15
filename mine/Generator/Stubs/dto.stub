@@ -1,0 +1,15 @@
+<?php
+namespace {NAMESPACE};
+
+use Mine\Interfaces\MineModelExcel;
+use Mine\Annotation\ExcelData;
+use Mine\Annotation\ExcelProperty;
+
+/**
+ * {COMMENT}
+ */
+#[ExcelData]
+class {CLASS_NAME} implements MineModelExcel
+{
+{LIST}
+}

@@ -1,0 +1,24 @@
+
+  /**
+    * {BUSINESS_NAME}导入
+    * @returns
+    */
+  importExcel (data = {}) {
+    return request({
+      url: '{REQUEST_ROUTE}/import',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * {BUSINESS_NAME}下载模板
+   * @returns
+   */
+  downloadTemplate () {
+    return request({
+      url: '{REQUEST_ROUTE}/downloadTemplate',
+      method: 'post',
+      responseType: 'blob'
+    })
+  },

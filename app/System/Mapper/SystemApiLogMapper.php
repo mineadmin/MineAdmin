@@ -42,7 +42,7 @@ class SystemApiLogMapper extends AbstractMapper
         if (isset($params['access_time']) && is_array($params['access_time']) && count($params['access_time']) == 2) {
             $query->whereBetween(
                 'access_time',
-                [ $params['access_time'][0] . '00:00:00', $params['access_time'][1] . '23:59:59' ]
+                [ $params['access_time'][0] . ' 00:00:00', $params['access_time'][1] . ' 23:59:59' ]
             );
         }
         return $query;

@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - run: |
-          git config user.email "xutongle@msn.com"
+          git config user.email "root@imoi.cn"
           git config user.name "xmo"
           git remote rm origin
           git remote add origin https://xmo:${{ secrets.GITEE_TOKEN }}@gitee.com/xmo/MineAdmin.git

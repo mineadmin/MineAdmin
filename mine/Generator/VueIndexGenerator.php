@@ -179,6 +179,8 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['searchLabelWidth'] = "'75px'";
         $options['pk'] = "'".$this->getPk()."'";
+        $options['operationColumn'] = true;
+        $options['operationWidth'] = 160;
         $options['api'] = $this->getBusinessEnName() . '.getList';
         if (Str::contains($this->model->generate_menus, 'recycle')) {
             $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';

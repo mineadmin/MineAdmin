@@ -319,7 +319,7 @@ UseNamespace;
     {
         return SettingGenerateColumns::query()
             ->where('table_id', $this->model->id)
-            ->where('is_pk', '1')
+            ->where('is_pk', self::YES)
             ->value('column_name');
     }
 

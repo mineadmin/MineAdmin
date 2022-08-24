@@ -269,7 +269,7 @@ UseNamespace;
         $model = make(SettingGenerateColumnsService::class)->mapper->getModel();
         $columns = $model->newQuery()
             ->where('table_id', $this->model->id)
-            ->where('is_query', '1')
+            ->where('is_query', self::YES)
             ->get(['column_name', 'column_comment', 'query_type'])->toArray();
 
         $phpContent = '';

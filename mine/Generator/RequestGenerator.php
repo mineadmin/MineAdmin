@@ -66,9 +66,9 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)
             ->where(function($query) {
-                $query->where('is_insert', '1')
-                    ->orWhere('is_edit', '1')
-                    ->orWhere('is_required', '1');
+                $query->where('is_insert', self::YES)
+                    ->orWhere('is_edit', self::YES)
+                    ->orWhere('is_required', self::YES);
             })
             ->orderByDesc('sort')
             ->get([ 'column_name', 'column_comment', 'is_insert', 'is_edit' ])->toArray();
@@ -198,10 +198,10 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
         $path = $this->getStubDir() . '/Request/rule.stub';
 
         foreach ($this->columns as $column) {
-            if ($column['is_insert'] === '1') {
+            if ($column['is_insert'] == self::YES) {
                 $createCode .= $this->getRuleCode($column);
             }
-            if ($column['is_edit'] === '1') {
+            if ($column['is_edit'] == self::YES) {
                 $updateCode .= $this->getRuleCode($column);
             }
         }

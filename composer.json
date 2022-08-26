@@ -45,7 +45,7 @@
     "hyperf/websocket-server": "^2.2.33",
     "overtrue/flysystem-cos": "^3.0",
     "overtrue/flysystem-qiniu": "^1.0",
-    "phpoffice/phpspreadsheet": "^1.18",
+    "phpoffice/phpspreadsheet": "^1.24",
     "symfony/property-access": "^6.0",
     "tangwei/apidocs": "^1.0",
     "xmo/jwt-auth": "0.2.*",

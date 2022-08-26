@@ -99,11 +99,11 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
             $headerColumn = $titleStart . '1';
             $sheet->setCellValue($headerColumn, $item['value']);
             $style = $sheet->getStyle($headerColumn)->getFont()->setBold(true);
-            $columnDimension = $sheet->getColumnDimension($headerColumn);
+            $columnDimension = $sheet->getColumnDimension($titleStart);
 
             empty($item['width']) ? $columnDimension->setAutoSize(true) : $columnDimension->setWidth((float) $item['width']);
 
-            empty($item['align']) || $sheet->getStyle($titleStart)->getAlignment()->setHorizontal($item['align']);
+            empty($item['align']) || $sheet->getStyle($headerColumn)->getAlignment()->setHorizontal($item['align']);
 
             empty($item['headColor']) || $style->setColor(new Color(str_replace('#', '', $item['headColor'])));
 

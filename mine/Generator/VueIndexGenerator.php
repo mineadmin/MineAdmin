@@ -276,6 +276,10 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 if (in_array($column->view_type, ['checkbox', 'radio', 'select', 'transfer']) && !empty($collection)) {
                     $tmp['dict'] = [ 'data' => $collection, 'translation' => true ];
                 }
+                // 对日期时间处理
+                if ($column->view_type == 'date' && $column->options['mode'] == 'date') {
+                    unset($tmp['mode']);
+                }
                 unset($tmp['collection']);
             }
             // 字典

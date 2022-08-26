@@ -58,7 +58,7 @@ php;
             return <<<php
 
         // {$comment}
-        if (isset(\$params['${name}']) && is_array(\$params['${name}']) && count(\$params['${name}']) == 2)
+        if (isset(\$params['${name}']) && is_array(\$params['${name}']) && count(\$params['${name}']) == 2) {
             \$query->whereBetween(
                 '${name}',
                 [ \$params['${name}'][0], \$params['${name}'][1] ]

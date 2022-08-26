@@ -37,7 +37,7 @@ class ServerMonitorService
     {
         if (PHP_OS == 'Linux') {
             preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c'), $matches);
-            return $matches[1];
+            return $matches[1] ?? "未知";
         } else {
             return shell_exec('sysctl -n machdep.cpu.brand_string');
         }

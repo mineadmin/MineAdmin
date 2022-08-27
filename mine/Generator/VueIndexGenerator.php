@@ -181,6 +181,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options['pk'] = "'".$this->getPk()."'";
         $options['operationColumn'] = true;
         $options['operationWidth'] = 160;
+        $options['viewLayoutSetting'] = [
+            'layout' => "'auto'",
+            'cols' => 1,
+            'viewType' => $this->model->component_type == 1 ? "'modal'" : "'drawer'",
+            'width' => 600,
+        ];
         $options['api'] = $this->getBusinessEnName() . '.getList';
         if (Str::contains($this->model->generate_menus, 'recycle')) {
             $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';

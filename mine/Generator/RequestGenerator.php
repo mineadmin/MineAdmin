@@ -66,9 +66,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
         $this->columns = SettingGenerateColumns::query()
             ->where('table_id', $model->id)
             ->where(function($query) {
-                $query->where('is_insert', self::YES)
-                    ->orWhere('is_edit', self::YES)
-                    ->orWhere('is_required', self::YES);
+                $query->where('is_required', self::YES);
             })
             ->orderByDesc('sort')
             ->get([ 'column_name', 'column_comment', 'is_insert', 'is_edit' ])->toArray();

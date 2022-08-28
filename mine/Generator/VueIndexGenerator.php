@@ -206,7 +206,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         if (Str::contains($this->model->generate_menus, 'delete')) {
             $options['delete'] = [
                 'show' => true,
-                'api' => $this->getBusinessEnName() . '.delete',
+                'api' => $this->getBusinessEnName() . '.deletes',
                 'auth' => "['".$this->getCode().":delete']"
             ];
             if (Str::contains($this->model->generate_menus, 'recycle')) {

@@ -119,10 +119,6 @@ php bin/hyperf.php mine:install
 
 > 请勿添加脏数据
 
-## QQ群
-
-> <img src="https://img.shields.io/badge/Q群-15169734-red.svg" />
-
 ## 鸣谢
 
 > 以下排名不分先后

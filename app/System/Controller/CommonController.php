@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\System\Controller;
 
 use App\System\Service\SystemDeptService;
+use App\System\Service\SystemLoginLogService;
 use App\System\Service\SystemNoticeService;
+use App\System\Service\SystemOperLogService;
 use App\System\Service\SystemPostService;
 use App\System\Service\SystemRoleService;
 use App\System\Service\SystemUserService;
@@ -12,7 +14,6 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
-use Hyperf\Redis\Redis;
 use Mine\Annotation\Auth;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
@@ -39,6 +40,12 @@ class CommonController extends MineController
 
     #[Inject]
     protected SystemNoticeService $noticeService;
+
+    #[Inject]
+    protected SystemLoginLogService $loginLogService;
+
+    #[Inject]
+    protected SystemOperLogService $operLogService;
 
     /**
      * 获取用户列表
@@ -110,6 +117,30 @@ class CommonController extends MineController
     public function getNoticeList(): ResponseInterface
     {
         return $this->success($this->noticeService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 获取登录日志列表
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getLoginLogList")]
+    public function getLoginLogPageList(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->loginLogService->getPageList($this->request->all()));
+    }
+
+    /**
+     * 获取操作日志列表
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getOperationLogList")]
+    public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->success($this->operLogService->getPageList($this->request->all()));
     }
 
     /**

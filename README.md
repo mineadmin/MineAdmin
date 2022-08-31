@@ -37,6 +37,9 @@ MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统�
 
 大神则可以自由发挥是决定使用crud组件，还是使用原生UI库来完成功能。
 
+## 兔小巢
+给大家提供一个可以交流的地方：[http://ask.mineadmin.com](http://ask.mineadmin.com)
+
 ## 前端仓库地址
 移步前端仓库
 

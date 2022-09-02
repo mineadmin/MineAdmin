@@ -18,5 +18,5 @@ jobs:
           git config user.email "root@imoi.cn"
           git config user.name "xmo"
           git remote rm origin
-          git remote add origin https://xmo:${{ secrets.GITEE_TOKEN }}@gitee.com/xmo/MineAdmin.git
+          git remote add origin https://xmo:${{ secrets.GITEE_TOKEN }}@gitee.com/mineadmin/mineadmin.git
           git push -f origin master

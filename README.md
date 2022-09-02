@@ -46,6 +46,10 @@ MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统�
 - [Github MineAdmin-Vue](https://github.com/kanyxmo/MineAdmin-Vue)
 - [Gitee MineAdmin-Vue](https://gitee.com/xmo/MineAdmin-vue)
 
+## 非官方交流群
+> 以下QQ群为 MineAdmin 爱好者建立用于交流学习，请勿相信任何收费事项
+
+<img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
 
 ## 内置功能
 

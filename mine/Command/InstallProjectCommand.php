@@ -226,8 +226,8 @@ class InstallProjectCommand extends MineCommand
             $env['AMQP_PASSWORD'] = 'guest';
             $env['AMQP_VHOST'] = '/';
             $env['AMQP_ENABLE'] = 'false';
-            $env['SUPER_ADMIN'] = 1;
-            $env['ADMIN_ROLE'] = 1;
+            $env['SUPER_ADMIN'] = 1000;
+            $env['ADMIN_ROLE'] = 1000;
             $env['CONSOLE_SQL'] = 'true';
             $env['JWT_SECRET'] = base64_encode(random_bytes(64));
             $env['JWT_API_SECRET'] = base64_encode(random_bytes(64));

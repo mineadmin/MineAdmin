@@ -31,7 +31,7 @@ class DataMaintainController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:dataMaintain:index")]
+    #[GetMapping("index"), Permission("system:dataMaintain, system:dataMaintain:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

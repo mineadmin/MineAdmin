@@ -35,7 +35,7 @@ class SystemAppGroupController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:appGroup:index")]
+    #[GetMapping("index"), Permission("system:appGroup, system:appGroup:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

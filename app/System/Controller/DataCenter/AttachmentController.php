@@ -32,7 +32,7 @@ class AttachmentController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:attachment:index")]
+    #[GetMapping("index"), Permission("system:attachment, system:attachment:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

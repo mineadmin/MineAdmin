@@ -33,12 +33,12 @@ class DictTypeController extends MineController
     protected SystemDictTypeService $service;
 
     /**
-     * 获取字典，无分页
+     * 获取字典列表
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:dict:index")]
+    #[GetMapping("index"), Permission("system:dict, system:dict:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

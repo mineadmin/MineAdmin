@@ -33,7 +33,7 @@ class NoticeController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:notice:index")]
+    #[GetMapping("index"), Permission("system:notice, system:notice:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

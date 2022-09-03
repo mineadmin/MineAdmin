@@ -34,7 +34,7 @@ class MenuController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:menu:index")]
+    #[GetMapping("index"), Permission("system:menu, system:menu:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getTreeList($this->request->all()));

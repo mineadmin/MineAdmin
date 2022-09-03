@@ -36,7 +36,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:api:index")]
+    #[GetMapping("index"), Permission("system:api, system:api:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
@@ -61,7 +61,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("system:api:save"), OperationLog]
+    #[PostMapping("save"), Permission("system:api:save"), OperationLog("新增接口参数")]
     public function save(SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -88,7 +88,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("system:api:update"), OperationLog]
+    #[PutMapping("update/{id}"), Permission("system:api:update"), OperationLog("更新接口参数")]
     public function update(int $id, SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
@@ -112,7 +112,7 @@ class SystemApiColumnController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("realDelete"), Permission("system:api:realDelete"), OperationLog]
+    #[DeleteMapping("realDelete"), Permission("system:api:realDelete"), OperationLog("真实删除接口参数")]
     public function realDelete(): ResponseInterface
     {
         return $this->service->realDelete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
@@ -174,7 +174,7 @@ class SystemApiColumnController extends MineController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("system:api:update"), OperationLog]
+    #[PutMapping("changeStatus"), Permission("system:api:update"), OperationLog("更改接口状态")]
     public function changeStatus(SystemApiColumnRequest $request): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))

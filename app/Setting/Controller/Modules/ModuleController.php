@@ -34,7 +34,7 @@ class ModuleController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("setting:module:index")]
+    #[GetMapping("index"), Permission("setting:module, setting:module:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

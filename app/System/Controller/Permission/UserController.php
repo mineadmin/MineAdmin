@@ -34,7 +34,7 @@ class UserController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:user:index")]
+    #[GetMapping("index"), Permission("system:user, system:user:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all(), false));

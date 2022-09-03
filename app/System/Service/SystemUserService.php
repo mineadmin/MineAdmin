@@ -273,7 +273,7 @@ class SystemUserService extends AbstractService
         $key = sprintf("%sToken:%s", config('cache.default.prefix'), $id);
         if ($redis->exists($key)) {
             user()->getJwt()->logout($redis->get($key), 'default');
-//            $redis->del($key);
+            $redis->del($key);
         }
         return true;
     }

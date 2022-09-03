@@ -44,7 +44,7 @@ class CrontabController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("setting:crontab:index")]
+    #[GetMapping("index"), Permission("setting:crontab, setting:crontab:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));

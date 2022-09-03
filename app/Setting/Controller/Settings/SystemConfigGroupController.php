@@ -33,7 +33,7 @@ class SystemConfigGroupController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("setting:config:index")]
+    #[GetMapping("index"), Permission("setting:config, setting:config:index")]
     public function index(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getList());

@@ -33,7 +33,7 @@ class DeptController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:dept:index")]
+    #[GetMapping("index"), Permission("system:dept, system:dept:index")]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getTreeList($this->request->all()));

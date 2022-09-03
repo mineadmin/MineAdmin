@@ -32,7 +32,7 @@ class CacheMonitorController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("monitor"), Permission("system:cache:monitor")]
+    #[GetMapping("monitor"), Permission("system:cache, system:cache:monitor")]
     public function getCacheInfo(): ResponseInterface
     {
         return $this->success($this->service->getCacheServerInfo());

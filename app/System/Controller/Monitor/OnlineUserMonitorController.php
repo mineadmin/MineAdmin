@@ -29,7 +29,7 @@ class OnlineUserMonitorController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("system:onlineUser:index")]
+    #[GetMapping("index"), Permission("system:onlineUser, system:onlineUser:index")]
     public function getPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->service->getOnlineUserPageList($this->request->all()));

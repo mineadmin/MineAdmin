@@ -37,12 +37,19 @@ MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统�
 
 大神则可以自由发挥是决定使用crud组件，还是使用原生UI库来完成功能。
 
+## 兔小巢
+给大家提供一个可以交流的地方：[http://ask.mineadmin.com](http://ask.mineadmin.com)
+
 ## 前端仓库地址
 移步前端仓库
 
 - [Github MineAdmin-Vue](https://github.com/kanyxmo/MineAdmin-Vue)
 - [Gitee MineAdmin-Vue](https://gitee.com/xmo/MineAdmin-vue)
 
+## 非官方交流群
+> 以下QQ群为 MineAdmin 爱好者建立用于交流学习，请勿相信任何收费事项
+
+<img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
 
 ## 内置功能
 
@@ -118,10 +125,6 @@ php bin/hyperf.php mine:install
 - 密码：admin123
 
 > 请勿添加脏数据
-
-## QQ群
-
-> <img src="https://img.shields.io/badge/Q群-15169734-red.svg" />
 
 ## 鸣谢
 

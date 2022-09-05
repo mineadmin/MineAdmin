@@ -35,7 +35,7 @@
 	import 'tinymce/plugins/advlist'  //列
 	import 'tinymce/plugins/quickbars'  //快速工具条
 
-  
+
   import scFileSelect from "@/components/scFileSelect"
 
   export default {
@@ -95,17 +95,15 @@
           quickbars_insert_toolbar: false,
           image_caption: true,
           image_advtab: true,
-          images_upload_handler: function(blobInfo) {
-            return new Promise((resolve, reject) => {
-              const data = new FormData();
-              data.append("image", blobInfo.blob() ,blobInfo.filename());
-              API.upload.uploadImage(data).then((res) => {
-                resolve(this.$TOOL.viewImage(res.data.url))
-              }).catch(() => {
-                reject("Image upload failed")
-              })
-            })
-          },
+					images_upload_handler: async (blobInfo, succFun, failFun) => {
+						const data = new FormData();
+						data.append("image", blobInfo.blob() ,blobInfo.filename());
+						API.upload.uploadImage(data).then((res) => {
+							succFun(this.$TOOL.viewImage(res.data.url))
+						}).catch(() => {
+							failFun("Image upload failed")
+						})
+					},
           setup: (editor) => {
 
             editor.on('init', () => {

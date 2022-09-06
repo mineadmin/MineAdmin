@@ -1,7 +1,7 @@
 
     /**
      * 新增
-     * @param {CREATE_REQUEST} $request
+     * @param {REQUEST} $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

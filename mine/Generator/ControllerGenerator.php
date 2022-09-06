@@ -178,7 +178,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getControllerRoute(),
             $this->getFunctions(),
             $this->getRequestName(),
-            $this->getMethodRoute('index'),
+            sprintf('%s, %s', Str::lower($this->model->module_name).':'.$this->getShortBusinessName(), $this->getMethodRoute('index')),
             $this->getMethodRoute('recycle'),
             $this->getMethodRoute('save'),
             $this->getMethodRoute('read'),

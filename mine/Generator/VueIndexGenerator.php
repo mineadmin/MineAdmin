@@ -419,7 +419,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             'rate' => 'rate',
             'cascader' => 'cascader',
             'transfer' => 'transfer',
-            'selectUser' => 'user-select',
+            'selectUser' => 'select-user',
             'userInfo' => 'user-info',
             'cityLinkage' => 'city-linkage',
             'icon' => 'icon',

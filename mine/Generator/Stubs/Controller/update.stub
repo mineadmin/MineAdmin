@@ -2,7 +2,7 @@
     /**
      * 更新
      * @param int $id
-     * @param {UPDATE_REQUEST} $request
+     * @param {REQUEST} $request
      * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface

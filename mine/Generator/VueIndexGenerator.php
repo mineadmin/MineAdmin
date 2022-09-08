@@ -285,6 +285,10 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 // 对日期时间处理
                 if ($column->view_type == 'date' && $column->options['mode'] == 'date') {
                     unset($tmp['mode']);
+                    if (isset($column->options['range']) && $column->options['range']) {
+                        $tmp['formType'] = 'range';
+                        unset($tmp['range']);
+                    }
                 }
                 unset($tmp['collection']);
             }

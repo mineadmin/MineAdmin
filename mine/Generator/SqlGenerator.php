@@ -19,7 +19,6 @@ use App\System\Model\SystemMenu;
 use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
-use Mine\Helper\Id;
 use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -81,7 +80,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
 
-        if ($this->model->build_menu === 2) {
+        if ($this->model->build_menu === self::YES) {
             Db::connection()->getPdo()->exec(
                 str_replace(["\r", "\n"], ['', ''], $this->replace()->getCodeContent())
             );

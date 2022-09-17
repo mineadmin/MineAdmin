@@ -142,6 +142,9 @@ php bin/hyperf.php mine:install
 
 [Jetbrains 生产力工具](https://www.jetbrains.com/)
 
+
+[![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/FBU28Wpqy0RMiNAms0)
+
 ## 演示图片
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vklGdO.jpg" />

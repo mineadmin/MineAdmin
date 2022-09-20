@@ -137,7 +137,7 @@ class CrontabController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteCrontabLog"), Permission("setting:crontab:deleteCrontabLog"), OperationLog]
+    #[DeleteMapping("deleteCrontabLog"), Permission("setting:crontab:deleteCrontabLog"), OperationLog("删除定时任务日志")]
     public function deleteCrontabLog(): \Psr\Http\Message\ResponseInterface
     {
         return $this->logService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();

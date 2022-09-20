@@ -6,8 +6,8 @@ use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemUploadfile;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Filesystem\FilesystemFactory;
 use Mine\Abstracts\AbstractMapper;
-use Mine\MineUpload;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -78,8 +78,15 @@ class SystemUploadFileMapper extends AbstractMapper
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
             if ($model) {
+                $storageMode = match ( $model->storage_mode ) {
+                    1 => 'local' ,
+                    2 => 'oss'   ,
+                    3 => 'qiniu' ,
+                    4 => 'cos'   ,
+                    default => 'local' ,
+                };
                 $event = new \Mine\Event\RealDeleteUploadFile(
-                    $model, $this->container->get(MineUpload::class)->getFileSystem()
+                    $model, $this->container->get(FilesystemFactory::class)->get($storageMode)
                 );
                 $this->evDispatcher->dispatch($event);
                 if ($event->getConfirm()) {

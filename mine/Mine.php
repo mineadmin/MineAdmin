@@ -38,20 +38,8 @@ class Mine
      */
     public function __construct()
     {
-        $this->setAppPath(self::getRootPath() . 'app');
+        $this->setAppPath(BASE_PATH . '/app');
         $this->scanModule();
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRootPath(): string
-    {
-        $directory = __DIR__;
-        while(strpos($directory, 'runtime') > 0) {
-            $directory = dirname($directory);
-        }
-        return $directory . DIRECTORY_SEPARATOR;
     }
 
     /**

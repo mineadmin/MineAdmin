@@ -300,6 +300,10 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                     'translation' => true
                 ];
             }
+            // 密码处理
+            if ($column->view_type == 'password') {
+                $tmp['type'] = 'password';
+            }
             // 允许查看字段的角色（前端还待支持）
             // todo...
             $options[] = $tmp;
@@ -403,7 +407,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         $viewTypes = [
             'text' => 'input',
-            'password' => 'password',
+            'password' => 'input',
             'textarea' => 'textarea',
             'inputNumber' => 'input-number',
             'inputTag' => 'input-tag',

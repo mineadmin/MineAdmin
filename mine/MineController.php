@@ -30,23 +30,4 @@ abstract class MineController
      */
     #[Inject]
     protected Mine $mine;
-
-    /**
-     * @param string $id
-     * @return mixed
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function app(string $id)
-    {
-        return $this->mine->app($id);
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer(): ContainerInterface
-    {
-        return $this->mine->getContainer();
-    }
 }

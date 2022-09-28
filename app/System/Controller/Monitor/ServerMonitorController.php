@@ -11,7 +11,6 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Swoole\Coroutine\Channel;
 
 /**
  * Class ServerMonitorController

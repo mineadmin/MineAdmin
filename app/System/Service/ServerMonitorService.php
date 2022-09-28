@@ -16,9 +16,9 @@ class ServerMonitorService
             preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
         } else {
             preg_match('/(\d+\.\d+)%\suser/', shell_exec('top -l 1 | head -n 10 | grep CPU'), $cpu);
-            $cpu = $cpu[1];
+            $cpu = $cpu[1] ?? '未知';
             preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep L2'), $cache);
-            $cache = $cache[1];
+            $cache = $cache[1] ?? '未知';
         }
         return [
             'name'  => $this->getCpuName(),

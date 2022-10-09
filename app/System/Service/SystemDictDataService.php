@@ -34,7 +34,7 @@ class SystemDictDataService extends AbstractService
     protected Redis $redis;
 
     #[Value("cache.default.prefix")]
-    protected string $prefix;
+    protected ?string $prefix = null;
 
 
     /**

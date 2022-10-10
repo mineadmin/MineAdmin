@@ -316,7 +316,7 @@ class MineUpload
      */
     public function getStorageMode(): string
     {
-        return $this->container->get(SettingConfigService::class)->getConfigByKey('site_storage_mode')['value'] ?? 'local';
+        return $this->container->get(SettingConfigService::class)->getConfigByKey('upload_mode')['value'] ?? 'local';
     }
 
     /**

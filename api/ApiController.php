@@ -60,7 +60,7 @@ class ApiController extends MineApi
 
         try {
             $class = make($apiData['class_name']);
-            return $this->success($class->{$apiData['method_name']}());
+            return $class->{$apiData['method_name']}();
         } catch (\Throwable $e) {
             throw new NormalStatusException(
                 t('mineadmin.interface_exception') . $e->getMessage(),

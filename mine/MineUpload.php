@@ -63,7 +63,7 @@ class MineUpload
     {
         $this->container = $container;
         $this->config = config('file.storage');
-        $this->filesystem = $this->factory->get($this->getStorageMode());
+        $this->filesystem = $this->factory->get($this->getMappingMode());
     }
 
     /**
@@ -102,7 +102,7 @@ class MineUpload
     protected function handleUpload(UploadedFile $uploadedFile, array $config): array
     {
         $tmpFile = $uploadedFile->getPath() . '/' . $uploadedFile->getFilename();
-        $path = $this->getPath($config['path'] ?? null, $this->getMappingMode() !== 1);
+        $path = $this->getPath($config['path'] ?? null, $this->getStorageMode() != 1);
         $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
         if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
@@ -110,7 +110,7 @@ class MineUpload
         }
 
         $fileInfo = [
-            'storage_mode' => $this->getMappingMode(),
+            'storage_mode' => $this->getStorageMode(),
             'origin_name' => $uploadedFile->getClientFilename(),
             'object_name' => $filename,
             'mime_type' => $uploadedFile->getClientMediaType(),
@@ -152,12 +152,12 @@ class MineUpload
                 $fs->delete($chunkFile);
             }
             $fileName = $this->getNewName().'.'.Str::lower($data['ext']);
-            $storagePath = $this->getPath(null, $this->getMappingMode() !== 1);
+            $storagePath = $this->getPath(null, $this->getStorageMode() != 1);
             if (! $this->filesystem->write($storagePath.'/'.$fileName, $content)) {
                 throw new NormalStatusException('分块上传失败', 500);
             }
             $fileInfo = [
-                'storage_mode' => $this->getMappingMode(),
+                'storage_mode' => $this->getStorageMode(),
                 'origin_name' => $data['name'],
                 'object_name' => $fileName,
                 'mime_type' => $data['type'],
@@ -186,7 +186,7 @@ class MineUpload
      */
     public function handleSaveNetworkImage(array $data): array
     {
-        $path = $this->getPath($data['path'] ?? null, $this->getMappingMode() !== 1);
+        $path = $this->getPath($data['path'] ?? null, $this->getStorageMode() != 1);
         $filename = $this->getNewName() . '.jpg';
 
         try {
@@ -231,7 +231,7 @@ class MineUpload
         }
 
         $fileInfo = [
-            'storage_mode' => $this->getMappingMode(),
+            'storage_mode' => $this->getStorageMode(),
             'origin_name' => md5((string) time()).'.jpg',
             'object_name' => $filename,
             'mime_type' => 'image/jpg',
@@ -310,13 +310,13 @@ class MineUpload
 
     /**
      * 获取存储方式
-     * @return string
+     * @return int|string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function getStorageMode(): string
+    public function getStorageMode(): int|string
     {
-        return $this->container->get(SettingConfigService::class)->getConfigByKey('upload_mode')['value'] ?? 'local';
+        return $this->container->get(SettingConfigService::class)->getConfigByKey('upload_mode')['value'] ?? 1;
     }
 
     /**
@@ -331,18 +331,18 @@ class MineUpload
     }
 
     /**
-     * @return int
+     * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    protected function getMappingMode(): int
+    protected function getMappingMode(): string
     {
         return match ( $this->getStorageMode() ) {
-            'local' => 1,
-            'oss'   => 2,
-            'qiniu' => 3,
-            'cos'   => 4,
-            default => 1,
+            1 => 'local',
+            2 => 'oss',
+            3 => 'qiniu',
+            4 => 'cos',
+            default => 'local',
         };
     }
 

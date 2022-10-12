@@ -19,7 +19,11 @@ class CacheMonitorService
 
         $info = $redis->info();
 
-        $keys = $redis->keys(config('cache.default.prefix').'*');
+        $iterator = null;
+        $keys = [];
+        while (false !== ($key = $redis->scan($iterator, config('cache.default.prefix').'*', 100))) {
+            $keys = array_merge($keys,$key); unset($key);
+        }
 
         return [
             'keys'      => &$keys,

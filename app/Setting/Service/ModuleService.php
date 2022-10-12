@@ -181,8 +181,8 @@ class ModuleService extends AbstractService
     {
         $key = $this->prefix . 'modules';
         $redis = redis();
-        if ($redis->exists($key)) {
-            $data = unserialize($redis->get($key));
+        if ($data = $redis->get($key)) {
+            $data = unserialize($data);
             return !empty($moduleName) && isset($data[$moduleName]) ? $data[$moduleName] : $data;
         } else {
             $this->setModuleCache();

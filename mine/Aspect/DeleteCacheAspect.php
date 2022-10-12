@@ -62,7 +62,7 @@ class DeleteCacheAspect extends AbstractAspect
                     $n[] = $this->prefix . $key;
                 } else {
                     while (false !== ($k = $redis->scan($iterator, $this->prefix . $key, 100))) {
-                        $redis->del($k); unset($k);
+                        $redis->del($k);
                     }
                 }
             }

@@ -303,11 +303,11 @@ class SystemUserService extends AbstractService
         $prefix = config('cache.default.prefix');
 
         $iterator = null;
-        while (false !== ($configKey = $redis->scan($iterator, 'config:*', 100))) {
-            $redis->del($configKey); unset($configKey);
+        while (false !== ($configKey = $redis->scan($iterator, $prefix . 'config:*', 100))) {
+            $redis->del($configKey);
         }
-        while (false !== ($dictKey = $redis->scan($iterator, 'Dict:*', 100))) {
-            $redis->del($dictKey); unset($dictKey);
+        while (false !== ($dictKey = $redis->scan($iterator, $prefix . 'Dict:*', 100))) {
+            $redis->del($dictKey);
         }
         $redis->del([$prefix . 'crontab', $prefix . 'modules']);
 

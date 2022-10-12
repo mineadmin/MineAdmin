@@ -22,7 +22,7 @@ class CacheMonitorService
         $iterator = null;
         $keys = [];
         while (false !== ($key = $redis->scan($iterator, config('cache.default.prefix').'*', 100))) {
-            $keys = array_merge($keys,$key); unset($key);
+            $keys = array_merge($keys, $key);
         }
 
         return [

@@ -48,12 +48,6 @@ class MineUpload
     protected ContainerInterface $container;
 
     /**
-     * 存储配置信息
-     * @var array
-     */
-    protected array $config;
-
-    /**
      * MineUpload constructor.
      * @param ContainerInterface $container
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -62,7 +56,6 @@ class MineUpload
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->config = config('file.storage');
         $this->filesystem = $this->factory->get($this->getMappingMode());
     }
 
@@ -338,10 +331,10 @@ class MineUpload
     protected function getMappingMode(): string
     {
         return match ( $this->getStorageMode() ) {
-            1 => 'local',
-            2 => 'oss',
-            3 => 'qiniu',
-            4 => 'cos',
+            '1' => 'local',
+            '2' => 'oss',
+            '3' => 'qiniu',
+            '4' => 'cos',
             default => 'local',
         };
     }

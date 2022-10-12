@@ -51,7 +51,7 @@ class LoginListener implements ListenerInterface
 
         $key = sprintf("%sToken:%s", config('cache.default.prefix'), $event->userinfo['id']);
 
-        $redis->exists($key) && $redis->del($key);
+        $redis->del($key);
         ($event->loginStatus && $event->token) && $redis->set( $key, $event->token, config('jwt.ttl') );
 
         if ($event->loginStatus) {

@@ -8,7 +8,6 @@ use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
@@ -207,13 +206,17 @@ class SystemUserService extends AbstractService
     {
         $redis = redis();
         $key   = sprintf('%sToken:*', config('cache.default.prefix'));
-        $users = $redis->keys($key);
-        $userIds = [];
 
-        foreach ($users as $user) {
-            if ( preg_match("/{$key}(\d+)$/", $user, $match) && isset($match[1])) {
-                $userIds[] = $match[1];
+        $userIds = [];
+        $iterator = null;
+
+        while (false !== ($users = $redis->scan($iterator, $key, 100))) {
+            foreach ($users as $user) {
+                if ( preg_match("/{$key}(\d+)$/", $user, $match) && isset($match[1])) {
+                    $userIds[] = $match[1];
+                }
             }
+            unset($users);
         }
 
         if (empty($userIds)) {
@@ -271,10 +274,8 @@ class SystemUserService extends AbstractService
     {
         $redis = redis();
         $key = sprintf("%sToken:%s", config('cache.default.prefix'), $id);
-        if ($redis->exists($key)) {
-            user()->getJwt()->logout($redis->get($key), 'default');
-            $redis->del($key);
-        }
+        user()->getJwt()->logout($redis->get($key), 'default');
+        $redis->del($key);
         return true;
     }
 
@@ -298,17 +299,18 @@ class SystemUserService extends AbstractService
      */
     public function clearCache(string $id): bool
     {
-        $redis = $this->container->get(Redis::class);
+        $redis = redis();
         $prefix = config('cache.default.prefix');
-        foreach(['crontab', 'config:*', 'modules', 'Dict:*'] as $item) {
-            if (in_array($item, ['config:*', 'Dict:*'])) {
-                foreach($redis->keys($prefix . $item) as $key) {
-                    $redis->exists($key) && $redis->del($key);
-                }
-            } else {
-                $redis->exists($prefix . $item) && $redis->del($prefix . $item);
-            }
+
+        $iterator = null;
+        while (false !== ($configKey = $redis->scan($iterator, 'config:*', 100))) {
+            $redis->del($configKey); unset($configKey);
         }
+        while (false !== ($dictKey = $redis->scan($iterator, 'Dict:*', 100))) {
+            $redis->del($dictKey); unset($dictKey);
+        }
+        $redis->del([$prefix . 'crontab', $prefix . 'modules']);
+
         return $redis->del("{$prefix}loginInfo:userId_{$id}") > 0;
     }
 

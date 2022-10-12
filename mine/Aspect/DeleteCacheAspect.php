@@ -55,16 +55,18 @@ class DeleteCacheAspect extends AbstractAspect
 
         if ( !empty($deleteCache->keys)) {
             $keys = explode(',', $deleteCache->keys);
+            $iterator = null;
+            $n = [];
             foreach ($keys as $key) {
                 if (! Str::contains($key, '*')) {
-                    $redis->del("{$this->prefix}{$key}");
+                    $n[] = $this->prefix . $key;
                 } else {
-                    $keyList = $redis->keys("{$this->prefix}{$key}");
-                    if ($redis->exists($keyList)) {
-                        $redis->del(...$keyList);
+                    while (false !== ($k = $redis->scan($iterator, $this->prefix . $key, 100))) {
+                        $redis->del($k); unset($k);
                     }
                 }
             }
+            $redis->del($n);
         }
 
         return $result;

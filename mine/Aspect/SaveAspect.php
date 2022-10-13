@@ -16,8 +16,8 @@ use Hyperf\Di\Annotation\Aspect;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
-use Mine\Helper\LoginUser;
 use Mine\MineModel;
+use Mine\MineRequest;
 
 /**
  * Class SaveAspect
@@ -42,7 +42,7 @@ class SaveAspect extends AbstractAspect
     {
         $instance = $proceedingJoinPoint->getInstance();
 
-        if (config('mineadmin.data_scope_enabled')) {
+        if (config('mineadmin.data_scope_enabled') && container()->get(MineRequest::class)->getHeaderLine('authorization')) {
             try {
                 $user = user();
                 // 设置创建人

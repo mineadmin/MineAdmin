@@ -64,7 +64,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             ->where('table_id', $model->id)->orderByDesc('sort')
             ->get([
                 'column_name', 'column_comment', 'allow_roles', 'options', 'is_required', 'is_insert',
-                'is_edit', 'is_query', 'is_pk', 'is_list', 'view_type', 'dict_type',
+                'is_edit', 'is_query', 'is_sort', 'is_pk', 'is_list', 'view_type', 'dict_type',
             ]);
 
         return $this->placeholderReplace();
@@ -271,6 +271,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 $tmp['rules'] = [
                     'required' => true,
                     'message' => '请输入' . $column->column_comment
+                ];
+            }
+            if ($column->is_sort == self::YES) {
+                $tmp['sortable'] = [
+                    'sortDirections' => [ 'ascend', 'descend' ],
+                    'sorter' => true
                 ];
             }
             // 扩展项

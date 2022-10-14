@@ -60,7 +60,8 @@ class SettingGenerateColumnsService extends AbstractService
                         'is_insert' => SettingGenerateColumns::YES,
                         'is_edit' => SettingGenerateColumns::YES,
                         'is_list' => SettingGenerateColumns::YES,
-                        'is_query' => SettingGenerateColumns::YES
+                        'is_query' => SettingGenerateColumns::YES,
+                        'is_sort' => SettingGenerateColumns::NO,
                     ]
                 );
             }
@@ -81,6 +82,7 @@ class SettingGenerateColumnsService extends AbstractService
         $data['is_edit'] = $data['is_edit'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
         $data['is_list'] = $data['is_list'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
         $data['is_query'] = $data['is_query'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
+        $data['is_sort'] = $data['is_sort'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
         $data['is_required'] = $data['is_required'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
         return $this->mapper->update($id, $data);
     }

@@ -16,6 +16,7 @@ use Mine\MineModel;
  * @property int $is_edit 1 非编辑字段 2 编辑字段
  * @property int $is_list 1 非列表显示字段 2 列表显示字段
  * @property int $is_query 1 非查询字段 2 查询字段
+ * @property int $is_sort 1 非排序字段 2 排序字段
  * @property string $query_type 查询方式 eq 等于, neq 不等于, gt 大于, lt 小于, like 范围
  * @property string $view_type 页面控件，text, textarea, password, select, checkbox, radio, date, upload, ma-upload（封装的上传控件）
  * @property string $dict_type 字典类型
@@ -43,11 +44,11 @@ class SettingGenerateColumns extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
+    protected $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
 }

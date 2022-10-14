@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 namespace App\System\Listener;
 
 use App\System\Model\SystemUploadfile;

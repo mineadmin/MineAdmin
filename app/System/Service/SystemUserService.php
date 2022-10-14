@@ -9,10 +9,14 @@ use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
+use Mine\Event\UserAdd;
+use Mine\Event\UserDelete;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCaptcha;
 use Mine\MineRequest;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
@@ -155,7 +159,10 @@ class SystemUserService extends AbstractService
         if ($this->mapper->existsByUsername($data['username'])) {
             throw new NormalStatusException(t('system.username_exists'));
         } else {
-            return $this->mapper->save($this->handleData($data));
+            $id = $this->mapper->save($this->handleData($data));
+            $data['id'] = $id;
+            event(new UserAdd($data));
+            return $id;
         }
     }
 
@@ -230,6 +237,8 @@ class SystemUserService extends AbstractService
      * 删除用户
      * @param array $ids
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function delete(array $ids): bool
     {
@@ -237,8 +246,9 @@ class SystemUserService extends AbstractService
             if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
                 unset($ids[$key]);
             }
-
-            return $this->mapper->delete($ids);
+            $result = $this->mapper->delete($ids);
+            event(new UserDelete($ids));
+            return $result;
         }
 
         return false;
@@ -248,6 +258,8 @@ class SystemUserService extends AbstractService
      * 真实删除用户
      * @param array $ids
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function realDelete(array $ids): bool
     {
@@ -255,8 +267,9 @@ class SystemUserService extends AbstractService
             if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
                 unset($ids[$key]);
             }
-
-            return $this->mapper->realDelete($ids);
+            $result = $this->mapper->realDelete($ids);
+            event(new UserDelete($ids));
+            return $result;
         }
 
         return false;

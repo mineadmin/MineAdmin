@@ -14,10 +14,10 @@ namespace Mine\Event;
 
 class UserDelete
 {
-    public array $userinfo;
+    public array $ids;
 
-    public function __construct(array $userinfo)
+    public function __construct(array $ids)
     {
-        $this->userinfo = $userinfo;
+        $this->ids = $ids;
     }
 }

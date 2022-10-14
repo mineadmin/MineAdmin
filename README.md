@@ -115,8 +115,10 @@ the installation command to continue the installation.
 php bin/hyperf.php mine:install
 ```
 
-[点这里 -> 查看运行后De常见问题](https://doc.mineadmin.com/doc/other/wenti.html)
+[点这里 -> 查看运行后De常见问题](https://doc.mineadmin.com/faqs/)
 
+## 免责声明
+本软件不得用于开发违反国家有关政策的相关软件和应用，若因使用本软件造成的一切法律责任均与 `MineAdmin` 无关
 
 ## 体验地址
 

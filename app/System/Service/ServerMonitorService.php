@@ -11,22 +11,29 @@ class ServerMonitorService
      */
     public function getCpuInfo(): array
     {
-        if (PHP_OS == 'Linux') {
-            $cpu = $this->getCpuUsage();
-            preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
-        } else {
-            preg_match('/(\d+\.\d+)%\suser/', shell_exec('top -l 1 | head -n 10 | grep CPU'), $cpu);
-            $cpu = $cpu[1] ?? '未知';
-            preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep L2'), $cache);
-            $cache = $cache[1] ?? '未知';
+        try {
+            if (PHP_OS == 'Linux') {
+                $cpu = $this->getCpuUsage();
+                preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
+            } else {
+                preg_match('/(\d+\.\d+)%\suser/', shell_exec('top -l 1 | head -n 10 | grep CPU'), $cpu);
+                $cpu = $cpu[1] ?? '未知';
+                preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep L2'), $cache);
+                $cache = $cache[1] ?? '未知';
+            }
+            return [
+                'name' => $this->getCpuName(),
+                'cores' => '物理核心数：' . $this->getCpuPhysicsCores() . '个，逻辑核心数：' . $this->getCpuLogicCores() . '个',
+                'cache' => $cache[1] ? $cache[1] / 1024 : 0,
+                'usage' => $cpu,
+                'free' => 100 - $cpu
+            ];
+        } catch (\Throwable $e) {
+            $res = '无法获取';
+            return [
+                'name' => $res, 'cores' => $res, 'cache' => $res, 'usage' => $res, 'free' => $res,
+            ];
         }
-        return [
-            'name'  => $this->getCpuName(),
-            'cores' => '物理核心数：'.$this->getCpuPhysicsCores().'个，逻辑核心数：'.$this->getCpuLogicCores().'个',
-            'cache' => $cache[1] / 1024,
-            'usage' => $cpu,
-            'free'  => 100 - $cpu
-        ];
     }
 
     /**

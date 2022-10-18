@@ -196,8 +196,6 @@ class SettingGenerateTablesService extends AbstractService
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);
 
-        $requestType = ['Create', 'Update'];
-
         $classList = [
             ControllerGenerator::class,
             ModelGenerator::class,

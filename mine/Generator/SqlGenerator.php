@@ -76,7 +76,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $path = BASE_PATH . "/runtime/generate/{$this->getRoute()}Menu.sql";
+        $path = BASE_PATH . "/runtime/generate/{$this->getShortBusinessName()}Menu.sql";
         $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/", 0755, true, true);
         $this->filesystem->put($path, $this->placeholderReplace()->getCodeContent());
 

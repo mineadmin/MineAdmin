@@ -134,11 +134,11 @@ class LoginUser
 
     /**
      * 获取当前token用户部门ID
-     * @return string
+     * @return int
      */
-    public function getDeptId(): string
+    public function getDeptId(): int
     {
-        return $this->jwt->getParserData()['dept_id'];
+        return (int) $this->jwt->getParserData()['dept_id'];
     }
 
     /**

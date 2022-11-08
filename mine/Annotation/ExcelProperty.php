@@ -70,4 +70,15 @@ class ExcelProperty extends AbstractAnnotation
      * @var string
      */
     public string $bgColor;
+
+    /**
+     * 字典数据列表
+     */
+    public ?array $dictData = null;
+
+    /**
+     * 字典名称
+     * @var string
+     */
+    public string $dictName;
 }

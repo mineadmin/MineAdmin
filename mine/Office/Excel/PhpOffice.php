@@ -131,7 +131,14 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
                             break;
                         }
                     }
-                    $sheet->setCellValue($columnRow, (string) $value . "\t");
+
+                    if (!empty($annotation['dictName'])) {
+                        $sheet->setCellValue($columnRow, $annotation['dictName'][$value]);
+                    } else if (!empty($annotation['dictData'])) {
+                        $sheet->setCellValue($columnRow, $annotation['dictData'][$value]);
+                    } else {
+                        $sheet->setCellValue($columnRow, $value . "\t");
+                    }
 
                     if (! empty($item['color'])) {
                         $sheet->getStyle($columnRow)->getFont()

@@ -23,6 +23,6 @@ class UserDto implements MineModelExcel
     #[ExcelProperty(value: "手机", index: 2)]
     public string $phone;
 
-    #[ExcelProperty(value: "状态", index: 4)]
+    #[ExcelProperty(value: "状态", index: 4, dictName: "data_status")]
     public string $status;
 }

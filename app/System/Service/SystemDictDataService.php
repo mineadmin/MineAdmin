@@ -52,6 +52,7 @@ class SystemDictDataService extends AbstractService
      * 查询多个字典
      * @param array|null $params
      * @return array
+     * @throws \RedisException
      */
     public function getLists(?array $params = null): array
     {
@@ -74,6 +75,7 @@ class SystemDictDataService extends AbstractService
      * @param array|null $params
      * @param bool $isScope
      * @return array
+     * @throws \RedisException
      */
     public function getList(?array $params = null, bool $isScope = false): array
     {
@@ -103,6 +105,7 @@ class SystemDictDataService extends AbstractService
     /**
      * 清除缓存
      * @return bool
+     * @throws \RedisException
      */
     public function clearCache(): bool
     {

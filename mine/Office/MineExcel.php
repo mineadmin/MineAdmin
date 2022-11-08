@@ -13,12 +13,15 @@ declare(strict_types=1);
 
 namespace Mine\Office;
 
+use App\System\Service\SystemDictDataService;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Mine\Exception\MineException;
 use Mine\Interfaces\MineModelExcel;
 use Mine\MineModel;
 use Mine\MineResponse;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 abstract class MineExcel
 {
@@ -39,9 +42,9 @@ abstract class MineExcel
      * @param String $dto
      * @param MineModel $model
      */
-    public function __construct(String $dto)
+    public function __construct(string $dto)
     {
-        if (! (new $dto) instanceof MineModelExcel) {
+        if (!(new $dto) instanceof MineModelExcel) {
             throw new MineException('dto does not implement an interface of the MineModelExcel', 500);
         }
         $this->annotationMate = AnnotationCollector::get($dto);
@@ -64,6 +67,12 @@ abstract class MineExcel
         return $this->annotationMate;
     }
 
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \RedisException
+     */
     protected function parseProperty(): void
     {
         if (empty($this->annotationMate) || !isset($this->annotationMate['_c'])) {
@@ -71,8 +80,8 @@ abstract class MineExcel
         }
 
         foreach ($this->annotationMate['_p'] as $name => $mate) {
-            $this->property[ $mate[self::ANNOTATION_NAME]->index ] = [
-                'name'  => $name,
+            $this->property[$mate[self::ANNOTATION_NAME]->index] = [
+                'name' => $name,
                 'value' => $mate[self::ANNOTATION_NAME]->value,
                 'width' => $mate[self::ANNOTATION_NAME]->width ?? null,
                 'align' => $mate[self::ANNOTATION_NAME]->align ?? null,
@@ -80,6 +89,8 @@ abstract class MineExcel
                 'headBgColor' => $mate[self::ANNOTATION_NAME]->headBgColor ?? null,
                 'color' => $mate[self::ANNOTATION_NAME]->color ?? null,
                 'bgColor' => $mate[self::ANNOTATION_NAME]->bgColor ?? null,
+                'dictData' => $mate[self::ANNOTATION_NAME]->dictData,
+                'dictName' => empty($mate[self::ANNOTATION_NAME]->dictName) ? null : $this->getDictData($mate[self::ANNOTATION_NAME]->dictName),
             ];
         }
 
@@ -104,5 +115,23 @@ abstract class MineExcel
             ->withHeader('content-transfer-encoding', 'binary')
             ->withHeader('pragma', 'public')
             ->withBody(new SwooleStream($content));
+    }
+
+    /**
+     * 获取字典数据
+     * @param string $dictName
+     * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \RedisException
+     */
+    protected function getDictData(string $dictName): array
+    {
+        $data = [];
+        foreach (container()->get(SystemDictDataService::class)->getList(['code' => $dictName]) as $item) {
+            $data[$item['key']] = $item['title'];
+        }
+
+        return $data;
     }
 }

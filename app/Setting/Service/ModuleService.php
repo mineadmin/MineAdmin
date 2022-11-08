@@ -20,10 +20,10 @@ class ModuleService extends AbstractService
     protected Mine $mine;
 
     /**
-     * @var string
+     * @var string|null
      */
     #[Value('cache.default.prefix')]
-    protected string $prefix;
+    protected ?string $prefix = null;
 
     public function __construct(Mine $mine)
     {

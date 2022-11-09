@@ -7,6 +7,7 @@ namespace App\System\Mapper;
 use App\System\Model\SystemDept;
 use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
+use Mine\MineCollection;
 
 class SystemDeptMapper extends AbstractMapper
 {
@@ -26,11 +27,12 @@ class SystemDeptMapper extends AbstractMapper
      */
     public function getSelectTree(): array
     {
-        return $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
+        $treeData = $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
             ->where('status', $this->model::ENABLE)
             ->orderBy('sort', 'desc')
             ->userDataScope()
-            ->get()->toTree();
+            ->get()->toArray();
+        return (new MineCollection())->toTree($treeData, $treeData[0]['parent_id'] ?? 0);
     }
 
     /**

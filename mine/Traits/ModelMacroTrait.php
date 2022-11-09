@@ -106,7 +106,13 @@ trait ModelMacroTrait
                                 break;
                             case SystemRole::DEPT_BELOW_SCOPE:
                                 // 本部门及子部门数据权限
-                                $deptIds = SystemDept::query()->where('level', 'like', '%'.$userModel->dept_id.'%')->pluck('id')->toArray();
+                                $deptIds = SystemDept::query()
+                                    ->where(function($query) use($userModel){
+                                        $query->where('level', 'like', '%'.$userModel->dept_id.'%');
+                                        $query->orWhere('id', $userModel->dept_id);
+                                    })
+                                    ->pluck('id')
+                                    ->toArray();
                                 $deptIds[] = $userModel->dept_id;
                                 $this->userIds = array_merge(
                                     $this->userIds,

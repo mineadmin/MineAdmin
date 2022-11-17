@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Mine\Office\Excel;
 
-use Hyperf\HttpMessage\Stream\SwooleStream;
-use MathPHP\Probability\Distribution\Continuous\F;
 use Mine\Exception\MineException;
 use Mine\MineResponse;
 use Mine\Office\ExcelPropertyInterface;

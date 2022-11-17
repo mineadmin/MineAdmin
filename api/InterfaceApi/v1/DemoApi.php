@@ -39,10 +39,12 @@ class DemoApi
      * DemoApi constructor.
      * @param SystemUserMapper $user
      * @param SystemDeptMapper $dept
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct(SystemUserMapper $user, SystemDeptMapper $dept)
     {
-        $this->response = contains()->get(MineResponse::class);
+        $this->response = container()->get(MineResponse::class);
         $this->user = $user;
         $this->dept = $dept;
     }

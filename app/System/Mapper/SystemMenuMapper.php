@@ -3,11 +3,14 @@ declare (strict_types=1);
 namespace App\System\Mapper;
 
 use App\System\Model\SystemMenu;
+use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\DeleteCache;
 use Mine\Annotation\Transaction;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SystemMenuMapper extends AbstractMapper
 {
@@ -71,11 +74,29 @@ class SystemMenuMapper extends AbstractMapper
      * 获取前端选择树
      * @param array $data
      * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function getSelectTree(array $data): array
     {
         $query = $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
             ->where('status', $this->model::ENABLE)->orderBy('sort', 'desc');
+
+        if ( ($data['scope'] ?? false) && ! user()->isSuperAdmin()) {
+            $roleData = container()->get(SystemRoleMapper::class)->getMenuIdsByRoleIds(
+                SystemUser::find(user()->getId(), ['id'])->roles()->pluck('id')->toArray()
+            );
+
+            $ids = [];
+            foreach ($roleData as $val) {
+                foreach ($val['menus'] as $menu) {
+                    $ids[] = $menu['id'];
+                }
+            }
+            unset($roleData);
+            $query->whereIn('id', array_unique($ids));
+        }
 
         if (!empty($data['onlyMenu'])) {
             $query->where('type', SystemMenu::MENUS_LIST);

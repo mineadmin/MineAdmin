@@ -18,7 +18,6 @@ use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Mine\Exception\MineException;
 use Mine\Interfaces\MineModelExcel;
-use Mine\MineModel;
 use Mine\MineResponse;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -40,7 +39,9 @@ abstract class MineExcel
 
     /**
      * @param String $dto
-     * @param MineModel $model
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function __construct(string $dto)
     {

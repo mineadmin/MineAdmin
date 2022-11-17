@@ -69,7 +69,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->model->module_name);
+        $module = Str::snake($this->model->module_name);
         if ($this->model->generate_type === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Model/";
         } else {
@@ -83,7 +83,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
             '--table'  => $this->model->table_name
         ];
 
-        if (! Str::contains($this->model->table_name, Str::lower($this->model->module_name))) {
+        if (! Str::contains($this->model->table_name, Str::snake($this->model->module_name))) {
             throw new NormalStatusException(t('setting.gen_model_error'), 500);
         }
 
@@ -98,7 +98,7 @@ class ModelGenerator extends MineGenerator implements CodeGenerator
         $application = $this->container->get(\Hyperf\Contract\ApplicationInterface::class);
         $application->setAutoExit(false);
 
-        $moduleName = Str::title($this->model->module_name);
+        $moduleName = Str::snake($this->model->module_name);
         $modelName  = Str::studly(str_replace(env('DB_PREFIX'), '', $this->model->table_name));
 
         if ($application->run($input, $output) === 0) {

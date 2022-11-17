@@ -66,14 +66,14 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->model->module_name);
+        $module = Str::snake($this->model->module_name);
         if ($this->model->generate_type === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Controller/";
         } else {
             $path = BASE_PATH . "/app/{$module}/Controller/";
         }
         if (!empty($this->model->package_name)) {
-            $path .= Str::title($this->model->package_name) . '/';
+            $path .= Str::snake($this->model->package_name) . '/';
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
         $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
@@ -206,7 +206,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     {
         $namespace = $this->getNamespace() . "\\Controller";
         if (!empty($this->model->package_name)) {
-            return $namespace . "\\" . Str::title($this->model->package_name);
+            return $namespace . "\\" . Str::snake($this->model->package_name);
         }
         return $namespace;
     }

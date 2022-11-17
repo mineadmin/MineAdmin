@@ -79,7 +79,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->model->module_name);
+        $module = Str::snake($this->model->module_name);
         if ($this->model->generate_type === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Request/";
         } else {

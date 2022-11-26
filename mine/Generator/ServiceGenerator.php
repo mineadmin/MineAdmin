@@ -62,8 +62,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $this->model->module_name[0] = Str::title($this->model->module_name[0]);
-        $module = $this->model->module_name;
+        $module = Str::title($this->model->module_name[0]) . mb_substr($this->model->module_name, 1);
         if ($this->model->generate_type === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Service/";
         } else {

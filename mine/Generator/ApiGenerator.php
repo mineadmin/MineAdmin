@@ -138,7 +138,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
 
     protected function getLoadApi(): string
     {
-        $menus = explode(',', $this->model->generate_menus);
+        $menus = $this->model->generate_menus ? explode(',', $this->model->generate_menus) : [];
         $ignoreMenus = ['realDelete', 'recovery'];
 
         array_unshift($menus, $this->model->type === 'single' ? 'singleList' : 'treeList');

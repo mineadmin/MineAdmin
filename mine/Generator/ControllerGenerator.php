@@ -268,7 +268,7 @@ UseNamespace;
      */
     protected function getFunctions(): string
     {
-        $menus = explode(',', $this->model->generate_menus);
+        $menus = $this->model->generate_menus ? explode(',', $this->model->generate_menus) : [];
         $otherMenu = [$this->model->type === 'single' ? 'singleList' : 'treeList'];
         if (in_array('recycle', $menus)) {
             $otherMenu[] = $this->model->type === 'single' ? 'singleRecycleList' : 'treeRecycleList';

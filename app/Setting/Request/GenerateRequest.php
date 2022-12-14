@@ -23,7 +23,7 @@ class GenerateRequest extends MineFormRequest
             'id' => 'required',
             'generate_type' => 'required',
             'build_menu' => 'required',
-            'generate_menus' => 'required|array',
+            'generate_menus' => 'array',
             'menu_name' => 'required',
             'module_name' => 'required',
             'table_comment' => 'required',

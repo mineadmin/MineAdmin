@@ -179,7 +179,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['searchLabelWidth'] = "'75px'";
         $options['pk'] = "'".$this->getPk()."'";
-        $options['operationColumn'] = true;
+        $options['operationColumn'] = false;
         $options['operationWidth'] = 160;
         $options['viewLayoutSetting'] = [
             'layout' => "'auto'",
@@ -198,12 +198,14 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             ];
         }
         if (Str::contains($this->model->generate_menus, 'update')) {
+            $options['operationColumn'] = true;
             $options['edit'] = [
                 'show' => true, 'api' => $this->getBusinessEnName() . '.update',
                 'auth' => "['".$this->getCode().":update']"
             ];
         }
         if (Str::contains($this->model->generate_menus, 'delete')) {
+            $options['operationColumn'] = true;
             $options['delete'] = [
                 'show' => true,
                 'api' => $this->getBusinessEnName() . '.deletes',

@@ -46,10 +46,10 @@ class SettingConfigMapper extends AbstractMapper
     /**
      * 按 keys 更新配置
      * @param string $key
-     * @param array $data
+     * @param string|int|bool $value
      * @return bool
      */
-    public function updateByKey(string $key, string $value): bool
+    public function updateByKey(string $key, string|int|bool $value): bool
     {
         return $this->model::query()->where('key', $key)->update(['value' => $value]) > 0;
     }

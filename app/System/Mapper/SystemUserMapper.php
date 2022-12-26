@@ -68,11 +68,13 @@ class SystemUserMapper extends AbstractMapper
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
+        $dept_ids = $data['dept_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
 
         $user = $this->model::create($data);
         $user->roles()->sync($role_ids, false);
         $user->posts()->sync($post_ids, false);
+        $user->depts()->sync($dept_ids, false);
         return $user->id;
     }
 
@@ -87,12 +89,14 @@ class SystemUserMapper extends AbstractMapper
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
+        $dept_ids = $data['dept_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
 
         $result = parent::update($id, $data);
         $user = $this->model::find($id);
         if ($user && $result) {
             !empty($role_ids) && $user->roles()->sync($role_ids);
+            !empty($dept_ids) && $user->depts()->sync($dept_ids);
             $user->posts()->sync($post_ids);
             return true;
         }
@@ -112,6 +116,7 @@ class SystemUserMapper extends AbstractMapper
             if ($user) {
                 $user->roles()->detach();
                 $user->posts()->detach();
+                $user->depts()->detach();
                 $user->forceDelete();
             }
         }
@@ -127,8 +132,9 @@ class SystemUserMapper extends AbstractMapper
     {
         $user = $this->model::find($id);
         if ($user) {
-            $user->setAttribute('roleList', $user->roles()->get() ?: []);
-            $user->setAttribute('postList', $user->posts()->get() ?: []);
+            $user->setAttribute('roleList', $user->roles()->get(['id', 'name']) ?: []);
+            $user->setAttribute('postList', $user->posts()->get(['id', 'name']) ?: []);
+            $user->setAttribute('deptList', $user->depts()->get(['id', 'name']) ?: []);
         }
         return $user;
     }
@@ -142,7 +148,8 @@ class SystemUserMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['dept_id']) && is_string($params['dept_id'])) {
-            $query->whereIn('dept_id', explode(',', $params['dept_id']));
+            $query->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id');
+            $query->where('dept.dept_id', '=', $params['dept_id']);
         }
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
@@ -178,7 +185,7 @@ class SystemUserMapper extends AbstractMapper
         if (isset($params['showDept'])) {
             $isAll = $params['showDeptAll'] ?? false;
 
-            $query->with(['dept' => function($query) use($isAll){
+            $query->with(['depts' => function($query) use($isAll){
                 /* @var Builder $query*/
                 $query->where('status', SystemDept::ENABLE);
                 return $isAll ? $query->select(['*']) : $query->select(['id', 'name']);
@@ -225,7 +232,7 @@ class SystemUserMapper extends AbstractMapper
      */
     public function getUserInfoByIds(array $ids, ?array $select = null): array
     {
-        if (! $select) $select = ['id', 'dept_id', 'username', 'nickname', 'phone', 'email', 'created_at'];
+        if (! $select) $select = ['id', 'username', 'nickname', 'phone', 'email', 'created_at'];
         return $this->model::query()->whereIn('id', $ids)->select($select)->get()->toArray();
     }
 }

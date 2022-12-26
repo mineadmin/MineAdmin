@@ -17,6 +17,7 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemRole;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use Mine\Exception\MineException;
 
 trait ModelMacroTrait
@@ -79,7 +80,7 @@ trait ModelMacroTrait
 
                 protected function getUserDataScope(): void
                 {
-                    $userModel = SystemUser::find($this->userid, ['id', 'dept_id']);
+                    $userModel = SystemUser::find($this->userid, ['id']);
                     $roles = $userModel->roles()->get(['id', 'data_scope']);
 
                     foreach ($roles as $role) {
@@ -92,31 +93,37 @@ trait ModelMacroTrait
                                 $deptIds = $role->depts()->pluck('id')->toArray();
                                 $this->userIds = array_merge(
                                     $this->userIds,
-                                    SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
+                                    Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
                                 );
                                 $this->userIds[] = $this->userid;
                                 break;
                             case SystemRole::SELF_DEPT_SCOPE:
                                 // 本部门数据权限
+                                $deptIds = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
                                 $this->userIds = array_merge(
                                     $this->userIds,
-                                    SystemUser::query()->where('dept_id', $userModel->dept_id)->pluck('id')->toArray()
+                                    Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
                                 );
                                 $this->userIds[] = $this->userid;
                                 break;
                             case SystemRole::DEPT_BELOW_SCOPE:
                                 // 本部门及子部门数据权限
-                                $deptIds = SystemDept::query()
-                                    ->where(function($query) use($userModel){
-                                        $query->where('level', 'like', '%'.$userModel->dept_id.'%');
-                                        $query->orWhere('id', $userModel->dept_id);
-                                    })
-                                    ->pluck('id')
-                                    ->toArray();
-                                $deptIds[] = $userModel->dept_id;
+                                $parentDepts = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
+                                $deptIds = [];
+                                foreach ($parentDepts as $deptId) {
+                                    $ids = SystemDept::query()
+                                        ->where(function ($query) use ($deptId) {
+                                            $query->where('level', 'like', '%' . $deptId . '%');
+                                            $query->orWhere('id', $deptId);
+                                        })
+                                        ->pluck('id')
+                                        ->toArray();
+                                    $deptIds = array_merge($deptIds, $ids);
+                                }
+                                $deptIds = array_merge($deptIds, $parentDepts);
                                 $this->userIds = array_merge(
                                     $this->userIds,
-                                    SystemUser::query()->whereIn('dept_id', $deptIds)->pluck('id')->toArray()
+                                    Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
                                 );
                                 $this->userIds[] = $this->userid;
                                 break;

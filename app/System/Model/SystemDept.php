@@ -50,4 +50,22 @@ class SystemDept extends MineModel
     {
         return $this->belongsToMany(SystemRole::class, 'system_role_dept', 'dept_id', 'role_id');
     }
+
+    /**
+     * 通过中间表关联部门
+     * @return \Hyperf\Database\Model\Relations\BelongsToMany
+     */
+    public function users() : \Hyperf\Database\Model\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(SystemUser::class, 'system_user_dept', 'dept_id', 'user_id');
+    }
+
+    /**
+     * 通过中间表关联部门
+     * @return \Hyperf\Database\Model\Relations\BelongsToMany
+     */
+    public function leader() : \Hyperf\Database\Model\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(SystemUser::class, 'system_dept_leader', 'dept_id', 'user_id');
+    }
 }

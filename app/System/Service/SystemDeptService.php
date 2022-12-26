@@ -32,6 +32,44 @@ class SystemDeptService extends AbstractService
     }
 
     /**
+     * 获取部门领导列表
+     * @param array|null $params
+     * @return array
+     */
+    public function getLeaderList(?array $params = null): array
+    {
+        return $this->mapper->getLeaderList($params);
+    }
+
+    /**
+     * 新增部门领导
+     * @param array $data
+     * @return bool
+     */
+    public function addLeader(array $data): bool
+    {
+        $users = [];
+        foreach ($data['users'] as $item) {
+            $users[] = array_merge(['created_at' => date('Y-m-d H:i:s')], $item);
+        }
+        return $this->mapper->addLeader((int) $data['id'], $users);
+    }
+
+    /**
+     * 删除部门领导
+     * @param array $data
+     * @return bool
+     */
+    public function delLeader(array $data): bool
+    {
+        $users = [];
+        foreach ($data['ids'] as $id) {
+            $users[] = [ 'user_id' => $id ];
+        }
+        return $this->mapper->delLeader((int) $data['id'], $users);
+    }
+
+    /**
      * 获取前端选择树
      * @return array
      */

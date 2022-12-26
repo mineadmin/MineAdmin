@@ -25,7 +25,7 @@ class SystemUserRequest extends MineFormRequest
         return [
             'username' => 'required|max:20',
             'password' => 'required|min:6',
-            'dept_id'  => 'required',
+            'dept_ids'  => 'required',
             'role_ids' => 'required'
         ];
     }
@@ -38,7 +38,7 @@ class SystemUserRequest extends MineFormRequest
     {
         return [
             'username' => 'required|max:20',
-            'dept_id'  => 'required',
+            'dept_ids'  => 'required',
             'role_ids' => 'required'
         ];
     }
@@ -113,7 +113,7 @@ class SystemUserRequest extends MineFormRequest
             'newPassword' => '新密码',
             'newPassword_confirmation' => '确认密码',
             'status' => '用户状态',
-            'dept_id' => '部门ID',
+            'dept_ids' => '部门ID',
             'role_ids' => '角色列表',
         ];
     }

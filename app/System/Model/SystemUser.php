@@ -15,7 +15,6 @@ use Mine\MineModel;
  * @property string $avatar 用户头像
  * @property string $signed 个人签名
  * @property string $dashboard 后台首页类型
- * @property int $dept_id 部门ID
  * @property int $status 状态 (1正常 2停用)
  * @property string $login_ip 最后登陆IP
  * @property string $login_time 最后登陆时间
@@ -51,13 +50,13 @@ class SystemUser extends MineModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'dashboard', 'dept_id', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'dashboard', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'dept_id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
+    protected $casts = ['id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
     /**
      * 通过中间表关联角色
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -66,6 +65,7 @@ class SystemUser extends MineModel
     {
         return $this->belongsToMany(SystemRole::class, 'system_user_role', 'user_id', 'role_id');
     }
+
     /**
      * 通过中间表关联岗位
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -74,13 +74,14 @@ class SystemUser extends MineModel
     {
         return $this->belongsToMany(SystemPost::class, 'system_user_post', 'user_id', 'post_id');
     }
+
     /**
-     * 关联部门
-     * @return \Hyperf\Database\Model\Relations\HasOne
+     * 通过中间表关联部门
+     * @return \Hyperf\Database\Model\Relations\BelongsToMany
      */
-    public function dept() : \Hyperf\Database\Model\Relations\HasOne
+    public function depts() : \Hyperf\Database\Model\Relations\BelongsToMany
     {
-        return $this->hasOne(SystemDept::class, 'id', 'dept_id');
+        return $this->belongsToMany(SystemDept::class, 'system_user_dept', 'user_id', 'dept_id');
     }
     /**
      * 密码加密

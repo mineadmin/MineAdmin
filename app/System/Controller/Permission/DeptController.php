@@ -15,6 +15,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -63,6 +65,12 @@ class DeptController extends MineController
         return $this->success($this->service->getSelectTree());
     }
 
+    #[GetMapping("getLeaderList"), Permission("system:dept, system:dept:index")]
+    public function getLeaderList()
+    {
+        return $this->success($this->service->getLeaderList($this->request->all()));
+    }
+
     /**
      * 新增部门
      * @param SystemDeptRequest $request
@@ -74,6 +82,32 @@ class DeptController extends MineController
     public function save(SystemDeptRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
+    }
+
+    /**
+     * 新增部门领导
+     * @param SystemDeptRequest $request
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("addLeader"), Permission("system:dept:update"), OperationLog("新增部门领导")]
+    public function addLeader(SystemDeptRequest $request): ResponseInterface
+    {
+        return $this->service->addLeader($request->validated()) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 删除部门领导
+     * @param SystemDeptRequest $request
+     * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    #[DeleteMapping("delLeader"), Permission("system:dept:delete"), OperationLog("删除部门领导")]
+    public function delLeader(): ResponseInterface
+    {
+        return $this->service->delLeader($this->request->all()) ? $this->success() : $this->error();
     }
 
     /**

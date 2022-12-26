@@ -38,8 +38,5 @@ class SystemDeptSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ]
         );
-        Db::table('system_user')
-            ->where('id', env('SUPER_ADMIN', 1))
-            ->update(['dept_id' => 1]);
     }
 }

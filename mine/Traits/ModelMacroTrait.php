@@ -113,8 +113,10 @@ trait ModelMacroTrait
                                 foreach ($parentDepts as $deptId) {
                                     $ids = SystemDept::query()
                                         ->where(function ($query) use ($deptId) {
-                                            $query->where('level', 'like', '%' . $deptId . '%');
-                                            $query->orWhere('id', $deptId);
+                                            $query->where('id', '=', $deptId)
+                                                ->orWhere('level', 'like', $deptId . ',%')
+                                                ->orWhere('level', 'like', '%,' . $deptId . ',%')
+                                                ->orWhere('level', 'like', '%,' . $deptId);
                                         })
                                         ->pluck('id')
                                         ->toArray();

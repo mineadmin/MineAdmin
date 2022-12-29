@@ -115,7 +115,6 @@ trait ModelMacroTrait
                                         ->where(function ($query) use ($deptId) {
                                             $query->where('id', '=', $deptId)
                                                 ->orWhere('level', 'like', $deptId . ',%')
-                                                ->orWhere('level', 'like', '%,' . $deptId . ',%')
                                                 ->orWhere('level', 'like', '%,' . $deptId);
                                         })
                                         ->pluck('id')

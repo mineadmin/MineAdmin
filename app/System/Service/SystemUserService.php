@@ -196,8 +196,8 @@ class SystemUserService extends AbstractService
         if (!empty($data['post_ids']) && !is_array($data['post_ids'])) {
             $data['post_ids'] = explode(',', $data['post_ids']);
         }
-        if (is_array($data['dept_id'])) {
-            $data['dept_id'] = array_pop($data['dept_id']);
+        if (!empty($data['dept_ids']) && !is_array($data['dept_ids'])) {
+            $data['dept_ids'] = explode(',', $data['dept_ids']);
         }
         return $data;
     }

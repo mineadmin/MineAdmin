@@ -122,7 +122,7 @@ class SettingConfigService extends AbstractService
     public function updatedByKeys(array $data): bool
     {
         foreach ($data as $name => $value) {
-            $this->mapper->updateByKey($name, $value);
+            $this->mapper->updateByKey((string) $name, $value);
         }
         return true;
     }

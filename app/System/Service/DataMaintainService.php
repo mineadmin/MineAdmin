@@ -73,7 +73,24 @@ class DataMaintainService extends AbstractService
     public function getColumnList(string $table): array
     {
         if ($table) {
-            return Schema::getColumnTypeListing(str_replace(env('DB_PREFIX'), '', $table));
+            //从数据库中获取表字段信息
+            $sql = "SELECT * FROM `information_schema`.`columns` "
+                . "WHERE TABLE_SCHEMA = ? AND table_name = ? "
+                . "ORDER BY ORDINAL_POSITION";
+            //加载主表的列
+            $columnList = [];
+            foreach (Db::select($sql, [env('DB_DATABASE'), str_replace(env('DB_PREFIX'), '', $table)]) as $column) {
+                $columnList[] = [
+                    'column_key' => $column->COLUMN_KEY,
+                    'column_name'=> $column->COLUMN_NAME,
+                    'data_type' => $column->DATA_TYPE,
+                    'column_comment' => $column->COLUMN_COMMENT,
+                    'extra' => $column->EXTRA,
+                    'column_type' => $column->COLUMN_TYPE,
+                    'is_nullable' => $column->IS_NULLABLE,
+                ];
+            }
+            return $columnList;
         } else {
             return [];
         }

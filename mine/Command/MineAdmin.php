@@ -22,7 +22,7 @@ use Mine\MineCommand;
 #[Command]
 class MineAdmin extends MineCommand
 {
-    protected $name = 'mine';
+    protected ?string $name = 'mine';
 
     public function configure()
     {

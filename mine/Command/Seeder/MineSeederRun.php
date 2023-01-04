@@ -31,16 +31,16 @@ class MineSeederRun extends BaseCommand
     /**
      * The console command name.
      *
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:seeder-run';
+    protected ?string $name = 'mine:seeder-run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Seed the database with records';
+    protected string $description = 'Seed the database with records';
 
     /**
      * The seed instance.
@@ -96,7 +96,7 @@ class MineSeederRun extends BaseCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['path', null, InputOption::VALUE_OPTIONAL, 'The location where the seeders file stored'],
@@ -107,7 +107,7 @@ class MineSeederRun extends BaseCommand
     }
 
 
-    protected function getSeederPath()
+    protected function getSeederPath(): string
     {
         if (! is_null($targetPath = $this->input->getOption('path'))) {
             return ! $this->usingRealPath()

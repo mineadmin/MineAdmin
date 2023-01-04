@@ -30,19 +30,19 @@ class SystemDept extends MineModel
      *
      * @var string
      */
-    protected $table = 'system_dept';
+    protected ?string $table = 'system_dept';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'parent_id', 'level', 'name', 'leader', 'phone', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'parent_id', 'level', 'name', 'leader', 'phone', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'parent_id' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表获取角色
      */
@@ -50,7 +50,6 @@ class SystemDept extends MineModel
     {
         return $this->belongsToMany(SystemRole::class, 'system_role_dept', 'dept_id', 'role_id');
     }
-
     /**
      * 通过中间表关联部门
      * @return \Hyperf\Database\Model\Relations\BelongsToMany
@@ -59,7 +58,6 @@ class SystemDept extends MineModel
     {
         return $this->belongsToMany(SystemUser::class, 'system_user_dept', 'dept_id', 'user_id');
     }
-
     /**
      * 通过中间表关联部门
      * @return \Hyperf\Database\Model\Relations\BelongsToMany

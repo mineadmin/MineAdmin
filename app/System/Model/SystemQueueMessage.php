@@ -51,19 +51,19 @@ class SystemQueueMessage extends MineModel
      *
      * @var string
      */
-    protected $table = 'system_queue_message';
+    protected ?string $table = 'system_queue_message';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'content_id', 'content_type', 'title', 'send_by', 'content', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'content_id', 'content_type', 'title', 'send_by', 'content', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'content_id' => 'integer', 'send_by' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'content_id' => 'integer', 'send_by' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联发送人
      * @return \Hyperf\Database\Model\Relations\HasOne

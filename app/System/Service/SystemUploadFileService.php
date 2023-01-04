@@ -60,7 +60,7 @@ class SystemUploadFileService extends AbstractService
             if ($model = $this->mapper->getFileInfoByHash($hash)) {
                 return $model->toArray();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new NormalStatusException('获取文件Hash失败', 500);
         }
         $data = $this->mineUpload->upload($uploadedFile, $config);
@@ -113,31 +113,6 @@ class SystemUploadFileService extends AbstractService
             });
         }
         return $collect;
-    }
-
-    /**
-     * 设置需要分页的数组数据
-     * @param array $params
-     * @return array
-     */
-    protected function getArrayData(array $params = []): array
-    {
-        $directory = $this->getDirectory($params['storage_path'] ?? '');
-
-        $params['select'] = [
-            'id',
-            'origin_name',
-            'object_name',
-            'mime_type',
-            'url',
-            'size_info',
-            'storage_path',
-            'created_at'
-        ];
-
-        $params['select'] = implode(',', $params['select']);
-
-        return array_merge($directory, $this->getList($params));
     }
 
     /**

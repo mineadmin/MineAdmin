@@ -46,7 +46,7 @@ class QueueConsumeListener implements ListenerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         $this->service = container()->get(SystemQueueLogService::class);
         if ($event->message) {

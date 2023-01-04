@@ -23,7 +23,7 @@ use Mine\Amqp\Event\FailToConsume;
 #[Aspect]
 class ConsumeAspect extends AbstractAspect
 {
-    public $classes = [
+    public array $classes = [
         'Hyperf\Amqp\Message\ConsumerMessage::consumeMessage'
     ];
 

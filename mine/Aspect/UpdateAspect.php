@@ -28,7 +28,7 @@ use Psr\Container\NotFoundExceptionInterface;
 #[Aspect]
 class UpdateAspect extends AbstractAspect
 {
-    public $classes = [
+    public array $classes = [
         'Mine\MineModel::update'
     ];
 

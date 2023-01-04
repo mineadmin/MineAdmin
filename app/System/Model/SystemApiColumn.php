@@ -31,19 +31,19 @@ class SystemApiColumn extends MineModel
      *
      * @var string
      */
-    protected $table = 'system_api_column';
+    protected ?string $table = 'system_api_column';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'api_id', 'name', 'type', 'data_type', 'is_required', 'default_value', 'status', 'description', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'api_id', 'name', 'type', 'data_type', 'is_required', 'default_value', 'status', 'description', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'api_id' => 'integer', 'type' => 'integer', 'is_required' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'api_id' => 'integer', 'type' => 'integer', 'is_required' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联API
      * @return \Hyperf\Database\Model\Relations\BelongsTo

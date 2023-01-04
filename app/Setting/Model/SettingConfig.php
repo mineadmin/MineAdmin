@@ -16,26 +16,26 @@ use Mine\MineModel;
  */
 class SettingConfig extends MineModel
 {
-    public $incrementing = false;
-    protected $primaryKey = 'key';
-    protected $keyType = 'string';
-    public $timestamps = false;
+    public bool $incrementing = false;
+    protected string $primaryKey = 'key';
+    protected string $keyType = 'string';
+    public bool $timestamps = false;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'setting_config';
+    protected ?string $table = 'setting_config';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['group_id', 'key', 'value', 'name', 'input_type', 'config_select_data', 'sort', 'remark'];
+    protected array $fillable = ['group_id', 'key', 'value', 'name', 'input_type', 'config_select_data', 'sort', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['group_id' => 'integer', 'sort' => 'integer', 'config_select_data' => 'array'];
+    protected array $casts = ['group_id' => 'integer', 'sort' => 'integer', 'config_select_data' => 'array'];
 }

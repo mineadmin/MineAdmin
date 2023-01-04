@@ -31,7 +31,7 @@ class UserDeleteListener implements ListenerInterface
      * @throws InvalidArgumentException
      * @throws \RedisException
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         $redis = redis();
         $prefix = config('cache.default.prefix') . 'Token:';

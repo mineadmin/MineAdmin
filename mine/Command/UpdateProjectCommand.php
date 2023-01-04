@@ -29,9 +29,9 @@ class UpdateProjectCommand extends MineCommand
 {
     /**
      * 更新项目命令
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:update';
+    protected ?string $name = 'mine:update';
 
     protected array $database = [];
 

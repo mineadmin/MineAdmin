@@ -16,7 +16,7 @@ use Hyperf\HttpServer\Server;
 
 class MineServer extends Server
 {
-    protected $serverName = 'MineAdmin';
+    protected ?string $serverName = 'MineAdmin';
 
     protected $routes;
 

@@ -38,17 +38,17 @@ class SettingGenerateColumns extends MineModel
      *
      * @var string
      */
-    protected $table = 'setting_generate_columns';
+    protected ?string $table = 'setting_generate_columns';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
+    protected array $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
 }

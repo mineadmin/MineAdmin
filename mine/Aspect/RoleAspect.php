@@ -29,8 +29,7 @@ use Mine\MineRequest;
 #[Aspect]
 class RoleAspect extends AbstractAspect
 {
-
-    public $annotations = [
+    public array $annotations = [
         Role::class
     ];
 

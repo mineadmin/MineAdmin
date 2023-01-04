@@ -42,19 +42,19 @@ class SystemApi extends MineModel
      *
      * @var string
      */
-    protected $table = 'system_api';
+    protected ?string $table = 'system_api';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'group_id', 'name', 'access_name', 'class_name', 'method_name', 'auth_mode', 'request_mode', 'description', 'response', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'group_id', 'name', 'access_name', 'class_name', 'method_name', 'auth_mode', 'request_mode', 'description', 'response', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'group_id' => 'integer', 'auth_mode' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'group_id' => 'integer', 'auth_mode' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 通过中间表关联APP
      * @return \Hyperf\Database\Model\Relations\BelongsToMany

@@ -30,7 +30,7 @@ class LoginListener implements ListenerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         $request = container()->get(MineRequest::class);
         $service = container()->get(SystemLoginLogService::class);

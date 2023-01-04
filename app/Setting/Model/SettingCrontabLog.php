@@ -16,23 +16,23 @@ use Mine\MineModel;
  */
 class SettingCrontabLog extends MineModel
 {
-    public $timestamps = false;
+    public bool $timestamps = false;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'setting_crontab_log';
+    protected ?string $table = 'setting_crontab_log';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'crontab_id', 'name', 'target', 'parameter', 'exception_info', 'status', 'created_at'];
+    protected array $fillable = ['id', 'crontab_id', 'name', 'target', 'parameter', 'exception_info', 'status', 'created_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'crontab_id' => 'integer', 'status' => 'integer'];
+    protected array $casts = ['id' => 'integer', 'crontab_id' => 'integer', 'status' => 'integer'];
 }

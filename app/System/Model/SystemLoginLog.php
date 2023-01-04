@@ -18,27 +18,25 @@ use Mine\MineModel;
  */
 class SystemLoginLog extends MineModel
 {
-    public $timestamps = false;
-
+    public bool $timestamps = false;
     public const SUCCESS = 1;
     public const FAIL = 2;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'system_login_log';
+    protected ?string $table = 'system_login_log';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'username', 'ip', 'ip_location', 'os', 'browser', 'status', 'message', 'login_time', 'remark'];
+    protected array $fillable = ['id', 'username', 'ip', 'ip_location', 'os', 'browser', 'status', 'message', 'login_time', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'status' => 'integer'];
+    protected array $casts = ['id' => 'integer', 'status' => 'integer'];
 }

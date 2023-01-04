@@ -26,8 +26,7 @@ use Mine\Exception\MineException;
 #[Aspect]
 class TransactionAspect extends AbstractAspect
 {
-
-    public $annotations = [
+    public array $annotations = [
         Transaction::class
     ];
 

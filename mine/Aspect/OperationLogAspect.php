@@ -33,7 +33,7 @@ use Psr\Http\Message\ResponseInterface;
 #[Aspect]
 class OperationLogAspect extends AbstractAspect
 {
-    public $annotations = [
+    public array $annotations = [
         OperationLog::class
     ];
 

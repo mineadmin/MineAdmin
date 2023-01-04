@@ -28,7 +28,7 @@ class MineModel extends Model
      * 隐藏的字段列表
      * @var string[]
      */
-    protected $hidden = ['deleted_at'];
+    protected array $hidden = ['deleted_at'];
 
     /**
      * 状态

@@ -29,7 +29,7 @@ class MineCrontabProcess extends AbstractProcess
     /**
      * @var string
      */
-    public $name = 'MineAdmin Crontab';
+    public string $name = 'MineAdmin Crontab';
 
     /**
      * @var Server
@@ -102,7 +102,7 @@ class MineCrontabProcess extends AbstractProcess
             $crontabs = $this->scheduler->schedule();
             while (!$crontabs->isEmpty()) {
                 /**
-                 * @var Crontab  $crontab
+                 * @var MineCrontab $crontab
                  */
                 $crontab =  $crontabs->dequeue();
                 $this->strategy->dispatch($crontab);

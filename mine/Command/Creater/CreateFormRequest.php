@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputArgument;
 #[Command]
 class CreateFormRequest extends MineCommand
 {
-    protected $name = 'mine:request-gen';
+    protected ?string $name = 'mine:request-gen';
 
     protected string $module;
 

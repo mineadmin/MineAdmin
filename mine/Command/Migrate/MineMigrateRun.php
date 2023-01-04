@@ -28,14 +28,14 @@ class MineMigrateRun extends BaseCommand
 {
     use ConfirmableTrait;
 
-    protected $name = 'mine:migrate-run';
+    protected ?string $name = 'mine:migrate-run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Run the database migrations';
+    protected string $description = 'Run the database migrations';
 
     /**
      * The migrator instance.

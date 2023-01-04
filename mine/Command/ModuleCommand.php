@@ -31,9 +31,9 @@ class ModuleCommand extends MineCommand
     use ConfirmableTrait;
     /**
      * 安装命令
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:module';
+    protected ?string $name = 'mine:module';
 
     protected Mine $mine;
 

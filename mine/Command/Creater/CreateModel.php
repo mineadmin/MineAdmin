@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputOption;
 #[Command]
 class CreateModel extends MineCommand
 {
-    protected $name = 'mine:model-gen';
+    protected ?string $name = 'mine:model-gen';
 
     public function configure()
     {

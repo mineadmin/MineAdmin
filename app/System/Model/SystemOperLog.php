@@ -31,17 +31,17 @@ class SystemOperLog extends MineModel
      *
      * @var string
      */
-    protected $table = 'system_oper_log';
+    protected ?string $table = 'system_oper_log';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'username', 'method', 'router', 'service_name', 'ip', 'ip_location', 'request_data', 'response_code', 'response_data', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'username', 'method', 'router', 'service_name', 'ip', 'ip_location', 'request_data', 'response_code', 'response_data', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

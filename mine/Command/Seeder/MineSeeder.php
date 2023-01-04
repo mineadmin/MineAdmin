@@ -98,7 +98,7 @@ class MineSeeder extends BaseCommand
         ];
     }
 
-    protected function getSeederPath()
+    protected function getSeederPath(): string
     {
         if (! is_null($targetPath = $this->input->getOption('path'))) {
             return ! $this->usingRealPath()

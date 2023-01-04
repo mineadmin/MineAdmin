@@ -29,7 +29,7 @@ use Mine\Redis\MineLockRedis;
 class ResubmitAspect extends AbstractAspect
 {
 
-    public $annotations = [
+    public array $annotations = [
         Resubmit::class
     ];
 

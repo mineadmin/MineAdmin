@@ -26,7 +26,7 @@ class DeleteUploadFileListener implements ListenerInterface
     /**
      * @param RealDeleteUploadFile $event
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         $filePath = $this->getFilePath($event->getModel());
         try {

@@ -21,25 +21,24 @@ class SettingConfigGroup extends MineModel
      *
      * @var string
      */
-    protected $table = 'setting_config_group';
+    protected ?string $table = 'setting_config_group';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'name', 'code', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'name', 'code', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
+    protected array $casts = ['id' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
     /**
      * 关联config表
      * @return \Hyperf\Database\Model\Relations\HasMany
      */
-    public function configs(): \Hyperf\Database\Model\Relations\HasMany
+    public function configs() : \Hyperf\Database\Model\Relations\HasMany
     {
         return $this->hasMany(SettingConfig::class, 'group_id', 'id');
     }

@@ -18,14 +18,14 @@ class HttpGenCommand extends MineCommand
 {
     /**
      * 安装命令
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:http-gen';
+    protected ?string $name = 'mine:http-gen';
 
     /**
      * @var string
      */
-    protected $description = 'gen the http-client';
+    protected string $description = 'gen the http-client';
 
     public function handle()
     {

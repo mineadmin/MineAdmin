@@ -29,8 +29,7 @@ use Mine\MineRequest;
 #[Aspect]
 class PermissionAspect extends AbstractAspect
 {
-
-    public $annotations = [
+    public array $annotations = [
         Permission::class
     ];
 

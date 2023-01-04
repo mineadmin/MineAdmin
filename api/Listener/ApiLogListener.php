@@ -42,7 +42,7 @@ class ApiLogListener implements ListenerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         /* @var $event ApiAfter */
         $data = $event->getApiData();

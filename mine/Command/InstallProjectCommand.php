@@ -29,9 +29,9 @@ class InstallProjectCommand extends MineCommand
 {
     /**
      * 安装命令
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:install';
+    protected ?string $name = 'mine:install';
 
     protected const CONSOLE_GREEN_BEGIN = "\033[32;5;1m";
     protected const CONSOLE_RED_BEGIN = "\033[31;5;1m";

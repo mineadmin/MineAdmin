@@ -26,7 +26,7 @@ use Mine\MineRequest;
 #[Aspect]
 class SaveAspect extends AbstractAspect
 {
-    public $classes = [
+    public array $classes = [
         'Mine\MineModel::save'
     ];
 

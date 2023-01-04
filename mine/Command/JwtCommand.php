@@ -26,9 +26,9 @@ class JwtCommand extends MineCommand
 {
     /**
      * 生成JWT密钥命令
-     * @var string
+     * @var string|null
      */
-    protected $name = 'mine:jwt-gen';
+    protected ?string $name = 'mine:jwt-gen';
 
     public function configure()
     {

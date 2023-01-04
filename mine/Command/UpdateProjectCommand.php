@@ -41,7 +41,6 @@ class UpdateProjectCommand extends MineCommand
 
     /**
      * UpdateProjectCommand constructor.
-     * @param string|null $name
      * @param Migrator $migrator
      * @param Seed $seed
      */

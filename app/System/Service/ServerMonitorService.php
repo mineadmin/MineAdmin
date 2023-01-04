@@ -168,7 +168,7 @@ class ServerMonitorService
 
         $result['mineadmin_version'] = \Mine\Mine::getVersion();
 
-        $result['hyperf_version'] = '2.2.33';
+        $result['hyperf_version'] = HF_VERSION;
 
         return $result;
     }

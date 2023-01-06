@@ -113,11 +113,13 @@ class SettingGenerateColumnsService extends AbstractService
                         $column['view_type'] = 'date';
                         $column['options']['mode'] = 'date';
                         $column['options']['showTime'] = true;
-                        break;
+                        $column['query_type'] = 'between';
+                    break;
                     case 'date':
                         $column['view_type'] = 'date';
                         $column['options']['mode'] = 'date';
                         $column['options']['showTime'] = false;
+                        $column['query_type'] = 'between';
                         break;
                 }
             }
@@ -143,6 +145,7 @@ class SettingGenerateColumnsService extends AbstractService
                     $column['view_type'] = 'upload';
                     $column['options']['type'] = 'image';
                     $column['options']['multiple'] = false;
+                    $column['query_type'] = 'eq';
                 }
 
                 if (stristr($column['column_name'], 'images')) {
@@ -150,6 +153,7 @@ class SettingGenerateColumnsService extends AbstractService
                     $column['view_type'] = 'upload';
                     $column['options']['type'] = 'image';
                     $column['options']['multiple'] = true;
+                    $column['query_type'] = 'eq';
                 }
 
                 if (stristr($column['column_name'], 'file')) {
@@ -157,6 +161,7 @@ class SettingGenerateColumnsService extends AbstractService
                     $column['view_type'] = 'upload';
                     $column['options']['type'] = 'file';
                     $column['options']['multiple'] = false;
+                    $column['query_type'] = 'eq';
                 }
 
                 if (stristr($column['column_name'], 'files')) {
@@ -164,6 +169,7 @@ class SettingGenerateColumnsService extends AbstractService
                     $column['view_type'] = 'upload';
                     $column['options']['type'] = 'file';
                     $column['options']['multiple'] = true;
+                    $column['query_type'] = 'eq';
                 }
             }
         };

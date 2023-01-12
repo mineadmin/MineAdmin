@@ -79,7 +79,7 @@ class DataMaintainService extends AbstractService
                 . "ORDER BY ORDINAL_POSITION";
             //加载主表的列
             $columnList = [];
-            foreach (Db::select($sql, [env('DB_DATABASE'), str_replace(env('DB_PREFIX'), '', $table)]) as $column) {
+            foreach (Db::select($sql, [env('DB_DATABASE'), $table]) as $column) {
                 $columnList[] = [
                     'column_key' => $column->COLUMN_KEY,
                     'column_name'=> $column->COLUMN_NAME,

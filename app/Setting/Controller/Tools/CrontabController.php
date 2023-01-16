@@ -13,6 +13,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
+use Mine\Annotation\DeleteCache;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
@@ -150,6 +151,7 @@ class CrontabController extends MineController
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping("changeStatus"), Permission("setting:crontab:update"), OperationLog]
+    #[DeleteCache('crontab')]
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))

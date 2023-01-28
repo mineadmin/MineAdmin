@@ -51,6 +51,7 @@ class SettingCrontabService extends AbstractService
      * 保存
      * @param array $data
      * @return int
+     * @throws \RedisException
      */
     public function save(array $data): int
     {
@@ -65,6 +66,7 @@ class SettingCrontabService extends AbstractService
      * @param int $id
      * @param array $data
      * @return bool
+     * @throws \RedisException
      */
     public function update(int $id, array $data): bool
     {
@@ -74,10 +76,12 @@ class SettingCrontabService extends AbstractService
         return $res;
     }
 
-    /**
+    /*
+    *
      * 删除
      * @param array $ids
      * @return bool
+     * @throws \RedisException
      */
     public function delete(array $ids): bool
     {

@@ -22,34 +22,34 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class HttpCoreMiddleware extends \Hyperf\HttpServer\CoreMiddleware
 {
-    /**
-     * 跨域
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        $crossData = [
-            'Access-Control-Allow-Origin'      => '*',
-            'Access-Control-Allow-Methods'     => 'POST,GET,PUT,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers'     => 'Version, Access-Token, User-Token, Api-Auth, User-Agent, Keep-Alive, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
-            'Access-Control-Allow-Credentials' => 'true'
-        ];
-
-        $response = Context::get(ResponseInterface::class);
-        foreach ($crossData as $name => $value) {
-            $response->withHeader($name, $value);
-        }
-
-        Context::set(ResponseInterface::class, $response);
-
-        if ($request->getMethod() == 'OPTIONS') {
-            return $response;
-        }
-
-        return $handler->handle($request);
-    }
+//    /**
+//     * 跨域
+//     * @param ServerRequestInterface $request
+//     * @param RequestHandlerInterface $handler
+//     * @return ResponseInterface
+//     */
+//    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+//    {
+//        $crossData = [
+//            'Access-Control-Allow-Origin'      => '*',
+//            'Access-Control-Allow-Methods'     => 'POST,GET,PUT,DELETE,OPTIONS',
+//            'Access-Control-Allow-Headers'     => 'Version, Access-Token, User-Token, Api-Auth, User-Agent, Keep-Alive, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
+//            'Access-Control-Allow-Credentials' => 'true'
+//        ];
+//
+//        $response = Context::get(ResponseInterface::class);
+//        foreach ($crossData as $name => $value) {
+//            $response->withHeader($name, $value);
+//        }
+//
+//        Context::set(ResponseInterface::class, $response);
+//
+//        if ($request->getMethod() == 'OPTIONS') {
+//            return $response;
+//        }
+//
+//        return $handler->handle($request);
+//    }
 
     /**
      * Handle the response when cannot found any routes.

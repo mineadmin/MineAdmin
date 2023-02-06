@@ -121,6 +121,10 @@ class SettingGenerateColumnsService extends AbstractService
                         $column['options']['showTime'] = false;
                         $column['query_type'] = 'between';
                         break;
+                    case 'json':
+                        $column['is_list'] = SettingGenerateColumns::NO;
+                        $column['is_query'] = SettingGenerateColumns::NO;
+                        break;
                 }
             }
             public function columnCommentDispose(&$column): void

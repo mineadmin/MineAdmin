@@ -35,18 +35,21 @@ abstract class MineExcel
      * @var array
      */
     protected array $property = [];
+    protected array $dictData = [];
 
 
     /**
      * @param String $dto
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws \RedisException
+     * @param MineModel $model
      */
     public function __construct(string $dto)
     {
         if (!(new $dto) instanceof MineModelExcel) {
             throw new MineException('dto does not implement an interface of the MineModelExcel', 500);
+        }
+        $dtoObject = new $dto();
+        if (method_exists($dtoObject, 'dictData')) {
+            $this->dictData = $dtoObject->dictData();
         }
         $this->annotationMate = AnnotationCollector::get($dto);
         $this->parseProperty();
@@ -92,9 +95,9 @@ abstract class MineExcel
                 'bgColor' => $mate[self::ANNOTATION_NAME]->bgColor ?? null,
                 'dictData' => $mate[self::ANNOTATION_NAME]->dictData,
                 'dictName' => empty($mate[self::ANNOTATION_NAME]->dictName) ? null : $this->getDictData($mate[self::ANNOTATION_NAME]->dictName),
+                'path' => $mate[self::ANNOTATION_NAME]->path ?? null,
             ];
         }
-
         ksort($this->property);
     }
 

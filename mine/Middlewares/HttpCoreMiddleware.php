@@ -22,34 +22,29 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class HttpCoreMiddleware extends \Hyperf\HttpServer\CoreMiddleware
 {
-//    /**
-//     * 跨域
-//     * @param ServerRequestInterface $request
-//     * @param RequestHandlerInterface $handler
-//     * @return ResponseInterface
-//     */
-//    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-//    {
-//        $crossData = [
-//            'Access-Control-Allow-Origin'      => '*',
-//            'Access-Control-Allow-Methods'     => 'POST,GET,PUT,DELETE,OPTIONS',
-//            'Access-Control-Allow-Headers'     => 'Version, Access-Token, User-Token, Api-Auth, User-Agent, Keep-Alive, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
-//            'Access-Control-Allow-Credentials' => 'true'
-//        ];
-//
-//        $response = Context::get(ResponseInterface::class);
-//        foreach ($crossData as $name => $value) {
-//            $response->withHeader($name, $value);
-//        }
-//
-//        Context::set(ResponseInterface::class, $response);
-//
-//        if ($request->getMethod() == 'OPTIONS') {
-//            return $response;
-//        }
-//
-//        return $handler->handle($request);
-//    }
+    /**
+     * 跨域
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $response = Context::get(ResponseInterface::class);
+        $response = $response->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,OPTIONS')
+            ->withHeader('Access-Control-Allow-Credentials', 'true')
+            // Headers 可以根据实际情况进行改写。
+            ->withHeader('Access-Control-Allow-Headers', 'accept-language,authorization,lang,uid,token,Keep-Alive,User-Agent,Cache-Control,Content-Type');
+
+        Context::set(ResponseInterface::class, $response);
+
+        if ($request->getMethod() == 'OPTIONS') {
+            return $response;
+        }
+
+        return parent::process($request,$handler);
+    }
 
     /**
      * Handle the response when cannot found any routes.

@@ -266,7 +266,7 @@ trait MapperTrait
      */
     public function delete(array $ids): bool
     {
-        $this->model::destroy($ids);
+        $this->model::destroy($ids, $this->model);
         return true;
     }
 

@@ -85,7 +85,7 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function export(string $filename, array|\Closure $closure): \Psr\Http\Message\ResponseInterface
+    public function export(string $filename, array|\Closure $closure, \Closure $callbackData = null): \Psr\Http\Message\ResponseInterface
     {
         $spread = new Spreadsheet();
         $sheet  = $spread->getActiveSheet();
@@ -122,7 +122,8 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
             $row = 2;
             while ($generate->valid()) {
                 $column = 'A';
-                foreach ($generate->current() as $name => $value) {
+                $items = $generate->current();
+                foreach ($items as $name => $value) {
                     $columnRow = $column . $row;
                     $annotation = '';
                     foreach ($this->property as $item) {
@@ -134,8 +135,12 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
 
                     if (!empty($annotation['dictName'])) {
                         $sheet->setCellValue($columnRow, $annotation['dictName'][$value]);
+                    } else if (!empty($annotation['path'])){
+                        $sheet->setCellValue($columnRow, data_get($items, $annotation['path']));
                     } else if (!empty($annotation['dictData'])) {
                         $sheet->setCellValue($columnRow, $annotation['dictData'][$value]);
+                    } else if(!empty($this->dictData[$name])){
+                        $sheet->setCellValue($columnRow, $this->dictData[$name][$value] ?? '');
                     } else {
                         $sheet->setCellValue($columnRow, $value . "\t");
                     }

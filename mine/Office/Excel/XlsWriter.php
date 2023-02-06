@@ -103,8 +103,8 @@ class XlsWriter extends MineExcel implements ExcelPropertyInterface
 
         $columnName  = [];
         $columnField = [];
-        foreach ($this->property as $item) {
 
+        foreach ($this->property as $item) {
             $columnName[]  = $item['value'];
             $columnField[] = $item['name'];
         }

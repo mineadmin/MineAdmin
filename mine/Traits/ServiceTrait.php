@@ -292,7 +292,7 @@ trait ServiceTrait
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function export(array $params, ?string $dto, string $filename = null): ResponseInterface
+    public function export(array $params, ?string $dto, string $filename = null, \Closure $callbackData = null): ResponseInterface
     {
         if (empty($dto)) {
             return container()->get(MineResponse::class)->error('导出未指定DTO');
@@ -302,7 +302,7 @@ trait ServiceTrait
             $filename = $this->mapper->getModel()->getTable();
         }
 
-        return (new MineCollection())->export($dto, $filename, $this->mapper->getList($params));
+        return (new MineCollection())->export($dto, $filename, $this->mapper->getList($params), $callbackData);
     }
 
     /**

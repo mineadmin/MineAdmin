@@ -98,7 +98,7 @@ class MineCollection extends Collection
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function export(string $dto, string $filename, array|\Closure $closure = null): \Psr\Http\Message\ResponseInterface
+    public function export(string $dto, string $filename, array|\Closure $closure = null, \Closure $callbackData = null): \Psr\Http\Message\ResponseInterface
     {
         $excelDrive = config('mineadmin.excel_drive');
         if ($excelDrive === 'auto') {
@@ -106,7 +106,7 @@ class MineCollection extends Collection
         } else {
             $excel = $excelDrive === 'xlsWriter' ? new XlsWriter($dto) : new PhpOffice($dto);
         }
-        return $excel->export($filename, is_null($closure) ? $this->toArray() : $closure);
+        return $excel->export($filename, is_null($closure) ? $this->toArray() : $closure, $callbackData);
     }
 
     /**

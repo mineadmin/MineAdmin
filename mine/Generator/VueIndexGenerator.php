@@ -181,9 +181,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         $options['pk'] = "'".$this->getPk()."'";
         $options['operationColumn'] = false;
         $options['operationWidth'] = 160;
-        $options['viewLayoutSetting'] = [
-            'layout' => "'auto'",
-            'cols' => 1,
+        $options['formOption'] = [
             'viewType' => $this->model->component_type == 1 ? "'modal'" : "'drawer'",
             'width' => 600,
         ];
@@ -239,7 +237,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 'auth' => "['".$this->getCode().":export']"
             ];
         }
-        return 'const crud = reactive(' . $this->jsonFormat($options, true) . ')';
+        return 'const options = reactive(' . $this->jsonFormat($options, true) . ')';
     }
 
     /**
@@ -270,7 +268,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 $tmp['hide'] = true;
             }
             if ($column->is_required == self::YES) {
-                $tmp['rules'] = [
+                $tmp['commonRules'] = [
                     'required' => true,
                     'message' => '请输入' . $column->column_comment
                 ];

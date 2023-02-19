@@ -17,6 +17,7 @@ use App\System\Service\SystemQueueMessageService;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
+use Hyperf\WebSocketServer\Context;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -29,10 +30,6 @@ use Swoole\WebSocket\Server;
  */
 class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
-    /**
-     * @var int
-     */
-    protected $uid;
 
     /**
      * 成功连接到 ws 回调
@@ -43,12 +40,13 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
      */
     public function onOpen($server, $request): void
     {
-        $this->uid = user()->getUserInfo(
+        $uid = user()->getUserInfo(
             container()->get(ServerRequestInterface::class)->getQueryParams()['token']
         )['id'];
+        Context::set('uid',$uid);
 
         console()->info(
-            "WebSocket [ user connection to message server: id > {$this->uid}, ".
+            "WebSocket [ user connection to message server: id > $uid, ".
             "fd > {$request->fd}, time > ". date('Y-m-d H:i:s') .' ]'
         );
     }
@@ -69,7 +67,7 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
                 $server->push($frame->fd, json_encode([
                     'event' => 'ev_new_message',
                     'message' => 'success',
-                    'data' => $service->getUnreadMessage($this->uid)['items']
+                    'data' => $service->getUnreadMessage(Context::get('uid'))['items']
                 ]));
                 break;
         }
@@ -86,7 +84,7 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
     public function onClose($server, int $fd, int $reactorId): void
     {
         console()->info(
-            "WebSocket [ user close connect for message server: id > {$this->uid}, ".
+            "WebSocket [ user close connect for message server: id > ".Context::get('uid').", ".
             "fd > {$fd}, time > ". date('Y-m-d H:i:s') .' ]'
         );
     }

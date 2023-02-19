@@ -131,7 +131,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             '{CODE}',
-            '{CRUD}',
+            '{OPTIONS}',
             '{COLUMNS}',
             '{BUSINESS_EN_NAME}',
             '{INPUT_NUMBER}',
@@ -149,7 +149,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         return [
             $this->getCode(),
-            $this->getCrud(),
+            $this->getOptions(),
             $this->getColumns(),
             $this->getBusinessEnName(),
             $this->getInputNumber(),
@@ -172,7 +172,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      * 获取CRUD配置代码
      * @return string
      */
-    protected function getCrud(): string
+    protected function getOptions(): string
     {
         // 配置项
         $options = [];

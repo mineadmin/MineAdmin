@@ -281,7 +281,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             }
             // 扩展项
             if (!empty($column->options)) {
-                $collection = $column->options['collection'];
+                $collection = $column->options['collection'] ?? [];
                 // 合并
                 $tmp = array_merge($tmp, $column->options);
                 // 自定义数据

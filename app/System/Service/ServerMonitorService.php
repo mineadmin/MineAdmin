@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\System\Service;
 
 class ServerMonitorService
@@ -16,17 +17,18 @@ class ServerMonitorService
                 $cpu = $this->getCpuUsage();
                 preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
             } else {
-                preg_match('/(\d+\.\d+)%\suser/', shell_exec('top -l 1 | head -n 10 | grep CPU'), $cpu);
+                $cpuUsage = shell_exec('top -l 1 | head -n 10 | grep CPU');
+                preg_match('/(\d+\.\d+)%\suser/', $cpuUsage, $cpu);
                 $cpu = $cpu[1] ?? '未知';
-                preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep L2'), $cache);
-                $cache = $cache[1] ?? '未知';
+                preg_match('/(\d+)/', shell_exec('sysctl -n hw.l2cachesize'), $cache);
+                $cache = $cache[1] ? $cache : [0, 0];
             }
             return [
                 'name' => $this->getCpuName(),
                 'cores' => '物理核心数：' . $this->getCpuPhysicsCores() . '个，逻辑核心数：' . $this->getCpuLogicCores() . '个',
                 'cache' => $cache[1] ? $cache[1] / 1024 : 0,
                 'usage' => $cpu,
-                'free' => 100 - $cpu
+                'free' => round(100 - $cpu, 2)
             ];
         } catch (\Throwable $e) {
             $res = '无法获取';
@@ -58,7 +60,7 @@ class ServerMonitorService
         if (PHP_OS == 'Linux') {
             return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
         } else {
-            return shell_exec('sysctl hw.physicalcpu');
+            return trim(shell_exec('sysctl -n hw.physicalcpu'));
         }
     }
 
@@ -70,7 +72,7 @@ class ServerMonitorService
         if (PHP_OS == 'Linux') {
             return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "processor"|wc -l'));
         } else {
-            return shell_exec('sysctl hw.logicalcpu');
+            return trim(shell_exec('sysctl -n hw.logicalcpu'));
         }
     }
 
@@ -82,7 +84,7 @@ class ServerMonitorService
     {
         $start = $this->calculationCpu();
         sleep(1);
-        $end   = $this->calculationCpu();
+        $end = $this->calculationCpu();
 
         $totalStart = $start['total'];
         $totalEnd = $end['total'];
@@ -101,10 +103,10 @@ class ServerMonitorService
     {
         $mode = '/(cpu)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)/';
         $string = shell_exec('more /proc/stat | grep cpu');
-        preg_match_all($mode, $string,$matches);
+        preg_match_all($mode, $string, $matches);
 
         $total = $matches[2][0] + $matches[3][0] + $matches[4][0] + $matches[5][0] + $matches[6][0] + $matches[7][0] + $matches[8][0] + $matches[9][0];
-        $time  = $matches[2][0] + $matches[3][0] + $matches[4][0] + $matches[6][0] + $matches[7][0] + $matches[8][0] + $matches[9][0];
+        $time = $matches[2][0] + $matches[3][0] + $matches[4][0] + $matches[6][0] + $matches[7][0] + $matches[8][0] + $matches[9][0];
 
         return ['total' => $total, 'time' => $time];
     }
@@ -135,9 +137,9 @@ class ServerMonitorService
         } else {
             preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep Memory'), $total);
             $result['total'] = $total[1];
-            preg_match('/(\d+)[G|M]\sused/', shell_exec('system_profiler SPHardwareDataType | grep Memory'), $usage);
-            $result['usage'] = $usage[1];
-            $result['free']  = $result['total'] - $result['usage'];
+            $usage = shell_exec("ps -caxm -orss | awk '{ mem += $1} END {print mem}'"); // 单位KB
+            $result['usage'] = round($usage / 1024 / 1024, 2);
+            $result['free'] = round($result['total'] - $result['usage'], 2);
             $result['php'] = round(memory_get_usage() / 1024 / 1024, 2);
             $result['rate'] = sprintf(
                 '%.2f', (sprintf('%.2f', $result['usage']) / sprintf('%.2f', $result['total'])) * 100
@@ -187,8 +189,8 @@ class ServerMonitorService
         return [
             'total' => $hds[1],
             'usage' => $hds[2],
-            'free'  => $hds[3],
-            'rate'  => $hds[4]
+            'free' => $hds[3],
+            'rate' => $hds[4]
         ];
     }
 

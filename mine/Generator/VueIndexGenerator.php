@@ -177,7 +177,6 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         // 配置项
         $options = [];
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
-        $options['searchLabelWidth'] = "'75px'";
         $options['pk'] = "'".$this->getPk()."'";
         $options['operationColumn'] = false;
         $options['operationWidth'] = 160;

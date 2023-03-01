@@ -412,7 +412,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         $viewTypes = [
             'text' => 'input',
-            'password' => 'input',
+            'password' => 'input-password',
             'textarea' => 'textarea',
             'inputNumber' => 'input-number',
             'inputTag' => 'input-tag',
@@ -428,13 +428,13 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             'rate' => 'rate',
             'cascader' => 'cascader',
             'transfer' => 'transfer',
-            'selectUser' => 'select-user',
+            'selectUser' => 'user-select',
             'userInfo' => 'user-info',
             'cityLinkage' => 'city-linkage',
-            'icon' => 'icon',
+            'icon' => 'icon-picker',
             'formGroup' => 'form-group',
             'upload' => 'upload',
-            'selectResource' => 'select-resource',
+            'selectResource' => 'resource',
             'editor' => 'editor',
             'codeEditor' => 'code-editor',
         ];

@@ -1,7 +1,7 @@
 <template>
   <div class="ma-content-block lg:flex justify-between p-4">
     <!-- CRUD 组件 -->
-    <ma-crud :crud="crud" :columns="columns" ref="crudRef">
+    <ma-crud :options="options" :columns="columns" ref="crudRef">
     </ma-crud>
   </div>
 </template>
@@ -17,7 +17,7 @@ const crudRef = ref()
 {INPUT_NUMBER}
 {SWITCH_STATUS}
 
-{CRUD}
+{OPTIONS}
 
 {COLUMNS}
 </script>

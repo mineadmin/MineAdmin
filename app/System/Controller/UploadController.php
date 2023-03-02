@@ -114,7 +114,7 @@ class UploadController extends MineController
     #[GetMapping("getFileInfoById")]
     public function getFileInfoByid(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->service->read((int) $this->request->input('id', null)));
+        return $this->success($this->service->read((int) $this->request->input('id', null)) ?? []);
     }
 
     /**
@@ -126,7 +126,7 @@ class UploadController extends MineController
     #[GetMapping("getFileInfoByHash")]
     public function getFileInfoByHash(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->service->readByHash($this->request->input('hash', null)));
+        return $this->success($this->service->readByHash($this->request->input('hash', null)) ?? []);
     }
 
     /**

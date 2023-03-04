@@ -75,13 +75,13 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
                     if (empty($queryParams['identity'])) {
                         return MineCode::API_IDENTITY_MISSING;
                     }
-                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity']);
+                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity'], $this->_getApiData());
                 case SystemApi::AUTH_MODE_NORMAL:
 
                     if (empty($queryParams['access_token'])) {
                         return MineCode::API_ACCESS_TOKEN_MISSING;
                     }
-                    return $service->verifyNormalMode($queryParams['access_token']);
+                    return $service->verifyNormalMode($queryParams['access_token'], $this->_getApiData());
                 default:
                     throw new \RuntimeException();
             }

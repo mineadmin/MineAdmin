@@ -33,6 +33,7 @@ class MineCode
 
     public const API_AUTH_EXCEPTION = 10000;        // 接口鉴权异常
     public const API_AUTH_FAIL = 10010;             // 接口鉴权失败
+    public const API_UNBIND_APP = 10020;            // 接口未被该应用绑定
     public const API_APP_ID_MISSING = 10101;        // 缺少APP ID
     public const API_APP_SECRET_MISSING = 10102;    // 缺少APP SECRET
     public const API_ACCESS_TOKEN_MISSING = 10103;  // 缺少复杂模式 ACCESS TOKEN

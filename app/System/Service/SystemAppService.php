@@ -6,10 +6,12 @@ namespace App\System\Service;
 use Api\ApiController;
 use App\System\Mapper\SystemAppMapper;
 use App\System\Model\SystemApp;
+use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * app应用业务
@@ -155,7 +157,7 @@ class SystemAppService extends AbstractService
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function verifyEasyMode(string $appId, string $identity): int
+    public function verifyEasyMode(string $appId, string $identity, array &$apiData): int
     {
         $model = $this->mapper->one(function($query) use($appId){
             $query->where('app_id', $appId);
@@ -169,6 +171,10 @@ class SystemAppService extends AbstractService
             return MineCode::APP_BAN;
         }
 
+        if (! $this->checkAppHasBindApi((int) $model->id, (int) $apiData['id'])) {
+            return MineCode::API_UNBIND_APP;
+        }
+
         if ($identity != md5($appId . $model->app_secret)) {
             throw new NormalStatusException(t('mineadmin.api_auth_fail'), MineCode::API_SIGN_ERROR);
         }
@@ -179,12 +185,24 @@ class SystemAppService extends AbstractService
     /**
      * 正常（复杂）验证方式
      * @param string $accessToken
+     * @param array $apiData
      * @return int
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function verifyNormalMode(string $accessToken): int
+    public function verifyNormalMode(string $accessToken, array &$apiData): int
     {
-        return app_verify()->check($accessToken) ? MineCode::API_VERIFY_PASS : MineCode::API_PARAMS_ERROR;
+        $result = app_verify()->check($accessToken);
+        if (! $result) {
+            return MineCode::API_PARAMS_ERROR;
+        }
+
+        $appId = (int) app_verify()->getJwt()->getParserData($accessToken)['id'];
+
+        if (! $this->checkAppHasBindApi($appId, (int) $apiData['id'])) {
+            return MineCode::API_UNBIND_APP;
+        }
+
+        return MineCode::API_VERIFY_PASS;
     }
 
     /**
@@ -195,5 +213,19 @@ class SystemAppService extends AbstractService
     public function getAppAndInterfaceList(string $appId): array
     {
         return $this->mapper->getAppAndInterfaceList($appId);
+    }
+
+    /**
+     * 检查app是否绑定某个api接口
+     * @param int $appId
+     * @param int $apiId
+     * @return bool
+     */
+    public function checkAppHasBindApi(int $appId, int $apiId): bool
+    {
+        return Db::table('system_app_api')
+            ->where('app_id', $appId)
+            ->where('api_id', $apiId)
+            ->count() > 0;
     }
 }

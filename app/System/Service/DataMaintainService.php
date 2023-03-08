@@ -70,7 +70,7 @@ class DataMaintainService extends AbstractService
      * @param string $table
      * @return array
      */
-    public function getColumnList(string $table): array
+    public function getColumnList(mixed $table): array
     {
         if ($table) {
             //从数据库中获取表字段信息

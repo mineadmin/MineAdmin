@@ -20,6 +20,8 @@ use Mine\MineCollection;
 use Mine\MineModel;
 use Hyperf\ModelCache\Manager;
 use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 trait MapperTrait
 {
@@ -61,12 +63,8 @@ trait MapperTrait
      */
     public function setPaginate(LengthAwarePaginatorInterface $paginate): array
     {
-        $items = $paginate->items();
-        if (method_exists($this, 'setPageItems')) {
-            $items = $this->setPageItems($items);
-        }
         return [
-            'items' => $items,
+            'items' => method_exists($this, 'handlePageItems') ? $this->handlePageItems($paginate->items()) : $paginate->items(),
             'pageInfo' => [
                 'total' => $paginate->total(),
                 'currentPage' => $paginate->currentPage(),
@@ -270,6 +268,8 @@ trait MapperTrait
      * 单个或批量软删除数据
      * @param array $ids
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function delete(array $ids): bool
     {
@@ -487,12 +487,12 @@ trait MapperTrait
             {
                 if (is_scalar($operator)) {
                     $res = $this->scalarOptionHandle($field, $operator, $value);
-                }else if (is_array($operator)) {
+                } else if (is_array($operator)) {
                     $res = $this->arrayOptionHandle($field, $operator, $value);
-                }else{
+                } else {
                     $res = $this->scalarOptionHandle($field, $operator, $value);
                 }
-                $this->paramsWhere[$res[0]] = [$res[1], $res[2]];
+                $this->paramsWhere[ $res[0]] = [$res[1], $res[2] ];
             }
 
             /**
@@ -551,26 +551,25 @@ trait MapperTrait
             {
                 $this->query = $query;
                 foreach ($paramsWhere as $field => $value) {
-                    if (!$value) {
-                        continue;
-                    }
-                    if (is_scalar($value)) {
-                        $this->scalarWhere($field, '=', $value);
-                    }else if (is_array($value)){
-                        $this->arrayWhere($field, $value);
+                    if ($value) {
+                        if (is_scalar($value)) {
+                            $this->scalarWhere($field, '=', $value);
+                        } else if (is_array($value)) {
+                            $this->arrayWhere($field, $value);
+                        }
                     }
                 }
             }
 
             public function scalarWhere($field, $operator, $value): void
             {
-                [$operator, $value] = $this->optionHandler($field, $operator, $value);
+                [ $operator, $value ] = $this->optionHandler($field, $operator, $value);
                 $this->query->where($field, $operator, $value);
             }
 
             private function arrayWhere($field, $value): void
             {
-                [$value[0], $value[1]] = $this->optionHandler($field, $value[0], $value[1]);
+                [ $value[0], $value[1] ] = $this->optionHandler($field, $value[0], $value[1]);
                 $this->query->where($field, $value[0], $value[1]);
             }
 

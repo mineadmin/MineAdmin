@@ -48,6 +48,51 @@ class UploadRequest extends MineFormRequest
     }
 
     /**
+     * 上传图片验证规则
+     * @return string[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \RedisException
+     */
+    public function changeClothesRules(): array
+    {
+        return [
+            'image' => 'required|mimes:' . $this->getMimes('upload_allow_image'),
+            'path' => 'max:30',
+        ];
+    }
+
+    /**
+     * 上传图片验证规则
+     * @return string[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \RedisException
+     */
+    public function beautifyRules(): array
+    {
+        return [
+            'image' => 'required|mimes:' . $this->getMimes('upload_allow_image'),
+            'path' => 'max:30',
+        ];
+    }
+
+    /**
+     * 上传图片验证规则
+     * @return string[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \RedisException
+     */
+    public function handleImageRules(): array
+    {
+        return [
+            'image' => 'required|mimes:' . $this->getMimes('upload_allow_image'),
+            'path' => 'max:30',
+        ];
+    }
+
+    /**
      * 分块上传验证规则
      * @return string[]
      */

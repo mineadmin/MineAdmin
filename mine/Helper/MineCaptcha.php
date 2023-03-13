@@ -19,7 +19,7 @@ class MineCaptcha
      */
     public function getCaptchaInfo(): array
     {
-        $conf = new \EasySwoole\VerifyCode\Conf();
+        $conf = new \EasySwoole\VerifyCode\Config();
         $conf->setUseCurve()->setUseNoise();
         $validCode = new \EasySwoole\VerifyCode\VerifyCode($conf);
         $draw = $validCode->DrawCode();

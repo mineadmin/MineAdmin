@@ -7,6 +7,8 @@ use App\System\Model\SystemApp;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class SystemAppMapper
@@ -77,12 +79,26 @@ class SystemAppMapper extends AbstractMapper
      * 通过app_id获取app信息和接口数据
      * @param string $appId
      * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getAppAndInterfaceList(string $appId): array
     {
-        return $this->model::query()->where('app_id', $appId)
+        $data = $this->model::query()->where('app_id', $appId)
             ->with(['apis' => function($query) {
                 $query->where('status', SystemApp::ENABLE);
             }])->first(['id', 'app_id', 'app_secret', 'app_name', 'updated_at', 'description'])->toArray();
+
+        $groupIds = [];
+        foreach ($data['apis'] as $api) {
+            $groupIds[] = $api['group_id'];
+        }
+        $systemApiGroupMapper = container()->get(\App\System\Mapper\SystemApiGroupMapper::class);
+        $data['apiGroup'] = $systemApiGroupMapper->get(function($query) use ($groupIds) {
+            /* @var Hyperf\Database\Model\Builder $query */
+            return $query->whereIn('id', array_unique($groupIds) );
+        }, ['id', 'name']);
+
+        return $data;
     }
 }

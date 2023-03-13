@@ -11,6 +11,8 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -209,6 +211,8 @@ class SystemAppService extends AbstractService
      * 通过app_id获取app信息和接口数据
      * @param string $appId
      * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getAppAndInterfaceList(string $appId): array
     {

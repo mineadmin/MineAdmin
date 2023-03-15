@@ -52,9 +52,12 @@ class SystemNoticeService extends AbstractService
             $userMapper = container()->get(SystemUserMapper::class);
             $userIds = $userMapper->pluck(['status' => \Mine\MineModel::ENABLE]);
         }
-        $data['message_id'] = push_queue_message($message, $userIds);
 
-        if ($data['message_id'] !== -1) {
+        $pushMessageRequest = push_queue_message($message, $userIds);
+
+        $data['message_id'] = context_get('id');
+
+        if ($data['message_id'] !== -1 && $pushMessageRequest) {
             return parent::save($data);
         }
 

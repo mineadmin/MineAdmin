@@ -30,8 +30,8 @@ trait MapperGeneratorTraits
             'lte'     => $this->getSearchPHPString($column['column_name'], '>=', $column['column_comment']),
             'like'    => $this->getSearchPHPString($column['column_name'], 'like', $column['column_comment']),
             'between' => $this->getSearchPHPString($column['column_name'], 'between', $column['column_comment']),
-            'in' => $this->getSearchPHPString($column['column_name'], 'in', $column['column_comment']),
-            'notin' => $this->getSearchPHPString($column['column_name'], 'notin', $column['column_comment']),
+            'in'      => $this->getSearchPHPString($column['column_name'], 'in', $column['column_comment']),
+            'notin'   => $this->getSearchPHPString($column['column_name'], 'notin', $column['column_comment']),
             default   => $this->getSearchPHPString($column['column_name'], '=', $column['column_comment']),
         };
     }

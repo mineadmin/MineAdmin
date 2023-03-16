@@ -113,9 +113,7 @@ class SettingGenerateTablesService extends AbstractService
     public function sync(int $id): bool
     {
         $table = $this->read($id);
-        $columns = $this->dataMaintainService->getColumnList(
-            str_replace(env('DB_PREFIX'), '', $table['table_name'])
-        );
+        $columns = $this->dataMaintainService->getColumnList($table['table_name']);
         $model = $this->settingGenerateColumnsService->mapper->getModel();
         $ids = $model->newQuery()->where('table_id', $table['id'])->pluck('id');
 

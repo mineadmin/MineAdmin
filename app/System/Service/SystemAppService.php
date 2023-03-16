@@ -159,7 +159,7 @@ class SystemAppService extends AbstractService
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function verifyEasyMode(string $appId, string $identity, array &$apiData): int
+    public function verifyEasyMode(string $appId, string $identity, array $apiData): int
     {
         $model = $this->mapper->one(function($query) use($appId){
             $query->where('app_id', $appId);
@@ -191,7 +191,7 @@ class SystemAppService extends AbstractService
      * @return int
      * @throws InvalidArgumentException
      */
-    public function verifyNormalMode(string $accessToken, array &$apiData): int
+    public function verifyNormalMode(string $accessToken, array $apiData): int
     {
         $result = app_verify()->check($accessToken);
         if (! $result) {

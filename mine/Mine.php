@@ -20,7 +20,7 @@ class Mine
     /**
      * @var string
      */
-    private static string $version = '1.1.0';
+    private static string $version = '1.1.1';
 
     /**
      * @var string
@@ -57,6 +57,8 @@ class Mine
                 $infos[basename($mod)] = json_decode($fs->sharedGet($modInfo), true);
             }
         }
+        $sortId = array_column($infos, 'order');
+        array_multisort($sortId, SORT_ASC, $infos);
         $this->setModuleInfo($infos);
     }
 

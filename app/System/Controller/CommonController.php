@@ -9,6 +9,7 @@ use App\System\Service\SystemNoticeService;
 use App\System\Service\SystemOperLogService;
 use App\System\Service\SystemPostService;
 use App\System\Service\SystemRoleService;
+use App\System\Service\SystemUploadFileService;
 use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -46,6 +47,9 @@ class CommonController extends MineController
 
     #[Inject]
     protected SystemOperLogService $operLogService;
+
+    #[Inject]
+    protected SystemUploadFileService $service;
 
     /**
      * 获取用户列表
@@ -141,6 +145,12 @@ class CommonController extends MineController
     public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
     {
         return $this->success($this->operLogService->getPageList($this->request->all()));
+    }
+
+    #[GetMapping("getResourceList")]
+    public function getResourceList(): ResponseInterface
+    {
+        return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**

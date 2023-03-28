@@ -23,6 +23,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 前端使用Vue3 + Vite3 + Pinia + Arco，一端适配PC、移动端、平板
 
 如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
+在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
 
 - 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
 - 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
@@ -77,12 +78,12 @@ MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统�
 
 - Swoole >= 4.6.x 并关闭 `Short Name`
 - PHP >= 8.0 并开启以下扩展：
-    - mbstring
-    - json
-    - pdo
-    - openssl
-    - redis
-    - pcntl
+  - mbstring
+  - json
+  - pdo
+  - openssl
+  - redis
+  - pcntl
 - Mysql >= 5.7
 - Redis >= 4.0
 
@@ -115,10 +116,12 @@ the installation command to continue the installation.
 php bin/hyperf.php mine:install
 ```
 
-[点这里 -> 查看运行后De常见问题](https://doc.mineadmin.com/faqs/)
+[点这里 -> 查看常见问题](https://doc.mineadmin.com/faqs/)
 
 ## 免责声明
-本软件不得用于开发违反国家有关政策的相关软件和应用，若因使用本软件造成的一切法律责任均与 `MineAdmin` 无关
+[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)
+
+使用本软件不得用于开发违反国家有关政策的相关软件和应用，若因使用本软件造成的一切法律责任均与 `MineAdmin` 无关
 
 ## 体验地址
 

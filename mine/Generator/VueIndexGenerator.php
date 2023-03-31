@@ -176,14 +176,20 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         // 配置项
         $options = [];
+        $options['id'] = $this->model->table_name;
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['pk'] = "'".$this->getPk()."'";
         $options['operationColumn'] = false;
         $options['operationWidth'] = 160;
         $options['formOption'] = [
-            'viewType' => $this->model->component_type == 1 ? "'modal'" : "'drawer'",
+            'viewType' => $this->getComponentType($this->model->component_type),
             'width' => 600,
         ];
+        if ($this->model->component_type === 3) {
+            $options['formOption']['tagId'] = "'" . ($this->model->options['tag_id'] ?? $this->model->table_name) . "'";
+            $options['formOption']['tagName'] = "'" . ($this->model->options['tag_name'] ?? $this->model->table_comment) . "'";
+            $options['formOption']['titleDataIndex'] = "'" . ($this->model->options['tag_view_name'] ?? $this->getPk()) . "'";
+        }
         $options['api'] = $this->getBusinessEnName() . '.getList';
         if (Str::contains($this->model->generate_menus, 'recycle')) {
             $options['recycleApi'] = $this->getBusinessEnName() . '.getRecycleList';
@@ -457,6 +463,21 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
             $data = preg_replace('/(:\s)\"(.+)\"/', "\\1\\2", $data);
         }
         return $data;
+    }
+
+    /**
+     * 获取组件类型
+     * @param int $type
+     * @return string
+     */
+    public function getComponentType(int $type): string
+    {
+        return match($type) {
+            1 => "'modal'",
+            2 => "'drawer'",
+            3 => "'tag'",
+            default => "'modal'"
+        };
     }
 
     /**

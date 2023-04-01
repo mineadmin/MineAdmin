@@ -3,6 +3,7 @@
 use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
+use Hyperf\DbConnection\Db;
 
 /**
  * 升级1.2.0版
@@ -32,6 +33,48 @@ class UpdateVersion120 extends Migration
             $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
             $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
         });
+
+        // 菜单数据
+        $pid = Db::table('system_menu')->insertGetId(
+            [
+                'parent_id' => 4000,
+                'level' => '0,4000',
+                'name' => '数据源管理',
+                'code' => 'setting:datasource',
+                'icon' => 'icon-storage',
+                'route' => 'setting/datasource',
+                'component' => 'setting/datasource/index',
+                'redirect' => NULL,
+                'is_hidden' => '2',
+                'type' => 'M',
+                'status' => '1',
+                'sort' => 0,
+                'created_by' => 1,
+                'updated_by' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'deleted_at' => NULL,
+                'remark' => NULL,
+            ]
+        );
+
+        $tableName = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
+
+        $sql = [
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理列表', 'setting:datasource:index', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理保存', 'setting:datasource:save', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理更新', 'setting:datasource:update', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理读取', 'setting:datasource:read', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理删除', 'setting:datasource:delete', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导入', 'setting:datasource:import', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+            "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导出', 'setting:datasource:export', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
+        ];
+
+        foreach ($sql as $item) {
+            Db::insert($item);
+        }
+
+        redis()->flushAll();
     }
 
     /**

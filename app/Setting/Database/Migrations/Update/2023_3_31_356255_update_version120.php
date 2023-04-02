@@ -20,6 +20,7 @@ class UpdateVersion120 extends Migration
             $table->comment('数据源表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'name', ['length' => 32, 'comment' => '数据源名称']);
+            $table->addColumn('string', 'db_driver', ['length'=> 32, 'comment' => '数据库驱动'])->nullable();
             $table->addColumn('string', 'db_host', ['length'=> 32, 'comment' => '数据库地址'])->nullable();
             $table->addColumn('string', 'db_port', ['length'=> 12, 'comment' => '数据库端口'])->nullable();
             $table->addColumn('string', 'db_name', ['length'=> 64, 'comment' => '数据库名称'])->nullable();

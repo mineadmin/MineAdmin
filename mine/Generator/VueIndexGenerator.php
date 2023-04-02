@@ -176,7 +176,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
     {
         // 配置项
         $options = [];
-        $options['id'] = $this->model->table_name;
+        $options['id'] = "'".$this->model->table_name."'";
         $options['rowSelection'] = [ 'showCheckedAll' => true ];
         $options['pk'] = "'".$this->getPk()."'";
         $options['operationColumn'] = false;

@@ -69,7 +69,7 @@ class GenerateCodeController extends MineController
     public function getDataSourceList(): ResponseInterface
     {
         return $this->success($this->datasourceService->getPageList([
-            'select' => 'id as value, name as label'
+            'select' => 'id as value, source_name as label'
         ]));
     }
 

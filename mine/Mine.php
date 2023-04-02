@@ -17,6 +17,7 @@ use Hyperf\Utils\Filesystem\Filesystem;
 
 class Mine
 {
+    private static string $mineName = 'MineAdmin';
     /**
      * @var string
      */
@@ -68,6 +69,14 @@ class Mine
     public static function getVersion(): string
     {
         return self::$version;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getMineName(): string
+    {
+        return self::$mineName;
     }
 
     /**

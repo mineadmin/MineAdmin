@@ -35,8 +35,10 @@ class SettingDatasourceRequest extends MineFormRequest
     {
         return [
             //数据源名称 验证
-            'name' => 'required',
-
+            'source_name' => 'required',
+            'dsn' => 'required',
+            'username' => 'required',
+            'password' => 'required',
         ];
     }
     /**
@@ -47,8 +49,10 @@ class SettingDatasourceRequest extends MineFormRequest
     {
         return [
             //数据源名称 验证
-            'name' => 'required',
-
+            'source_name' => 'required',
+            'dsn' => 'required',
+            'username' => 'required',
+            'password' => 'required',
         ];
     }
 
@@ -61,8 +65,10 @@ class SettingDatasourceRequest extends MineFormRequest
     {
         return [
             'id' => '主键',
-            'name' => '数据源名称',
-
+            'source_name' => '数据源名称',
+            'dsn' => 'DSN连接字符串',
+            'username' => '数据库用户',
+            'password' => '数据库密码',
         ];
     }
 

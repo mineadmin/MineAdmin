@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @Link   https://gitee.com/xmo/MineAdmin
  */
 
-namespace App\Setting\Controller\Settings;
+namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\SettingDatasourceRequest;
 use App\Setting\Service\SettingDatasourceService;

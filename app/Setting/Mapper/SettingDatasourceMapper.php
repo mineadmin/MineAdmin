@@ -45,8 +45,8 @@ class SettingDatasourceMapper extends AbstractMapper
     {
         
         // 数据源名称
-        if (isset($params['name']) && $params['name'] !== '') {
-            $query->where('name', 'like', '%'.$params['name'].'%');
+        if (isset($params['source_name']) && $params['source_name'] !== '') {
+            $query->where('source_name', 'like', '%'.$params['source_name'].'%');
         }
 
         return $query;
@@ -61,21 +61,11 @@ class SettingDatasourceMapper extends AbstractMapper
      */
     public function getDataSourceTableList(Object|array $params): array
     {
-        $config = container()->get(\Hyperf\Contract\ConfigInterface::class);
-        $dataSource = $config->get('databases.default');
-
-        $dataSource['host'] = $params['db_host'];
-        $dataSource['database'] = $params['db_name'];
-        $dataSource['port'] = $params['db_port'];
-        $dataSource['username'] = $params['db_user'];
-        $dataSource['password'] = $params['db_pass'];
-        $dataSource['charset'] = $params['db_charset'];
-        $dataSource['collation'] = $params['db_collation'];
-
-        $config->set('databases.testDataSource', $dataSource);
         try {
-            $query = Db::connection('testDataSource');
-            return $query->select($query->raw('show tables')->getValue());
+            $pdo = new \PDO($params['dsn'], $params['username'], $params['password'], [
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            ]);
+            return $pdo->query('SHOW TABLE STATUS')->fetchAll();
         } catch (\Throwable $e) {
             throw new MineException($e->getMessage(), 500);
         }

@@ -14,7 +14,11 @@ namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingDatasource;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Exception\MineException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 数据源管理Mapper类
@@ -45,41 +49,35 @@ class SettingDatasourceMapper extends AbstractMapper
             $query->where('name', 'like', '%'.$params['name'].'%');
         }
 
-        // 数据库地址
-        if (isset($params['db_host']) && $params['db_host'] !== '') {
-            $query->where('db_host', 'like', '%'.$params['db_host'].'%');
-        }
-
-        // 数据库端口
-        if (isset($params['db_port']) && $params['db_port'] !== '') {
-            $query->where('db_port', 'like', '%'.$params['db_port'].'%');
-        }
-
-        // 数据库名称
-        if (isset($params['db_name']) && $params['db_name'] !== '') {
-            $query->where('db_name', 'like', '%'.$params['db_name'].'%');
-        }
-
-        // 数据库用户
-        if (isset($params['db_user']) && $params['db_user'] !== '') {
-            $query->where('db_user', 'like', '%'.$params['db_user'].'%');
-        }
-
-        // 数据库密码
-        if (isset($params['db_pass']) && $params['db_pass'] !== '') {
-            $query->where('db_pass', 'like', '%'.$params['db_pass'].'%');
-        }
-
-        // 数据库字符集
-        if (isset($params['db_charset']) && $params['db_charset'] !== '') {
-            $query->where('db_charset', 'like', '%'.$params['db_charset'].'%');
-        }
-
-        // 数据库字符序
-        if (isset($params['db_collation']) && $params['db_collation'] !== '') {
-            $query->where('db_collation', 'like', '%'.$params['db_collation'].'%');
-        }
-
         return $query;
+    }
+
+    /**
+     * 测试数据库连接
+     * @param Object|array $params
+     * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function getDataSourceTableList(Object|array $params): array
+    {
+        $config = container()->get(\Hyperf\Contract\ConfigInterface::class);
+        $dataSource = $config->get('databases.default');
+
+        $dataSource['host'] = $params['db_host'];
+        $dataSource['database'] = $params['db_name'];
+        $dataSource['port'] = $params['db_port'];
+        $dataSource['username'] = $params['db_user'];
+        $dataSource['password'] = $params['db_pass'];
+        $dataSource['charset'] = $params['db_charset'];
+        $dataSource['collation'] = $params['db_collation'];
+
+        $config->set('databases.testDataSource', $dataSource);
+        try {
+            $query = Db::connection('testDataSource');
+            return $query->select($query->raw('show tables')->getValue());
+        } catch (\Throwable $e) {
+            throw new MineException($e->getMessage(), 500);
+        }
     }
 }

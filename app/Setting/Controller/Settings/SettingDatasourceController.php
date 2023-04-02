@@ -143,4 +143,31 @@ class SettingDatasourceController extends MineController
         return $this->service->export($this->request->all(), \App\Setting\Dto\SettingDatasourceDto::class, '导出数据列表');
     }
 
+    /**
+     * 测试数据库连接
+     * @return ResponseInterface
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[PostMapping("testLink")]
+    public function testLink(): ResponseInterface
+    {
+        return $this->service->testLink($this->request->all()) ? $this->success() : $this->error();
+    }
+
+    /**
+     * 获取数据源的表列表
+     * @return ResponseInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("getDataSourceTablePageList")]
+    public function getDataSourceTablePageList(): ResponseInterface
+    {
+        return $this->success(
+            $this->service->getDataSourceTablePageList($this->request->all())
+        );
+    }
+
 }

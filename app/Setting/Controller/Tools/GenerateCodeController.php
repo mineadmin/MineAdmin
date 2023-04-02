@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\GenerateRequest;
+use App\Setting\Service\SettingDatasourceService;
 use App\Setting\Service\SettingGenerateColumnsService;
 use App\Setting\Service\SettingGenerateTablesService;
 use Hyperf\Di\Annotation\Inject;
@@ -16,6 +17,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -33,6 +36,13 @@ class GenerateCodeController extends MineController
     protected SettingGenerateTablesService $tableService;
 
     /**
+     * 数据源处理服务
+     * SettingDatasourceService
+     */
+    #[Inject]
+    protected SettingDatasourceService $datasourceService;
+
+    /**
      * 信息字段表服务
      */
     #[Inject]
@@ -48,6 +58,19 @@ class GenerateCodeController extends MineController
     public function index(): ResponseInterface
     {
         return $this->success($this->tableService->getPageList($this->request->All()));
+    }
+
+    /**
+     * 获取数据源列表
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    #[GetMapping("getDataSourceList"), Permission("setting:code")]
+    public function getDataSourceList(): ResponseInterface
+    {
+        return $this->success($this->datasourceService->getPageList([
+            'select' => 'id as value, name as label'
+        ]));
     }
 
     /**

@@ -9,7 +9,8 @@ use Mine\MineModel;
 /**
  * @property int $id 主键
  * @property string $name 数据源名称
- * @property string $db_host 数据库地址
+ * @property string $db_driver 数据库驱动
+ * @property string $db_hosthost  数据库地址
  * @property string $db_port 数据库端口
  * @property string $db_name 数据库名称
  * @property string $db_user 数据库用户
@@ -32,7 +33,7 @@ class SettingDatasource extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'name', 'db_host', 'db_port', 'db_name', 'db_user', 'db_pass', 'db_charset', 'db_collation', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'name', 'db_driver', 'db_host', 'db_port', 'db_name', 'db_user', 'db_pass', 'db_charset', 'db_collation', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.

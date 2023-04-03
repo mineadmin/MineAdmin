@@ -28,7 +28,7 @@ class SettingDatasource extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'name', 'dsn', 'username', 'password', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'source_name', 'dsn', 'username', 'password', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.

@@ -67,7 +67,7 @@ class SettingDatasourceService extends AbstractService
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row->Name, $params['name']);
+                return \Mine\Helper\Str::contains($row['Name'], $params['name']);
             });
         }
         if ($params['engine'] ?? false) {

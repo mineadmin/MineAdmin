@@ -36,6 +36,10 @@ class TokenExceptionHandler extends ExceptionHandler
             'code'    => MineCode::TOKEN_EXPIRED,
         ];
         return $response->withHeader('Server', 'MineAdmin')
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,OPTIONS')
+            ->withHeader('Access-Control-Allow-Credentials', 'true')
+            ->withHeader('Access-Control-Allow-Headers', 'accept-language,authorization,lang,uid,token,Keep-Alive,User-Agent,Cache-Control,Content-Type')
             ->withAddedHeader('content-type', 'application/json; charset=utf-8')
             ->withStatus(401)->withBody(new SwooleStream(Json::encode($format)));
     }

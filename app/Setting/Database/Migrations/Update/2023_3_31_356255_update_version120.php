@@ -20,7 +20,7 @@ class UpdateVersion120 extends Migration
             $table->comment('数据源表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'source_name', ['length' => 32, 'comment' => '数据源名称']);
-            $table->addColumn('string', 'dsn', ['length'=> 32, 'comment' => '连接dsn字符串'])->nullable();
+            $table->addColumn('string', 'dsn', ['length'=> 255, 'comment' => '连接dsn字符串'])->nullable();
             $table->addColumn('string', 'username', ['length'=> 64, 'comment' => '数据库名称'])->nullable();
             $table->addColumn('string', 'password', ['length'=> 32, 'comment' => '数据库用户'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();

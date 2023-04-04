@@ -103,4 +103,23 @@ class SettingDatasourceService extends AbstractService
         if (empty($params['id'])) return [];
         return $this->mapper->getDataSourceTableList($this->read((int) $params['id']));
     }
+
+    /**
+     * 同步远程库表结构到本地
+     * @param int $id
+     * @param array $tableInfo
+     * @return bool
+     */
+    public function syncRemoteTableStructToLocal(int $id, array $tableInfo): bool
+    {
+        if (empty($id)) return false;
+        $sql = $this->mapper->getCreateTableSql($this->read($id), $tableInfo['sourceName']);
+        $sql = str_replace($tableInfo['sourceName'], $tableInfo['name'], $sql);
+        if (stripos($sql, 'COMMENT') > -1) {
+            $sql = preg_replace('/COMMENT=\'(.*?)+\'/', "COMMENT='{$tableInfo['comment']}'", $sql);
+        } else {
+            $sql .= ' COMMENT=' . $tableInfo['comment'];
+        }
+        return $this->mapper->createTable($sql);
+    }
 }

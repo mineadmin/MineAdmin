@@ -16,6 +16,7 @@ use App\Setting\Model\SettingDatasource;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Transaction;
 use Mine\Exception\MineException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -62,12 +63,44 @@ class SettingDatasourceMapper extends AbstractMapper
     public function getDataSourceTableList(Object|array $params): array
     {
         try {
-            $pdo = new \PDO($params['dsn'], $params['username'], $params['password'], [
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            ]);
-            return $pdo->query('SHOW TABLE STATUS')->fetchAll();
+            return $this->connectionDb($params)->query('SHOW TABLE STATUS')->fetchAll();
         } catch (\Throwable $e) {
             throw new MineException($e->getMessage(), 500);
         }
+    }
+
+    /**
+     * 获取创建表结构SQL
+     * @param Object|array $params
+     * @param string $tableName
+     * @return string
+     */
+    public function getCreateTableSql(Object|array $params, string $tableName): string
+    {
+        try {
+            return $this->connectionDb($params)->query(
+                sprintf('SHOW CREATE TABLE %s', $tableName)
+            )->fetch()['Create Table'];
+        } catch (\Throwable $e) {
+            throw new MineException($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 通过SQL创建表
+     * @param string $sql
+     * @return bool
+     */
+//    #[Transaction]
+    public function createTable(string $sql): bool
+    {
+        return Db::connection()->getPdo()->exec($sql) > 0;
+    }
+
+    public function connectionDb(Object|array $params): \PDO
+    {
+        return new \PDO($params['dsn'], $params['username'], $params['password'], [
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+        ]);
     }
 }

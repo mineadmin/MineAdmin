@@ -9,6 +9,7 @@ use App\System\Service\DataMaintainService;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
+use Mine\Exception\MineException;
 use Mine\Generator\ApiGenerator;
 use Mine\Generator\ControllerGenerator;
 use Mine\Generator\DtoGenerator;
@@ -82,9 +83,18 @@ class SettingGenerateTablesService extends AbstractService
      * @return bool
      */
     #[Transaction]
-    public function loadTable(array $names): bool
+    public function loadTable(array $params): bool
     {
-        foreach ($names as $item) {
+        // 非系统数据源，同步远程库的表结构到本地
+        if ($params['source'] !== \Mine\Mine::getMineName()) {
+            foreach ($params['names'] as $sourceName => $item) {
+                if (! $this->container->get(SettingDatasourceService::class)->syncRemoteTableStructToLocal((int)$params['source'], $item)) {
+                    throw new MineException('同步远程表结构到本地失败：' . $item['sourceName'], 500);
+                }
+            }
+        }
+        exit;
+        foreach ($params['names'] as $item) {
             $tableInfo = [
                 'table_name' => $item['name'],
                 'table_comment' => $item['comment'],

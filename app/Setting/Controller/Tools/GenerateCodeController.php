@@ -148,7 +148,7 @@ class GenerateCodeController extends MineController
     #[PostMapping("loadTable"), Permission("setting:code:loadTable"), OperationLog]
     public function loadTable(GenerateRequest $request): ResponseInterface
     {
-        return $this->tableService->loadTable($request->input('names')) ? $this->success() : $this->error();
+        return $this->tableService->loadTable($request->all()) ? $this->success() : $this->error();
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Setting\Service;
 use App\Setting\Mapper\SettingGenerateTablesMapper;
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Service\DataMaintainService;
+use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
@@ -20,7 +21,9 @@ use Mine\Generator\ServiceGenerator;
 use Mine\Generator\SqlGenerator;
 use Mine\Generator\VueIndexGenerator;
 use Mine\Generator\VueSaveGenerator;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 业务生成信息表业务处理类
@@ -79,39 +82,45 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 装载数据表
-     * @param array $names
+     * @param array $params
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[Transaction]
     public function loadTable(array $params): bool
     {
         // 非系统数据源，同步远程库的表结构到本地
         if ($params['source'] !== \Mine\Mine::getMineName()) {
             foreach ($params['names'] as $sourceName => $item) {
-                if (! $this->container->get(SettingDatasourceService::class)->syncRemoteTableStructToLocal((int)$params['source'], $item)) {
-                    throw new MineException('同步远程表结构到本地失败：' . $item['sourceName'], 500);
+                if (! \Hyperf\Database\Schema\Schema::hasTable($item['name'])) {
+                    $this->container->get(SettingDatasourceService::class)->syncRemoteTableStructToLocal((int)$params['source'], $item);
                 }
             }
         }
-        exit;
-        foreach ($params['names'] as $item) {
-            $tableInfo = [
-                'table_name' => $item['name'],
-                'table_comment' => $item['comment'],
-                'menu_name' => $item['comment'],
-                'type' => 'single',
-            ];
-            $id = $this->save($tableInfo);
+        try {
+            Db::beginTransaction();
+            foreach ($params['names'] as $item) {
+                $tableInfo = [
+                    'table_name' => $item['name'],
+                    'table_comment' => $item['comment'],
+                    'menu_name' => $item['comment'],
+                    'type' => 'single',
+                ];
+                $id = $this->save($tableInfo);
 
-            $columns = $this->dataMaintainService->getColumnList($item['name']);
+                $columns = $this->dataMaintainService->getColumnList($item['name']);
 
-            foreach ($columns as &$column) {
-                $column['table_id'] = $id;
+                foreach ($columns as &$column) {
+                    $column['table_id'] = $id;
+                }
+                $this->settingGenerateColumnsService->save($columns);
             }
-            $this->settingGenerateColumnsService->save($columns);
+            Db::commit();
+            return true;
+        } catch (\Throwable $e) {
+            Db::rollBack();
+            throw new MineException($e->getMessage(), 500);
         }
-
-        return true;
     }
 
     /**

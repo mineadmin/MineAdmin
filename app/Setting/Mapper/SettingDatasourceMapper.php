@@ -91,7 +91,6 @@ class SettingDatasourceMapper extends AbstractMapper
      * @param string $sql
      * @return bool
      */
-//    #[Transaction]
     public function createTable(string $sql): bool
     {
         return Db::connection()->getPdo()->exec($sql) > 0;

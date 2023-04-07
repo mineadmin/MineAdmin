@@ -116,10 +116,10 @@ class XlsWriter extends MineExcel implements ExcelPropertyInterface
         $rowFormat = new Format($fileObject->getHandle());
 
         $index = 0;
-        for ($i = 65; $i < (65 + count($columnField)); $i++) {
+        for ($i = 0; $i < count($columnField); $i++) {
             $columnNumber = chr($i) . '1';
             $fileObject->setColumn(
-                sprintf('%s:%s', $columnNumber, $columnNumber),
+                sprintf('%s1:%s1', $this->getColumnIndex($i), $this->getColumnIndex($i)),
                 $this->property[$index]['width'] ?? mb_strlen($columnName[$index]) * 5,
                 $columnFormat->align($this->property[$index]['align'] ? $aligns[$this->property[$index]['align']] : $aligns['left'])
                     ->background($this->property[$index]['bgColor'] ?? Format::COLOR_WHITE)
@@ -132,7 +132,7 @@ class XlsWriter extends MineExcel implements ExcelPropertyInterface
 
         // 表头加样式
         $fileObject->setRow(
-            sprintf('A1:%s1', chr(65 + count($columnField))), 20,
+            sprintf('A1:%s1', $this->getColumnIndex(count($columnField))), 20,
             $rowFormat->bold()->align(Format::FORMAT_ALIGN_CENTER, Format::FORMAT_ALIGN_VERTICAL_CENTER)
                 ->background(0x4ac1ff)->fontColor(Format::COLOR_BLACK)
                 ->border(Format::BORDER_THIN)

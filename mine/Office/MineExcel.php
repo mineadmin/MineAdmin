@@ -138,4 +138,20 @@ abstract class MineExcel
 
         return $data;
     }
+
+    /**
+     * 获取 excel 列索引
+     * @param int $columnIndex
+     * @return string
+     */
+    protected function getColumnIndex(int $columnIndex = 0): string
+    {
+        if ($columnIndex < 26) {
+            return chr(65 + $columnIndex);
+        } else if ($columnIndex < 702) {
+            return chr(64 + ($columnIndex / 26)) . chr(65 + $columnIndex % 26);
+        } else {
+            return chr(64 + (($columnIndex - 26) / 676)) . chr(65 + ((($columnIndex - 26) % 676) / 26)) . chr(65 + $columnIndex % 26);
+        }
+    }
 }

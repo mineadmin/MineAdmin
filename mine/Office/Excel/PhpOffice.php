@@ -44,7 +44,7 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
             $reader = IOFactory::createReader(IOFactory::identify($tempFilePath));
             $reader->setReadDataOnly(true);
             $sheet = $reader->load($tempFilePath);
-            $endCell = isset($this->property) ? chr(count($this->property) + 65) : null;
+            $endCell = isset($this->property) ? $this->getColumnIndex(count($this->property)) : null;
             try {
                 foreach ($sheet->getActiveSheet()->getRowIterator(2) as $row) {
                     $temp = [];
@@ -94,12 +94,12 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
         is_array($closure) ? $data = &$closure : $data = $closure();
 
         // 表头
-        $titleStart = 'A';
+        $titleStart = 0;
         foreach ($this->property as $item) {
-            $headerColumn = $titleStart . '1';
+            $headerColumn = $this->getColumnIndex($titleStart) . '1';
             $sheet->setCellValue($headerColumn, $item['value']);
             $style = $sheet->getStyle($headerColumn)->getFont()->setBold(true);
-            $columnDimension = $sheet->getColumnDimension($titleStart);
+            $columnDimension = $sheet->getColumnDimension($headerColumn[0]);
 
             empty($item['width']) ? $columnDimension->setAutoSize(true) : $columnDimension->setWidth((float) $item['width']);
 
@@ -121,10 +121,10 @@ class PhpOffice extends MineExcel implements ExcelPropertyInterface
         try {
             $row = 2;
             while ($generate->valid()) {
-                $column = 'A';
+                $column = 0;
                 $items = $generate->current();
                 foreach ($items as $name => $value) {
-                    $columnRow = $column . $row;
+                    $columnRow = $this->getColumnIndex($column) . $row;
                     $annotation = '';
                     foreach ($this->property as $item) {
                         if ($item['name'] == $name) {

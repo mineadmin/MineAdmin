@@ -40,16 +40,18 @@ class AuthAspect extends AbstractAspect
      */
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
+        $scene = 'default';
+
         /** @var $auth Auth */
         if (isset($proceedingJoinPoint->getAnnotationMetadata()->class[Auth::class])) {
             $auth = $proceedingJoinPoint->getAnnotationMetadata()->class[Auth::class];
+            $scene = $auth->scene ?? 'default';
         }
 
         if (isset($proceedingJoinPoint->getAnnotationMetadata()->method[Auth::class])) {
             $auth = $proceedingJoinPoint->getAnnotationMetadata()->method[Auth::class];
+            $scene = $auth->scene ?? 'default';
         }
-
-        $scene = $auth->scene ?? 'default';
 
         $loginUser = user($scene);
 

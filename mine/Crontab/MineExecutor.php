@@ -116,8 +116,10 @@ class MineExecutor
             case SettingCrontab::COMMAND_CRONTAB:
                 $command = ['command' => $crontab->getCallback()];
                 $parameter = $crontab->getParameter() ?: '{}';
-                $input = make(ArrayInput::class, array_merge($command, json_decode($parameter, true)));
+                $input = new ArrayInput( array_merge($command, json_decode($parameter, true)));
+                /** @var NullOutput $output */
                 $output = make(NullOutput::class);
+                /** @var \Symfony\Component\Console\Application $application */
                 $application = $this->container->get(ApplicationInterface::class);
                 $application->setAutoExit(false);
                 $callback = function () use ($application, $input, $output, $crontab) {

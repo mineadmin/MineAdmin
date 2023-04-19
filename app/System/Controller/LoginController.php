@@ -96,11 +96,10 @@ class LoginController extends MineController
     #[GetMapping("getBingBackgroundImage")]
     public function getBingBackgroundImage(): ResponseInterface
     {
-        $client = container()->get(\Hyperf\Guzzle\ClientFactory::class)->create();
         try {
-            $response = $client->get('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
-            $content = json_decode($response->getBody()->getContents());
-            if ($response->getStatusCode() === 200 && ! empty($content?->images[0]?->url)) {
+            $response = file_get_contents('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+            $content = json_decode($response);
+            if (! empty($content?->images[0]?->url)) {
                 return $this->success([
                     'url' => 'https://cn.bing.com' . $content?->images[0]?->url
                 ]);

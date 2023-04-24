@@ -294,6 +294,12 @@ class InstallProjectCommand extends MineCommand
     {
         $this->line(PHP_EOL . ' MineAdmin set others items...' . PHP_EOL, 'comment');
         $this->call('mine:update');
+        $this->call('mine:jwt-gen', [ '--jwtSecret' => 'JWT_SECRET' ]);
+        $this->call('mine:jwt-gen', [ '--jwtSecret' => 'JWT_API_SECRET' ]);
+
+        // 下载前端代码
+        $this->line(PHP_EOL . ' Now about to start downloading the front-end code' . PHP_EOL, 'comment');
+        system('git clone https://gitee.com/mineadmin/mineadmin-vue.git ./web/');
     }
 
     protected function initUserData()

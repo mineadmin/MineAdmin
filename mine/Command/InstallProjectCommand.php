@@ -299,7 +299,11 @@ class InstallProjectCommand extends MineCommand
 
         // 下载前端代码
         $this->line(PHP_EOL . ' Now about to start downloading the front-end code' . PHP_EOL, 'comment');
-        system('git clone https://gitee.com/mineadmin/mineadmin-vue.git ./web/');
+        if (shell_exec('which git')) {
+            system('git clone https://gitee.com/mineadmin/mineadmin-vue.git ./web/');
+        } else {
+            $this->warn('Your server does not have the `git` command installed and will skip downloading the front-end project');
+        }
     }
 
     protected function initUserData()

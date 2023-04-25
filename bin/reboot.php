@@ -9,6 +9,10 @@
  * @Link   https://gitee.com/xmo/MineAdmin
  */
 
+/**
+ * 强制重启服务脚本，并清理缓存代理类
+ */
+
 $pid = shell_exec(sprintf('cat %s/../runtime/hyperf.pid', __DIR__));
 $rebootCmd = sprintf('rm -rf %s/../runtime/container/* && php %s/hyperf.php start > /dev/null 2>/dev/null &', __DIR__, __DIR__);
 

@@ -124,21 +124,22 @@ class LoginUser
     }
 
     /**
+     * 获取当前登录用户部门
+     * @param array $columns
+     * @return array
+     */
+    public function getUserDept(array $columns = ['id', 'name']): array
+    {
+        return SystemUser::find($this->getId(), ['id'])->depts()->get($columns)->toArray();
+    }
+
+    /**
      * 获取当前token用户类型
      * @return string
      */
     public function getUserType(): string
     {
         return $this->jwt->getParserData()['user_type'];
-    }
-
-    /**
-     * 获取当前token用户部门ID
-     * @return int
-     */
-    public function getDeptId(): int
-    {
-        return (int) $this->jwt->getParserData()['dept_id'];
     }
 
     /**

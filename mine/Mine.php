@@ -21,7 +21,7 @@ class Mine
     /**
      * @var string
      */
-    private static string $version = '1.1.2';
+    private static string $version = '1.3.0';
 
     /**
      * @var string

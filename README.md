@@ -14,7 +14,7 @@
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v1.1.2" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v1.3.0" />
 </p>
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
@@ -27,19 +27,6 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 - 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
 - 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
-
-## 配置Json来使用Vue完成CRUD操作
-在传统的前后端分离架构下，前端必须要配置专业的前端开发人员来完成业务，这对于PHPer习惯前后端一把梭来说比较费事。
-在JQuery逐渐没落的大趋势下，使用Vue成为趋势，但从JQ到Vue转变最难的是思想。
-
-MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统一把梭，特开发出了crud和form两个组件，
-只需要像过去配置json的方式即可完成对后端的接口联调，从而快速完成CRUD，大大替开发人员节省了时间。
-让刚接触VUE的同学也能上手vue，体验vue的好处。
-
-大神则可以自由发挥是决定使用crud组件，还是使用原生UI库来完成功能。
-
-## 兔小巢
-给大家提供一个可以交流的地方：[http://ask.mineadmin.com](http://ask.mineadmin.com)
 
 ## 前端仓库地址
 移步前端仓库
@@ -98,7 +85,7 @@ composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 composer install
 ```
 
-## 后端安装
+## 项目安装
 
 打开终端，执行安装命令，按照提示，一步步完成`.env`文件的配置
 ```shell
@@ -152,11 +139,8 @@ php bin/hyperf.php mine:install
 
 ## 演示图片
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklGdO.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vkl8eK.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vkl1L6.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklwQI.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkldSA.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vklNJH.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vklJoD.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vkllsx.jpg" />

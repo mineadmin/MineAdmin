@@ -5,5 +5,17 @@
     "installed": true,
     "enabled": true,
     "version": "{VERSION}",
-    "order": 0
+    "order": 0,
+    "required": {
+
+    },
+    "required-dev": {
+
+    },
+    "dependencies": {
+
+    },
+    "devDependencies": {
+
+    }
 }

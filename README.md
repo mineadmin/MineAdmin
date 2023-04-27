@@ -7,7 +7,7 @@
     <a href="https://www.mineadmin.com" target="_blank">官网</a> |
     <a href="https://doc.mineadmin.com" target="_blank">文档</a> | 
     <a href="https://demo.mineadmin.com" target="_blank">演示</a> |
-    <a href="https://hyperf.wiki/2.2/#/" target="_blank">Hyperf官方文档</a> 
+    <a href="https://hyperf.wiki/3.0/#/" target="_blank">Hyperf官方文档</a> 
 </p>
 
 <p align="center">
@@ -94,7 +94,7 @@ MineAdmin强调快速开发，为了适应现代开发模式并且兼顾传统�
 - 项目下载，请确保已经安装了 `Composer`
 ```shell
 git clone https://gitee.com/xmo/MineAdmin && cd MineAdmin
-composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+composer config -g repo.packagist composer https://mirrors.tencent.com/composer/
 composer install
 ```
 

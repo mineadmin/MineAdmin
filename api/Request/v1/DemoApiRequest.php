@@ -16,7 +16,7 @@ class DemoApiRequest extends MineFormRequest
      * 如果感觉乱，可以使用继承标准formRequest
      * return array
      */
-    public function abcRules(): array
+    public function getUserInfoRules(): array
     {
         return [
             'id' => 'required|numeric',

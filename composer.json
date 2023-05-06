@@ -23,12 +23,14 @@
     "hyperf/amqp": "3.0.*",
     "hyperf/async-queue": "3.0.*",
     "hyperf/cache": "3.0.*",
+    "hyperf/codec": "^3.0",
     "hyperf/command": "3.0.*",
     "hyperf/config": "3.0.*",
     "hyperf/crontab": "3.0.*",
     "hyperf/database": "3.0.*",
     "hyperf/db-connection": "3.0.*",
-    "hyperf/filesystem": "3.0.*",
+    "hyperf/filesystem": "^3.0",
+    "hyperf/flysystem-oss": "^1.2",
     "hyperf/framework": "3.0.*",
     "hyperf/guzzle": "3.0.*",
     "hyperf/http-server": "3.0.*",
@@ -40,16 +42,16 @@
     "hyperf/process": "3.0.*",
     "hyperf/redis": "3.0.*",
     "hyperf/snowflake": "3.0.*",
+    "hyperf/support": "^3.0",
     "hyperf/translation": "3.0.*",
     "hyperf/validation": "3.0.*",
     "hyperf/websocket-server": "3.0.*",
-    "overtrue/flysystem-cos": "^3.0",
-    "overtrue/flysystem-qiniu": "^1.0",
+    "overtrue/flysystem-cos": "^5.0",
+    "overtrue/flysystem-qiniu": "^3.0",
     "phpoffice/phpspreadsheet": "^1.24",
     "symfony/property-access": "^6.0",
     "tangwei/apidocs": "^2.1",
-    "xmo/jwt-auth": "0.4.*",
-    "xxtime/flysystem-aliyun-oss": "^1.5",
+    "xmo/jwt-auth": "^0.6.0",
     "yurunsoft/phpmailer-swoole": "^1.0",
     "zoujingli/ip2region": "^1.0"
   },
@@ -109,11 +111,5 @@
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
-  },
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://mirrors.aliyun.com/composer/"
-    }
   }
 }

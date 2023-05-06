@@ -19,7 +19,7 @@ use Mine\Amqp\Event\ProduceEvent;
 use Hyperf\Amqp\Message\ProducerMessageInterface;
 use Hyperf\Amqp\Producer;
 use Hyperf\Di\Annotation\AnnotationCollector;
-use Hyperf\Utils\ApplicationContext;
+use Hyperf\Context\ApplicationContext;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Wire\AMQPTable;
 use Psr\EventDispatcher\EventDispatcherInterface;

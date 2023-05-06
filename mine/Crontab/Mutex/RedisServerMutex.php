@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Mine\Crontab\Mutex;
 
 use Hyperf\Redis\RedisFactory;
-use Hyperf\Utils\Arr;
-use Hyperf\Utils\Coordinator\Constants;
-use Hyperf\Utils\Coordinator\CoordinatorManager;
-use Hyperf\Utils\Coroutine;
+use Hyperf\Collection\Arr;
+use Hyperf\Coordinator\Constants;
+use Hyperf\Coordinator\CoordinatorManager;
+use Hyperf\Coroutine\Coroutine;
 use Mine\Crontab\MineCrontab;
 
 class RedisServerMutex implements ServerMutex

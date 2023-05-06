@@ -11,7 +11,7 @@
 
 namespace Mine\Redis;
 
-use Hyperf\Utils\Coroutine;
+use Hyperf\Coroutine\Coroutine;
 use Mine\Abstracts\AbstractRedis;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\MineRedisInterface;

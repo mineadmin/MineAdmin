@@ -98,7 +98,9 @@ class MineUpload
         $path = $this->getPath($config['path'] ?? null, $this->getStorageMode() != 1);
         $filename = $this->getNewName() . '.' . Str::lower($uploadedFile->getExtension());
 
-        if (!$this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach())) {
+        try {
+            $this->filesystem->writeStream($path . '/' . $filename, $uploadedFile->getStream()->detach());
+        } catch (\Exception $e) {
             throw new NormalStatusException((string) $uploadedFile->getError(), 500);
         }
 
@@ -146,8 +148,10 @@ class MineUpload
             }
             $fileName = $this->getNewName().'.'.Str::lower($data['ext']);
             $storagePath = $this->getPath(null, $this->getStorageMode() != 1);
-            if (! $this->filesystem->write($storagePath.'/'.$fileName, $content)) {
-                throw new NormalStatusException('分块上传失败', 500);
+            try {
+                $this->filesystem->write($storagePath.'/'.$fileName, $content);
+            } catch (\Exception $e) {
+                throw new NormalStatusException('分块上传失败：' . $e->getMessage(), 500);
             }
             $fileInfo = [
                 'storage_mode' => $this->getStorageMode(),
@@ -215,7 +219,9 @@ class MineUpload
                 return $model->toArray();
             }
 
-            if (!$this->filesystem->write($path . '/' . $filename, $content)) {
+            try {
+                $this->filesystem->write($path . '/' . $filename, $content);
+            } catch (\Exception $e) {
                 throw new \Exception(t('network_image_save_fail'));
             }
 

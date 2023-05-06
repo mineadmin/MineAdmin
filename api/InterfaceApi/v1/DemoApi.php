@@ -76,7 +76,7 @@ class DemoApi
     }
 
     /**
-     * 获取部门列表接口
+     * 获取用户信息
      * @return ResponseInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface

@@ -17,6 +17,8 @@ use Mine\MineResponse;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Api\Request\v1\DemoApiRequest;
+use Api\Request\v1\UserInfoRequest;
 
 /**
  * 演示，测试专用
@@ -71,5 +73,29 @@ class DemoApi
     {
         // 第二个参数，不进行数据权限检查，否则会拉起检测是否登录。
         return $this->response->success('请求成功', $this->dept->getTreeList([], false));
+    }
+
+    /**
+     * 获取部门列表接口
+     * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function getUserInfo(UserInfoRequest $userInfoRequest): ResponseInterface
+    {
+
+        // 标准formRequest
+        $data = $userInfoRequest->validated();
+        $info = $this->user->get(function($query) use ($data) {
+            $query->where('id', $data['id']);
+        });
+
+        // DemoApiRequest $request
+//        // mineFormRequest
+//        $data = $request->validated();
+//        $info = $this->user->get($data['id']);
+        return $this->response->success('请求成功', [
+            'info' => $info
+        ]);
     }
 }

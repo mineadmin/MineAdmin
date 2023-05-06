@@ -51,7 +51,7 @@
     "phpoffice/phpspreadsheet": "^1.24",
     "symfony/property-access": "^6.0",
     "tangwei/apidocs": "^2.1",
-    "xmo/jwt-auth": "^0.6.*",
+    "xmo/jwt-auth": "0.6.*",
     "yurunsoft/phpmailer-swoole": "^1.0",
     "zoujingli/ip2region": "^1.0"
   },

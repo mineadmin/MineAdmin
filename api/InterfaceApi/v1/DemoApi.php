@@ -17,6 +17,9 @@ use Mine\MineResponse;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Mine\Annotation\Api\MApi;
+use Mine\Annotation\Api\MApiRequestParam;
+use Mine\Annotation\Api\MApiResponseParam;
 
 /**
  * 演示，测试专用
@@ -55,6 +58,15 @@ class DemoApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[MApi(accessName: "getUserList", name: "获取用户列表接口", description: "获取用户列表接口", appId: "a7ccdef6d7")]
+
+    # 请求入参 以下注解暂时仅仅用于生成文档 仅仅作为示例，可以没有
+    #[MApiRequestParam(name: 'p1', description: "请求参数1", dataType: 'Integer', defaultValue: '1')]
+    #[MApiRequestParam(name: 'p2', description: "请求参数2", defaultValue: '2')]
+
+    # 响应出参 以下注解暂时仅仅用于生成文档
+    #[MApiResponseParam(name: 'data.items', description: "用户信息", dataType: 'Array')]
+    #[MApiResponseParam(name: 'data.pageInfo', description: "分页信息", dataType: 'Array')]
     public function getUserList(): ResponseInterface
     {
         // 第二个参数，不进行数据权限检查，否则会拉起检测是否登录。
@@ -67,6 +79,9 @@ class DemoApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[MApi(accessName: "getDeptList", name: "获取部门列表接口", description: "获取部门列表接口", appId: "a7ccdef6d7")]
+     # 响应出参 以下注解暂时仅仅用于生成文档
+    #[MApiResponseParam(name: 'data', description: "部门信息", dataType: 'Array')]
     public function getDeptList(): ResponseInterface
     {
         // 第二个参数，不进行数据权限检查，否则会拉起检测是否登录。

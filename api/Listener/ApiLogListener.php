@@ -57,8 +57,13 @@ class ApiLogListener implements ListenerInterface
             $reqData = $request->getParsedBody();
             unset($reqData['apiData']);
             $response = $event->getResult();
+
+            // 适配 注解api, 没有id 因为没写库
+            $app_id = $data['id'] ?? 0;
+            $app_id = is_numeric($app_id) ? $app_id : 0;
+
             $service->save([
-                'api_id' => $data['id'],
+                'api_id' => $app_id,
                 'api_name' => $data['name'],
                 'access_name' => $data['access_name'],
                 'request_data' => [ 'data' => $reqData, 'params' => $request->getQueryParams() ],

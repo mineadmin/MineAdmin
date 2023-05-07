@@ -18,6 +18,7 @@ use Mine\Event\ApiBefore;
 use App\System\Model\SystemApi;
 use App\System\Service\SystemApiService;
 use Hyperf\Di\Annotation\Inject;
+use Mine\Annotation\Api\MApiCollector;
 use Hyperf\Context\Context;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
@@ -97,6 +98,19 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
      */
     protected function apiModelCheck($request): ServerRequestInterface
     {
+        // 先对注解检测，有直接放行
+        $apiData = MApiCollector::getApiInfos();
+        $mineRequest = container()->get(MineRequest::class);
+
+        if ($apiData[$mineRequest->route('method')]) {
+            $this->_setApiData($apiData[$mineRequest->route('method')]);
+
+            // 合并入参
+            return $request->withParsedBody(array_merge(
+                $request->getParsedBody(), ['apiData' => $apiData[$mineRequest->route('method')]]
+            ));
+        }
+
         $service = container()->get(SystemApiService::class);
         $apiModel = $service->mapper->one(function($query) {
             $request = container()->get(MineRequest::class);

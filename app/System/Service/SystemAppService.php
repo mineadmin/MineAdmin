@@ -203,14 +203,14 @@ class SystemAppService extends AbstractService
             return MineCode::API_PARAMS_ERROR;
         }
 
-        $appId = (int) app_verify()->getJwt()->getParserData($accessToken)['id'];
+        $appInfo = app_verify()->getJwt()->getParserData($accessToken);
 
         // 从数据库拿的apiData是没有app_id这个字段的，如果有，是注解的，不匹配直接拒绝
         if (isset($apiData['app_id'])) {
-            if ($apiData['app_id'] != $appId) {
+            if ($apiData['app_id'] != $appInfo['app_id']) {
                 return MineCode::API_UNBIND_APP;
             }
-        } else if (! $this->checkAppHasBindApi($appId, (int) $apiData['id'])) {
+        } else if (! $this->checkAppHasBindApi($appId, (int) $appInfo['id'])) {
             return MineCode::API_UNBIND_APP;
         }
 

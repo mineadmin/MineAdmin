@@ -155,7 +155,8 @@ class ServerMonitorService
      */
     public function getPhpAndEnvInfo(): array
     {
-        preg_match('/(\d\.\d\.\d)/', shell_exec('php --ri swoole | grep Version'), $matches);
+        $interpreter = $_SERVER['_'];
+        preg_match('/(\d\.\d\.\d)/', shell_exec("$interpreter --ri swoole | grep Version"), $matches);
         $result['swoole_version'] = $matches[1];
 
         $result['php_version'] = PHP_VERSION;

@@ -81,9 +81,9 @@ class ApiDocController extends MineApi
 
         // 注解与数据库定义的合并
         $apis = array_merge($appAndInterfaceList['apis'], $apis);
-        $data['apis'] = $apis;
+        $appAndInterfaceList['apis'] = $apis;
 
-        return $this->success($data);
+        return $this->success($appAndInterfaceList);
     }
 
     /**

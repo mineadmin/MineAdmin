@@ -21,6 +21,7 @@ use Mine\Helper\MineCode;
 use Mine\MineApi;
 use Hyperf\HttpServer\Annotation\Controller;
 use Psr\Http\Message\ResponseInterface;
+use Mine\Annotation\Api\MApiCollector;
 
 /**
  * Class ApiDocController
@@ -74,7 +75,15 @@ class ApiDocController extends MineApi
     #[GetMapping("getAppAndInterfaceList/{id}")]
     public function getAppAndInterfaceList(string $id): ResponseInterface
     {
-        return $this->success($this->systemAppService->getAppAndInterfaceList($id));
+        $appAndInterfaceList = $this->systemAppService->getAppAndInterfaceList($id);
+
+        $apis = MApiCollector::getApiInfosByAppId($id);
+
+        // 注解与数据库定义的合并
+        $apis = array_merge($appAndInterfaceList['apis'], $apis);
+        $data['apis'] = $apis;
+
+        return $this->success($data);
     }
 
     /**
@@ -86,6 +95,11 @@ class ApiDocController extends MineApi
     #[GetMapping("getColumnList/{id}")]
     public function getColumnList(string $id): ResponseInterface
     {
+        // 如果api注解收集器里有，直接返回信息
+        if (MApiCollector::getApiInfo($id)) {
+            return $this->success(MApiCollector::getApiInfo($id));
+        }
+
         return $this->success($this->systemApiService->getColumnListByApiId($id));
     }
 

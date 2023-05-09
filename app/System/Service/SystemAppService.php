@@ -173,7 +173,12 @@ class SystemAppService extends AbstractService
             return MineCode::APP_BAN;
         }
 
-        if (! $this->checkAppHasBindApi((int) $model->id, (int) $apiData['id'])) {
+        // 数据库拿的apiData是没有app_id这个字段的，如果有，是注解的，不匹配直接拒绝
+        if (isset($apiData['app_id'])) {
+            if ($apiData['app_id'] != $appId) {
+                return MineCode::API_UNBIND_APP;
+            }
+        } else if (!$this->checkAppHasBindApi((int) $model->id, (int) $apiData['id'])) {
             return MineCode::API_UNBIND_APP;
         }
 
@@ -198,9 +203,14 @@ class SystemAppService extends AbstractService
             return MineCode::API_PARAMS_ERROR;
         }
 
-        $appId = (int) app_verify()->getJwt()->getParserData($accessToken)['id'];
+        $appInfo = app_verify()->getJwt()->getParserData($accessToken);
 
-        if (! $this->checkAppHasBindApi($appId, (int) $apiData['id'])) {
+        // 从数据库拿的apiData是没有app_id这个字段的，如果有，是注解的，不匹配直接拒绝
+        if (isset($apiData['app_id'])) {
+            if ($apiData['app_id'] != $appInfo['app_id']) {
+                return MineCode::API_UNBIND_APP;
+            }
+        } else if (! $this->checkAppHasBindApi($appId, (int) $appInfo['id'])) {
             return MineCode::API_UNBIND_APP;
         }
 

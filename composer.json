@@ -52,6 +52,7 @@
     "symfony/property-access": "^6.0",
     "tangwei/apidocs": "^2.1",
     "xmo/jwt-auth": "0.6.*",
+    "xmo/mine": "dev-main",
     "yurunsoft/phpmailer-swoole": "^1.0",
     "zoujingli/ip2region": "^1.0"
   },
@@ -75,12 +76,8 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Mine\\": "mine/",
       "Api\\": "api/"
-    },
-    "files": [
-      "mine/Helper/functions.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
@@ -111,5 +108,15 @@
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.tencent.com/composer/"
+    },
+    "xmo": {
+      "type": "path",
+      "url": "src/xmo/*"
+    }
   }
 }

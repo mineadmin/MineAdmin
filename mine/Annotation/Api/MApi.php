@@ -18,11 +18,13 @@ class MApi extends AbstractAnnotation
         public string $description,
         // appId
         public string $appId,
+        // 是否启用
+        public int $status = 1,
         // 验证模式 1 简单  2 复杂;
         public int $authMode = SystemApi::AUTH_MODE_EASY,
         // 请求方式 A, P, G, U, D
         public string $requestMode = SystemApi::METHOD_ALL,
-        // 所属分组 可以不用
+        // api的所属分组id
         public int $groupId = 0,
         // 备注
         public string $remark = '',

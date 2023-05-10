@@ -59,6 +59,7 @@ class MApiCollector extends MetadataCollector
                     'class_name' => $data['class'],
                     'method_name' => $data['method'],
                     'name' => $data['annotation']->name,
+                    'status' => $data['annotation']->status,
                     'access_name' => $data['annotation']->accessName,
                     'request_mode' => $data['annotation']->requestMode,
                     'remark' => $data['annotation']->remark,

@@ -60,7 +60,8 @@ class DemoApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[MApi(accessName: "getUserList", name: "获取用户列表接口", description: "获取用户列表接口", appId: "a7ccdef6d7")]
+    // appId 换成自己的 groupId 换成自己的 (前端更新，这两个必须有，后台才能看到文档
+    #[MApi(accessName: "getUserList", name: "获取用户列表接口", description: "获取用户列表接口", appId: "a7ccdef6d7", groupId: 3)]
 
     # 响应出参 以下注解暂时仅仅用于生成文档
     #[MApiResponseParam(name: 'data.items', description: "用户信息", dataType: 'Array')]
@@ -77,7 +78,8 @@ class DemoApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[MApi(accessName: "getDeptList", name: "获取部门列表接口", description: "获取部门列表接口", appId: "a7ccdef6d7")]
+    // appId 换成自己的 groupId 换成自己的 (前端更新，这两个必须有，后台才能看到文档
+    #[MApi(accessName: "getDeptList", name: "获取部门列表接口", description: "获取部门列表接口", appId: "a7ccdef6d7", groupId: 3)]
     # 响应出参 以下注解暂时仅仅用于生成文档
     
     #[MApiResponseParam(name: 'data', description: "部门信息", dataType: 'Array')]
@@ -93,7 +95,8 @@ class DemoApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[MApi(accessName: "getUserInfo", name: "获取用户信息", description: "获取用户信息", appId: "a7ccdef6d7")]
+    // appId 换成自己的 groupId 换成自己的 (前端更新，这两个必须有，后台才能看到文档
+    #[MApi(accessName: "getUserInfo", name: "获取用户信息", description: "获取用户信息", appId: "a7ccdef6d7", groupId: 3)]
     
     # 请求入参 以下注解暂时仅仅用于生成文档 仅仅作为示例，可以没有
     #[MApiRequestParam(name: 'id', description: "用户id", dataType: 'Integer')]

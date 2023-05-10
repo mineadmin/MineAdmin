@@ -1,9 +1,0 @@
-{
-    "name": "{NAME}",
-    "label": "{LABEL}",
-    "description": "{DESCRIPTION}",
-    "installed": true,
-    "enabled": true,
-    "version": "{VERSION}",
-    "order": 0
-}

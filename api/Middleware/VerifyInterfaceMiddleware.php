@@ -102,12 +102,27 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
         $apiData = MApiCollector::getApiInfos();
         $mineRequest = container()->get(MineRequest::class);
 
-        if ($apiData[$mineRequest->route('method')]) {
-            $this->_setApiData($apiData[$mineRequest->route('method')]);
+        if (isset($apiData[$mineRequest->route('method')])) {
+            $apiModel = $apiData[$mineRequest->route('method')];
+
+            // 检查接口是否停用
+            if ($apiModel['status'] == SystemApi::DISABLE) {
+                throw new NormalStatusException(t('mineadmin.api_stop'), MineCode::RESOURCE_STOP);
+            }
+
+            // 检查接口请求方法
+            if ($apiModel['request_mode'] !== SystemApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
+                throw new NormalStatusException(
+                    t('mineadmin.not_allow_method', ['method' => $request->getMethod()]),
+                    MineCode::METHOD_NOT_ALLOW
+                );
+            }
+
+            $this->_setApiData($apiModel);
 
             // 合并入参
             return $request->withParsedBody(array_merge(
-                $request->getParsedBody(), ['apiData' => $apiData[$mineRequest->route('method')]]
+                $request->getParsedBody(), ['apiData' => $apiModel]
             ));
         }
 

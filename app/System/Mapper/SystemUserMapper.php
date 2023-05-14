@@ -147,9 +147,19 @@ class SystemUserMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['dept_id']) && is_string($params['dept_id'])) {
-            $query->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id');
-            $query->where('dept.dept_id', '=', $params['dept_id']);
+        if (!empty($params['dept_id'])) {
+            $dept_ids = $params['dept_id'];
+            if (is_string($dept_ids)) {
+                $dept_ids = explode(',', $dept_ids);
+            }
+            $dept_ids = array_unique($dept_ids);
+            $query->join('system_user_dept as sud', 'system_user.id', '=', 'sud.user_id');
+            $query->join('system_dept as sd', 'sud.dept_id', '=', 'sd.id');
+            $query->where(function ($query) use ($dept_ids) {
+                foreach ($dept_ids as $dept_id) {
+                    $query->orWhereRaw("sd.id = '{$dept_id}' OR FIND_IN_SET('{$dept_id}', `level`)");
+                }
+            });
         }
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');

@@ -116,7 +116,7 @@ class MineExecutor
             case SettingCrontab::COMMAND_CRONTAB:
                 $command = ['command' => $crontab->getCallback()];
                 $parameter = $crontab->getParameter() ?: '{}';
-                $input = make(ArrayInput::class, array_merge($command, json_decode($parameter, true)));
+                $input = make(ArrayInput::class, ['parameters' => array_merge($command, json_decode($parameter, true))]);
                 $output = make(NullOutput::class);
                 $application = $this->container->get(ApplicationInterface::class);
                 $application->setAutoExit(false);

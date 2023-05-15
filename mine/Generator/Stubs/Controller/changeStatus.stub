@@ -11,6 +11,6 @@
         return $this->service->changeStatus(
             (int) $this->request->input('{PK}'),
             (string) $this->request->input('{STATUS_VALUE}'),
-            (string) $this->request->input('{STATUS_FIELD}')
+            (string) $this->request->input('{STATUS_FIELD}', 'status')
         ) ? $this->success() : $this->error();
     }

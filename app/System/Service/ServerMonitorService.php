@@ -22,9 +22,9 @@ class ServerMonitorService
                     if ($cache == '') {
                         $cache = trim(shell_exec("lscpu | grep L2 | awk '{print \$NF}'"));
                     }
-                }
-                if ($cache != '') {
-                    $cache = [0, intval(str_replace(['K', 'B'], '', strtoupper($cache)))];
+                    if ($cache != '') {
+                        $cache = [0, intval(str_replace(['K', 'B'], '', strtoupper($cache)))];
+                    }
                 }
             } else {
                 $cpuUsage = shell_exec('top -l 1 | head -n 10 | grep CPU');

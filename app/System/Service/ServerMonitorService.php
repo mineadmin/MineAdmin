@@ -74,10 +74,7 @@ class ServerMonitorService
     {
         if (PHP_OS == 'Linux') {
             $num = str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
-            if (intval($num) == 0) {
-                $num = $this->getCpuLogicCores();
-            }
-            return $num;
+            return intval($num) == 0 ? '1' : $num;
         } else {
             return trim(shell_exec('sysctl -n hw.physicalcpu'));
         }

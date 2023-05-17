@@ -15,7 +15,17 @@ class ServerMonitorService
         try {
             if (PHP_OS == 'Linux') {
                 $cpu = $this->getCpuUsage();
-                preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
+                preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"') ?? '', $cache);
+                if (count($cache) == 0) {
+                    // aarch64 有可能是arm架构
+                    $cache = trim(shell_exec("lscpu | grep L3 | awk '{print \$NF}'"));
+                    if ($cache == '') {
+                        $cache = trim(shell_exec("lscpu | grep L2 | awk '{print \$NF}'"));
+                    }
+                    if ($cache != '') {
+                        $cache = [0, intval(str_replace(['K', 'B'], '', strtoupper($cache)))];
+                    }
+                }
             } else {
                 $cpuUsage = shell_exec('top -l 1 | head -n 10 | grep CPU');
                 preg_match('/(\d+\.\d+)%\suser/', $cpuUsage, $cpu);
@@ -45,7 +55,24 @@ class ServerMonitorService
     public function getCpuName(): string
     {
         if (PHP_OS == 'Linux') {
-            preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c'), $matches);
+            preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c') ?? '', $matches);
+            if (count($matches) == 0) {
+                // aarch64 有可能是arm架构
+                $name = trim(shell_exec("lscpu| grep Architecture | awk '{print $2}'") ?? '');
+                if ($name != '') {
+                    $mfMhz = trim(shell_exec("lscpu| grep 'MHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    $mfGhz = trim(shell_exec("lscpu| grep 'GHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    if ($mfMhz == '' && $mfGhz == '') {
+                        return $name;
+                    } else if ($mfGhz != '') {
+                        return $name .' @ ' . $mfGhz .'GHz';
+                    } else if ($mfMhz != '') {
+                        return $name .' @ ' . round(intval($mfMhz) / 1000, 2) .'GHz';
+                    }
+                } else {
+                    return '未知';
+                }
+            }
             return $matches[1] ?? "未知";
         } else {
             return shell_exec('sysctl -n machdep.cpu.brand_string');
@@ -58,7 +85,8 @@ class ServerMonitorService
     public function getCpuPhysicsCores(): string
     {
         if (PHP_OS == 'Linux') {
-            return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
+            $num = str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
+            return intval($num) == 0 ? '1' : $num;
         } else {
             return trim(shell_exec('sysctl -n hw.physicalcpu'));
         }
@@ -102,7 +130,7 @@ class ServerMonitorService
     protected function calculationCpu(): array
     {
         $mode = '/(cpu)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)/';
-        $string = shell_exec('more /proc/stat | grep cpu');
+        $string = shell_exec('cat /proc/stat | grep cpu');
         preg_match_all($mode, $string, $matches);
 
         $total = $matches[2][0] + $matches[3][0] + $matches[4][0] + $matches[5][0] + $matches[6][0] + $matches[7][0] + $matches[8][0] + $matches[9][0];

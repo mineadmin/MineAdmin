@@ -59,7 +59,20 @@ class ServerMonitorService
             if (count($matches) == 0) {
                 // aarch64 有可能是arm架构
                 $name = trim(shell_exec("lscpu| grep Architecture | awk '{print $2}'"));
-                return $name != '' ? $name : '未知';
+
+                if ($name != '') {
+                    $mfMhz = trim(shell_exec("lscpu| grep 'MHz' | awk '{print \$NF}' | head -n1"));
+                    $mfGhz = trim(shell_exec("lscpu| grep 'GHz' | awk '{print \$NF}' | head -n1"));
+                    if (trim($mfMhz) == '' || trim($mfGhz) == '') {
+                        return $name;
+                    } else if ($mfGhz != '') {
+                        return $name .' @ ' . $mfGhz .'GHz';
+                    } else if ($mfMhz != '') {
+                        return $name .' @ ' . round(intval($mfMhz) / 1000, 2) .'GHz';
+                    }
+                } else {
+                    return '未知';
+                }
             }
             return $matches[1] ?? "未知";
         } else {

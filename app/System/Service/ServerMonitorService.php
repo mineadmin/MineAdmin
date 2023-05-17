@@ -58,12 +58,11 @@ class ServerMonitorService
             preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c') ?? '', $matches);
             if (count($matches) == 0) {
                 // aarch64 有可能是arm架构
-                $name = trim(shell_exec("lscpu| grep Architecture | awk '{print $2}'"));
-
+                $name = trim(shell_exec("lscpu| grep Architecture | awk '{print $2}'") ?? '');
                 if ($name != '') {
-                    $mfMhz = trim(shell_exec("lscpu| grep 'MHz' | awk '{print \$NF}' | head -n1"));
-                    $mfGhz = trim(shell_exec("lscpu| grep 'GHz' | awk '{print \$NF}' | head -n1"));
-                    if (trim($mfMhz) == '' || trim($mfGhz) == '') {
+                    $mfMhz = trim(shell_exec("lscpu| grep 'MHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    $mfGhz = trim(shell_exec("lscpu| grep 'GHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    if ($mfMhz == '' && $mfGhz == '') {
                         return $name;
                     } else if ($mfGhz != '') {
                         return $name .' @ ' . $mfGhz .'GHz';

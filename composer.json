@@ -10,51 +10,7 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "php": ">=8.0",
-    "ext-gd": "*",
-    "ext-json": "*",
-    "ext-openssl": "*",
-    "ext-pdo": "*",
-    "ext-pdo_mysql": "*",
-    "ext-redis": "*",
-    "ext-swoole": ">=4.5",
-    "doctrine/dbal": "^3.1",
-    "easyswoole/verifycode": "3.x",
-    "hyperf/amqp": "3.0.*",
-    "hyperf/async-queue": "3.0.*",
-    "hyperf/cache": "3.0.*",
-    "hyperf/codec": "^3.0",
-    "hyperf/command": "3.0.*",
-    "hyperf/config": "3.0.*",
-    "hyperf/crontab": "3.0.*",
-    "hyperf/database": "3.0.*",
-    "hyperf/db-connection": "3.0.*",
-    "hyperf/filesystem": "^3.0",
-    "hyperf/flysystem-oss": "^1.2",
-    "hyperf/framework": "3.0.*",
-    "hyperf/guzzle": "3.0.*",
-    "hyperf/http-server": "3.0.*",
-    "hyperf/logger": "3.0.*",
-    "hyperf/memory": "3.0.*",
-    "hyperf/model-cache": "3.0.*",
-    "hyperf/paginator": "3.0.*",
-    "hyperf/pool": "3.0.*",
-    "hyperf/process": "3.0.*",
-    "hyperf/redis": "3.0.*",
-    "hyperf/snowflake": "3.0.*",
-    "hyperf/support": "^3.0",
-    "hyperf/translation": "3.0.*",
-    "hyperf/validation": "3.0.*",
-    "hyperf/websocket-server": "3.0.*",
-    "overtrue/flysystem-cos": "^5.0",
-    "overtrue/flysystem-qiniu": "^3.0",
-    "phpoffice/phpspreadsheet": "^1.24",
-    "symfony/property-access": "^6.0",
-    "tangwei/apidocs": "^2.1",
-    "xmo/jwt-auth": "0.6.*",
-    "xmo/mine": "dev-main",
-    "yurunsoft/phpmailer-swoole": "^1.0",
-    "zoujingli/ip2region": "^1.0"
+    "xmo/mine": "dev-main"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.9",
@@ -110,13 +66,9 @@
     ]
   },
   "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://mirrors.tencent.com/composer/"
-    },
     "xmo": {
       "type": "path",
-      "url": "src/xmo/*"
+      "url": "../mine"
     }
   }
 }

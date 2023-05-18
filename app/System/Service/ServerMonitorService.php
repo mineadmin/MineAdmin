@@ -20,7 +20,7 @@ class ServerMonitorService
                     // aarch64 有可能是arm架构
                     $cache = trim(shell_exec("lscpu | grep L3 | awk '{print \$NF}'") ?? '');
                     if ($cache == '') {
-                        $cache = trim(shell_exec("lscpu | grep L2 | awk '{print \$NF}'" ?? ''));
+                        $cache = trim(shell_exec("lscpu | grep L2 | awk '{print \$NF}'") ?? '');
                     }
                     if ($cache != '') {
                         $cache = [0, intval(str_replace(['K', 'B'], '', strtoupper($cache)))];

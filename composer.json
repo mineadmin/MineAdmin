@@ -10,7 +10,8 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/mine": "dev-main"
+    "xmo/mine": "dev-main",
+    "xmo/jwt-auth": "0.6.*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.9",
@@ -32,7 +33,8 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Api\\": "api/"
+      "Api\\": "api/",
+      "Plugin\\": "plugin/"
     }
   },
   "autoload-dev": {
@@ -52,6 +54,7 @@
   "extra": [],
   "scripts": {
     "post-root-package-install": [
+      "php bin/hyperf.php vendor:publish xmo/mine",
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-autoload-dump": [
@@ -68,7 +71,7 @@
   "repositories": {
     "xmo": {
       "type": "path",
-      "url": "../mine"
+      "url": "/opt/mine"
     }
   }
 }

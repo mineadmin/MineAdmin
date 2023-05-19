@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29be1a4b87dcf5787f22f34009d4f6c5",
+    "content-hash": "8df7dde2b6e781903a2b1492a8913fc2",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -112,7 +112,7 @@
             "version": "2.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/doctrine/cache/2.2.0/doctrine-cache-2.2.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/doctrine/cache/2.2.0/doctrine-cache-2.2.0.zip",
                 "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",
                 "shasum": ""
             },
@@ -181,7 +181,7 @@
             "version": "3.6.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/doctrine/dbal/3.6.2/doctrine-dbal-3.6.2.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/doctrine/dbal/3.6.2/doctrine-dbal-3.6.2.zip",
                 "reference": "b4bd1cfbd2b916951696d82e57d054394d84864c",
                 "shasum": ""
             },
@@ -483,7 +483,7 @@
             "version": "2.1.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/doctrine/lexer/2.1.0/doctrine-lexer-2.1.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/doctrine/lexer/2.1.0/doctrine-lexer-2.1.0.zip",
                 "reference": "39ab8fcf5a51ce4b85ca97c7a7d033eb12831124",
                 "shasum": ""
             },
@@ -3449,7 +3449,7 @@
             "version": "3.15.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/league/flysystem-local/3.15.0/league-flysystem-local-3.15.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/flysystem-local/3.15.0/league-flysystem-local-3.15.0.zip",
                 "reference": "543f64c397fefdf9cfeac443ffb6beff602796b3",
                 "shasum": ""
             },
@@ -3670,7 +3670,7 @@
             "version": "2.9.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/monolog/monolog/2.9.1/monolog-monolog-2.9.1.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/monolog/monolog/2.9.1/monolog-monolog-2.9.1.zip",
                 "reference": "f259e2b15fb95494c83f52d3caad003bbf5ffaa1",
                 "shasum": ""
             },
@@ -3795,7 +3795,7 @@
             "version": "2.66.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/nesbot/carbon/2.66.0/nesbot-carbon-2.66.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/nesbot/carbon/2.66.0/nesbot-carbon-2.66.0.zip",
                 "reference": "496712849902241f04902033b0441b269effe001",
                 "shasum": ""
             },
@@ -3912,7 +3912,7 @@
             "version": "v1.3.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/nikic/fast-route/v1.3.0/nikic-fast-route-v1.3.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/nikic/fast-route/v1.3.0/nikic-fast-route-v1.3.0.zip",
                 "reference": "181d480e08d9476e61381e04a71b34dc0432e812",
                 "shasum": ""
             },
@@ -4646,7 +4646,7 @@
             "version": "1.9.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/phpoption/phpoption/1.9.1/phpoption-phpoption-1.9.1.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/phpoption/phpoption/1.9.1/phpoption-phpoption-1.9.1.zip",
                 "reference": "dd3a383e599f49777d8b628dadbb90cae435b87e",
                 "shasum": ""
             },
@@ -5529,7 +5529,7 @@
             "version": "v6.0.19",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/finder/v6.0.19/symfony-finder-v6.0.19.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/finder/v6.0.19/symfony-finder-v6.0.19.zip",
                 "reference": "5cc9cac6586fc0c28cd173780ca696e419fefa11",
                 "shasum": ""
             },
@@ -5748,7 +5748,7 @@
             "version": "v1.27.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/polyfill-intl-normalizer/v1.27.0/symfony-polyfill-intl-normalizer-v1.27.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/polyfill-intl-normalizer/v1.27.0/symfony-polyfill-intl-normalizer-v1.27.0.zip",
                 "reference": "19bd1e4fcd5b91116f14d8533c57831ed00571b6",
                 "shasum": ""
             },
@@ -6297,7 +6297,7 @@
             "version": "v3.0.2",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/symfony/translation-contracts/v3.0.2/symfony-translation-contracts-v3.0.2.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/translation-contracts/v3.0.2/symfony-translation-contracts-v3.0.2.zip",
                 "reference": "acbfbb274e730e5a0236f619b6168d9dedb3e282",
                 "shasum": ""
             },
@@ -6712,7 +6712,7 @@
             "dist": {
                 "type": "path",
                 "url": "/opt/mine",
-                "reference": "04860b99a973b58b0faba102cfdd978f163f37ae"
+                "reference": "ee486024d46980ac41cb14ff90567dc274f93de2"
             },
             "require": {
                 "doctrine/dbal": "^3.1",
@@ -6753,22 +6753,10 @@
                 "overtrue/flysystem-cos": "^5.0",
                 "overtrue/flysystem-qiniu": "^3.0",
                 "php": ">=8.0",
-                "phpoffice/phpspreadsheet": "^1.24",
                 "symfony/property-access": "^6.0",
                 "tangwei/apidocs": "^2.1",
-                "xmo/jwt-auth": "0.6.*",
                 "yurunsoft/phpmailer-swoole": "^1.0",
                 "zoujingli/ip2region": "^1.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.9",
-                "hyperf/devtool": "3.0.*",
-                "hyperf/ide-helper": "3.0.*",
-                "hyperf/testing": "3.0.*",
-                "hyperf/watcher": "3.0.*",
-                "mockery/mockery": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "swoole/ide-helper": "^4.5"
             },
             "suggest": {
                 "ext-json": "Required to use JSON.",
@@ -6809,6 +6797,46 @@
                 "mine",
                 "mineadmin core",
                 "php"
+            ],
+            "transport-options": {
+                "relative": false
+            }
+        },
+        {
+            "name": "xmo/mine-office",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "/opt/office",
+                "reference": "fca389b122a7fefe7d697158a691e7dc702e20b8"
+            },
+            "require": {
+                "php": ">=8.0",
+                "phpoffice/phpspreadsheet": "^1.24"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mine\\Office\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MineTest\\": "tests"
+                }
+            },
+            "scripts": {
+                "cs-fix": [
+                    "php-cs-fixer fix $1"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "mineadmin office package",
+            "keywords": [
+                "mineadmin",
+                "office"
             ],
             "transport-options": {
                 "relative": false
@@ -7100,7 +7128,7 @@
             "version": "v3.16.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/friendsofphp/php-cs-fixer/v3.16.0/friendsofphp-php-cs-fixer-v3.16.0.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/friendsofphp/php-cs-fixer/v3.16.0/friendsofphp-php-cs-fixer-v3.16.0.zip",
                 "reference": "d40f9436e1c448d309fa995ab9c14c5c7a96f2dc",
                 "shasum": ""
             },
@@ -7453,7 +7481,7 @@
             "version": "1.11.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/myclabs/deep-copy/1.11.1/myclabs-deep-copy-1.11.1.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/myclabs/deep-copy/1.11.1/myclabs-deep-copy-1.11.1.zip",
                 "reference": "7284c22080590fb39f2ffa3e9057f10a4ddd0e0c",
                 "shasum": ""
             },
@@ -7861,7 +7889,7 @@
             "version": "9.6.8",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/phpunit/phpunit/9.6.8/phpunit-phpunit-9.6.8.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/phpunit/phpunit/9.6.8/phpunit-phpunit-9.6.8.zip",
                 "reference": "17d621b3aff84d0c8b62539e269e87d8d5baa76e",
                 "shasum": ""
             },
@@ -7939,7 +7967,7 @@
             "version": "1.0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/sebastian/cli-parser/1.0.1/sebastian-cli-parser-1.0.1.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/sebastian/cli-parser/1.0.1/sebastian-cli-parser-1.0.1.zip",
                 "reference": "442e7c7e687e42adc03470c7b668bc4b2402c0b2",
                 "shasum": ""
             },
@@ -8058,7 +8086,7 @@
             "version": "4.0.8",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/sebastian/comparator/4.0.8/sebastian-comparator-4.0.8.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/sebastian/comparator/4.0.8/sebastian-comparator-4.0.8.zip",
                 "reference": "fa0f136dd2334583309d32b62544682ee972b51a",
                 "shasum": ""
             },
@@ -8404,7 +8432,7 @@
             "version": "4.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/sebastian/object-enumerator/4.0.4/sebastian-object-enumerator-4.0.4.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/sebastian/object-enumerator/4.0.4/sebastian-object-enumerator-4.0.4.zip",
                 "reference": "5c9eeac41b290a3712d88851518825ad78f45c71",
                 "shasum": ""
             },
@@ -8977,7 +9005,7 @@
             "version": "v6.0.19",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/symfony/process/v6.0.19/symfony-process-v6.0.19.zip",
+                "url": "https://mirrors.tencent.com/repository/composer/symfony/process/v6.0.19/symfony-process-v6.0.19.zip",
                 "reference": "2114fd60f26a296cc403a7939ab91478475a33d4",
                 "shasum": ""
             },
@@ -9087,7 +9115,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "xmo/mine": 20
+        "xmo/mine": 20,
+        "xmo/mine-office": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

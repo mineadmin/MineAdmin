@@ -11,6 +11,7 @@
   "license": "Apache-2.0",
   "require": {
     "xmo/mine": "dev-main",
+    "xmo/mine-office": "dev-main",
     "xmo/jwt-auth": "0.6.*"
   },
   "require-dev": {
@@ -54,7 +55,6 @@
   "extra": [],
   "scripts": {
     "post-root-package-install": [
-      "php bin/hyperf.php vendor:publish xmo/mine",
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-autoload-dump": [
@@ -69,9 +69,13 @@
     ]
   },
   "repositories": {
-    "xmo": {
+    "mine": {
       "type": "path",
       "url": "/opt/mine"
+    },
+    "mine-office": {
+      "type": "path",
+      "url": "/opt/office"
     }
   }
 }

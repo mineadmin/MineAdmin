@@ -67,15 +67,5 @@
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
-  },
-  "repositories": {
-    "mine": {
-      "type": "path",
-      "url": "/opt/mine"
-    },
-    "mine-office": {
-      "type": "path",
-      "url": "/opt/office"
-    }
   }
 }

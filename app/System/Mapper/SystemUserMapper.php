@@ -7,6 +7,7 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\ModelNotFoundException;
+use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
@@ -147,19 +148,19 @@ class SystemUserMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['dept_id'])) {
-            $dept_ids = $params['dept_id'];
-            if (is_string($dept_ids)) {
-                $dept_ids = explode(',', $dept_ids);
-            }
-            $dept_ids = array_unique($dept_ids);
-            $query->join('system_user_dept as sud', 'system_user.id', '=', 'sud.user_id');
-            $query->join('system_dept as sd', 'sud.dept_id', '=', 'sd.id');
-            $query->where(function ($query) use ($dept_ids) {
-                foreach ($dept_ids as $dept_id) {
-                    $query->orWhereRaw("sd.id = '{$dept_id}' OR FIND_IN_SET('{$dept_id}', `level`)");
-                }
-            });
+        if (!empty($params['dept_id']) && is_string($params['dept_id'])) {
+            $query->selectRaw(Db::raw('DISTINCT system_user.*'))
+                ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
+                ->whereIn('dept.dept_id', SystemDept::query()
+                    ->where(function ($query) use ($params) {
+                        $query->where('id', '=', $params['dept_id'])
+                            ->orWhere('level', 'like', $params['dept_id'] . ',%')
+                            ->orWhere('level', 'like', '%,' . $params['dept_id'])
+                            ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
+                    })
+                    ->pluck('id')
+                    ->toArray()
+                );
         }
         if (isset($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');

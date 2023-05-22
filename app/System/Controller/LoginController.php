@@ -14,7 +14,6 @@ use Mine\Helper\LoginUser;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\MineController;
 use Mine\Vo\UserServiceVo;
-use PHPUnit\Util\Exception;
 use Psr\Http\Message\ResponseInterface;
 
 /**

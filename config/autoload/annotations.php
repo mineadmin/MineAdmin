@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 use Mine\Annotation\Api\MApiRequestParamCollector;
 use Mine\Annotation\Api\MApiResponseParamCollector;
+use Mine\Annotation\DependProxyCollector;
 
 return [
     'scan' => [
@@ -23,6 +24,7 @@ return [
         'collectors' => [
             MApiRequestParamCollector::class,
             MApiResponseParamCollector::class,
+            DependProxyCollector::class,
         ],
         'ignore_annotations' => [
             'mixin',

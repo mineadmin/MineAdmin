@@ -317,6 +317,7 @@ class InstallProjectCommand extends MineCommand
         Db::table('system_user')->truncate();
         Db::table('system_role')->truncate();
         Db::table('system_user_role')->truncate();
+        Db::table('system_user_dept')->truncate();
 
         // 创建超级管理员
         Db::table("system_user")->insert([

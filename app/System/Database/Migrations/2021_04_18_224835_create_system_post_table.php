@@ -42,6 +42,6 @@ class CreateSystemPostTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('system_job');
+        Schema::dropIfExists('system_post');
     }
 }

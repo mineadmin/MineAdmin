@@ -13,11 +13,9 @@ use Mine\Event\UserAdd;
 use Mine\Event\UserDelete;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
-use Mine\Helper\MineCaptcha;
 use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -71,23 +69,6 @@ class SystemUserService extends AbstractService
         $this->sysMenuService = $systemMenuService;
         $this->sysRoleService = $systemRoleService;
         $this->container = $container;
-    }
-
-    /**
-     * 获取验证码
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function getCaptcha(): string
-    {
-        $cache = container()->get(CacheInterface::class);
-        $captcha = new MineCaptcha();
-        $info = $captcha->getCaptchaInfo();
-        $key = $this->request->ip() .'-'. \Mine\Helper\Str::lower($info['code']);
-        $cache->set(sprintf('captcha:%s', $key), $info['code'], 60);
-        return $info['image'];
     }
 
     /**

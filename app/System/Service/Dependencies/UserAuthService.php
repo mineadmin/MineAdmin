@@ -23,10 +23,12 @@ use Mine\Exception\UserBanException;
 use Mine\Helper\MineCode;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\Vo\UserServiceVo;
+use Mine\Annotation\DependProxy;
 
 /**
  * 用户登录
  */
+#[DependProxy(values: [ UserServiceInterface::class ])]
 class UserAuthService implements UserServiceInterface
 {
 

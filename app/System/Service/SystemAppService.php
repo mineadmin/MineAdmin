@@ -210,7 +210,7 @@ class SystemAppService extends AbstractService
             if ($apiData['app_id'] != $appInfo['app_id']) {
                 return MineCode::API_UNBIND_APP;
             }
-        } else if (! $this->checkAppHasBindApi($appInfo['app_id'], (int) $appInfo['id'])) {
+        } else if (! $this->checkAppHasBindApi($apiData['app_id'], (int) $appInfo['id'])) {
             return MineCode::API_UNBIND_APP;
         }
 

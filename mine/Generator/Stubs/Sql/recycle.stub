@@ -1,6 +1,0 @@
-
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, @level, CONCAT('{NAME}', '回收站'), CONCAT('{CODE}',':recycle'), NULL, NULL, NULL, NULL, '2', 'B', '1', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
-
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, @level, CONCAT('{NAME}', '恢复'), CONCAT('{CODE}',':recovery'), NULL, NULL, NULL, NULL, '2', 'B', '1', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);
-
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES (@id, @level, CONCAT('{NAME}', '真实删除'), CONCAT('{CODE}',':realDelete'), NULL, NULL, NULL, NULL, '2', 'B', '1', 0, {ADMIN_ID}, NULL, now(), now(), NULL, NULL);

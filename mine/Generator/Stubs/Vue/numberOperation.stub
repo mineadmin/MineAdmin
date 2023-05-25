@@ -1,6 +1,0 @@
-
-const numberOperation = (newValue, id, numberName) => {
-  {BUSINESS_EN_NAME}.numberOperation({ id, numberName, numberValue: newValue }).then( res => {
-    res.success && Message.success(res.message)
-  }).catch( e => { console.log(e) } )
-}

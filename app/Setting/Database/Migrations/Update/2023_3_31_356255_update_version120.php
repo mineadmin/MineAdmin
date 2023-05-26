@@ -54,7 +54,7 @@ class UpdateVersion120 extends Migration
             ]
         );
 
-        $tableName = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
+        $tableName = \Hyperf\Support\env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
 
         $sql = [
             "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理列表', 'setting:datasource:index', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",

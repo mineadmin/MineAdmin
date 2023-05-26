@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 return [
     // enable false 将不会启动 swagger 服务
-    'enable' => env('APP_ENV') !== 'prod',
+    'enable' => \Hyperf\Support\env('APP_ENV') !== 'prod',
     'format' => 'json',
     'output_dir' => BASE_PATH . '/runtime/swagger',
-    'prefix_url' => env('API_DOCS_PREFIX_URL', '/swagger'),
+    'prefix_url' => \Hyperf\Support\env('API_DOCS_PREFIX_URL', '/swagger'),
     // 替换验证属性
     'validation_custom_attributes' => true,
     // 全局responses

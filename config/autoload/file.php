@@ -14,7 +14,7 @@ return [
     'storage' => [
         'local' => [
             'driver' => \Hyperf\Filesystem\Adapter\LocalAdapterFactory::class,
-            'root' => __DIR__ . '/../../public/' . env('UPLOAD_PATH', 'uploadfile'),
+            'root' => __DIR__ . '/../../public/' . \Hyperf\Support\env('UPLOAD_PATH', 'uploadfile'),
         ],
         'oss' => [
             'driver' => \Hyperf\Filesystem\Adapter\AliyunOssAdapterFactory::class,
@@ -49,9 +49,9 @@ return [
                 'secretKey' => '',
             ],
             // overtrue/flysystem-cos ^3.0 配置如下
-            // 'app_id' => env('COS_APPID'),
-            // 'secret_id' => env('COS_SECRET_ID'),
-            // 'secret_key' => env('COS_SECRET_KEY'),
+            // 'app_id' => \Hyperf\Support\env('COS_APPID'),
+            // 'secret_id' => \Hyperf\Support\env('COS_SECRET_ID'),
+            // 'secret_key' => \Hyperf\Support\env('COS_SECRET_KEY'),
             // 可选，如果 bucket 为私有访问请打开此项
             // 'signed_url' => false,
             'bucket' => '',
@@ -79,28 +79,28 @@ return [
         's3' => [
             'driver' => \Hyperf\Filesystem\Adapter\S3AdapterFactory::class,
             'credentials' => [
-                'key' => env('S3_KEY'),
-                'secret' => env('S3_SECRET'),
+                'key' => \Hyperf\Support\env('S3_KEY'),
+                'secret' => \Hyperf\Support\env('S3_SECRET'),
             ],
-            'region' => env('S3_REGION'),
+            'region' => \Hyperf\Support\env('S3_REGION'),
             'version' => 'latest',
             'bucket_endpoint' => false,
             'use_path_style_endpoint' => false,
-            'endpoint' => env('S3_ENDPOINT'),
-            'bucket_name' => env('S3_BUCKET'),
+            'endpoint' => \Hyperf\Support\env('S3_ENDPOINT'),
+            'bucket_name' => \Hyperf\Support\env('S3_BUCKET'),
         ],
         'minio' => [
             'driver' => \Hyperf\Filesystem\Adapter\S3AdapterFactory::class,
             'credentials' => [
-                'key' => env('S3_KEY'),
-                'secret' => env('S3_SECRET'),
+                'key' => \Hyperf\Support\env('S3_KEY'),
+                'secret' => \Hyperf\Support\env('S3_SECRET'),
             ],
-            'region' => env('S3_REGION'),
+            'region' => \Hyperf\Support\env('S3_REGION'),
             'version' => 'latest',
             'bucket_endpoint' => false,
             'use_path_style_endpoint' => true,
-            'endpoint' => env('S3_ENDPOINT'),
-            'bucket_name' => env('S3_BUCKET'),
+            'endpoint' => \Hyperf\Support\env('S3_ENDPOINT'),
+            'bucket_name' => \Hyperf\Support\env('S3_BUCKET'),
         ],
     ],
 ];

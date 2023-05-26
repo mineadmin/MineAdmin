@@ -40,7 +40,7 @@ class UpdateVersion102 extends Migration
         });
 
         // 设置超管默认部门
-        Db::table('system_user_dept')->insert([ 'user_id' => env('SUPER_ADMIN', 1), 'dept_id' => 1 ]);
+        Db::table('system_user_dept')->insert([ 'user_id' => \Hyperf\Support\env('SUPER_ADMIN', 1), 'dept_id' => 1 ]);
     }
 
     /**

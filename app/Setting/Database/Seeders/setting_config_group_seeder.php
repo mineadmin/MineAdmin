@@ -24,7 +24,7 @@ class SettingConfigGroupSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config_group')->truncate();
-        $tableName = env('DB_PREFIX') . \App\Setting\Model\SettingConfigGroup::getModel()->getTable();
+        $tableName = \Hyperf\Support\env('DB_PREFIX') . \App\Setting\Model\SettingConfigGroup::getModel()->getTable();
         $sql = [
             "INSERT INTO `{$tableName}`(`id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`, `remark`) VALUES (1, '站点配置', 'site_config', 1, 1, '2022-07-23 15:08:44', '2022-07-23 15:08:44', NULL)",
             "INSERT INTO `{$tableName}`(`id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`, `remark`) VALUES (2, '上传配置', 'upload_config', 1, 1, '2022-07-23 15:09:31', '2022-07-23 15:09:33', NULL)",

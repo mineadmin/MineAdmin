@@ -149,7 +149,8 @@ class SystemUserMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (!empty($params['dept_id']) && is_string($params['dept_id'])) {
-            $query->selectRaw(Db::raw('DISTINCT system_user.*'))
+            $tablePrefix = \Hyperf\Support\env('DB_PREFIX');
+            $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
                 ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
                 ->whereIn('dept.dept_id', SystemDept::query()
                     ->where(function ($query) use ($params) {
@@ -179,7 +180,7 @@ class SystemUserMapper extends AbstractMapper
         }
 
         if (isset($params['filterSuperAdmin'])) {
-            $query->whereNotIn('id', [env('SUPER_ADMIN')]);
+            $query->whereNotIn('id', [\Hyperf\Support\env('SUPER_ADMIN')]);
         }
 
         if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
@@ -204,7 +205,7 @@ class SystemUserMapper extends AbstractMapper
         }
 
         if (isset($params['role_id'])) {
-            $tablePrefix = env('DB_PREFIX');
+            $tablePrefix = \Hyperf\Support\env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
                 [ $params['role_id'] ]
@@ -212,7 +213,7 @@ class SystemUserMapper extends AbstractMapper
         }
 
         if (isset($params['post_id'])) {
-            $tablePrefix = env('DB_PREFIX');
+            $tablePrefix = \Hyperf\Support\env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",
                 [ $params['post_id'] ]

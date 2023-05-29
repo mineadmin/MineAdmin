@@ -24,7 +24,7 @@ class SettingConfigSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config')->truncate();
-        $tableName = \Hyperf\Support\env('DB_PREFIX') . \App\Setting\Model\SettingConfig::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . \App\Setting\Model\SettingConfig::getModel()->getTable();
         $sql = [
             "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_copyright', NULL, '版权信息', 'textarea', NULL, 96, NULL)",
             "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_desc', NULL, '网站描述', 'textarea', NULL, 97, NULL)",

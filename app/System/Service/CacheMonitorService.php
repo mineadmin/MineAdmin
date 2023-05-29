@@ -21,7 +21,7 @@ class CacheMonitorService
 
         $iterator = null;
         $keys = [];
-        while (false !== ($key = $redis->scan($iterator, \Hyperf\Config\config('cache.default.prefix').'*', 100))) {
+        while (false !== ($key = $redis->scan($iterator, config('cache.default.prefix').'*', 100))) {
             $keys = array_merge($keys, $key);
         }
 

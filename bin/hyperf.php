@@ -12,12 +12,12 @@ error_reporting(E_ALL);
 ! defined('START_TIME') && define('START_TIME', time());    // 启动时间
 ! defined('HF_VERSION') && define('HF_VERSION', '3.0');     // 定义hyperf版本号
 
-require BASE_PATH . '/vendor/autoload.php';
-
 // 载入公共函数库文件
 foreach (glob(BASE_PATH . '/common/*') as $file) {
     include_once($file);
 }
+
+require BASE_PATH . '/vendor/autoload.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 (function () {

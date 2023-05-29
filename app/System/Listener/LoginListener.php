@@ -49,10 +49,10 @@ class LoginListener implements ListenerInterface
             'login_time' => date('Y-m-d H:i:s')
         ]);
 
-        $key = sprintf("%sToken:%s", \Hyperf\Config\config('cache.default.prefix'), $event->userinfo['id']);
+        $key = sprintf("%sToken:%s", config('cache.default.prefix'), $event->userinfo['id']);
 
         $redis->del($key);
-        ($event->loginStatus && $event->token) && $redis->set( $key, $event->token, \Hyperf\Config\config('jwt.ttl') );
+        ($event->loginStatus && $event->token) && $redis->set( $key, $event->token, config('jwt.ttl') );
 
         if ($event->loginStatus) {
             $event->userinfo['login_ip'] = $ip;

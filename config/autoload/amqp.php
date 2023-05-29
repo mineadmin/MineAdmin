@@ -11,11 +11,11 @@ declare(strict_types=1);
  */
 return [
     'default' => [
-        'host' => \Hyperf\Support\env('AMQP_HOST', 'localhost'),
-        'port' => (int) \Hyperf\Support\env('AMQP_PORT', 5672),
-        'user' => \Hyperf\Support\env('AMQP_USER', 'guest'),
-        'password' => \Hyperf\Support\env('AMQP_PASSWORD', 'guest'),
-        'vhost' => \Hyperf\Support\env('AMQP_VHOST', '/'),
+        'host' => env('AMQP_HOST', 'localhost'),
+        'port' => (int) env('AMQP_PORT', 5672),
+        'user' => env('AMQP_USER', 'guest'),
+        'password' => env('AMQP_PASSWORD', 'guest'),
+        'vhost' => env('AMQP_VHOST', '/'),
         'concurrent' => [
             'limit' => 1,
         ],

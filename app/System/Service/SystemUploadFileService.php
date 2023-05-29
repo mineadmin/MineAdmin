@@ -5,14 +5,12 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemUploadFileMapper;
 use Hyperf\Contract\ConfigInterface;
-use Hyperf\DbConnection\Db;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
-use Hyperf\Utils\Collection;
+use \Hyperf\Collection\Collection;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
 use Mine\MineUpload;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * 文件上传业务

@@ -33,7 +33,7 @@ class SystemDeptSeeder extends Seeder
                 'name' => '曼艺科技',
                 'leader' => '曼艺',
                 'phone' => '16888888888',
-                'created_by' => \Hyperf\Support\env('SUPER_ADMIN', 1),
+                'created_by' => env('SUPER_ADMIN', 1),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]

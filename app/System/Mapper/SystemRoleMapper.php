@@ -99,7 +99,7 @@ class SystemRoleMapper extends AbstractMapper
         $deptIds = $data['dept_ids'] ?? [];
         $this->filterExecuteAttributes($data, true);
         $this->model::query()->where('id', $id)->update($data);
-        if ($id != \Hyperf\Support\env('ADMIN_ROLE')) {
+        if ($id != env('ADMIN_ROLE')) {
             $role = $this->model::find($id);
             if ($role) {
                 !empty($menuIds) && $role->menus()->sync(array_unique($menuIds));
@@ -118,7 +118,7 @@ class SystemRoleMapper extends AbstractMapper
     #[DeleteCache("loginInfo:*")]
     public function delete(array $ids): bool
     {
-        $adminId = \Hyperf\Support\env('ADMIN_ROLE');
+        $adminId = env('ADMIN_ROLE');
         if (in_array($adminId, $ids)) {
             unset($ids[array_search($adminId, $ids)]);
         }
@@ -135,7 +135,7 @@ class SystemRoleMapper extends AbstractMapper
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {
-            if ($id == \Hyperf\Support\env('ADMIN_ROLE')) {
+            if ($id == env('ADMIN_ROLE')) {
                 continue;
             }
             $role = $this->model::withTrashed()->find($id);
@@ -173,7 +173,7 @@ class SystemRoleMapper extends AbstractMapper
         }
 
         if (isset($params['filterAdminRole'])) {
-            $query->whereNotIn('id', [\Hyperf\Support\env('ADMIN_ROLE')]);
+            $query->whereNotIn('id', [env('ADMIN_ROLE')]);
         }
 
         if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {

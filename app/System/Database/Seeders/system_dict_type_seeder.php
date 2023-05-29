@@ -32,7 +32,7 @@ class SystemDictTypeSeeder extends Seeder
 
     protected function getData(): array
     {
-        $tableName = \Hyperf\Support\env('DB_PREFIX') . \App\System\Model\SystemDictType::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . \App\System\Model\SystemDictType::getModel()->getTable();
         return [
             "INSERT INTO `{$tableName}` VALUES (1, '数据表引擎', 'table_engine', 1, NULL, NULL, '2021-06-27 00:36:42', '2021-06-27 13:33:29', NULL, '数据表引擎字典')",
             "INSERT INTO `{$tableName}` VALUES (2, '存储模式', 'upload_mode', 1, NULL, NULL, '2021-06-27 13:33:11', '2021-06-27 13:33:11', NULL, '上传文件存储模式')",

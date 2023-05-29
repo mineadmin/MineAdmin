@@ -31,7 +31,7 @@ class SystemDictDataSeeder extends Seeder
 
     protected function getData(): array
     {
-        $tableName = \Hyperf\Support\env('DB_PREFIX') . \App\System\Model\SystemDictData::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . \App\System\Model\SystemDictData::getModel()->getTable();
         return [
             "INSERT INTO `{$tableName}` VALUES (1, 1, 'InnoDB', 'InnoDB', 'table_engine', 0, 1, NULL, NULL, '2021-06-27 00:37:11', '2021-06-27 13:33:29', NULL, NULL)",
             "INSERT INTO `{$tableName}` VALUES (2, 1, 'MyISAM', 'MyISAM', 'table_engine', 0, 1, NULL, NULL, '2021-06-27 00:37:21', '2021-06-27 13:33:29', NULL, NULL)",

@@ -34,7 +34,7 @@ class UserDeleteListener implements ListenerInterface
     public function process(object $event): void
     {
         $redis = redis();
-        $prefix = \Hyperf\Config\config('cache.default.prefix') . 'Token:';
+        $prefix = config('cache.default.prefix') . 'Token:';
         $user = user();
 
         /* @var $event UserDelete */

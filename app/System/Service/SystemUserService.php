@@ -171,7 +171,7 @@ class SystemUserService extends AbstractService
         if (!is_array($data['role_ids'])) {
             $data['role_ids'] = explode(',', $data['role_ids']);
         }
-        if (($key = array_search(\Hyperf\Support\env('ADMIN_ROLE'), $data['role_ids'])) !== false) {
+        if (($key = array_search(env('ADMIN_ROLE'), $data['role_ids'])) !== false) {
             unset($data['role_ids'][$key]);
         }
         if (!empty($data['post_ids']) && !is_array($data['post_ids'])) {
@@ -193,7 +193,7 @@ class SystemUserService extends AbstractService
     public function getOnlineUserPageList(array $params = []): array
     {
         $redis = redis();
-        $key   = sprintf('%sToken:*', \Hyperf\Config\config('cache.default.prefix'));
+        $key   = sprintf('%sToken:*', config('cache.default.prefix'));
 
         $userIds = [];
         $iterator = null;
@@ -224,7 +224,7 @@ class SystemUserService extends AbstractService
     public function delete(array $ids): bool
     {
         if (!empty($ids)) {
-            if (($key = array_search(\Hyperf\Support\env('SUPER_ADMIN'), $ids)) !== false) {
+            if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
                 unset($ids[$key]);
             }
             $result = $this->mapper->delete($ids);
@@ -245,7 +245,7 @@ class SystemUserService extends AbstractService
     public function realDelete(array $ids): bool
     {
         if (!empty($ids)) {
-            if (($key = array_search(\Hyperf\Support\env('SUPER_ADMIN'), $ids)) !== false) {
+            if (($key = array_search(env('SUPER_ADMIN'), $ids)) !== false) {
                 unset($ids[$key]);
             }
             $result = $this->mapper->realDelete($ids);
@@ -267,7 +267,7 @@ class SystemUserService extends AbstractService
     public function kickUser(string $id): bool
     {
         $redis = redis();
-        $key = sprintf("%sToken:%s", \Hyperf\Config\config('cache.default.prefix'), $id);
+        $key = sprintf("%sToken:%s", config('cache.default.prefix'), $id);
         user()->getJwt()->logout($redis->get($key), 'default');
         $redis->del($key);
         return true;
@@ -294,7 +294,7 @@ class SystemUserService extends AbstractService
     public function clearCache(string $id): bool
     {
         $redis = redis();
-        $prefix = \Hyperf\Config\config('cache.default.prefix');
+        $prefix = config('cache.default.prefix');
 
         $iterator = null;
         while (false !== ($configKey = $redis->scan($iterator, $prefix . 'config:*', 100))) {

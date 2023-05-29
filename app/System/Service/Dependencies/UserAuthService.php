@@ -53,7 +53,7 @@ class UserAuthService implements UserServiceInterface
                 if (
                     ($userinfo['status'] == SystemUser::USER_NORMAL)
                     ||
-                    ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == \Hyperf\Support\env('SUPER_ADMIN'))
+                    ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
                 ) {
                     $userLoginAfter->message = t('jwt.login_success');
                     $token = user()->getToken($userLoginAfter->userinfo);

@@ -36,6 +36,6 @@ class MessageConsumer extends ConsumerMessage
      */
     public function isEnable(): bool
     {
-        return \Hyperf\Support\env('AMQP_ENABLE', false);
+        return env('AMQP_ENABLE', false);
     }
 }

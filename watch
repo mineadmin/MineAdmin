@@ -65,9 +65,9 @@ foreach ($values as $val) {
     $_ENV[$name] = $value;
 }
 
+use Swoole\Event;
 use Swoole\Process;
 use Swoole\Timer;
-use Swoole\Event;
 
 swoole_async_set(['enable_coroutine' => false, 'log_level' => SWOOLE_LOG_INFO]);
 $hashes = [];
@@ -133,6 +133,7 @@ function addEvent($serve)
             echo CONSOLE_COLOR_DEFAULT;
         }
     });
+    Event::wait();
 }
 
 function watch()
@@ -165,7 +166,7 @@ function change()
 {
     global $serve;
     echo CONSOLE_COLOR_YELLOW . "🔄 Restart @ " . date('Y-m-d H:i:s') . PHP_EOL;
-    Process::kill($serve->pid);
+    Process::kill($serve?->pid);
     start();
 }
 
@@ -224,7 +225,7 @@ function delDir($path)
 
 class Filter extends RecursiveFilterIterator
 {
-    public function accept()
+    public function accept():bool
     {
         if ($this->current()->isDir()) {
             if (preg_match('/^\./', $this->current()->getFilename())) {

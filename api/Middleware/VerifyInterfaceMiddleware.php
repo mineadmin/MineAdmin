@@ -68,7 +68,8 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
             /* @var $service SystemAppService */
             $service = container()->get(SystemAppService::class);
             $queryParams = $request->getQueryParams();
-            switch ($this->_getApiData()['auth_mode']) {
+            $apiData = $this->_getApiData();
+            switch ($apiData['auth_mode']) {
                 case SystemApi::AUTH_MODE_EASY:
                     if (empty($queryParams['app_id'])) {
                         return MineCode::API_APP_ID_MISSING;
@@ -76,13 +77,13 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
                     if (empty($queryParams['identity'])) {
                         return MineCode::API_IDENTITY_MISSING;
                     }
-                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity'], $this->_getApiData());
+                    return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity'], $apiData);
                 case SystemApi::AUTH_MODE_NORMAL:
 
                     if (empty($queryParams['access_token'])) {
                         return MineCode::API_ACCESS_TOKEN_MISSING;
                     }
-                    return $service->verifyNormalMode($queryParams['access_token'], $this->_getApiData());
+                    return $service->verifyNormalMode($queryParams['access_token'], $apiData);
                 default:
                     throw new \RuntimeException();
             }

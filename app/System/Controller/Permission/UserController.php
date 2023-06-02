@@ -14,6 +14,7 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
+use Mine\Annotation\RemoteState;
 use Mine\MineCollection;
 use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
@@ -242,5 +243,15 @@ class UserController extends MineController
     public function downloadTemplate(): ResponseInterface
     {
         return (new MineCollection)->export(\App\System\Dto\UserDto::class, '模板下载', []);
+    }
+
+    /**
+     * 远程万能通用列表接口
+     * @return ResponseInterface
+     */
+    #[PostMapping("remote"), RemoteState(true)]
+    public function remote(): ResponseInterface
+    {
+        return $this->success($this->service->getRemoteList($this->request->all()));
     }
 }

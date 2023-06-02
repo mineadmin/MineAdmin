@@ -334,16 +334,16 @@
         },
         {
             "name": "doctrine/deprecations",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de"
+                "reference": "8cffffb2218e01f3b370bf763e00e81697725259"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
-                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/8cffffb2218e01f3b370bf763e00e81697725259",
+                "reference": "8cffffb2218e01f3b370bf763e00e81697725259",
                 "shasum": ""
             },
             "require": {
@@ -371,9 +371,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v1.0.0"
+                "source": "https://github.com/doctrine/deprecations/tree/v1.1.0"
             },
-            "time": "2022-05-02T15:47:09+00:00"
+            "time": "2023-05-29T18:55:17+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -708,16 +708,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "3.2.5",
+            "version": "3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "b531a2311709443320c786feb4519cfaf94af796"
+                "reference": "e5997fa97e8790cdae03a9cbd5e78e45e3c7bda7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/b531a2311709443320c786feb4519cfaf94af796",
-                "reference": "b531a2311709443320c786feb4519cfaf94af796",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/e5997fa97e8790cdae03a9cbd5e78e45e3c7bda7",
+                "reference": "e5997fa97e8790cdae03a9cbd5e78e45e3c7bda7",
                 "shasum": ""
             },
             "require": {
@@ -763,7 +763,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/3.2.5"
+                "source": "https://github.com/egulias/EmailValidator/tree/3.2.6"
             },
             "funding": [
                 {
@@ -771,7 +771,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-02T17:26:14+00:00"
+            "time": "2023-06-01T07:04:22+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1892,16 +1892,16 @@
         },
         {
             "name": "hyperf/coordinator",
-            "version": "v3.0.18",
+            "version": "v3.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/coordinator.git",
-                "reference": "2addc9c2071c7318aa64dbdab50a658365ad9c12"
+                "reference": "a49c2d22995b4115e8b21f1de58b992047c4d0fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/coordinator/zipball/2addc9c2071c7318aa64dbdab50a658365ad9c12",
-                "reference": "2addc9c2071c7318aa64dbdab50a658365ad9c12",
+                "url": "https://api.github.com/repos/hyperf/coordinator/zipball/a49c2d22995b4115e8b21f1de58b992047c4d0fd",
+                "reference": "a49c2d22995b4115e8b21f1de58b992047c4d0fd",
                 "shasum": ""
             },
             "require": {
@@ -1937,7 +1937,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-04-26T03:02:31+00:00"
+            "time": "2023-05-26T13:44:16+00:00"
         },
         {
             "name": "hyperf/coroutine",
@@ -2054,16 +2054,16 @@
         },
         {
             "name": "hyperf/database",
-            "version": "v3.0.21",
+            "version": "v3.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/database.git",
-                "reference": "1865306274dcda7ab5a96d9e87cd64de58faafd9"
+                "reference": "cb3b5853182e1f3f7fc599e4488436725a8ece8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/database/zipball/1865306274dcda7ab5a96d9e87cd64de58faafd9",
-                "reference": "1865306274dcda7ab5a96d9e87cd64de58faafd9",
+                "url": "https://api.github.com/repos/hyperf/database/zipball/cb3b5853182e1f3f7fc599e4488436725a8ece8d",
+                "reference": "cb3b5853182e1f3f7fc599e4488436725a8ece8d",
                 "shasum": ""
             },
             "require": {
@@ -2111,7 +2111,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-05-16T08:28:13+00:00"
+            "time": "2023-05-18T12:00:28+00:00"
         },
         {
             "name": "hyperf/db-connection",
@@ -3260,16 +3260,16 @@
         },
         {
             "name": "hyperf/process",
-            "version": "v3.0.18",
+            "version": "v3.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/process.git",
-                "reference": "06ce0963a5a79fd229c62f1b98f7508d34294db2"
+                "reference": "e804c32bf7497bedcdee28994257aeaf71a1fde7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/process/zipball/06ce0963a5a79fd229c62f1b98f7508d34294db2",
-                "reference": "06ce0963a5a79fd229c62f1b98f7508d34294db2",
+                "url": "https://api.github.com/repos/hyperf/process/zipball/e804c32bf7497bedcdee28994257aeaf71a1fde7",
+                "reference": "e804c32bf7497bedcdee28994257aeaf71a1fde7",
                 "shasum": ""
             },
             "require": {
@@ -3316,7 +3316,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-04-26T03:02:31+00:00"
+            "time": "2023-05-27T06:08:52+00:00"
         },
         {
             "name": "hyperf/redis",
@@ -3729,16 +3729,16 @@
         },
         {
             "name": "hyperf/translation",
-            "version": "v3.0.18",
+            "version": "v3.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/translation.git",
-                "reference": "bc174e812fe9a54ddb0b5549863e2dcb74d1a96c"
+                "reference": "d8043633db04c81490b87c29007f3e53307b3aa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/translation/zipball/bc174e812fe9a54ddb0b5549863e2dcb74d1a96c",
-                "reference": "bc174e812fe9a54ddb0b5549863e2dcb74d1a96c",
+                "url": "https://api.github.com/repos/hyperf/translation/zipball/d8043633db04c81490b87c29007f3e53307b3aa1",
+                "reference": "d8043633db04c81490b87c29007f3e53307b3aa1",
                 "shasum": ""
             },
             "require": {
@@ -3777,9 +3777,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/translation/issues",
-                "source": "https://github.com/hyperf/translation/tree/v3.0.18"
+                "source": "https://github.com/hyperf/translation/tree/v3.0.22"
             },
-            "time": "2023-04-26T03:02:31+00:00"
+            "time": "2023-05-24T13:51:45+00:00"
         },
         {
             "name": "hyperf/utils",
@@ -4787,16 +4787,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.66.0",
+            "version": "2.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "496712849902241f04902033b0441b269effe001"
+                "reference": "c1001b3bc75039b07f38a79db5237c4c529e04c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/496712849902241f04902033b0441b269effe001",
-                "reference": "496712849902241f04902033b0441b269effe001",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/c1001b3bc75039b07f38a79db5237c4c529e04c8",
+                "reference": "c1001b3bc75039b07f38a79db5237c4c529e04c8",
                 "shasum": ""
             },
             "require": {
@@ -4885,7 +4885,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-29T18:53:47+00:00"
+            "time": "2023-05-25T22:09:47+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -5046,16 +5046,16 @@
         },
         {
             "name": "overtrue/flysystem-cos",
-            "version": "5.1.3",
+            "version": "5.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/flysystem-cos.git",
-                "reference": "27da0c9aba83418e300b169c356b35f916e90a20"
+                "reference": "bbcfe9195e96a9d5262c79fdb1e57820d45dd664"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/flysystem-cos/zipball/27da0c9aba83418e300b169c356b35f916e90a20",
-                "reference": "27da0c9aba83418e300b169c356b35f916e90a20",
+                "url": "https://api.github.com/repos/overtrue/flysystem-cos/zipball/bbcfe9195e96a9d5262c79fdb1e57820d45dd664",
+                "reference": "bbcfe9195e96a9d5262c79fdb1e57820d45dd664",
                 "shasum": ""
             },
             "require": {
@@ -5101,7 +5101,7 @@
             "description": "Flysystem adapter for the QCloud COS storage.",
             "support": {
                 "issues": "https://github.com/overtrue/flysystem-cos/issues",
-                "source": "https://github.com/overtrue/flysystem-cos/tree/5.1.3"
+                "source": "https://github.com/overtrue/flysystem-cos/tree/5.1.4"
             },
             "funding": [
                 {
@@ -5109,7 +5109,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-28T07:15:19+00:00"
+            "time": "2023-05-26T09:00:43+00:00"
         },
         {
             "name": "overtrue/flysystem-qiniu",
@@ -5597,16 +5597,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "dfc078e8af9c99210337325ff5aa152872c98714"
+                "reference": "b2fe4d22a5426f38e014855322200b97b5362c0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/dfc078e8af9c99210337325ff5aa152872c98714",
-                "reference": "dfc078e8af9c99210337325ff5aa152872c98714",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/b2fe4d22a5426f38e014855322200b97b5362c0d",
+                "reference": "b2fe4d22a5426f38e014855322200b97b5362c0d",
                 "shasum": ""
             },
             "require": {
@@ -5649,9 +5649,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.7.1"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.7.2"
             },
-            "time": "2023-03-27T19:02:04+00:00"
+            "time": "2023-05-30T18:13:47+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -6025,22 +6025,23 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.21.0",
+            "version": "1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "6df62b08faef4f899772bc7c3bbabb93d2b7a21c"
+                "reference": "ec58baf7b3c7f1c81b3b00617c953249fb8cf30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/6df62b08faef4f899772bc7c3bbabb93d2b7a21c",
-                "reference": "6df62b08faef4f899772bc7c3bbabb93d2b7a21c",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/ec58baf7b3c7f1c81b3b00617c953249fb8cf30c",
+                "reference": "ec58baf7b3c7f1c81b3b00617c953249fb8cf30c",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
+                "doctrine/annotations": "^2.0",
                 "nikic/php-parser": "^4.15",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
                 "phpstan/extension-installer": "^1.0",
@@ -6065,9 +6066,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.21.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.22.0"
             },
-            "time": "2023-05-17T13:13:44+00:00"
+            "time": "2023-06-01T12:35:21+00:00"
         },
         {
             "name": "psr/cache",
@@ -8552,16 +8553,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.3.2",
+            "version": "v1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "ef0530db84d18d07baf061c70cf10e7251dc460c"
+                "reference": "b0c45e3883cf7c05f9d7dda2a6a38660246917f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/ef0530db84d18d07baf061c70cf10e7251dc460c",
-                "reference": "ef0530db84d18d07baf061c70cf10e7251dc460c",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/b0c45e3883cf7c05f9d7dda2a6a38660246917f1",
+                "reference": "b0c45e3883cf7c05f9d7dda2a6a38660246917f1",
                 "shasum": ""
             },
             "require": {
@@ -8606,7 +8607,7 @@
                 "symfony/property-access": "^6.0",
                 "tangwei/apidocs": "^2.1",
                 "yurunsoft/phpmailer-swoole": "^1.0",
-                "zoujingli/ip2region": "^1.0"
+                "zoujingli/ip2region": "2.0.*"
             },
             "suggest": {
                 "ext-json": "Required to use JSON.",
@@ -8641,9 +8642,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.3.2"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.3.3"
             },
-            "time": "2023-05-26T03:17:14+00:00"
+            "time": "2023-06-02T02:31:43+00:00"
         },
         {
             "name": "xmo/mine-office",
@@ -8806,25 +8807,26 @@
         },
         {
             "name": "zoujingli/ip2region",
-            "version": "v1.0.13",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zoujingli/ip2region.git",
-                "reference": "c02c74571ad665745e57db5d04efa165e543fade"
+                "reference": "21ed5393a93ea62c277d91ee739b2373d60bf16d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/c02c74571ad665745e57db5d04efa165e543fade",
-                "reference": "c02c74571ad665745e57db5d04efa165e543fade",
+                "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/21ed5393a93ea62c277d91ee739b2373d60bf16d",
+                "reference": "21ed5393a93ea62c277d91ee739b2373d60bf16d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.4"
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "Ip2Region.php"
+                    "Ip2Region.php",
+                    "XdbSearcher.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8835,7 +8837,7 @@
                 {
                     "name": "Anyon",
                     "email": "zoujingli@qq.com",
-                    "homepage": "http://ctolog.com"
+                    "homepage": "https://thinkadmin.top"
                 }
             ],
             "description": "Ip2Region for PHP",
@@ -8845,9 +8847,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zoujingli/ip2region/issues",
-                "source": "https://github.com/zoujingli/ip2region/tree/v1.0.13"
+                "source": "https://github.com/zoujingli/ip2region/tree/v2.0.4"
             },
-            "time": "2023-03-13T05:18:05+00:00"
+            "time": "2023-03-28T02:20:00+00:00"
         }
     ],
     "packages-dev": [

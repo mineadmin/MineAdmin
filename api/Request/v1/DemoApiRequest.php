@@ -2,9 +2,9 @@
 
 namespace Api\Request\v1;
 
-use Mine\MineFormRequest;
+use Mine\MineApiFormRequest;
 
-class DemoApiRequest extends MineFormRequest
+class DemoApiRequest extends MineApiFormRequest
 {
     public function authorize(): bool
     {

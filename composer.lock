@@ -222,16 +222,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.6.2",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "b4bd1cfbd2b916951696d82e57d054394d84864c"
+                "reference": "9a747d29e7e6b39509b8f1847e37a23a0163ea6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/b4bd1cfbd2b916951696d82e57d054394d84864c",
-                "reference": "b4bd1cfbd2b916951696d82e57d054394d84864c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/9a747d29e7e6b39509b8f1847e37a23a0163ea6a",
+                "reference": "9a747d29e7e6b39509b8f1847e37a23a0163ea6a",
                 "shasum": ""
             },
             "require": {
@@ -244,12 +244,12 @@
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
-                "doctrine/coding-standard": "11.1.0",
+                "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2022.3",
-                "phpstan/phpstan": "1.10.9",
+                "phpstan/phpstan": "1.10.14",
                 "phpstan/phpstan-strict-rules": "^1.5",
-                "phpunit/phpunit": "9.6.6",
+                "phpunit/phpunit": "9.6.7",
                 "psalm/plugin-phpunit": "0.18.4",
                 "squizlabs/php_codesniffer": "3.7.2",
                 "symfony/cache": "^5.4|^6.0",
@@ -314,7 +314,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.6.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.6.3"
             },
             "funding": [
                 {
@@ -330,29 +330,33 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-14T07:25:38+00:00"
+            "time": "2023-06-01T05:46:46+00:00"
         },
         {
             "name": "doctrine/deprecations",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "8cffffb2218e01f3b370bf763e00e81697725259"
+                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/8cffffb2218e01f3b370bf763e00e81697725259",
-                "reference": "8cffffb2218e01f3b370bf763e00e81697725259",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
+                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9",
-                "phpunit/phpunit": "^7.5|^8.5|^9.5",
-                "psr/log": "^1|^2|^3"
+                "phpstan/phpstan": "1.4.10 || 1.10.15",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "psalm/plugin-phpunit": "0.18.4",
+                "psr/log": "^1 || ^2 || ^3",
+                "vimeo/psalm": "4.30.0 || 5.12.0"
             },
             "suggest": {
                 "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
@@ -371,9 +375,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v1.1.0"
+                "source": "https://github.com/doctrine/deprecations/tree/v1.1.1"
             },
-            "time": "2023-05-29T18:55:17+00:00"
+            "time": "2023-06-03T09:27:29+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -1629,16 +1633,16 @@
         },
         {
             "name": "hyperf/command",
-            "version": "v3.0.18",
+            "version": "v3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/command.git",
-                "reference": "35840669a3e1fb9e0c0eda8fc017d99612b83577"
+                "reference": "d63a1a55247f03c6f6b4914060b150befd5c3fbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/command/zipball/35840669a3e1fb9e0c0eda8fc017d99612b83577",
-                "reference": "35840669a3e1fb9e0c0eda8fc017d99612b83577",
+                "url": "https://api.github.com/repos/hyperf/command/zipball/d63a1a55247f03c6f6b4914060b150befd5c3fbb",
+                "reference": "d63a1a55247f03c6f6b4914060b150befd5c3fbb",
                 "shasum": ""
             },
             "require": {
@@ -1675,9 +1679,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/command/issues",
-                "source": "https://github.com/hyperf/command/tree/v3.0.18"
+                "source": "https://github.com/hyperf/command/tree/v3.0.23"
             },
-            "time": "2023-04-26T03:02:31+00:00"
+            "time": "2023-05-30T01:25:37+00:00"
         },
         {
             "name": "hyperf/conditionable",
@@ -2054,16 +2058,16 @@
         },
         {
             "name": "hyperf/database",
-            "version": "v3.0.22",
+            "version": "v3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/database.git",
-                "reference": "cb3b5853182e1f3f7fc599e4488436725a8ece8d"
+                "reference": "fde6a2184c766cfd54aa256512f530e46a9d2754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/database/zipball/cb3b5853182e1f3f7fc599e4488436725a8ece8d",
-                "reference": "cb3b5853182e1f3f7fc599e4488436725a8ece8d",
+                "url": "https://api.github.com/repos/hyperf/database/zipball/fde6a2184c766cfd54aa256512f530e46a9d2754",
+                "reference": "fde6a2184c766cfd54aa256512f530e46a9d2754",
                 "shasum": ""
             },
             "require": {
@@ -2111,7 +2115,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-05-18T12:00:28+00:00"
+            "time": "2023-05-31T02:10:17+00:00"
         },
         {
             "name": "hyperf/db-connection",
@@ -2576,16 +2580,16 @@
         },
         {
             "name": "hyperf/framework",
-            "version": "v3.0.18",
+            "version": "v3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/framework.git",
-                "reference": "0e73f916e9295584dc2d3c3c0560f497d4412768"
+                "reference": "38e0fdfd097e73efbe7391795a695cea874d4ca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/framework/zipball/0e73f916e9295584dc2d3c3c0560f497d4412768",
-                "reference": "0e73f916e9295584dc2d3c3c0560f497d4412768",
+                "url": "https://api.github.com/repos/hyperf/framework/zipball/38e0fdfd097e73efbe7391795a695cea874d4ca6",
+                "reference": "38e0fdfd097e73efbe7391795a695cea874d4ca6",
                 "shasum": ""
             },
             "require": {
@@ -2639,7 +2643,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2023-04-26T03:02:31+00:00"
+            "time": "2023-05-30T01:25:37+00:00"
         },
         {
             "name": "hyperf/guzzle",
@@ -8553,16 +8557,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.3.3",
+            "version": "v1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "b0c45e3883cf7c05f9d7dda2a6a38660246917f1"
+                "reference": "6a372bb129b79348d420056c94f4c838ae0f3514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/b0c45e3883cf7c05f9d7dda2a6a38660246917f1",
-                "reference": "b0c45e3883cf7c05f9d7dda2a6a38660246917f1",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/6a372bb129b79348d420056c94f4c838ae0f3514",
+                "reference": "6a372bb129b79348d420056c94f4c838ae0f3514",
                 "shasum": ""
             },
             "require": {
@@ -8642,9 +8646,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.3.3"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.3.4"
             },
-            "time": "2023-06-02T02:31:43+00:00"
+            "time": "2023-06-05T08:47:04+00:00"
         },
         {
             "name": "xmo/mine-office",
@@ -9321,16 +9325,16 @@
         },
         {
             "name": "hyperf/testing",
-            "version": "v3.0.21",
+            "version": "v3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/testing.git",
-                "reference": "d5c5d04541cec829a187d5a1b70bd6a152ed507e"
+                "reference": "e660ba6f6f4c1dd46cc6203feeefd4638454108c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/testing/zipball/d5c5d04541cec829a187d5a1b70bd6a152ed507e",
-                "reference": "d5c5d04541cec829a187d5a1b70bd6a152ed507e",
+                "url": "https://api.github.com/repos/hyperf/testing/zipball/e660ba6f6f4c1dd46cc6203feeefd4638454108c",
+                "reference": "e660ba6f6f4c1dd46cc6203feeefd4638454108c",
                 "shasum": ""
             },
             "require": {
@@ -9372,9 +9376,9 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/hyperf/testing/tree/v3.0.21"
+                "source": "https://github.com/hyperf/testing/tree/v3.0.23"
             },
-            "time": "2023-05-17T05:55:36+00:00"
+            "time": "2023-06-01T08:26:57+00:00"
         },
         {
             "name": "hyperf/watcher",
@@ -9433,16 +9437,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.5.1",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "e92dcc83d5a51851baf5f5591d32cb2b16e3684e"
+                "reference": "bac1765cb52bbd3364a870e920cb69cd859ee302"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/e92dcc83d5a51851baf5f5591d32cb2b16e3684e",
-                "reference": "e92dcc83d5a51851baf5f5591d32cb2b16e3684e",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/bac1765cb52bbd3364a870e920cb69cd859ee302",
+                "reference": "bac1765cb52bbd3364a870e920cb69cd859ee302",
                 "shasum": ""
             },
             "require": {
@@ -9454,7 +9458,9 @@
                 "phpunit/phpunit": "<8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "phpunit/phpunit": "^8.5 || ^9.3",
+                "psalm/plugin-phpunit": "^0.18",
+                "vimeo/psalm": "^5.9"
             },
             "type": "library",
             "extra": {
@@ -9463,8 +9469,12 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Mockery": "library/"
+                "files": [
+                    "library/helpers.php",
+                    "library/Mockery.php"
+                ],
+                "psr-4": {
+                    "Mockery\\": "library/Mockery"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -9499,9 +9509,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/1.5.1"
+                "source": "https://github.com/mockery/mockery/tree/1.6.0"
             },
-            "time": "2022-09-07T15:32:08+00:00"
+            "time": "2023-05-03T12:55:29+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -9675,16 +9685,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.15",
+            "version": "1.10.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "762c4dac4da6f8756eebb80e528c3a47855da9bd"
+                "reference": "352bdbb960bb523e3d71b834862589f910921c23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/762c4dac4da6f8756eebb80e528c3a47855da9bd",
-                "reference": "762c4dac4da6f8756eebb80e528c3a47855da9bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/352bdbb960bb523e3d71b834862589f910921c23",
+                "reference": "352bdbb960bb523e3d71b834862589f910921c23",
                 "shasum": ""
             },
             "require": {
@@ -9733,7 +9743,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-09T15:28:01+00:00"
+            "time": "2023-06-05T08:21:46+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -50,5 +50,5 @@ class SettingGenerateColumns extends MineModel
      *
      * @var array
      */
-    protected array $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array'];
+    protected array $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array', 'allow_roles' => 'array'];
 }

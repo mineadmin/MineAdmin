@@ -8557,16 +8557,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "b507526da8ccc7a53fd7039e094edf01e28ecc0d"
+                "reference": "6c80c4088a610cdc05475db3c2d7d65732f7fa57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/b507526da8ccc7a53fd7039e094edf01e28ecc0d",
-                "reference": "b507526da8ccc7a53fd7039e094edf01e28ecc0d",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/6c80c4088a610cdc05475db3c2d7d65732f7fa57",
+                "reference": "6c80c4088a610cdc05475db3c2d7d65732f7fa57",
                 "shasum": ""
             },
             "require": {
@@ -8646,9 +8646,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.3.5"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.3.6"
             },
-            "time": "2023-06-07T03:24:31+00:00"
+            "time": "2023-06-07T13:19:52+00:00"
         },
         {
             "name": "xmo/mine-office",
@@ -9437,16 +9437,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "a8dd186f07ea667c1e3abd2176bfab0ab161ea94"
+                "reference": "13a7fa2642c76c58fa2806ef7f565344c817a191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/a8dd186f07ea667c1e3abd2176bfab0ab161ea94",
-                "reference": "a8dd186f07ea667c1e3abd2176bfab0ab161ea94",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/13a7fa2642c76c58fa2806ef7f565344c817a191",
+                "reference": "13a7fa2642c76c58fa2806ef7f565344c817a191",
                 "shasum": ""
             },
             "require": {
@@ -9465,7 +9465,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-main": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -9509,9 +9509,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/1.6.1"
+                "source": "https://github.com/mockery/mockery/tree/1.6.2"
             },
-            "time": "2023-06-05T13:59:03+00:00"
+            "time": "2023-06-07T09:07:52+00:00"
         },
         {
             "name": "myclabs/deep-copy",

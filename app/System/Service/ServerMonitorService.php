@@ -58,6 +58,7 @@ class ServerMonitorService
             ];
         } catch (\Throwable $e) {
             $res = '无法获取';
+            echo $e->getMessage(), "\n";
             return [
                 'name' => $res, 'cores' => $res, 'cache' => $res, 'usage' => $res, 'free' => $res,
             ];
@@ -91,7 +92,7 @@ class ServerMonitorService
             }
             return $matches[1] ?? "未知";
         } else if ($this->isCygwin()) {
-            $name = shell_exec('wmic cpu get Name | findstr /V "Name"');
+            $name = shell_exec('wmic cpu get Name | findstr /V "Name" | head -n1');
             return trim($name);
         }else {
             return shell_exec('sysctl -n machdep.cpu.brand_string');
@@ -107,8 +108,14 @@ class ServerMonitorService
             $num = str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
             return intval($num) == 0 ? '1' : $num;
         }  else if ($this->isCygwin()) {
-            $num = shell_exec('wmic cpu get NumberOfCores | findstr /V "NumberOfCores"'); 
-            return trim($num ?? '1');
+            $num = shell_exec('wmic cpu get NumberOfCores | findstr /V "NumberOfCores"');
+            $num = trim($num ?? '1');
+            $nums = explode("\n", $num);
+            $num = 0;
+            foreach($nums as $n) {
+                $num += intval(trim($n));
+            }
+            return strval($num);
         } else {
             return trim(shell_exec('sysctl -n hw.physicalcpu'));
         }
@@ -123,7 +130,13 @@ class ServerMonitorService
             return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "processor"|wc -l'));
         } else if ($this->isCygwin()) {
             $num = shell_exec('wmic cpu get NumberOfLogicalProcessors | findstr /V "NumberOfLogicalProcessors"');
-            return trim($num ?? '1');
+            $num = trim($num ?? '1');
+            $nums = explode("\n", $num);
+            $num = 0;
+            foreach($nums as $n) {
+                $num += intval(trim($n));
+            }
+            return strval($num);
         } else {
             return trim(shell_exec('sysctl -n hw.logicalcpu'));
         }

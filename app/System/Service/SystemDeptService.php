@@ -112,11 +112,11 @@ class SystemDeptService extends AbstractService
      */
     protected function handleData($data): array
     {
-        if (isset($data['id']) && $data['id'] == $data['parent_id']) {
+        $pid = $data['parent_id'] ?? 0;
+
+        if (isset($data['id']) && $data['id'] == $pid) {
             throw new NormalStatusException(t('system.parent_dept_error'), 500);
         }
-
-        $pid = $data['parent_id'] ?? 0;
 
         if ($pid === 0) {
             $data['level'] = $data['parent_id'] = '0';

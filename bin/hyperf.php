@@ -7,14 +7,8 @@ ini_set('memory_limit', '1G');
 
 error_reporting(E_ALL);
 
-! defined('BASE_PATH') && (
-    str_contains(PHP_OS, 'CYGWIN') ? define('BASE_PATH', dirname(__FILE__, 1)) : define('BASE_PATH', dirname(__DIR__, 1))
-);
-
-! defined('SWOOLE_HOOK_FLAGS') && (
-    str_contains(PHP_OS, 'CYGWIN') ? define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_BLOCKING_FUNCTION) : define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL)
-);
-
+! defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
+! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL);
 ! defined('START_TIME') && define('START_TIME', time());    // 启动时间
 ! defined('HF_VERSION') && define('HF_VERSION', '3.0');     // 定义hyperf版本号
 

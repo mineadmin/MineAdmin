@@ -15,7 +15,9 @@ namespace Api;
 use App\System\Service\SystemAppService;
 use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\PostMapping;
+use Mine\Exception\NoPermissionException;
 use Mine\Exception\NormalStatusException;
+use Mine\Exception\TokenException;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -93,9 +95,15 @@ class ApiController extends MineApi
                     $error = array_shift($error);
                 }
                 throw new NormalStatusException(t('mineadmin.interface_exception') . $error, MineCode::INTERFACE_EXCEPTION);
-            } else {
-                throw new NormalStatusException(t('mineadmin.interface_exception') . $e->getMessage(), MineCode::INTERFACE_EXCEPTION);
             }
+            if ($e instanceof NoPermissionException) {
+                throw new NormalstatusException( t( key: 'mineadmin.api_auth_fail') . $e->getMessage(), code: MineCode::NO_PERMISSION);
+            }
+            if ($e instanceof TokenException) {
+                throw new NormalstatusException( t( key: 'mineadmin.api_auth_exception') . $e->getMessage(), code: MineCode::TOKEN_EXPIRED);
+            }
+
+            throw new NormalstatusException( t( key: 'mineadmin.interface_exception') . $e->getMessage(), code: MineCode::INTERFACE_EXCEPTION);
         }
     }
 

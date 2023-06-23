@@ -127,9 +127,10 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 获取用户信息
      * @param int $id
-     * @return MineModel
+     * @param array $column
+     * @return MineModel|null
      */
-    public function read(int $id): ?MineModel
+    public function read(int $id, array $column = ['*']): ?MineModel
     {
         $user = $this->model::find($id);
         if ($user) {

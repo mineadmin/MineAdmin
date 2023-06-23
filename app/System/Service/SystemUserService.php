@@ -9,10 +9,12 @@ use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Event\UserAdd;
 use Mine\Event\UserDelete;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
+use Mine\Interfaces\serviceInterface\UserServiceInterface;
 use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -23,7 +25,8 @@ use Psr\SimpleCache\InvalidArgumentException;
  * Class SystemUserService
  * @package App\System\Service
  */
-class SystemUserService extends AbstractService
+#[DependProxy(values: [ UserServiceInterface::class ])]
+class SystemUserService extends AbstractService implements UserServiceInterface
 {
     /**
      * @var MineRequest

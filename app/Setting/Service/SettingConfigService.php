@@ -8,10 +8,13 @@ use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Annotation\Transaction;
+use Mine\Interfaces\serviceInterface\ConfigServiceInterface;
 use Psr\Container\ContainerInterface;
 
-class SettingConfigService extends AbstractService
+#[DependProxy(values: [ ConfigServiceInterface::class ])]
+class SettingConfigService extends AbstractService implements ConfigServiceInterface
 {
     /**
      * @var SettingConfigMapper

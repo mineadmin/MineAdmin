@@ -7,8 +7,11 @@ namespace App\System\Service;
 use App\System\Mapper\SystemMenuMapper;
 use App\System\Model\SystemMenu;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\MenuServiceInterface;
 
-class SystemMenuService extends AbstractService
+#[DependProxy(values: [ MenuServiceInterface::class ])]
+class SystemMenuService extends AbstractService implements MenuServiceInterface
 {
     /**
      * @var SystemMenuMapper

@@ -7,11 +7,14 @@ use App\System\Mapper\SystemQueueMessageMapper;
 use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\QueueMessageServiceInterface;
 
 /**
  * 信息管理服务类
  */
-class SystemQueueMessageService extends AbstractService
+#[DependProxy(values: [ QueueMessageServiceInterface::class ])]
+class SystemQueueMessageService extends AbstractService implements QueueMessageServiceInterface
 {
     /**
      * @var SystemQueueMessageMapper

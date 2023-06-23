@@ -6,8 +6,11 @@ namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingCrontabLogMapper;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\CrontabLogServiceInterface;
 
-class SettingCrontabLogService extends AbstractService
+#[DependProxy(values: [CrontabLogServiceInterface::class])]
+class SettingCrontabLogService extends AbstractService implements CrontabLogServiceInterface
 {
     /**
      * @var SettingCrontabLogMapper

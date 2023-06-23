@@ -6,8 +6,11 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemOperLogMapper;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\OperLogServiceInterface;
 
-class SystemOperLogService extends AbstractService
+#[DependProxy(values: [ OperLogServiceInterface::class ])]
+class SystemOperLogService extends AbstractService implements OperLogServiceInterface
 {
     public $mapper;
 

@@ -7,12 +7,15 @@ use Hyperf\Config\Annotation\Value;
 use Hyperf\Utils\Collection;
 use Hyperf\Utils\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Generator\ModuleGenerator;
+use Mine\Interfaces\serviceInterface\ModuleServiceInterface;
 use Mine\Mine;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
-class ModuleService extends AbstractService
+#[DependProxy(values: [ ModuleServiceInterface::class ])]
+class ModuleService extends AbstractService implements ModuleServiceInterface
 {
     /**
      * @var Mine

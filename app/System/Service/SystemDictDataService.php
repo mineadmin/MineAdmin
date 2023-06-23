@@ -7,6 +7,8 @@ use App\System\Mapper\SystemDictDataMapper;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\DictDataServiceInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -14,7 +16,8 @@ use Psr\Container\ContainerInterface;
  * Class SystemLoginLogService
  * @package App\System\Service
  */
-class SystemDictDataService extends AbstractService
+#[DependProxy(values: [ DictDataServiceInterface::class ])]
+class SystemDictDataService extends AbstractService implements DictDataServiceInterface
 {
     /**
      * @var SystemDictDataMapper

@@ -10,7 +10,7 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/mine-core": "1.3.*",
+    "xmo/mine-core": "1.4.*",
     "xmo/mine-office": "1.3.*",
     "xmo/jwt-auth": "0.6.*"
   },
@@ -71,7 +71,7 @@
   "repositories": {
     "packagist": {
       "type": "composer",
-      "url": "https://mirrors.tencent.com/composer/"
+      "url": "https://packagist.org"
     }
   }
 }

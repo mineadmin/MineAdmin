@@ -6,6 +6,8 @@ namespace App\Setting\Service;
 use App\Setting\Mapper\SettingGenerateColumnsMapper;
 use App\Setting\Model\SettingGenerateColumns;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\serviceInterface\GenerateColumnServiceInterface;
 use function PHPStan\dumpType;
 
 /**
@@ -13,7 +15,8 @@ use function PHPStan\dumpType;
  * Class SettingGenerateColumnsService
  * @package App\Setting\Service
  */
-class SettingGenerateColumnsService extends AbstractService
+#[DependProxy(values: [ GenerateColumnServiceInterface::class ])]
+class SettingGenerateColumnsService extends AbstractService implements GenerateColumnServiceInterface
 {
     /**
      * @var SettingGenerateColumnsMapper

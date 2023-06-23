@@ -6,9 +6,12 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemRoleMapper;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
+use Mine\Interfaces\serviceInterface\RoleServiceInterface;
 
-class SystemRoleService extends AbstractService
+#[DependProxy(values: [ RoleServiceInterface::class ])]
+class SystemRoleService extends AbstractService implements RoleServiceInterface
 {
     public $mapper;
 

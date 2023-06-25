@@ -40,18 +40,23 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function updateConfig(string $key, array $data): bool
     {
-        return $this->model::query()->where('key', $key)->update($data) > 0;
+        if (is_array($data['config_select_data'])) {
+            $data['config_select_data'] = json_encode($data['config_select_data'], JSON_UNESCAPED_UNICODE);
+        }
+        return $this->model::query()->where('key', $key)->update($data) > -1;
     }
 
     /**
      * 按 keys 更新配置
      * @param string $key
-     * @param string|int|bool $value
+     * @param mixed $value
      * @return bool
      */
-    public function updateByKey(string $key, string|int|bool|null $value = null): bool
+    public function updateByKey(string $key, mixed $value = null): bool
     {
-        return $this->model::query()->where('key', $key)->update(['value' => $value]) > 0;
+        return $this->model::query()->where('key', $key)->update([
+            'value' => is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value
+        ]) > 0;
     }
 
     /**

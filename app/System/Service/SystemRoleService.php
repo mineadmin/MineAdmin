@@ -8,7 +8,7 @@ use App\System\Mapper\SystemRoleMapper;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
-use Mine\Interfaces\serviceInterface\RoleServiceInterface;
+use Mine\Interfaces\ServiceInterface\RoleServiceInterface;
 
 #[DependProxy(values: [ RoleServiceInterface::class ])]
 class SystemRoleService extends AbstractService implements RoleServiceInterface

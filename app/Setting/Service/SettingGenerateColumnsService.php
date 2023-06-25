@@ -7,7 +7,7 @@ use App\Setting\Mapper\SettingGenerateColumnsMapper;
 use App\Setting\Model\SettingGenerateColumns;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
-use Mine\Interfaces\serviceInterface\GenerateColumnServiceInterface;
+use Mine\Interfaces\ServiceInterface\GenerateColumnServiceInterface;
 use function PHPStan\dumpType;
 
 /**

@@ -8,7 +8,7 @@ use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
-use Mine\Interfaces\serviceInterface\DictDataServiceInterface;
+use Mine\Interfaces\ServiceInterface\DictDataServiceInterface;
 use Psr\Container\ContainerInterface;
 
 /**

@@ -10,7 +10,7 @@ use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Annotation\Transaction;
-use Mine\Interfaces\serviceInterface\ConfigServiceInterface;
+use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
 use Psr\Container\ContainerInterface;
 
 #[DependProxy(values: [ ConfigServiceInterface::class ])]

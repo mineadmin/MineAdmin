@@ -14,7 +14,7 @@ use Mine\Abstracts\AbstractService;
 use Mine\Amqp\DelayProducer;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
-use Mine\Interfaces\serviceInterface\QueueLogServiceInterface;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 
 /**
  * 队列管理服务类

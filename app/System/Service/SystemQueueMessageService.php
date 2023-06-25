@@ -8,7 +8,7 @@ use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
-use Mine\Interfaces\serviceInterface\QueueMessageServiceInterface;
+use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
 
 /**
  * 信息管理服务类

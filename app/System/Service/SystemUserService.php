@@ -14,7 +14,7 @@ use Mine\Event\UserAdd;
 use Mine\Event\UserDelete;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
-use Mine\Interfaces\serviceInterface\UserServiceInterface;
+use Mine\Interfaces\ServiceInterface\UserServiceInterface;
 use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

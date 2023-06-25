@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19a724750048bad3aab90408be3a7385",
+    "content-hash": "90d6294f06a33bf77fbc8d81dd669ca8",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -8557,16 +8557,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "04ee7b396900259c9a2059dbd08afce51a3369df"
+                "reference": "cec5a5c8be1789e0b4eff40c32e03b70d692ffef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/04ee7b396900259c9a2059dbd08afce51a3369df",
-                "reference": "04ee7b396900259c9a2059dbd08afce51a3369df",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/cec5a5c8be1789e0b4eff40c32e03b70d692ffef",
+                "reference": "cec5a5c8be1789e0b4eff40c32e03b70d692ffef",
                 "shasum": ""
             },
             "require": {
@@ -8646,9 +8646,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.4.0"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.4.1"
             },
-            "time": "2023-06-23T09:45:31+00:00"
+            "time": "2023-06-25T08:12:31+00:00"
         },
         {
             "name": "xmo/mine-office",

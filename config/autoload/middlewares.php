@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 return [
     'http' => [
+        \Mine\Middlewares\CheckModuleMiddleware::class,
         \Hyperf\Validation\Middleware\ValidationMiddleware::class,
-        \Mine\Middlewares\CheckModuleMiddleware::class
     ],
 ];

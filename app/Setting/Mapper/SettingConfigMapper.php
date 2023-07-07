@@ -76,13 +76,13 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['group_id']) && !empty($params['group_id'])) {
+        if (!empty($params['group_id'])) {
             $query->where('group_id', $params['group_id']);
         }
-        if (isset($params['name']) && !empty($params['name'])) {
+        if (!empty($params['name'])) {
             $query->where('name', $params['name']);
         }
-        if (isset($params['key']) && !empty($params['key'])) {
+        if (!empty($params['key'])) {
             $query->where('key', 'like',  '%'.$params['key'].'%');
         }
         return $query;

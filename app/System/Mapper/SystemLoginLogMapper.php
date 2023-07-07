@@ -30,19 +30,19 @@ class SystemLoginLogMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['ip'])) {
+        if (!empty($params['ip'])) {
             $query->where('ip', $params['ip']);
         }
 
-        if (isset($params['username'])) {
+        if (!empty($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
 
-        if (isset($params['status'])) {
+        if (!empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (isset($params['login_time']) && is_array($params['login_time']) && count($params['login_time']) == 2) {
+        if (!empty($params['login_time']) && is_array($params['login_time']) && count($params['login_time']) == 2) {
             $query->whereBetween(
                 'login_time',
                 [ $params['login_time'][0] . ' 00:00:00', $params['login_time'][1] . ' 23:59:59' ]

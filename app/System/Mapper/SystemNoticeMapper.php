@@ -30,15 +30,15 @@ class SystemNoticeMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['title'])) {
+        if (!empty($params['title'])) {
             $query->where('title', '=', $params['title']);
         }
 
-        if (isset($params['type'])) {
+        if (!empty($params['type'])) {
             $query->where('type', '=', $params['type']);
         }
 
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]

@@ -132,23 +132,23 @@ class SystemDeptMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['status'])) {
+        if (!empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (isset($params['name'])) {
+        if (!empty($params['name'])) {
             $query->where('name', 'like', '%'.$params['name'].'%');
         }
 
-        if (isset($params['leader'])) {
+        if (!empty($params['leader'])) {
             $query->where('leader', $params['leader']);
         }
 
-        if (isset($params['phone'])) {
+        if (!empty($params['phone'])) {
             $query->where('phone', $params['phone']);
         }
 
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]

@@ -164,38 +164,38 @@ class SystemUserMapper extends AbstractMapper
                     ->toArray()
                 );
         }
-        if (isset($params['username'])) {
+        if (!empty($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
-        if (isset($params['nickname'])) {
+        if (!empty($params['nickname'])) {
             $query->where('nickname', 'like', '%'.$params['nickname'].'%');
         }
-        if (isset($params['phone'])) {
+        if (!empty($params['phone'])) {
             $query->where('phone', '=', $params['phone']);
         }
-        if (isset($params['email'])) {
+        if (!empty($params['email'])) {
             $query->where('email', '=', $params['email']);
         }
-        if (isset($params['status'])) {
+        if (!empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (isset($params['filterSuperAdmin'])) {
+        if (!empty($params['filterSuperAdmin'])) {
             $query->whereNotIn('id', [env('SUPER_ADMIN')]);
         }
 
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
             );
         }
 
-        if (isset($params['userIds'])) {
+        if (!empty($params['userIds'])) {
             $query->whereIn('id', $params['userIds']);
         }
 
-        if (isset($params['showDept'])) {
+        if (!empty($params['showDept'])) {
             $isAll = $params['showDeptAll'] ?? false;
 
             $query->with(['depts' => function($query) use($isAll){
@@ -205,7 +205,7 @@ class SystemUserMapper extends AbstractMapper
             }]);
         }
 
-        if (isset($params['role_id'])) {
+        if (!empty($params['role_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
@@ -213,7 +213,7 @@ class SystemUserMapper extends AbstractMapper
             );
         }
 
-        if (isset($params['post_id'])) {
+        if (!empty($params['post_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",

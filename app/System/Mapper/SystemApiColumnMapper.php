@@ -31,32 +31,32 @@ class SystemApiColumnMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         // 接口ID
-        if (isset($params['api_id'])) {
+        if (!empty($params['api_id'])) {
             $query->where('api_id', '=', $params['api_id']);
         }
 
         // 字段类型
-        if (isset($params['type'])) {
+        if (!empty($params['type'])) {
             $query->where('type', '=', $params['type']);
         }
 
         // 字段名称
-        if (isset($params['name'])) {
+        if (!empty($params['name'])) {
             $query->where('name', '=', $params['name']);
         }
 
         // 数据类型
-        if (isset($params['data_type'])) {
+        if (!empty($params['data_type'])) {
             $query->where('data_type', '=', $params['data_type']);
         }
 
         // 是否必填 1 非必填 2 必填
-        if (isset($params['is_required'])) {
+        if (!empty($params['is_required'])) {
             $query->where('is_required', '=', $params['is_required']);
         }
 
         // 状态 (1正常 2停用)
-        if (isset($params['status'])) {
+        if (!empty($params['status'])) {
             $query->where('status', '=', $params['status']);
         }
         return $query;

@@ -52,19 +52,19 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['storage_mode'])) {
+        if (!empty($params['storage_mode'])) {
             $query->where('storage_mode', $params['storage_mode']);
         }
-        if (isset($params['origin_name'])) {
+        if (!empty($params['origin_name'])) {
             $query->where('origin_name', 'like', '%'.$params['origin_name'].'%');
         }
-        if (isset($params['storage_path'])) {
+        if (!empty($params['storage_path'])) {
             $query->where('storage_path', 'like', $params['storage_path'].'%');
         }
         if (!empty($params['mime_type'])) {
             $query->where('mime_type', 'like', $params['mime_type'].'/%');
         }
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
+        if (!empty($params['minDate']) && !empty($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
                 [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']

@@ -45,7 +45,7 @@ class SettingDatasourceMapper extends AbstractMapper
     {
         
         // 数据源名称
-        if (isset($params['source_name']) && $params['source_name'] !== '') {
+        if (!empty($params['source_name'])) {
             $query->where('source_name', 'like', '%'.$params['source_name'].'%');
         }
 

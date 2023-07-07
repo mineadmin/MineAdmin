@@ -28,16 +28,16 @@ class SystemOperLogMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['ip'])) {
+        if (!empty($params['ip'])) {
             $query->where('ip', $params['ip']);
         }
-        if (isset($params['service_name'])) {
+        if (!empty($params['service_name'])) {
             $query->where('service_name', 'like', '%'.$params['service_name'].'%');
         }
-        if (isset($params['username'])) {
+        if (!empty($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]

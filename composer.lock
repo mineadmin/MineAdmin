@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90d6294f06a33bf77fbc8d81dd669ca8",
+    "content-hash": "db0e9847e080c9a938edf56073c993a9",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -8557,16 +8557,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.4.3",
+            "version": "v1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "369806385de57bda90745d95f9d9ff4d0f957d5a"
+                "reference": "647d1719992fb12deda5edc4af10e527c8ae793c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/369806385de57bda90745d95f9d9ff4d0f957d5a",
-                "reference": "369806385de57bda90745d95f9d9ff4d0f957d5a",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/647d1719992fb12deda5edc4af10e527c8ae793c",
+                "reference": "647d1719992fb12deda5edc4af10e527c8ae793c",
                 "shasum": ""
             },
             "require": {
@@ -8646,9 +8646,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.4.3"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.4.4"
             },
-            "time": "2023-07-11T01:58:58+00:00"
+            "time": "2023-07-18T03:24:36+00:00"
         },
         {
             "name": "xmo/mine-office",
@@ -8688,6 +8688,88 @@
                 "source": "https://github.com/kanyxmo/office/tree/v1.3.1"
             },
             "time": "2023-06-15T09:32:43+00:00"
+        },
+        {
+            "name": "xmo/mine-translatable",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kanyxmo/translatable.git",
+                "reference": "84415003b921b678f869d1fa94573f50840ae8d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kanyxmo/translatable/zipball/84415003b921b678f869d1fa94573f50840ae8d2",
+                "reference": "84415003b921b678f869d1fa94573f50840ae8d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-swoole": ">=4.5",
+                "hyperf/config": "3.0.*",
+                "hyperf/database": "3.0.*",
+                "hyperf/db-connection": "3.0.*",
+                "hyperf/di": "3.0.*",
+                "hyperf/framework": "3.0.*",
+                "hyperf/model-listener": "3.0.*",
+                "hyperf/translation": "3.0.*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "hyperf/testing": "3.0.*",
+                "mockery/mockery": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "swoole/ide-helper": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Mine\\Translatable\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mine\\Translatable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "X.Mo",
+                    "email": "root@imoi.cn"
+                },
+                {
+                    "name": "Eric Zhu",
+                    "email": "eric@zhu.email"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "gummibeer@astrotomic.info",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Dimitrios Savvopoulos",
+                    "email": "ds@dimsav.com",
+                    "homepage": "http://dimsav.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Hyperf Multilingual Model package.",
+            "keywords": [
+                "database",
+                "hyperf",
+                "language",
+                "php",
+                "translation"
+            ],
+            "support": {
+                "source": "https://github.com/kanyxmo/translatable/tree/v1.0.0"
+            },
+            "time": "2023-07-17T06:53:07+00:00"
         },
         {
             "name": "yurunsoft/phpmailer-swoole",

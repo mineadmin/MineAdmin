@@ -9,30 +9,94 @@
  * @Link   https://gitee.com/xmo/MineAdmin
  */
 
-/**
+declare(strict_types=1);
+
+
+/*
  * 强制重启服务脚本，并清理缓存代理类
  */
+$env = isset($argv[1]) ? $argv[1] : 'dev';
 
-$pid = shell_exec(sprintf('cat %s/../runtime/hyperf.pid', __DIR__));
-$rebootCmd = sprintf('rm -rf %s/../runtime/container/* && php %s/hyperf.php start > /dev/null 2>/dev/null &', __DIR__, __DIR__);
+$httpPort = isset($argv[2]) ? $argv[2] : 9501;
+$messagePort = isset($argv[3]) ? $argv[3] : 9502;
 
-if (shell_exec(sprintf('ps -ef | grep -v grep | grep %s', $pid))) {
-    shell_exec("kill -9 {$pid}");
-    shell_exec($rebootCmd);
-} else {
-    shell_exec($rebootCmd);
+killHyperfPid();
+killHttpPort($httpPort);
+killWebsocketPort($messagePort);
+
+startService($env);
+
+function startService($env)
+{
+    echo "启动{$env}服务\n";
+    if ($env == 'dev'){
+        $rebootCmd = sprintf('php %s/hyperf.php server:watch  > /dev/tty', __DIR__);
+        shell_exec($rebootCmd);
+    }else{
+        $rebootCmd = sprintf('php %s/hyperf.php start > /dev/null', __DIR__);
+        shell_exec($rebootCmd);
+    }
 }
 
-// 执行 lsof 命令并查找 9502 端口
-$output = shell_exec('lsof -i :9502 | grep LISTEN | awk \'{print $2}\'');
+function killHyperfPid()
+{
+    echo "执行killHyperfPid中\n";
+    $pid = shell_exec(sprintf('cat %s/../runtime/hyperf.pid', __DIR__));
+    $rebootCmd = sprintf('rm -rf %s/../runtime/container/*', __DIR__);
+    //    $rebootCmd = sprintf('rm -rf %s/../runtime/container/* && php %s/hyperf.php start > /dev/null 2>/dev/null &', __DIR__, __DIR__);
 
-// 将进程 ID 转换为数组
-$pidList = explode("\n", trim($output));
-
-// 遍历进程 ID 列表并杀死相应进程
-foreach ($pidList as $pid) {
-    if (is_numeric($pid)) {
-        shell_exec("kill -9 $pid");
-        echo "进程 $pid 已杀死\n";
+    if (shell_exec(sprintf('ps -ef | grep -v grep | grep %s', $pid))) {
+        shell_exec("kill -9 {$pid}");
     }
+    echo "执行killHyperfPid完成\n";
+
+    echo "执行清理缓存代理中\n";
+    shell_exec($rebootCmd);
+    echo "执行清理缓存代理成功\n";
+}
+
+function killWebsocketPort($port = 9502)
+{
+    echo "执行killWebsocketPort中\n";
+
+    $command = 'lsof -t -i:' . $port;
+    $output = shell_exec($command);
+
+    if ($output) {
+        $pidArray = explode("\n", trim($output));
+
+        $pidList = array_filter($pidArray, 'strlen');
+
+        foreach ($pidList as $pid) {
+            if (is_numeric($pid)) {
+                shell_exec("kill -9 {$pid}");
+                echo __FUNCTION__ . ":{$port}端口进程 {$pid} 已杀死\n";
+            }
+        }
+    }
+
+    echo "执行killWebsocketPort完成\n";
+}
+
+function killHttpPort($port = 9501)
+{
+    echo "执行killHttpPort中\n";
+
+    $command = 'lsof -t -i:' . $port;
+    $output = shell_exec($command);
+
+    if ($output) {
+        $pidArray = explode("\n", trim($output));
+
+        $pidList = array_filter($pidArray, 'strlen');
+
+        foreach ($pidList as $pid) {
+            if (is_numeric($pid)) {
+                shell_exec("kill -9 {$pid}");
+                echo __FUNCTION__ . ":{$port}端口进程 {$pid} 已杀死\n";
+            }
+        }
+    }
+
+    echo "执行killHttpPort完成\n";
 }

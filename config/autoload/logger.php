@@ -26,6 +26,9 @@ return [
                 'allowInlineLineBreaks' => true,
             ],
         ],
+        'processor' => [
+            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
+        ],
     ],
     'sql' => [
         'handler' => [
@@ -42,6 +45,9 @@ return [
                 'dateFormat' => 'Y-m-d H:i:s',
                 'allowInlineLineBreaks' => true,
             ],
+        ],
+        'processor' => [
+            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
         ],
     ],
 ];

@@ -33,6 +33,20 @@ class SettingConfigMapper extends AbstractMapper
     }
 
     /**
+     * 按组的key获取一组配置信息
+     * @param string $groupKey
+     * @return array
+     */
+    public function getConfigByGroupKey(string $groupKey): array
+    {
+        $prefix = env('DB_PREFIX');
+        return $this->model::query()->whereRaw(
+            sprintf('group_id = ( SELECT id FROM %ssetting_config_group WHERE code = ? )', $prefix),
+            [ $groupKey ]
+        )->get()->toArray();
+    }
+
+    /**
      * 更新配置
      * @param string $key
      * @param array $data

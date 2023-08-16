@@ -86,6 +86,16 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     }
 
     /**
+     * 按组的key获取一组配置信息
+     * @param string $groupKey
+     * @return array|null
+     */
+    public function getConfigByGroupKey(string $groupKey): ?array
+    {
+        return $this->mapper->getConfigByGroupKey($groupKey);
+    }
+
+    /**
      * 清除缓存
      * @return bool
      * @throws \RedisException

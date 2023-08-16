@@ -41,7 +41,13 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public function getFileInfoByHash(string $hash)
     {
-        return $this->model::query()->where('hash', $hash)->first();
+        $model = $this->model::query()->where('hash', $hash)->first();
+        if (! $model) {
+            $model = $this->model::withTrashed()->where('hash', $hash)->first(['id']);
+            $model && $model->forceDelete();
+            return null;
+        }
+        return $model;
     }
 
     /**
@@ -79,11 +85,15 @@ class SystemUploadFileMapper extends AbstractMapper
             $model = $this->model::withTrashed()->find($id);
             if ($model) {
                 $storageMode = match ( $model->storage_mode ) {
-                    1 => 'local' ,
-                    2 => 'oss'   ,
-                    3 => 'qiniu' ,
-                    4 => 'cos'   ,
-                    default => 'local' ,
+                    '1' => 'local',
+                    '2' => 'oss',
+                    '3' => 'qiniu',
+                    '4' => 'cos',
+                    '5' => 'ftp',
+                    '6' => 'memory',
+                    '7' => 's3',
+                    '8' => 'minio',
+                    default => 'local',
                 };
                 $event = new \Mine\Event\RealDeleteUploadFile(
                     $model, $this->container->get(FilesystemFactory::class)->get($storageMode)

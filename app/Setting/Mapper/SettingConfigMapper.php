@@ -40,7 +40,7 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function updateConfig(string $key, array $data): bool
     {
-        if (is_array($data['config_select_data'])) {
+        if (isset($data['config_select_data']) && is_array($data['config_select_data'])) {
             $data['config_select_data'] = json_encode($data['config_select_data'], JSON_UNESCAPED_UNICODE);
         }
         return $this->model::query()->where('key', $key)->update($data) > -1;

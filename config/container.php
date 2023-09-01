@@ -18,7 +18,7 @@ use Hyperf\Context\ApplicationContext;
 use Mine\Annotation\DependProxyCollector;
 
 // https://github.com/kanyxmo/mine/pull/14
-$container = new Container((new DefinitionSourceFactory(true))());
+$container = new Container((new DefinitionSourceFactory())());
 //DependProxyCollector::walk([$container, 'define']);
 
 if (! $container instanceof \Psr\Container\ContainerInterface) {

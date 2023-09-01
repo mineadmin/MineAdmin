@@ -37,11 +37,12 @@ class SystemUploadFileMapper extends AbstractMapper
     /**
      * 通过hash获取上传文件的信息
      * @param string $hash
-     * @return Builder|\Hyperf\Database\Model\Model|object|null
+     * @param array $columns
+     * @return Builder|Model|object|null
      */
-    public function getFileInfoByHash(string $hash)
+    public function getFileInfoByHash(string $hash, array $columns = ['*'])
     {
-        $model = $this->model::query()->where('hash', $hash)->first();
+        $model = $this->model::query()->where('hash', $hash)->first($columns);
         if (! $model) {
             $model = $this->model::withTrashed()->where('hash', $hash)->first(['id']);
             $model && $model->forceDelete();

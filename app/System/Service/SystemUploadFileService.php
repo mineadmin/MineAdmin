@@ -10,6 +10,7 @@ use Hyperf\HttpMessage\Upload\UploadedFile;
 use \Hyperf\Collection\Collection;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
+use Mine\MineResponse;
 use Mine\MineUpload;
 
 /**
@@ -133,10 +134,35 @@ class SystemUploadFileService extends AbstractService
     /**
      * 通过hash获取文件信息
      * @param string $hash
-     * @return \Hyperf\Database\Model\Builder|\Hyperf\Database\Model\Model|object|null
+     * @param array $columns
+     * @return Builder|Model|object|null
      */
-    public function readByHash(string $hash)
+    public function readByHash(string $hash, array $columns = ['*'])
     {
-        return $this->mapper->getFileInfoByHash($hash);
+        return $this->mapper->getFileInfoByHash($hash, $columns);
+    }
+
+    /**
+     * @param string $hash
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \League\Flysystem\FilesystemException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function responseFile(string $hash): \Psr\Http\Message\ResponseInterface
+    {
+        $model = $this->readByHash($hash, ['url', 'mime_type']);
+        if (! $model) {
+            throw new NormalStatusException('文件不存在', 500);
+        }
+
+        return container()->get(MineResponse::class)->responseImage(
+            $this->mineUpload->getFileSystem()->read(
+                $this->mineUpload->getStorageMode() === '1'
+                    ? str_replace(env('UPLOAD_PATH', 'uploadfile'), '', $model->url)
+                    : $model->url
+             ),
+            $model->mime_type
+        );
     }
 }

@@ -133,7 +133,7 @@ function addEvent($serve)
             echo CONSOLE_COLOR_DEFAULT;
         }
     });
-    version_compare(PHP_VERSION, '8.1', '>') && Event::wait();
+//    version_compare(PHP_VERSION, '8.1', '>') && Event::wait();
 }
 
 function watch()

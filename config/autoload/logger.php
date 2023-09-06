@@ -26,10 +26,9 @@ return [
                 'allowInlineLineBreaks' => true,
             ],
         ],
-        // 暂时先注释了，mine-core 还未发新版支持这个
-//        'processor' => [
-//            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
-//        ],
+        'processor' => [
+            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
+        ],
     ],
     'sql' => [
         'handler' => [
@@ -47,8 +46,8 @@ return [
                 'allowInlineLineBreaks' => true,
             ],
         ],
-//        'processor' => [
-//            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
-//        ],
+        'processor' => [
+            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
+        ],
     ],
 ];

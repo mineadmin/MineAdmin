@@ -190,7 +190,7 @@ class UserController extends MineController
     #[PostMapping("updateInfo")]
     public function updateInfo(): ResponseInterface
     {
-        return $this->service->updateInfo($this->request->all()) ? $this->success() : $this->error();
+        return $this->service->updateInfo(array_merge($this->request->all(), ['id' => user()->getId() ])) ? $this->success() : $this->error();
     }
 
     /**

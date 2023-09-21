@@ -132,7 +132,7 @@ class CommonController extends MineController
     #[GetMapping("getLoginLogList")]
     public function getLoginLogPageList(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->loginLogService->getPageList($this->request->all()));
+        return $this->success($this->loginLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername() ])));
     }
 
     /**
@@ -144,7 +144,7 @@ class CommonController extends MineController
     #[GetMapping("getOperationLogList")]
     public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
     {
-        return $this->success($this->operLogService->getPageList($this->request->all()));
+        return $this->success($this->operLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername() ])));
     }
 
     #[GetMapping("getResourceList")]

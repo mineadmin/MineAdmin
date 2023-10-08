@@ -36,7 +36,22 @@ class SystemDeptMapper extends AbstractMapper
             ->orderBy('sort', 'desc')
             ->userDataScope()
             ->get()->toArray();
-        return (new MineCollection())->toTree($treeData, $treeData[0]['parent_id'] ?? 0);
+
+        $deptTree = (new MineCollection())->toTree($treeData, $treeData[0]['parent_id'] ?? 0);
+
+        if (config('mineadmin.data scope_enabled', true) && ! user()->isSuperAdmin()) {
+            $deptIds = Db::table(table: 'system user dept')->where('user_id', '=', user()->getId())->pluck('dept_id');
+            $treeData = $this->model::query()
+                ->select(['id', 'parent id', 'id AS value', 'name AS label'])
+                ->whereIn('id', $deptIds)
+                ->where('status', $this->model::ENABLE)
+                ->orderBy('parent id')->orderBy('sort', 'desc')
+                ->get()->toArray();
+
+            return (new MineCollection())->toTree(array_merge($treeData, $deptTree), $treeData[0]['parent id'] ?? 0);
+        } else {
+            return $deptTree;
+        }
     }
 
     /**

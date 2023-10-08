@@ -8141,16 +8141,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kanyxmo/mine.git",
-                "reference": "9afda22e53e4f8720ee89f574718398ae2475498"
+                "reference": "1028e327b3332eb9af64463a65a3ccb9b065f73b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/9afda22e53e4f8720ee89f574718398ae2475498",
-                "reference": "9afda22e53e4f8720ee89f574718398ae2475498",
+                "url": "https://api.github.com/repos/kanyxmo/mine/zipball/1028e327b3332eb9af64463a65a3ccb9b065f73b",
+                "reference": "1028e327b3332eb9af64463a65a3ccb9b065f73b",
                 "shasum": ""
             },
             "require": {
@@ -8231,9 +8231,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kanyxmo/mine/issues",
-                "source": "https://github.com/kanyxmo/mine/tree/v1.5.1"
+                "source": "https://github.com/kanyxmo/mine/tree/v1.5.2"
             },
-            "time": "2023-09-04T06:15:32+00:00"
+            "time": "2023-09-27T07:01:11+00:00"
         },
         {
             "name": "xmo/mine-office",

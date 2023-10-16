@@ -24,8 +24,6 @@ use Psr\Http\Message\ResponseInterface;
  * 字典类型控制器
  * Class LogsController
  * @package App\System\Controller\DataCenter
- * @Controller(prefix="system/dictType")
- * @Auth
  */
 #[Controller(prefix: "system/dictType"), Auth]
 class DictTypeController extends MineController

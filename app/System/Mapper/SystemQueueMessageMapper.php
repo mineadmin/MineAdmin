@@ -56,12 +56,22 @@ class SystemQueueMessageMapper extends AbstractMapper
             }]);
             $prefix = env('DB_PREFIX');
             $readStatus = $params['read_status'] ?? 'all';
-            $sql = <<<sql
-                id IN ( 
-                    SELECT `message_id` FROM `{$prefix}system_queue_message_receive` WHERE `user_id` = ?
-                    AND if (? <> 'all', `read_status` = ?, ' 1 = 1 ')
-                )
-            sql;
+
+            if (env('DB_DRIVER') == 'pgsql') {
+                $sql = <<<sql
+                    id IN ( 
+                        SELECT "message_id" FROM "{$prefix}system_queue_message_receive" WHERE "user_id" = ?
+                        AND (CASE WHEN CAST(? AS varchar) <> 'all' THEN CAST("read_status" as varchar) = ? ELSE  1 = 1  END)
+                    )
+                sql;
+            } else {
+                $sql = <<<sql
+                    id IN (
+                        SELECT `message_id` FROM `{$prefix}system_queue_message_receive` WHERE `user_id` = ?
+                        AND if (? <> 'all', `read_status` = ?, ' 1 = 1 ')
+                    )
+                sql;
+            }
             $query->whereRaw($sql, [ $params['user_id'] ?? user()->getId(), $readStatus, $readStatus ]);
         }
 

@@ -14,8 +14,16 @@
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v1.4.x" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v2.0 LTS" />
 </p>
+
+## 版本说明
+`master` 分支为2.0 LTS预览版本，即将支持Hyperf 3.1
+
+稳定版请使用 `1.4.x` 分支的代码，或者在发行版那里下载代码
+
+## 项目介绍
+
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
 
@@ -63,8 +71,8 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 ## 环境需求
 
-- Swoole >= 4.6.x 并关闭 `Short Name`
-- PHP >= 8.0 并开启以下扩展：
+- Swoole >= 5.0 并关闭 `Short Name`
+- PHP >= 8.1 并开启以下扩展：
   - mbstring
   - json
   - pdo
@@ -87,8 +95,6 @@ composer install
 ```
 
 ## 项目安装
-
-> 从 **`1.3.0`** 版本开始在安装后端项目后，会多一个步骤，询问是否在根目录建立 `web` 目录并下载前端项目代码
 
 打开终端，执行安装命令，按照提示，一步步完成`.env`文件的配置
 ```shell

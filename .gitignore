@@ -3,6 +3,7 @@
 /vendor
 /package
 /runtime
+/libdev
 *.log
 .env
 .gitee

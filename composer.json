@@ -10,10 +10,10 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/jwt-auth": "0.6.*",
-    "xmo/mine-core": "^1.5",
-    "xmo/mine-office": "1.*",
-    "xmo/mine-translatable": "1.*"
+    "xmo/jwt-auth": "dev-master",
+    "xmo/mine-core": "dev-main",
+    "xmo/mine-office": "dev-main",
+    "xmo/mine-translatable": "dev-master"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",
@@ -63,10 +63,28 @@
     ],
     "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
     "cs-fix": "php-cs-fixer fix $1",
-    "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./app ./config ./vendor/xmo",
+    "analyse": "phpstan analyse --memory-limit 500M -l 0 -c phpstan.neon ./app ./config ./libdev",
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
+  },
+  "repositories": {
+    "xmo/mine-core": {
+      "type": "path",
+      "url": "/opt/www/libdev/mine"
+    },
+    "xmo/mine-office": {
+      "type": "path",
+      "url": "/opt/www/libdev/office"
+    },
+    "xmo/mine-translatable": {
+      "type": "path",
+      "url": "/opt/www/libdev/translatable"
+    },
+    "xmo/jwt-auth": {
+      "type": "path",
+      "url": "/opt/www/libdev/jwt-auth"
+    }
   }
 }

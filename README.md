@@ -14,13 +14,13 @@
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v2.0 LTS" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v1.4.x" />
 </p>
 
 ## 版本说明
-`master` 分支为2.0 LTS预览版本，即将支持Hyperf 3.1，**目前master分支会不定时更新代码，不建议用于生产环境**。
+此分支为 `1.4.x` 版本，不再进行功能更新，只负责安全维护。
 
-稳定版请使用 `1.4.x` 分支的代码，或者在发行版那里下载代码
+若使用最新的2.0版本请移步 `master` 分支，2.0版本将支持Hyperf 3.1 LTS版本
 
 ## 项目介绍
 
@@ -28,7 +28,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
 
 后台系统基于 Hyperf 框架开发。企业级架构分层，轻松支撑创业公司及个人前期发展使用，使用少量的服务器资源媲美静态语言的性能。
-前端使用Vue3 + Vite4 + Pinia + Arco，一端适配PC、移动端、平板
+前端使用Vue3 + Vite3 + Pinia + Arco，一端适配PC、移动端、平板
 
 如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
 在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
@@ -68,12 +68,11 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 17. 缓存监控，查看Redis信息和系统所使用key的信息
 18. API管理，对应用和接口管理、接口授权等功能。接口文档自动生成，输入、输出参数检查等
 19. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
-20. 应用市场，可下载各种基础应用、插件、前端组件等等（开发中...）
 
 ## 环境需求
 
-- Swoole >= 5.0 并关闭 `Short Name`
-- PHP >= 8.1 并开启以下扩展：
+- Swoole >= 4.6.x 并关闭 `Short Name`
+- PHP >= 8.0 并开启以下扩展：
   - mbstring
   - json
   - pdo
@@ -96,6 +95,8 @@ composer install
 ```
 
 ## 项目安装
+
+> 从 **`1.3.0`** 版本开始在安装后端项目后，会多一个步骤，询问是否在根目录建立 `web` 目录并下载前端项目代码
 
 打开终端，执行安装命令，按照提示，一步步完成`.env`文件的配置
 ```shell

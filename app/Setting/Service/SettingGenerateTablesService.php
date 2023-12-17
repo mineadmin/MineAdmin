@@ -7,7 +7,7 @@ use App\Setting\Mapper\SettingGenerateTablesMapper;
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Service\DataMaintainService;
 use Hyperf\DbConnection\Db;
-use Hyperf\Utils\Filesystem\Filesystem;
+use Hyperf\Support\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Exception\MineException;

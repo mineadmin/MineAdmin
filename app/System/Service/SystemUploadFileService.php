@@ -7,7 +7,7 @@ use App\System\Mapper\SystemUploadFileMapper;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
-use \Hyperf\Collection\Collection;
+use Hyperf\Collection\Collection;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
 use Mine\MineResponse;

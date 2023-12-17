@@ -23,11 +23,11 @@ class DataMaintainService extends AbstractService
 
     /**
      * 数组数据搜索器
-     * @param \Hyperf\Utils\Collection $collect
+     * @param \Hyperf\Collection\Collection $collect
      * @param array $params
      * @return Collection
      */
-    protected function handleArraySearch(\Hyperf\Utils\Collection $collect, array $params): \Hyperf\Utils\Collection
+    protected function handleArraySearch(\Hyperf\Collection\Collection $collect, array $params): \Hyperf\Collection\Collection
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {

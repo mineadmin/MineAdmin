@@ -17,7 +17,7 @@ use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Event\ApiAfter;
 use Mine\Helper\Str;
 use Mine\MineRequest;
-use Hyperf\Utils\Coroutine;
+use Hyperf\Coroutine\Coroutine;
 
 /**
  * API访问日志保存

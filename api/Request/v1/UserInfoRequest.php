@@ -14,7 +14,7 @@ class UserInfoRequest extends FormRequest
     /**
      * 验证规则.
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'id' => 'required|numeric',

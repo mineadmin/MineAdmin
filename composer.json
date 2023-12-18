@@ -10,14 +10,13 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/jwt-auth": "dev-main",
-    "xmo/mine-core": "dev-main",
-    "xmo/mine-office": "dev-main",
-    "xmo/mine-translatable": "dev-main",
-    "xmo/mine-gateway": "dev-main"
+    "xmo/jwt-auth": "2.0.x-dev",
+    "xmo/mine-core": "2.0.x-dev",
+    "xmo/mine-office": "2.0.x-dev",
+    "xmo/mine-translatable": "2.0.x-dev"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.1",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "hyperf/devtool": "3.1.*",
     "hyperf/ide-helper": "3.1.*",
     "hyperf/testing": "3.1.*",
@@ -73,23 +72,19 @@
   "repositories": {
     "xmo/mine-core": {
       "type": "path",
-      "url": "/opt/www/libdev/mine"
+      "url": "/home/satan/my_work/mine/mine-core/src/mine"
     },
     "xmo/mine-office": {
       "type": "path",
-      "url": "/opt/www/libdev/office"
+      "url": "/home/satan/my_work/mine/mine-core/src/office"
     },
     "xmo/mine-translatable": {
       "type": "path",
-      "url": "/opt/www/libdev/translatable"
+      "url": "/home/satan/my_work/mine/mine-core/src/translatable"
     },
     "xmo/jwt-auth": {
       "type": "path",
-      "url": "/opt/www/libdev/jwt-auth"
-    },
-    "xmo/mine-gateway": {
-      "type": "path",
-      "url": "/opt/www/libdev/gateway"
+      "url": "/home/satan/my_work/mine/mine-core/src/jwt-auth"
     }
   }
 }

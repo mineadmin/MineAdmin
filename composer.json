@@ -68,23 +68,5 @@
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
-  },
-  "repositories": {
-    "xmo/mine-core": {
-      "type": "path",
-      "url": "/home/satan/my_work/mine/mine-core/src/mine"
-    },
-    "xmo/mine-office": {
-      "type": "path",
-      "url": "/home/satan/my_work/mine/mine-core/src/office"
-    },
-    "xmo/mine-translatable": {
-      "type": "path",
-      "url": "/home/satan/my_work/mine/mine-core/src/translatable"
-    },
-    "xmo/jwt-auth": {
-      "type": "path",
-      "url": "/home/satan/my_work/mine/mine-core/src/jwt-auth"
-    }
   }
 }

@@ -9,11 +9,39 @@
   "homepage": "https://www.mineadmin.com/",
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
+  "repositories": {
+    "xmo/mine-core": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/mine"
+    },
+    "xmo/mine-office": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/office"
+    },
+    "xmo/mine-translatable": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/translatable"
+    },
+    "xmo/jwt-auth": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/jwt-auth"
+    },
+    "xmo/mine-generator": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/mine-generator"
+    },
+    "xmo/mine-helpers": {
+      "type": "path",
+      "url": "/home/satan/my_work/mine/mine-core/src/mine-helpers"
+    }
+  },
   "require": {
-    "xmo/jwt-auth": "2.0.0-alpha.1",
-    "xmo/mine-core": "2.0.0-alpha.1",
-    "xmo/mine-office": "2.0.0-alpha.1",
-    "xmo/mine-translatable": "2.0.0-alpha.1"
+    "xmo/jwt-auth": "2.0.x-dev",
+    "xmo/mine-core": "2.0.x-dev",
+    "xmo/mine-helpers": "2.0.x-dev",
+    "xmo/mine-office": "2.0.x-dev",
+    "xmo/mine-translatable": "2.0.x-dev",
+    "xmo/mine-generator": "2.0.x-dev"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

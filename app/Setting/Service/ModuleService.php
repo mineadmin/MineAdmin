@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\NullOutput;
 #[DependProxy(values: [ ModuleServiceInterface::class ])]
 class ModuleService extends AbstractService implements ModuleServiceInterface
 {
+
     /**
      * @var Mine
      */
@@ -31,6 +32,7 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
     public function __construct(Mine $mine)
     {
         $this->mine = $mine;
+        $this->setModuleCache();
     }
 
     /**

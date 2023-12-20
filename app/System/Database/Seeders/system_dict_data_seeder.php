@@ -33,7 +33,7 @@ class SystemDictDataSeeder extends Seeder
     {
         $tableName = env('DB_PREFIX') . \App\System\Model\SystemDictData::getModel()->getTable();
         if (env('DB_DRIVER') == 'pgsql') {
-            Db::select("SELECT setval('${tableName}_id_seq', 48)");
+            Db::select("SELECT setval('{$tableName}_id_seq', 48)");
             return [
                 "INSERT INTO \"{$tableName}\" VALUES (1, 1, 'InnoDB', 'InnoDB', 'table_engine', 0, 1, NULL, NULL, '2021-06-27 00:37:11', '2021-06-27 13:33:29', NULL, NULL)",
                 "INSERT INTO \"{$tableName}\" VALUES (2, 1, 'MyISAM', 'MyISAM', 'table_engine', 0, 1, NULL, NULL, '2021-06-27 00:37:21', '2021-06-27 13:33:29', NULL, NULL)",

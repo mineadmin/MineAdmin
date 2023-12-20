@@ -34,7 +34,7 @@ class SystemDictTypeSeeder extends Seeder
     {
         $tableName = env('DB_PREFIX') . \App\System\Model\SystemDictType::getModel()->getTable();
         if (env('DB_DRIVER') == 'pgsql') {
-            Db::select("SELECT setval('${tableName}_id_seq', 12)");
+            Db::select("SELECT setval('{$tableName}_id_seq', 12)");
             return [
                 "INSERT INTO \"{$tableName}\" VALUES (1, '数据表引擎', 'table_engine', 1, NULL, NULL, '2021-06-27 00:36:42', '2021-06-27 13:33:29', NULL, '数据表引擎字典')",
                 "INSERT INTO \"{$tableName}\" VALUES (2, '存储模式', 'upload_mode', 1, NULL, NULL, '2021-06-27 13:33:11', '2021-06-27 13:33:11', NULL, '上传文件存储模式')",

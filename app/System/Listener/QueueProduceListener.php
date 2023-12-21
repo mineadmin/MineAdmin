@@ -1,26 +1,34 @@
 <?php
 /**
- * 站内消息队列生产监听器
+ * 站内消息队列生产监听器.
  */
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Listener;
 
 use App\System\Queue\Producer\MessageProducer;
-use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
-use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 use Hyperf\Context\Context;
+use Hyperf\Event\Annotation\Listener;
+use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Amqp\Event\AfterProduce;
 use Mine\Amqp\Event\BeforeProduce;
 use Mine\Amqp\Event\FailToProduce;
 use Mine\Amqp\Event\ProduceEvent;
 use Mine\Amqp\Event\WaitTimeout;
-use Hyperf\Event\Contract\ListenerInterface;
-use Hyperf\Event\Annotation\Listener;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
+use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
 
 /**
  * 生产队列监听
- * Class QueueProduceListener
- * @package Mine\Amqp\Listener
+ * Class QueueProduceListener.
  */
 #[Listener]
 class QueueProduceListener implements ListenerInterface
@@ -28,23 +36,28 @@ class QueueProduceListener implements ListenerInterface
     /**
      * @Message("未生产")
      */
-    const PRODUCE_STATUS_WAITING = 1;
+    public const PRODUCE_STATUS_WAITING = 1;
+
     /**
      * @Message("生产中")
      */
-    const PRODUCE_STATUS_DOING = 2;
+    public const PRODUCE_STATUS_DOING = 2;
+
     /**
      * @Message("生产成功")
      */
-    const PRODUCE_STATUS_SUCCESS = 3;
+    public const PRODUCE_STATUS_SUCCESS = 3;
+
     /**
      * @Message("生产失败")
      */
-    const PRODUCE_STATUS_FAIL = 4;
+    public const PRODUCE_STATUS_FAIL = 4;
+
     /**
      * @Message("生产重复")
      */
-    const PRODUCE_STATUS_REPEAT = 5;
+    public const PRODUCE_STATUS_REPEAT = 5;
+
     private QueueLogServiceInterface $service;
 
     public function listen(): array
@@ -60,7 +73,6 @@ class QueueProduceListener implements ListenerInterface
     }
 
     /**
-     * @param object $event
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
@@ -69,14 +81,13 @@ class QueueProduceListener implements ListenerInterface
     {
         $this->service = container()->get(QueueLogServiceInterface::class);
         $class = get_class($event);
-        $func = lcfirst(trim(strrchr($class, '\\'),'\\'));
-        $this->$func($event);
+        $func = lcfirst(trim(strrchr($class, '\\'), '\\'));
+        $this->{$func}($event);
     }
 
     /**
      * Description:生产前
-     * User:mike, x.mo
-     * @param object $event
+     * User:mike, x.mo.
      */
     public function beforeProduce(object $event)
     {
@@ -88,26 +99,25 @@ class QueueProduceListener implements ListenerInterface
             'queue_name' => $queueName,
             'queue_content' => $event->producer->payload(),
             'delay_time' => $event->delayTime ?? 0,
-            'produce_status' => self::PRODUCE_STATUS_SUCCESS
+            'produce_status' => self::PRODUCE_STATUS_SUCCESS,
         ]);
 
         $this->setId($id);
 
         $payload = json_decode($event->producer->payload(), true);
 
-        if (!isset($payload['queue_id'])) {
+        if (! isset($payload['queue_id'])) {
             $event->producer->setPayload([
-                'queue_id' => $id, 'data' => $payload
+                'queue_id' => $id, 'data' => $payload,
             ]);
         }
 
-        $this->service->update($id, [ 'queue_content' => $event->producer->payload() ]);
+        $this->service->update($id, ['queue_content' => $event->producer->payload()]);
     }
 
     /**
      * Description:生产中
-     * User:mike, x.mo
-     * @param object $event
+     * User:mike, x.mo.
      */
     public function produceEvent(object $event): void
     {
@@ -116,8 +126,7 @@ class QueueProduceListener implements ListenerInterface
 
     /**
      * Description:生产后
-     * User:mike, x.mo
-     * @param object $event
+     * User:mike, x.mo.
      */
     public function afterProduce(object $event): void
     {
@@ -131,13 +140,13 @@ class QueueProduceListener implements ListenerInterface
 
     /**
      * Description:生产失败
-     * User:mike, x.mo
+     * User:mike, x.mo.
      */
     public function failToProduce(object $event): void
     {
         $this->service->update((int) $this->getId(), [
             'produce_status' => self::PRODUCE_STATUS_FAIL,
-            'log_content' => $event->throwable ?: $event->throwable->getMessage()
+            'log_content' => $event->throwable ?: $event->throwable->getMessage(),
         ]);
     }
 

@@ -1,9 +1,19 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Model;
 
 use Mine\MineModel;
+
 /**
  * @property int $id 主键
  * @property int $table_id 所属表ID
@@ -32,23 +42,21 @@ use Mine\MineModel;
 class SettingGenerateColumns extends MineModel
 {
     public const YES = 2;
+
     public const NO = 1;
+
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected ?string $table = 'setting_generate_columns';
+
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected array $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+
     /**
      * The attributes that should be cast to native types.
-     *
-     * @var array
      */
     protected array $casts = ['id' => 'integer', 'table_id' => 'integer', 'is_pk' => 'integer', 'is_required' => 'integer', 'is_insert' => 'integer', 'is_edit' => 'integer', 'is_list' => 'integer', 'is_query' => 'integer', 'is_sort' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'options' => 'array', 'allow_roles' => 'array'];
 }

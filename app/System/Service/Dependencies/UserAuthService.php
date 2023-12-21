@@ -1,20 +1,21 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 /**
- * MineAdmin is committed to providing solutions for quickly building web applications
- * Please view the LICENSE file that was distributed with this source code,
- * For the full copyright and license information.
- * Thank you very much for using MineAdmin.
+ * This file is part of MineAdmin.
  *
- * @Author X.Mo<root@imoi.cn>
- * @Link   https://gitee.com/xmo/MineAdmin
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+
 namespace App\System\Service\Dependencies;
 
 use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\ModelNotFoundException;
+use Mine\Annotation\DependProxy;
 use Mine\Event\UserLoginAfter;
 use Mine\Event\UserLoginBefore;
 use Mine\Event\UserLogout;
@@ -23,19 +24,15 @@ use Mine\Exception\UserBanException;
 use Mine\Helper\MineCode;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\Vo\UserServiceVo;
-use Mine\Annotation\DependProxy;
 
 /**
- * 用户登录
+ * 用户登录.
  */
-#[DependProxy(values: [ UserServiceInterface::class ])]
+#[DependProxy(values: [UserServiceInterface::class])]
 class UserAuthService implements UserServiceInterface
 {
-
     /**
-     * 登录
-     * @param UserServiceVo $userServiceVo
-     * @return string
+     * 登录.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -52,26 +49,23 @@ class UserAuthService implements UserServiceInterface
             if ($mapper->checkPass($userServiceVo->getPassword(), $password)) {
                 if (
                     ($userinfo['status'] == SystemUser::USER_NORMAL)
-                    ||
-                    ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
+                    || ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
                 ) {
                     $userLoginAfter->message = t('jwt.login_success');
                     $token = user()->getToken($userLoginAfter->userinfo);
                     $userLoginAfter->token = $token;
                     event($userLoginAfter);
                     return $token;
-                } else {
-                    $userLoginAfter->loginStatus = false;
-                    $userLoginAfter->message = t('jwt.user_ban');
-                    event($userLoginAfter);
-                    throw new UserBanException;
                 }
-            } else {
                 $userLoginAfter->loginStatus = false;
-                $userLoginAfter->message = t('jwt.login_error');
+                $userLoginAfter->message = t('jwt.user_ban');
                 event($userLoginAfter);
-                throw new NormalStatusException;
+                throw new UserBanException();
             }
+            $userLoginAfter->loginStatus = false;
+            $userLoginAfter->message = t('jwt.login_error');
+            event($userLoginAfter);
+            throw new NormalStatusException();
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 throw new NormalStatusException(t('jwt.login_error'), MineCode::NO_USER);
@@ -88,7 +82,7 @@ class UserAuthService implements UserServiceInterface
     }
 
     /**
-     * 用户退出
+     * 用户退出.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException

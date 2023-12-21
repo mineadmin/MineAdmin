@@ -10,9 +10,17 @@
  */
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Api\Middleware;
 
-use App\System\Model\SystemApi;
 use Mine\Annotation\Api\MApi;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,22 +30,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 class VerifyParamsMiddleware implements MiddlewareInterface
 {
     /**
-     * 验证接口参数
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
+     * 验证接口参数.
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler):ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $apiData = $request->getParsedBody()['apiData'];
         $requestData = $this->getRequestData($request, $apiData);
 
         $columns = container()->get(\App\System\Service\SystemApiService::class)
             ->getColumnListByApiId((string) $apiData['id'])['api_column'];
-
 
         // todo...
 
@@ -46,11 +50,12 @@ class VerifyParamsMiddleware implements MiddlewareInterface
 
     protected function getRequestData(ServerRequestInterface $request, &$apiData): array
     {
-        $bodyData = $request->getParsedBody(); unset($bodyData['apiData']);
+        $bodyData = $request->getParsedBody();
+        unset($bodyData['apiData']);
 
         if ($apiData['request_mode'] === MApi::METHOD_GET) {
             $params = $request->getQueryParams();
-        } else if ($apiData['request_mode'] === MApi::METHOD_ALL) {
+        } elseif ($apiData['request_mode'] === MApi::METHOD_ALL) {
             $params = array_merge($request->getQueryParams(), $bodyData);
         } else {
             $params = &$bodyData;

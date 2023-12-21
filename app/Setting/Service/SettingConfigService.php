@@ -1,24 +1,28 @@
 <?php
 
 declare(strict_types=1);
-namespace App\Setting\Service;
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Cache\Annotation\Cacheable;
-use Hyperf\Cache\Annotation\CacheAhead;
 use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
-use Hyperf\Config\Annotation\Value;
-use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Annotation\Transaction;
 use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
-use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-#[DependProxy(values: [ ConfigServiceInterface::class ])]
+#[DependProxy(values: [ConfigServiceInterface::class])]
 class SettingConfigService extends AbstractService implements ConfigServiceInterface
 {
     /**
@@ -28,23 +32,16 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
 
     private EventDispatcherInterface $dispatcher;
 
-
-    /**
-     * @param SettingConfigMapper $mapper
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         SettingConfigMapper $mapper,
         EventDispatcherInterface $eventDispatcher,
-
-    )
-    {
+    ) {
         $this->mapper = $mapper;
         $this->dispatcher = $eventDispatcher;
     }
 
     /**
-     * 按key获取配置，并缓存
+     * 按key获取配置，并缓存.
      */
     #[Cacheable(
         prefix: 'system:config:value',
@@ -58,9 +55,7 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     }
 
     /**
-     * 按组的key获取一组配置信息
-     * @param string $groupKey
-     * @return array|null
+     * 按组的key获取一组配置信息.
      */
     public function getConfigByGroupKey(string $groupKey): ?array
     {
@@ -68,14 +63,13 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     }
 
     /**
-     * 清除缓存
-     * @return bool
+     * 清除缓存.
      */
     #[CacheEvict(
         prefix: 'system:config:value',
         value: '_#{key}',
         all: true
-        )
+    )
     ]
     public function clearCache(): bool
     {
@@ -83,10 +77,7 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     }
 
     /**
-     * 更新配置
-     * @param string $key
-     * @param array $data
-     * @return bool
+     * 更新配置.
      */
     #[CacheEvict(
         prefix: 'system:config:value',
@@ -98,9 +89,7 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     }
 
     /**
-     * 按 keys 更新配置
-     * @param array $data
-     * @return bool
+     * 按 keys 更新配置.
      */
     #[Transaction]
     public function updatedByKeys(array $data): bool
@@ -109,12 +98,11 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
             $this->dispatcher->dispatch(new DeleteListenerEvent(
                 'system:config:value',
                 [
-                    'key'   =>  (string)$name
+                    'key' => (string) $name,
                 ]
             ));
             $this->mapper->updateByKey((string) $name, $value);
         }
         return true;
     }
-
 }

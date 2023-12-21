@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingGenerateColumnsMapper;
@@ -8,14 +17,12 @@ use App\Setting\Model\SettingGenerateColumns;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\GenerateColumnServiceInterface;
-use function PHPStan\dumpType;
 
 /**
  * 业务生成字段信息表业务处理类
- * Class SettingGenerateColumnsService
- * @package App\Setting\Service
+ * Class SettingGenerateColumnsService.
  */
-#[DependProxy(values: [ GenerateColumnServiceInterface::class ])]
+#[DependProxy(values: [GenerateColumnServiceInterface::class])]
 class SettingGenerateColumnsService extends AbstractService implements GenerateColumnServiceInterface
 {
     /**
@@ -25,7 +32,6 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
 
     /**
      * SettingGenerateColumnsService constructor.
-     * @param SettingGenerateColumnsMapper $mapper
      */
     public function __construct(SettingGenerateColumnsMapper $mapper)
     {
@@ -33,32 +39,29 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
     }
 
     /**
-     * 循环插入数据
-     * @param array $data
-     * @return int
+     * 循环插入数据.
      */
     public function save(array $data): int
     {
         $default_column = ['created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'remark'];
         // 组装数据
         foreach ($data as $k => $item) {
-
             $column = [
                 'table_id' => $item['table_id'],
                 'column_name' => $item['column_name'],
                 'column_comment' => $item['column_comment'],
                 'column_type' => $item['data_type'],
-                'is_pk' => empty($item['column_key']) ? SettingGenerateColumns::NO : SettingGenerateColumns::YES ,
+                'is_pk' => empty($item['column_key']) ? SettingGenerateColumns::NO : SettingGenerateColumns::YES,
                 'is_required' => $item['is_nullable'] == 'NO' ? SettingGenerateColumns::YES : SettingGenerateColumns::NO,
                 'query_type' => 'eq',
                 'view_type' => 'text',
                 'sort' => count($data) - $k,
                 'allow_roles' => $item['allow_roles'] ?? null,
-                'options' => $item['options'] ?? null
+                'options' => $item['options'] ?? null,
             ];
 
             // 设置默认选项
-            if (!in_array($item['column_name'], $default_column) && empty($item['column_key'])) {
+            if (! in_array($item['column_name'], $default_column) && empty($item['column_key'])) {
                 $column = array_merge(
                     $column,
                     [
@@ -72,16 +75,12 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
             }
 
             $this->mapper->save(
-                $this->fieldDispose($column));
+                $this->fieldDispose($column)
+            );
         }
         return 1;
     }
 
-    /**
-     * @param int $id
-     * @param array $data
-     * @return bool
-     */
     public function update(int $id, array $data): bool
     {
         $data['is_insert'] = $data['is_insert'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
@@ -95,7 +94,7 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
 
     private function fieldDispose(array $column): array
     {
-        $object = new class {
+        $object = new class() {
             public function viewTypeDispose(&$column): void
             {
                 switch ($column['column_type']) {
@@ -103,21 +102,21 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
                         $column['query_type'] = 'like';
                         $column['view_type'] = 'text';
                         break;
-                    // 富文本
+                        // 富文本
                     case 'text':
                     case 'longtext':
                         $column['is_list'] = SettingGenerateColumns::NO;
                         $column['is_query'] = SettingGenerateColumns::NO;
                         $column['view_type'] = 'editor';
                         break;
-                    // 日期字段
+                        // 日期字段
                     case 'timestamp':
                     case 'datetime':
                         $column['view_type'] = 'date';
                         $column['options']['mode'] = 'date';
                         $column['options']['showTime'] = true;
                         $column['query_type'] = 'between';
-                    break;
+                        break;
                     case 'date':
                         $column['view_type'] = 'date';
                         $column['options']['mode'] = 'date';
@@ -130,6 +129,7 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
                         break;
                 }
             }
+
             public function columnCommentDispose(&$column): void
             {
                 if (preg_match('/.*:.*=.*/m', $column['column_comment'])) {
@@ -140,11 +140,12 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
                         $item = explode('=', $item);
                         return [
                             'label' => $item[1] ?? '',
-                            'value' => $item[0] ?? ''
+                            'value' => $item[0] ?? '',
                         ];
                     }, explode(',', $regs[1] ?? ''));
                 }
             }
+
             public function columnName(&$column): void
             {
                 if (stristr($column['column_name'], 'image')) {

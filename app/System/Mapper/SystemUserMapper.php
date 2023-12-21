@@ -1,20 +1,27 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
-use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
 
 /**
- * Class SystemUserMapper
- * @package App\System\Mapper
+ * Class SystemUserMapper.
  */
 class SystemUserMapper extends AbstractMapper
 {
@@ -29,8 +36,7 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 通过用户名检查用户
-     * @param string $username
+     * 通过用户名检查用户.
      * @return Builder|\Hyperf\Database\Model\Model
      */
     public function checkUserByUsername(string $username)
@@ -39,9 +45,7 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 通过用户名检查是否存在
-     * @param string $username
-     * @return bool
+     * 通过用户名检查是否存在.
      */
     public function existsByUsername(string $username): bool
     {
@@ -50,19 +54,14 @@ class SystemUserMapper extends AbstractMapper
 
     /**
      * 检查用户密码
-     * @param String $password
-     * @param string $hash
-     * @return bool
      */
-    public function checkPass(String $password, string $hash): bool
+    public function checkPass(string $password, string $hash): bool
     {
         return $this->model::passwordVerify($password, $hash);
     }
 
     /**
-     * 新增用户
-     * @param array $data
-     * @return int
+     * 新增用户.
      */
     #[Transaction]
     public function save(array $data): int
@@ -80,10 +79,7 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 更新用户
-     * @param int $id
-     * @param array $data
-     * @return bool
+     * 更新用户.
      */
     #[Transaction]
     public function update(int $id, array $data): bool
@@ -96,8 +92,8 @@ class SystemUserMapper extends AbstractMapper
         $result = parent::update($id, $data);
         $user = $this->model::find($id);
         if ($user && $result) {
-            !empty($role_ids) && $user->roles()->sync($role_ids);
-            !empty($dept_ids) && $user->depts()->sync($dept_ids);
+            ! empty($role_ids) && $user->roles()->sync($role_ids);
+            ! empty($dept_ids) && $user->depts()->sync($dept_ids);
             $user->posts()->sync($post_ids);
             return true;
         }
@@ -105,9 +101,7 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 真实批量删除用户
-     * @param array $ids
-     * @return bool
+     * 真实批量删除用户.
      */
     #[Transaction]
     public function realDelete(array $ids): bool
@@ -125,10 +119,7 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 获取用户信息
-     * @param int $id
-     * @param array $column
-     * @return MineModel|null
+     * 获取用户信息.
      */
     public function read(int $id, array $column = ['*']): ?MineModel
     {
@@ -142,82 +133,81 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['dept_id']) && is_string($params['dept_id'])) {
+        if (! empty($params['dept_id']) && is_string($params['dept_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
                 ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
-                ->whereIn('dept.dept_id', SystemDept::query()
-                    ->where(function ($query) use ($params) {
-                        $query->where('id', '=', $params['dept_id'])
-                            ->orWhere('level', 'like', $params['dept_id'] . ',%')
-                            ->orWhere('level', 'like', '%,' . $params['dept_id'])
-                            ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
-                    })
-                    ->pluck('id')
-                    ->toArray()
+                ->whereIn(
+                    'dept.dept_id',
+                    SystemDept::query()
+                        ->where(function ($query) use ($params) {
+                            $query->where('id', '=', $params['dept_id'])
+                                ->orWhere('level', 'like', $params['dept_id'] . ',%')
+                                ->orWhere('level', 'like', '%,' . $params['dept_id'])
+                                ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
+                        })
+                        ->pluck('id')
+                        ->toArray()
                 );
         }
-        if (!empty($params['username'])) {
-            $query->where('username', 'like', '%'.$params['username'].'%');
+        if (! empty($params['username'])) {
+            $query->where('username', 'like', '%' . $params['username'] . '%');
         }
-        if (!empty($params['nickname'])) {
-            $query->where('nickname', 'like', '%'.$params['nickname'].'%');
+        if (! empty($params['nickname'])) {
+            $query->where('nickname', 'like', '%' . $params['nickname'] . '%');
         }
-        if (!empty($params['phone'])) {
+        if (! empty($params['phone'])) {
             $query->where('phone', '=', $params['phone']);
         }
-        if (!empty($params['email'])) {
+        if (! empty($params['email'])) {
             $query->where('email', '=', $params['email']);
         }
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (!empty($params['filterSuperAdmin'])) {
+        if (! empty($params['filterSuperAdmin'])) {
             $query->whereNotIn('id', [env('SUPER_ADMIN')]);
         }
 
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
 
-        if (!empty($params['userIds'])) {
+        if (! empty($params['userIds'])) {
             $query->whereIn('id', $params['userIds']);
         }
 
-        if (!empty($params['showDept'])) {
+        if (! empty($params['showDept'])) {
             $isAll = $params['showDeptAll'] ?? false;
 
-            $query->with(['depts' => function($query) use($isAll){
-                /* @var Builder $query*/
+            $query->with(['depts' => function ($query) use ($isAll) {
+                /* @var Builder $query */
                 $query->where('status', SystemDept::ENABLE);
                 return $isAll ? $query->select(['*']) : $query->select(['id', 'name']);
             }]);
         }
 
-        if (!empty($params['role_id'])) {
+        if (! empty($params['role_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
-                [ $params['role_id'] ]
+                [$params['role_id']]
             );
         }
 
-        if (!empty($params['post_id'])) {
+        if (! empty($params['post_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",
-                [ $params['post_id'] ]
+                [$params['post_id']]
             );
         }
 
@@ -226,9 +216,6 @@ class SystemUserMapper extends AbstractMapper
 
     /**
      * 初始化用户密码
-     * @param int $id
-     * @param string $password
-     * @return bool
      */
     public function initUserPassword(int $id, string $password): bool
     {
@@ -241,11 +228,13 @@ class SystemUserMapper extends AbstractMapper
     }
 
     /**
-     * 根据用户ID列表获取用户基础信息
+     * 根据用户ID列表获取用户基础信息.
      */
     public function getUserInfoByIds(array $ids, ?array $select = null): array
     {
-        if (! $select) $select = ['id', 'username', 'nickname', 'phone', 'email', 'created_at'];
+        if (! $select) {
+            $select = ['id', 'username', 'nickname', 'phone', 'email', 'created_at'];
+        }
         return $this->model::query()->whereIn('id', $ids)->select($select)->get()->toArray();
     }
 }

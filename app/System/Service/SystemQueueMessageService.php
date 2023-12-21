@@ -1,6 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemQueueMessageMapper;
@@ -11,9 +20,9 @@ use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
 
 /**
- * 信息管理服务类
+ * 信息管理服务类.
  */
-#[DependProxy(values: [ QueueMessageServiceInterface::class ])]
+#[DependProxy(values: [QueueMessageServiceInterface::class])]
 class SystemQueueMessageService extends AbstractService implements QueueMessageServiceInterface
 {
     /**
@@ -27,8 +36,7 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
     }
 
     /**
-     * 获取用户未读消息
-     * @param int $id
+     * 获取用户未读消息.
      * @return mixed
      */
     public function getUnreadMessage(int $id)
@@ -44,9 +52,7 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
     }
 
     /**
-     * 获取收信箱列表数据
-     * @param array $params
-     * @return array
+     * 获取收信箱列表数据.
      */
     public function getReceiveMessage(array $params = []): array
     {
@@ -56,9 +62,7 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
     }
 
     /**
-     * 获取已发送列表数据
-     * @param array $params
-     * @return array
+     * 获取已发送列表数据.
      */
     public function getSendMessage(array $params = []): array
     {
@@ -69,8 +73,6 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
 
     /**
      * 发私信
-     * @param array $data
-     * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Throwable
@@ -87,10 +89,7 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
     }
 
     /**
-     * 获取接收人列表
-     * @param int $id
-     * @param array $params
-     * @return array
+     * 获取接收人列表.
      */
     public function getReceiveUserList(int $id, array $params = []): array
     {
@@ -99,10 +98,6 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
 
     /**
      * 更新中间表数据状态
-     * @param array $ids
-     * @param string $columnName
-     * @param int $value
-     * @return bool
      */
     public function updateDataStatus(array $ids, string $columnName = 'read_status', int $value = 2): bool
     {

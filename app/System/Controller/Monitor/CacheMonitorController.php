@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Controller\Monitor;
 
 use App\System\Service\CacheMonitorService;
@@ -17,46 +26,42 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * 缓存监控
- * Class CacheMonitorController
- * @package App\System\Controller\Monitor
+ * Class CacheMonitorController.
  */
-#[Controller(prefix: "system/cache"), Auth]
+#[Controller(prefix: 'system/cache'), Auth]
 class CacheMonitorController extends MineController
 {
     #[Inject]
     protected CacheMonitorService $service;
 
     /**
-     * 获取Redis服务器信息
-     * @return ResponseInterface
+     * 获取Redis服务器信息.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("monitor"), Permission("system:cache, system:cache:monitor")]
+    #[GetMapping('monitor'), Permission('system:cache, system:cache:monitor')]
     public function getCacheInfo(): ResponseInterface
     {
         return $this->success($this->service->getCacheServerInfo());
     }
 
     /**
-     * 查看key内容
-     * @return ResponseInterface
+     * 查看key内容.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("view")]
+    #[PostMapping('view')]
     public function view(): ResponseInterface
     {
         return $this->success(['content' => $this->service->view($this->request->input('key'))]);
     }
 
     /**
-     * 删除一个缓存
-     * @return ResponseInterface
+     * 删除一个缓存.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete"), Permission("system:cache:delete"), OperationLog]
+    #[DeleteMapping('delete'), Permission('system:cache:delete'), OperationLog]
     public function delete(): ResponseInterface
     {
         return $this->service->delete($this->request->input('key', null))
@@ -65,12 +70,11 @@ class CacheMonitorController extends MineController
     }
 
     /**
-     * 清空所有缓存
-     * @return ResponseInterface
+     * 清空所有缓存.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("clear"), Permission("system:cache:clear"), OperationLog]
+    #[DeleteMapping('clear'), Permission('system:cache:clear'), OperationLog]
     public function clear(): ResponseInterface
     {
         return $this->service->clear() ? $this->success() : $this->error();

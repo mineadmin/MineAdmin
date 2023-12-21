@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Listener;
 
 use App\System\Model\SystemLoginLog;
@@ -13,7 +22,7 @@ use Mine\Helper\Str;
 use Mine\MineRequest;
 
 /**
- * Class LoginListener
+ * Class LoginListener.
  */
 #[Listener]
 class LoginListener implements ListenerInterface
@@ -21,7 +30,7 @@ class LoginListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            UserLoginAfter::class
+            UserLoginAfter::class,
         ];
     }
 
@@ -46,13 +55,13 @@ class LoginListener implements ListenerInterface
             'browser' => $this->browser($agent),
             'status' => $event->loginStatus ? SystemLoginLog::SUCCESS : SystemLoginLog::FAIL,
             'message' => $event->message,
-            'login_time' => date('Y-m-d H:i:s')
+            'login_time' => date('Y-m-d H:i:s'),
         ]);
 
-        $key = sprintf("%sToken:%s", config('cache.default.prefix'), $event->userinfo['id']);
+        $key = sprintf('%sToken:%s', config('cache.default.prefix'), $event->userinfo['id']);
 
         $redis->del($key);
-        ($event->loginStatus && $event->token) && $redis->set( $key, $event->token, config('jwt.ttl') );
+        ($event->loginStatus && $event->token) && $redis->set($key, $event->token, config('jwt.ttl'));
 
         if ($event->loginStatus) {
             $event->userinfo['login_ip'] = $ip;
@@ -66,61 +75,57 @@ class LoginListener implements ListenerInterface
     }
 
     /**
-     * @param $agent
-     * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function os($agent): string
     {
-        if (false !== stripos($agent, 'win') && preg_match('/nt 6.1/i', $agent)) {
+        if (stripos($agent, 'win') !== false && preg_match('/nt 6.1/i', $agent)) {
             return 'Windows 7';
         }
-        if (false !== stripos($agent, 'win') && preg_match('/nt 6.2/i', $agent)) {
+        if (stripos($agent, 'win') !== false && preg_match('/nt 6.2/i', $agent)) {
             return 'Windows 8';
         }
-        if(false !== stripos($agent, 'win') && preg_match('/nt 10.0/i', $agent)) {
+        if (stripos($agent, 'win') !== false && preg_match('/nt 10.0/i', $agent)) {
             return 'Windows 10';
         }
-        if(false !== stripos($agent, 'win') && preg_match('/nt 11.0/i', $agent)) {
+        if (stripos($agent, 'win') !== false && preg_match('/nt 11.0/i', $agent)) {
             return 'Windows 11';
         }
-        if (false !== stripos($agent, 'win') && preg_match('/nt 5.1/i', $agent)) {
+        if (stripos($agent, 'win') !== false && preg_match('/nt 5.1/i', $agent)) {
             return 'Windows XP';
         }
-        if (false !== stripos($agent, 'linux')) {
+        if (stripos($agent, 'linux') !== false) {
             return 'Linux';
         }
-        if (false !== stripos($agent, 'mac')) {
+        if (stripos($agent, 'mac') !== false) {
             return 'Mac';
         }
         return t('jwt.unknown');
     }
 
     /**
-     * @param $agent
-     * @return string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function browser($agent): string
     {
-        if (false !== stripos($agent, "MSIE")) {
+        if (stripos($agent, 'MSIE') !== false) {
             return 'MSIE';
         }
-        if (false !== stripos($agent, "Edg")) {
+        if (stripos($agent, 'Edg') !== false) {
             return 'Edge';
         }
-        if (false !== stripos($agent, "Chrome")) {
+        if (stripos($agent, 'Chrome') !== false) {
             return 'Chrome';
         }
-        if (false !== stripos($agent, "Firefox")) {
+        if (stripos($agent, 'Firefox') !== false) {
             return 'Firefox';
         }
-        if (false !== stripos($agent, "Safari")) {
+        if (stripos($agent, 'Safari') !== false) {
             return 'Safari';
         }
-        if (false !== stripos($agent, "Opera")) {
+        if (stripos($agent, 'Opera') !== false) {
             return 'Opera';
         }
         return t('jwt.unknown');

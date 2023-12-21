@@ -1,23 +1,31 @@
 <?php
 /**
- * 站内消息队列消费监听器
+ * 站内消息队列消费监听器.
  */
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Listener;
 
-use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
+use Hyperf\Event\Annotation\Listener;
+use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Amqp\Event\AfterConsume;
 use Mine\Amqp\Event\BeforeConsume;
 use Mine\Amqp\Event\ConsumeEvent;
 use Mine\Amqp\Event\FailToConsume;
 use Mine\Amqp\Event\WaitTimeout;
-use Hyperf\Event\Contract\ListenerInterface;
-use Hyperf\Event\Annotation\Listener;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 
 /**
  * 消费队列监听
- * Class QueueConsumeListener
- * @package Mine\Amqp\Listener
+ * Class QueueConsumeListener.
  */
 #[Listener]
 class QueueConsumeListener implements ListenerInterface
@@ -25,23 +33,27 @@ class QueueConsumeListener implements ListenerInterface
     /**
      * @Message("未消费")
      */
-    const CONSUME_STATUS_NO = 1;
+    public const CONSUME_STATUS_NO = 1;
+
     /**
      * @Message("消费中")
      */
-    const CONSUME_STATUS_DOING = 2;
+    public const CONSUME_STATUS_DOING = 2;
+
     /**
      * @Message("消费成功")
      */
-    const CONSUME_STATUS_SUCCESS = 3;
+    public const CONSUME_STATUS_SUCCESS = 3;
+
     /**
      * @Message("消费失败")
      */
-    const CONSUME_STATUS_FAIL = 4;
+    public const CONSUME_STATUS_FAIL = 4;
+
     /**
      * @Message("消费重复")
      */
-    const CONSUME_STATUS_REPEAT = 5;
+    public const CONSUME_STATUS_REPEAT = 5;
 
     private QueueLogServiceInterface $service;
 
@@ -58,7 +70,6 @@ class QueueConsumeListener implements ListenerInterface
     }
 
     /**
-     * @param object $event
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -67,28 +78,26 @@ class QueueConsumeListener implements ListenerInterface
         $this->service = container()->get(QueueLogServiceInterface::class);
         if ($event->message) {
             $class = get_class($event);
-            $func = lcfirst(trim(strrchr($class, '\\'),'\\'));
-            $this->$func($event);
+            $func = lcfirst(trim(strrchr($class, '\\'), '\\'));
+            $this->{$func}($event);
         }
     }
 
     /**
      * Description:消费前
-     * User:mike
-     * @param object $event
+     * User:mike.
      */
     public function beforeConsume(object $event)
     {
         $this->service->update(
-            (int)$event->data['queue_id'],
+            (int) $event->data['queue_id'],
             ['consume_status' => self::CONSUME_STATUS_DOING]
         );
     }
 
     /**
      * Description:消费中
-     * User:mike
-     * @param object $event
+     * User:mike.
      */
     public function consumeEvent(object $event)
     {
@@ -97,28 +106,28 @@ class QueueConsumeListener implements ListenerInterface
 
     /**
      * Description:消费后
-     * User:mike
-     * @param object $event
+     * User:mike.
      */
     public function afterConsume(object $event)
     {
         $this->service->update(
-            (int)$event->data['queue_id'],
+            (int) $event->data['queue_id'],
             ['consume_status' => self::CONSUME_STATUS_SUCCESS]
         );
     }
 
     /**
      * Description:消费失败
-     * User:mike
-     * @param object $event
+     * User:mike.
      */
     public function failToConsume(object $event)
     {
         $this->service->update(
-            (int)$event->data['queue_id'], [
-            'consume_status' => self::CONSUME_STATUS_REPEAT,
-            'log_content' => $event->throwable ?: $event->throwable->getMessage()
-        ]);
+            (int) $event->data['queue_id'],
+            [
+                'consume_status' => self::CONSUME_STATUS_REPEAT,
+                'log_content' => $event->throwable ?: $event->throwable->getMessage(),
+            ]
+        );
     }
 }

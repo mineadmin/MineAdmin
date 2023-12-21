@@ -1,24 +1,29 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemDictDataMapper;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
-use Hyperf\Config\Annotation\Value;
-use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\DictDataServiceInterface;
-use Psr\Container\ContainerInterface;
 
 /**
  * 字典类型业务
- * Class SystemLoginLogService
- * @package App\System\Service
+ * Class SystemLoginLogService.
  */
-#[DependProxy(values: [ DictDataServiceInterface::class ])]
+#[DependProxy(values: [DictDataServiceInterface::class])]
 class SystemDictDataService extends AbstractService implements DictDataServiceInterface
 {
     /**
@@ -32,9 +37,7 @@ class SystemDictDataService extends AbstractService implements DictDataServiceIn
     }
 
     /**
-     * 查询多个字典
-     * @param array|null $params
-     * @return array
+     * 查询多个字典.
      */
     public function getLists(?array $params = null): array
     {
@@ -53,10 +56,7 @@ class SystemDictDataService extends AbstractService implements DictDataServiceIn
     }
 
     /**
-     * 查询一个字典
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
+     * 查询一个字典.
      */
     #[Cacheable(prefix: 'system:dict:data', ttl: 600, listener: 'system-dict-update')]
     public function getList(?array $params = null, bool $isScope = false): array
@@ -65,16 +65,15 @@ class SystemDictDataService extends AbstractService implements DictDataServiceIn
             'select' => ['id', 'label as title', 'value as key'],
             'status' => \Mine\MineModel::ENABLE,
             'orderBy' => 'sort',
-            'orderType' => 'desc'
+            'orderType' => 'desc',
         ];
         return $this->mapper->getList(array_merge($args, $params), $isScope);
     }
 
     /**
-     * 清除缓存
-     * @return bool
+     * 清除缓存.
      */
-    #[CacheEvict(prefix: 'system:dict:data',all: true)]
+    #[CacheEvict(prefix: 'system:dict:data', all: true)]
     public function clearCache(): bool
     {
         return true;

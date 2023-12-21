@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\SettingCrontabRequest;
@@ -21,10 +30,9 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * 定时任务控制器
- * Class CrontabController
- * @package App\Setting\Controller\Tools
+ * Class CrontabController.
  */
-#[Controller(prefix: "setting/crontab"), Auth]
+#[Controller(prefix: 'setting/crontab'), Auth]
 class CrontabController extends MineController
 {
     /**
@@ -40,37 +48,33 @@ class CrontabController extends MineController
     protected SettingCrontabLogService $logService;
 
     /**
-     * 获取列表分页数据
-     * @return ResponseInterface
+     * 获取列表分页数据.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("setting:crontab, setting:crontab:index")]
+    #[GetMapping('index'), Permission('setting:crontab, setting:crontab:index')]
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**
-     * 获取日志列表分页数据
-     * @return ResponseInterface
+     * 获取日志列表分页数据.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("logPageList")]
+    #[GetMapping('logPageList')]
     public function logPageList(): ResponseInterface
     {
         return $this->success($this->logService->getPageList($this->request->all()));
     }
 
     /**
-     * 保存数据
-     * @param SettingCrontabRequest $request
-     * @return ResponseInterface
+     * 保存数据.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("save"), Permission("setting:crontab:save"), OperationLog]
+    #[PostMapping('save'), Permission('setting:crontab:save'), OperationLog]
     public function save(SettingCrontabRequest $request): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($request->all())]);
@@ -78,79 +82,69 @@ class CrontabController extends MineController
 
     /**
      * 立即执行定时任务
-     * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("run"), Permission("setting:crontab:run"), OperationLog]
+    #[PostMapping('run'), Permission('setting:crontab:run'), OperationLog]
     public function run(): ResponseInterface
     {
         $id = $this->request->input('id', null);
         if (is_null($id)) {
             return $this->error();
-        } else {
-            return $this->service->run($id) ? $this->success() : $this->error();
         }
+        return $this->service->run($id) ? $this->success() : $this->error();
     }
 
     /**
-     * 获取一条数据信息
-     * @param int $id
-     * @return ResponseInterface
+     * 获取一条数据信息.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("read/{id}"), Permission("setting:crontab:read")]
+    #[GetMapping('read/{id}'), Permission('setting:crontab:read')]
     public function read(int $id): ResponseInterface
     {
         return $this->success($this->service->read($id));
     }
 
     /**
-     * 更新数据
-     * @param int $id
-     * @param SettingCrontabRequest $request
-     * @return ResponseInterface
+     * 更新数据.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("update/{id}"), Permission("setting:crontab:update"), OperationLog]
+    #[PutMapping('update/{id}'), Permission('setting:crontab:update'), OperationLog]
     public function update(int $id, SettingCrontabRequest $request): ResponseInterface
     {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }
 
     /**
-     * 单个或批量删除
-     * @return ResponseInterface
+     * 单个或批量删除.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete"), Permission("setting:crontab:delete")]
+    #[DeleteMapping('delete'), Permission('setting:crontab:delete')]
     public function delete(): ResponseInterface
     {
         return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
-     * 删除定时任务日志
-     * @return \Psr\Http\Message\ResponseInterface
+     * 删除定时任务日志.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("deleteCrontabLog"), Permission("setting:crontab:deleteCrontabLog"), OperationLog("删除定时任务日志")]
-    public function deleteCrontabLog(): \Psr\Http\Message\ResponseInterface
+    #[DeleteMapping('deleteCrontabLog'), Permission('setting:crontab:deleteCrontabLog'), OperationLog('删除定时任务日志')]
+    public function deleteCrontabLog(): ResponseInterface
     {
         return $this->logService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 更改状态
-     * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("changeStatus"), Permission("setting:crontab:update"), OperationLog]
+    #[PutMapping('changeStatus'), Permission('setting:crontab:update'), OperationLog]
     public function changeStatus(): ResponseInterface
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
@@ -158,10 +152,9 @@ class CrontabController extends MineController
     }
 
     /**
-     * 远程万能通用列表接口
-     * @return ResponseInterface
+     * 远程万能通用列表接口.
      */
-    #[PostMapping("remote"), RemoteState(true)]
+    #[PostMapping('remote'), RemoteState(true)]
     public function remote(): ResponseInterface
     {
         return $this->success($this->service->getRemoteList($this->request->all()));

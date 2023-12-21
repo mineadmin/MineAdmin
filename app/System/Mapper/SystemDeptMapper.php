@@ -1,8 +1,16 @@
 <?php
 
-declare(strict_types = 1);
-namespace App\System\Mapper;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\System\Mapper;
 
 use App\System\Model\SystemDept;
 use Hyperf\Database\Model\Builder;
@@ -25,8 +33,7 @@ class SystemDeptMapper extends AbstractMapper
     }
 
     /**
-     * 获取前端选择树
-     * @return array
+     * 获取前端选择树.
      */
     public function getSelectTree(): array
     {
@@ -49,15 +56,12 @@ class SystemDeptMapper extends AbstractMapper
                 ->get()->toArray();
 
             return (new MineCollection())->toTree(array_merge($treeData, $deptTree), $treeData[0]['parent_id'] ?? 0);
-        } else {
-            return $deptTree;
         }
+        return $deptTree;
     }
 
     /**
-     * 获取部门领导列表
-     * @param array|null $params
-     * @return array
+     * 获取部门领导列表.
      */
     public function getLeaderList(?array $params = null): array
     {
@@ -68,30 +72,30 @@ class SystemDeptMapper extends AbstractMapper
             ->join('system_dept_leader as dl', 'u.id', '=', 'dl.user_id')
             ->where('dl.dept_id', '=', $params['dept_id']);
 
-        if (!empty($params['username'])) {
+        if (! empty($params['username'])) {
             $query->where('u.username', 'like', '%' . $params['username'] . '%');
         }
 
-        if (!empty($params['nickname'])) {
+        if (! empty($params['nickname'])) {
             $query->where('u.nickname', 'like', '%' . $params['nickname'] . '%');
         }
 
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('u.status', $params['status']);
         }
 
         return $this->setPaginate(
             $query->paginate(
-            (int) $params['pageSize'] ?? $this->model::PAGE_SIZE, ['u.*', 'dl.created_at as leader_add_time'], 'page', (int) $params['page'] ?? 1
+                (int) $params['pageSize'] ?? $this->model::PAGE_SIZE,
+                ['u.*', 'dl.created_at as leader_add_time'],
+                'page',
+                (int) $params['page'] ?? 1
             )
         );
     }
 
     /**
      * 新增部门领导
-     * @param int $id
-     * @param array $users
-     * @return bool
      */
     #[Transaction]
     public function addLeader(int $id, array $users): bool
@@ -108,9 +112,6 @@ class SystemDeptMapper extends AbstractMapper
 
     /**
      * 删除部门领导
-     * @param int $id
-     * @param array $users
-     * @return bool
      */
     #[Transaction]
     public function delLeader(int $id, array $users): bool
@@ -121,52 +122,43 @@ class SystemDeptMapper extends AbstractMapper
     }
 
     /**
-     * 查询部门名称
-     * @param array|null $ids
-     * @return array
+     * 查询部门名称.
      */
     public function getDeptName(array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     */
     public function checkChildrenExists(int $id): bool
     {
         return $this->model::withTrashed()->where('parent_id', $id)->exists();
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (!empty($params['name'])) {
-            $query->where('name', 'like', '%'.$params['name'].'%');
+        if (! empty($params['name'])) {
+            $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
-        if (!empty($params['leader'])) {
+        if (! empty($params['leader'])) {
             $query->where('leader', $params['leader']);
         }
 
-        if (!empty($params['phone'])) {
+        if (! empty($params['phone'])) {
             $query->where('phone', $params['phone']);
         }
 
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
         return $query;

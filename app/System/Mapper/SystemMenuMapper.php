@@ -1,5 +1,15 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemMenu;
@@ -14,15 +24,13 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class SystemMenuMapper extends AbstractMapper
 {
-
     /**
      * @var SystemMenu
      */
     public $model;
 
     /**
-     * 查询的菜单字段
-     * @var array
+     * 查询的菜单字段.
      */
     public array $menuField = [
         'id',
@@ -34,7 +42,7 @@ class SystemMenuMapper extends AbstractMapper
         'is_hidden',
         'component',
         'redirect',
-        'type'
+        'type',
     ];
 
     public function assignModel()
@@ -43,8 +51,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 获取超级管理员（创始人）的路由菜单
-     * @return array
+     * 获取超级管理员（创始人）的路由菜单.
      */
     public function getSuperAdminRouters(): array
     {
@@ -56,9 +63,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 通过菜单ID列表获取菜单数据
-     * @param array $ids
-     * @return array
+     * 通过菜单ID列表获取菜单数据.
      */
     public function getRoutersByIds(array $ids): array
     {
@@ -71,9 +76,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 获取前端选择树
-     * @param array $data
-     * @return array
+     * 获取前端选择树.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \RedisException
@@ -83,7 +86,7 @@ class SystemMenuMapper extends AbstractMapper
         $query = $this->model::query()->select(['id', 'parent_id', 'id AS value', 'name AS label'])
             ->where('status', $this->model::ENABLE)->orderBy('sort', 'desc');
 
-        if ( ($data['scope'] ?? false) && ! user()->isSuperAdmin()) {
+        if (($data['scope'] ?? false) && ! user()->isSuperAdmin()) {
             $roleData = container()->get(SystemRoleMapper::class)->getMenuIdsByRoleIds(
                 SystemUser::find(user()->getId(), ['id'])->roles()->pluck('id')->toArray()
             );
@@ -98,7 +101,7 @@ class SystemMenuMapper extends AbstractMapper
             $query->whereIn('id', array_unique($ids));
         }
 
-        if (!empty($data['onlyMenu'])) {
+        if (! empty($data['onlyMenu'])) {
             $query->where('type', SystemMenu::MENUS_LIST);
         }
 
@@ -106,9 +109,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 查询菜单code
-     * @param array|null $ids
-     * @return array
+     * 查询菜单code.
      */
     public function getMenuCode(array $ids = null): array
     {
@@ -116,9 +117,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 通过 code 查询菜单名称
-     * @param string $code
-     * @return string|null
+     * 通过 code 查询菜单名称.
      */
     public function findNameByCode(string $code): ?string
     {
@@ -126,11 +125,9 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 单个或批量真实删除数据
-     * @param array $ids
-     * @return bool
+     * 单个或批量真实删除数据.
      */
-    #[DeleteCache("loginInfo:*"), Transaction]
+    #[DeleteCache('loginInfo:*'), Transaction]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {
@@ -144,43 +141,35 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 新增菜单
-     * @param array $data
-     * @return int
+     * 新增菜单.
      */
-    #[DeleteCache("loginInfo:*")]
+    #[DeleteCache('loginInfo:*')]
     public function save(array $data): int
     {
         return parent::save($data);
     }
 
     /**
-     * 更新菜单
-     * @param int $id
-     * @param array $data
-     * @return bool
+     * 更新菜单.
      */
-    #[DeleteCache("loginInfo:*")]
+    #[DeleteCache('loginInfo:*')]
     public function update(int $id, array $data): bool
     {
         return parent::update($id, $data);
     }
 
     /**
-     * 逻辑删除菜单
-     * @param array $ids
-     * @return bool
+     * 逻辑删除菜单.
      */
-    #[DeleteCache("loginInfo:*")]
+    #[DeleteCache('loginInfo:*')]
     public function delete(array $ids): bool
     {
         return parent::delete($ids);
     }
 
     /**
-     * 通过 route 查询菜单
-     * @param string $route
-     * @return Builder|Model|object|null
+     * 通过 route 查询菜单.
+     * @return null|Builder|Model|object
      */
     public function findMenuByRoute(string $route)
     {
@@ -188,48 +177,39 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 查询菜单code
-     * @param array|null $ids
-     * @return array
+     * 查询菜单code.
      */
     public function getMenuName(array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     */
     public function checkChildrenExists(int $id): bool
     {
         return $this->model::withTrashed()->where('parent_id', $id)->exists();
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (!empty($params['name'])) {
-            $query->where('name', 'like', '%'.$params['name'].'%');
+        if (! empty($params['name'])) {
+            $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
 
-        if (!empty($params['noButton']) && $params['noButton'] === true) {
+        if (! empty($params['noButton']) && $params['noButton'] === true) {
             $query->where('type', '<>', SystemMenu::BUTTON);
         }
         return $query;

@@ -1,8 +1,16 @@
 <?php
 
 declare(strict_types=1);
-namespace App\System\Service;
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\System\Service;
 
 use App\System\Mapper\SystemMenuMapper;
 use App\System\Model\SystemMenu;
@@ -10,7 +18,7 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\MenuServiceInterface;
 
-#[DependProxy(values: [ MenuServiceInterface::class ])]
+#[DependProxy(values: [MenuServiceInterface::class])]
 class SystemMenuService extends AbstractService implements MenuServiceInterface
 {
     /**
@@ -20,29 +28,18 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * SystemMenuMapper constructor.
-     * @param SystemMenuMapper $mapper
      */
     public function __construct(SystemMenuMapper $mapper)
     {
         $this->mapper = $mapper;
     }
 
-    /**
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
-     */
     public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
         return parent::getTreeList($params, $isScope);
     }
 
-    /**
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
-     */
     public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
@@ -50,9 +47,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 获取前端选择树
-     * @param array $data
-     * @return array
+     * 获取前端选择树.
      */
     public function getSelectTree(array $data): array
     {
@@ -60,9 +55,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 通过code获取菜单名称
-     * @param string $code
-     * @return string
+     * 通过code获取菜单名称.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -76,9 +69,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 新增菜单
-     * @param array $data
-     * @return int
+     * 新增菜单.
      */
     public function save(array $data): int
     {
@@ -94,23 +85,21 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 生成按钮菜单
-     * @param SystemMenu $model
-     * @return bool
+     * 生成按钮菜单.
      */
     public function genButtonMenu(SystemMenu $model): bool
     {
         $buttonMenus = [
-            ['name' => $model->name.'列表', 'code' => $model->code.':index'],
-            ['name' => $model->name.'回收站', 'code' => $model->code.':recycle'],
-            ['name' => $model->name.'保存', 'code' => $model->code.':save'],
-            ['name' => $model->name.'更新', 'code' => $model->code.':update'],
-            ['name' => $model->name.'删除', 'code' => $model->code.':delete'],
-            ['name' => $model->name.'读取', 'code' => $model->code.':read'],
-            ['name' => $model->name.'恢复', 'code' => $model->code.':recovery'],
-            ['name' => $model->name.'真实删除', 'code' => $model->code.':realDelete'],
-            ['name' => $model->name.'导入', 'code' => $model->code.':import'],
-            ['name' => $model->name.'导出', 'code' => $model->code.':export']
+            ['name' => $model->name . '列表', 'code' => $model->code . ':index'],
+            ['name' => $model->name . '回收站', 'code' => $model->code . ':recycle'],
+            ['name' => $model->name . '保存', 'code' => $model->code . ':save'],
+            ['name' => $model->name . '更新', 'code' => $model->code . ':update'],
+            ['name' => $model->name . '删除', 'code' => $model->code . ':delete'],
+            ['name' => $model->name . '读取', 'code' => $model->code . ':read'],
+            ['name' => $model->name . '恢复', 'code' => $model->code . ':recovery'],
+            ['name' => $model->name . '真实删除', 'code' => $model->code . ':realDelete'],
+            ['name' => $model->name . '导入', 'code' => $model->code . ':import'],
+            ['name' => $model->name . '导出', 'code' => $model->code . ':export'],
         ];
 
         foreach ($buttonMenus as $button) {
@@ -126,10 +115,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 更新菜单
-     * @param int $id
-     * @param array $data
-     * @return bool
+     * 更新菜单.
      */
     public function update(int $id, array $data): bool
     {
@@ -137,9 +123,34 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 处理数据
-     * @param $data
-     * @return array
+     * 真实删除菜单.
+     */
+    public function realDel(array $ids): ?array
+    {
+        // 跳过的菜单
+        $ctuIds = [];
+        if (count($ids)) {
+            foreach ($ids as $id) {
+                if (! $this->checkChildrenExists((int) $id)) {
+                    $this->mapper->realDelete([$id]);
+                } else {
+                    $ctuIds[] = $id;
+                }
+            }
+        }
+        return count($ctuIds) ? $this->mapper->getMenuName($ctuIds) : null;
+    }
+
+    /**
+     * 检查子菜单是否存在.
+     */
+    public function checkChildrenExists(int $id): bool
+    {
+        return $this->mapper->checkChildrenExists($id);
+    }
+
+    /**
+     * 处理数据.
      */
     protected function handleData($data): array
     {
@@ -152,33 +163,5 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
             $data['level'] = $parentMenu['level'] . ',' . $parentMenu['id'];
         }
         return $data;
-    }
-
-    /**
-     * 真实删除菜单
-     * @return array
-     */
-    public function realDel(array $ids): ?array
-    {
-        // 跳过的菜单
-        $ctuIds = [];
-        if (count($ids)) foreach ($ids as $id) {
-            if (!$this->checkChildrenExists( (int) $id)) {
-                $this->mapper->realDelete([$id]);
-            } else {
-                $ctuIds[] = $id;
-            }
-        }
-        return count($ctuIds) ? $this->mapper->getMenuName($ctuIds) : null;
-    }
-
-    /**
-     * 检查子菜单是否存在
-     * @param int $id
-     * @return bool
-     */
-    public function checkChildrenExists(int $id): bool
-    {
-        return $this->mapper->checkChildrenExists($id);
     }
 }

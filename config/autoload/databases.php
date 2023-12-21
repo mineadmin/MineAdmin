@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
+ * This file is part of MineAdmin.
  *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use Hyperf\Database\Commands\ModelOption;
 return [
     'default' => [
         'driver' => env('DB_DRIVER', 'mysql'),
@@ -50,7 +49,7 @@ return [
                     Hyperf\Database\Commands\Ast\ModelRewriteKeyInfoVisitor::class,
                     Hyperf\Database\Commands\Ast\ModelRewriteTimestampsVisitor::class,
                     Hyperf\Database\Commands\Ast\ModelRewriteSoftDeletesVisitor::class,
-//                    Hyperf\Database\Commands\Ast\ModelRewriteGetterSetterVisitor::class,
+                    //                    Hyperf\Database\Commands\Ast\ModelRewriteGetterSetterVisitor::class,
                 ],
             ],
         ],

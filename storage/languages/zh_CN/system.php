@@ -10,7 +10,14 @@
  */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'super_admin' => '超级管理员(创始人)',
     'no_permission' => '无权限访问',
@@ -30,5 +37,5 @@ return [
     'queue_missing_message_title' => '队列消息缺少标题信息',
     'queue_missing_message_content_type' => '队列消息缺少信息类型',
     'queue_missing_content' => '队列消息缺少消息内容',
-    'queue_annotation_not_open' => '队列相关功能未开启'
+    'queue_annotation_not_open' => '队列相关功能未开启',
 ];

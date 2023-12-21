@@ -1,10 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Model;
 
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
+
 /**
  * @property int $id 主键
  * @property int $message_id 消息ID
@@ -22,22 +32,19 @@ use Mine\MineModel;
 class SystemNotice extends MineModel
 {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected ?string $table = 'system_notice';
+
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected array $fillable = ['id', 'message_id', 'title', 'type', 'content', 'click_num', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+
     /**
      * The attributes that should be cast to native types.
-     *
-     * @var array
      */
     protected array $casts = ['id' => 'integer', 'message_id' => 'integer', 'type' => 'integer', 'click_num' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

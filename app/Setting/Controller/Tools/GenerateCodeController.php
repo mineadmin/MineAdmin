@@ -1,6 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Controller\Tools;
 
 use App\Setting\Request\GenerateRequest;
@@ -23,10 +32,9 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * 代码生成器控制器
- * Class CodeController
- * @package App\Setting\Controller\Tools
+ * Class CodeController.
  */
-#[Controller(prefix: "setting/code"), Auth]
+#[Controller(prefix: 'setting/code'), Auth]
 class GenerateCodeController extends MineController
 {
     /**
@@ -37,7 +45,7 @@ class GenerateCodeController extends MineController
 
     /**
      * 数据源处理服务
-     * SettingDatasourceService
+     * SettingDatasourceService.
      */
     #[Inject]
     protected SettingDatasourceService $datasourceService;
@@ -49,37 +57,35 @@ class GenerateCodeController extends MineController
     protected SettingGenerateColumnsService $columnService;
 
     /**
-     * 代码生成列表分页
-     * @return ResponseInterface
+     * 代码生成列表分页.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("index"), Permission("setting:code")]
+    #[GetMapping('index'), Permission('setting:code')]
     public function index(): ResponseInterface
     {
         return $this->success($this->tableService->getPageList($this->request->All()));
     }
 
     /**
-     * 获取数据源列表
+     * 获取数据源列表.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getDataSourceList"), Permission("setting:code")]
+    #[GetMapping('getDataSourceList'), Permission('setting:code')]
     public function getDataSourceList(): ResponseInterface
     {
         return $this->success($this->datasourceService->getPageList([
-            'select' => 'id as value, source_name as label'
+            'select' => 'id as value, source_name as label',
         ]));
     }
 
     /**
-     * 获取业务表字段信息
-     * @return ResponseInterface
+     * 获取业务表字段信息.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("getTableColumns")]
+    #[GetMapping('getTableColumns')]
     public function getTableColumns(): ResponseInterface
     {
         return $this->success($this->columnService->getList($this->request->all()));
@@ -87,37 +93,33 @@ class GenerateCodeController extends MineController
 
     /**
      * 预览代码
-     * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Exception
      */
-    #[GetMapping("preview"), Permission("setting:code:preview")]
+    #[GetMapping('preview'), Permission('setting:code:preview')]
     public function preview(): ResponseInterface
     {
         return $this->success($this->tableService->preview((int) $this->request->input('id', 0)));
     }
 
     /**
-     * 读取表数据
-     * @return ResponseInterface
+     * 读取表数据.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("readTable")]
+    #[GetMapping('readTable')]
     public function readTable(): ResponseInterface
     {
         return $this->success($this->tableService->read((int) $this->request->input('id')));
     }
 
     /**
-     * 更新业务表信息
-     * @param GenerateRequest $request
-     * @return ResponseInterface
+     * 更新业务表信息.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("update"), Permission("setting:code:update")]
+    #[PostMapping('update'), Permission('setting:code:update')]
     public function update(GenerateRequest $request): ResponseInterface
     {
         return $this->tableService->updateTableAndColumns($request->validated()) ? $this->success() : $this->error();
@@ -125,11 +127,10 @@ class GenerateCodeController extends MineController
 
     /**
      * 生成代码
-     * @return ResponseInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("generate"), Permission("setting:code:generate"), OperationLog]
+    #[PostMapping('generate'), Permission('setting:code:generate'), OperationLog]
     public function generate(): ResponseInterface
     {
         return $this->_download(
@@ -139,50 +140,44 @@ class GenerateCodeController extends MineController
     }
 
     /**
-     * 加载数据表
-     * @param GenerateRequest $request
-     * @return ResponseInterface
+     * 加载数据表.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PostMapping("loadTable"), Permission("setting:code:loadTable"), OperationLog]
+    #[PostMapping('loadTable'), Permission('setting:code:loadTable'), OperationLog]
     public function loadTable(GenerateRequest $request): ResponseInterface
     {
         return $this->tableService->loadTable($request->all()) ? $this->success() : $this->error();
     }
 
     /**
-     * 删除代码生成表
-     * @return ResponseInterface
+     * 删除代码生成表.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[DeleteMapping("delete"), Permission("setting:code:delete"), OperationLog]
+    #[DeleteMapping('delete'), Permission('setting:code:delete'), OperationLog]
     public function delete(): ResponseInterface
     {
         return $this->tableService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
-     * 同步数据库中的表信息跟字段
-     * @param int $id
-     * @return ResponseInterface
+     * 同步数据库中的表信息跟字段.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("sync/{id}"), Permission("setting:code:sync"), OperationLog]
+    #[PutMapping('sync/{id}'), Permission('setting:code:sync'), OperationLog]
     public function sync(int $id): ResponseInterface
     {
         return $this->tableService->sync($id) ? $this->success() : $this->error();
     }
 
     /**
-     * 获取所有启用状态模块下的所有模型
-     * @return ResponseInterface
+     * 获取所有启用状态模块下的所有模型.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[GetMapping("getModels")]
+    #[GetMapping('getModels')]
     public function getModels(): ResponseInterface
     {
         return $this->success($this->tableService->getModels());

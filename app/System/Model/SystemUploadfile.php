@@ -1,10 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Model;
 
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
+
 /**
  * @property int $id 主键
  * @property string $storage_mode 存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)
@@ -27,22 +37,19 @@ use Mine\MineModel;
 class SystemUploadfile extends MineModel
 {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected ?string $table = 'system_uploadfile';
+
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected array $fillable = ['id', 'storage_mode', 'origin_name', 'object_name', 'hash', 'mime_type', 'storage_path', 'suffix', 'size_byte', 'size_info', 'url', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+
     /**
      * The attributes that should be cast to native types.
-     *
-     * @var array
      */
     protected array $casts = ['id' => 'integer', 'storage_mode' => 'integer', 'size_byte' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

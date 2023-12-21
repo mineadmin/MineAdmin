@@ -1,5 +1,15 @@
 <?php
+
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemLoginLog;
@@ -12,8 +22,7 @@ use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class SystemUserMapper
- * @package App\System\Mapper
+ * Class SystemUserMapper.
  */
 class SystemUploadFileMapper extends AbstractMapper
 {
@@ -28,17 +37,14 @@ class SystemUploadFileMapper extends AbstractMapper
     #[Inject]
     protected ContainerInterface $container;
 
-
     public function assignModel()
     {
         $this->model = SystemUploadfile::class;
     }
 
     /**
-     * 通过hash获取上传文件的信息
-     * @param string $hash
-     * @param array $columns
-     * @return Builder|Model|object|null
+     * 通过hash获取上传文件的信息.
+     * @return null|Builder|Model|object
      */
     public function getFileInfoByHash(string $hash, array $columns = ['*'])
     {
@@ -52,26 +58,23 @@ class SystemUploadFileMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['storage_mode'])) {
+        if (! empty($params['storage_mode'])) {
             $query->where('storage_mode', $params['storage_mode']);
         }
-        if (!empty($params['origin_name'])) {
-            $query->where('origin_name', 'like', '%'.$params['origin_name'].'%');
+        if (! empty($params['origin_name'])) {
+            $query->where('origin_name', 'like', '%' . $params['origin_name'] . '%');
         }
-        if (!empty($params['storage_path'])) {
-            $query->where('storage_path', 'like', $params['storage_path'].'%');
+        if (! empty($params['storage_path'])) {
+            $query->where('storage_path', 'like', $params['storage_path'] . '%');
         }
-        if (!empty($params['mime_type'])) {
-            $query->where('mime_type', 'like', $params['mime_type'].'/%');
+        if (! empty($params['mime_type'])) {
+            $query->where('mime_type', 'like', $params['mime_type'] . '/%');
         }
-        if (!empty($params['minDate']) && !empty($params['maxDate'])) {
+        if (! empty($params['minDate']) && ! empty($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
                 [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
@@ -85,7 +88,7 @@ class SystemUploadFileMapper extends AbstractMapper
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
             if ($model) {
-                $storageMode = match ( $model->storage_mode ) {
+                $storageMode = match ($model->storage_mode) {
                     '1' => 'local',
                     '2' => 'oss',
                     '3' => 'qiniu',
@@ -97,7 +100,8 @@ class SystemUploadFileMapper extends AbstractMapper
                     default => 'local',
                 };
                 $event = new \Mine\Event\RealDeleteUploadFile(
-                    $model, $this->container->get(FilesystemFactory::class)->get($storageMode)
+                    $model,
+                    $this->container->get(FilesystemFactory::class)->get($storageMode)
                 );
                 $this->evDispatcher->dispatch($event);
                 if ($event->getConfirm()) {
@@ -110,15 +114,13 @@ class SystemUploadFileMapper extends AbstractMapper
     }
 
     /**
-     * 检查数据库中是否存在该目录数据
-     * @param string $path
-     * @return bool
+     * 检查数据库中是否存在该目录数据.
      */
     public function checkDirDbExists(string $path): bool
     {
         return $this->model::withTrashed()
-                ->where('storage_path', $path)
-                ->orWhere('storage_path', 'like', $path . '/%')
-                ->exists();
+            ->where('storage_path', $path)
+            ->orWhere('storage_path', 'like', $path . '/%')
+            ->exists();
     }
 }

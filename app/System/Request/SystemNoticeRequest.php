@@ -1,5 +1,15 @@
 <?php
+
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Request;
 
 use Mine\MineFormRequest;
@@ -7,7 +17,7 @@ use Mine\MineFormRequest;
 class SystemNoticeRequest extends MineFormRequest
 {
     /**
-     * 公共规则
+     * 公共规则.
      */
     public function commonRules(): array
     {
@@ -16,7 +26,7 @@ class SystemNoticeRequest extends MineFormRequest
 
     /**
      * 新增数据验证规则
-     * return array
+     * return array.
      */
     public function saveRules(): array
     {
@@ -29,7 +39,7 @@ class SystemNoticeRequest extends MineFormRequest
 
     /**
      * 更新数据验证规则
-     * return array
+     * return array.
      */
     public function updateRules(): array
     {
@@ -42,7 +52,7 @@ class SystemNoticeRequest extends MineFormRequest
 
     /**
      * 字段映射名称
-     * return array
+     * return array.
      */
     public function attributes(): array
     {
@@ -52,5 +62,4 @@ class SystemNoticeRequest extends MineFormRequest
             'content' => '公告内容',
         ];
     }
-
 }

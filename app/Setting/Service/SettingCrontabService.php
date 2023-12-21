@@ -1,21 +1,26 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingCrontabMapper;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
-use Hyperf\Config\Annotation\Value;
-use Hyperf\Di\Annotation\Inject;
-use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DeleteCache;
 use Mine\Crontab\MineCrontab;
 use Mine\Crontab\MineExecutor;
 use Mine\MineModel;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class SettingCrontabService extends AbstractService
@@ -27,23 +32,16 @@ class SettingCrontabService extends AbstractService
 
     private MineExecutor $mineExecutor;
 
-    /**
-     * @param SettingCrontabMapper $mapper
-     * @param MineExecutor $mineExecutor
-     */
     public function __construct(
         SettingCrontabMapper $mapper,
         MineExecutor $mineExecutor
-    )
-    {
+    ) {
         $this->mapper = $mapper;
         $this->mineExecutor = $mineExecutor;
     }
 
     /**
-     * 保存
-     * @param array $data
-     * @return int
+     * 保存.
      */
     public function save(array $data): int
     {
@@ -51,18 +49,15 @@ class SettingCrontabService extends AbstractService
     }
 
     /**
-     * 更新
-     * @param int $id
-     * @param array $data
-     * @return bool
+     * 更新.
      */
-    #[CacheEvict(prefix: 'setting:crontab:read',value: '_#{id}')]
+    #[CacheEvict(prefix: 'setting:crontab:read', value: '_#{id}')]
     public function update(int $id, array $data): bool
     {
         return parent::update($id, $data);
     }
 
-    #[CacheEvict(prefix:'setting:crontab:read',all: true )]
+    #[CacheEvict(prefix: 'setting:crontab:read', all: true)]
     public function delete(array $ids): bool
     {
         return parent::delete($ids);
@@ -71,13 +66,11 @@ class SettingCrontabService extends AbstractService
     #[Cacheable(prefix: 'setting:crontab:read', value: '_#{id}', ttl: 600)]
     public function read(int $id, array $column = ['*']): ?MineModel
     {
-        return parent::read($id,$column);
+        return parent::read($id, $column);
     }
 
     /**
      * 立即执行一次定时任务
-     * @param $id
-     * @return bool|null
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

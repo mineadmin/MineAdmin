@@ -1,8 +1,17 @@
 <?php
 
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 use Hyperf\Database\Migrations\Migration;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Db;
 
 class UpdateVersion102 extends Migration
@@ -14,7 +23,7 @@ class UpdateVersion102 extends Migration
     {
         // 删除用户表 dept_id 字段
         Schema::table('system_user', function (Blueprint $table) {
-            if (Schema::hasColumn('system_user','dept_id')) {
+            if (Schema::hasColumn('system_user', 'dept_id')) {
                 $table->dropColumn(['dept_id']);
             }
         });
@@ -40,7 +49,7 @@ class UpdateVersion102 extends Migration
         });
 
         // 设置超管默认部门
-        Db::table('system_user_dept')->insert([ 'user_id' => env('SUPER_ADMIN', 1), 'dept_id' => 1 ]);
+        Db::table('system_user_dept')->insert(['user_id' => env('SUPER_ADMIN', 1), 'dept_id' => 1]);
     }
 
     /**
@@ -49,7 +58,7 @@ class UpdateVersion102 extends Migration
     public function down(): void
     {
         Schema::table('system_user', function (Blueprint $table) {
-            if (Schema::hasColumn('system_user','dept_id')) {
+            if (Schema::hasColumn('system_user', 'dept_id')) {
                 $table->addColumn('bigInteger', 'dept_id', ['unsigned' => true, 'comment' => '部门ID'])->nullable();
             }
         });

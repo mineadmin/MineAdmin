@@ -10,7 +10,14 @@
  */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'no_login' => '用户异常或未登录，请重新登录',
     'token_blacklist' => 'token已在黑名单，请重新登陆',

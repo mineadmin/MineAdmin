@@ -1,13 +1,22 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemUploadFileMapper;
+use Hyperf\Collection\Collection;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
-use Hyperf\Collection\Collection;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
 use Mine\MineResponse;
@@ -15,27 +24,22 @@ use Mine\MineUpload;
 
 /**
  * 文件上传业务
- * Class SystemLoginLogService
- * @package App\System\Service
+ * Class SystemLoginLogService.
  */
 class SystemUploadFileService extends AbstractService
 {
-    /**
-     * @var ConfigInterface
-     */
-    #[Inject]
-    protected $config;
-
     /**
      * @var SystemUploadFileMapper
      */
     public $mapper;
 
     /**
-     * @var MineUpload
+     * @var ConfigInterface
      */
-    protected MineUpload $mineUpload;
+    #[Inject]
+    protected $config;
 
+    protected MineUpload $mineUpload;
 
     public function __construct(SystemUploadFileMapper $mapper, MineUpload $mineUpload)
     {
@@ -44,10 +48,7 @@ class SystemUploadFileService extends AbstractService
     }
 
     /**
-     * 上传文件
-     * @param UploadedFile $uploadedFile
-     * @param array $config
-     * @return array
+     * 上传文件.
      * @throws \League\Flysystem\FileExistsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -65,9 +66,8 @@ class SystemUploadFileService extends AbstractService
         $data = $this->mineUpload->upload($uploadedFile, $config);
         if ($this->save($data)) {
             return $data;
-        } else {
-            return [];
         }
+        return [];
     }
 
     public function chunkUpload(array $data): array
@@ -83,9 +83,7 @@ class SystemUploadFileService extends AbstractService
     }
 
     /**
-     * 获取当前目录下所有文件（包含目录）
-     * @param array $params
-     * @return array
+     * 获取当前目录下所有文件（包含目录）.
      */
     public function getAllFile(array $params = []): array
     {
@@ -93,31 +91,8 @@ class SystemUploadFileService extends AbstractService
     }
 
     /**
-     * 数组数据搜索器
-     * @param Collection $collect
-     * @param array $params
-     * @return Collection
-     */
-    protected function handleArraySearch(Collection $collect, array $params): Collection
-    {
-        if ($params['name'] ?? false) {
-            $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['name'], $params['name']);
-            });
-        }
-
-        if ($params['label'] ?? false) {
-            $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['label'], $params['label']);
-            });
-        }
-        return $collect;
-    }
-
-    /**
-     * 保存网络图片
+     * 保存网络图片.
      * @param array $data ['url', 'path']
-     * @return array
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -126,16 +101,13 @@ class SystemUploadFileService extends AbstractService
         $data = $this->mineUpload->handleSaveNetworkImage($data);
         if (! isset($data['id']) && $this->save($data)) {
             return $data;
-        } else {
-            return $data;
         }
+        return $data;
     }
 
     /**
-     * 通过hash获取文件信息
-     * @param string $hash
-     * @param array $columns
-     * @return Builder|Model|object|null
+     * 通过hash获取文件信息.
+     * @return null|Builder|Model|object
      */
     public function readByHash(string $hash, array $columns = ['*'])
     {
@@ -143,8 +115,6 @@ class SystemUploadFileService extends AbstractService
     }
 
     /**
-     * @param string $hash
-     * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Flysystem\FilesystemException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -161,8 +131,27 @@ class SystemUploadFileService extends AbstractService
                 $this->mineUpload->getStorageMode() === '1'
                     ? str_replace(env('UPLOAD_PATH', 'uploadfile'), '', $model->url)
                     : $model->url
-             ),
+            ),
             $model->mime_type
         );
+    }
+
+    /**
+     * 数组数据搜索器.
+     */
+    protected function handleArraySearch(Collection $collect, array $params): Collection
+    {
+        if ($params['name'] ?? false) {
+            $collect = $collect->filter(function ($row) use ($params) {
+                return \Mine\Helper\Str::contains($row['name'], $params['name']);
+            });
+        }
+
+        if ($params['label'] ?? false) {
+            $collect = $collect->filter(function ($row) use ($params) {
+                return \Mine\Helper\Str::contains($row['label'], $params['label']);
+            });
+        }
+        return $collect;
     }
 }

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 /**
- * This file is part of xmo/translatable.
+ * This file is part of MineAdmin.
  *
- * @link     https://github.com/xmo/translatable
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
  * @contact  root@imoi.cn
- * @license  https://github.com/xmo/translatable/blob/master/LICENSE
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 return [
     /*

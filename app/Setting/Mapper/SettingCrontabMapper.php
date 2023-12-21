@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingCrontab;
@@ -21,8 +30,6 @@ class SettingCrontabMapper extends AbstractMapper
     }
 
     /**
-     * @param array $ids
-     * @return bool
      * @throws \Exception
      */
     #[Transaction]
@@ -39,26 +46,23 @@ class SettingCrontabMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['name'])) {
-            $query->where('name', 'like', '%'.$params['name'].'%');
+        if (! empty($params['name'])) {
+            $query->where('name', 'like', '%' . $params['name'] . '%');
         }
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
-        if (!empty($params['type'])) {
+        if (! empty($params['type'])) {
             $query->where('type', $params['type']);
         }
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
         return $query;

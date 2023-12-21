@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingConfigGroup;
@@ -19,9 +28,7 @@ class SettingConfigGroupMapper extends AbstractMapper
     }
 
     /**
-     * 删除组和所属配置
-     * @param int $id
-     * @return bool
+     * 删除组和所属配置.
      * @throws \Exception
      */
     public function deleteGroupAndConfig(int $id): bool

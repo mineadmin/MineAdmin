@@ -10,43 +10,64 @@
  */
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Api;
 
+use Api\Middleware\VerifyInterfaceMiddleware;
 use App\System\Service\SystemAppService;
+use Hyperf\Di\Annotation\AnnotationCollector;
+use Hyperf\Di\Annotation\MultipleAnnotation;
+use Hyperf\Di\ReflectionManager;
+use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\PostMapping;
+use Hyperf\HttpServer\Annotation\RequestMapping;
+use Hyperf\Validation\Request\FormRequest;
+use Hyperf\Validation\ValidationException;
 use Mine\Exception\NoPermissionException;
 use Mine\Exception\NormalStatusException;
 use Mine\Exception\TokenException;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
-use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\RequestMapping;
-use Hyperf\Di\Annotation\AnnotationCollector;
-use Hyperf\Di\Annotation\MultipleAnnotation;
-use Hyperf\Di\ReflectionManager;
-use Hyperf\Validation\Request\FormRequest;
-use Hyperf\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface;
-use Api\Middleware\VerifyInterfaceMiddleware;
 
 /**
- * Class ApiController
- * @package Api
+ * Class ApiController.
  */
-#[Controller(prefix: "api")]
+#[Controller(prefix: 'api')]
 class ApiController extends MineApi
 {
     public const SIGN_VERSION = '1.0';
 
     /**
-     * 获取accessToken
-     * @return ResponseInterface
+     * 初始化.
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    protected function __init()
+    {
+        if (empty($this->request->input('apiData'))) {
+            throw new NormalStatusException(t('mineadmin.access_denied'), MineCode::NORMAL_STATUS);
+        }
+
+        return $this->request->input('apiData');
+    }
+
+    /**
+     * 获取accessToken.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    #[PostMapping("v1/getAccessToken")]
+    #[PostMapping('v1/getAccessToken')]
     public function getAccessToken(): ResponseInterface
     {
         $service = container()->get(SystemAppService::class);
@@ -54,13 +75,12 @@ class ApiController extends MineApi
     }
 
     /**
-     * v1 版本
-     * @return ResponseInterface
+     * v1 版本.
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[RequestMapping("v1/{method}")]
-    #[Middlewares([ VerifyInterfaceMiddleware::class ])]
+    #[RequestMapping('v1/{method}')]
+    #[Middlewares([VerifyInterfaceMiddleware::class])]
     public function v1(): ResponseInterface
     {
         $apiData = $this->__init();
@@ -80,7 +100,7 @@ class ApiController extends MineApi
                 $args[] = $formRequest;
                 if ($formRequest instanceof FormRequest) {
                     $this->handleSceneAnnotation($formRequest, $apiData['class_name'], $apiData['method_name'], $parameter->getName());
-                    // 验证， 这里逻辑和 验证中间件一样 直接抛异常 
+                    // 验证， 这里逻辑和 验证中间件一样 直接抛异常
                     $formRequest->validateResolved();
                 }
             }
@@ -97,28 +117,14 @@ class ApiController extends MineApi
                 throw new NormalStatusException(t('mineadmin.interface_exception') . $error, MineCode::INTERFACE_EXCEPTION);
             }
             if ($e instanceof NoPermissionException) {
-                throw new NormalstatusException( t( key: 'mineadmin.api_auth_fail') . $e->getMessage(), code: MineCode::NO_PERMISSION);
+                throw new NormalstatusException(t(key: 'mineadmin.api_auth_fail') . $e->getMessage(), code: MineCode::NO_PERMISSION);
             }
             if ($e instanceof TokenException) {
-                throw new NormalstatusException( t( key: 'mineadmin.api_auth_exception') . $e->getMessage(), code: MineCode::TOKEN_EXPIRED);
+                throw new NormalstatusException(t(key: 'mineadmin.api_auth_exception') . $e->getMessage(), code: MineCode::TOKEN_EXPIRED);
             }
 
-            throw new NormalstatusException( t( key: 'mineadmin.interface_exception') . $e->getMessage(), code: MineCode::INTERFACE_EXCEPTION);
+            throw new NormalstatusException(t(key: 'mineadmin.interface_exception') . $e->getMessage(), code: MineCode::INTERFACE_EXCEPTION);
         }
-    }
-
-    /**
-     * 初始化
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    protected function __init()
-    {
-        if (empty($this->request->input('apiData'))) {
-            throw new NormalStatusException(t('mineadmin.access_denied'), MineCode::NORMAL_STATUS);
-        }
-
-        return $this->request->input('apiData');
     }
 
     protected function handleSceneAnnotation(FormRequest $request, string $class, string $method, string $argument): void

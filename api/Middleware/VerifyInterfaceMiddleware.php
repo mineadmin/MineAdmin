@@ -10,17 +10,26 @@
  */
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Api\Middleware;
 
-use App\System\Service\SystemAppService;
-use Mine\Annotation\Api\MApi;
-use Mine\Event\ApiAfter;
-use Mine\Event\ApiBefore;
 use App\System\Model\SystemApi;
 use App\System\Service\SystemApiService;
-use Hyperf\Di\Annotation\Inject;
-use Mine\Annotation\Api\MApiCollector;
+use App\System\Service\SystemAppService;
 use Hyperf\Context\Context;
+use Hyperf\Di\Annotation\Inject;
+use Mine\Annotation\Api\MApi;
+use Mine\Annotation\Api\MApiCollector;
+use Mine\Event\ApiAfter;
+use Mine\Event\ApiBefore;
 use Mine\Exception\NormalStatusException;
 use Mine\Helper\MineCode;
 use Mine\MineRequest;
@@ -35,30 +44,24 @@ use Psr\Http\Server\RequestHandlerInterface;
 class VerifyInterfaceMiddleware implements MiddlewareInterface
 {
     /**
-     * 事件调度器
-     * @var EventDispatcherInterface
+     * 事件调度器.
      */
     #[Inject]
     protected EventDispatcherInterface $evDispatcher;
 
     /**
-     * 验证检查接口
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
+     * 验证检查接口.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler):ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->run($request, $handler);
     }
 
     /**
-     * 访问接口鉴权处理
-     * @param ServerRequestInterface $request
-     * @return int
+     * 访问接口鉴权处理.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -80,7 +83,6 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
                     }
                     return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity'], $apiData);
                 case MApi::AUTH_MODE_NORMAL:
-
                     if (empty($queryParams['access_token'])) {
                         return MineCode::API_ACCESS_TOKEN_MISSING;
                     }
@@ -94,7 +96,8 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
     }
 
     /**
-     * API常规检查
+     * API常规检查.
+     * @param mixed $request
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
@@ -124,12 +127,13 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
 
             // 合并入参
             return $request->withParsedBody(array_merge(
-                $request->getParsedBody(), ['apiData' => $apiModel]
+                $request->getParsedBody(),
+                ['apiData' => $apiModel]
             ));
         }
 
         $service = container()->get(SystemApiService::class);
-        $apiModel = $service->mapper->one(function($query) {
+        $apiModel = $service->mapper->one(function ($query) {
             $request = container()->get(MineRequest::class);
             $query->where('access_name', $request->route('method'));
         });
@@ -156,15 +160,13 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
 
         // 合并入参
         return $request->withParsedBody(array_merge(
-            $request->getParsedBody(), ['apiData' => $apiModel->toArray()]
+            $request->getParsedBody(),
+            ['apiData' => $apiModel->toArray()]
         ));
     }
 
     /**
-     * 运行
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
+     * 运行.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -188,8 +190,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
     }
 
     /**
-     * 设置协程上下文
-     * @param array $data
+     * 设置协程上下文.
      */
     private function _setApiData(array $data)
     {
@@ -197,8 +198,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
     }
 
     /**
-     * 获取协程上下文
-     * @return array
+     * 获取协程上下文.
      */
     private function _getApiData(): array
     {

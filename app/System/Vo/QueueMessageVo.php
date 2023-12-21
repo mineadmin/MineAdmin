@@ -1,59 +1,60 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Vo;
 
 /**
  * 队列消息内容对象
- * Class QueueMessageVo
- * @package App\System\Vo
+ * Class QueueMessageVo.
  */
 class QueueMessageVo
 {
     /**
-     * 消息标题
-     * @var string
+     * 消息标题.
      */
     protected string $title;
 
     /**
-     * 消息类型
-     * @var string
+     * 消息类型.
      */
     protected string $contentType;
 
     /**
-     * 消息内容
-     * @var string
+     * 消息内容.
      */
     protected string $content;
 
     /**
-     * 发送人
-     * @var int
+     * 发送人.
      */
     protected int $sendBy;
 
     /**
-     * 备注
-     * @var string
+     * 备注.
      */
     protected string $remark;
 
     /**
-     * 是否需要确认
-     * @var bool
+     * 是否需要确认.
      */
     protected bool $isConfirm = false;
 
     /**
-     * 队列超时时间
-     * @var integer
+     * 队列超时时间.
      */
     protected int $timeout = 5;
 
     /**
-     * 队列延迟生产时间秒
-     * @var integer
+     * 队列延迟生产时间秒.
      */
     protected int $delayTime = 0;
 
@@ -66,7 +67,6 @@ class QueueMessageVo
     }
 
     /**
-     * @param string $title
      * @return $this
      */
     public function setTitle(string $title): QueueMessageVo
@@ -84,7 +84,6 @@ class QueueMessageVo
     }
 
     /**
-     * @param string $contentType
      * @return $this
      */
     public function setContentType(string $contentType): QueueMessageVo
@@ -102,7 +101,6 @@ class QueueMessageVo
     }
 
     /**
-     * @param string $content
      * @return $this
      */
     public function setContent(string $content): QueueMessageVo
@@ -121,7 +119,6 @@ class QueueMessageVo
 
     /**
      * @param string $sendBy
-     * @return QueueMessageVo
      */
     public function setSendBy(int $sendBy): QueueMessageVo
     {
@@ -129,78 +126,47 @@ class QueueMessageVo
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getRemark(): string
     {
         return $this->remark;
     }
 
-    /**
-     * @param string $remark
-     * @return QueueMessageVo
-     */
     public function setRemark(string $remark): QueueMessageVo
     {
         $this->remark = $remark;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getIsConfirm(): bool
     {
         return $this->isConfirm;
     }
 
-    /**
-     * @param bool $isConfirm
-     * @return QueueMessageVo
-     */
     public function setIsConfirm(bool $isConfirm): QueueMessageVo
     {
         $this->isConfirm = $isConfirm;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getTimeout(): int
     {
         return $this->timeout;
     }
 
-    /**
-     * @param int $timeout
-     * @return QueueMessageVo
-     */
     public function setTimeout(int $timeout): QueueMessageVo
     {
         $this->timeout = $timeout;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getDelayTime(): int
     {
         return $this->delayTime;
     }
 
-    /**
-     * @param int $delayTime
-     * @return QueueMessageVo
-     */
     public function setDelayTime(int $delayTime): QueueMessageVo
     {
         $this->delayTime = $delayTime;
         return $this;
     }
-
-
-
 }

@@ -1,14 +1,13 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 /**
- * MineAdmin is committed to providing solutions for quickly building web applications
- * Please view the LICENSE file that was distributed with this source code,
- * For the full copyright and license information.
- * Thank you very much for using MineAdmin.
+ * This file is part of MineAdmin.
  *
- * @Author X.Mo<root@imoi.cn>
- * @Link   https://gitee.com/xmo/MineAdmin
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
 namespace App\System\Controller;
@@ -25,14 +24,12 @@ use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
 
 /**
- * Class ServerController
- * @package App\System\Controller
+ * Class ServerController.
  */
 class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
-
     /**
-     * 成功连接到 ws 回调
+     * 成功连接到 ws 回调.
      * @param Response|Server $server
      * @param Request $request
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -43,16 +40,16 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
         $uid = user()->getUserInfo(
             container()->get(ServerRequestInterface::class)->getQueryParams()['token']
         )['id'];
-        Context::set('uid',$uid);
+        Context::set('uid', $uid);
 
         console()->info(
-            "WebSocket [ user connection to message server: id > $uid, ".
-            "fd > {$request->fd}, time > ". date('Y-m-d H:i:s') .' ]'
+            "WebSocket [ user connection to message server: id > {$uid}, " .
+            "fd > {$request->fd}, time > " . date('Y-m-d H:i:s') . ' ]'
         );
     }
 
     /**
-     * 消息回调
+     * 消息回调.
      * @param Response|Server $server
      * @param Frame $frame
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -61,31 +58,29 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
     public function onMessage($server, $frame): void
     {
         $data = json_decode($frame->data, true);
-        switch($data['event']) {
+        switch ($data['event']) {
             case 'get_unread_message':
                 $service = container()->get(SystemQueueMessageService::class);
                 $server->push($frame->fd, json_encode([
                     'event' => 'ev_new_message',
                     'message' => 'success',
-                    'data' => $service->getUnreadMessage(Context::get('uid'))['items']
+                    'data' => $service->getUnreadMessage(Context::get('uid'))['items'],
                 ]));
                 break;
         }
     }
 
     /**
-     * 关闭 ws 连接回调
+     * 关闭 ws 连接回调.
      * @param Response|\Swoole\Server $server
-     * @param int $fd
-     * @param int $reactorId
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function onClose($server, int $fd, int $reactorId): void
     {
         console()->info(
-            "WebSocket [ user close connect for message server: id > ".Context::get('uid').", ".
-            "fd > {$fd}, time > ". date('Y-m-d H:i:s') .' ]'
+            'WebSocket [ user close connect for message server: id > ' . Context::get('uid') . ', ' .
+            "fd > {$fd}, time > " . date('Y-m-d H:i:s') . ' ]'
         );
     }
 }

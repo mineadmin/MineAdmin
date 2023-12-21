@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingCrontabMapper;
+use Hyperf\Cache\Annotation\Cacheable;
+use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Redis\Redis;
@@ -11,7 +13,10 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DeleteCache;
 use Mine\Crontab\MineCrontab;
 use Mine\Crontab\MineExecutor;
+use Mine\MineModel;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SettingCrontabService extends AbstractService
 {
@@ -20,46 +25,29 @@ class SettingCrontabService extends AbstractService
      */
     public $mapper;
 
-    /**
-     * @var ContainerInterface
-     */
-    #[Inject]
-    protected ContainerInterface $container;
-
-    /**
-     * @var Redis
-     */
-    protected Redis $redis;
-
-    /**
-     * @var string
-     */
-    #[Value("cache.default.prefix")]
-    protected string $prefix;
+    private MineExecutor $mineExecutor;
 
     /**
      * @param SettingCrontabMapper $mapper
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @param MineExecutor $mineExecutor
      */
-    public function __construct(SettingCrontabMapper $mapper)
+    public function __construct(
+        SettingCrontabMapper $mapper,
+        MineExecutor $mineExecutor
+    )
     {
         $this->mapper = $mapper;
-        $this->redis = $this->container->get(Redis::class);
+        $this->mineExecutor = $mineExecutor;
     }
 
     /**
      * 保存
      * @param array $data
      * @return int
-     * @throws \RedisException
      */
     public function save(array $data): int
     {
-        $id = parent::save($data);
-        $this->redis->del($this->prefix . 'crontab');
-
-        return $id;
+        return parent::save($data);
     }
 
     /**
@@ -67,37 +55,31 @@ class SettingCrontabService extends AbstractService
      * @param int $id
      * @param array $data
      * @return bool
-     * @throws \RedisException
      */
+    #[CacheEvict(prefix: 'setting:crontab:read',value: '_#{id}')]
     public function update(int $id, array $data): bool
     {
-        $res = parent::update($id, $data);
-        $this->redis->del($this->prefix . 'crontab');
-
-        return $res;
+        return parent::update($id, $data);
     }
 
-    /*
-    *
-     * 删除
-     * @param array $ids
-     * @return bool
-     * @throws \RedisException
-     */
+    #[CacheEvict(prefix:'setting:crontab:read',all: true )]
     public function delete(array $ids): bool
     {
-        $res = parent::delete($ids);
-        $this->redis->del($this->prefix . 'crontab');
+        return parent::delete($ids);
+    }
 
-        return $res;
+    #[Cacheable(prefix: 'setting:crontab:read', value: '_#{id}', ttl: 600)]
+    public function read(int $id, array $column = ['*']): ?MineModel
+    {
+        return parent::read($id,$column);
     }
 
     /**
      * 立即执行一次定时任务
      * @param $id
      * @return bool|null
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function run($id): ?bool
     {
@@ -110,10 +92,7 @@ class SettingCrontabService extends AbstractService
         $crontab->setName($model->name);
         $crontab->setParameter($model->parameter ?: '');
         $crontab->setRule($model->rule);
-
-        $executor = $this->container->get(MineExecutor::class);
-
-        return $executor->execute($crontab, true);
+        return $this->mineExecutor->execute($crontab, true);
     }
 
     #[DeleteCache('crontab')]

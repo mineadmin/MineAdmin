@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Api\Middleware;
 
 use App\System\Model\SystemApi;
+use Mine\Annotation\Api\MApi;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -47,9 +48,9 @@ class VerifyParamsMiddleware implements MiddlewareInterface
     {
         $bodyData = $request->getParsedBody(); unset($bodyData['apiData']);
 
-        if ($apiData['request_mode'] === SystemApi::METHOD_GET) {
+        if ($apiData['request_mode'] === MApi::METHOD_GET) {
             $params = $request->getQueryParams();
-        } else if ($apiData['request_mode'] === SystemApi::METHOD_ALL) {
+        } else if ($apiData['request_mode'] === MApi::METHOD_ALL) {
             $params = array_merge($request->getQueryParams(), $bodyData);
         } else {
             $params = &$bodyData;

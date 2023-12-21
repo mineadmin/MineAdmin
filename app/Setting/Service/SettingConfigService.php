@@ -5,6 +5,10 @@ namespace App\Setting\Service;
 
 
 use App\Setting\Mapper\SettingConfigMapper;
+use Hyperf\Cache\Annotation\Cacheable;
+use Hyperf\Cache\Annotation\CacheAhead;
+use Hyperf\Cache\Annotation\CacheEvict;
+use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
@@ -12,6 +16,7 @@ use Mine\Annotation\DependProxy;
 use Mine\Annotation\Transaction;
 use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 #[DependProxy(values: [ ConfigServiceInterface::class ])]
 class SettingConfigService extends AbstractService implements ConfigServiceInterface
@@ -21,68 +26,35 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
      */
     public $mapper;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected ContainerInterface $container;
+    private EventDispatcherInterface $dispatcher;
+
 
     /**
-     * @var Redis
-     */
-    protected Redis $redis;
-
-    /**
-     * @var string
-     */
-    #[Value("cache.default.prefix")]
-    protected string $prefix;
-
-    /**
-     * @var string
-     */
-    protected string $cacheGroupName;
-
-    /**
-     * @var string
-     */
-    protected string $cacheName;
-
-    /**
-     * SettingConfigService constructor.
      * @param SettingConfigMapper $mapper
-     * @param ContainerInterface $container
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(SettingConfigMapper $mapper, ContainerInterface $container)
+    public function __construct(
+        SettingConfigMapper $mapper,
+        EventDispatcherInterface $eventDispatcher,
+
+    )
     {
         $this->mapper = $mapper;
-        $this->container = $container;
-        $this->setCacheGroupName($this->prefix . 'configGroup:');
-        $this->setCacheName($this->prefix . 'config:');
-        $this->redis = $this->container->get(Redis::class);
+        $this->dispatcher = $eventDispatcher;
     }
 
     /**
      * 按key获取配置，并缓存
-     * @param string $key
-     * @return array|null
-     * @throws \RedisException
      */
+    #[Cacheable(
+        prefix: 'system:config:value',
+        value: '_#{key}',
+        ttl: 600,
+        listener: 'system-config-update'
+    )]
     public function getConfigByKey(string $key): ?array
     {
-        if (empty($key)) return [];
-        $cacheKey = $this->getCacheName() . $key;
-        if (($data = $this->redis->get($cacheKey))) {
-            return unserialize($data);
-        } else {
-            $data = $this->mapper->getConfigByKey($key);
-            if ($data) {
-                $this->redis->set($cacheKey, serialize($data));
-                return $data;
-            }
-            return null;
-        }
+        return $this->mapper->getConfigByKey($key);
     }
 
     /**
@@ -98,20 +70,15 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     /**
      * 清除缓存
      * @return bool
-     * @throws \RedisException
      */
+    #[CacheEvict(
+        prefix: 'system:config:value',
+        value: '_#{key}',
+        all: true
+        )
+    ]
     public function clearCache(): bool
     {
-        $groupCache = $this->redis->keys($this->getCacheGroupName().'*');
-        $keyCache = $this->redis->keys($this->getCacheName().'*');
-        foreach ($groupCache as $item) {
-            $this->redis->del($item);
-        }
-
-        foreach($keyCache as $item) {
-            $this->redis->del($item);
-        }
-
         return true;
     }
 
@@ -121,6 +88,10 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
      * @param array $data
      * @return bool
      */
+    #[CacheEvict(
+        prefix: 'system:config:value',
+        value: '_#{key}'
+    )]
     public function updated(string $key, array $data): bool
     {
         return $this->mapper->updateConfig($key, $data);
@@ -135,42 +106,15 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     public function updatedByKeys(array $data): bool
     {
         foreach ($data as $name => $value) {
+            $this->dispatcher->dispatch(new DeleteListenerEvent(
+                'system:config:value',
+                [
+                    'key'   =>  (string)$name
+                ]
+            ));
             $this->mapper->updateByKey((string) $name, $value);
         }
         return true;
     }
-
-    /**
-     * @return string
-     */
-    public function getCacheGroupName(): string
-    {
-        return $this->cacheGroupName;
-    }
-
-    /**
-     * @param string $cacheGroupName
-     */
-    public function setCacheGroupName(string $cacheGroupName): void
-    {
-        $this->cacheGroupName = $cacheGroupName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCacheName(): string
-    {
-        return $this->cacheName;
-    }
-
-    /**
-     * @param string $cacheName
-     */
-    public function setCacheName(string $cacheName): void
-    {
-        $this->cacheName = $cacheName;
-    }
-
 
 }

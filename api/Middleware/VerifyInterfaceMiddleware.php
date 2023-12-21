@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Api\Middleware;
 
 use App\System\Service\SystemAppService;
+use Mine\Annotation\Api\MApi;
 use Mine\Event\ApiAfter;
 use Mine\Event\ApiBefore;
 use App\System\Model\SystemApi;
@@ -70,7 +71,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
             $queryParams = $request->getQueryParams();
             $apiData = $this->_getApiData();
             switch ($apiData['auth_mode']) {
-                case SystemApi::AUTH_MODE_EASY:
+                case MApi::AUTH_MODE_EASY:
                     if (empty($queryParams['app_id'])) {
                         return MineCode::API_APP_ID_MISSING;
                     }
@@ -78,7 +79,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
                         return MineCode::API_IDENTITY_MISSING;
                     }
                     return $service->verifyEasyMode($queryParams['app_id'], $queryParams['identity'], $apiData);
-                case SystemApi::AUTH_MODE_NORMAL:
+                case MApi::AUTH_MODE_NORMAL:
 
                     if (empty($queryParams['access_token'])) {
                         return MineCode::API_ACCESS_TOKEN_MISSING;
@@ -112,7 +113,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
             }
 
             // 检查接口请求方法
-            if ($apiModel['request_mode'] !== SystemApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
+            if ($apiModel['request_mode'] !== MApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
                 throw new NormalStatusException(
                     t('mineadmin.not_allow_method', ['method' => $request->getMethod()]),
                     MineCode::METHOD_NOT_ALLOW
@@ -144,7 +145,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
         }
 
         // 检查接口请求方法
-        if ($apiModel['request_mode'] !== SystemApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
+        if ($apiModel['request_mode'] !== MApi::METHOD_ALL && $request->getMethod()[0] !== $apiModel['request_mode']) {
             throw new NormalStatusException(
                 t('mineadmin.not_allow_method', ['method' => $request->getMethod()]),
                 MineCode::METHOD_NOT_ALLOW

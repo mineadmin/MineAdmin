@@ -30,13 +30,6 @@ use Mine\MineModel;
 class SystemApi extends MineModel
 {
     use SoftDeletes;
-    public const METHOD_ALL = 'A';
-    public const METHOD_POST = 'P';
-    public const METHOD_GET = 'G';
-    public const METHOD_PUT = 'U';
-    public const METHOD_DELETE = 'D';
-    public const AUTH_MODE_EASY = 1;
-    public const AUTH_MODE_NORMAL = 2;
     /**
      * The table associated with the model.
      *

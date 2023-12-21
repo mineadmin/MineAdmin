@@ -111,6 +111,7 @@ class UploadRequest extends MineFormRequest
 
     /**
      * 获取Mimes.
+     * @param mixed $key
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \RedisException

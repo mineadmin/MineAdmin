@@ -111,6 +111,8 @@ class SystemAppService extends AbstractService
 
     /**
      * 获取签名.
+     * @param mixed $appSecret
+     * @param mixed $params
      */
     public function getSignature($appSecret, $params): string
     {

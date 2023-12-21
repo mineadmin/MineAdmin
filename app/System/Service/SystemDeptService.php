@@ -123,6 +123,7 @@ class SystemDeptService extends AbstractService
 
     /**
      * 处理数据.
+     * @param mixed $data
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */

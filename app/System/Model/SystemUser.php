@@ -94,6 +94,7 @@ class SystemUser extends MineModel
 
     /**
      * 密码加密.
+     * @param mixed $value
      */
     public function setPasswordAttribute($value): void
     {
@@ -102,6 +103,8 @@ class SystemUser extends MineModel
 
     /**
      * 验证密码
+     * @param mixed $password
+     * @param mixed $hash
      */
     public static function passwordVerify($password, $hash): bool
     {

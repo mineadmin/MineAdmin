@@ -151,6 +151,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * 处理数据.
+     * @param mixed $data
      */
     protected function handleData($data): array
     {

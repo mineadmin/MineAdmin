@@ -314,6 +314,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 处理提交数据.
+     * @param mixed $data
      */
     protected function handleData($data): array
     {

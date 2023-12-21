@@ -5,7 +5,7 @@ namespace App\Setting\Model;
 
 use Mine\MineModel;
 /**
- * @property int $group_id 组ID
+ * @property int $group_id 组id
  * @property string $key 配置键名
  * @property string $value 配置值
  * @property string $name 配置名称
@@ -37,5 +37,5 @@ class SettingConfig extends MineModel
      *
      * @var array
      */
-    protected array $casts = ['group_id' => 'integer', 'sort' => 'integer', 'config_select_data' => 'array'];
+    protected array $casts = ['group_id' => 'integer', 'sort' => 'integer'];
 }

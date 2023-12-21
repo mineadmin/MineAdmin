@@ -3,6 +3,13 @@
 declare (strict_types=1);
 namespace App\Setting\Model;
 
+use App\System\Model\SystemMenu;
+use Hyperf\Collection\Collection;
+use Hyperf\DbConnection\Model\Model;
+use Mine\Generator\Contracts\GeneratorTablesContract;
+use Mine\Generator\Enums\ComponentTypeEnum;
+use Mine\Generator\Enums\GenerateTypeEnum;
+use Mine\Generator\Enums\GeneratorTypeEnum;
 use Mine\MineModel;
 /**
  * @property int $id 主键
@@ -18,14 +25,14 @@ use Mine\MineModel;
  * @property string $generate_menus 生成菜单列表
  * @property int $build_menu 是否构建菜单
  * @property int $component_type 组件显示方式
- * @property string $options 其他业务选项
+ * @property array $options 其他业务选项
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property \Carbon\Carbon $created_at 创建时间
  * @property \Carbon\Carbon $updated_at 更新时间
  * @property string $remark 备注
  */
-class SettingGenerateTables extends MineModel
+class SettingGenerateTables extends MineModel implements GeneratorTablesContract
 {
     /**
      * The table associated with the model.
@@ -52,5 +59,89 @@ class SettingGenerateTables extends MineModel
     public function columns() : \Hyperf\Database\Model\Relations\HasMany
     {
         return $this->hasMany(SettingGenerateColumns::class, 'table_id', 'id');
+    }
+
+    public function getModuleName(): string
+    {
+        return $this->module_name;
+    }
+
+    public function getTableName(): string
+    {
+        return $this->table_name;
+    }
+
+    public function getGenerateMenus(): ?string
+    {
+        return $this->generate_menus;
+    }
+
+    public function getType(): GeneratorTypeEnum
+    {
+        return GeneratorTypeEnum::from($this->type);
+    }
+
+    public function getMenuName(): string
+    {
+        return $this->menu_name;
+    }
+
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    public function getPackageName(): ?string
+    {
+        return $this->package_name;
+    }
+
+    public function getGenerateType(): GenerateTypeEnum
+    {
+        return GenerateTypeEnum::from($this->generate_type);
+    }
+
+    public function getComponentType(): ComponentTypeEnum
+    {
+        return match ($this->component_type){
+            2   => ComponentTypeEnum::DRAWER,
+            3   => ComponentTypeEnum::TAG,
+            default => ComponentTypeEnum::MODAL
+        };
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    public function getPkName(): string
+    {
+        return $this->getQualifiedKeyName();
+    }
+
+    public function getColumns(): Collection
+    {
+        return $this->columns()->get();
+    }
+
+    public function handleQuery(\Closure $closure): mixed
+    {
+        return $closure(SettingGenerateColumns::query());
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getBelongMenuId(): int
+    {
+        return $this->belong_menu_id;
+    }
+
+    public function getSystemMenuFind(\Closure $closure): Model
+    {
+        return $closure(SystemMenu::query());
     }
 }

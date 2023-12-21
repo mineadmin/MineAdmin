@@ -30,6 +30,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\RequestMapping;
+use Hyperf\Validation\Annotation\Scene;
 use Hyperf\Validation\Request\FormRequest;
 use Hyperf\Validation\ValidationException;
 use Mine\Exception\NoPermissionException;

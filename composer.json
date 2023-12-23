@@ -11,11 +11,12 @@
   "license": "Apache-2.0",
   "require": {
     "xmo/jwt-auth": "2.0.0-alpha.2",
-    "xmo/mine-core": "2.0.0-alpha.2",
+    "xmo/mine-core": "2.0.0-alpha.3",
     "xmo/mine-helpers": "2.0.0-alpha.2",
     "xmo/mine-office": "2.0.0-alpha.2",
     "xmo/mine-translatable": "2.0.0-alpha.2",
-    "xmo/mine-generator": "2.0.0-alpha.2"
+    "xmo/mine-generator": "2.0.0-alpha.2",
+    "xmo/mine-service": "2.0.0-alpha.3"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

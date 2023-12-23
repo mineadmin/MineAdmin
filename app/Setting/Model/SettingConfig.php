@@ -47,5 +47,5 @@ class SettingConfig extends MineModel
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['group_id' => 'integer', 'sort' => 'integer'];
+    protected array $casts = ['group_id' => 'integer', 'sort' => 'integer','config_select_data'=>'array'];
 }

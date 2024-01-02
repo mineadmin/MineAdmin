@@ -32,17 +32,17 @@ class SystemApiGroupMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         // 应用组名称
-        if (!empty($params['name'])) {
+        if (isset($params['name']) && blank($params['name'])) {
             $query->where('name', '=', $params['name']);
         }
 
         // 状态
-        if (!empty($params['status'])) {
+        if (isset($params['status']) && blank($params['status'])) {
             $query->where('status', '=', $params['status']);
         }
 
         // 关联查询api列表
-        if (!empty($params['getApiList']) && $params['getApiList'] == true) {
+        if (isset($params['getApiList']) && blank($params['getApiList']) && $params['getApiList'] == true) {
             $query->with(['apis' => function($query) {
                 $query->where('status', SystemApi::ENABLE)->select(['id', 'group_id', 'name', 'access_name']);
             }]);

@@ -68,15 +68,15 @@ class SystemDeptMapper extends AbstractMapper
             ->join('system_dept_leader as dl', 'u.id', '=', 'dl.user_id')
             ->where('dl.dept_id', '=', $params['dept_id']);
 
-        if (!empty($params['username'])) {
+        if (isset($params['username']) && blank($params['username'])) {
             $query->where('u.username', 'like', '%' . $params['username'] . '%');
         }
 
-        if (!empty($params['nickname'])) {
+        if (isset($params['nickname']) && blank($params['nickname'])) {
             $query->where('u.nickname', 'like', '%' . $params['nickname'] . '%');
         }
 
-        if (!empty($params['status'])) {
+        if (isset($params['status']) && blank($params['status'])) {
             $query->where('u.status', $params['status']);
         }
 
@@ -147,23 +147,23 @@ class SystemDeptMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['status'])) {
+        if (isset($params['status']) && blank($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (!empty($params['name'])) {
+        if (isset($params['name']) && blank($params['name'])) {
             $query->where('name', 'like', '%'.$params['name'].'%');
         }
 
-        if (!empty($params['leader'])) {
+        if (isset($params['leader']) && blank($params['leader'])) {
             $query->where('leader', $params['leader']);
         }
 
-        if (!empty($params['phone'])) {
+        if (isset($params['phone']) && blank($params['phone'])) {
             $query->where('phone', $params['phone']);
         }
 
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]

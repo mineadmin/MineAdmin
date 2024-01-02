@@ -146,22 +146,22 @@ class SystemMenuMapper extends AbstractMapper
     /**
      * 新增菜单
      * @param array $data
-     * @return int
+     * @return mixed
      */
     #[DeleteCache("loginInfo:*")]
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         return parent::save($data);
     }
 
     /**
      * 更新菜单
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
     #[DeleteCache("loginInfo:*")]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return parent::update($id, $data);
     }
@@ -170,6 +170,8 @@ class SystemMenuMapper extends AbstractMapper
      * 逻辑删除菜单
      * @param array $ids
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteCache("loginInfo:*")]
     public function delete(array $ids): bool
@@ -214,22 +216,22 @@ class SystemMenuMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (!empty($params['status'])) {
+        if (isset($params['status']) && blank($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (!empty($params['name'])) {
+        if (isset($params['name']) && blank($params['name'])) {
             $query->where('name', 'like', '%'.$params['name'].'%');
         }
 
-        if (!empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
             );
         }
 
-        if (!empty($params['noButton']) && $params['noButton'] === true) {
+        if (isset($params['noButton']) && blank($params['noButton']) && $params['noButton'] === true) {
             $query->where('type', '<>', SystemMenu::BUTTON);
         }
         return $query;

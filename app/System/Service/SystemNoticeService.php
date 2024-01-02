@@ -34,7 +34,7 @@ class SystemNoticeService extends AbstractService
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[Transaction]
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $message = new QueueMessageVo();
         $message->setTitle($data['title']);

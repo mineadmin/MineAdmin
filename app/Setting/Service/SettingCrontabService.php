@@ -64,12 +64,12 @@ class SettingCrontabService extends AbstractService
 
     /**
      * 更新
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      * @throws \RedisException
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         $res = parent::update($id, $data);
         $this->redis->del($this->prefix . 'crontab');
@@ -117,7 +117,7 @@ class SettingCrontabService extends AbstractService
     }
 
     #[DeleteCache('crontab')]
-    public function changeStatus(int $id, string $value, string $filed = 'status'): bool
+    public function changeStatus(mixed $id, string $value, string $filed = 'status'): bool
     {
         return parent::changeStatus($id, $value, $filed);
     }

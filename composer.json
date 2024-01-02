@@ -63,7 +63,7 @@
     ],
     "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
     "cs-fix": "php-cs-fixer fix $1",
-    "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./app ./config ./vendor/xmo",
+    "analyse": "phpstan analyse --memory-limit 500M -l 0 -c phpstan.neon ./app ./config ./libdev",
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"

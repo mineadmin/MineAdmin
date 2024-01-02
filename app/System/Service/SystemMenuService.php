@@ -9,6 +9,8 @@ use App\System\Model\SystemMenu;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\MenuServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 #[DependProxy(values: [ MenuServiceInterface::class ])]
 class SystemMenuService extends AbstractService implements MenuServiceInterface
@@ -53,6 +55,9 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
      * 获取前端选择树
      * @param array $data
      * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function getSelectTree(array $data): array
     {
@@ -78,9 +83,9 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     /**
      * 新增菜单
      * @param array $data
-     * @return int
+     * @return mixed
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $id = $this->mapper->save($this->handleData($data));
 
@@ -127,11 +132,11 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * 更新菜单
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $this->handleData($data));
     }
@@ -156,7 +161,8 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * 真实删除菜单
-     * @return array
+     * @param array $ids
+     * @return array|null
      */
     public function realDel(array $ids): ?array
     {

@@ -35,9 +35,9 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
     /**
      * 循环插入数据
      * @param array $data
-     * @return int
+     * @return mixed
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $default_column = ['created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'remark'];
         // 组装数据
@@ -78,11 +78,11 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
     }
 
     /**
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         $data['is_insert'] = $data['is_insert'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;
         $data['is_edit'] = $data['is_edit'] ? SettingGenerateColumns::YES : SettingGenerateColumns::NO;

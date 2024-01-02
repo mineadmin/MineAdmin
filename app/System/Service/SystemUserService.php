@@ -134,11 +134,11 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     /**
      * 新增用户
      * @param array $data
-     * @return int
+     * @return mixed
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         if ($this->mapper->existsByUsername($data['username'])) {
             throw new NormalStatusException(t('system.username_exists'));
@@ -152,12 +152,12 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 更新用户信息
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
     #[CacheEvict(prefix: "loginInfo", value: "userId_#{id}")]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         if (isset($data['username'])) unset($data['username']);
         if (isset($data['password'])) unset($data['password']);

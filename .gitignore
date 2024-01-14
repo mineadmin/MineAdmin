@@ -3,6 +3,7 @@
 /vendor
 /package
 /runtime
+/mine-ui
 *.log
 .env
 .gitee

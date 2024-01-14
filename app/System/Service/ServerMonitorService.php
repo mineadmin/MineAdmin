@@ -6,6 +6,10 @@ namespace App\System\Service;
 
 class ServerMonitorService
 {
+    public function isCygwin() {
+        return str_contains(PHP_OS, 'CYGWIN');
+    }
+
     /**
      * 获取cpu信息
      * @return array
@@ -15,7 +19,29 @@ class ServerMonitorService
         try {
             if (PHP_OS == 'Linux') {
                 $cpu = $this->getCpuUsage();
-                preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"'), $cache);
+                preg_match('/(\d+)/', shell_exec('cat /proc/cpuinfo | grep "cache size"') ?? '', $cache);
+                if (count($cache) == 0) {
+                    // aarch64 有可能是arm架构
+                    $cache = trim(shell_exec("lscpu | grep L3 | awk '{print \$NF}'") ?? '');
+                    if ($cache == '') {
+                        $cache = trim(shell_exec("lscpu | grep L2 | awk '{print \$NF}'") ?? '');
+                    }
+                    if ($cache != '') {
+                        $cache = [0, intval(str_replace(['K', 'B'], '', strtoupper($cache)))];
+                    }
+                }
+            } else if ($this->isCygwin()) {
+                $cpu = shell_exec('wmic cpu get LoadPercentage | findstr /V "LoadPercentage"');
+                $cpu = intval(trim($cpu ?? '0'));
+                $cache = shell_exec('wmic cpu get L3CacheSize | findstr /V "L3CacheSize"');
+                $cache = trim($cache ?? '');
+                if ($cache == '') {
+                     $cache = shell_exec('wmic cpu get L2CacheSize | findstr /V "L2CacheSize"');
+                     $cache = trim($cache ?? '');
+                }
+                if ($cache != '') {
+                    $cache = [0, intval($cache) * 1024];
+                }
             } else {
                 $cpuUsage = shell_exec('top -l 1 | head -n 10 | grep CPU');
                 preg_match('/(\d+\.\d+)%\suser/', $cpuUsage, $cpu);
@@ -32,6 +58,7 @@ class ServerMonitorService
             ];
         } catch (\Throwable $e) {
             $res = '无法获取';
+            echo $e->getMessage(), "\n";
             return [
                 'name' => $res, 'cores' => $res, 'cache' => $res, 'usage' => $res, 'free' => $res,
             ];
@@ -45,9 +72,29 @@ class ServerMonitorService
     public function getCpuName(): string
     {
         if (PHP_OS == 'Linux') {
-            preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c'), $matches);
+            preg_match('/^\s+\d\s+(.+)/', shell_exec('cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c') ?? '', $matches);
+            if (count($matches) == 0) {
+                // aarch64 有可能是arm架构
+                $name = trim(shell_exec("lscpu| grep Architecture | awk '{print $2}'") ?? '');
+                if ($name != '') {
+                    $mfMhz = trim(shell_exec("lscpu| grep 'MHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    $mfGhz = trim(shell_exec("lscpu| grep 'GHz' | awk '{print \$NF}' | head -n1") ?? '');
+                    if ($mfMhz == '' && $mfGhz == '') {
+                        return $name;
+                    } else if ($mfGhz != '') {
+                        return $name .' @ ' . $mfGhz .'GHz';
+                    } else if ($mfMhz != '') {
+                        return $name .' @ ' . round(intval($mfMhz) / 1000, 2) .'GHz';
+                    }
+                } else {
+                    return '未知';
+                }
+            }
             return $matches[1] ?? "未知";
-        } else {
+        } else if ($this->isCygwin()) {
+            $name = shell_exec('wmic cpu get Name | findstr /V "Name" | head -n1');
+            return trim($name);
+        }else {
             return shell_exec('sysctl -n machdep.cpu.brand_string');
         }
     }
@@ -58,7 +105,17 @@ class ServerMonitorService
     public function getCpuPhysicsCores(): string
     {
         if (PHP_OS == 'Linux') {
-            return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
+            $num = str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l'));
+            return intval($num) == 0 ? '1' : $num;
+        }  else if ($this->isCygwin()) {
+            $num = shell_exec('wmic cpu get NumberOfCores | findstr /V "NumberOfCores"');
+            $num = trim($num ?? '1');
+            $nums = explode("\n", $num);
+            $num = 0;
+            foreach($nums as $n) {
+                $num += intval(trim($n));
+            }
+            return strval($num);
         } else {
             return trim(shell_exec('sysctl -n hw.physicalcpu'));
         }
@@ -71,6 +128,15 @@ class ServerMonitorService
     {
         if (PHP_OS == 'Linux') {
             return str_replace("\n", '', shell_exec('cat /proc/cpuinfo |grep "processor"|wc -l'));
+        } else if ($this->isCygwin()) {
+            $num = shell_exec('wmic cpu get NumberOfLogicalProcessors | findstr /V "NumberOfLogicalProcessors"');
+            $num = trim($num ?? '1');
+            $nums = explode("\n", $num);
+            $num = 0;
+            foreach($nums as $n) {
+                $num += intval(trim($n));
+            }
+            return strval($num);
         } else {
             return trim(shell_exec('sysctl -n hw.logicalcpu'));
         }
@@ -102,7 +168,7 @@ class ServerMonitorService
     protected function calculationCpu(): array
     {
         $mode = '/(cpu)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)[\s]+([0-9]+)/';
-        $string = shell_exec('more /proc/stat | grep cpu');
+        $string = shell_exec('cat /proc/stat | grep cpu');
         preg_match_all($mode, $string, $matches);
 
         $total = $matches[2][0] + $matches[3][0] + $matches[4][0] + $matches[5][0] + $matches[6][0] + $matches[7][0] + $matches[8][0] + $matches[9][0];
@@ -134,6 +200,23 @@ class ServerMonitorService
             $result['rate'] = sprintf(
                 '%.2f', (sprintf('%.2f', $result['usage']) / sprintf('%.2f', $result['total'])) * 100
             );
+        } else if ($this->isCygwin()) {
+            $cap = shell_exec('wmic Path Win32_PhysicalMemory Get Capacity | findstr /V "Capacity"');
+            $cap = trim($cap ?? '');
+            $total = 0;
+            $caps = explode("\n", $cap);
+            foreach($caps as $c) {
+                $total += intval($c);
+            }
+            $result['total'] = round($total / 1024 / 1024 / 1024, 2);
+            // 可用物理内存
+            $free = shell_exec('wmic OS get FreePhysicalMemory | findstr /V "FreePhysicalMemory"');
+            $result['free'] = round($free / 1024 / 1024, 2);
+            $result['usage'] = round($result['total'] - $result['free'], 2);
+            $result['php'] = round(memory_get_usage() / 1024 / 1024, 2);
+            $result['rate'] = sprintf(
+                '%.2f', (sprintf('%.2f', $result['usage']) / sprintf('%.2f', $result['total'])) * 100
+            );
         } else {
             preg_match('/(\d+)/', shell_exec('system_profiler SPHardwareDataType | grep Memory'), $total);
             $result['total'] = $total[1];
@@ -155,7 +238,7 @@ class ServerMonitorService
      */
     public function getPhpAndEnvInfo(): array
     {
-        preg_match('/(\d\.\d\.\d)/', shell_exec('php --ri swoole | grep Version'), $matches);
+        preg_match('/(\d\.\d\.\d)/', swoole_version(), $matches);
         $result['swoole_version'] = $matches[1];
 
         $result['php_version'] = PHP_VERSION;
@@ -181,17 +264,57 @@ class ServerMonitorService
      */
     public function getDiskInfo(): array
     {
-        $hds = explode(' ', preg_replace(
-            '/\s{2,}/',
-            ' ',
-            shell_exec('df -h | grep -E "^(/)"')
-        ));
-        return [
-            'total' => $hds[1],
-            'usage' => $hds[2],
-            'free' => $hds[3],
-            'rate' => $hds[4]
-        ];
+        if ($this->isCygwin()) {
+            $ds = explode('/', __DIR__);
+            // 只看项目所在磁盘
+            $driver = $ds[2].':/';
+            $info = shell_exec("fsutil volume diskfree $driver");
+            $info = trim($info ?? '');
+            if ($info != '') {
+                $lines = explode("\n", $info);
+                $i = 0;
+                $free = 0;
+                $total = 0;
+                foreach($lines as $line) {
+                    $c = explode(':', $line);
+                    $tmp = explode('(', $c[1]);
+                    if ($i == 0) {
+                        $free = intval(str_replace(',', '', $tmp[0]));
+                    } else if ($i == 1) {
+                        $total = intval(str_replace(',', '', $tmp[0]));
+                    } else {
+                        continue;
+                    }
+                    $i++;
+                } 
+
+                $usage = $total - $free;
+                return [
+                    'total' => round($total / 1024 / 1024 / 1024, 2),
+                    'usage' => round($usage / 1024 / 1024 / 1024, 2),
+                    'free' => round($free / 1024 / 1024 / 1024, 2),
+                    'rate' => round($usage / $total * 100, 2),
+                ];
+            }
+            return [
+                'total' => 0,
+                'usage' => 0,
+                'free' => 0,
+                'rate' => 0,
+            ];
+        } else {
+            $hds = explode(' ', preg_replace(
+                '/\s{2,}/',
+                ' ',
+                shell_exec('df -h | grep -E "^(/)"')
+            ));
+            return [
+                'total' => $hds[1],
+                'usage' => $hds[2],
+                'free' => $hds[3],
+                'rate' => $hds[4]
+            ];
+        }
     }
 
 }

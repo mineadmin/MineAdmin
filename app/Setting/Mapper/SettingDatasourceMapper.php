@@ -16,7 +16,6 @@ use App\Setting\Model\SettingDatasource;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
-use Mine\Annotation\Transaction;
 use Mine\Exception\MineException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -46,7 +45,7 @@ class SettingDatasourceMapper extends AbstractMapper
     {
         
         // 数据源名称
-        if (isset($params['source_name']) && $params['source_name'] !== '') {
+        if (isset($params['source_name']) && blank($params['source_name'])) {
             $query->where('source_name', 'like', '%'.$params['source_name'].'%');
         }
 
@@ -93,7 +92,7 @@ class SettingDatasourceMapper extends AbstractMapper
      */
     public function createTable(string $sql): bool
     {
-        return Db::connection()->getPdo()->exec($sql) > 0;
+        return Db::connection('default')->getPdo()->exec($sql) > 0;
     }
 
     public function connectionDb(Object|array $params): \PDO

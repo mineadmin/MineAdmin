@@ -33,6 +33,20 @@ class SettingConfigMapper extends AbstractMapper
     }
 
     /**
+     * 按组的key获取一组配置信息
+     * @param string $groupKey
+     * @return array
+     */
+    public function getConfigByGroupKey(string $groupKey): array
+    {
+        $prefix = env('DB_PREFIX');
+        return $this->model::query()->whereRaw(
+            sprintf('group_id = ( SELECT id FROM %ssetting_config_group WHERE code = ? )', $prefix),
+            [ $groupKey ]
+        )->get()->toArray();
+    }
+
+    /**
      * 更新配置
      * @param string $key
      * @param array $data
@@ -40,18 +54,23 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function updateConfig(string $key, array $data): bool
     {
-        return $this->model::query()->where('key', $key)->update($data) > 0;
+        if (isset($data['config_select_data']) && is_array($data['config_select_data'])) {
+            $data['config_select_data'] = json_encode($data['config_select_data'], JSON_UNESCAPED_UNICODE);
+        }
+        return $this->model::query()->where('key', $key)->update($data) > -1;
     }
 
     /**
      * 按 keys 更新配置
      * @param string $key
-     * @param string|int|bool $value
+     * @param mixed $value
      * @return bool
      */
-    public function updateByKey(string $key, string|int|bool|null $value = null): bool
+    public function updateByKey(string $key, mixed $value = null): bool
     {
-        return $this->model::query()->where('key', $key)->update(['value' => $value]) > 0;
+        return $this->model::query()->where('key', $key)->update([
+            'value' => is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value
+        ]) > 0;
     }
 
     /**
@@ -71,13 +90,13 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['group_id']) && !empty($params['group_id'])) {
+        if (isset($params['group_id']) && blank($params['group_id'])) {
             $query->where('group_id', $params['group_id']);
         }
-        if (isset($params['name']) && !empty($params['name'])) {
+        if (isset($params['name']) && blank($params['name'])) {
             $query->where('name', $params['name']);
         }
-        if (isset($params['key']) && !empty($params['key'])) {
+        if (isset($params['key']) && blank($params['key'])) {
             $query->where('key', 'like',  '%'.$params['key'].'%');
         }
         return $query;

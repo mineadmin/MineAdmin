@@ -168,4 +168,18 @@ class UploadController extends MineController
         }
         return $this->_download(BASE_PATH . '/public' . $model->url, $model->origin_name);
     }
+
+    /**
+     * 输出图片、文件
+     * @param string $hash
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \League\Flysystem\FilesystemException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[GetMapping("showFile/{hash}")]
+    public function showFile(string $hash): \Psr\Http\Message\ResponseInterface
+    {
+        return $this->service->responseFile($hash);
+    }
 }

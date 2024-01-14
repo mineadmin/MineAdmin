@@ -9,15 +9,15 @@ use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Event\UserAdd;
 use Mine\Event\UserDelete;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
-use Mine\Helper\MineCaptcha;
+use Mine\Interfaces\ServiceInterface\UserServiceInterface;
 use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -25,7 +25,8 @@ use Psr\SimpleCache\InvalidArgumentException;
  * Class SystemUserService
  * @package App\System\Service
  */
-class SystemUserService extends AbstractService
+#[DependProxy(values: [ UserServiceInterface::class ])]
+class SystemUserService extends AbstractService implements UserServiceInterface
 {
     /**
      * @var MineRequest
@@ -71,23 +72,6 @@ class SystemUserService extends AbstractService
         $this->sysMenuService = $systemMenuService;
         $this->sysRoleService = $systemRoleService;
         $this->container = $container;
-    }
-
-    /**
-     * 获取验证码
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function getCaptcha(): string
-    {
-        $cache = container()->get(CacheInterface::class);
-        $captcha = new MineCaptcha();
-        $info = $captcha->getCaptchaInfo();
-        $key = $this->request->ip() .'-'. \Mine\Helper\Str::lower($info['code']);
-        $cache->set(sprintf('captcha:%s', $key), $info['code'], 60);
-        return $info['image'];
     }
 
     /**
@@ -150,11 +134,11 @@ class SystemUserService extends AbstractService
     /**
      * 新增用户
      * @param array $data
-     * @return int
+     * @return mixed
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         if ($this->mapper->existsByUsername($data['username'])) {
             throw new NormalStatusException(t('system.username_exists'));
@@ -168,12 +152,12 @@ class SystemUserService extends AbstractService
 
     /**
      * 更新用户信息
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
     #[CacheEvict(prefix: "loginInfo", value: "userId_#{id}")]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         if (isset($data['username'])) unset($data['username']);
         if (isset($data['password'])) unset($data['password']);

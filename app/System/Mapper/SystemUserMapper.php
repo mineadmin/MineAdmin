@@ -7,6 +7,7 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\ModelNotFoundException;
+use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
@@ -61,10 +62,10 @@ class SystemUserMapper extends AbstractMapper
     /**
      * 新增用户
      * @param array $data
-     * @return int
+     * @return mixed
      */
     #[Transaction]
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
@@ -80,12 +81,12 @@ class SystemUserMapper extends AbstractMapper
 
     /**
      * 更新用户
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
     #[Transaction]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
@@ -125,10 +126,11 @@ class SystemUserMapper extends AbstractMapper
 
     /**
      * 获取用户信息
-     * @param int $id
-     * @return MineModel
+     * @param mixed $id
+     * @param array $column
+     * @return MineModel|null
      */
-    public function read(int $id): ?MineModel
+    public function read(mixed $id, array $column = ['*']): ?MineModel
     {
         $user = $this->model::find($id);
         if ($user) {
@@ -147,42 +149,53 @@ class SystemUserMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['dept_id']) && is_string($params['dept_id'])) {
-            $query->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id');
-            $query->where('dept.dept_id', '=', $params['dept_id']);
+        if (isset($params['dept_id']) && blank($params['dept_id'])) {
+            $tablePrefix = env('DB_PREFIX');
+            $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
+                ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
+                ->whereIn('dept.dept_id', SystemDept::query()
+                    ->where(function ($query) use ($params) {
+                        $query->where('id', '=', $params['dept_id'])
+                            ->orWhere('level', 'like', $params['dept_id'] . ',%')
+                            ->orWhere('level', 'like', '%,' . $params['dept_id'])
+                            ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
+                    })
+                    ->pluck('id')
+                    ->toArray()
+                );
         }
-        if (isset($params['username'])) {
+        if (isset($params['username']) && blank($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
-        if (isset($params['nickname'])) {
+        if (isset($params['nickname']) && blank($params['nickname'])) {
             $query->where('nickname', 'like', '%'.$params['nickname'].'%');
         }
-        if (isset($params['phone'])) {
+        if (isset($params['phone']) && blank($params['phone'])) {
             $query->where('phone', '=', $params['phone']);
         }
-        if (isset($params['email'])) {
+        if (isset($params['email']) && blank($params['email'])) {
             $query->where('email', '=', $params['email']);
         }
-        if (isset($params['status'])) {
+        if (isset($params['status']) && blank($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (isset($params['filterSuperAdmin'])) {
+        if (isset($params['filterSuperAdmin']) && blank($params['filterSuperAdmin'])) {
             $query->whereNotIn('id', [env('SUPER_ADMIN')]);
         }
 
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
             );
         }
 
-        if (isset($params['userIds'])) {
+        if (isset($params['userIds']) && blank($params['userIds'])) {
             $query->whereIn('id', $params['userIds']);
         }
 
-        if (isset($params['showDept'])) {
+        if (isset($params['showDept']) && blank($params['showDept'])) {
             $isAll = $params['showDeptAll'] ?? false;
 
             $query->with(['depts' => function($query) use($isAll){
@@ -192,7 +205,7 @@ class SystemUserMapper extends AbstractMapper
             }]);
         }
 
-        if (isset($params['role_id'])) {
+        if (isset($params['role_id']) && blank($params['role_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
@@ -200,7 +213,7 @@ class SystemUserMapper extends AbstractMapper
             );
         }
 
-        if (isset($params['post_id'])) {
+        if (isset($params['post_id']) && blank($params['post_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",

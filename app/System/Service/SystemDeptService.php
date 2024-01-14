@@ -81,24 +81,24 @@ class SystemDeptService extends AbstractService
     /**
      * 新增部门
      * @param array $data
-     * @return int
+     * @return mixed
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         return $this->mapper->save($this->handleData($data));
     }
 
     /**
      * 更新部门
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $this->handleData($data));
     }
@@ -112,11 +112,11 @@ class SystemDeptService extends AbstractService
      */
     protected function handleData($data): array
     {
-        if (isset($data['id']) && $data['id'] == $data['parent_id']) {
+        $pid = $data['parent_id'] ?? 0;
+
+        if (isset($data['id']) && $data['id'] == $pid) {
             throw new NormalStatusException(t('system.parent_dept_error'), 500);
         }
-
-        $pid = $data['parent_id'] ?? 0;
 
         if ($pid === 0) {
             $data['level'] = $data['parent_id'] = '0';

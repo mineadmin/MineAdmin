@@ -6,9 +6,12 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemRoleMapper;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
+use Mine\Interfaces\ServiceInterface\RoleServiceInterface;
 
-class SystemRoleService extends AbstractService
+#[DependProxy(values: [ RoleServiceInterface::class ])]
+class SystemRoleService extends AbstractService implements RoleServiceInterface
 {
     public $mapper;
 
@@ -29,7 +32,13 @@ class SystemRoleService extends AbstractService
         return parent::getList($params, $isScope);
     }
 
-    public function save(array $data): int
+    /**
+     * @param array $data
+     * @return mixed
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function save(array $data): mixed
     {
         if ($this->mapper->checkRoleCode($data['code'])) {
             throw new NormalStatusException(t('system.rolecode_exists'));
@@ -75,11 +84,11 @@ class SystemRoleService extends AbstractService
 
     /**
      * 更新角色信息
-     * @param int $id
+     * @param mixed $id
      * @param array $data
      * @return bool
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $data);
     }

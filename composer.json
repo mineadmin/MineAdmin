@@ -10,58 +10,20 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "php": ">=8.0",
-    "ext-gd": "*",
-    "ext-json": "*",
-    "ext-openssl": "*",
-    "ext-pdo": "*",
-    "ext-pdo_mysql": "*",
-    "ext-redis": "*",
-    "ext-swoole": ">=4.5",
-    "doctrine/dbal": "^3.1",
-    "easyswoole/verifycode": "3.x",
-    "hyperf/amqp": "3.0.*",
-    "hyperf/async-queue": "3.0.*",
-    "hyperf/cache": "3.0.*",
-    "hyperf/command": "3.0.*",
-    "hyperf/config": "3.0.*",
-    "hyperf/crontab": "3.0.*",
-    "hyperf/database": "3.0.*",
-    "hyperf/db-connection": "3.0.*",
-    "hyperf/filesystem": "3.0.*",
-    "hyperf/framework": "3.0.*",
-    "hyperf/guzzle": "3.0.*",
-    "hyperf/http-server": "3.0.*",
-    "hyperf/logger": "3.0.*",
-    "hyperf/memory": "3.0.*",
-    "hyperf/model-cache": "3.0.*",
-    "hyperf/paginator": "3.0.*",
-    "hyperf/pool": "3.0.*",
-    "hyperf/process": "3.0.*",
-    "hyperf/redis": "3.0.*",
-    "hyperf/snowflake": "3.0.*",
-    "hyperf/translation": "3.0.*",
-    "hyperf/validation": "3.0.*",
-    "hyperf/websocket-server": "3.0.*",
-    "overtrue/flysystem-cos": "^3.0",
-    "overtrue/flysystem-qiniu": "^1.0",
-    "phpoffice/phpspreadsheet": "^1.24",
-    "symfony/property-access": "^6.0",
-    "tangwei/apidocs": "^2.1",
-    "xmo/jwt-auth": "0.4.*",
-    "xxtime/flysystem-aliyun-oss": "^1.5",
-    "yurunsoft/phpmailer-swoole": "^1.0",
-    "zoujingli/ip2region": "^1.0"
+    "xmo/jwt-auth": "0.6.*",
+    "xmo/mine-core": "^1.5",
+    "xmo/mine-office": "1.*",
+    "xmo/mine-translatable": "1.*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.9",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "hyperf/devtool": "3.0.*",
     "hyperf/ide-helper": "3.0.*",
     "hyperf/testing": "3.0.*",
     "hyperf/watcher": "3.0.*",
     "mockery/mockery": "^1.0",
-    "phpstan/phpstan": "^0.12",
-    "swoole/ide-helper": "^4.5"
+    "phpstan/phpstan": "^1.0",
+    "swoole/ide-helper": "^5.0"
   },
   "suggest": {
     "ext-openssl": "Required to use HTTPS.",
@@ -73,12 +35,9 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Mine\\": "mine/",
-      "Api\\": "api/"
-    },
-    "files": [
-      "mine/Helper/functions.php"
-    ]
+      "Api\\": "api/",
+      "Plugin\\": "plugin/"
+    }
   },
   "autoload-dev": {
     "psr-4": {
@@ -104,16 +63,10 @@
     ],
     "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
     "cs-fix": "php-cs-fixer fix $1",
-    "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./app ./config ./mine",
+    "analyse": "phpstan analyse --memory-limit 500M -l 0 -c phpstan.neon ./app ./config ./libdev",
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"
     ]
-  },
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://mirrors.aliyun.com/composer/"
-    }
   }
 }

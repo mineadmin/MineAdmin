@@ -15,8 +15,8 @@ class SettingConfigRequest extends MineFormRequest
         return [
             'group_id' => 'required',
             'key' => 'required|max:32',
-            'value' => 'required|max:255',
             'name' => 'required|max:255',
+            'value' => '',
             'input_type' => '',
             'config_select_data' => '',
             'sort' => '',
@@ -51,7 +51,6 @@ class SettingConfigRequest extends MineFormRequest
         return [
             'group_id' => '组ID',
             'key' => '配置键名',
-            'value' => '配置值',
             'name' => '配置名称',
         ];
     }

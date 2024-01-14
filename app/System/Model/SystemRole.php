@@ -35,6 +35,8 @@ class SystemRole extends MineModel
     public const DEPT_BELOW_SCOPE = 4;
     // 本人
     public const SELF_SCOPE = 5;
+    // 本部门及子部门，通过表的部门id
+    public const DEPT_BELOW_SCOPE_BY_TABLE_DEPTID = 6;
     /**
      * The table associated with the model.
      *

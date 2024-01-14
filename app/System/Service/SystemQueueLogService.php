@@ -12,12 +12,15 @@ use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
 use Mine\Amqp\DelayProducer;
+use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 
 /**
  * 队列管理服务类
  */
-class SystemQueueLogService extends AbstractService
+#[DependProxy(values: [ QueueLogServiceInterface::class ])]
+class SystemQueueLogService extends AbstractService implements QueueLogServiceInterface
 {
     /**
      * @var SystemQueueLogMapper
@@ -47,6 +50,7 @@ class SystemQueueLogService extends AbstractService
 
     /**
      * 修改队列日志的生产状态
+     * @param string $ids
      * @return bool
      */
     public function updateProduceStatus(string $ids): bool

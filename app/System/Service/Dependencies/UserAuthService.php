@@ -23,10 +23,12 @@ use Mine\Exception\UserBanException;
 use Mine\Helper\MineCode;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\Vo\UserServiceVo;
+use Mine\Annotation\DependProxy;
 
 /**
  * 用户登录
  */
+#[DependProxy(values: [ UserServiceInterface::class ])]
 class UserAuthService implements UserServiceInterface
 {
 
@@ -66,16 +68,16 @@ class UserAuthService implements UserServiceInterface
                 }
             } else {
                 $userLoginAfter->loginStatus = false;
-                $userLoginAfter->message = t('jwt.password_error');
+                $userLoginAfter->message = t('jwt.login_error');
                 event($userLoginAfter);
                 throw new NormalStatusException;
             }
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
-                throw new NormalStatusException(t('jwt.username_error'), MineCode::NO_DATA);
+                throw new NormalStatusException(t('jwt.login_error'), MineCode::NO_USER);
             }
             if ($e instanceof NormalStatusException) {
-                throw new NormalStatusException(t('jwt.password_error'), MineCode::PASSWORD_ERROR);
+                throw new NormalStatusException(t('jwt.login_error'), MineCode::NO_USER);
             }
             if ($e instanceof UserBanException) {
                 throw new NormalStatusException(t('jwt.user_ban'), MineCode::USER_BAN);

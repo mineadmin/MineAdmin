@@ -7,11 +7,14 @@ use App\System\Mapper\SystemQueueMessageMapper;
 use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
+use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
 
 /**
  * 信息管理服务类
  */
-class SystemQueueMessageService extends AbstractService
+#[DependProxy(values: [ QueueMessageServiceInterface::class ])]
+class SystemQueueMessageService extends AbstractService implements QueueMessageServiceInterface
 {
     /**
      * @var SystemQueueMessageMapper
@@ -26,9 +29,9 @@ class SystemQueueMessageService extends AbstractService
     /**
      * 获取用户未读消息
      * @param int $id
-     * @return mixed
+     * @return array
      */
-    public function getUnreadMessage(int $id)
+    public function getUnreadMessage(int $id): array
     {
         $params = [
             'user_id' => $id,

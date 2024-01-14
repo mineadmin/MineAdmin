@@ -37,11 +37,18 @@ class SystemUploadFileMapper extends AbstractMapper
     /**
      * 通过hash获取上传文件的信息
      * @param string $hash
-     * @return Builder|\Hyperf\Database\Model\Model|object|null
+     * @param array $columns
+     * @return Builder|Model|object|null
      */
-    public function getFileInfoByHash(string $hash)
+    public function getFileInfoByHash(string $hash, array $columns = ['*'])
     {
-        return $this->model::query()->where('hash', $hash)->first();
+        $model = $this->model::query()->where('hash', $hash)->first($columns);
+        if (! $model) {
+            $model = $this->model::withTrashed()->where('hash', $hash)->first(['id']);
+            $model && $model->forceDelete();
+            return null;
+        }
+        return $model;
     }
 
     /**
@@ -52,19 +59,19 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['storage_mode'])) {
+        if (isset($params['storage_mode']) && blank($params['storage_mode'])) {
             $query->where('storage_mode', $params['storage_mode']);
         }
-        if (isset($params['origin_name'])) {
+        if (isset($params['origin_name']) && blank($params['origin_name'])) {
             $query->where('origin_name', 'like', '%'.$params['origin_name'].'%');
         }
-        if (isset($params['storage_path'])) {
+        if (isset($params['storage_path']) && blank($params['storage_path'])) {
             $query->where('storage_path', 'like', $params['storage_path'].'%');
         }
-        if (!empty($params['mime_type'])) {
+        if (isset($params['mime_type']) && blank($params['mime_type'])) {
             $query->where('mime_type', 'like', $params['mime_type'].'/%');
         }
-        if (isset($params['minDate']) && isset($params['maxDate'])) {
+        if (isset($params['minDate']) && blank($params['minDate']) && isset($params['maxDate']) && blank($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
                 [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']
@@ -79,11 +86,15 @@ class SystemUploadFileMapper extends AbstractMapper
             $model = $this->model::withTrashed()->find($id);
             if ($model) {
                 $storageMode = match ( $model->storage_mode ) {
-                    1 => 'local' ,
-                    2 => 'oss'   ,
-                    3 => 'qiniu' ,
-                    4 => 'cos'   ,
-                    default => 'local' ,
+                    '1' => 'local',
+                    '2' => 'oss',
+                    '3' => 'qiniu',
+                    '4' => 'cos',
+                    '5' => 'ftp',
+                    '6' => 'memory',
+                    '7' => 's3',
+                    '8' => 'minio',
+                    default => 'local',
                 };
                 $event = new \Mine\Event\RealDeleteUploadFile(
                     $model, $this->container->get(FilesystemFactory::class)->get($storageMode)

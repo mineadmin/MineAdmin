@@ -14,6 +14,7 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
+use Mine\Annotation\RemoteState;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -23,8 +24,6 @@ use Psr\Http\Message\ResponseInterface;
  * 字典类型控制器
  * Class LogsController
  * @package App\System\Controller\DataCenter
- * @Controller(prefix="system/dictType")
- * @Auth
  */
 #[Controller(prefix: "system/dictType"), Auth]
 class DictTypeController extends MineController
@@ -144,5 +143,15 @@ class DictTypeController extends MineController
     {
         return $this->service->changeStatus((int) $this->request->input('id'), (string) $this->request->input('status'))
             ? $this->success() : $this->error();
+    }
+
+    /**
+     * 远程万能通用列表接口
+     * @return ResponseInterface
+     */
+    #[PostMapping("remote"), RemoteState(true)]
+    public function remote(): ResponseInterface
+    {
+        return $this->success($this->service->getRemoteList($this->request->all()));
     }
 }

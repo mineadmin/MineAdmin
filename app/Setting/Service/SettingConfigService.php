@@ -8,10 +8,13 @@ use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Redis\Redis;
 use Mine\Abstracts\AbstractService;
+use Mine\Annotation\DependProxy;
 use Mine\Annotation\Transaction;
+use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
 use Psr\Container\ContainerInterface;
 
-class SettingConfigService extends AbstractService
+#[DependProxy(values: [ ConfigServiceInterface::class ])]
+class SettingConfigService extends AbstractService implements ConfigServiceInterface
 {
     /**
      * @var SettingConfigMapper
@@ -80,6 +83,16 @@ class SettingConfigService extends AbstractService
             }
             return null;
         }
+    }
+
+    /**
+     * 按组的key获取一组配置信息
+     * @param string $groupKey
+     * @return array|null
+     */
+    public function getConfigByGroupKey(string $groupKey): ?array
+    {
+        return $this->mapper->getConfigByGroupKey($groupKey);
     }
 
     /**

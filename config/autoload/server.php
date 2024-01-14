@@ -58,7 +58,8 @@ return [
         Constant::OPTION_OPEN_HTTP2_PROTOCOL    => true,
         Constant::OPTION_MAX_REQUEST            => 100000,
         Constant::OPTION_SOCKET_BUFFER_SIZE     => 3 * 1024 * 1024,
-        Constant::OPTION_BUFFER_OUTPUT_SIZE     => 3 * 1024 * 1024,
+        // 关闭buffer输出大小限制
+        // Constant::OPTION_BUFFER_OUTPUT_SIZE     => 3 * 1024 * 1024,
         // 上传最大为4M
         Constant::OPTION_PACKAGE_MAX_LENGTH     => 4 * 1024 * 1024
     ],

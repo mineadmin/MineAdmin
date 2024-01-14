@@ -28,6 +28,7 @@ class SettingConfigGroupService extends AbstractService
      * 删除配置组和其所属配置
      * @param int $id
      * @return bool
+     * @throws \Exception
      */
     #[Transaction]
     public function deleteConfigGroup(int $id): bool

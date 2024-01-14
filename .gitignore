@@ -3,7 +3,7 @@
 /vendor
 /package
 /runtime
-/mine-ui
+/libdev
 *.log
 .env
 .gitee

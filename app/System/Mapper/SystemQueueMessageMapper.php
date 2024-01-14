@@ -33,16 +33,16 @@ class SystemQueueMessageMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['title'])) {
+        if (isset($params['title']) && blank($params['title'])) {
             $query->where('title', 'like', '%'.$params['title'].'%');
         }
 
         // 内容类型
-        if (isset($params['content_type']) && $params['content_type'] !== 'all') {
+        if (isset($params['content_type']) && blank($params['content_type']) && $params['content_type'] !== 'all') {
             $query->where('content_type', '=', $params['content_type']);
         }
 
-        if (isset($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) === 2) {
+        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) === 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
@@ -50,23 +50,33 @@ class SystemQueueMessageMapper extends AbstractMapper
         }
 
         // 获取收信数据
-        if (isset($params['getReceive'])) {
+        if (isset($params['getReceive']) && blank($params['getReceive'])) {
             $query->with(['sendUser' => function($query) {
                 $query->select([ 'id', 'username', 'nickname', 'avatar' ]);
             }]);
             $prefix = env('DB_PREFIX');
             $readStatus = $params['read_status'] ?? 'all';
-            $sql = <<<sql
-                id IN ( 
-                    SELECT `message_id` FROM `{$prefix}system_queue_message_receive` WHERE `user_id` = ?
-                    AND if (? <> 'all', `read_status` = ?, ' 1 = 1 ')
-                )
-            sql;
+
+            if (env('DB_DRIVER') == 'pgsql') {
+                $sql = <<<sql
+                    id IN ( 
+                        SELECT "message_id" FROM "{$prefix}system_queue_message_receive" WHERE "user_id" = ?
+                        AND (CASE WHEN CAST(? AS varchar) <> 'all' THEN CAST("read_status" as varchar) = ? ELSE  1 = 1  END)
+                    )
+                sql;
+            } else {
+                $sql = <<<sql
+                    id IN (
+                        SELECT `message_id` FROM `{$prefix}system_queue_message_receive` WHERE `user_id` = ?
+                        AND if (? <> 'all', `read_status` = ?, ' 1 = 1 ')
+                    )
+                sql;
+            }
             $query->whereRaw($sql, [ $params['user_id'] ?? user()->getId(), $readStatus, $readStatus ]);
         }
 
         // 收取发信数据
-        if (isset($params['getSend'])) {
+        if (isset($params['getSend']) && blank($params['getSend'])) {
             $query->where('send_by', user()->getId());
         }
 
@@ -98,10 +108,10 @@ class SystemQueueMessageMapper extends AbstractMapper
     /**
      * 保存数据
      * @param array $data
-     * @return int
+     * @return mixed
      */
     #[Transaction]
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $receiveUsers = $data['receive_users'];
         $this->filterExecuteAttributes($data);
@@ -133,7 +143,7 @@ class SystemQueueMessageMapper extends AbstractMapper
      * 更新中间表数据状态
      * @param array $ids
      * @param string $columnName
-     * @param string $value
+     * @param int $value
      * @return bool
      */
     public function updateDataStatus(array $ids, string $columnName = 'read_status', int $value = 2): bool

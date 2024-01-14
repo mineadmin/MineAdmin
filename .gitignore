@@ -4,6 +4,7 @@
 /package
 /runtime
 /libdev
+mine-ui/
 *.log
 .env
 .gitee

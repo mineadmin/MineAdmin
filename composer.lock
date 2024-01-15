@@ -9099,16 +9099,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v1.5.4",
+            "version": "v1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine.git",
-                "reference": "72e38fb1af90eba46a53bcb3cf24892bceb75587"
+                "reference": "b3e59be3eafb93e4b018eddee398f29c9ffbae41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine/zipball/72e38fb1af90eba46a53bcb3cf24892bceb75587",
-                "reference": "72e38fb1af90eba46a53bcb3cf24892bceb75587",
+                "url": "https://api.github.com/repos/mineadmin/mine/zipball/b3e59be3eafb93e4b018eddee398f29c9ffbae41",
+                "reference": "b3e59be3eafb93e4b018eddee398f29c9ffbae41",
                 "shasum": ""
             },
             "require": {
@@ -9191,9 +9191,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/mine/issues",
-                "source": "https://github.com/mineadmin/mine/tree/v1.5.4"
+                "source": "https://github.com/mineadmin/mine/tree/v1.5.5"
             },
-            "time": "2024-01-02T07:29:09+00:00"
+            "time": "2024-01-15T01:58:00+00:00"
         },
         {
             "name": "xmo/mine-office",

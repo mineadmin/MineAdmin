@@ -31,12 +31,12 @@ class SystemAppGroupMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         // 应用组名称
-        if (isset($params['name']) && blank($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', '=', $params['name']);
         }
 
         // 状态
-        if (isset($params['status']) && blank($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', '=', $params['status']);
         }
         return $query;

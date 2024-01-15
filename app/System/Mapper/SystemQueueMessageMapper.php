@@ -33,16 +33,16 @@ class SystemQueueMessageMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['title']) && blank($params['title'])) {
+        if (isset($params['title']) && filled($params['title'])) {
             $query->where('title', 'like', '%'.$params['title'].'%');
         }
 
         // 内容类型
-        if (isset($params['content_type']) && blank($params['content_type']) && $params['content_type'] !== 'all') {
+        if (isset($params['content_type']) && filled($params['content_type']) && $params['content_type'] !== 'all') {
             $query->where('content_type', '=', $params['content_type']);
         }
 
-        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) === 2) {
+        if (isset($params['created_at']) && filled($params['created_at']) && count($params['created_at']) === 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
@@ -50,7 +50,7 @@ class SystemQueueMessageMapper extends AbstractMapper
         }
 
         // 获取收信数据
-        if (isset($params['getReceive']) && blank($params['getReceive'])) {
+        if (isset($params['getReceive']) && filled($params['getReceive'])) {
             $query->with(['sendUser' => function($query) {
                 $query->select([ 'id', 'username', 'nickname', 'avatar' ]);
             }]);
@@ -76,7 +76,7 @@ class SystemQueueMessageMapper extends AbstractMapper
         }
 
         // 收取发信数据
-        if (isset($params['getSend']) && blank($params['getSend'])) {
+        if (isset($params['getSend']) && filled($params['getSend'])) {
             $query->where('send_by', user()->getId());
         }
 

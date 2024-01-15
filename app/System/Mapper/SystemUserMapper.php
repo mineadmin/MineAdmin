@@ -149,7 +149,7 @@ class SystemUserMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (isset($params['dept_id']) && blank($params['dept_id'])) {
+        if (isset($params['dept_id']) && filled($params['dept_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
                 ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
@@ -164,38 +164,38 @@ class SystemUserMapper extends AbstractMapper
                     ->toArray()
                 );
         }
-        if (isset($params['username']) && blank($params['username'])) {
+        if (isset($params['username']) && filled($params['username'])) {
             $query->where('username', 'like', '%'.$params['username'].'%');
         }
-        if (isset($params['nickname']) && blank($params['nickname'])) {
+        if (isset($params['nickname']) && filled($params['nickname'])) {
             $query->where('nickname', 'like', '%'.$params['nickname'].'%');
         }
-        if (isset($params['phone']) && blank($params['phone'])) {
+        if (isset($params['phone']) && filled($params['phone'])) {
             $query->where('phone', '=', $params['phone']);
         }
-        if (isset($params['email']) && blank($params['email'])) {
+        if (isset($params['email']) && filled($params['email'])) {
             $query->where('email', '=', $params['email']);
         }
-        if (isset($params['status']) && blank($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (isset($params['filterSuperAdmin']) && blank($params['filterSuperAdmin'])) {
+        if (isset($params['filterSuperAdmin']) && filled($params['filterSuperAdmin'])) {
             $query->whereNotIn('id', [env('SUPER_ADMIN')]);
         }
 
-        if (isset($params['created_at']) && blank($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && filled($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
             );
         }
 
-        if (isset($params['userIds']) && blank($params['userIds'])) {
+        if (isset($params['userIds']) && filled($params['userIds'])) {
             $query->whereIn('id', $params['userIds']);
         }
 
-        if (isset($params['showDept']) && blank($params['showDept'])) {
+        if (isset($params['showDept']) && filled($params['showDept'])) {
             $isAll = $params['showDeptAll'] ?? false;
 
             $query->with(['depts' => function($query) use($isAll){
@@ -205,7 +205,7 @@ class SystemUserMapper extends AbstractMapper
             }]);
         }
 
-        if (isset($params['role_id']) && blank($params['role_id'])) {
+        if (isset($params['role_id']) && filled($params['role_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_role WHERE role_id = ? )",
@@ -213,7 +213,7 @@ class SystemUserMapper extends AbstractMapper
             );
         }
 
-        if (isset($params['post_id']) && blank($params['post_id'])) {
+        if (isset($params['post_id']) && filled($params['post_id'])) {
             $tablePrefix = env('DB_PREFIX');
             $query->whereRaw(
                 "id IN ( SELECT user_id FROM {$tablePrefix}system_user_post WHERE post_id = ? )",

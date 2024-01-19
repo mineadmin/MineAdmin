@@ -40,6 +40,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class VerifyInterfaceMiddleware implements MiddlewareInterface
 {
@@ -53,7 +54,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
      * 验证检查接口.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -64,7 +65,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
      * 访问接口鉴权处理.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function auth(ServerRequestInterface $request): int
     {
@@ -169,7 +170,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
      * 运行.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function run(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

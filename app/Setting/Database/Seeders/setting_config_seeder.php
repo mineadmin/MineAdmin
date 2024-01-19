@@ -18,6 +18,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\Setting\Model\SettingConfig;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
@@ -29,7 +30,7 @@ class SettingConfigSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config')->truncate();
-        $tableName = env('DB_PREFIX') . \App\Setting\Model\SettingConfig::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . SettingConfig::getModel()->getTable();
         if (env('DB_DRIVER') == 'pgsql') {
             $sql = [
                 "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_copyright', NULL, '版权信息', 'textarea', NULL, 96, NULL)",

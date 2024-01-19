@@ -12,6 +12,10 @@ declare(strict_types=1);
 
 namespace App\System\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\hasMany;
+use Hyperf\Database\Model\Relations\HasOne;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 
@@ -29,8 +33,8 @@ use Mine\MineModel;
  * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property \Hyperf\Database\Model\Collection|SystemApiColumn[] $apiColumn
@@ -59,7 +63,7 @@ class SystemApi extends MineModel
     /**
      * 通过中间表关联APP.
      */
-    public function apps(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function apps(): BelongsToMany
     {
         return $this->belongsToMany(SystemApp::class, 'system_app_api', 'api_id', 'app_id');
     }
@@ -67,7 +71,7 @@ class SystemApi extends MineModel
     /**
      * 关联API分组.
      */
-    public function apiGroup(): \Hyperf\Database\Model\Relations\HasOne
+    public function apiGroup(): HasOne
     {
         return $this->hasOne(SystemApiGroup::class, 'id', 'group_id');
     }
@@ -75,7 +79,7 @@ class SystemApi extends MineModel
     /**
      * 关联API字段.
      */
-    public function apiColumn(): \Hyperf\Database\Model\Relations\hasMany
+    public function apiColumn(): hasMany
     {
         return $this->hasMany(SystemApiColumn::class, 'api_id', 'id');
     }

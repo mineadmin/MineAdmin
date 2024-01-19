@@ -18,6 +18,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemMenu;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
@@ -36,7 +37,7 @@ class SystemMenuSeeder extends Seeder
 
     protected function getData(): array
     {
-        $model = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
+        $model = env('DB_PREFIX') . SystemMenu::getModel()->getTable();
         if (env('DB_DRIVER') == 'pgsql') {
             Db::select("SELECT setval('{$model}_id_seq', 5000)");
             return [

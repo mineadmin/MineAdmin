@@ -14,6 +14,7 @@ namespace App\System\Service;
 
 use App\System\Mapper\SystemQueueLogMapper;
 use App\System\Model\SystemUser;
+use App\System\Queue\Consumer\MessageConsumer;
 use App\System\Queue\Producer\MessageProducer;
 use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
@@ -24,6 +25,8 @@ use Mine\Amqp\DelayProducer;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 队列管理服务类.
@@ -61,8 +64,8 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
 
     /**
      * 添加任务到队列.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function addQueue(AmqpQueueVo $amqpQueueVo): bool
@@ -85,14 +88,14 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
 
     /**
      * 推送消息到队列.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function pushMessage(QueueMessageVo $message, array $receiveUsers = []): bool
     {
-        $producer = AnnotationCollector::get(\App\System\Queue\Producer\MessageProducer::class);
-        $consumer = AnnotationCollector::get(\App\System\Queue\Consumer\MessageConsumer::class);
+        $producer = AnnotationCollector::get(MessageProducer::class);
+        $consumer = AnnotationCollector::get(MessageConsumer::class);
 
         if (! isset($producer['_c']['Hyperf\Amqp\Annotation\Producer']) || ! isset($consumer['_c']['Hyperf\Amqp\Annotation\Consumer'])) {
             throw new NormalStatusException(t('system.queue_annotation_not_open'), 500);

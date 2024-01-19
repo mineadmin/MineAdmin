@@ -26,6 +26,8 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -61,8 +63,8 @@ class CommonController extends MineController
 
     /**
      * 获取用户列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getUserList')]
     public function getUserList(): ResponseInterface
@@ -72,8 +74,8 @@ class CommonController extends MineController
 
     /**
      * 通过 id 列表获取用户基础信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('getUserInfoByIds')]
     public function getUserInfoByIds(): ResponseInterface
@@ -83,8 +85,8 @@ class CommonController extends MineController
 
     /**
      * 获取部门树列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getDeptTreeList')]
     public function getDeptTreeList(): ResponseInterface
@@ -94,8 +96,8 @@ class CommonController extends MineController
 
     /**
      * 获取角色列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getRoleList')]
     public function getRoleList(): ResponseInterface
@@ -105,8 +107,8 @@ class CommonController extends MineController
 
     /**
      * 获取岗位列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getPostList')]
     public function getPostList(): ResponseInterface
@@ -116,8 +118,8 @@ class CommonController extends MineController
 
     /**
      * 获取公告列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getNoticeList')]
     public function getNoticeList(): ResponseInterface
@@ -127,8 +129,8 @@ class CommonController extends MineController
 
     /**
      * 获取登录日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getLoginLogList')]
     public function getLoginLogPageList(): ResponseInterface
@@ -138,8 +140,8 @@ class CommonController extends MineController
 
     /**
      * 获取操作日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getOperationLogList')]
     public function getOperLogPageList(): ResponseInterface
@@ -155,8 +157,8 @@ class CommonController extends MineController
 
     /**
      * 清除所有缓存.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('clearAllCache')]
     public function clearAllCache(): ResponseInterface

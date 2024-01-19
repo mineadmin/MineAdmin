@@ -30,6 +30,8 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Api\MApiCollector;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -46,8 +48,8 @@ class ApiDocController extends MineApi
 
     /**
      * 登录文档.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('login')]
     public function login(): ResponseInterface
@@ -68,8 +70,8 @@ class ApiDocController extends MineApi
 
     /**
      * 通过app id获取接口数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getAppAndInterfaceList/{id}')]
     public function getAppAndInterfaceList(string $id): ResponseInterface
@@ -86,8 +88,8 @@ class ApiDocController extends MineApi
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getColumnList/{id}')]
     public function getColumnList(string $id): ResponseInterface

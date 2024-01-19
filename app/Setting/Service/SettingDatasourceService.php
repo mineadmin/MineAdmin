@@ -15,6 +15,7 @@ namespace App\Setting\Service;
 use App\Setting\Mapper\SettingDatasourceMapper;
 use Hyperf\Database\Model\Collection;
 use Mine\Abstracts\AbstractService;
+use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -35,8 +36,8 @@ class SettingDatasourceService extends AbstractService
 
     /**
      * 测试数据库连接.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function testLink(array $params): bool
     {
@@ -77,7 +78,7 @@ class SettingDatasourceService extends AbstractService
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['Name'], $params['name']);
+                return Str::contains($row['Name'], $params['name']);
             });
         }
         if ($params['engine'] ?? false) {

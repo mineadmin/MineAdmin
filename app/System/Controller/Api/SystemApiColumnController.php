@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\System\Controller\Api;
 
+use App\System\Dto\ApiColumnDto;
 use App\System\Request\SystemApiColumnRequest;
 use App\System\Service\SystemApiColumnService;
 use Hyperf\Di\Annotation\Inject;
@@ -26,6 +27,7 @@ use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineCollection;
 use Mine\MineController;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -42,8 +44,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:api, system:api:index')]
     public function index(): ResponseInterface
@@ -53,8 +55,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 回收站列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:api:recycle')]
     public function recycle(): ResponseInterface
@@ -64,8 +66,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 新增.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:api:save'), OperationLog('新增接口参数')]
     public function save(SystemApiColumnRequest $request): ResponseInterface
@@ -75,8 +77,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 读取数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:api:read')]
     public function read(int $id): ResponseInterface
@@ -86,8 +88,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 更新.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:api:update'), OperationLog('更新接口参数')]
     public function update(int $id, SystemApiColumnRequest $request): ResponseInterface
@@ -97,8 +99,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:api:delete')]
     public function delete(): ResponseInterface
@@ -108,8 +110,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:api:realDelete'), OperationLog('真实删除接口参数')]
     public function realDelete(): ResponseInterface
@@ -119,8 +121,8 @@ class SystemApiColumnController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:api:recovery')]
     public function recovery(): ResponseInterface
@@ -130,36 +132,36 @@ class SystemApiColumnController extends MineController
 
     /**
      * 字段导出.
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws Exception
      */
     #[PostMapping('export')]
     public function export(): ResponseInterface
     {
-        return $this->service->export($this->request->all(), \App\System\Dto\ApiColumnDto::class, '字段列表');
+        return $this->service->export($this->request->all(), ApiColumnDto::class, '字段列表');
     }
 
     /**
      * 字段导入.
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('import')]
     public function import(): ResponseInterface
     {
-        return $this->service->import(\App\System\Dto\ApiColumnDto::class) ? $this->success() : $this->error();
+        return $this->service->import(ApiColumnDto::class) ? $this->success() : $this->error();
     }
 
     /**
      * 下载导入模板
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('downloadTemplate')]
     public function downloadTemplate(): ResponseInterface
     {
-        return (new MineCollection())->export(\App\System\Dto\ApiColumnDto::class, '模板下载', []);
+        return (new MineCollection())->export(ApiColumnDto::class, '模板下载', []);
     }
 
     /**

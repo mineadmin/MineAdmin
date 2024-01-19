@@ -24,6 +24,9 @@ use Mine\Exception\UserBanException;
 use Mine\Helper\MineCode;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\Vo\UserServiceVo;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 用户登录.
@@ -33,9 +36,9 @@ class UserAuthService implements UserServiceInterface
 {
     /**
      * 登录.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function login(UserServiceVo $userServiceVo): string
     {
@@ -83,9 +86,9 @@ class UserAuthService implements UserServiceInterface
 
     /**
      * 用户退出.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function logout()
     {

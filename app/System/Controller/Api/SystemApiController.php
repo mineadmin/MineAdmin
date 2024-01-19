@@ -41,8 +41,8 @@ class SystemApiController extends MineController
 
     /**
      * 列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:api, system:api:index')]
     public function index(): ResponseInterface
@@ -52,8 +52,8 @@ class SystemApiController extends MineController
 
     /**
      * 获取模块列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getModuleList')]
     public function getModuleList(): ResponseInterface
@@ -64,8 +64,8 @@ class SystemApiController extends MineController
 
     /**
      * 回收站列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:api:recycle')]
     public function recycle(): ResponseInterface
@@ -75,8 +75,8 @@ class SystemApiController extends MineController
 
     /**
      * 新增.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:api:save'), OperationLog]
     public function save(SystemApiRequest $request): ResponseInterface
@@ -86,8 +86,8 @@ class SystemApiController extends MineController
 
     /**
      * 读取数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:api:read')]
     public function read(int $id): ResponseInterface
@@ -97,8 +97,8 @@ class SystemApiController extends MineController
 
     /**
      * 更新.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:api:update'), OperationLog]
     public function update(int $id, SystemApiRequest $request): ResponseInterface
@@ -108,8 +108,8 @@ class SystemApiController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:api:delete')]
     public function delete(): ResponseInterface
@@ -119,8 +119,8 @@ class SystemApiController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:api:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -130,8 +130,8 @@ class SystemApiController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:api:recovery')]
     public function recovery(): ResponseInterface

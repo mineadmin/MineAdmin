@@ -22,6 +22,8 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -36,8 +38,8 @@ class QueueMessageController extends MineController
 
     /**
      * 接收消息列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('receiveList')]
     public function receiveList(): ResponseInterface
@@ -47,8 +49,8 @@ class QueueMessageController extends MineController
 
     /**
      * 已发送消息列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('sendList')]
     public function sendList(): ResponseInterface
@@ -58,8 +60,8 @@ class QueueMessageController extends MineController
 
     /**
      * 发私信
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     #[PostMapping('sendPrivateMessage')]
@@ -70,8 +72,8 @@ class QueueMessageController extends MineController
 
     /**
      * 获取接收人列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getReceiveUser')]
     public function getReceiveUser(): ResponseInterface
@@ -86,8 +88,8 @@ class QueueMessageController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deletes')]
     public function deletes(): ResponseInterface
@@ -97,8 +99,8 @@ class QueueMessageController extends MineController
 
     /**
      * 更新状态到已读.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('updateReadStatus')]
     public function updateReadStatus(): ResponseInterface

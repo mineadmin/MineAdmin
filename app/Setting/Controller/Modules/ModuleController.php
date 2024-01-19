@@ -24,6 +24,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -38,8 +40,8 @@ class ModuleController extends MineController
 
     /**
      * 本地模块列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:module, setting:module:index')]
     public function index(): ResponseInterface
@@ -49,8 +51,8 @@ class ModuleController extends MineController
 
     /**
      * 新增本地模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('save'), Permission('setting:module:save'), OperationLog]
     public function save(ModuleRequest $request): ResponseInterface
@@ -61,8 +63,8 @@ class ModuleController extends MineController
 
     /**
      * 启停用模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('modifyStatus'), Permission('setting:module:status'), OperationLog]
     public function modifyStatus(ModuleRequest $request): ResponseInterface
@@ -72,8 +74,8 @@ class ModuleController extends MineController
 
     /**
      * 安装模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('install'), Permission('setting:module:install'), OperationLog]
     public function install(): ResponseInterface
@@ -83,8 +85,8 @@ class ModuleController extends MineController
 
     /**
      * 卸载删除模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     #[DeleteMapping('delete'), Permission('setting:module:delete'), OperationLog]

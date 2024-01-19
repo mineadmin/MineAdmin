@@ -18,6 +18,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\Setting\Model\SettingConfigGroup;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
@@ -29,7 +30,7 @@ class SettingConfigGroupSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config_group')->truncate();
-        $tableName = env('DB_PREFIX') . \App\Setting\Model\SettingConfigGroup::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . SettingConfigGroup::getModel()->getTable();
 
         if (env('DB_DRIVER') == 'pgsql') {
             Db::select("SELECT setval('{$tableName}_id_seq', 2)");

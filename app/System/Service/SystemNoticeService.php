@@ -19,6 +19,9 @@ use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Exception\NormalStatusException;
+use Mine\MineModel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 通知管理服务类.
@@ -37,9 +40,9 @@ class SystemNoticeService extends AbstractService
 
     /**
      * 保存公告.
-     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws ContainerExceptionInterface
      * @throws \Throwable
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[Transaction]
     public function save(array $data): int
@@ -58,7 +61,7 @@ class SystemNoticeService extends AbstractService
         $userIds = $data['users'] ?? [];
         if (empty($userIds)) {
             $userMapper = container()->get(SystemUserMapper::class);
-            $userIds = $userMapper->pluck(['status' => \Mine\MineModel::ENABLE]);
+            $userIds = $userMapper->pluck(['status' => MineModel::ENABLE]);
         }
 
         $pushMessageRequest = push_queue_message($message, $userIds);

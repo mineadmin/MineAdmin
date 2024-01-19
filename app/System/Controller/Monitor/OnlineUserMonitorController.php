@@ -20,6 +20,10 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 在线用户监控
@@ -33,23 +37,23 @@ class OnlineUserMonitorController extends MineController
 
     /**
      * 获取在线用户列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:onlineUser, system:onlineUser:index')]
-    public function getPageList(): \Psr\Http\Message\ResponseInterface
+    public function getPageList(): ResponseInterface
     {
         return $this->success($this->service->getOnlineUserPageList($this->request->all()));
     }
 
     /**
      * 强退用户.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     #[PostMapping('kick'), Permission('system:onlineUser:kick')]
-    public function kickUser(): \Psr\Http\Message\ResponseInterface
+    public function kickUser(): ResponseInterface
     {
         return $this->service->kickUser((string) $this->request->input('id')) ?
             $this->success() : $this->error();

@@ -16,6 +16,9 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Mine\Annotation\Auth;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * setting 公共方法控制器
@@ -26,11 +29,11 @@ class CommonController extends MineController
 {
     /**
      * 返回模块信息及表前缀
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getModuleList')]
-    public function getModuleList(): \Psr\Http\Message\ResponseInterface
+    public function getModuleList(): ResponseInterface
     {
         return $this->success($this->mine->getModuleInfo());
     }

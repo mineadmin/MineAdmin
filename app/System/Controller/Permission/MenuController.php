@@ -40,8 +40,8 @@ class MenuController extends MineController
 
     /**
      * 菜单树列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:menu, system:menu:index')]
     public function index(): ResponseInterface
@@ -51,8 +51,8 @@ class MenuController extends MineController
 
     /**
      * 回收站菜单树列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:menu:recycle')]
     public function recycle(): ResponseInterface
@@ -62,8 +62,8 @@ class MenuController extends MineController
 
     /**
      * 前端选择树（不需要权限）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('tree')]
     public function tree(): ResponseInterface
@@ -73,8 +73,8 @@ class MenuController extends MineController
 
     /**
      * 新增菜单.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:menu:save'), OperationLog]
     public function save(SystemMenuRequest $request): ResponseInterface
@@ -84,8 +84,8 @@ class MenuController extends MineController
 
     /**
      * 更新菜单.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:menu:update'), OperationLog]
     public function update(int $id, SystemMenuRequest $request): ResponseInterface
@@ -96,8 +96,8 @@ class MenuController extends MineController
 
     /**
      * 单个或批量删除菜单到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:menu:delete')]
     public function delete(): ResponseInterface
@@ -107,8 +107,8 @@ class MenuController extends MineController
 
     /**
      * 单个或批量真实删除菜单 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:menu:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -121,8 +121,8 @@ class MenuController extends MineController
 
     /**
      * 单个或批量恢复在回收站的菜单.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:menu:recovery')]
     public function recovery(): ResponseInterface
@@ -144,8 +144,8 @@ class MenuController extends MineController
 
     /**
      * 数字运算操作.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('numberOperation'), Permission('system:menu:update'), OperationLog]
     public function numberOperation(): ResponseInterface

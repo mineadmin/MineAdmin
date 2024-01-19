@@ -1,10 +1,19 @@
 <?php
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use Mine\Translatable\Validation\RuleFactory;
 
 declare(strict_types=1);
 /**
  * This file is part of MineAdmin.
  *
- * @link     https://www.mineadmin.com
+ * @see     https://www.mineadmin.com
  * @document https://doc.mineadmin.com
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
@@ -151,7 +160,7 @@ return [
     |
      */
     'rule_factory' => [
-        'format' => \Mine\Translatable\Validation\RuleFactory::FORMAT_ARRAY,
+        'format' => RuleFactory::FORMAT_ARRAY,
         'prefix' => '%',
         'suffix' => '%',
     ],

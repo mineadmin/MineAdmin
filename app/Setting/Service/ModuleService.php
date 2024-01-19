@@ -14,12 +14,17 @@ namespace App\Setting\Service;
 
 use Hyperf\Collection\Collection;
 use Hyperf\Config\Annotation\Value;
+use Hyperf\Contract\ApplicationInterface;
+use Hyperf\Database\Migrations\Migrator;
 use Hyperf\Support\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Generator\ModuleGenerator;
+use Mine\Helper\Str;
 use Mine\Interfaces\ServiceInterface\ModuleServiceInterface;
 use Mine\Mine;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -47,8 +52,8 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 创建模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function createModule(array $moduleInfo): bool
     {
@@ -61,15 +66,15 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 执行模块安装.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function installModuleData(string $name): bool
     {
         try {
             $migrateCommand = ['command' => 'mine:migrate-run', 'name' => $name];
             $seedCommand = ['command' => 'mine:seeder-run', 'name' => $name];
-            $application = container()->get(\Hyperf\Contract\ApplicationInterface::class);
+            $application = container()->get(ApplicationInterface::class);
             $application->setAutoExit(false);
             $application->run(new ArrayInput($migrateCommand), new NullOutput());
             $application->run(new ArrayInput($seedCommand), new NullOutput());
@@ -83,14 +88,14 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 卸载模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function uninstallModule(string $name): bool
     {
         try {
-            $migrate = container()->get(\Hyperf\Database\Migrations\Migrator::class);
+            $migrate = container()->get(Migrator::class);
             $path = BASE_PATH . '/app/' . $name . '/Database/Migrations';
             $migrate->rollback([$path]);
             is_dir($path . '/Update') && $migrate->rollback([$path . '/Update']);
@@ -118,8 +123,8 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
      * 缓存模块信息.
      * @param null|string $moduleName 模块名
      * @param array $data 模块数据
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function setModuleCache(?string $moduleName = null, array $data = []): void
     {
@@ -134,8 +139,8 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 获取模块缓存信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getModuleCache(?string $moduleName = null): array
     {
@@ -152,8 +157,8 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 启停用模块.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function modifyStatus(array $data): bool
     {
@@ -180,13 +185,13 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['name'], $params['name']);
+                return Str::contains($row['name'], $params['name']);
             });
         }
 
         if ($params['label'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['label'], $params['label']);
+                return Str::contains($row['label'], $params['label']);
             });
         }
         return $collect;
@@ -194,8 +199,8 @@ class ModuleService extends AbstractService implements ModuleServiceInterface
 
     /**
      * 设置需要分页的数组数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function getArrayData(array $params = []): array
     {

@@ -24,6 +24,8 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -38,8 +40,8 @@ class AttachmentController extends MineController
 
     /**
      * 列表数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:attachment, system:attachment:index')]
     public function index(): ResponseInterface
@@ -49,8 +51,8 @@ class AttachmentController extends MineController
 
     /**
      * 回收站列表数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:attachment:recycle')]
     public function recycle(): ResponseInterface
@@ -60,8 +62,8 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量删除附件.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:attachment:delete')]
     public function delete(): ResponseInterface
@@ -71,8 +73,8 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量真实删除文件 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:attachment:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -82,8 +84,8 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量恢复在回收站的文件.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:attachment:recovery')]
     public function recovery(): ResponseInterface

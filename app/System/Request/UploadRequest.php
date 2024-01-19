@@ -30,8 +30,8 @@ class UploadRequest extends MineFormRequest
     /**
      * 上传文件验证规则.
      * @return string[]
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function uploadFileRules(): array
@@ -45,8 +45,8 @@ class UploadRequest extends MineFormRequest
     /**
      * 上传图片验证规则.
      * @return string[]
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function uploadImageRules(): array

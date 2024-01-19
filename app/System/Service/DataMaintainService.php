@@ -15,6 +15,7 @@ namespace App\System\Service;
 use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractService;
+use Mine\Helper\Str;
 
 class DataMaintainService extends AbstractService
 {
@@ -85,7 +86,7 @@ class DataMaintainService extends AbstractService
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row->Name, $params['name']);
+                return Str::contains($row->Name, $params['name']);
             });
         }
         if ($params['engine'] ?? false) {

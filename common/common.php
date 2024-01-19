@@ -9,10 +9,14 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\Setting\Service\SettingConfigService;
 use App\System\Vo\QueueMessageVo;
+use Hyperf\Cache\Listener\DeleteListenerEvent;
+use Hyperf\Context\ApplicationContext;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 if (! function_exists('env')) {
     /**
@@ -56,7 +60,7 @@ if (! function_exists('sys_config')) {
      */
     function sys_config(string $key, mixed $default = null): mixed
     {
-        return container()->get(\App\Setting\Service\SettingConfigService::class)->getConfigByKey($key) ?? $default;
+        return container()->get(SettingConfigService::class)->getConfigByKey($key) ?? $default;
     }
 }
 
@@ -70,7 +74,7 @@ if (! function_exists('sys_group_config')) {
      */
     function sys_group_config(string $groupKey, mixed $default = []): mixed
     {
-        return container()->get(\App\Setting\Service\SettingConfigService::class)->getConfigByGroupKey($groupKey) ?? $default;
+        return container()->get(SettingConfigService::class)->getConfigByGroupKey($groupKey) ?? $default;
     }
 }
 
@@ -112,9 +116,9 @@ if (! function_exists('delete_cache')) {
      */
     function delete_cache(string $prefix, array $args): void
     {
-        \Hyperf\Context\ApplicationContext::getContainer()
-            ->get(\Psr\EventDispatcher\EventDispatcherInterface::class)
-            ->dispatch(new \Hyperf\Cache\Listener\DeleteListenerEvent(
+        ApplicationContext::getContainer()
+            ->get(EventDispatcherInterface::class)
+            ->dispatch(new DeleteListenerEvent(
                 $prefix,
                 $args
             ));

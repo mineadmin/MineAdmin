@@ -25,6 +25,8 @@ use Mine\Amqp\Event\ProduceEvent;
 use Mine\Amqp\Event\WaitTimeout;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 生产队列监听
@@ -73,8 +75,8 @@ class QueueProduceListener implements ListenerInterface
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     public function process(object $event): void

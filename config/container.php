@@ -16,12 +16,13 @@ use Hyperf\Context\ApplicationContext;
 use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSourceFactory;
 use Mine\Annotation\DependProxyCollector;
+use Psr\Container\ContainerInterface;
 
 // https://github.com/kanyxmo/mine/pull/14
 $container = new Container((new DefinitionSourceFactory())());
 DependProxyCollector::walk([$container, 'define']);
 
-if (! $container instanceof \Psr\Container\ContainerInterface) {
+if (! $container instanceof ContainerInterface) {
     throw new RuntimeException('The dependency injection container is invalid.');
 }
 return ApplicationContext::setContainer($container);

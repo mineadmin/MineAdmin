@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemMenu;
 use Hyperf\Database\Migrations\Migration;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
@@ -64,7 +65,7 @@ class UpdateVersion120 extends Migration
             ]
         );
 
-        $tableName = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . SystemMenu::getModel()->getTable();
 
         if (env('DB_DRIVER') == 'pgsql') {
             $sql = [

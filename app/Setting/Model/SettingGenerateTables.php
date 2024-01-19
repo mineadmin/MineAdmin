@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace App\Setting\Model;
 
 use App\System\Model\SystemMenu;
+use Carbon\Carbon;
 use Hyperf\Collection\Collection;
+use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\DbConnection\Model\Model;
 use Mine\Generator\Contracts\GeneratorTablesContract;
 use Mine\Generator\Enums\ComponentTypeEnum;
@@ -38,8 +40,8 @@ use Mine\MineModel;
  * @property array $options 其他业务选项
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
  */
 class SettingGenerateTables extends MineModel implements GeneratorTablesContract
@@ -62,7 +64,7 @@ class SettingGenerateTables extends MineModel implements GeneratorTablesContract
     /**
      * 关联生成业务字段信息表.
      */
-    public function columns(): \Hyperf\Database\Model\Relations\HasMany
+    public function columns(): HasMany
     {
         return $this->hasMany(SettingGenerateColumns::class, 'table_id', 'id');
     }

@@ -24,6 +24,9 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * 日志控制器
@@ -58,88 +61,88 @@ class LogsController extends MineController
 
     /**
      * 获取登录日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getLoginLogPageList'), Permission('system:loginLog')]
-    public function getLoginLogPageList(): \Psr\Http\Message\ResponseInterface
+    public function getLoginLogPageList(): ResponseInterface
     {
         return $this->success($this->loginLogService->getPageList($this->request->all()));
     }
 
     /**
      * 获取操作日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getOperLogPageList'), Permission('system:operLog')]
-    public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
+    public function getOperLogPageList(): ResponseInterface
     {
         return $this->success($this->operLogService->getPageList($this->request->all()));
     }
 
     /**
      * 获取接口日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getApiLogPageList'), Permission('system:apiLog')]
-    public function getApiLogPageList(): \Psr\Http\Message\ResponseInterface
+    public function getApiLogPageList(): ResponseInterface
     {
         return $this->success($this->apiLogService->getPageList($this->request->all()));
     }
 
     /**
      * 获取队列日志列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getQueueLogPageList'), Permission('system:queueLog')]
-    public function getQueueLogPageList(): \Psr\Http\Message\ResponseInterface
+    public function getQueueLogPageList(): ResponseInterface
     {
         return $this->success($this->queueLogService->getPageList($this->request->all()));
     }
 
     /**
      * 删除队列日志.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteQueueLog'), Permission('system:queueLog:delete'), OperationLog]
-    public function deleteQueueLog(): \Psr\Http\Message\ResponseInterface
+    public function deleteQueueLog(): ResponseInterface
     {
         return $this->queueLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除操作日志.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteOperLog'), Permission('system:operLog:delete'), OperationLog]
-    public function deleteOperLog(): \Psr\Http\Message\ResponseInterface
+    public function deleteOperLog(): ResponseInterface
     {
         return $this->operLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除登录日志.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteLoginLog'), Permission('system:loginLog:delete'), OperationLog]
-    public function deleteLoginLog(): \Psr\Http\Message\ResponseInterface
+    public function deleteLoginLog(): ResponseInterface
     {
         return $this->loginLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
 
     /**
      * 删除API访问日志.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteApiLog'), Permission('system:apiLog:delete'), OperationLog]
-    public function deleteApiLog(): \Psr\Http\Message\ResponseInterface
+    public function deleteApiLog(): ResponseInterface
     {
         return $this->apiLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Setting\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\HasMany;
 use Mine\MineModel;
 
 /**
@@ -25,8 +27,8 @@ use Mine\MineModel;
  * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
  * @property \Hyperf\Database\Model\Collection|SettingCrontabLog[] $logs
  */
@@ -62,7 +64,7 @@ class SettingCrontab extends MineModel
     /**
      * 关联字典任务日志表.
      */
-    public function logs(): \Hyperf\Database\Model\Relations\HasMany
+    public function logs(): HasMany
     {
         return $this->hasMany(SettingCrontabLog::class, 'crontab_id', 'id');
     }

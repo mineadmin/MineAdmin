@@ -41,8 +41,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:appGroup, system:appGroup:index')]
     public function index(): ResponseInterface
@@ -52,8 +52,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 列表，无分页.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('list')]
     public function list(): ResponseInterface
@@ -63,8 +63,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 回收站列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:appGroup:recycle')]
     public function recycle(): ResponseInterface
@@ -74,8 +74,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 新增.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:appGroup:save'), OperationLog]
     public function save(SystemAppGroupRequest $request): ResponseInterface
@@ -85,8 +85,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 读取数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:appGroup:read')]
     public function read(int $id): ResponseInterface
@@ -96,8 +96,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 更新.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:appGroup:update'), OperationLog]
     public function update(int $id, SystemAppGroupRequest $request): ResponseInterface
@@ -107,8 +107,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:appGroup:delete')]
     public function delete(): ResponseInterface
@@ -118,8 +118,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:appGroup:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -129,8 +129,8 @@ class SystemAppGroupController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:appGroup:recovery')]
     public function recovery(): ResponseInterface

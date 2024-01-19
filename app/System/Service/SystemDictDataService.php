@@ -18,6 +18,7 @@ use Hyperf\Cache\Annotation\CacheEvict;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\DictDataServiceInterface;
+use Mine\MineModel;
 
 /**
  * 字典类型业务
@@ -58,12 +59,12 @@ class SystemDictDataService extends AbstractService implements DictDataServiceIn
     /**
      * 查询一个字典.
      */
-    #[Cacheable(prefix: 'system:dict:data', ttl: 600, listener: 'system-dict-update',value: 'value')]
+    #[Cacheable(prefix: 'system:dict:data', ttl: 600, listener: 'system-dict-update', value: 'value')]
     public function getList(?array $params = null, bool $isScope = false): array
     {
         $args = [
             'select' => ['id', 'label as title', 'value as key'],
-            'status' => \Mine\MineModel::ENABLE,
+            'status' => MineModel::ENABLE,
             'orderBy' => 'sort',
             'orderType' => 'desc',
         ];

@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\System\Service;
 
+use Mine\Helper\Str;
+use Mine\Mine;
+
 class ServerMonitorService
 {
     public function isCygwin()
@@ -242,9 +245,9 @@ class ServerMonitorService
 
         $result['start_time'] = date('Y-m-d H:i:s', START_TIME);
 
-        $result['run_time'] = \Mine\Helper\Str::Sec2Time(time() - START_TIME);
+        $result['run_time'] = Str::Sec2Time(time() - START_TIME);
 
-        $result['mineadmin_version'] = \Mine\Mine::getVersion();
+        $result['mineadmin_version'] = Mine::getVersion();
 
         $result['hyperf_version'] = HF_VERSION;
 

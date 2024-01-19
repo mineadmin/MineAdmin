@@ -19,6 +19,8 @@ use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Event\ApiAfter;
 use Mine\Helper\Str;
 use Mine\MineRequest;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * API访问日志保存.
@@ -39,8 +41,8 @@ class ApiLogListener implements ListenerInterface
 
     /**
      * 事件处理.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function process(object $event): void
     {

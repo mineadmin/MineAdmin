@@ -38,7 +38,10 @@ use Mine\Exception\NormalStatusException;
 use Mine\Exception\TokenException;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * Class ApiController.
@@ -50,8 +53,8 @@ class ApiController extends MineApi
 
     /**
      * 初始化.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function __init()
     {
@@ -64,9 +67,9 @@ class ApiController extends MineApi
 
     /**
      * 获取accessToken.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     #[PostMapping('v1/getAccessToken')]
     public function getAccessToken(): ResponseInterface
@@ -77,8 +80,8 @@ class ApiController extends MineApi
 
     /**
      * v1 版本.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[RequestMapping('v1/{method}')]
     #[Middlewares([VerifyInterfaceMiddleware::class])]

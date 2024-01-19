@@ -18,6 +18,8 @@ use App\System\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 信息管理服务类.
@@ -73,8 +75,8 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
 
     /**
      * 发私信
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function sendPrivateMessage(array $data): bool

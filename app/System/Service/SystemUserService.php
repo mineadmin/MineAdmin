@@ -67,8 +67,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取用户信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getInfo(): array
     {
@@ -80,8 +80,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 新增用户.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): int
     {
@@ -111,8 +111,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取在线用户.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getOnlineUserPageList(array $params = []): array
     {
@@ -179,8 +179,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     /**
      * 强制下线用户.
      * @throws InvalidArgumentException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function kickUser(string $id): bool
     {
@@ -201,8 +201,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 清除用户缓存.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function clearCache(string $id): bool
     {
@@ -223,8 +223,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 设置用户首页.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function setHomePage(array $params): bool
     {
@@ -238,8 +238,8 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 用户更新个人资料.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function updateInfo(array $params): bool
     {

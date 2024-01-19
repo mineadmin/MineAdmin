@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\System\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 
@@ -31,8 +33,8 @@ use Mine\MineModel;
  * @property string $backend_setting 后台设置数据
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property SystemDept $dept
@@ -71,7 +73,7 @@ class SystemUser extends MineModel
     /**
      * 通过中间表关联角色.
      */
-    public function roles(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(SystemRole::class, 'system_user_role', 'user_id', 'role_id');
     }
@@ -79,7 +81,7 @@ class SystemUser extends MineModel
     /**
      * 通过中间表关联岗位.
      */
-    public function posts(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function posts(): BelongsToMany
     {
         return $this->belongsToMany(SystemPost::class, 'system_user_post', 'user_id', 'post_id');
     }
@@ -87,7 +89,7 @@ class SystemUser extends MineModel
     /**
      * 通过中间表关联部门.
      */
-    public function depts(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function depts(): BelongsToMany
     {
         return $this->belongsToMany(SystemDept::class, 'system_user_dept', 'user_id', 'dept_id');
     }

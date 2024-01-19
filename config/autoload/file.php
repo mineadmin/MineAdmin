@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=1);
 /**
  * This file is part of MineAdmin.
  *
@@ -9,15 +7,32 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\Filesystem\Adapter\AliyunOssAdapterFactory;
+use Hyperf\Filesystem\Adapter\CosAdapterFactory;
+use Hyperf\Filesystem\Adapter\FtpAdapterFactory;
+use Hyperf\Filesystem\Adapter\LocalAdapterFactory;
+use Hyperf\Filesystem\Adapter\MemoryAdapterFactory;
+use Hyperf\Filesystem\Adapter\QiniuAdapterFactory;
+use Hyperf\Filesystem\Adapter\S3AdapterFactory;
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @see     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'default' => 'local',
     'storage' => [
         'local' => [
-            'driver' => \Hyperf\Filesystem\Adapter\LocalAdapterFactory::class,
+            'driver' => LocalAdapterFactory::class,
             'root' => __DIR__ . '/../../public/' . env('UPLOAD_PATH', 'uploadfile'),
         ],
         'oss' => [
-            'driver' => \Hyperf\Filesystem\Adapter\AliyunOssAdapterFactory::class,
+            'driver' => AliyunOssAdapterFactory::class,
             'accessId' => '',
             'accessSecret' => '',
             'bucket' => '',
@@ -30,7 +45,7 @@ return [
             // 'token'          => '',
         ],
         'qiniu' => [
-            'driver' => \Hyperf\Filesystem\Adapter\QiniuAdapterFactory::class,
+            'driver' => QiniuAdapterFactory::class,
             'accessKey' => '',
             'secretKey' => '',
             'bucket' => '',
@@ -38,7 +53,7 @@ return [
             'schema' => 'http://',
         ],
         'cos' => [
-            'driver' => \Hyperf\Filesystem\Adapter\CosAdapterFactory::class,
+            'driver' => CosAdapterFactory::class,
             'region' => '',
             'domain' => '',
             'schema' => 'http://',
@@ -62,7 +77,7 @@ return [
             // 'scheme'          => 'https',
         ],
         'ftp' => [
-            'driver' => \Hyperf\Filesystem\Adapter\FtpAdapterFactory::class,
+            'driver' => FtpAdapterFactory::class,
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
@@ -74,10 +89,10 @@ return [
             // 'ignorePassiveAddress' => false,
         ],
         'memory' => [
-            'driver' => \Hyperf\Filesystem\Adapter\MemoryAdapterFactory::class,
+            'driver' => MemoryAdapterFactory::class,
         ],
         's3' => [
-            'driver' => \Hyperf\Filesystem\Adapter\S3AdapterFactory::class,
+            'driver' => S3AdapterFactory::class,
             'credentials' => [
                 'key' => env('S3_KEY'),
                 'secret' => env('S3_SECRET'),
@@ -90,7 +105,7 @@ return [
             'bucket_name' => env('S3_BUCKET'),
         ],
         'minio' => [
-            'driver' => \Hyperf\Filesystem\Adapter\S3AdapterFactory::class,
+            'driver' => S3AdapterFactory::class,
             'credentials' => [
                 'key' => env('S3_KEY'),
                 'secret' => env('S3_SECRET'),

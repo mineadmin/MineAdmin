@@ -14,6 +14,8 @@ namespace App\System\Queue\Producer;
 
 use Hyperf\Amqp\Annotation\Producer;
 use Hyperf\Amqp\Message\ProducerMessage;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 后台内部消息队列生产处理.
@@ -23,8 +25,8 @@ class MessageProducer extends ProducerMessage
 {
     /**
      * @param mixed $data
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct($data)
     {

@@ -19,6 +19,9 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ServerMonitorController.
@@ -31,11 +34,11 @@ class ServerMonitorController extends MineController
 
     /**
      * 获取服务器信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('monitor'), Permission('system:monitor:server')]
-    public function getServerInfo(): \Psr\Http\Message\ResponseInterface
+    public function getServerInfo(): ResponseInterface
     {
         return $this->success([
             'cpu' => $this->service->getCpuInfo(),

@@ -21,7 +21,11 @@ declare(strict_types=1);
 
 namespace Api\Middleware;
 
+use App\System\Service\SystemApiService;
 use Mine\Annotation\Api\MApi;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -31,16 +35,16 @@ class VerifyParamsMiddleware implements MiddlewareInterface
 {
     /**
      * 验证接口参数.
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $apiData = $request->getParsedBody()['apiData'];
         $requestData = $this->getRequestData($request, $apiData);
 
-        $columns = container()->get(\App\System\Service\SystemApiService::class)
+        $columns = container()->get(SystemApiService::class)
             ->getColumnListByApiId((string) $apiData['id'])['api_column'];
 
         // todo...

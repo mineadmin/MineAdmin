@@ -20,6 +20,8 @@ use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Event\UserLoginAfter;
 use Mine\Helper\Str;
 use Mine\MineRequest;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class LoginListener.
@@ -36,8 +38,8 @@ class LoginListener implements ListenerInterface
 
     /**
      * @param UserLoginAfter $event
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function process(object $event): void
     {
@@ -76,8 +78,8 @@ class LoginListener implements ListenerInterface
 
     /**
      * @param mixed $agent
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function os($agent): string
     {
@@ -107,8 +109,8 @@ class LoginListener implements ListenerInterface
 
     /**
      * @param mixed $agent
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function browser($agent): string
     {

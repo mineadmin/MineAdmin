@@ -18,6 +18,7 @@ use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Filesystem\FilesystemFactory;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Event\RealDeleteUploadFile;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -99,7 +100,7 @@ class SystemUploadFileMapper extends AbstractMapper
                     '8' => 'minio',
                     default => 'local',
                 };
-                $event = new \Mine\Event\RealDeleteUploadFile(
+                $event = new RealDeleteUploadFile(
                     $model,
                     $this->container->get(FilesystemFactory::class)->get($storageMode)
                 );

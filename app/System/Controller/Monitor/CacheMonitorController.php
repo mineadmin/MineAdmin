@@ -22,6 +22,8 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -36,8 +38,8 @@ class CacheMonitorController extends MineController
 
     /**
      * 获取Redis服务器信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('monitor'), Permission('system:cache, system:cache:monitor')]
     public function getCacheInfo(): ResponseInterface
@@ -47,8 +49,8 @@ class CacheMonitorController extends MineController
 
     /**
      * 查看key内容.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('view')]
     public function view(): ResponseInterface
@@ -58,8 +60,8 @@ class CacheMonitorController extends MineController
 
     /**
      * 删除一个缓存.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:cache:delete'), OperationLog]
     public function delete(): ResponseInterface
@@ -71,8 +73,8 @@ class CacheMonitorController extends MineController
 
     /**
      * 清空所有缓存.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('clear'), Permission('system:cache:clear'), OperationLog]
     public function clear(): ResponseInterface

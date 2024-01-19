@@ -1,10 +1,19 @@
 <?php
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use Hyperf\ModelCache\Handler\RedisHandler;
 
 declare(strict_types=1);
 /**
  * This file is part of MineAdmin.
  *
- * @link     https://www.mineadmin.com
+ * @see     https://www.mineadmin.com
  * @document https://doc.mineadmin.com
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
@@ -29,7 +38,7 @@ return [
             'max_idle_time' => (float) env('DB_MAX_IDLE_TIME', 60),
         ],
         'cache' => [
-            'handler' => \Hyperf\ModelCache\Handler\RedisHandler::class,
+            'handler' => RedisHandler::class,
             'cache_key' => 'MineAdmin:%s:m:%s:%s:%s',
             'prefix' => 'model-cache',
             'ttl' => 86400 * 7,

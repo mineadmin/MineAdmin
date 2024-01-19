@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\System\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 
@@ -24,8 +26,8 @@ use Mine\MineModel;
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property \Hyperf\Database\Model\Collection|SystemDept[] $depts
@@ -72,7 +74,7 @@ class SystemRole extends MineModel
     /**
      * 通过中间表获取菜单.
      */
-    public function menus(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function menus(): BelongsToMany
     {
         return $this->belongsToMany(SystemMenu::class, 'system_role_menu', 'role_id', 'menu_id');
     }
@@ -80,7 +82,7 @@ class SystemRole extends MineModel
     /**
      * 通过中间表获取用户.
      */
-    public function users(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(SystemUser::class, 'system_user_role', 'role_id', 'user_id');
     }
@@ -88,7 +90,7 @@ class SystemRole extends MineModel
     /**
      * 通过中间表获取部门.
      */
-    public function depts(): \Hyperf\Database\Model\Relations\BelongsToMany
+    public function depts(): BelongsToMany
     {
         return $this->belongsToMany(SystemDept::class, 'system_role_dept', 'role_id', 'dept_id');
     }

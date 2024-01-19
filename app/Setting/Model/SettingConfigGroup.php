@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Setting\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\HasMany;
 use Mine\MineModel;
 
 /**
@@ -20,8 +22,8 @@ use Mine\MineModel;
  * @property string $code 配置组标识
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
  */
 class SettingConfigGroup extends MineModel
@@ -44,7 +46,7 @@ class SettingConfigGroup extends MineModel
     /**
      * 关联config表.
      */
-    public function configs(): \Hyperf\Database\Model\Relations\HasMany
+    public function configs(): HasMany
     {
         return $this->hasMany(SettingConfig::class, 'group_id', 'id');
     }

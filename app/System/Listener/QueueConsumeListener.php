@@ -22,6 +22,8 @@ use Mine\Amqp\Event\ConsumeEvent;
 use Mine\Amqp\Event\FailToConsume;
 use Mine\Amqp\Event\WaitTimeout;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 消费队列监听
@@ -70,8 +72,8 @@ class QueueConsumeListener implements ListenerInterface
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function process(object $event): void
     {

@@ -41,8 +41,8 @@ class SystemAppController extends MineController
 
     /**
      * 获取APP ID.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     #[GetMapping('getAppId')]
@@ -53,8 +53,8 @@ class SystemAppController extends MineController
 
     /**
      * 获取APP SECRET.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     #[GetMapping('getAppSecret')]
@@ -65,8 +65,8 @@ class SystemAppController extends MineController
 
     /**
      * 列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:app, system:app:index')]
     public function index(): ResponseInterface
@@ -76,8 +76,8 @@ class SystemAppController extends MineController
 
     /**
      * 获取绑定接口列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getApiList')]
     public function getApiList(): ResponseInterface
@@ -87,8 +87,8 @@ class SystemAppController extends MineController
 
     /**
      * 回收站列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:app:recycle')]
     public function recycle(): ResponseInterface
@@ -98,8 +98,8 @@ class SystemAppController extends MineController
 
     /**
      * 新增.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:app:save'), OperationLog]
     public function save(SystemAppRequest $request): ResponseInterface
@@ -109,8 +109,8 @@ class SystemAppController extends MineController
 
     /**
      * 读取数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:app:read')]
     public function read(int $id): ResponseInterface
@@ -120,8 +120,8 @@ class SystemAppController extends MineController
 
     /**
      * 更新.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:app:update'), OperationLog]
     public function update(int $id, SystemAppRequest $request): ResponseInterface
@@ -131,8 +131,8 @@ class SystemAppController extends MineController
 
     /**
      * 绑定接口.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('bind/{id}'), Permission('system:app:bind'), OperationLog]
     public function bind(int $id): ResponseInterface
@@ -142,8 +142,8 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:app:delete')]
     public function delete(): ResponseInterface
@@ -153,8 +153,8 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:app:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -164,8 +164,8 @@ class SystemAppController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:app:recovery')]
     public function recovery(): ResponseInterface

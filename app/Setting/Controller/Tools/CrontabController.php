@@ -26,6 +26,8 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -49,8 +51,8 @@ class CrontabController extends MineController
 
     /**
      * 获取列表分页数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:crontab, setting:crontab:index')]
     public function index(): ResponseInterface
@@ -60,8 +62,8 @@ class CrontabController extends MineController
 
     /**
      * 获取日志列表分页数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('logPageList')]
     public function logPageList(): ResponseInterface
@@ -71,8 +73,8 @@ class CrontabController extends MineController
 
     /**
      * 保存数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('setting:crontab:save'), OperationLog]
     public function save(SettingCrontabRequest $request): ResponseInterface
@@ -82,8 +84,8 @@ class CrontabController extends MineController
 
     /**
      * 立即执行定时任务
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('run'), Permission('setting:crontab:run'), OperationLog]
     public function run(): ResponseInterface
@@ -97,8 +99,8 @@ class CrontabController extends MineController
 
     /**
      * 获取一条数据信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('setting:crontab:read')]
     public function read(int $id): ResponseInterface
@@ -108,8 +110,8 @@ class CrontabController extends MineController
 
     /**
      * 更新数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('setting:crontab:update'), OperationLog]
     public function update(int $id, SettingCrontabRequest $request): ResponseInterface
@@ -119,8 +121,8 @@ class CrontabController extends MineController
 
     /**
      * 单个或批量删除.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('setting:crontab:delete')]
     public function delete(): ResponseInterface
@@ -130,8 +132,8 @@ class CrontabController extends MineController
 
     /**
      * 删除定时任务日志.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteCrontabLog'), Permission('setting:crontab:deleteCrontabLog'), OperationLog('删除定时任务日志')]
     public function deleteCrontabLog(): ResponseInterface
@@ -141,8 +143,8 @@ class CrontabController extends MineController
 
     /**
      * 更改状态
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('changeStatus'), Permission('setting:crontab:update'), OperationLog]
     public function changeStatus(): ResponseInterface

@@ -15,6 +15,7 @@ namespace App\Setting\Service;
 use App\Setting\Mapper\SettingGenerateTablesMapper;
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Service\DataMaintainService;
+use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Db;
 use Hyperf\Support\Filesystem\Filesystem;
 use Mine\Abstracts\AbstractService;
@@ -29,6 +30,7 @@ use Mine\Generator\RequestGenerator;
 use Mine\Generator\ServiceGenerator;
 use Mine\Generator\SqlGenerator;
 use Mine\Generator\VueIndexGenerator;
+use Mine\Mine;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -77,9 +79,9 @@ class SettingGenerateTablesService extends AbstractService
     public function loadTable(array $params): bool
     {
         // 非系统数据源，同步远程库的表结构到本地
-        if ($params['source'] !== \Mine\Mine::getMineName()) {
+        if ($params['source'] !== Mine::getMineName()) {
             foreach ($params['names'] as $sourceName => $item) {
-                if (! \Hyperf\Database\Schema\Schema::hasTable($item['name'])) {
+                if (! Schema::hasTable($item['name'])) {
                     $this->container->get(SettingDatasourceService::class)->syncRemoteTableStructToLocal((int) $params['source'], $item);
                 }
             }
@@ -168,8 +170,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成代码
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function generate(array $ids): string
     {
@@ -184,8 +186,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 获取所有模型.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getModels(): array
     {
@@ -275,8 +277,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 生成步骤.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     protected function generateCodeFile(int $id, int $adminId): SettingGenerateTables
@@ -310,8 +312,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 打包代码文件.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function packageCodeFile(): string
     {
@@ -358,8 +360,8 @@ class SettingGenerateTablesService extends AbstractService
 
     /**
      * 初始化生成设置.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function initGenerateSetting(): void
     {

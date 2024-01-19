@@ -15,6 +15,8 @@ namespace App\System\Service;
 use App\System\Mapper\SystemDeptMapper;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SystemDeptService extends AbstractService
 {
@@ -76,8 +78,8 @@ class SystemDeptService extends AbstractService
 
     /**
      * 新增部门.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): int
     {
@@ -86,8 +88,8 @@ class SystemDeptService extends AbstractService
 
     /**
      * 更新部门.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function update(int $id, array $data): bool
     {
@@ -124,8 +126,8 @@ class SystemDeptService extends AbstractService
     /**
      * 处理数据.
      * @param mixed $data
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function handleData($data): array
     {

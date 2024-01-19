@@ -41,8 +41,8 @@ class DictTypeController extends MineController
 
     /**
      * 获取字典列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:dict, system:dict:index')]
     public function index(): ResponseInterface
@@ -52,8 +52,8 @@ class DictTypeController extends MineController
 
     /**
      * 回收站列表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:dict:recycle')]
     public function recycle(): ResponseInterface
@@ -63,8 +63,8 @@ class DictTypeController extends MineController
 
     /**
      * 新增字典类型.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:dict:save'), OperationLog('新增字典类型')]
     public function save(SystemDictTypeRequest $request): ResponseInterface
@@ -74,8 +74,8 @@ class DictTypeController extends MineController
 
     /**
      * 获取一个字典类型数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:dict:read')]
     public function read(int $id): ResponseInterface
@@ -85,8 +85,8 @@ class DictTypeController extends MineController
 
     /**
      * 更新一个字典类型.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:dict:update'), OperationLog('更新字典类型')]
     public function update(int $id, SystemDictTypeRequest $request): ResponseInterface
@@ -96,8 +96,8 @@ class DictTypeController extends MineController
 
     /**
      * 单个或批量字典数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:dict:delete')]
     public function delete(): ResponseInterface
@@ -107,8 +107,8 @@ class DictTypeController extends MineController
 
     /**
      * 单个或批量真实删除字典数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:dict:realDelete'), OperationLog('删除字典类型')]
     public function realDelete(): ResponseInterface
@@ -118,8 +118,8 @@ class DictTypeController extends MineController
 
     /**
      * 单个或批量恢复在回收站的用户.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:dict:recovery')]
     public function recovery(): ResponseInterface

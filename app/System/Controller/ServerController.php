@@ -17,6 +17,8 @@ use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
 use Hyperf\WebSocketServer\Context;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -32,8 +34,8 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
      * 成功连接到 ws 回调.
      * @param Response|Server $server
      * @param Request $request
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function onOpen($server, $request): void
     {
@@ -52,8 +54,8 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
      * 消息回调.
      * @param Response|Server $server
      * @param Frame $frame
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function onMessage($server, $frame): void
     {
@@ -73,8 +75,8 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
     /**
      * 关闭 ws 连接回调.
      * @param Response|\Swoole\Server $server
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function onClose($server, int $fd, int $reactorId): void
     {

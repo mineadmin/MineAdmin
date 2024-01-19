@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\System\Model;
 
+use Carbon\Carbon;
+use Hyperf\Database\Model\Relations\hasMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 
@@ -21,8 +23,8 @@ use Mine\MineModel;
  * @property int $status 状态 (1正常 2停用)
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
- * @property \Carbon\Carbon $created_at 创建时间
- * @property \Carbon\Carbon $updated_at 更新时间
+ * @property Carbon $created_at 创建时间
+ * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property \Hyperf\Database\Model\Collection|SystemApi[] $apis
@@ -49,7 +51,7 @@ class SystemApiGroup extends MineModel
     /**
      * 关联API.
      */
-    public function apis(): \Hyperf\Database\Model\Relations\hasMany
+    public function apis(): hasMany
     {
         return $this->hasMany(SystemApi::class, 'group_id', 'id');
     }

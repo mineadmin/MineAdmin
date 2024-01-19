@@ -17,10 +17,16 @@ use Hyperf\Collection\Collection;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FilesystemException;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
+use Mine\Helper\Str;
 use Mine\MineResponse;
 use Mine\MineUpload;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * 文件上传业务
@@ -49,9 +55,9 @@ class SystemUploadFileService extends AbstractService
 
     /**
      * 上传文件.
-     * @throws \League\Flysystem\FileExistsException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws FileExistsException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
@@ -93,8 +99,8 @@ class SystemUploadFileService extends AbstractService
     /**
      * 保存网络图片.
      * @param array $data ['url', 'path']
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function saveNetworkImage(array $data): array
     {
@@ -115,11 +121,11 @@ class SystemUploadFileService extends AbstractService
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws FilesystemException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function responseFile(string $hash): \Psr\Http\Message\ResponseInterface
+    public function responseFile(string $hash): ResponseInterface
     {
         $model = $this->readByHash($hash, ['url', 'mime_type']);
         if (! $model) {
@@ -143,13 +149,13 @@ class SystemUploadFileService extends AbstractService
     {
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['name'], $params['name']);
+                return Str::contains($row['name'], $params['name']);
             });
         }
 
         if ($params['label'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
-                return \Mine\Helper\Str::contains($row['label'], $params['label']);
+                return Str::contains($row['label'], $params['label']);
             });
         }
         return $collect;

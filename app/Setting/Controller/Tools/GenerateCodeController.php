@@ -58,8 +58,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 代码生成列表分页.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:code')]
     public function index(): ResponseInterface
@@ -82,8 +82,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 获取业务表字段信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getTableColumns')]
     public function getTableColumns(): ResponseInterface
@@ -93,8 +93,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 预览代码
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     #[GetMapping('preview'), Permission('setting:code:preview')]
@@ -105,8 +105,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 读取表数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('readTable')]
     public function readTable(): ResponseInterface
@@ -116,8 +116,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 更新业务表信息.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('update'), Permission('setting:code:update')]
     public function update(GenerateRequest $request): ResponseInterface
@@ -127,8 +127,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 生成代码
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('generate'), Permission('setting:code:generate'), OperationLog]
     public function generate(): ResponseInterface
@@ -141,8 +141,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 加载数据表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('loadTable'), Permission('setting:code:loadTable'), OperationLog]
     public function loadTable(GenerateRequest $request): ResponseInterface
@@ -152,8 +152,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 删除代码生成表.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('setting:code:delete'), OperationLog]
     public function delete(): ResponseInterface
@@ -163,8 +163,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 同步数据库中的表信息跟字段.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('sync/{id}'), Permission('setting:code:sync'), OperationLog]
     public function sync(int $id): ResponseInterface
@@ -174,8 +174,8 @@ class GenerateCodeController extends MineController
 
     /**
      * 获取所有启用状态模块下的所有模型.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getModels')]
     public function getModels(): ResponseInterface

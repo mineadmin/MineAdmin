@@ -20,14 +20,16 @@ declare(strict_types=1);
  */
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SystemDeptSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function run()
     {

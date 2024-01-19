@@ -78,9 +78,9 @@ class SystemAppService extends AbstractService
 
     /**
      * 获取AccessToken.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function getAccessToken(array $params): array
     {
@@ -151,8 +151,8 @@ class SystemAppService extends AbstractService
 
     /**
      * 简易验证方式.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function verifyEasyMode(string $appId, string $identity, array &$apiData): int
     {

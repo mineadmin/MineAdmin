@@ -1,8 +1,16 @@
 <?php
 
-declare(strict_types = 1);
-namespace App\System\Mapper;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\System\Mapper;
 
 use App\System\Model\SystemDept;
 use Hyperf\Database\Model\Builder;
@@ -25,8 +33,7 @@ class SystemDeptMapper extends AbstractMapper
     }
 
     /**
-     * 获取前端选择树
-     * @return array
+     * 获取前端选择树.
      */
     public function getSelectTree(): array
     {
@@ -49,15 +56,12 @@ class SystemDeptMapper extends AbstractMapper
                 ->get()->toArray();
 
             return (new MineCollection())->toTree(array_merge($treeData, $deptTree), $treeData[0]['parent_id'] ?? 0);
-        } else {
-            return $deptTree;
         }
+        return $deptTree;
     }
 
     /**
-     * 获取部门领导列表
-     * @param array|null $params
-     * @return array
+     * 获取部门领导列表.
      */
     public function getLeaderList(?array $params = null): array
     {
@@ -82,16 +86,16 @@ class SystemDeptMapper extends AbstractMapper
 
         return $this->setPaginate(
             $query->paginate(
-            (int) $params['pageSize'] ?? $this->model::PAGE_SIZE, ['u.*', 'dl.created_at as leader_add_time'], 'page', (int) $params['page'] ?? 1
+                (int) $params['pageSize'] ?? $this->model::PAGE_SIZE,
+                ['u.*', 'dl.created_at as leader_add_time'],
+                'page',
+                (int) $params['page'] ?? 1
             )
         );
     }
 
     /**
      * 新增部门领导
-     * @param int $id
-     * @param array $users
-     * @return bool
      */
     #[Transaction]
     public function addLeader(int $id, array $users): bool
@@ -108,9 +112,6 @@ class SystemDeptMapper extends AbstractMapper
 
     /**
      * 删除部门领导
-     * @param int $id
-     * @param array $users
-     * @return bool
      */
     #[Transaction]
     public function delLeader(int $id, array $users): bool
@@ -121,29 +122,20 @@ class SystemDeptMapper extends AbstractMapper
     }
 
     /**
-     * 查询部门名称
-     * @param array|null $ids
-     * @return array
+     * 查询部门名称.
      */
     public function getDeptName(array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     */
     public function checkChildrenExists(int $id): bool
     {
         return $this->model::withTrashed()->where('parent_id', $id)->exists();
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
@@ -152,7 +144,7 @@ class SystemDeptMapper extends AbstractMapper
         }
 
         if (isset($params['name']) && filled($params['name'])) {
-            $query->where('name', 'like', '%'.$params['name'].'%');
+            $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
         if (isset($params['leader']) && filled($params['leader'])) {
@@ -166,7 +158,7 @@ class SystemDeptMapper extends AbstractMapper
         if (isset($params['created_at']) && filled($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
         return $query;

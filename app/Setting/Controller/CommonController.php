@@ -1,28 +1,39 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Controller;
 
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Mine\Annotation\Auth;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * setting 公共方法控制器
- * Class CommonController
- * @package App\setting\Controller
+ * Class CommonController.
  */
-#[Controller(prefix: "setting/common"), Auth]
+#[Controller(prefix: 'setting/common'), Auth]
 class CommonController extends MineController
 {
     /**
      * 返回模块信息及表前缀
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getModuleList")]
-    public function getModuleList(): \Psr\Http\Message\ResponseInterface
+    #[GetMapping('getModuleList')]
+    public function getModuleList(): ResponseInterface
     {
         return $this->success($this->mine->getModuleInfo());
     }

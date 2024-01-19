@@ -1,6 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemQueueLog;
@@ -8,7 +17,7 @@ use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
 
 /**
- * 队列管理Mapper类
+ * 队列管理Mapper类.
  */
 class SystemQueueLogMapper extends AbstractMapper
 {
@@ -23,10 +32,7 @@ class SystemQueueLogMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {

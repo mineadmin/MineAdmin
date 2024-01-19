@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemAppGroupMapper;
@@ -9,8 +18,7 @@ use Mine\Abstracts\AbstractService;
 
 /**
  * app应用分组业务
- * Class SystemAppGroupService
- * @package App\System\Service
+ * Class SystemAppGroupService.
  */
 class SystemAppGroupService extends AbstractService
 {
@@ -25,10 +33,7 @@ class SystemAppGroupService extends AbstractService
     }
 
     /**
-     * 获取分组列表 无分页
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
+     * 获取分组列表 无分页.
      */
     public function getList(?array $params = null, bool $isScope = true): array
     {

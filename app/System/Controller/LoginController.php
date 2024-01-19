@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Controller;
 
 use App\System\Request\SystemUserRequest;
@@ -14,13 +23,15 @@ use Mine\Helper\LoginUser;
 use Mine\Interfaces\UserServiceInterface;
 use Mine\MineController;
 use Mine\Vo\UserServiceVo;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
- * Class LoginController
- * @package App\System\Controller
+ * Class LoginController.
  */
-#[Controller(prefix: "system")]
+#[Controller(prefix: 'system')]
 class LoginController extends MineController
 {
     #[Inject]
@@ -30,13 +41,11 @@ class LoginController extends MineController
     protected UserServiceInterface $userService;
 
     /**
-     * @param SystemUserRequest $request
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
-    #[PostMapping("login")]
+    #[PostMapping('login')]
     public function login(SystemUserRequest $request): ResponseInterface
     {
         $requestData = $request->validated();
@@ -47,12 +56,11 @@ class LoginController extends MineController
     }
 
     /**
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
-    #[PostMapping("logout"), Auth]
+    #[PostMapping('logout'), Auth]
     public function logout(): ResponseInterface
     {
         $this->userService->logout();
@@ -60,39 +68,35 @@ class LoginController extends MineController
     }
 
     /**
-     * 用户信息
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 用户信息.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getInfo"), Auth]
+    #[GetMapping('getInfo'), Auth]
     public function getInfo(): ResponseInterface
     {
         return $this->success($this->systemUserService->getInfo());
     }
 
     /**
-     * 刷新token
-     * @param LoginUser $user
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * 刷新token.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
-    #[PostMapping("refresh")]
+    #[PostMapping('refresh')]
     public function refresh(LoginUser $user): ResponseInterface
     {
         return $this->success(['token' => $user->refresh()]);
     }
 
     /**
-     * 获取每日的必应背景图
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * 获取每日的必应背景图.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidArgumentException
      */
-    #[GetMapping("getBingBackgroundImage")]
+    #[GetMapping('getBingBackgroundImage')]
     public function getBingBackgroundImage(): ResponseInterface
     {
         try {
@@ -100,10 +104,10 @@ class LoginController extends MineController
             $content = json_decode($response);
             if (! empty($content?->images[0]?->url)) {
                 return $this->success([
-                    'url' => 'https://cn.bing.com' . $content?->images[0]?->url
+                    'url' => 'https://cn.bing.com' . $content?->images[0]?->url,
                 ]);
             }
-            throw new \Exception;
+            throw new \Exception();
         } catch (\Exception $e) {
             return $this->error('获取必应背景失败');
         }

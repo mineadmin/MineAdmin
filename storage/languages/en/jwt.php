@@ -10,7 +10,14 @@
  */
 
 declare(strict_types=1);
-
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'no_login' => 'The user is abnormal or not logged in, please log in again',
     'token_blacklist' => 'Token has been blacklisted, please login again',

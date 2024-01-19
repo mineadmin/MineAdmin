@@ -1,21 +1,32 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
 namespace App\System\Queue\Producer;
 
 use Hyperf\Amqp\Annotation\Producer;
 use Hyperf\Amqp\Message\ProducerMessage;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * 后台内部消息队列生产处理
+ * 后台内部消息队列生产处理.
  */
-//#[Producer(exchange: "mineadmin", routingKey: "message.routing")]
+// #[Producer(exchange: "mineadmin", routingKey: "message.routing")]
 class MessageProducer extends ProducerMessage
 {
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @param mixed $data
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct($data)
     {

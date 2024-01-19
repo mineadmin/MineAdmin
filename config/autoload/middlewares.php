@@ -1,17 +1,27 @@
 <?php
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use Hyperf\Validation\Middleware\ValidationMiddleware;
+use Mine\Middlewares\CheckModuleMiddleware;
 
 declare(strict_types=1);
-/**
+/*
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
     'http' => [
-        \Mine\Middlewares\CheckModuleMiddleware::class,
-        \Hyperf\Validation\Middleware\ValidationMiddleware::class,
+        CheckModuleMiddleware::class,
+        ValidationMiddleware::class,
     ],
 ];

@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Service;
 
 use App\Setting\Mapper\SettingCrontabMapper;
@@ -11,7 +20,9 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DeleteCache;
 use Mine\Crontab\MineCrontab;
 use Mine\Crontab\MineExecutor;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SettingCrontabService extends AbstractService
 {
@@ -20,27 +31,17 @@ class SettingCrontabService extends AbstractService
      */
     public $mapper;
 
-    /**
-     * @var ContainerInterface
-     */
     #[Inject]
     protected ContainerInterface $container;
 
-    /**
-     * @var Redis
-     */
     protected Redis $redis;
 
-    /**
-     * @var string
-     */
-    #[Value("cache.default.prefix")]
+    #[Value('cache.default.prefix')]
     protected string $prefix;
 
     /**
-     * @param SettingCrontabMapper $mapper
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct(SettingCrontabMapper $mapper)
     {
@@ -49,9 +50,7 @@ class SettingCrontabService extends AbstractService
     }
 
     /**
-     * 保存
-     * @param array $data
-     * @return int
+     * 保存.
      * @throws \RedisException
      */
     public function save(array $data): int
@@ -63,10 +62,7 @@ class SettingCrontabService extends AbstractService
     }
 
     /**
-     * 更新
-     * @param mixed $id
-     * @param array $data
-     * @return bool
+     * 更新.
      * @throws \RedisException
      */
     public function update(mixed $id, array $data): bool
@@ -94,10 +90,9 @@ class SettingCrontabService extends AbstractService
 
     /**
      * 立即执行一次定时任务
-     * @param $id
-     * @return bool|null
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @param mixed $id
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function run($id): ?bool
     {

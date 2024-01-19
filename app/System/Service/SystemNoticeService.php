@@ -1,19 +1,30 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Service;
 
 use App\System\Mapper\SystemNoticeMapper;
 use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
-use Co\System;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\Exception\NormalStatusException;
+use Mine\MineModel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * 通知管理服务类
+ * 通知管理服务类.
  */
 class SystemNoticeService extends AbstractService
 {
@@ -28,10 +39,10 @@ class SystemNoticeService extends AbstractService
     }
 
     /**
-     * 保存公告
-     * @throws \Psr\Container\ContainerExceptionInterface
+     * 保存公告.
+     * @throws ContainerExceptionInterface
      * @throws \Throwable
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     #[Transaction]
     public function save(array $data): mixed
@@ -50,7 +61,7 @@ class SystemNoticeService extends AbstractService
         $userIds = $data['users'] ?? [];
         if (empty($userIds)) {
             $userMapper = container()->get(SystemUserMapper::class);
-            $userIds = $userMapper->pluck(['status' => \Mine\MineModel::ENABLE]);
+            $userIds = $userMapper->pluck(['status' => MineModel::ENABLE]);
         }
 
         $pushMessageRequest = push_queue_message($message, $userIds);
@@ -61,7 +72,6 @@ class SystemNoticeService extends AbstractService
             return parent::save($data);
         }
 
-        throw new NormalStatusException;
+        throw new NormalStatusException();
     }
-
 }

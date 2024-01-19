@@ -1,5 +1,15 @@
 <?php
+
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemAppGroup;
@@ -7,8 +17,7 @@ use Hyperf\Database\Model\Builder;
 use Mine\Abstracts\AbstractMapper;
 
 /**
- * Class SystemAppGroupMapper
- * @package App\System\Mapper
+ * Class SystemAppGroupMapper.
  */
 class SystemAppGroupMapper extends AbstractMapper
 {
@@ -23,10 +32,7 @@ class SystemAppGroupMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {

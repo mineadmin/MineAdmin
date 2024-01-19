@@ -1,8 +1,17 @@
 <?php
+
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
-use App\System\Model\SystemApi;
 use App\System\Model\SystemApp;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
@@ -11,8 +20,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * Class SystemAppMapper
- * @package App\System\Mapper
+ * Class SystemAppMapper.
  */
 class SystemAppMapper extends AbstractMapper
 {
@@ -27,10 +35,7 @@ class SystemAppMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
@@ -53,10 +58,7 @@ class SystemAppMapper extends AbstractMapper
     }
 
     /**
-     * 绑定接口
-     * @param int $id
-     * @param array $ids
-     * @return bool
+     * 绑定接口.
      */
     public function bind(int $id, array $ids): bool
     {
@@ -66,9 +68,7 @@ class SystemAppMapper extends AbstractMapper
     }
 
     /**
-     * 获取api列表
-     * @param int $id
-     * @return array
+     * 获取api列表.
      */
     public function getApiList(int $appId): array
     {
@@ -76,16 +76,14 @@ class SystemAppMapper extends AbstractMapper
     }
 
     /**
-     * 通过app_id获取app信息和接口数据
-     * @param string $appId
-     * @return array
+     * 通过app_id获取app信息和接口数据.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function getAppAndInterfaceList(string $appId): array
     {
         $data = $this->model::query()->where('app_id', $appId)
-            ->with(['apis' => function($query) {
+            ->with(['apis' => function ($query) {
                 $query->where('status', SystemApp::ENABLE);
             }])->first(['id', 'app_id', 'app_secret', 'app_name', 'updated_at', 'description'])->toArray();
 
@@ -93,10 +91,10 @@ class SystemAppMapper extends AbstractMapper
         foreach ($data['apis'] as $api) {
             $groupIds[] = $api['group_id'];
         }
-        $systemApiGroupMapper = container()->get(\App\System\Mapper\SystemApiGroupMapper::class);
-        $data['apiGroup'] = $systemApiGroupMapper->get(function($query) use ($groupIds) {
+        $systemApiGroupMapper = container()->get(SystemApiGroupMapper::class);
+        $data['apiGroup'] = $systemApiGroupMapper->get(function ($query) use ($groupIds) {
             /* @var Hyperf\Database\Model\Builder $query */
-            return $query->whereIn('id', array_unique($groupIds) );
+            return $query->whereIn('id', array_unique($groupIds));
         }, ['id', 'name']);
 
         return $data;

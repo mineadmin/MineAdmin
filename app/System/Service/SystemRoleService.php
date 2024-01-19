@@ -1,16 +1,26 @@
 <?php
 
-declare(strict_types = 1);
-namespace App\System\Service;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\System\Service;
 
 use App\System\Mapper\SystemRoleMapper;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\RoleServiceInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
-#[DependProxy(values: [ RoleServiceInterface::class ])]
+#[DependProxy(values: [RoleServiceInterface::class])]
 class SystemRoleService extends AbstractService implements RoleServiceInterface
 {
     public $mapper;
@@ -21,10 +31,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * 获取角色列表，并过滤掉超管角色
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
+     * 获取角色列表，并过滤掉超管角色.
      */
     public function getList(?array $params = null, bool $isScope = true): array
     {
@@ -33,10 +40,8 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * @param array $data
-     * @return mixed
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): mixed
     {
@@ -47,9 +52,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * 通过角色获取菜单
-     * @param int $id
-     * @return array
+     * 通过角色获取菜单.
      */
     public function getMenuByRole(int $id): array
     {
@@ -57,11 +60,9 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * 通过code获取角色名称
-     * @param string $code
-     * @return string
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 通过code获取角色名称.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function findNameByCode(string $code): string
     {
@@ -73,9 +74,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * 通过角色获取部门
-     * @param int $id
-     * @return array
+     * 通过角色获取部门.
      */
     public function getDeptByRole(int $id): array
     {
@@ -83,10 +82,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     }
 
     /**
-     * 更新角色信息
-     * @param mixed $id
-     * @param array $data
-     * @return bool
+     * 更新角色信息.
      */
     public function update(mixed $id, array $data): bool
     {

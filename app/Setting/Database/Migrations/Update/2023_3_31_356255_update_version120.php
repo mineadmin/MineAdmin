@@ -1,12 +1,22 @@
 <?php
 
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use App\System\Model\SystemMenu;
 use Hyperf\Database\Migrations\Migration;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Db;
 
 /**
- * 升级1.2.0版
+ * 升级1.2.0版.
  */
 class UpdateVersion120 extends Migration
 {
@@ -21,9 +31,9 @@ class UpdateVersion120 extends Migration
                 $table->comment('数据源表');
                 $table->bigIncrements('id')->comment('主键');
                 $table->addColumn('string', 'source_name', ['length' => 32, 'comment' => '数据源名称']);
-                $table->addColumn('string', 'dsn', ['length'=> 255, 'comment' => '连接dsn字符串'])->nullable();
-                $table->addColumn('string', 'username', ['length'=> 64, 'comment' => '数据库名称'])->nullable();
-                $table->addColumn('string', 'password', ['length'=> 32, 'comment' => '数据库用户'])->nullable();
+                $table->addColumn('string', 'dsn', ['length' => 255, 'comment' => '连接dsn字符串'])->nullable();
+                $table->addColumn('string', 'username', ['length' => 64, 'comment' => '数据库名称'])->nullable();
+                $table->addColumn('string', 'password', ['length' => 32, 'comment' => '数据库用户'])->nullable();
                 $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
                 $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
                 $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
@@ -41,7 +51,7 @@ class UpdateVersion120 extends Migration
                 'icon' => 'icon-storage',
                 'route' => 'setting/datasource',
                 'component' => 'setting/datasource/index',
-                'redirect' => NULL,
+                'redirect' => null,
                 'is_hidden' => '2',
                 'type' => 'M',
                 'status' => '1',
@@ -50,12 +60,12 @@ class UpdateVersion120 extends Migration
                 'updated_by' => 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-                'deleted_at' => NULL,
-                'remark' => NULL,
+                'deleted_at' => null,
+                'remark' => null,
             ]
         );
 
-        $tableName = env('DB_PREFIX') . \App\System\Model\SystemMenu::getModel()->getTable();
+        $tableName = env('DB_PREFIX') . SystemMenu::getModel()->getTable();
 
         if (env('DB_DRIVER') == 'pgsql') {
             $sql = [

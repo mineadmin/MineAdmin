@@ -1,12 +1,22 @@
 <?php
 
-declare(strict_types = 1);
-namespace App\System\Service;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
+namespace App\System\Service;
 
 use App\System\Mapper\SystemDeptMapper;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SystemDeptService extends AbstractService
 {
@@ -20,11 +30,6 @@ class SystemDeptService extends AbstractService
         $this->mapper = $mapper;
     }
 
-    /**
-     * @param array|null $params
-     * @param bool $isScope
-     * @return array
-     */
     public function getTreeList(?array $params = null, bool $isScope = true): array
     {
         $params = array_merge(['orderBy' => 'sort', 'orderType' => 'desc'], $params);
@@ -32,9 +37,7 @@ class SystemDeptService extends AbstractService
     }
 
     /**
-     * 获取部门领导列表
-     * @param array|null $params
-     * @return array
+     * 获取部门领导列表.
      */
     public function getLeaderList(?array $params = null): array
     {
@@ -43,8 +46,6 @@ class SystemDeptService extends AbstractService
 
     /**
      * 新增部门领导
-     * @param array $data
-     * @return bool
      */
     public function addLeader(array $data): bool
     {
@@ -57,21 +58,18 @@ class SystemDeptService extends AbstractService
 
     /**
      * 删除部门领导
-     * @param array $data
-     * @return bool
      */
     public function delLeader(array $data): bool
     {
         $users = [];
         foreach ($data['ids'] as $id) {
-            $users[] = [ 'user_id' => $id ];
+            $users[] = ['user_id' => $id];
         }
         return $this->mapper->delLeader((int) $data['id'], $users);
     }
 
     /**
-     * 获取前端选择树
-     * @return array
+     * 获取前端选择树.
      */
     public function getSelectTree(): array
     {
@@ -79,11 +77,9 @@ class SystemDeptService extends AbstractService
     }
 
     /**
-     * 新增部门
-     * @param array $data
-     * @return mixed
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 新增部门.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): mixed
     {
@@ -91,12 +87,9 @@ class SystemDeptService extends AbstractService
     }
 
     /**
-     * 更新部门
-     * @param mixed $id
-     * @param array $data
-     * @return bool
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 更新部门.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function update(mixed $id, array $data): bool
     {
@@ -104,11 +97,37 @@ class SystemDeptService extends AbstractService
     }
 
     /**
-     * 处理数据
-     * @param $data
-     * @return array
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 真实删除部门.
+     */
+    public function realDel(array $ids): ?array
+    {
+        // 跳过的部门
+        $ctuIds = [];
+        if (count($ids)) {
+            foreach ($ids as $id) {
+                if (! $this->checkChildrenExists((int) $id)) {
+                    $this->mapper->realDelete([$id]);
+                } else {
+                    $ctuIds[] = $id;
+                }
+            }
+        }
+        return count($ctuIds) ? $this->mapper->getDeptName($ctuIds) : null;
+    }
+
+    /**
+     * 检查子部门是否存在.
+     */
+    public function checkChildrenExists(int $id): bool
+    {
+        return $this->mapper->checkChildrenExists($id);
+    }
+
+    /**
+     * 处理数据.
+     * @param mixed $data
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function handleData($data): array
     {
@@ -125,34 +144,5 @@ class SystemDeptService extends AbstractService
         }
 
         return $data;
-    }
-
-    /**
-     * 真实删除部门
-     * @param array $ids
-     * @return array|null
-     */
-    public function realDel(array $ids): ?array
-    {
-        // 跳过的部门
-        $ctuIds = [];
-        if (count($ids)) foreach ($ids as $id) {
-            if (!$this->checkChildrenExists( (int) $id)) {
-                $this->mapper->realDelete([$id]);
-            } else {
-                $ctuIds[] = $id;
-            }
-        }
-        return count($ctuIds) ? $this->mapper->getDeptName($ctuIds) : null;
-    }
-
-    /**
-     * 检查子部门是否存在
-     * @param int $id
-     * @return bool
-     */
-    public function checkChildrenExists(int $id): bool
-    {
-        return $this->mapper->checkChildrenExists($id);
     }
 }

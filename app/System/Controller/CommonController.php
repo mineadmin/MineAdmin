@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Controller;
 
 use App\System\Service\SystemDeptService;
@@ -17,14 +26,15 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\MineController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * 公共方法控制器
- * Class CommonController
- * @package App\System\Controller
+ * Class CommonController.
  */
-#[Controller(prefix: "system/common"), Auth]
+#[Controller(prefix: 'system/common'), Auth]
 class CommonController extends MineController
 {
     #[Inject]
@@ -52,114 +62,105 @@ class CommonController extends MineController
     protected SystemUploadFileService $service;
 
     /**
-     * 获取用户列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取用户列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getUserList")]
+    #[GetMapping('getUserList')]
     public function getUserList(): ResponseInterface
     {
         return $this->success($this->userService->getPageList($this->request->all()));
     }
 
     /**
-     * 通过 id 列表获取用户基础信息
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 通过 id 列表获取用户基础信息.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[PostMapping("getUserInfoByIds")]
+    #[PostMapping('getUserInfoByIds')]
     public function getUserInfoByIds(): ResponseInterface
     {
         return $this->success($this->userService->getUserInfoByIds((array) $this->request->input('ids', [])));
     }
 
     /**
-     * 获取部门树列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取部门树列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getDeptTreeList")]
+    #[GetMapping('getDeptTreeList')]
     public function getDeptTreeList(): ResponseInterface
     {
         return $this->success($this->deptService->getSelectTree());
     }
 
     /**
-     * 获取角色列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取角色列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getRoleList")]
+    #[GetMapping('getRoleList')]
     public function getRoleList(): ResponseInterface
     {
         return $this->success($this->roleService->getList());
     }
 
     /**
-     * 获取岗位列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取岗位列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getPostList")]
+    #[GetMapping('getPostList')]
     public function getPostList(): ResponseInterface
     {
         return $this->success($this->postService->getList());
     }
 
     /**
-     * 获取公告列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取公告列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getNoticeList")]
+    #[GetMapping('getNoticeList')]
     public function getNoticeList(): ResponseInterface
     {
         return $this->success($this->noticeService->getPageList($this->request->all()));
     }
 
     /**
-     * 获取登录日志列表
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取登录日志列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getLoginLogList")]
-    public function getLoginLogPageList(): \Psr\Http\Message\ResponseInterface
+    #[GetMapping('getLoginLogList')]
+    public function getLoginLogPageList(): ResponseInterface
     {
-        return $this->success($this->loginLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername() ])));
+        return $this->success($this->loginLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername()])));
     }
 
     /**
-     * 获取操作日志列表
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取操作日志列表.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("getOperationLogList")]
-    public function getOperLogPageList(): \Psr\Http\Message\ResponseInterface
+    #[GetMapping('getOperationLogList')]
+    public function getOperLogPageList(): ResponseInterface
     {
-        return $this->success($this->operLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername() ])));
+        return $this->success($this->operLogService->getPageList(array_merge($this->request->all(), ['username' => user()->getUsername()])));
     }
 
-    #[GetMapping("getResourceList")]
+    #[GetMapping('getResourceList')]
     public function getResourceList(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
     }
 
     /**
-     * 清除所有缓存
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 清除所有缓存.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("clearAllCache")]
+    #[GetMapping('clearAllCache')]
     public function clearAllCache(): ResponseInterface
     {
         $this->userService->clearCache((string) user()->getId());

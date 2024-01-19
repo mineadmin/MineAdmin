@@ -1,12 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
- * MineAdmin is committed to providing solutions for quickly building web applications
- * Please view the LICENSE file that was distributed with this source code,
- * For the full copyright and license information.
- * Thank you very much for using MineAdmin.
+ * This file is part of MineAdmin.
  *
- * @Author X.Mo<root@imoi.cn>
- * @Link   https://gitee.com/xmo/MineAdmin
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
 namespace Api\Listener;
@@ -14,39 +15,37 @@ namespace Api\Listener;
 use App\System\Service\SystemApiLogService;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
+use Hyperf\Utils\Coroutine;
 use Mine\Event\ApiAfter;
 use Mine\Helper\Str;
 use Mine\MineRequest;
-use Hyperf\Utils\Coroutine;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * API访问日志保存
+ * API访问日志保存.
  */
 #[Listener]
 class ApiLogListener implements ListenerInterface
 {
-
     /**
-     * 监听事件
+     * 监听事件.
      * @return string[]
      */
     public function listen(): array
     {
         return [
-            ApiAfter::class
+            ApiAfter::class,
         ];
     }
 
     /**
-     * 事件处理
-     * @param object $event
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 事件处理.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function process(object $event): void
     {
-
-        
         /* @var $event ApiAfter */
         $data = $event->getApiData();
         $request = container()->get(MineRequest::class);
@@ -54,7 +53,7 @@ class ApiLogListener implements ListenerInterface
 
         if (empty($data)) {
             // 只记录异常日志，但并不抛出异常，程序正常走下去
-            logger('Api Access Log')->error('API数据为空，访问日志无法记录，以下为 Request 信息：'. json_encode($request));
+            logger('Api Access Log')->error('API数据为空，访问日志无法记录，以下为 Request 信息：' . json_encode($request));
         } else {
             // 保存日志
             $reqData = $request->getParsedBody();
@@ -74,23 +73,22 @@ class ApiLogListener implements ListenerInterface
             // $responseData => $response->getBody()->getContents(),
             $responseData = '';
 
-
             $ip = $request->ip();
             $ipLocation = Str::ipToRegion($ip);
             $accessTime = date('Y-m-d H:i:s');
-            Coroutine::create(function() use ($service, $app_id, $data, $reqData, $queryParams, $responseCode, $responseData, $ip, $ipLocation, $accessTime) {
+            Coroutine::create(function () use ($service, $app_id, $data, $reqData, $queryParams, $responseCode, $ip, $ipLocation, $accessTime) {
                 // 随机延时写入
                 sleep(rand(5, 30));
                 $service->save([
                     'api_id' => $app_id,
                     'api_name' => $data['name'],
                     'access_name' => $data['access_name'],
-                    'request_data' => [ 'data' => $reqData, 'params' => $queryParams ],
+                    'request_data' => ['data' => $reqData, 'params' => $queryParams],
                     'response_code' => $responseCode,
                     // 'response_data' => $responseData,
                     'ip' => $ip,
                     'ip_location' => $ipLocation,
-                    'access_time' => $accessTime
+                    'access_time' => $accessTime,
                 ]);
             });
         }

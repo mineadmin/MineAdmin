@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Listener;
 
 use App\System\Model\SystemUploadfile;
@@ -10,8 +19,7 @@ use League\Flysystem\FilesystemException;
 use Mine\Event\RealDeleteUploadFile;
 
 /**
- * Class DeleteUploadFileListener
- * @package App\System\Listener
+ * Class DeleteUploadFileListener.
  */
 #[Listener]
 class DeleteUploadFileListener implements ListenerInterface
@@ -19,12 +27,11 @@ class DeleteUploadFileListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            RealDeleteUploadFile::class
+            RealDeleteUploadFile::class,
         ];
     }
 
     /**
-     * @param object $event
      * @throws FilesystemException
      */
     public function process(object $event): void
@@ -39,13 +46,10 @@ class DeleteUploadFileListener implements ListenerInterface
     }
 
     /**
-     * 获取文件路径
-     * @param SystemUploadfile $model
-     * @return string
+     * 获取文件路径.
      */
     public function getFilePath(SystemUploadfile $model): string
     {
-        return $model->storage_path.'/'.$model->object_name;
+        return $model->storage_path . '/' . $model->object_name;
     }
-
 }

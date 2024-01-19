@@ -1,6 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\System\Mapper;
 
 use App\System\Model\SystemQueueMessage;
@@ -8,10 +17,9 @@ use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
-use Mine\MineModel;
 
 /**
- * 信息管理Mapper类
+ * 信息管理Mapper类.
  */
 class SystemQueueMessageMapper extends AbstractMapper
 {
@@ -26,15 +34,12 @@ class SystemQueueMessageMapper extends AbstractMapper
     }
 
     /**
-     * 搜索处理器
-     * @param Builder $query
-     * @param array $params
-     * @return Builder
+     * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['title']) && filled($params['title'])) {
-            $query->where('title', 'like', '%'.$params['title'].'%');
+            $query->where('title', 'like', '%' . $params['title'] . '%');
         }
 
         // 内容类型
@@ -45,14 +50,14 @@ class SystemQueueMessageMapper extends AbstractMapper
         if (isset($params['created_at']) && filled($params['created_at']) && count($params['created_at']) === 2) {
             $query->whereBetween(
                 'created_at',
-                [ $params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59' ]
+                [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
 
         // 获取收信数据
         if (isset($params['getReceive']) && filled($params['getReceive'])) {
-            $query->with(['sendUser' => function($query) {
-                $query->select([ 'id', 'username', 'nickname', 'avatar' ]);
+            $query->with(['sendUser' => function ($query) {
+                $query->select(['id', 'username', 'nickname', 'avatar']);
             }]);
             $prefix = env('DB_PREFIX');
             $readStatus = $params['read_status'] ?? 'all';
@@ -72,7 +77,7 @@ class SystemQueueMessageMapper extends AbstractMapper
                     )
                 sql;
             }
-            $query->whereRaw($sql, [ $params['user_id'] ?? user()->getId(), $readStatus, $readStatus ]);
+            $query->whereRaw($sql, [$params['user_id'] ?? user()->getId(), $readStatus, $readStatus]);
         }
 
         // 收取发信数据
@@ -84,9 +89,7 @@ class SystemQueueMessageMapper extends AbstractMapper
     }
 
     /**
-     * 获取接收人列表
-     * @param int $id
-     * @return array
+     * 获取接收人列表.
      */
     public function getReceiveUserList(int $id): array
     {
@@ -106,9 +109,7 @@ class SystemQueueMessageMapper extends AbstractMapper
     }
 
     /**
-     * 保存数据
-     * @param array $data
-     * @return mixed
+     * 保存数据.
      */
     #[Transaction]
     public function save(array $data): mixed
@@ -121,9 +122,7 @@ class SystemQueueMessageMapper extends AbstractMapper
     }
 
     /**
-     * 删除消息
-     * @param array $ids
-     * @return bool
+     * 删除消息.
      * @throws \Exception
      */
     #[Transaction]
@@ -141,10 +140,6 @@ class SystemQueueMessageMapper extends AbstractMapper
 
     /**
      * 更新中间表数据状态
-     * @param array $ids
-     * @param string $columnName
-     * @param int $value
-     * @return bool
      */
     public function updateDataStatus(array $ids, string $columnName = 'read_status', int $value = 2): bool
     {
@@ -158,7 +153,7 @@ class SystemQueueMessageMapper extends AbstractMapper
                 Db::table('system_queue_message_receive')
                     ->where('message_id', $id)
                     ->where('user_id', user()->getId())
-                    ->update([ $columnName => $value ]);
+                    ->update([$columnName => $value]);
             }
         }
 

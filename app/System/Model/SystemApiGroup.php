@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\System\Model;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Relations\hasMany;
+use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
 

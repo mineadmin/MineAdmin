@@ -22,7 +22,7 @@ use App\Setting\Model\SettingCrontab;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
-class SettingCrontab extends Seeder
+class SettingCrontabSeeder extends Seeder
 {
     /**
      * Run the database seeds.

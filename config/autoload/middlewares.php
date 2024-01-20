@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of MineAdmin.
  *
@@ -9,8 +10,6 @@
  */
 use Hyperf\Validation\Middleware\ValidationMiddleware;
 use Mine\Middlewares\CheckModuleMiddleware;
-
-declare(strict_types=1);
 /*
  * This file is part of Hyperf.
  *

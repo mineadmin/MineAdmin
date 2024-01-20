@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of MineAdmin.
  *
@@ -14,8 +15,6 @@ use Hyperf\Filesystem\Adapter\LocalAdapterFactory;
 use Hyperf\Filesystem\Adapter\MemoryAdapterFactory;
 use Hyperf\Filesystem\Adapter\QiniuAdapterFactory;
 use Hyperf\Filesystem\Adapter\S3AdapterFactory;
-
-declare(strict_types=1);
 /*
  * This file is part of Hyperf.
  *

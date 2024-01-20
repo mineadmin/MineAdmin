@@ -40,7 +40,10 @@
       "App\\": "app/",
       "Api\\": "api/",
       "Plugin\\": "plugin/"
-    }
+    },
+    "files": [
+      "common/common.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

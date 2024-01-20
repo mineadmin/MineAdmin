@@ -44,7 +44,7 @@ jobs:
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
       - name: Setup Packages
-        run: composer update -o --no-scripts
+        run: composer install -o --no-scripts
       - name: Run Test Cases
         run: |
           vendor/bin/php-cs-fixer fix --dry-run # cs-fixer 格式化代码

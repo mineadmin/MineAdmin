@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Setting\Service\SettingConfigService;
+use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\Context\ApplicationContext;
@@ -100,7 +101,7 @@ if (! function_exists('add_queue')) {
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    function add_queue(App\System\Vo\AmqpQueueVo $amqpQueueVo): bool
+    function add_queue(AmqpQueueVo $amqpQueueVo): bool
     {
         return container()
             ->get(QueueLogServiceInterface::class)

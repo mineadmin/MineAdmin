@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 use Hyperf\Contract\StdoutLoggerInterface;
 use Psr\Log\LogLevel;
+use function Hyperf\Support\env;
 
 return [
     'app_name' => env('APP_NAME', 'mineAdmin'),

@@ -17,10 +17,6 @@
     <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v2.0 LTS" />
 </p>
 
-## 版本说明
-`2.0` 分支为 2.0 LTS 预览版本 **请勿用于生产环境，目前不定时更新**
-稳定版请使用 `master` 分支的代码，或者在发行版那里下载代码
-
 ## 项目介绍
 
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。

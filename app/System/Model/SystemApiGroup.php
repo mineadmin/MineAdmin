@@ -51,7 +51,7 @@ class SystemApiGroup extends MineModel
     /**
      * 关联API.
      */
-    public function apis(): hasMany
+    public function apis(): HasMany
     {
         return $this->hasMany(SystemApi::class, 'group_id', 'id');
     }

@@ -79,7 +79,7 @@ class SystemApi extends MineModel
     /**
      * 关联API字段.
      */
-    public function apiColumn(): hasMany
+    public function apiColumn(): HasMany
     {
         return $this->hasMany(SystemApiColumn::class, 'api_id', 'id');
     }

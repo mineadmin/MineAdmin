@@ -126,7 +126,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
         while (false !== ($users = $redis->scan($iterator, $key, 100))) {
             foreach ($users as $user) {
                 // 如果是已经加入到黑名单的就代表不是登录状态了
-                if (!$blackList->hasTokenBlack($user) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
+                if (! $blackList->hasTokenBlack($user) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
                     $userIds[] = $match[1];
                 }
             }

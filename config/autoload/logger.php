@@ -9,17 +9,30 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Mine\Log\Processor\UuidRequestIdProcessor;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+
+/**
+ * This file is part of MineAdmin.
+ *
+ * @see     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'default' => [
         'handler' => [
-            'class' => Monolog\Handler\RotatingFileHandler::class,
+            'class' => RotatingFileHandler::class,
             'constructor' => [
                 'filename' => BASE_PATH . '/runtime/logs/debug/mine.log',
-                'level' => Monolog\Logger::DEBUG,
+                'level' => Logger::DEBUG,
             ],
         ],
         'formatter' => [
-            'class' => Monolog\Formatter\LineFormatter::class,
+            'class' => LineFormatter::class,
             'constructor' => [
                 'format' => null,
                 'dateFormat' => 'Y-m-d H:i:s',
@@ -27,19 +40,19 @@ return [
             ],
         ],
         'processor' => [
-            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
+            'class' => UuidRequestIdProcessor::class,
         ],
     ],
     'sql' => [
         'handler' => [
-            'class' => Monolog\Handler\RotatingFileHandler::class,
+            'class' => RotatingFileHandler::class,
             'constructor' => [
                 'filename' => BASE_PATH . '/runtime/logs/sql/sql.log',
-                'level' => Monolog\Logger::DEBUG,
+                'level' => Logger::DEBUG,
             ],
         ],
         'formatter' => [
-            'class' => Monolog\Formatter\LineFormatter::class,
+            'class' => LineFormatter::class,
             'constructor' => [
                 'format' => null,
                 'dateFormat' => 'Y-m-d H:i:s',
@@ -47,7 +60,7 @@ return [
             ],
         ],
         'processor' => [
-            'class' => Mine\Log\Processor\UuidRequestIdProcessor::class,
+            'class' => UuidRequestIdProcessor::class,
         ],
     ],
 ];

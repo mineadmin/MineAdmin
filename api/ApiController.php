@@ -121,13 +121,13 @@ class ApiController extends MineApi
                 throw new NormalStatusException(t('mineadmin.interface_exception') . $error, MineCode::INTERFACE_EXCEPTION);
             }
             if ($e instanceof NoPermissionException) {
-                throw new NormalstatusException(t(key: 'mineadmin.api_auth_fail') . $e->getMessage(), code: MineCode::NO_PERMISSION);
+                throw new NormalStatusException(t(key: 'mineadmin.api_auth_fail') . $e->getMessage(), code: MineCode::NO_PERMISSION);
             }
             if ($e instanceof TokenException) {
-                throw new NormalstatusException(t(key: 'mineadmin.api_auth_exception') . $e->getMessage(), code: MineCode::TOKEN_EXPIRED);
+                throw new NormalStatusException(t(key: 'mineadmin.api_auth_exception') . $e->getMessage(), code: MineCode::TOKEN_EXPIRED);
             }
 
-            throw new NormalstatusException(t(key: 'mineadmin.interface_exception') . $e->getMessage(), code: MineCode::INTERFACE_EXCEPTION);
+            throw new NormalStatusException(t(key: 'mineadmin.interface_exception') . $e->getMessage(), code: MineCode::INTERFACE_EXCEPTION);
         }
     }
 

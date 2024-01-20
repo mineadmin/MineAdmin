@@ -19,7 +19,6 @@ use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\DbConnection\Annotation\Transactional;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
-use Mine\Annotation\Transaction;
 use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

@@ -9,10 +9,21 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\Cache\Driver\RedisDriver;
+use Hyperf\Codec\Packer\PhpSerializerPacker;
+
+/**
+ * This file is part of MineAdmin.
+ *
+ * @see     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'default' => [
-        'driver' => Hyperf\Cache\Driver\RedisDriver::class,
-        'packer' => Hyperf\Codec\Packer\PhpSerializerPacker::class,
+        'driver' => RedisDriver::class,
+        'packer' => PhpSerializerPacker::class,
         'prefix' => 'MineAdmin:',
     ],
 ];

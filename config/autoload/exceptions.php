@@ -16,14 +16,6 @@ use Mine\Exception\Handler\NormalStatusExceptionHandler;
 use Mine\Exception\Handler\TokenExceptionHandler;
 use Mine\Exception\Handler\ValidationExceptionHandler;
 
-/**
- * This file is part of MineAdmin.
- *
- * @see     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
 return [
     'handler' => [
         'http' => [

@@ -13,7 +13,7 @@ use Hyperf\Contract\ApplicationInterface;
 use Hyperf\Di\ClassLoader;
 use Swoole\Runtime;
 
-/**
+/*
  * This file is part of MineAdmin.
  *
  * @see     https://www.mineadmin.com

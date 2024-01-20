@@ -11,14 +11,6 @@ declare(strict_types=1);
  */
 use Hyperf\ExceptionHandler\Listener\ErrorExceptionHandler;
 
-/**
- * This file is part of MineAdmin.
- *
- * @see     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
 return [
     ErrorExceptionHandler::class,
 ];

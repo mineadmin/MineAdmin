@@ -28,6 +28,7 @@ use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
+use Xmo\JWTAuth\JWT;
 
 /**
  * 用户业务
@@ -118,13 +119,14 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     {
         $redis = redis();
         $key = sprintf('%sToken:*', config('cache.default.prefix'));
-
+        $blackList = $this->container->get(JWT::class)->blackList;
         $userIds = [];
         $iterator = null;
 
         while (false !== ($users = $redis->scan($iterator, $key, 100))) {
             foreach ($users as $user) {
-                if (preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
+                // 如果是已经加入到黑名单的就代表不是登录状态了
+                if (!$blackList->hasTokenBlack($user) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
                     $userIds[] = $match[1];
                 }
             }

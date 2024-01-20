@@ -9,6 +9,9 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\Database\Commands\Ast\ModelRewriteKeyInfoVisitor;
+use Hyperf\Database\Commands\Ast\ModelRewriteSoftDeletesVisitor;
+use Hyperf\Database\Commands\Ast\ModelRewriteTimestampsVisitor;
 use Hyperf\ModelCache\Handler\RedisHandler;
 
 return [
@@ -48,9 +51,9 @@ return [
                 'with_comments' => true,
                 'refresh_fillable' => true,
                 'visitors' => [
-                    Hyperf\Database\Commands\Ast\ModelRewriteKeyInfoVisitor::class,
-                    Hyperf\Database\Commands\Ast\ModelRewriteTimestampsVisitor::class,
-                    Hyperf\Database\Commands\Ast\ModelRewriteSoftDeletesVisitor::class,
+                    ModelRewriteKeyInfoVisitor::class,
+                    ModelRewriteTimestampsVisitor::class,
+                    ModelRewriteSoftDeletesVisitor::class,
                     //                    Hyperf\Database\Commands\Ast\ModelRewriteGetterSetterVisitor::class,
                 ],
             ],

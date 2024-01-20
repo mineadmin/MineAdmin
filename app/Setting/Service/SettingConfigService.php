@@ -16,9 +16,9 @@ use App\Setting\Mapper\SettingConfigMapper;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
+use Hyperf\DbConnection\Annotation\Transactional;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
-use Mine\Annotation\Transaction;
 use Mine\Interfaces\ServiceInterface\ConfigServiceInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -91,14 +91,14 @@ class SettingConfigService extends AbstractService implements ConfigServiceInter
     /**
      * 按 keys 更新配置.
      */
-    #[Transaction]
+    #[Transactional]
     public function updatedByKeys(array $data): bool
     {
         foreach ($data as $name => $value) {
             $this->dispatcher->dispatch(new DeleteListenerEvent(
-                'system:config:value',
+                'system-config-update',
                 [
-                    'key' => (string) $name,
+                    (string) $name,
                 ]
             ));
             $this->mapper->updateByKey((string) $name, $value);

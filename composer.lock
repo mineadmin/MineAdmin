@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd65414e8f8ca553a94a2f63bbd3c839",
+    "content-hash": "a27b08f53753accdd940290a2a153760",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -521,16 +521,16 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.8",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "f9301a5b2fb1216b2b08f02ba04dc45423db6bff"
+                "reference": "2930cd5ef353871c821d5c43ed030d39ac8cfe65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/f9301a5b2fb1216b2b08f02ba04dc45423db6bff",
-                "reference": "f9301a5b2fb1216b2b08f02ba04dc45423db6bff",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/2930cd5ef353871c821d5c43ed030d39ac8cfe65",
+                "reference": "2930cd5ef353871c821d5c43ed030d39ac8cfe65",
                 "shasum": ""
             },
             "require": {
@@ -592,7 +592,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.8"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.9"
             },
             "funding": [
                 {
@@ -608,7 +608,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-16T13:40:37+00:00"
+            "time": "2024-01-15T18:05:13+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1407,16 +1407,16 @@
         },
         {
             "name": "hyperf/async-queue",
-            "version": "v3.1.2",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/async-queue.git",
-                "reference": "3fa6e8bcc50c2581514ffae0f15252f0198ea031"
+                "reference": "349d1f7d3eb317f2d3b8a16399d8b0e7405fdbdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/async-queue/zipball/3fa6e8bcc50c2581514ffae0f15252f0198ea031",
-                "reference": "3fa6e8bcc50c2581514ffae0f15252f0198ea031",
+                "url": "https://api.github.com/repos/hyperf/async-queue/zipball/349d1f7d3eb317f2d3b8a16399d8b0e7405fdbdf",
+                "reference": "349d1f7d3eb317f2d3b8a16399d8b0e7405fdbdf",
                 "shasum": ""
             },
             "require": {
@@ -1480,7 +1480,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-12-11T03:14:01+00:00"
+            "time": "2024-01-12T01:57:51+00:00"
         },
         {
             "name": "hyperf/cache",
@@ -1684,16 +1684,16 @@
         },
         {
             "name": "hyperf/collection",
-            "version": "v3.1.0",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/collection.git",
-                "reference": "a71303f5d21786253f6814aa9e1663c5e53ec575"
+                "reference": "ebde8e86a9715f0012ccd7ab506ba3afc2b87e98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/collection/zipball/a71303f5d21786253f6814aa9e1663c5e53ec575",
-                "reference": "a71303f5d21786253f6814aa9e1663c5e53ec575",
+                "url": "https://api.github.com/repos/hyperf/collection/zipball/ebde8e86a9715f0012ccd7ab506ba3afc2b87e98",
+                "reference": "ebde8e86a9715f0012ccd7ab506ba3afc2b87e98",
                 "shasum": ""
             },
             "require": {
@@ -1743,7 +1743,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-11-24T03:10:53+00:00"
+            "time": "2024-01-18T05:41:28+00:00"
         },
         {
             "name": "hyperf/command",
@@ -2261,16 +2261,16 @@
         },
         {
             "name": "hyperf/crontab",
-            "version": "v3.1.5",
+            "version": "v3.1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/crontab.git",
-                "reference": "5faa961ba8fd4599ff4eeec1a3581d2d4b9109c4"
+                "reference": "ec14623f6f40ebf4f2d855ac02a9694ed0a323b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/crontab/zipball/5faa961ba8fd4599ff4eeec1a3581d2d4b9109c4",
-                "reference": "5faa961ba8fd4599ff4eeec1a3581d2d4b9109c4",
+                "url": "https://api.github.com/repos/hyperf/crontab/zipball/ec14623f6f40ebf4f2d855ac02a9694ed0a323b9",
+                "reference": "ec14623f6f40ebf4f2d855ac02a9694ed0a323b9",
                 "shasum": ""
             },
             "require": {
@@ -2326,7 +2326,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-01-01T12:01:33+00:00"
+            "time": "2024-01-19T01:51:43+00:00"
         },
         {
             "name": "hyperf/database",
@@ -2536,16 +2536,16 @@
         },
         {
             "name": "hyperf/di",
-            "version": "v3.1.2",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/di.git",
-                "reference": "368e37e512d6013a999a242180933a060a78ba39"
+                "reference": "e042ac1cef7da80df15ba77a5a9f9abfe70627d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/di/zipball/368e37e512d6013a999a242180933a060a78ba39",
-                "reference": "368e37e512d6013a999a242180933a060a78ba39",
+                "url": "https://api.github.com/repos/hyperf/di/zipball/e042ac1cef7da80df15ba77a5a9f9abfe70627d0",
+                "reference": "e042ac1cef7da80df15ba77a5a9f9abfe70627d0",
                 "shasum": ""
             },
             "require": {
@@ -2608,7 +2608,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-12-11T03:14:01+00:00"
+            "time": "2024-01-08T13:45:10+00:00"
         },
         {
             "name": "hyperf/dispatcher",
@@ -3299,16 +3299,16 @@
         },
         {
             "name": "hyperf/http-server",
-            "version": "v3.1.0",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/http-server.git",
-                "reference": "022da795a5b2712380b657b2c736d85f70b33395"
+                "reference": "c61c4cead88bbe14152e699760bc779a9a21dd05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/http-server/zipball/022da795a5b2712380b657b2c736d85f70b33395",
-                "reference": "022da795a5b2712380b657b2c736d85f70b33395",
+                "url": "https://api.github.com/repos/hyperf/http-server/zipball/c61c4cead88bbe14152e699760bc779a9a21dd05",
+                "reference": "c61c4cead88bbe14152e699760bc779a9a21dd05",
                 "shasum": ""
             },
             "require": {
@@ -3377,7 +3377,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-11-24T03:10:53+00:00"
+            "time": "2024-01-18T04:33:08+00:00"
         },
         {
             "name": "hyperf/logger",
@@ -4902,16 +4902,16 @@
         },
         {
             "name": "laminas/laminas-stdlib",
-            "version": "3.18.0",
+            "version": "3.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf"
+                "reference": "6a192dd0882b514e45506f533b833b623b78fff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf",
-                "reference": "e85b29076c6216e7fc98e72b42dbe1bbc3b95ecf",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/6a192dd0882b514e45506f533b833b623b78fff3",
+                "reference": "6a192dd0882b514e45506f533b833b623b78fff3",
                 "shasum": ""
             },
             "require": {
@@ -4922,10 +4922,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "^2.5",
-                "phpbench/phpbench": "^1.2.14",
-                "phpunit/phpunit": "^10.3.3",
+                "phpbench/phpbench": "^1.2.15",
+                "phpunit/phpunit": "^10.5.8",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.15.0"
+                "vimeo/psalm": "^5.20.0"
             },
             "type": "library",
             "autoload": {
@@ -4957,107 +4957,42 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-19T10:15:21+00:00"
-        },
-        {
-            "name": "lcobucci/clock",
-            "version": "2.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/clock.git",
-                "reference": "c7aadcd6fd97ed9e199114269c0be3f335e38876"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/c7aadcd6fd97ed9e199114269c0be3f335e38876",
-                "reference": "c7aadcd6fd97ed9e199114269c0be3f335e38876",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.1.0 || ~8.2.0",
-                "stella-maris/clock": "^0.1.7"
-            },
-            "provide": {
-                "psr/clock-implementation": "1.0"
-            },
-            "require-dev": {
-                "infection/infection": "^0.26",
-                "lcobucci/coding-standard": "^9.0",
-                "phpstan/extension-installer": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-deprecation-rules": "^1.1.1",
-                "phpstan/phpstan-phpunit": "^1.3.2",
-                "phpstan/phpstan-strict-rules": "^1.4.4",
-                "phpunit/phpunit": "^9.5.27"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Lcobucci\\Clock\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Luís Cobucci",
-                    "email": "lcobucci@gmail.com"
-                }
-            ],
-            "description": "Yet another clock abstraction",
-            "support": {
-                "issues": "https://github.com/lcobucci/clock/issues",
-                "source": "https://github.com/lcobucci/clock/tree/2.3.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lcobucci",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lcobucci",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2022-12-19T14:38:11+00:00"
+            "time": "2024-01-19T12:39:49+00:00"
         },
         {
             "name": "lcobucci/jwt",
-            "version": "4.1.5",
+            "version": "5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "fe2d89f2eaa7087af4aa166c6f480ef04e000582"
+                "reference": "0ba88aed12c04bd2ed9924f500673f32b67a6211"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/fe2d89f2eaa7087af4aa166c6f480ef04e000582",
-                "reference": "fe2d89f2eaa7087af4aa166c6f480ef04e000582",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/0ba88aed12c04bd2ed9924f500673f32b67a6211",
+                "reference": "0ba88aed12c04bd2ed9924f500673f32b67a6211",
                 "shasum": ""
             },
             "require": {
-                "ext-hash": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "ext-sodium": "*",
-                "lcobucci/clock": "^2.0",
-                "php": "^7.4 || ^8.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "psr/clock": "^1.0"
             },
             "require-dev": {
-                "infection/infection": "^0.21",
-                "lcobucci/coding-standard": "^6.0",
-                "mikey179/vfsstream": "^1.6.7",
-                "phpbench/phpbench": "^1.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/php-invoker": "^3.1",
-                "phpunit/phpunit": "^9.5"
+                "infection/infection": "^0.27.0",
+                "lcobucci/clock": "^3.0",
+                "lcobucci/coding-standard": "^11.0",
+                "phpbench/phpbench": "^1.2.9",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan": "^1.10.7",
+                "phpstan/phpstan-deprecation-rules": "^1.1.3",
+                "phpstan/phpstan-phpunit": "^1.3.10",
+                "phpstan/phpstan-strict-rules": "^1.5.0",
+                "phpunit/phpunit": "^10.2.6"
+            },
+            "suggest": {
+                "lcobucci/clock": ">= 3.0"
             },
             "type": "library",
             "autoload": {
@@ -5083,7 +5018,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/4.1.5"
+                "source": "https://github.com/lcobucci/jwt/tree/5.2.0"
             },
             "funding": [
                 {
@@ -5095,7 +5030,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-09-28T19:34:56+00:00"
+            "time": "2023-11-20T21:17:42+00:00"
         },
         {
             "name": "league/flysystem",
@@ -5884,16 +5819,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "a9d127dd6a203ce6d255b2e2db49759f7506e015"
+                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/a9d127dd6a203ce6d255b2e2db49759f7506e015",
-                "reference": "a9d127dd6a203ce6d255b2e2db49759f7506e015",
+                "url": "https://api.github.com/repos/nette/utils/zipball/d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
+                "reference": "d3ad0aa3b9f934602cb3e3902ebccf10be34d218",
                 "shasum": ""
             },
             "require": {
@@ -5964,9 +5899,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.3"
+                "source": "https://github.com/nette/utils/tree/v4.0.4"
             },
-            "time": "2023-10-29T21:02:13+00:00"
+            "time": "2024-01-17T16:50:36+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -7961,53 +7896,6 @@
             "time": "2023-11-08T05:53:05+00:00"
         },
         {
-            "name": "stella-maris/clock",
-            "version": "0.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/stella-maris-solutions/clock.git",
-                "reference": "fa23ce16019289a18bb3446fdecd45befcdd94f8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/stella-maris-solutions/clock/zipball/fa23ce16019289a18bb3446fdecd45befcdd94f8",
-                "reference": "fa23ce16019289a18bb3446fdecd45befcdd94f8",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0|^8.0",
-                "psr/clock": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "StellaMaris\\Clock\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Heigl",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "A pre-release of the proposed PSR-20 Clock-Interface",
-            "homepage": "https://gitlab.com/stella-maris/clock",
-            "keywords": [
-                "clock",
-                "datetime",
-                "point in time",
-                "psr20"
-            ],
-            "support": {
-                "source": "https://github.com/stella-maris-solutions/clock/tree/0.1.7"
-            },
-            "time": "2022-11-25T16:15:06+00:00"
-        },
-        {
             "name": "swow/psr7-plus",
             "version": "v1.1.2",
             "source": {
@@ -9856,20 +9744,20 @@
         },
         {
             "name": "xmo/jwt-auth",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/jwt-auth.git",
-                "reference": "5704811d6e975c206dad1e665fe64959d94440bf"
+                "reference": "3afee40729804364965b7bb5066ae3027e3f606d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/jwt-auth/zipball/5704811d6e975c206dad1e665fe64959d94440bf",
-                "reference": "5704811d6e975c206dad1e665fe64959d94440bf",
+                "url": "https://api.github.com/repos/mineadmin/jwt-auth/zipball/3afee40729804364965b7bb5066ae3027e3f606d",
+                "reference": "3afee40729804364965b7bb5066ae3027e3f606d",
                 "shasum": ""
             },
             "require": {
-                "lcobucci/jwt": "~4.1.0",
+                "lcobucci/jwt": "~5.2.0",
                 "nesbot/carbon": "^1.0 || ^2.0",
                 "php": ">=8.1"
             },
@@ -9914,22 +9802,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/jwt-auth/issues",
-                "source": "https://github.com/mineadmin/jwt-auth/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/jwt-auth/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-20T14:55:40+00:00"
         },
         {
             "name": "xmo/mine-core",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mineadmin/mine.git",
-                "reference": "b2e7e5abc14b881d1f2f2b2a354f48ede2c65394"
+                "url": "https://github.com/mineadmin/mine-core.git",
+                "reference": "b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine/zipball/b2e7e5abc14b881d1f2f2b2a354f48ede2c65394",
-                "reference": "b2e7e5abc14b881d1f2f2b2a354f48ede2c65394",
+                "url": "https://api.github.com/repos/mineadmin/mine-core/zipball/b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a",
+                "reference": "b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a",
                 "shasum": ""
             },
             "require": {
@@ -10022,23 +9910,23 @@
                 "php"
             ],
             "support": {
-                "issues": "https://github.com/mineadmin/mine/issues",
-                "source": "https://github.com/mineadmin/mine/tree/v2.0.0-alpha.4"
+                "issues": "https://github.com/mineadmin/mine-core/issues",
+                "source": "https://github.com/mineadmin/mine-core/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-20T15:39:23+00:00"
         },
         {
             "name": "xmo/mine-generator",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-generator.git",
-                "reference": "64b44ae6fc06e57819d4150604944cbfa96fb6dc"
+                "reference": "2359007a461e71a92b6f6dcb2baf51f8b9512921"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-generator/zipball/64b44ae6fc06e57819d4150604944cbfa96fb6dc",
-                "reference": "64b44ae6fc06e57819d4150604944cbfa96fb6dc",
+                "url": "https://api.github.com/repos/mineadmin/mine-generator/zipball/2359007a461e71a92b6f6dcb2baf51f8b9512921",
+                "reference": "2359007a461e71a92b6f6dcb2baf51f8b9512921",
                 "shasum": ""
             },
             "require": {
@@ -10081,22 +9969,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/mine-generator/issues",
-                "source": "https://github.com/mineadmin/mine-generator/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/mine-generator/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-13T18:16:21+00:00"
         },
         {
             "name": "xmo/mine-helpers",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-helpers.git",
-                "reference": "4b142476e8898742873e0d7dba0b35b14663ccf6"
+                "reference": "b7fafa2cb03599a178b9dc4c0e991970030ebb9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-helpers/zipball/4b142476e8898742873e0d7dba0b35b14663ccf6",
-                "reference": "4b142476e8898742873e0d7dba0b35b14663ccf6",
+                "url": "https://api.github.com/repos/mineadmin/mine-helpers/zipball/b7fafa2cb03599a178b9dc4c0e991970030ebb9a",
+                "reference": "b7fafa2cb03599a178b9dc4c0e991970030ebb9a",
                 "shasum": ""
             },
             "require": {
@@ -10130,22 +10018,22 @@
             "description": "MineAdmin Helpers Library",
             "support": {
                 "issues": "https://github.com/mineadmin/mine-helpers/issues",
-                "source": "https://github.com/mineadmin/mine-helpers/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/mine-helpers/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-20T15:05:20+00:00"
         },
         {
             "name": "xmo/mine-office",
-            "version": "v2.0.0-alpha.4",
+            "version": "v1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/office.git",
-                "reference": "9177df63a2bac5335446a6e1d5382b151f48a380"
+                "reference": "eb6695983c152554ff59e6b61a334185f978b715"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/office/zipball/9177df63a2bac5335446a6e1d5382b151f48a380",
-                "reference": "9177df63a2bac5335446a6e1d5382b151f48a380",
+                "url": "https://api.github.com/repos/mineadmin/office/zipball/eb6695983c152554ff59e6b61a334185f978b715",
+                "reference": "eb6695983c152554ff59e6b61a334185f978b715",
                 "shasum": ""
             },
             "require": {
@@ -10162,18 +10050,6 @@
             "license": [
                 "Apache-2.0"
             ],
-            "authors": [
-                {
-                    "name": "xmo",
-                    "email": "root@imoi.cn",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Death-Satan",
-                    "email": "2771717608@qq.com",
-                    "role": "Developer"
-                }
-            ],
             "description": "mineadmin office package",
             "keywords": [
                 "mineadmin",
@@ -10181,22 +10057,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/office/issues",
-                "source": "https://github.com/mineadmin/office/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/office/tree/v1.5.6"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2023-12-18T01:38:52+00:00"
         },
         {
             "name": "xmo/mine-service",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-service.git",
-                "reference": "c0246d65c9044b9738a281459bdbf35a92982e22"
+                "reference": "3afdc78d719dd07ce8b7b9ff4f6034f9b2e720c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-service/zipball/c0246d65c9044b9738a281459bdbf35a92982e22",
-                "reference": "c0246d65c9044b9738a281459bdbf35a92982e22",
+                "url": "https://api.github.com/repos/mineadmin/mine-service/zipball/3afdc78d719dd07ce8b7b9ff4f6034f9b2e720c3",
+                "reference": "3afdc78d719dd07ce8b7b9ff4f6034f9b2e720c3",
                 "shasum": ""
             },
             "require": {
@@ -10236,22 +10112,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/mine-service/issues",
-                "source": "https://github.com/mineadmin/mine-service/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/mine-service/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-20T15:14:12+00:00"
         },
         {
             "name": "xmo/mine-translatable",
-            "version": "v2.0.0-alpha.4",
+            "version": "v2.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/translatable.git",
-                "reference": "cfa56d717a849dd81c9d19d1fab9ea4b9a7efea5"
+                "reference": "7e0c59e0ecd166d8db4ae2a624740442f214d491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/translatable/zipball/cfa56d717a849dd81c9d19d1fab9ea4b9a7efea5",
-                "reference": "cfa56d717a849dd81c9d19d1fab9ea4b9a7efea5",
+                "url": "https://api.github.com/repos/mineadmin/translatable/zipball/7e0c59e0ecd166d8db4ae2a624740442f214d491",
+                "reference": "7e0c59e0ecd166d8db4ae2a624740442f214d491",
                 "shasum": ""
             },
             "require": {
@@ -10323,9 +10199,9 @@
                 "translation"
             ],
             "support": {
-                "source": "https://github.com/mineadmin/translatable/tree/v2.0.0-alpha.4"
+                "source": "https://github.com/mineadmin/translatable/tree/v2.0.0-beta"
             },
-            "time": "2024-01-13T11:03:48+00:00"
+            "time": "2024-01-20T15:08:28+00:00"
         },
         {
             "name": "yurunsoft/phpmailer-swoole",
@@ -10718,16 +10594,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.46.0",
+            "version": "v3.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2"
+                "reference": "a92472c6fb66349de25211f31c77eceae3df024e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/be6831c9af1740470d2a773119b9273f8ac1c3d2",
-                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/a92472c6fb66349de25211f31c77eceae3df024e",
+                "reference": "a92472c6fb66349de25211f31c77eceae3df024e",
                 "shasum": ""
             },
             "require": {
@@ -10797,7 +10673,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.46.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.48.0"
             },
             "funding": [
                 {
@@ -10805,7 +10681,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-03T21:38:46+00:00"
+            "time": "2024-01-19T21:44:39+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -11373,16 +11249,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.55",
+            "version": "1.10.56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "9a88f9d18ddf4cf54c922fbeac16c4cb164c5949"
+                "reference": "27816a01aea996191ee14d010f325434c0ee76fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9a88f9d18ddf4cf54c922fbeac16c4cb164c5949",
-                "reference": "9a88f9d18ddf4cf54c922fbeac16c4cb164c5949",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/27816a01aea996191ee14d010f325434c0ee76fa",
+                "reference": "27816a01aea996191ee14d010f325434c0ee76fa",
                 "shasum": ""
             },
             "require": {
@@ -11431,7 +11307,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-08T12:32:40+00:00"
+            "time": "2024-01-15T10:43:00+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11756,16 +11632,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.5",
+            "version": "10.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ed21115d505b4b4f7dc7b5651464e19a2c7f7856"
+                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
-                "reference": "ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
+                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
                 "shasum": ""
             },
             "require": {
@@ -11837,7 +11713,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.8"
             },
             "funding": [
                 {
@@ -11853,7 +11729,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-27T15:13:52+00:00"
+            "time": "2024-01-19T07:07:27+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -59,7 +59,7 @@ class SystemDictDataService extends AbstractService implements DictDataServiceIn
     /**
      * 查询一个字典.
      */
-    #[Cacheable(prefix: 'system:dict:data', ttl: 600, listener: 'system-dict-update', value: 'value')]
+    #[Cacheable(prefix: 'system:dict:data', ttl: 600, listener: 'system-dict-update', value: '_#params.code')]
     public function getList(?array $params = null, bool $isScope = false): array
     {
         $args = [

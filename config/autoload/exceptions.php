@@ -9,15 +9,22 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
+use Mine\Exception\Handler\AppExceptionHandler;
+use Mine\Exception\Handler\NoPermissionExceptionHandler;
+use Mine\Exception\Handler\NormalStatusExceptionHandler;
+use Mine\Exception\Handler\TokenExceptionHandler;
+use Mine\Exception\Handler\ValidationExceptionHandler;
+
 return [
     'handler' => [
         'http' => [
-            Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class,
-            Mine\Exception\Handler\ValidationExceptionHandler::class,
-            Mine\Exception\Handler\TokenExceptionHandler::class,
-            Mine\Exception\Handler\NoPermissionExceptionHandler::class,
-            Mine\Exception\Handler\NormalStatusExceptionHandler::class,
-            Mine\Exception\Handler\AppExceptionHandler::class,
+            HttpExceptionHandler::class,
+            ValidationExceptionHandler::class,
+            TokenExceptionHandler::class,
+            NoPermissionExceptionHandler::class,
+            NormalStatusExceptionHandler::class,
+            AppExceptionHandler::class,
         ],
     ],
 ];

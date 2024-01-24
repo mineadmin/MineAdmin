@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a27b08f53753accdd940290a2a153760",
+    "content-hash": "32688e933dd2f997f133c5f0ec9280b2",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -270,16 +270,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.7.2",
+            "version": "3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "0ac3c270590e54910715e9a1a044cc368df282b2"
+                "reference": "ce594cbc39a4866c544f1a970d285ff0548221ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/0ac3c270590e54910715e9a1a044cc368df282b2",
-                "reference": "0ac3c270590e54910715e9a1a044cc368df282b2",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/ce594cbc39a4866c544f1a970d285ff0548221ad",
+                "reference": "ce594cbc39a4866c544f1a970d285ff0548221ad",
                 "shasum": ""
             },
             "require": {
@@ -295,14 +295,14 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.10.42",
+                "phpstan/phpstan": "1.10.56",
                 "phpstan/phpstan-strict-rules": "^1.5",
-                "phpunit/phpunit": "9.6.13",
+                "phpunit/phpunit": "9.6.15",
                 "psalm/plugin-phpunit": "0.18.4",
                 "slevomat/coding-standard": "8.13.1",
-                "squizlabs/php_codesniffer": "3.7.2",
-                "symfony/cache": "^5.4|^6.0",
-                "symfony/console": "^4.4|^5.4|^6.0",
+                "squizlabs/php_codesniffer": "3.8.1",
+                "symfony/cache": "^5.4|^6.0|^7.0",
+                "symfony/console": "^4.4|^5.4|^6.0|^7.0",
                 "vimeo/psalm": "4.30.0"
             },
             "suggest": {
@@ -363,7 +363,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.7.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.7.3"
             },
             "funding": [
                 {
@@ -379,7 +379,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-19T08:06:58+00:00"
+            "time": "2024-01-21T07:53:09+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -5592,16 +5592,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.1",
+            "version": "2.72.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
                 "shasum": ""
             },
             "require": {
@@ -5695,7 +5695,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-08T23:47:49+00:00"
+            "time": "2024-01-19T00:21:53+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -9808,16 +9808,16 @@
         },
         {
             "name": "xmo/mine-core",
-            "version": "v2.0.0-beta",
+            "version": "v2.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-core.git",
-                "reference": "b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a"
+                "reference": "cd03882eed34d01245d2409c052a1159d68a38d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-core/zipball/b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a",
-                "reference": "b01d60ae7080ebcc87986b1f9b2f55e5096fcc8a",
+                "url": "https://api.github.com/repos/mineadmin/mine-core/zipball/cd03882eed34d01245d2409c052a1159d68a38d9",
+                "reference": "cd03882eed34d01245d2409c052a1159d68a38d9",
                 "shasum": ""
             },
             "require": {
@@ -9829,36 +9829,36 @@
                 "ext-pdo_mysql": "*",
                 "ext-redis": "*",
                 "ext-swoole": ">=5.0",
-                "hyperf/amqp": "~3.1.0",
-                "hyperf/async-queue": "~3.1.0",
-                "hyperf/cache": "~3.1.0",
-                "hyperf/codec": "~3.1.0",
-                "hyperf/command": "~3.1.0",
-                "hyperf/config": "~3.1.0",
-                "hyperf/constants": "~3.1.0",
-                "hyperf/crontab": "~3.1.0",
-                "hyperf/database": "~3.1.0",
-                "hyperf/database-pgsql": "~3.1.0",
-                "hyperf/db-connection": "~3.1.0",
-                "hyperf/di": "~3.1.0",
-                "hyperf/filesystem": "~3.1.0",
+                "hyperf/amqp": "^3.1",
+                "hyperf/async-queue": "^3.1",
+                "hyperf/cache": "^3.1",
+                "hyperf/codec": "^3.1",
+                "hyperf/command": "^3.1",
+                "hyperf/config": "^3.1",
+                "hyperf/constants": "^3.1",
+                "hyperf/crontab": "^3.1",
+                "hyperf/database": "^3.1",
+                "hyperf/database-pgsql": "^3.1",
+                "hyperf/db-connection": "^3.1",
+                "hyperf/di": "^3.1",
+                "hyperf/filesystem": "^3.1",
                 "hyperf/flysystem-oss": "^1.2",
-                "hyperf/framework": "~3.1.0",
-                "hyperf/guzzle": "~3.1.0",
-                "hyperf/http-server": "~3.1.0",
-                "hyperf/logger": "~3.1.0",
-                "hyperf/memory": "~3.1.0",
-                "hyperf/migration-generator": "~3.1.0",
-                "hyperf/model-cache": "~3.1.0",
-                "hyperf/paginator": "~3.1.0",
-                "hyperf/pool": "~3.1.0",
-                "hyperf/process": "~3.1.0",
-                "hyperf/redis": "~3.1.0",
-                "hyperf/snowflake": "~3.1.0",
-                "hyperf/support": "~3.1.0",
-                "hyperf/translation": "~3.1.0",
-                "hyperf/validation": "~3.1.0",
-                "hyperf/websocket-server": "~3.1.0",
+                "hyperf/framework": "^3.1",
+                "hyperf/guzzle": "^3.1",
+                "hyperf/http-server": "^3.1",
+                "hyperf/logger": "^3.1",
+                "hyperf/memory": "^3.1",
+                "hyperf/migration-generator": "^3.1",
+                "hyperf/model-cache": "^3.1",
+                "hyperf/paginator": "^3.1",
+                "hyperf/pool": "^3.1",
+                "hyperf/process": "^3.1",
+                "hyperf/redis": "^3.1",
+                "hyperf/snowflake": "^3.1",
+                "hyperf/support": "^3.1",
+                "hyperf/translation": "^3.1",
+                "hyperf/validation": "^3.1",
+                "hyperf/websocket-server": "^3.1",
                 "overtrue/flysystem-cos": "^5.0",
                 "overtrue/flysystem-qiniu": "^3.0",
                 "php": ">=8.1",
@@ -9911,22 +9911,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/mine-core/issues",
-                "source": "https://github.com/mineadmin/mine-core/tree/v2.0.0-beta"
+                "source": "https://github.com/mineadmin/mine-core/tree/v2.0.0-beta.2"
             },
-            "time": "2024-01-20T15:39:23+00:00"
+            "time": "2024-01-24T08:01:27+00:00"
         },
         {
             "name": "xmo/mine-generator",
-            "version": "v2.0.0-beta",
+            "version": "v2.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-generator.git",
-                "reference": "2359007a461e71a92b6f6dcb2baf51f8b9512921"
+                "reference": "e26ae46c47df2517a5c32612111f8f244cdcf6d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-generator/zipball/2359007a461e71a92b6f6dcb2baf51f8b9512921",
-                "reference": "2359007a461e71a92b6f6dcb2baf51f8b9512921",
+                "url": "https://api.github.com/repos/mineadmin/mine-generator/zipball/e26ae46c47df2517a5c32612111f8f244cdcf6d1",
+                "reference": "e26ae46c47df2517a5c32612111f8f244cdcf6d1",
                 "shasum": ""
             },
             "require": {
@@ -9969,22 +9969,22 @@
             ],
             "support": {
                 "issues": "https://github.com/mineadmin/mine-generator/issues",
-                "source": "https://github.com/mineadmin/mine-generator/tree/v2.0.0-beta"
+                "source": "https://github.com/mineadmin/mine-generator/tree/v2.0.0-beta.2"
             },
-            "time": "2024-01-13T18:16:21+00:00"
+            "time": "2024-01-24T08:01:27+00:00"
         },
         {
             "name": "xmo/mine-helpers",
-            "version": "v2.0.0-beta",
+            "version": "v2.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mineadmin/mine-helpers.git",
-                "reference": "b7fafa2cb03599a178b9dc4c0e991970030ebb9a"
+                "reference": "d0d97a15688e8bad05ffb377772d5c5fbef87828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mineadmin/mine-helpers/zipball/b7fafa2cb03599a178b9dc4c0e991970030ebb9a",
-                "reference": "b7fafa2cb03599a178b9dc4c0e991970030ebb9a",
+                "url": "https://api.github.com/repos/mineadmin/mine-helpers/zipball/d0d97a15688e8bad05ffb377772d5c5fbef87828",
+                "reference": "d0d97a15688e8bad05ffb377772d5c5fbef87828",
                 "shasum": ""
             },
             "require": {
@@ -10018,9 +10018,9 @@
             "description": "MineAdmin Helpers Library",
             "support": {
                 "issues": "https://github.com/mineadmin/mine-helpers/issues",
-                "source": "https://github.com/mineadmin/mine-helpers/tree/v2.0.0-beta"
+                "source": "https://github.com/mineadmin/mine-helpers/tree/v2.0.0-beta.2"
             },
-            "time": "2024-01-20T15:05:20+00:00"
+            "time": "2024-01-24T08:04:39+00:00"
         },
         {
             "name": "xmo/mine-office",
@@ -11632,16 +11632,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.8",
+            "version": "10.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e"
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
-                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
                 "shasum": ""
             },
             "require": {
@@ -11713,7 +11713,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.9"
             },
             "funding": [
                 {
@@ -11729,7 +11729,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-19T07:07:27+00:00"
+            "time": "2024-01-22T14:35:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",

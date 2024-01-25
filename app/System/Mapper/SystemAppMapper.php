@@ -39,19 +39,19 @@ class SystemAppMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['app_name'])) {
+        if (isset($params['app_name']) && filled($params['app_name'])) {
             $query->where('app_name', $params['app_name']);
         }
 
-        if (! empty($params['app_id'])) {
+        if (isset($params['app_id']) && filled($params['app_id'])) {
             $query->where('app_id', $params['app_id']);
         }
 
-        if (! empty($params['group_id'])) {
+        if (isset($params['group_id']) && filled($params['group_id'])) {
             $query->where('group_id', $params['group_id']);
         }
 
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
         return $query;

@@ -41,7 +41,7 @@ class SettingDatasourceMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         // 数据源名称
-        if (! empty($params['source_name'])) {
+        if (isset($params['source_name']) && filled($params['source_name'])) {
             $query->where('source_name', 'like', '%' . $params['source_name'] . '%');
         }
 

@@ -35,7 +35,7 @@ class SettingConfigGroupService extends AbstractService
      * 删除配置组和其所属配置.
      */
     #[Transaction]
-    public function deleteConfigGroup(int $id): bool
+    public function deleteConfigGroup(mixed $id): bool
     {
         return $this->mapper->deleteGroupAndConfig($id);
     }

@@ -50,16 +50,16 @@ class SettingCrontabMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
-        if (! empty($params['type'])) {
+        if (isset($params['type']) && filled($params['type'])) {
             $query->where('type', $params['type']);
         }
-        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && filled($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']

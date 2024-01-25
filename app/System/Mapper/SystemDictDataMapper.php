@@ -36,19 +36,19 @@ class SystemDictDataMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['type_id'])) {
+        if (isset($params['type_id']) && filled($params['type_id'])) {
             $query->where('type_id', $params['type_id']);
         }
-        if (! empty($params['code'])) {
+        if (isset($params['code']) && filled($params['code'])) {
             $query->where('code', $params['code']);
         }
-        if (! empty($params['value'])) {
+        if (isset($params['value']) && filled($params['value'])) {
             $query->where('value', 'like', '%' . $params['value'] . '%');
         }
-        if (! empty($params['label'])) {
+        if (isset($params['label']) && filled($params['label'])) {
             $query->where('label', 'like', '%' . $params['label'] . '%');
         }
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
 

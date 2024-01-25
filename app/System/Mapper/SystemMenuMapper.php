@@ -144,7 +144,7 @@ class SystemMenuMapper extends AbstractMapper
      * 新增菜单.
      */
     #[DeleteCache('loginInfo:*')]
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         return parent::save($data);
     }
@@ -153,7 +153,7 @@ class SystemMenuMapper extends AbstractMapper
      * 更新菜单.
      */
     #[DeleteCache('loginInfo:*')]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return parent::update($id, $data);
     }
@@ -194,22 +194,22 @@ class SystemMenuMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (! empty($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
-        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && filled($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']
             );
         }
 
-        if (! empty($params['noButton']) && $params['noButton'] === true) {
+        if (isset($params['noButton']) && filled($params['noButton']) && $params['noButton'] === true) {
             $query->where('type', '<>', SystemMenu::BUTTON);
         }
         return $query;

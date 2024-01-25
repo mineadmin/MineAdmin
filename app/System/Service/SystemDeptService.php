@@ -81,7 +81,7 @@ class SystemDeptService extends AbstractService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         return $this->mapper->save($this->handleData($data));
     }
@@ -91,7 +91,7 @@ class SystemDeptService extends AbstractService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $this->handleData($data));
     }
@@ -125,11 +125,12 @@ class SystemDeptService extends AbstractService
 
     /**
      * 处理数据.
-     * @param mixed $data
+     * @param array $data
+     * @return array
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function handleData($data): array
+    protected function handleData(array $data): array
     {
         $pid = $data['parent_id'] ?? 0;
 

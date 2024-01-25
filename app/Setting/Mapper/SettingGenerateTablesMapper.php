@@ -55,10 +55,10 @@ class SettingGenerateTablesMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['table_name'])) {
+        if (isset($params['table_name']) && filled($params['table_name'])) {
             $query->where('table_name', 'like', '%' . $params['table_name'] . '%');
         }
-        if (! empty($params['minDate']) && ! empty($params['maxDate'])) {
+        if (isset($params['minDate']) && filled($params['minDate']) && isset($params['maxDate']) && filled($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
                 [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']

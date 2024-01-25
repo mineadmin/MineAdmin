@@ -39,7 +39,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
         return parent::getList($params, $isScope);
     }
 
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         if ($this->mapper->checkRoleCode($data['code'])) {
             throw new NormalStatusException(t('system.rolecode_exists'));
@@ -80,7 +80,7 @@ class SystemRoleService extends AbstractService implements RoleServiceInterface
     /**
      * 更新角色信息.
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $data);
     }

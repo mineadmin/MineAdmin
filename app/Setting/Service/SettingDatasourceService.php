@@ -55,7 +55,7 @@ class SettingDatasourceService extends AbstractService
     /**
      * 同步远程库表结构到本地.
      */
-    public function syncRemoteTableStructToLocal(int $id, array $tableInfo): bool
+    public function syncRemoteTableStructToLocal(mixed $id, array $tableInfo): bool
     {
         if (empty($id)) {
             return false;

@@ -84,7 +84,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         if ($this->mapper->existsByUsername($data['username'])) {
             throw new NormalStatusException(t('system.username_exists'));
@@ -99,7 +99,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
      * 更新用户信息.
      */
     #[CacheEvict(prefix: 'loginInfo', value: 'userId_#{id}')]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         if (isset($data['username'])) {
             unset($data['username']);
@@ -112,7 +112,10 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取在线用户.
+     * @param array $params
+     * @return array
      * @throws ContainerExceptionInterface
+     * @throws InvalidArgumentException
      * @throws NotFoundExceptionInterface
      */
     public function getOnlineUserPageList(array $params = []): array
@@ -180,9 +183,12 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 强制下线用户.
-     * @throws InvalidArgumentException
+     * @param string $id
+     * @return bool
      * @throws ContainerExceptionInterface
+     * @throws InvalidArgumentException
      * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function kickUser(string $id): bool
     {
@@ -203,8 +209,11 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 清除用户缓存.
+     * @param string $id
+     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function clearCache(string $id): bool
     {
@@ -225,8 +234,11 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 设置用户首页.
+     * @param array $params
+     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function setHomePage(array $params): bool
     {
@@ -240,8 +252,11 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 用户更新个人资料.
+     * @param array $params
+     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws \RedisException
      */
     public function updateInfo(array $params): bool
     {
@@ -264,7 +279,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
      */
     public function modifyPassword(array $params): bool
     {
-        return $this->mapper->initUserPassword((int) user()->getId(), $params['newPassword']);
+        return $this->mapper->initUserPassword(user()->getId(), $params['newPassword']);
     }
 
     /**
@@ -278,7 +293,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     /**
      * 获取缓存用户信息.
      */
-    #[Cacheable(prefix: 'loginInfo', ttl: 0, value: 'userId_#{id}')]
+    #[Cacheable(prefix: 'loginInfo', value: 'userId_#{id}', ttl: 0)]
     protected function getCacheInfo(int $id): array
     {
         $user = $this->mapper->getModel()->find($id);
@@ -318,7 +333,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
      * 处理提交数据.
      * @param mixed $data
      */
-    protected function handleData($data): array
+    protected function handleData(array $data): array
     {
         if (! is_array($data['role_ids'])) {
             $data['role_ids'] = explode(',', $data['role_ids']);

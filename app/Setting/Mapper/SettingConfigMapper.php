@@ -75,7 +75,7 @@ class SettingConfigMapper extends AbstractMapper
     /**
      * 保存配置.
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $this->filterExecuteAttributes($data);
         $model = $this->model::create($data);
@@ -87,13 +87,13 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['group_id'])) {
+        if (isset($params['group_id']) && filled($params['group_id'])) {
             $query->where('group_id', $params['group_id']);
         }
-        if (! empty($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', $params['name']);
         }
-        if (! empty($params['key'])) {
+        if (isset($params['key']) && filled($params['key'])) {
             $query->where('key', 'like', '%' . $params['key'] . '%');
         }
         return $query;

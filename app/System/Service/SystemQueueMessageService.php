@@ -39,9 +39,10 @@ class SystemQueueMessageService extends AbstractService implements QueueMessageS
 
     /**
      * 获取用户未读消息.
-     * @return mixed
+     * @param int $id
+     * @return array
      */
-    public function getUnreadMessage(int $id)
+    public function getUnreadMessage(int $id): array
     {
         $params = [
             'user_id' => $id,

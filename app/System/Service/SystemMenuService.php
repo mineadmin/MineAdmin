@@ -73,7 +73,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     /**
      * 新增菜单.
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $id = $this->mapper->save($this->handleData($data));
 
@@ -119,7 +119,7 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     /**
      * 更新菜单.
      */
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return $this->mapper->update($id, $this->handleData($data));
     }
@@ -153,9 +153,8 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * 处理数据.
-     * @param mixed $data
      */
-    protected function handleData($data): array
+    protected function handleData(array $data): array
     {
         if (empty($data['parent_id']) || $data['parent_id'] == 0) {
             $data['level'] = '0';

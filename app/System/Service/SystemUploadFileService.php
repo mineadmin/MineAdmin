@@ -17,7 +17,6 @@ use Hyperf\Collection\Collection;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Upload\UploadedFile;
-use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemException;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
@@ -39,11 +38,8 @@ class SystemUploadFileService extends AbstractService
      */
     public $mapper;
 
-    /**
-     * @var ConfigInterface
-     */
     #[Inject]
-    protected $config;
+    protected ConfigInterface $config;
 
     protected MineUpload $mineUpload;
 
@@ -55,7 +51,6 @@ class SystemUploadFileService extends AbstractService
 
     /**
      * 上传文件.
-     * @throws FileExistsException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -113,9 +108,8 @@ class SystemUploadFileService extends AbstractService
 
     /**
      * 通过hash获取文件信息.
-     * @return null|Builder|Model|object
      */
-    public function readByHash(string $hash, array $columns = ['*'])
+    public function readByHash(string $hash, array $columns = ['*']): mixed
     {
         return $this->mapper->getFileInfoByHash($hash, $columns);
     }

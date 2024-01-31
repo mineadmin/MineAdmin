@@ -43,7 +43,7 @@ class SettingCrontabService extends AbstractService
     /**
      * 保存.
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         return parent::save($data);
     }
@@ -52,7 +52,7 @@ class SettingCrontabService extends AbstractService
      * 更新.
      */
     #[CacheEvict(prefix: 'setting:crontab:read', value: '_#{id}')]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return parent::update($id, $data);
     }
@@ -64,18 +64,17 @@ class SettingCrontabService extends AbstractService
     }
 
     #[Cacheable(prefix: 'setting:crontab:read', value: '_#{id}', ttl: 600)]
-    public function read(int $id, array $column = ['*']): ?MineModel
+    public function read(mixed $id, array $column = ['*']): ?MineModel
     {
         return parent::read($id, $column);
     }
 
     /**
      * 立即执行一次定时任务
-     * @param mixed $id
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function run($id): ?bool
+    public function run(mixed $id): ?bool
     {
         $crontab = new MineCrontab();
         $model = $this->read($id);
@@ -90,7 +89,7 @@ class SettingCrontabService extends AbstractService
     }
 
     #[DeleteCache('crontab')]
-    public function changeStatus(int $id, string $value, string $filed = 'status'): bool
+    public function changeStatus(mixed $id, string $value, string $filed = 'status'): bool
     {
         return parent::changeStatus($id, $value, $filed);
     }

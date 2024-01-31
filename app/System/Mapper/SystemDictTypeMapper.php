@@ -34,7 +34,7 @@ class SystemDictTypeMapper extends AbstractMapper
     }
 
     #[Transaction]
-    public function update(int $id, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         parent::update($id, $data);
         SystemDictData::where('type_id', $id)->update(['code' => $data['code']]) > 0;
@@ -59,13 +59,13 @@ class SystemDictTypeMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['code'])) {
+        if (isset($params['code']) && filled($params['code'])) {
             $query->where('code', 'like', '%' . $params['code'] . '%');
         }
-        if (! empty($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
         return $query;

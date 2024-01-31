@@ -116,7 +116,7 @@ class SettingGenerateTablesService extends AbstractService
      * 同步数据表.
      */
     #[Transaction]
-    public function sync(int $id): bool
+    public function sync(mixed $id): bool
     {
         $table = $this->read($id);
         $columns = $this->dataMaintainService->getColumnList(
@@ -212,7 +212,7 @@ class SettingGenerateTablesService extends AbstractService
      * 预览代码
      * @throws \Exception
      */
-    public function preview(int $id): array
+    public function preview(mixed $id): array
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);
@@ -281,7 +281,7 @@ class SettingGenerateTablesService extends AbstractService
      * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
-    protected function generateCodeFile(int $id, int $adminId): SettingGenerateTables
+    protected function generateCodeFile(mixed $id, int $adminId): SettingGenerateTables
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);

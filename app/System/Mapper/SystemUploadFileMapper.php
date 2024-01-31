@@ -63,19 +63,19 @@ class SystemUploadFileMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['storage_mode'])) {
+        if (isset($params['storage_mode']) && filled($params['storage_mode'])) {
             $query->where('storage_mode', $params['storage_mode']);
         }
-        if (! empty($params['origin_name'])) {
+        if (isset($params['origin_name']) && filled($params['origin_name'])) {
             $query->where('origin_name', 'like', '%' . $params['origin_name'] . '%');
         }
-        if (! empty($params['storage_path'])) {
+        if (isset($params['storage_path']) && filled($params['storage_path'])) {
             $query->where('storage_path', 'like', $params['storage_path'] . '%');
         }
-        if (! empty($params['mime_type'])) {
+        if (isset($params['mime_type']) && filled($params['mime_type'])) {
             $query->where('mime_type', 'like', $params['mime_type'] . '/%');
         }
-        if (! empty($params['minDate']) && ! empty($params['maxDate'])) {
+        if (isset($params['minDate']) && filled($params['minDate']) && isset($params['maxDate']) && filled($params['maxDate'])) {
             $query->whereBetween(
                 'created_at',
                 [$params['minDate'] . ' 00:00:00', $params['maxDate'] . ' 23:59:59']

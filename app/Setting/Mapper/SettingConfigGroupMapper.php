@@ -31,7 +31,7 @@ class SettingConfigGroupMapper extends AbstractMapper
      * 删除组和所属配置.
      * @throws \Exception
      */
-    public function deleteGroupAndConfig(int $id): bool
+    public function deleteGroupAndConfig(mixed $id): bool
     {
         /* @var $model SettingConfigGroup */
         $model = $this->read($id);

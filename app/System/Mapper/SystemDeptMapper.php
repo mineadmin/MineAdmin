@@ -65,22 +65,22 @@ class SystemDeptMapper extends AbstractMapper
      */
     public function getLeaderList(?array $params = null): array
     {
-        if (empty($params['dept_id'])) {
+        if (blank($params['dept_id'])) {
             throw new MineException('缺少部门ID', 500);
         }
         $query = Db::table('system_user as u')
             ->join('system_dept_leader as dl', 'u.id', '=', 'dl.user_id')
             ->where('dl.dept_id', '=', $params['dept_id']);
 
-        if (! empty($params['username'])) {
+        if (isset($params['username']) && filled($params['username'])) {
             $query->where('u.username', 'like', '%' . $params['username'] . '%');
         }
 
-        if (! empty($params['nickname'])) {
+        if (isset($params['nickname']) && filled($params['nickname'])) {
             $query->where('u.nickname', 'like', '%' . $params['nickname'] . '%');
         }
 
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('u.status', $params['status']);
         }
 
@@ -139,23 +139,23 @@ class SystemDeptMapper extends AbstractMapper
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
-        if (! empty($params['status'])) {
+        if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
         }
 
-        if (! empty($params['name'])) {
+        if (isset($params['name']) && filled($params['name'])) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
-        if (! empty($params['leader'])) {
+        if (isset($params['leader']) && filled($params['leader'])) {
             $query->where('leader', $params['leader']);
         }
 
-        if (! empty($params['phone'])) {
+        if (isset($params['phone']) && filled($params['phone'])) {
             $query->where('phone', $params['phone']);
         }
 
-        if (! empty($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
+        if (isset($params['created_at']) && filled($params['created_at']) && is_array($params['created_at']) && count($params['created_at']) == 2) {
             $query->whereBetween(
                 'created_at',
                 [$params['created_at'][0] . ' 00:00:00', $params['created_at'][1] . ' 23:59:59']

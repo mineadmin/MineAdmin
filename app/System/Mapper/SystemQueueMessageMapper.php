@@ -140,10 +140,6 @@ class SystemQueueMessageMapper extends AbstractMapper
 
     /**
      * 更新中间表数据状态
-     * @param array $ids
-     * @param string $columnName
-     * @param int $value
-     * @return bool
      */
     public function updateDataStatus(array $ids, string $columnName = 'read_status', int $value = 2): bool
     {

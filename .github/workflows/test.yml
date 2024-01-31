@@ -7,9 +7,22 @@ env:
   SWOW_VERSION: 'develop'
 
 jobs:
-  ci:
+  mineadmin:
     name: Test PHP ${{ matrix.php-version }} on ${{ matrix.engine }}
     runs-on: "${{ matrix.os }}"
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        # How to use Redis
+      redis:
+          image: redis
+          ports:
+            - 6379/tcp
     strategy:
       matrix:
         os: [ ubuntu-latest ]
@@ -26,6 +39,11 @@ jobs:
           tools: phpize
           ini-values: opcache.enable_cli=0
           coverage: none
+      - name: Verify MySQL connection from host
+        run: |
+            sudo apt-get install -y mysql-client libmysqlclient-dev
+            mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW GRANTS FOR 'root'@'localhost'"
+            mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot mysql
       - name: Setup Swoole
         if: ${{ matrix.engine == 'swoole' }}
         run: |
@@ -46,6 +64,11 @@ jobs:
       - name: Setup Packages
         run: composer install -o --no-scripts
       - name: Run Test Cases
+        env:
+          DB_PASSWORD: root
+          DB_USERNAME: root
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
         run: |
           vendor/bin/php-cs-fixer fix --dry-run # cs-fixer 格式化代码
           composer analyse # phpstan 静态代码分析

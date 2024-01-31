@@ -71,8 +71,6 @@ class SettingCrontabService extends AbstractService
 
     /**
      * 立即执行一次定时任务
-     * @param mixed $id
-     * @return bool|null
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

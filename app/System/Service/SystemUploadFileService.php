@@ -38,9 +38,6 @@ class SystemUploadFileService extends AbstractService
      */
     public $mapper;
 
-    /**
-     * @var ConfigInterface
-     */
     #[Inject]
     protected ConfigInterface $config;
 
@@ -111,9 +108,6 @@ class SystemUploadFileService extends AbstractService
 
     /**
      * 通过hash获取文件信息.
-     * @param string $hash
-     * @param array $columns
-     * @return mixed
      */
     public function readByHash(string $hash, array $columns = ['*']): mixed
     {

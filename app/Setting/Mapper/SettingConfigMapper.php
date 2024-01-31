@@ -75,7 +75,7 @@ class SettingConfigMapper extends AbstractMapper
     /**
      * 保存配置.
      */
-    public function save(array $data): int
+    public function save(array $data): mixed
     {
         $this->filterExecuteAttributes($data);
         $model = $this->model::create($data);

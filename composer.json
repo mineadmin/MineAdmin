@@ -10,13 +10,13 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/jwt-auth": "2.0.0-beta",
-    "xmo/mine-core": "v2.0.0-beta.2",
-    "xmo/mine-generator": "2.0.0-beta.2",
-    "xmo/mine-helpers": "2.0.0-beta.2",
+    "xmo/jwt-auth": "2.0.0-dev",
+    "xmo/mine-core": "2.0.0-dev",
+    "xmo/mine-generator": "2.0.0-dev",
+    "xmo/mine-helpers": "2.0.0-dev",
     "xmo/mine-office": "^1.5",
-    "xmo/mine-service": "2.0.0-beta",
-    "xmo/mine-translatable": "2.0.0-beta"
+    "xmo/mine-service": "2.0.0-dev",
+    "xmo/mine-translatable": "2.0.0-dev"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

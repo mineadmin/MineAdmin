@@ -125,8 +125,6 @@ class SystemDeptService extends AbstractService
 
     /**
      * 处理数据.
-     * @param array $data
-     * @return array
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

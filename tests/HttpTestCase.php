@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace HyperfTest;
+namespace HyperfTests;
 
 use Hyperf\Testing\Client;
 use PHPUnit\Framework\TestCase;

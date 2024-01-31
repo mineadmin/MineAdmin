@@ -112,8 +112,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取在线用户.
-     * @param array $params
-     * @return array
      * @throws ContainerExceptionInterface
      * @throws InvalidArgumentException
      * @throws NotFoundExceptionInterface
@@ -183,8 +181,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 强制下线用户.
-     * @param string $id
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws InvalidArgumentException
      * @throws NotFoundExceptionInterface
@@ -209,8 +205,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 清除用户缓存.
-     * @param string $id
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \RedisException
@@ -234,8 +228,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 设置用户首页.
-     * @param array $params
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \RedisException
@@ -252,8 +244,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 用户更新个人资料.
-     * @param array $params
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws \RedisException

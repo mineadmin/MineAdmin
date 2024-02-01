@@ -110,22 +110,6 @@ class SystemUserService extends AbstractService implements UserServiceInterface
         return $this->mapper->update($id, $this->handleData($data));
     }
 
-    private function hasTokenBlack(string $token): bool
-    {
-        $jwt = $this->container->get(JWT::class);
-        $scenes = array_keys(config('jwt.scene'));
-        foreach ($scenes as $scene){
-            $sceneJwt = $jwt->setScene($scene);
-            if ($sceneJwt->blackList->hasTokenBlack(
-                $sceneJwt->getParserData($token),
-                $jwt->getSceneConfig($scene)
-            )){
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * 获取在线用户.
      * @throws ContainerExceptionInterface
@@ -144,7 +128,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
         while (false !== ($users = $redis->scan($iterator, $key, 100))) {
             foreach ($users as $user) {
                 // 如果是已经加入到黑名单的就代表不是登录状态了
-                if (!$this->hasTokenBlack($redis->get($user)) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
+                if (! $this->hasTokenBlack($redis->get($user)) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
                     $userIds[] = $match[1];
                 }
             }
@@ -355,5 +339,21 @@ class SystemUserService extends AbstractService implements UserServiceInterface
             $data['dept_ids'] = explode(',', $data['dept_ids']);
         }
         return $data;
+    }
+
+    private function hasTokenBlack(string $token): bool
+    {
+        $jwt = $this->container->get(JWT::class);
+        $scenes = array_keys(config('jwt.scene'));
+        foreach ($scenes as $scene) {
+            $sceneJwt = $jwt->setScene($scene);
+            if ($sceneJwt->blackList->hasTokenBlack(
+                $sceneJwt->getParserData($token),
+                $jwt->getSceneConfig($scene)
+            )) {
+                return true;
+            }
+        }
+        return false;
     }
 }

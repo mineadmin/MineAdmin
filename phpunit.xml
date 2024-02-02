@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="./tests/bootstrap.php" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="./tests/perpare.php" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <php>
+    <!-- other PHP.ini or environment variables -->
+    <ini name="memory_limit" value="-1"/>
+  </php>
   <testsuites>
     <testsuite name="Tests">
       <directory suffix="Test.php">./tests</directory>
     </testsuite>
   </testsuites>
+  <coverage includeUncoveredFiles="true" pathCoverage="false" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="false">
+    <report>
+      <html outputDirectory="tests/cover/" lowUpperBound="50" highLowerBound="90"/>
+    </report>
+  </coverage>
+  <logging>
+    <junit outputFile="tests/junit.xml"/>
+  </logging>
   <source>
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+    <exclude>
+      <directory suffix=".php">./app/Exception</directory>
+      <file>./app/Listener/BootApplicationListener.php</file>
+      <file>./app/Listener/DbQueryExecutedListener.php</file>
+      <file>./app/Listener/ResumeExitCoordinatorListener.php</file>
+    </exclude>
   </source>
 </phpunit>

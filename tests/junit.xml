@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/home/satan/my_work/mine/MineAdmin/phpunit.xml" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.051389">
+    <testsuite name="Tests" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.051389">
+      <testsuite name="Tests\HttpCases\ExampleTest" file="tests/HttpCases/ExampleTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.051389">
+        <testcase name="index testing" file="tests/HttpCases/ExampleTest.php::index testing" class="Tests\HttpCases\ExampleTest" classname="Tests.HttpCases.ExampleTest" assertions="2" time="0.051389"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

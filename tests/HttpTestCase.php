@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests;
 
 use Hyperf\Testing\Client;
-use PHPUnit\Framework\TestCase;
+use Hyperf\Testing\TestCase;
 
 /**
  * Class HttpTestCase.

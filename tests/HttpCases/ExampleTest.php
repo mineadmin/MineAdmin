@@ -12,5 +12,5 @@ declare(strict_types=1);
 test('index testing', function () {
     expect(true)->toBeTrue()
         ->and($this->get('/'))
-        ->toBeNull();
+        ->toBeInstanceOf(\Hyperf\Testing\Http\TestResponse::class);
 });

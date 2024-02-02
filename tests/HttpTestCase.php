@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests;
 
 use Hyperf\Testing\Client;
+use Hyperf\Testing\Concerns\RunTestsInCoroutine;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,6 +26,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class HttpTestCase extends TestCase
 {
+    use RunTestsInCoroutine;
+
     /**
      * @var Client
      */

@@ -20,6 +20,7 @@ use Psr\Container\ContainerInterface;
 
 // https://github.com/kanyxmo/mine/pull/14
 $container = new Container((new DefinitionSourceFactory())());
+
 DependProxyCollector::walk([$container, 'define']);
 
 if (! $container instanceof ContainerInterface) {

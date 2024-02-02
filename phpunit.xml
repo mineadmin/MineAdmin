@@ -21,11 +21,5 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
-    <exclude>
-      <directory suffix=".php">./app/Exception</directory>
-      <file>./app/Listener/BootApplicationListener.php</file>
-      <file>./app/Listener/DbQueryExecutedListener.php</file>
-      <file>./app/Listener/ResumeExitCoordinatorListener.php</file>
-    </exclude>
   </source>
 </phpunit>

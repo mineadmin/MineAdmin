@@ -27,6 +27,7 @@ use PHPUnit\Framework\TestCase;
 abstract class HttpTestCase extends TestCase
 {
     use RunTestsInCoroutine;
+
     /**
      * @var Client
      */

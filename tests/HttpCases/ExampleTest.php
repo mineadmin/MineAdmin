@@ -9,8 +9,6 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use Hyperf\Testing\Http\TestResponse;
-
 /*
  * This file is part of MineAdmin.
  *

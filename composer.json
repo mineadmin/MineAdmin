@@ -26,6 +26,7 @@
     "hyperf/watcher": "3.1.*",
     "mockery/mockery": "^1.0",
     "pestphp/pest": "^2.33",
+    "phpstan/phpstan": "^1.10",
     "swoole/ide-helper": "^5.0"
   },
   "suggest": {

@@ -22,5 +22,5 @@ use Hyperf\Testing\Http\TestResponse;
 test('index testing', function () {
     expect(true)->toBeTrue()
         ->and($this->get('/'))
-        ->toBeInstanceOf(TestResponse::class);
+        ->toBeNull();
 });

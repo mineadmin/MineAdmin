@@ -14,5 +14,6 @@ vendor/
 .vscode/
 tests/cover
 tests/coding_standard.xml
+tests/junit.xml
 public
 *.lock

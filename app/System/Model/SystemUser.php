@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\System\Model;
 
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Mine\MineModel;
@@ -38,8 +39,8 @@ use Mine\MineModel;
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property SystemDept $dept
- * @property \Hyperf\Database\Model\Collection|SystemPost[] $posts
- * @property \Hyperf\Database\Model\Collection|SystemRole[] $roles
+ * @property Collection|SystemPost[] $posts
+ * @property Collection|SystemRole[] $roles
  * @property mixed $password 密码
  */
 class SystemUser extends MineModel

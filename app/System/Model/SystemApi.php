@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\System\Model;
 
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\Relations\HasOne;
@@ -37,9 +38,9 @@ use Mine\MineModel;
  * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
- * @property \Hyperf\Database\Model\Collection|SystemApiColumn[] $apiColumn
+ * @property Collection|SystemApiColumn[] $apiColumn
  * @property SystemApiGroup $apiGroup
- * @property \Hyperf\Database\Model\Collection|SystemApp[] $apps
+ * @property Collection|SystemApp[] $apps
  */
 class SystemApi extends MineModel
 {

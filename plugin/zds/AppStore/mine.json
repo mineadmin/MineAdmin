@@ -1,0 +1,26 @@
+{
+  "name": "app-store",
+  "description": "MineAdmin 应用商店可视化管理插件",
+  "author": [
+    {
+      "name": "zds",
+      "role": "developer",
+      "email": "2771717608@qq.com"
+    }
+  ],
+  "package": {
+    "dependencies": {
+
+    }
+  },
+  "composer": {
+    "require": {
+    },
+    "psr-4": {
+      "Mine\\AppStore\\": "src"
+    },
+    "installScript": "Mine\\AppStore\\InstallScript",
+    "uninstallScript": "Mine\\AppStore\\UninstallScript",
+    "config": "Mine\\AppStore\\ConfigProvider"
+  }
+}

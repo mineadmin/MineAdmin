@@ -18,7 +18,6 @@ return [
         'paths' => [
             BASE_PATH . '/app',
             BASE_PATH . '/api',
-            BASE_PATH . '/plugin',
         ],
         // 初始化注解收集器
         'collectors' => [

@@ -183,6 +183,9 @@ class ServerMonitorService
             $result['total'] = sprintf('%.2f', $total[1] / 1024 / 1024);
 
             $string = shell_exec('cat /proc/meminfo | grep MemAvailable');
+            if (empty($string)) {
+                $string = shell_exec("free -k | grep 'Mem' | awk '{print \$NF}'") ?? '';
+            }
             preg_match('/(\d+)/', $string, $available);
 
             $result['free'] = sprintf('%.2f', $available[1] / 1024 / 1024);
@@ -301,7 +304,7 @@ class ServerMonitorService
         $hds = explode(' ', preg_replace(
             '/\s{2,}/',
             ' ',
-            shell_exec('df -h | grep -E "^(/)"')
+            shell_exec('df -h | grep -E "/$"') ?? ''
         ));
         return [
             'total' => $hds[1],

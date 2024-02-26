@@ -21,6 +21,7 @@ require BASE_PATH . '/vendor/autoload.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 (function () {
+    \Xmo\AppStore\Plugin::init();
     Hyperf\Di\ClassLoader::init();
     /** @var Psr\Container\ContainerInterface $container */
     $container = require BASE_PATH . '/config/container.php';

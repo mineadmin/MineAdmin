@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Setting\Model;
 
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\HasMany;
 use Mine\MineModel;
 
@@ -30,7 +31,7 @@ use Mine\MineModel;
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
- * @property \Hyperf\Database\Model\Collection|SettingCrontabLog[] $logs
+ * @property Collection|SettingCrontabLog[] $logs
  */
 class SettingCrontab extends MineModel
 {

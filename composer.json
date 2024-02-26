@@ -10,11 +10,12 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
+    "xmo/app-store": "2.0.x-dev",
     "xmo/jwt-auth": "2.0.x-dev",
     "xmo/mine-core": "2.0.x-dev",
     "xmo/mine-generator": "2.0.x-dev",
     "xmo/mine-helpers": "2.0.x-dev",
-    "xmo/mine-office": "^1.5",
+    "xmo/mine-office": "2.0.x-dev",
     "xmo/mine-service": "2.0.x-dev",
     "xmo/mine-translatable": "2.0.x-dev"
   },
@@ -39,8 +40,7 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Api\\": "api/",
-      "Plugin\\": "plugin/"
+      "Api\\": "api/"
     },
     "files": [
       "common/common.php"

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\System\Model;
 
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\Relations\HasOne;
 use Mine\MineModel;
@@ -29,7 +30,7 @@ use Mine\MineModel;
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
- * @property \Hyperf\Database\Model\Collection|SystemUser[] $receiveUser
+ * @property Collection|SystemUser[] $receiveUser
  * @property SystemUser $sendUser
  */
 class SystemQueueMessage extends MineModel

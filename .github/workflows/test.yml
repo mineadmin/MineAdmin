@@ -66,6 +66,7 @@ jobs:
       - name: Run Test Cases
         env:
           DB_DATABASE: mineadmin
+          DB_HOST: 127.0.0.1
           DB_PASSWORD: root
           DB_USERNAME: root
           DB_PORT: ${{ job.services.mysql.ports[3306] }}

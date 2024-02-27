@@ -70,6 +70,8 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
         run: |
+          php bin/hyperf.php migrate --path=app/Setting/Database/Migrations
+          php bin/hyperf.php migrate --path=app/System/Database/Migrations
           vendor/bin/php-cs-fixer fix --dry-run # cs-fixer 格式化代码
           composer analyse # phpstan 静态代码分析
           composer test  # phpunit

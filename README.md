@@ -1,3 +1,4 @@
+中文 | [英文](./README-en.md)
 # 项目介绍
 
 <p align="center">
@@ -34,8 +35,8 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ## 前端仓库地址
 移步前端仓库
 
-- [Github MineAdmin-Vue](https://github.com/kanyxmo/MineAdmin-Vue)
-- [Gitee MineAdmin-Vue](https://gitee.com/xmo/MineAdmin-vue)
+- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
+- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
 
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
@@ -141,6 +142,11 @@ php bin/hyperf.php mine:install
 
 ## 通过 OSCS 安全认证
 [![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/9ztZvuSN6OLFjCDGVo)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/hyperf/hyperf.svg)
+
 
 ## 演示图片
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />

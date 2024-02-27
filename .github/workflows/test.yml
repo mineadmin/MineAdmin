@@ -42,7 +42,7 @@ jobs:
       - name: Verify MySQL connection from host
         run: |
             sudo apt-get install -y mysql-client libmysqlclient-dev
-            mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW GRANTS FOR 'root'@'localhost'"
+            mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW GRANTS FOR 'root'@'localhost';create database mineadmin"
             mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot mysql
       - name: Setup Swoole
         if: ${{ matrix.engine == 'swoole' }}
@@ -65,6 +65,7 @@ jobs:
         run: composer install -o --no-scripts
       - name: Run Test Cases
         env:
+          DB_DATABASE: mineadmin
           DB_PASSWORD: root
           DB_USERNAME: root
           DB_PORT: ${{ job.services.mysql.ports[3306] }}

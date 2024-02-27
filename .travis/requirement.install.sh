@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-composer update -oW
+composer install -vvv

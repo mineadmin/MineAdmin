@@ -95,7 +95,15 @@ jobs:
           sudo rm -rf /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini
           php -i
           php -m
-      - name: Run Test Cases
+      - name: Run Mysql Test Cases
         env:
+          DB_DRIVER: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: mineadmin
+        run: ./.travis/run.test.sh
+      - name: Run PgSql Test Cases
+        env:
+          DB_DRIVER: pgsql
           DB_HOST: mineadmin
+          DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh

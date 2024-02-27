@@ -2,6 +2,6 @@
 
 set -e
 
-composer analyse src
+composer analyse app
 
 composer analyse api

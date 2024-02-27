@@ -96,4 +96,6 @@ jobs:
           php -i
           php -m
       - name: Run Test Cases
+        env:
+          DB_HOST: mineadmin
         run: ./.travis/run.test.sh

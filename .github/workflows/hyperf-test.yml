@@ -1,4 +1,4 @@
-name: PHPUnit for Hyperf
+name: PHPUnit for MineAdmin
 
 on:
   push:

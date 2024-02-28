@@ -86,10 +86,10 @@ class SystemDeptMapper extends AbstractMapper
 
         return $this->setPaginate(
             $query->paginate(
-                (int) $params['pageSize'] ?? $this->model::PAGE_SIZE,
+                (int) ($params['pageSize'] ?? $this->model::PAGE_SIZE),
                 ['u.*', 'dl.created_at as leader_add_time'],
                 'page',
-                (int) $params['page'] ?? 1
+                (int) ($params['page'] ?? 1)
             )
         );
     }

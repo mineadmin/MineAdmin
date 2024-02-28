@@ -43,7 +43,6 @@ function testFailResponse(mixed $result)
         ->and($result['code'] !== 200)
         ->toBeTrue();
 }
-
 uses(HttpTestCase::class)
     ->beforeEach(function () {
         // Create Super Administrator

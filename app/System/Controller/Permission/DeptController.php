@@ -105,9 +105,9 @@ class DeptController extends MineController
      * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delLeader'), Permission('system:dept:delete'), OperationLog('删除部门领导')]
-    public function delLeader(): ResponseInterface
+    public function delLeader(SystemDeptRequest $request): ResponseInterface
     {
-        return $this->service->delLeader($this->request->all()) ? $this->success() : $this->error();
+        return $this->service->delLeader($request->validated()) ? $this->success() : $this->error();
     }
 
     /**

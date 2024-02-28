@@ -8,11 +8,6 @@ on:
       - "docker/**"
       - "*.md"
   pull_request:
-    paths-ignore:
-      - ".github/**"
-      - ".travis/**",
-      - "docker/**"
-      - "*.md"
   schedule:
     - cron: '0 2 * * *'
 

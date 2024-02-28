@@ -48,6 +48,18 @@ class SystemDeptRequest extends MineFormRequest
     }
 
     /**
+     * 删除部门领导验证规则
+     * return array.
+     */
+    public function delLeaderRules(): array
+    {
+        return [
+            'id' => 'required',
+            'ids' => 'array',
+        ];
+    }
+
+    /**
      * 更新数据验证规则
      * return array.
      */

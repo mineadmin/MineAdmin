@@ -23,8 +23,10 @@
       <directory suffix=".php">./api</directory>
       <directory suffix=".php">./plugin</directory>
       <directory prefix="App" suffix=".php">./runtime/container/proxy</directory>
+    </include>
+    <exclude>
       <directory suffix=".php">./app/Controller</directory>
       <directory suffix=".php">./app/Services</directory>
-    </include>
+    </exclude>
   </source>
 </phpunit>

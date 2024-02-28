@@ -9,16 +9,13 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemUser;
 use Hyperf\Context\ApplicationContext;
-use Hyperf\Contract\ConfigInterface;
+use Hyperf\DbConnection\Db;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
+use Hyperf\Stringable\Str;
 use HyperfTests\HttpTestCase;
-use Mine\Aspect\AuthAspect;
 use Mine\Aspect\OperationLogAspect;
-use Mine\Aspect\PermissionAspect;
-use Mine\Helper\LoginUser;
-use Mine\Interfaces\ServiceInterface\UserServiceInterface;
-use Mine\MineRequest;
 
 function testSuccessResponse(mixed $result)
 {
@@ -49,24 +46,45 @@ function testFailResponse(mixed $result)
 
 uses(HttpTestCase::class)
     ->beforeEach(function () {
-        $aspect = new class() extends AuthAspect {
-            public function process(ProceedingJoinPoint $proceedingJoinPoint)
-            {
-                return $proceedingJoinPoint->process();
-            }
-        };
-        ApplicationContext::getContainer()
-            ->set(AuthAspect::class, $aspect);
-        $userServiceInterface = Mockery::mock(UserServiceInterface::class);
-        $mineRequest = Mockery::mock(MineRequest::class);
-        $loginUser = Mockery::mock(LoginUser::class);
-        $permissionAspect = new class($userServiceInterface, $mineRequest, $loginUser) extends PermissionAspect {
-            public function process(ProceedingJoinPoint $proceedingJoinPoint)
-            {
-                return $proceedingJoinPoint->process();
-            }
-        };
-        ApplicationContext::getContainer()->set(PermissionAspect::class, $permissionAspect);
+        // Create Super Administrator
+        Db::table('system_user')->truncate();
+        $this->password = Str::random(8);
+        $this->username = Str::random(10);
+        $this->mock = SystemUser::create([
+            'id' => env('SUPER_ADMIN', 1),
+            'username' => $this->username,
+            'password' => $this->password,
+            'user_type' => '100',
+            'nickname' => '创始人',
+            'email' => 'admin@adminmine.com',
+            'phone' => '16858888988',
+            'signed' => '广阔天地，大有所为',
+            'dashboard' => 'statistics',
+            'created_by' => 0,
+            'updated_by' => 0,
+            'status' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        Db::table('system_role')->truncate();
+        // Create Administrator Role
+        Db::table('system_role')->insert([
+            'id' => env('ADMIN_ROLE', 1),
+            'name' => '超级管理员（创始人）',
+            'code' => 'superAdmin',
+            'data_scope' => 0,
+            'sort' => 0,
+            'created_by' => env('SUPER_ADMIN', 0),
+            'updated_by' => 0,
+            'status' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+            'remark' => '系统内置角色，不可删除',
+        ]);
+        if (env('DB_DRIVER') === 'pgsql') {
+            Db::select("SELECT setval('system_user_id_seq', 1)");
+            Db::select("SELECT setval('system_role_id_seq', 1)");
+        }
 
         $operationLogAspect = new class() extends OperationLogAspect {
             public function process(ProceedingJoinPoint $proceedingJoinPoint)
@@ -75,9 +93,6 @@ uses(HttpTestCase::class)
             }
         };
         ApplicationContext::getContainer()->set(OperationLogAspect::class, $operationLogAspect);
-
-        $config = ApplicationContext::getContainer()->get(ConfigInterface::class);
-        $config->set('mineadmin.data_scope_enabled', false);
     })
     ->group('http testing')
     ->in('HttpCases');

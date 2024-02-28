@@ -47,7 +47,7 @@ class LoginListener implements ListenerInterface
         $service = container()->get(SystemLoginLogService::class);
         $redis = redis();
 
-        $agent = $request->getHeader('user-agent')[0];
+        $agent = $request->getHeader('user-agent')[0] ?? 'unknown';
         $ip = $request->ip();
         $service->save([
             'username' => $event->userinfo['username'],

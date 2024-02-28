@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   hyperf:
-    image: $REGISTRY_URL/$PROJECT_NAME:test
+    image: hyperf/hyperf:8.1-alpine-v3.18-swoole
     environment:
       - "APP_PROJECT=hyperf"
       - "APP_ENV=test"
@@ -17,14 +17,9 @@ services:
         parallelism: 2
         delay: 5s
         order: start-first
-    networks:
-      - hyperf_net
     configs:
       - source: hyperf_v1.0
         target: /opt/www/.env
 configs:
   hyperf_v1.0:
-    external: true
-networks:
-  hyperf_net:
     external: true

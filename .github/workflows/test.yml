@@ -1,75 +1,113 @@
-name: PHPUnit
+name: PHPUnit for MineAdmin
 
-on: [ push, pull_request ]
-
-env:
-  SWOOLE_VERSION: '5.1.1'
-  SWOW_VERSION: 'develop'
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
-  mineadmin:
-    name: Test PHP ${{ matrix.php-version }} on ${{ matrix.engine }}
-    runs-on: "${{ matrix.os }}"
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        # How to use Redis
-      redis:
-          image: redis
-          ports:
-            - 6379/tcp
+  cs-fix:
+    name: PHP CS Fix on PHP${{ matrix.php }} ${{ matrix.swoole }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: ['8.1','8.2','8.3' ]
-        engine: [  'swoole' ]
-      max-parallel: 5
+        php: [ '8.1','8.2','8.3' ]
+        swoole: [ 'swoole']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
+          tools: php-cs-fixer
+          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
+      - name: Setup Packages
+        run: composer update -oW
+      - name: Run CS Fix
+        run: |
+          vendor/bin/php-cs-fixer fix app --dry-run --diff
+          vendor/bin/php-cs-fixer fix api --dry-run --diff
+  tests:
+    needs: cs-fix
+    name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php-version: [ '8.3', '8.2', '8.1' ]
+        sw-version: [ 'v5.0.3', 'v5.1.2', 'master' ]
+        exclude:
+          - php-version: '8.3'
+            sw-version: 'v5.0.3'
+      max-parallel: 20
+      fail-fast: false
+    env:
+      SW_VERSION: ${{ matrix.sw-version }}
+      MYSQL_VERSION: '8.0'
+      PGSQL_VERSION: '14'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upgrade
+        run: |
+          sudo apt-get clean
+          sudo apt-get update
+          sudo apt-get upgrade -f
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
+          extensions: redis, pdo, pdo_mysql, bcmath
           ini-values: opcache.enable_cli=0
           coverage: none
-      - name: Verify MySQL connection from host
-        run: |
-            sudo apt-get install -y mysql-client libmysqlclient-dev
-            mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW GRANTS FOR 'root'@'localhost'"
-            mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot mysql
       - name: Setup Swoole
-        if: ${{ matrix.engine == 'swoole' }}
         run: |
-          cd /tmp
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev
-          wget https://github.com/swoole/swoole-src/archive/v${SWOOLE_VERSION}.tar.gz -O swoole.tar.gz
+          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
+          wget https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz -O swoole.tar.gz
           mkdir -p swoole
           tar -xf swoole.tar.gz -C swoole --strip-components=1
           rm swoole.tar.gz
           cd swoole
           phpize
-          ./configure --enable-openssl --enable-http2 --enable-swoole-curl --enable-swoole-json
+          ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
           make -j$(nproc)
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
       - name: Setup Packages
-        run: composer install -o --no-scripts
-      - name: Run Test Cases
-        env:
-          DB_PASSWORD: root
-          DB_USERNAME: root
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+        run: ./.travis/requirement.install.sh
+      - name: Run PHPStan
+        run: ./.travis/run.check.sh
+      - name: Setup Services
+        run: ./.travis/setup.services.sh
+      - name: Setup Mysql
+        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mysql.sh
+      - name: Setup PostgreSQL
+        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.pgsql.sh
+      - name: Run Scripts Before Test
+        run: cp .travis/.env.example .env
+      - name: Print PHP Environments
         run: |
-          vendor/bin/php-cs-fixer fix --dry-run # cs-fixer 格式化代码
-          composer analyse # phpstan 静态代码分析
-          composer test  # phpunit
+          sudo rm -rf /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini
+          php -i
+          php -m
+      - name: Run Mysql Test Cases
+        env:
+          DB_DRIVER: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: mineadmin
+        run: ./.travis/run.test.sh
+      - name: Run PgSql Test Cases
+        env:
+          DB_DRIVER: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          DB_CHARSET: utf8
+          DB_DATABASE: mineadmin
+        run: ./.travis/run.test.sh

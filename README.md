@@ -145,7 +145,7 @@ php bin/hyperf.php mine:install
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/hyperf/hyperf.svg)
+[![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
 
 ## 演示图片

@@ -145,7 +145,7 @@ The use of this software shall not be used to develop any software or applicatio
 
 ## Stargazers over time
 
-![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)
+[![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
 
 ## Demo image

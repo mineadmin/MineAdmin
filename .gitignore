@@ -13,6 +13,7 @@ vendor/
 *.cache
 .vscode/
 tests/cover
+tests/coverage.xml
 tests/coding_standard.xml
 tests/junit.xml
 public

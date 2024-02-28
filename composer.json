@@ -69,6 +69,7 @@
       "rm -rf runtime/container"
     ],
     "test": "pest ",
+    "coverage": "pest --coverage --coverage-clover tests/coverage.xml ",
     "cs-fix": "php-cs-fixer fix $1",
     "analyse": "phpstan analyse --memory-limit 500M -l 0 -c phpstan.neon ./app ./config ./api ./common",
     "start": [

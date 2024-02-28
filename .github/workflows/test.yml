@@ -23,6 +23,7 @@ jobs:
         with:
           tools: php-cs-fixer
           extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
+          coverage: xdebug
       - name: Setup Packages
         run: composer update -oW
       - name: Run CS Fix
@@ -111,3 +112,7 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4-beta
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -2,11 +2,6 @@ name: PHPUnit for MineAdmin
 
 on:
   push:
-    paths-ignore:
-      - ".github/**"
-      - ".travis/**"
-      - "docker/**"
-      - "*.md"
   pull_request:
   schedule:
     - cron: '0 2 * * *'

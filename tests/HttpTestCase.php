@@ -20,6 +20,8 @@ use PHPUnit\Framework\TestCase;
  * Class HttpTestCase.
  * @method get($uri, $data = [], $headers = [])
  * @method post($uri, $data = [], $headers = [])
+ * @method put($uri, $data = [], $headers = [])
+ * @method delete($uri, $data = [], $headers = [])
  * @method json($uri, $data = [], $headers = [])
  * @method file($uri, $data = [], $headers = [])
  * @method request($method, $path, $options = [])

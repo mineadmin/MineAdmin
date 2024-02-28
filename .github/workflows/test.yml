@@ -2,7 +2,17 @@ name: PHPUnit for MineAdmin
 
 on:
   push:
+    paths-ignore:
+      - ".github/**"
+      - ".travis/**",
+      - "docker/**"
+      - "*.md"
   pull_request:
+    paths-ignore:
+      - ".github/**"
+      - ".travis/**",
+      - "docker/**"
+      - "*.md"
   schedule:
     - cron: '0 2 * * *'
 
@@ -114,5 +124,6 @@ jobs:
         run: ./.travis/run.test.sh
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4-beta
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: "./tests/coverage.xml"

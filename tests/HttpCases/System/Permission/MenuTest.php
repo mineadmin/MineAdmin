@@ -16,3 +16,7 @@ beforeEach(function () {
 test('index test', function () {
     testSuccessResponse($this->get($this->prefix . '/index'));
 });
+
+test('tree test', function () {
+    testSuccessResponse($this->get($this->prefix . '/tree'));
+});

@@ -9,8 +9,8 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-
 use Hyperf\DbConnection\Db;
+
 use function Hyperf\Support\env;
 
 beforeEach(function () {

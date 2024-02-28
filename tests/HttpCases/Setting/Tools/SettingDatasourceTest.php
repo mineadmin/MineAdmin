@@ -31,7 +31,7 @@ test('save test', function () {
         'username' => 'root',
     ]));
     $saveResult = $this->post($this->prefix . '/save', [
-        'source_name' => 'test',
+        'source_name' => 'currentData',
         'dsn' => 'test',
         'username' => 'root',
         'password' => 'root',
@@ -64,4 +64,8 @@ test('save test', function () {
 
 test('getDataSourceTablePageList test', function () {
     testSuccessResponse($this->get($this->prefix . '/getDataSourceTablePageList'));
+});
+
+test('remote test', function () {
+    testSuccessResponse($this->post($this->prefix . '/remote'));
 });

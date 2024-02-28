@@ -43,6 +43,23 @@ abstract class HttpTestCase extends TestCase
 
     public function __call($name, $arguments)
     {
+        $count = count($arguments);
+        if (! isset($arguments[2])) {
+            if ($count === 1) {
+                $arguments[1] = [];
+            }
+            $arguments[2] = [
+                'Authorization' => 'Bearer ' . $this->getBearToken(),
+            ];
+        }
         return $this->client->{$name}(...$arguments);
+    }
+
+    public function getBearToken(): ?string
+    {
+        return $this->post('/system/login', [
+            'username' => $this->username,
+            'password' => $this->password,
+        ], [])['data']['token'] ?? null;
     }
 }

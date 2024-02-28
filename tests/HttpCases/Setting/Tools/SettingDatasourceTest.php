@@ -36,6 +36,7 @@ test('save test', function () {
         'username' => 'root',
         'password' => 'root',
     ]);
+    var_dump($saveResult);
     testSuccessResponse($saveResult);
     expect($saveResult)->toHaveKey('data.id');
     $updateUri = $this->prefix . '/update/' . Arr::get($saveResult, 'data.id');

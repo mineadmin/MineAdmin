@@ -62,7 +62,7 @@ class SystemDeptService extends AbstractService
     public function delLeader(array $data): bool
     {
         $users = [];
-        foreach ($data['ids'] as $id) {
+        foreach ($data['ids'] ?? [] as $id) {
             $users[] = ['user_id' => $id];
         }
         return $this->mapper->delLeader((int) $data['id'], $users);

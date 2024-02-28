@@ -105,5 +105,9 @@ jobs:
         env:
           DB_DRIVER: pgsql
           DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASS: postgres
+          DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh

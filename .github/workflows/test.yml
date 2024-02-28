@@ -4,7 +4,7 @@ on:
   push:
     paths-ignore:
       - ".github/**"
-      - ".travis/**",
+      - ".travis/**"
       - "docker/**"
       - "*.md"
   pull_request:

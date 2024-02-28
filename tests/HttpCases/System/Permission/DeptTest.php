@@ -63,13 +63,8 @@ test('delLeader test', function () {
         'users' => [1, 2, 3],
     ]));
 
-    testFailResponse($this->delete($this->prefix . '/delLeader', [
-        'id' => 1,
-    ]));
-
     testSuccessResponse($this->delete($this->prefix . '/delLeader', [
         'id' => 1,
-        'ids' => [],
     ]));
 });
 

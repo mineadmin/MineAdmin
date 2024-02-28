@@ -69,3 +69,4 @@ test('getDataSourceTablePageList test', function () {
 test('remote test', function () {
     testSuccessResponse($this->post($this->prefix . '/remote'));
 });
+

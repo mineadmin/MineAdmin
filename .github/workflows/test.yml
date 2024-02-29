@@ -23,9 +23,8 @@ jobs:
         with:
           tools: php-cs-fixer
           extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
-          coverage: xdebug
       - name: Setup Packages
-        run: composer update -oW
+        run: composer install -oW
       - name: Run CS Fix
         run: |
           vendor/bin/php-cs-fixer fix app --dry-run --diff
@@ -63,7 +62,6 @@ jobs:
           tools: phpize
           extensions: redis, pdo, pdo_mysql, bcmath
           ini-values: opcache.enable_cli=0
-          coverage: xdebug
       - name: Setup Swoole
         run: |
           sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
@@ -79,7 +77,6 @@ jobs:
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
-          php --ri xdebug
       - name: Setup Packages
         run: ./.travis/requirement.install.sh
       - name: Run PHPStan

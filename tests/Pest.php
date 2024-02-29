@@ -15,6 +15,7 @@ use Hyperf\DbConnection\Db;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Stringable\Str;
 use HyperfTests\HttpTestCase;
+use HyperfTests\MineControllerTestCase;
 use Mine\Aspect\OperationLogAspect;
 
 function testSuccessResponse(mixed $result)
@@ -43,7 +44,8 @@ function testFailResponse(mixed $result)
         ->and($result['code'] !== 200)
         ->toBeTrue();
 }
-uses(HttpTestCase::class)
+
+uses(HttpTestCase::class, MineControllerTestCase::class)
     ->beforeEach(function () {
         // Create Super Administrator
         Db::table('system_user')->truncate();

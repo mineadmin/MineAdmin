@@ -71,8 +71,8 @@ class SystemUserRequest extends MineFormRequest
     public function modifyPasswordRules(): array
     {
         return [
-            'newPassword' => 'required|confirmed',
-            'newPassword_confirmation' => 'required',
+            'newPassword' => 'required|confirmed|string',
+            'newPassword_confirmation' => 'required|string',
             'oldPassword' => ['required', function ($attribute, $value, $fail) {
                 $service = $this->container->get(SystemUserService::class);
                 /* @var SystemUser $model */

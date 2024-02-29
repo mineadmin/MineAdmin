@@ -112,6 +112,3 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: "./tests/coverage.xml"

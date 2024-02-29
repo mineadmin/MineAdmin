@@ -24,7 +24,7 @@ jobs:
           tools: php-cs-fixer
           extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
-        run: composer install -oW
+        run: composer update -oW
       - name: Run CS Fix
         run: |
           vendor/bin/php-cs-fixer fix app --dry-run --diff

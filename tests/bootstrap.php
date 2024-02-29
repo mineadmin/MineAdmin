@@ -34,6 +34,7 @@ date_default_timezone_set('Asia/Shanghai');
 
 require BASE_PATH . '/vendor/autoload.php';
 
+\Xmo\AppStore\Plugin::init();
 ClassLoader::init();
 
 $container = require BASE_PATH . '/config/container.php';

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/opt/www/phpunit.xml" tests="10" assertions="166" errors="0" failures="1" skipped="0" time="4.933603">
+    <testsuite name="Tests" tests="10" assertions="166" errors="0" failures="1" skipped="0" time="4.933603">
+      <testsuite name="HyperfTests\HttpCases\IndexTest" file="/opt/www/tests/HttpCases/IndexTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.677222">
+        <testcase name="testIndex" file="/opt/www/tests/HttpCases/IndexTest.php" line="24" class="HyperfTests\HttpCases\IndexTest" classname="HyperfTests.HttpCases.IndexTest" assertions="1" time="0.677222"/>
+      </testsuite>
+      <testsuite name="HyperfTests\HttpCases\Setting\Tools\SettingDatasourceTest" file="/opt/www/tests/HttpCases/Setting/Tools/SettingDatasourceTest.php" tests="4" assertions="100" errors="0" failures="0" skipped="0" time="2.427495">
+        <testcase name="testIndex" file="/opt/www/tests/HttpCases/Setting/Tools/SettingDatasourceTest.php" line="26" class="HyperfTests\HttpCases\Setting\Tools\SettingDatasourceTest" classname="HyperfTests.HttpCases.Setting.Tools.SettingDatasourceTest" assertions="7" time="0.499031"/>
+        <testcase name="testSave" file="/opt/www/tests/HttpCases/Setting/Tools/SettingDatasourceTest.php" line="32" class="HyperfTests\HttpCases\Setting\Tools\SettingDatasourceTest" classname="HyperfTests.HttpCases.Setting.Tools.SettingDatasourceTest" assertions="79" time="1.482150"/>
+        <testcase name="testGetDataSourceTablePageList" file="/opt/www/tests/HttpCases/Setting/Tools/SettingDatasourceTest.php" line="75" class="HyperfTests\HttpCases\Setting\Tools\SettingDatasourceTest" classname="HyperfTests.HttpCases.Setting.Tools.SettingDatasourceTest" assertions="7" time="0.200839"/>
+        <testcase name="testRemote" file="/opt/www/tests/HttpCases/Setting/Tools/SettingDatasourceTest.php" line="80" class="HyperfTests\HttpCases\Setting\Tools\SettingDatasourceTest" classname="HyperfTests.HttpCases.Setting.Tools.SettingDatasourceTest" assertions="7" time="0.245475"/>
+      </testsuite>
+      <testsuite name="HyperfTests\HttpCases\Setting\commonTest" file="/opt/www/tests/HttpCases/Setting/commonTest.php" tests="1" assertions="8" errors="0" failures="0" skipped="0" time="0.200747">
+        <testcase name="testCommon" file="/opt/www/tests/HttpCases/Setting/commonTest.php" line="18" class="HyperfTests\HttpCases\Setting\commonTest" classname="HyperfTests.HttpCases.Setting.commonTest" assertions="8" time="0.200747"/>
+      </testsuite>
+      <testsuite name="HyperfTests\HttpCases\System\LoginTest" file="/opt/www/tests/HttpCases/System/LoginTest.php" tests="4" assertions="57" errors="0" failures="1" skipped="0" time="1.628138">
+        <testcase name="testLoginAndLogout" file="/opt/www/tests/HttpCases/System/LoginTest.php" line="26" class="HyperfTests\HttpCases\System\LoginTest" classname="HyperfTests.HttpCases.System.LoginTest" assertions="36" time="0.844529"/>
+        <testcase name="testGetInfo" file="/opt/www/tests/HttpCases/System/LoginTest.php" line="47" class="HyperfTests\HttpCases\System\LoginTest" classname="HyperfTests.HttpCases.System.LoginTest" assertions="7" time="0.277024"/>
+        <testcase name="testRefreshToken" file="/opt/www/tests/HttpCases/System/LoginTest.php" line="52" class="HyperfTests\HttpCases\System\LoginTest" classname="HyperfTests.HttpCases.System.LoginTest" assertions="8" time="0.194997"/>
+        <testcase name="testGetBingBackgroundImage" file="/opt/www/tests/HttpCases/System/LoginTest.php" line="59" class="HyperfTests\HttpCases\System\LoginTest" classname="HyperfTests.HttpCases.System.LoginTest" assertions="6" time="0.311588">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HyperfTests\HttpCases\System\LoginTest::testGetBingBackgroundImage
+Failed asserting that an array has the key 'data'.
+
+/opt/www/tests/HttpTestCase.php:145
+/opt/www/tests/HttpCases/System/LoginTest.php:62
+/opt/www/vendor/hyperf/testing/src/Concerns/RunTestsInCoroutine.php:58
+/opt/www/vendor/hyperf/testing/co-phpunit:77</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

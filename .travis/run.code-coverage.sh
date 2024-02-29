@@ -11,4 +11,4 @@ php bin/hyperf.php db:seed --path=app/System/Database/Seeders
 
 php bin/hyperf.php mine:update
 
-composer test
+composer coverage

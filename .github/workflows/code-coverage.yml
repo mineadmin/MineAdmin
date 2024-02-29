@@ -1,4 +1,4 @@
-name: PHPUnit for MineAdmin
+name: Code Coverage Upload
 
 on:
   push:
@@ -7,38 +7,15 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  cs-fix:
-    name: PHP CS Fix on PHP${{ matrix.php }} ${{ matrix.swoole }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-        php: [ '8.1','8.2','8.3' ]
-        swoole: [ 'swoole']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
-          coverage: xdebug
-      - name: Setup Packages
-        run: composer update -oW
-      - name: Run CS Fix
-        run: |
-          vendor/bin/php-cs-fixer fix app --dry-run --diff
-          vendor/bin/php-cs-fixer fix api --dry-run --diff
   tests:
-    needs: cs-fix
-    name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}
+    needs: code-coverage
+    name: build Code coverage report
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '8.3', '8.2', '8.1' ]
-        sw-version: [ 'v5.0.3', 'v5.1.2', 'master' ]
+        php-version: [ '8.1' ]
+        sw-version: [ 'v5.1.2']
         exclude:
           - php-version: '8.3'
             sw-version: 'v5.0.3'
@@ -101,17 +78,9 @@ jobs:
           DB_DRIVER: mysql
           DB_HOST: 127.0.0.1
           DB_DATABASE: mineadmin
-        run: ./.travis/run.test.sh
-      - name: Run PgSql Test Cases
-        env:
-          DB_DRIVER: pgsql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
-          DB_USERNAME: postgres
-          DB_PASSWORD: postgres
-          DB_CHARSET: utf8
-          DB_DATABASE: mineadmin
-        run: ./.travis/run.test.sh
+        run: ./.travis/run.code-coverage.sh
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4-beta
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: "./tests/coverage.xml"

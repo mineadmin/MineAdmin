@@ -57,7 +57,7 @@ class CacheMonitorService
      */
     public function view(string $key): string
     {
-        return container()->get(Redis::class)->get($key);
+        return container()->get(Redis::class)->get($key) ?? '';
     }
 
     /**

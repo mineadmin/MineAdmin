@@ -12,6 +12,7 @@ declare(strict_types=1);
 use Hyperf\Contract\ApplicationInterface;
 use Hyperf\Di\ClassLoader;
 use Swoole\Runtime;
+use Xmo\AppStore\Plugin;
 
 /*
  * This file is part of MineAdmin.
@@ -34,7 +35,7 @@ date_default_timezone_set('Asia/Shanghai');
 
 require BASE_PATH . '/vendor/autoload.php';
 
-\Xmo\AppStore\Plugin::init();
+Plugin::init();
 ClassLoader::init();
 
 $container = require BASE_PATH . '/config/container.php';

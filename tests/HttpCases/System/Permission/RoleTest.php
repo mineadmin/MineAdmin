@@ -13,13 +13,14 @@ use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
-    $this->prefix = '/system/menu';
+    $this->prefix = '/system/role';
 });
-it('menu controller test', function () {
+
+it('role controller test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'recycle',
         $this->buildTest('getNoParamsTest') => 'index',
-        $this->buildTest('getNoParamsTest') => 'tree',
+        $this->buildTest('getNoParamsTest') => 'list',
     ]);
     $this->remoteTest();
     $successParam = [
@@ -41,6 +42,17 @@ it('menu controller test', function () {
         Arr::only($updateSuccessParam, 'code'),
     ];
     $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $this->actionTest([
+        $this->buildTest('getNoParamsTest') => 'getDeptByRole/' . $id,
+        $this->buildTest('getNoParamsTest') => 'getMenuByRole/' . $id,
+    ]);
+    $this->put($this->prefix . '/menuPermission/' . $id, [
+        'code' => Str::random(6),
+    ]);
+    $this->put($this->prefix . '/dataPermission/' . $id, [
+        'code' => Str::random(6),
+    ]);
+
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);
 });

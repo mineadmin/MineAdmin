@@ -14,7 +14,6 @@ use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
-    SystemDictData::class;
     $this->prefix = '/system/dataDict';
 });
 

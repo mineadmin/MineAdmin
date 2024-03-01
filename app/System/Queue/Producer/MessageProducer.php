@@ -19,6 +19,8 @@ use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 后台内部消息队列生产处理.
+ * @deprecated 2.0
+ * @see https://github.com/mineadmin/MineAdmin/discussions/162
  */
 // #[Producer(exchange: "mineadmin", routingKey: "message.routing")]
 class MessageProducer extends ProducerMessage

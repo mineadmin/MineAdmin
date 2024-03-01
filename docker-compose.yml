@@ -51,3 +51,15 @@ services:
     image: redis
     container_name: mineadmin-redis
     restart: always
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: mineadmin-rabbitmq
+    restart: always
+    ports:
+      - "4369:4369"
+      - "5672:5672"
+      - "15672:15672"
+      - "25672:25672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=mineadmin
+      - RABBITMQ_DEFAULT_PASS=123456

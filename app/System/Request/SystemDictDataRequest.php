@@ -34,6 +34,7 @@ class SystemDictDataRequest extends MineFormRequest
             'label' => 'required',
             'code' => 'required',
             'value' => 'required',
+            'type_id' => 'required',
         ];
     }
 

@@ -13,6 +13,7 @@ use App\System\Model\SystemApiLog;
 use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemOperLog;
 use App\System\Model\SystemQueueLog;
+use Carbon\Carbon;
 
 beforeEach(function () {
     $this->prefix = '/system/logs';
@@ -65,7 +66,7 @@ test('logs test', function () {
         'response_data' => 'xxxx',
         'ip' => 'xxxxx',
         'ip_location' => 'xxxxx',
-        'access_time' => time(),
+        'access_time' => Carbon::now(),
         'remark' => 'xxxx',
     ]);
     testSuccessResponse($this->delete($this->prefix . '/deleteApiLog', [

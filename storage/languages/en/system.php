@@ -37,4 +37,5 @@ return [
     'queue_missing_content' => 'queue message missing content',
     'queue_annotation_not_open' => 'Queue-related features are not turned on',
     'not_user_token' => 'User token not found',
+    'monitor_server_in_container' => 'Server monitoring cannot be queried within the container',
 ];

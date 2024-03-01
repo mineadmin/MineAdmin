@@ -2,4 +2,4 @@
 
 composer install -vvv
 
-php ./run.replace.php
+php ./.travis/run.replace.php

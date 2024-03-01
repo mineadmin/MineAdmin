@@ -38,4 +38,5 @@ return [
     'queue_missing_message_content_type' => '队列消息缺少信息类型',
     'queue_missing_content' => '队列消息缺少消息内容',
     'queue_annotation_not_open' => '队列相关功能未开启',
+    'not_user_token'    =>  '找不到用户token'
 ];

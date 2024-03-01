@@ -126,7 +126,7 @@ if (! function_exists('delete_cache')) {
     }
 }
 
-if (!function_exists('swoole_is_in_container')){
+if (! function_exists('swoole_is_in_container')) {
     function swoole_is_in_container(): bool
     {
         $mountinfo = file_get_contents('/proc/self/mountinfo');

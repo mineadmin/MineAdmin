@@ -62,7 +62,11 @@ class DataMaintainService extends AbstractService
     public function optimize(array $tables): bool
     {
         foreach ($tables as $table) {
-            Db::select('optimize table `?`', [$table]);
+            if (env('DB_DRIVER') === 'mysql') {
+                Db::cursor('optimize table `?`', [$table]);
+            } else {
+                Db::cursor('VACUUM table `?`', [$table]);
+            }
         }
         return true;
     }
@@ -73,7 +77,11 @@ class DataMaintainService extends AbstractService
     public function fragment(array $tables): bool
     {
         foreach ($tables as $table) {
-            Db::select('analyze table `?`', [$table]);
+            if (env('DB_DRIVER') === 'mysql') {
+                Db::cursor('analyze table `?`', [$table]);
+            } else {
+                Db::cursor('analyze table `?`', [$table]);
+            }
         }
         return true;
     }

@@ -1,12 +1,22 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
-beforeEach(function (){
+
+beforeEach(function () {
     $this->prefix = '/system/dictType';
 });
 
-test('dict type controller test',function (){
+test('dict type controller test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
         $this->buildTest('getNoParamsTest') => 'recycle',
@@ -15,7 +25,7 @@ test('dict type controller test',function (){
 
     $successParam = [
         'name' => Str::random(5),
-        'code' => Str::random(6)
+        'code' => Str::random(6),
     ];
     $failParams = [
         Arr::only($successParam, 'name'),
@@ -23,7 +33,7 @@ test('dict type controller test',function (){
     ];
     $updateSuccessParam = [
         'name' => Str::random(5),
-        'code' => Str::random(6)
+        'code' => Str::random(6),
     ];
     $updateFailParams = [
         Arr::only($updateSuccessParam, 'name'),

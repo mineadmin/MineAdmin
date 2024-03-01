@@ -1,11 +1,22 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
-beforeEach(function (){
+
+beforeEach(function () {
     $this->prefix = '/system/notice';
 });
 
-test('notice test',function (){
+test('notice test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
         $this->buildTest('getNoParamsTest') => 'recycle',
@@ -14,7 +25,7 @@ test('notice test',function (){
     $successParam = [
         'title' => Str::random(5),
         'type' => Str::random(6),
-        'content' => Str::random(6)
+        'content' => Str::random(6),
     ];
     $failParams = [
         Arr::only($successParam, 'title'),
@@ -24,7 +35,7 @@ test('notice test',function (){
     $updateSuccessParam = [
         'title' => Str::random(5),
         'type' => Str::random(6),
-        'content' => Str::random(6)
+        'content' => Str::random(6),
     ];
     $updateFailParams = [
         Arr::only($updateSuccessParam, 'title'),

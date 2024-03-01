@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -16,6 +17,7 @@ beforeEach(function () {
     $this->prefix = '/system/menu';
 });
 it('menu controller test', function () {
+
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'recycle',
         $this->buildTest('getNoParamsTest') => 'index',
@@ -43,4 +45,5 @@ it('menu controller test', function () {
     $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);
+
 });

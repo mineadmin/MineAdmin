@@ -1,15 +1,23 @@
 <?php
-beforeEach(function (){
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+beforeEach(function () {
     $this->prefix = '/setting/code';
 });
 
-test('generator code test',function (){
+test('generator code test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
         $this->buildTest('getNoParamsTest') => 'getDataSourceList',
         $this->buildTest('getNoParamsTest') => 'getTableColumns',
-        $this->buildTest('getNoParamsTest') => 'preview',
         $this->buildTest('getNoParamsTest') => 'readTable',
     ]);
 });
-

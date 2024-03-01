@@ -191,6 +191,10 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     {
         $redis = redis();
         $key = sprintf('%sToken:%s', config('cache.default.prefix'), $id);
+        $token = $redis->get($key);
+        if (! is_string($token)) {
+            throw new MineException(t('system.not_user_token'));
+        }
         user()->getJwt()->logout($redis->get($key), 'default');
         $redis->del($key);
         return true;

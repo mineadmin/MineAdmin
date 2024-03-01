@@ -40,6 +40,9 @@ class ServerMonitorController extends MineController
     #[GetMapping('monitor'), Permission('system:monitor:server')]
     public function getServerInfo(): ResponseInterface
     {
+        if (swoole_is_in_container()) {
+            return $this->error(t('system.monitor_server_in_container'));
+        }
         return $this->success([
             'cpu' => $this->service->getCpuInfo(),
             'memory' => $this->service->getMemInfo(),

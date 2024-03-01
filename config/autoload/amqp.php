@@ -9,19 +9,26 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\Amqp\IO\IOFactory;
+
+use function Hyperf\Support\env;
+
 return [
+    'enable' => env('AMQP_ENABLE'),
     'default' => [
         'host' => env('AMQP_HOST', 'localhost'),
         'port' => (int) env('AMQP_PORT', 5672),
         'user' => env('AMQP_USER', 'guest'),
         'password' => env('AMQP_PASSWORD', 'guest'),
         'vhost' => env('AMQP_VHOST', '/'),
+        'open_ssl' => false,
         'concurrent' => [
-            'limit' => 1,
+            'limit' => 2,
         ],
         'pool' => [
             'connections' => 2,
         ],
+        'io' => IOFactory::class,
         'params' => [
             'insist' => false,
             'login_method' => 'AMQPLAIN',

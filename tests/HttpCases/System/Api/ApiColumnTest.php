@@ -13,38 +13,50 @@ use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
-    $this->prefix = '/system/notice';
+    $this->prefix = '/system/apiColumn';
 });
 
-test('notice test', function () {
+test('Api Column get test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
         $this->buildTest('getNoParamsTest') => 'recycle',
     ]);
     $this->remoteTest();
+});
+test('Api Column put test', function () {
     $successParam = [
-        'title' => Str::random(5),
+        'name' => Str::random(5),
+        'api_id' => 1,
         'type' => 1,
-        'content' => Str::random(6),
+        'data_type' => 1,
+        'is_required' => 1,
     ];
     $failParams = [
-        Arr::only($successParam, 'title'),
+        Arr::only($successParam, 'name'),
+        Arr::only($successParam, 'api_id'),
         Arr::only($successParam, 'type'),
-        Arr::only($successParam, 'content'),
+        Arr::only($successParam, 'data_type'),
+        Arr::only($successParam, 'is_required'),
     ];
     $updateSuccessParam = [
-        'title' => Str::random(5),
+        'name' => Str::random(5),
+        'api_id' => 1,
         'type' => 1,
-        'content' => Str::random(6),
+        'data_type' => 1,
+        'is_required' => 1,
     ];
     $updateFailParams = [
-        Arr::only($updateSuccessParam, 'title'),
+        Arr::only($updateSuccessParam, 'name'),
+        Arr::only($updateSuccessParam, 'api_id'),
         Arr::only($updateSuccessParam, 'type'),
-        Arr::only($updateSuccessParam, 'content'),
+        Arr::only($updateSuccessParam, 'data_type'),
+        Arr::only($updateSuccessParam, 'is_required'),
     ];
     $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);
+
+    $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);
 });

@@ -9,38 +9,33 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
-    $this->prefix = '/system/notice';
+    $this->prefix = '/system/appGroup';
 });
 
-test('notice test', function () {
+test('App Group get test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
+        $this->buildTest('getNoParamsTest') => 'list',
         $this->buildTest('getNoParamsTest') => 'recycle',
     ]);
     $this->remoteTest();
+});
+
+test('App Group put test', function () {
     $successParam = [
-        'title' => Str::random(5),
-        'type' => 1,
-        'content' => Str::random(6),
+        'name' => Str::random(5),
     ];
     $failParams = [
-        Arr::only($successParam, 'title'),
-        Arr::only($successParam, 'type'),
-        Arr::only($successParam, 'content'),
+        [],
     ];
     $updateSuccessParam = [
-        'title' => Str::random(5),
-        'type' => 1,
-        'content' => Str::random(6),
+        'name' => Str::random(5),
     ];
     $updateFailParams = [
-        Arr::only($updateSuccessParam, 'title'),
-        Arr::only($updateSuccessParam, 'type'),
-        Arr::only($updateSuccessParam, 'content'),
+        [],
     ];
     $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
     $this->actionTest([

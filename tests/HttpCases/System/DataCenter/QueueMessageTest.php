@@ -20,20 +20,12 @@ test('queue message test', function () {
         $this->buildTest('getNoParamsTest') => 'sendList',
         $this->buildTest('getNoParamsTest') => 'getReceiveUser',
     ]);
+});
 
-    testSuccessResponse($this->post($this->prefix . '/sendPrivateMessage', [
-        'title' => 'xxx',
-        'users' => [
-            1, 2, 3, 4,
-        ],
-        'content' => 'xxxx',
-    ]));
+test('update read status', function () {
     $ids = array_column(SystemQueueMessage::query()->select(['id'])->get()->toArray(), 'id');
-    testSuccessResponse($this->put($this->prefix . '/updateReadStatus', [
-        'ids' => $ids,
-    ]));
 
-    testSuccessResponse($this->delete($this->prefix . '/deletes', [
+    testSuccessResponse($this->put($this->prefix . '/updateReadStatus', [
         'ids' => $ids,
     ]));
 });

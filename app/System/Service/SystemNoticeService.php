@@ -16,9 +16,9 @@ use App\System\Mapper\SystemNoticeMapper;
 use App\System\Mapper\SystemUserMapper;
 use App\System\Model\SystemQueueMessage;
 use App\System\Vo\QueueMessageVo;
+use Hyperf\Snowflake\IdGenerator\SnowflakeIdGenerator;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
-use Mine\Exception\NormalStatusException;
 use Mine\MineModel;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -33,8 +33,10 @@ class SystemNoticeService extends AbstractService
      */
     public $mapper;
 
-    public function __construct(SystemNoticeMapper $mapper)
-    {
+    public function __construct(
+        SystemNoticeMapper $mapper,
+        private readonly SnowflakeIdGenerator $idGenerator
+    ) {
         $this->mapper = $mapper;
     }
 
@@ -63,15 +65,7 @@ class SystemNoticeService extends AbstractService
             $userMapper = container()->get(SystemUserMapper::class);
             $userIds = $userMapper->pluck(['status' => MineModel::ENABLE]);
         }
-
-        $pushMessageRequest = push_queue_message($message, $userIds);
-
-        $data['message_id'] = context_get('id');
-
-        if ($data['message_id'] !== -1 && $pushMessageRequest) {
-            return parent::save($data);
-        }
-
-        throw new NormalStatusException();
+        $data['message_id'] = context_get('id') ?? (string) $this->idGenerator->generate();
+        return parent::save($data);
     }
 }

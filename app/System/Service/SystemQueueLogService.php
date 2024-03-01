@@ -18,10 +18,10 @@ use App\System\Queue\Consumer\MessageConsumer;
 use App\System\Queue\Producer\MessageProducer;
 use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
+use Hyperf\Amqp\Producer;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
-use Mine\Amqp\DelayProducer;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
@@ -30,6 +30,8 @@ use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 队列管理服务类.
+ * @deprecated 2.0
+ * @see https://github.com/mineadmin/MineAdmin/discussions/162
  */
 #[DependProxy(values: [QueueLogServiceInterface::class])]
 class SystemQueueLogService extends AbstractService implements QueueLogServiceInterface
@@ -43,7 +45,7 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
     protected SystemUserService $userService;
 
     #[Inject]
-    protected DelayProducer $producer;
+    protected Producer $producer;
 
     /**
      * SystemQueueLogService constructor.
@@ -78,12 +80,7 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
             throw new NormalStatusException(t('system.queue_annotation_not_open'), 500);
         }
 
-        return $this->producer->produce(
-            new $class($amqpQueueVo->getData()),
-            $amqpQueueVo->getIsConfirm(),
-            $amqpQueueVo->getTimeout(),
-            $amqpQueueVo->getDelayTime()
-        );
+        return $this->producer->produce($producer);
     }
 
     /**
@@ -127,9 +124,6 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
 
         return $this->producer->produce(
             new MessageProducer($data),
-            $message->getIsConfirm(),
-            $message->getTimeout(),
-            $message->getDelayTime()
         );
     }
 }

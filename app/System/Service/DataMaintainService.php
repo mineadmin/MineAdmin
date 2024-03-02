@@ -24,6 +24,9 @@ class DataMaintainService extends AbstractService
      */
     public function getPageList(?array $params = [], bool $isScope = true): array
     {
+        if (env('DB_DRIVER') !== 'mysql') {
+            return [];
+        }
         return $this->getArrayToPageList($params);
     }
 
@@ -33,7 +36,7 @@ class DataMaintainService extends AbstractService
      */
     public function getColumnList(mixed $table): array
     {
-        if ($table) {
+        if ($table && env('DB_DRIVER') === 'mysql') {
             // 从数据库中获取表字段信息
             $sql = 'SELECT * FROM `information_schema`.`columns` '
                 . 'WHERE TABLE_SCHEMA = ? AND table_name = ? '

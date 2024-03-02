@@ -71,9 +71,13 @@ trait MineControllerTestCase
 
     public function recoveryAndDeleteTest(array $ids, array $uris = ['delete', 'realDelete', 'recovery'])
     {
-        testSuccessResponse($this->delete($this->prefix . '/' . $uris[0], compact('ids')));
-        testSuccessResponse($this->put($this->prefix . '/' . $uris[2], compact('ids')));
-        testSuccessResponse($this->delete($this->prefix . '/' . $uris[1], compact('ids')));
+        foreach ($uris as $url) {
+            if ($url === 'recovery') {
+                testSuccessResponse($this->put($this->prefix . '/' . $url, compact('ids')));
+            } else {
+                testSuccessResponse($this->delete($this->prefix . '/' . $url, compact('ids')));
+            }
+        }
     }
 
     public function changeStatusTest(int|string $id, int $status = 1, string $uri = 'changeStatus')

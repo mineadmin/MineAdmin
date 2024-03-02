@@ -51,6 +51,7 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
         Db::table('system_user')->truncate();
         $this->password = Str::random(8);
         $this->username = Str::random(10);
+        SystemUser::whereKey(env('SUPER_ADMIN', 1))->delete();
         $this->mock = SystemUser::create([
             'id' => env('SUPER_ADMIN', 1),
             'username' => $this->username,
@@ -95,5 +96,5 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
         };
         ApplicationContext::getContainer()->set(OperationLogAspect::class, $operationLogAspect);
     })
-    ->group('http testing')
-    ->in('HttpCases');
+    ->group('module http testing')
+    ->in('ModelControllerTest', 'ApiControllerTest');

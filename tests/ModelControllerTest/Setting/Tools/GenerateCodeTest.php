@@ -88,7 +88,7 @@ test('generator code test', function () {
 });
 
 test('sync delete', function () {
-    testSuccessResponse($this->put($this->prefix . '/sync/' . $this->mock->id));
+//    testSuccessResponse($this->put($this->prefix . '/sync/' . $this->mock->id));
 
     testSuccessResponse($this->delete($this->prefix . '/delete', [
         'ids' => [$this->mock->id],

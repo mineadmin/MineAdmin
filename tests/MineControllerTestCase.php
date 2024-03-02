@@ -72,7 +72,12 @@ trait MineControllerTestCase
     public function recoveryAndDeleteTest(array $ids, array $uris = ['delete', 'realDelete', 'recovery'])
     {
         foreach ($uris as $url) {
-            testSuccessResponse($this->delete($this->prefix . '/' . $url, compact('ids')));
+            if ($url === 'recovery'){
+                testSuccessResponse($this->put($this->prefix . '/' . $url, compact('ids')));
+            }else{
+                testSuccessResponse($this->delete($this->prefix . '/' . $url, compact('ids')));
+            }
+
         }
     }
 

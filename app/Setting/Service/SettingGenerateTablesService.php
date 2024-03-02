@@ -16,10 +16,10 @@ use App\Setting\Mapper\SettingGenerateTablesMapper;
 use App\Setting\Model\SettingGenerateTables;
 use App\System\Service\DataMaintainService;
 use Hyperf\Database\Schema\Schema;
-use Hyperf\DbConnection\Db;
+use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 use Hyperf\Support\Filesystem\Filesystem;
+use Hyperf\Validation\ValidatorFactory;
 use Mine\Abstracts\AbstractService;
-use Mine\Annotation\Transaction;
 use Mine\Exception\MineException;
 use Mine\Generator\ApiGenerator;
 use Mine\Generator\ControllerGenerator;
@@ -62,7 +62,8 @@ class SettingGenerateTablesService extends AbstractService
         DataMaintainService $dataMaintainService,
         SettingGenerateColumnsService $settingGenerateColumnsService,
         ModuleService $moduleService,
-        ContainerInterface $container
+        ContainerInterface $container,
+        private readonly ValidatorFactory $validatorFactory
     ) {
         $this->mapper = $mapper;
         $this->dataMaintainService = $dataMaintainService;
@@ -76,6 +77,7 @@ class SettingGenerateTablesService extends AbstractService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[Transaction]
     public function loadTable(array $params): bool
     {
         // 非系统数据源，同步远程库的表结构到本地
@@ -86,30 +88,33 @@ class SettingGenerateTablesService extends AbstractService
                 }
             }
         }
-        try {
-            Db::beginTransaction();
-            foreach ($params['names'] as $item) {
-                $tableInfo = [
-                    'table_name' => $item['name'],
-                    'table_comment' => $item['comment'],
-                    'menu_name' => $item['comment'],
-                    'type' => 'single',
-                ];
-                $id = $this->save($tableInfo);
-
-                $columns = $this->dataMaintainService->getColumnList($item['name']);
-
-                foreach ($columns as &$column) {
-                    $column['table_id'] = $id;
-                }
-                $this->settingGenerateColumnsService->save($columns);
-            }
-            Db::commit();
-            return true;
-        } catch (\Throwable $e) {
-            Db::rollBack();
-            throw new MineException($e->getMessage(), 500);
+        if (! is_array($params['names'][0] ?? null)) {
+            throw new MineException(t('setting.names_type_error'));
         }
+        foreach ($params['names'] as $item) {
+            $this->validatorFactory->validate(
+                data: $item,
+                rules: [
+                    'name' => 'required|string',
+                    'comment' => 'required|string',
+                ]
+            );
+            $tableInfo = [
+                'table_name' => $item['name'],
+                'table_comment' => $item['comment'],
+                'menu_name' => $item['comment'],
+                'type' => 'single',
+            ];
+            $id = $this->save($tableInfo);
+
+            $columns = $this->dataMaintainService->getColumnList($item['name']);
+
+            foreach ($columns as &$column) {
+                $column['table_id'] = $id;
+            }
+            $this->settingGenerateColumnsService->save($columns);
+        }
+        return true;
     }
 
     /**
@@ -216,6 +221,10 @@ class SettingGenerateTablesService extends AbstractService
     {
         /** @var SettingGenerateTables $model */
         $model = $this->read($id);
+
+        if (empty($model)) {
+            throw new MineException(t('setting.preview.not_found_table'));
+        }
 
         return [
             [

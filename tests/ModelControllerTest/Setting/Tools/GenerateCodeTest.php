@@ -37,6 +37,9 @@ beforeEach(function () {
 });
 
 test('generator code test', function () {
+    if (env('DB_DRIVER') !== 'mysql') {
+        return;
+    }
     $table = SystemUser::getModel()->getTable();
     testSuccessResponse($this->post($this->prefix . '/loadTable', [
         'source' => Mine::getMineName(),
@@ -52,7 +55,7 @@ test('generator code test', function () {
         $this->buildTest('getNoParamsTest') => 'getDataSourceList',
         $this->buildTest('getNoParamsTest') => 'getTableColumns',
         $this->buildTest('getNoParamsTest') => 'readTable',
-    ]);/*
+    ]); /*
     testSuccessResponse($this->get($this->prefix . '/preview', [
         'id' => $this->mock->id,
     ]));*/
@@ -68,7 +71,7 @@ test('generator code test', function () {
         'package_name' => 'App\\System\\Controller\\Test',
         'columns' => [
             [
-                'id' => SettingGenerateColumns::query()->first()->id,
+                'id' => SettingGenerateColumns::query()->first()->getKey(),
                 'column_name' => 'xxxx',
                 'is_insert' => true,
                 'is_edit' => true,
@@ -88,7 +91,10 @@ test('generator code test', function () {
 });
 
 test('sync delete', function () {
-//    testSuccessResponse($this->put($this->prefix . '/sync/' . $this->mock->id));
+    if (env('DB_DRIVER') !== 'mysql') {
+        return;
+    }
+    //    testSuccessResponse($this->put($this->prefix . '/sync/' . $this->mock->id));
 
     testSuccessResponse($this->delete($this->prefix . '/delete', [
         'ids' => [$this->mock->id],

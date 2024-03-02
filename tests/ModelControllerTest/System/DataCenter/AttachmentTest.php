@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\System\Model\SystemUploadfile;
+use Hyperf\Stringable\Str;
 
 beforeEach(function () {
     $this->prefix = '/system/attachment';
@@ -20,7 +21,7 @@ test('attachment test', function () {
         'storage_mode' => 1,
         'origin_name' => 'xxx',
         'object_name' => 'xxx',
-        'hash' => 'xxxx',
+        'hash' => Str::random(32),
         'mime_type' => 1,
         'storage_path' => 'xxxx',
         'suffix' => 'xxxx',

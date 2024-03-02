@@ -9,6 +9,16 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Nette\Utils\FileSystem;
+
+/**
+ * This file is part of MineAdmin.
+ *
+ * @see     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 beforeEach(function () {
     $this->prefix = '/setting/module';
 });
@@ -17,7 +27,7 @@ test('module controller test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
     ]);
-
+    FileSystem::delete(BASE_PATH . '/app/Demo');
     testSuccessResponse($this->put($this->prefix . '/save', [
         'name' => 'Demo',
         'label' => 'sample module',

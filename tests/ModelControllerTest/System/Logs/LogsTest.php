@@ -64,7 +64,7 @@ test('logs test', function () {
         'request_data' => 'xxx',
         'response_code' => 'xxxx',
         'response_data' => 'xxxx',
-        'ip' => 'xxxxx',
+        'ip' => '114.114.114.114',
         'ip_location' => 'xxxxx',
         'access_time' => Carbon::now(),
         'remark' => 'xxxx',

@@ -95,5 +95,5 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
         };
         ApplicationContext::getContainer()->set(OperationLogAspect::class, $operationLogAspect);
     })
-    ->group('http testing')
-    ->in('HttpCases');
+    ->group('module http testing')
+    ->in('ModelControllerTest', 'ApiControllerTest');

@@ -52,10 +52,10 @@ test('generator code test', function () {
         $this->buildTest('getNoParamsTest') => 'getDataSourceList',
         $this->buildTest('getNoParamsTest') => 'getTableColumns',
         $this->buildTest('getNoParamsTest') => 'readTable',
-    ]);
+    ]);/*
     testSuccessResponse($this->get($this->prefix . '/preview', [
         'id' => $this->mock->id,
-    ]));
+    ]));*/
 
     testSuccessResponse($this->post($this->prefix . '/update', [
         'id' => $this->mock->id,

@@ -32,7 +32,7 @@ test('logs test', function () {
         'method' => 'xxx',
         'router' => 'xxx',
         'service_name' => 'xxx',
-        'ip' => '1.1.1.1',
+        'ip' => '127.0.0.1',
         'ip_location' => 'xxx',
         'request_data' => 'xxx',
         'response_code' => 'xxx',

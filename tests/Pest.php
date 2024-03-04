@@ -13,7 +13,6 @@ use App\System\Model\SystemUser;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
-use Hyperf\Stringable\Str;
 use HyperfTests\HttpTestCase;
 use HyperfTests\MineControllerTestCase;
 use Mine\Aspect\OperationLogAspect;
@@ -49,8 +48,8 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
     ->beforeEach(function () {
         // Create Super Administrator
         Db::table('system_user')->truncate();
-        $this->password = Str::random(8);
-        $this->username = Str::random(10);
+        $this->password = '123456';
+        $this->username = 'admin';
         SystemUser::whereKey(env('SUPER_ADMIN', 1))->delete();
         $this->mock = SystemUser::create([
             'id' => env('SUPER_ADMIN', 1),

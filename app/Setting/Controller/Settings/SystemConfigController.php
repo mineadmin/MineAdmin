@@ -79,7 +79,7 @@ class SystemConfigController extends MineController
     #[PostMapping('updateByKeys'), Permission('setting:config:update'), OperationLog]
     public function updateByKeys(): ResponseInterface
     {
-        return $this->service->updatedByKeys($this->request->all()) ? $this->success() : $this->error();
+        return $this->service->updatedByKeys($this->request->post()) ? $this->success() : $this->error();
     }
 
     /**

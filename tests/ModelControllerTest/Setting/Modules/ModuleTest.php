@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 use Nette\Utils\FileSystem;
 
-/**
+/*
  * This file is part of MineAdmin.
  *
  * @see     https://www.mineadmin.com

@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Setting\Mapper;
 
 use App\Setting\Model\SettingGenerateColumns;
@@ -8,9 +18,10 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemRole;
 use App\System\Model\SystemUser;
 use Hyperf\Contract\LengthAwarePaginatorInterface;
-use Hyperf\Database\Query\Builder;
 use Hyperf\Database\Model\Model;
+use Hyperf\Database\Query\Builder;
 use Hyperf\DbConnection\Db;
+use Hyperf\Tappable\HigherOrderTapProxy;
 use Mine\Annotation\Transaction;
 use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
@@ -19,6 +30,7 @@ use Mine\MineModel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+
 use function Hyperf\Config\config;
 use function Hyperf\Support\env;
 
@@ -175,151 +187,6 @@ class AutoFromMapper
         return $this->handleSearch($columns, $query, $params);
     }
 
-
-    protected function userDataScope($query, ?int $userid = null, $dataScopeField = 'created_by')
-    {
-        if (! config('mineadmin.data_scope_enabled')) {
-            return $query;
-        }
-
-        $userid = is_null($userid) ? (int) user()->getId() : $userid;
-
-        if (empty($userid)) {
-            throw new MineException('Data Scope missing user_id');
-        }
-
-        if ($userid == env('SUPER_ADMIN')) {
-            return $query;
-        }
-
-        //dataScopeField = 'created_by' // 数据范围字段
-
-//        if (! in_array($model->getDataScopeField(), $model->getFillable())) {
-//            return $this;
-//        }
-
-        $dataScope = new class($userid, $query, $dataScopeField) {
-            // 用户ID
-            protected int $userid;
-
-            // 查询构造器
-            protected Builder $builder;
-
-            protected string $dataScopeField;
-
-            // 数据范围用户ID列表
-            protected array $userIds = [];
-
-
-            public function __construct(int $userid, Builder $builder, $dataScopeField)
-            {
-                $this->userid = $userid;
-                $this->builder = $builder;
-                $this->dataScopeField = $dataScopeField;
-            }
-
-            public function execute(): Builder
-            {
-                $this->getUserDataScope();
-                return empty($this->userIds)
-                    ? $this->builder
-                    : $this->builder->whereIn($this->dataScopeField, array_unique($this->userIds));
-            }
-
-            /**
-             * @TODO 这里权限分离回头作为其他组件再加载
-             */
-            protected function getUserDataScope(): void
-            {
-                /**
-                 * @phpstan-ignore-next-line
-                 */
-                $userModel = SystemUser::find($this->userid, ['id']);
-                $roles = $userModel->roles()->get(['id', 'data_scope']);
-
-                foreach ($roles as $role) {
-                    switch ($role->data_scope) {
-                        case SystemRole::ALL_SCOPE:
-                            // 如果是所有权限，跳出所有循环
-                            break 2;
-                        case SystemRole::CUSTOM_SCOPE:
-                            // 自定义数据权限
-                            $deptIds = $role->depts()->pluck('id')->toArray();
-                            $this->userIds = array_merge(
-                                $this->userIds,
-                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
-                            );
-                            $this->userIds[] = $this->userid;
-                            break;
-                        case SystemRole::SELF_DEPT_SCOPE:
-                            // 本部门数据权限
-                            $deptIds = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
-                            $this->userIds = array_merge(
-                                $this->userIds,
-                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
-                            );
-                            $this->userIds[] = $this->userid;
-                            break;
-                        case SystemRole::DEPT_BELOW_SCOPE:
-                            // 本部门及子部门数据权限
-                            $parentDepts = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
-                            $ids = [];
-                            foreach ($parentDepts as $deptId) {
-                                $ids[] = SystemDept::query()
-                                    ->where(function ($query) use ($deptId) {
-                                        $query->where('id', '=', $deptId)
-                                            ->orWhere('level', 'like', $deptId . ',%')
-                                            ->orWhere('level', 'like', '%,' . $deptId)
-                                            ->orWhere('level', 'like', '%,' . $deptId . ',%');
-                                    })
-                                    ->pluck('id')
-                                    ->toArray();
-                            }
-                            $deptIds = array_merge($parentDepts, ...$ids);
-                            $this->userIds = array_merge(
-                                $this->userIds,
-                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
-                            );
-                            $this->userIds[] = $this->userid;
-                            break;
-                        case SystemRole::DEPT_BELOW_SCOPE_BY_TABLE_DEPTID:
-                            $parentDepts = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
-                            $ids = [];
-                            foreach ($parentDepts as $deptId) {
-                                $ids[] = SystemDept::query()
-                                    ->where(function ($query) use ($deptId) {
-                                        $query->where('id', '=', $deptId)
-                                            ->orWhere('level', 'like', $deptId . ',%')
-                                            ->orWhere('level', 'like', '%,' . $deptId)
-                                            ->orWhere('level', 'like', '%,' . $deptId . ',%');
-                                    })
-                                    ->pluck('id')
-                                    ->toArray();
-                            }
-                            $deptIds = array_merge($parentDepts, ...$ids);
-
-//                            // 本部门及子部门数据权限 以 当前表的dept_id作为条件
-//                            if (! in_array('dept_id', $this->model->getFillable())) {
-//                                break;
-//                            }
-
-                            $this->builder = $this->builder->whereIn('dept_id', $deptIds);
-                        // no break
-                        case SystemRole::SELF_SCOPE:
-                            $this->userIds[] = $this->userid;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        };
-
-        $a =  $dataScope->execute();
-        var_dump(get_class(($a)));
-    }
-
-
     /**
      * 排序处理器.
      */
@@ -343,26 +210,12 @@ class AutoFromMapper
         return $query;
     }
 
-    protected function getQueryType(string $query_type) {
-        return match ($query_type) {
-            'neq' => '<>',
-            'gt' => '<',
-            'gte' => '<=',
-            'lt' => '>',
-            'lte' => '>=',
-            'like' => 'like',
-            'between' => 'between',
-            'in' => 'in',
-            'notin' => 'notin',
-            default => '=',
-        };
-    }
     /**
      * 搜索处理器.
      */
     public function handleSearch(array $columns, Builder $query, array $params): Builder
     {
-        foreach($columns as $column) {
+        foreach ($columns as $column) {
             if ($column['is_query'] == 2) {
                 $query_type = $this->getQueryType($column['query_type']);
 
@@ -370,7 +223,7 @@ class AutoFromMapper
                     if (isset($params[$column['column_name']]) && filled($params[$column['column_name']]) && is_array($params[$column['column_name']]) && count($params[$column['column_name']]) == 2) {
                         $query->whereBetween(
                             $column['column_name'],
-                            [ $params[$column['column_name']][0], $params[$column['column_name']][1] ]
+                            [$params[$column['column_name']][0], $params[$column['column_name']][1]]
                         );
                     }
                 } if (isset($params[$column['column_name']]) && filled($params[$column['column_name']])) {
@@ -433,10 +286,10 @@ class AutoFromMapper
     public function save(mixed $table_id, array $data): mixed
     {
         $table = SettingGenerateTables::find($table_id);
-        ///$this->filterExecuteAttributes($data, $this->getModel()->incrementing);
+        // /$this->filterExecuteAttributes($data, $this->getModel()->incrementing);
         return Db::table($table->getTableName())->insertGetId($data);
-//        $model = $this->model::create($data);
-//        return $model->{$model->getKeyName()};
+        //        $model = $this->model::create($data);
+        //        return $model->{$model->getKeyName()};
     }
 
     /**
@@ -458,7 +311,7 @@ class AutoFromMapper
 
     /**
      * 获取单个值
-     * @return null|\Hyperf\Tappable\HigherOrderTapProxy|mixed|void
+     * @return null|HigherOrderTapProxy|mixed|void
      */
     public function value(array $condition, string $columns = 'id')
     {
@@ -491,13 +344,13 @@ class AutoFromMapper
     {
         $table = SettingGenerateTables::find($table_id);
         Db::table($table->getTableName())->whereIn('id', $ids)->update([
-            'deleted_at' => date('Y-m-d H:i:s')
+            'deleted_at' => date('Y-m-d H:i:s'),
         ]);
-//        foreach($data as $row) {
-//            if ($row)
-//        }
-//        delete($data);
-//        $this->model::destroy($ids);
+        //        foreach($data as $row) {
+        //            if ($row)
+        //        }
+        //        delete($data);
+        //        $this->model::destroy($ids);
         return true;
     }
 
@@ -507,7 +360,7 @@ class AutoFromMapper
     public function update(mixed $table_id, mixed $id, array $data): bool
     {
         $table = SettingGenerateTables::find($table_id);
-//        $this->filterExecuteAttributes($data, true);
+        //        $this->filterExecuteAttributes($data, true);
         return Db::table($table->getTableName())->where('id', '=', $id)->update($data) > 0;
     }
 
@@ -526,7 +379,7 @@ class AutoFromMapper
     public function realDelete(mixed $table_id, array $ids): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             Db::table($table->getTableName())->where('id', '=', $id)->whereNotNull('deleted_at')->delete();
         }
         return true;
@@ -811,5 +664,163 @@ class AutoFromMapper
                 }
             }
         });
+    }
+
+    protected function userDataScope($query, ?int $userid = null, $dataScopeField = 'created_by')
+    {
+        if (! config('mineadmin.data_scope_enabled')) {
+            return $query;
+        }
+
+        $userid = is_null($userid) ? (int) user()->getId() : $userid;
+
+        if (empty($userid)) {
+            throw new MineException('Data Scope missing user_id');
+        }
+
+        if ($userid == env('SUPER_ADMIN')) {
+            return $query;
+        }
+
+        // dataScopeField = 'created_by' // 数据范围字段
+
+        //        if (! in_array($model->getDataScopeField(), $model->getFillable())) {
+        //            return $this;
+        //        }
+
+        $dataScope = new class($userid, $query, $dataScopeField) {
+            // 用户ID
+            protected int $userid;
+
+            // 查询构造器
+            protected Builder $builder;
+
+            protected string $dataScopeField;
+
+            // 数据范围用户ID列表
+            protected array $userIds = [];
+
+            public function __construct(int $userid, Builder $builder, $dataScopeField)
+            {
+                $this->userid = $userid;
+                $this->builder = $builder;
+                $this->dataScopeField = $dataScopeField;
+            }
+
+            public function execute(): Builder
+            {
+                $this->getUserDataScope();
+                return empty($this->userIds)
+                    ? $this->builder
+                    : $this->builder->whereIn($this->dataScopeField, array_unique($this->userIds));
+            }
+
+            /**
+             * @TODO 这里权限分离回头作为其他组件再加载
+             */
+            protected function getUserDataScope(): void
+            {
+                /**
+                 * @phpstan-ignore-next-line
+                 */
+                $userModel = SystemUser::find($this->userid, ['id']);
+                $roles = $userModel->roles()->get(['id', 'data_scope']);
+
+                foreach ($roles as $role) {
+                    switch ($role->data_scope) {
+                        case SystemRole::ALL_SCOPE:
+                            // 如果是所有权限，跳出所有循环
+                            break 2;
+                        case SystemRole::CUSTOM_SCOPE:
+                            // 自定义数据权限
+                            $deptIds = $role->depts()->pluck('id')->toArray();
+                            $this->userIds = array_merge(
+                                $this->userIds,
+                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
+                            );
+                            $this->userIds[] = $this->userid;
+                            break;
+                        case SystemRole::SELF_DEPT_SCOPE:
+                            // 本部门数据权限
+                            $deptIds = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
+                            $this->userIds = array_merge(
+                                $this->userIds,
+                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
+                            );
+                            $this->userIds[] = $this->userid;
+                            break;
+                        case SystemRole::DEPT_BELOW_SCOPE:
+                            // 本部门及子部门数据权限
+                            $parentDepts = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
+                            $ids = [];
+                            foreach ($parentDepts as $deptId) {
+                                $ids[] = SystemDept::query()
+                                    ->where(function ($query) use ($deptId) {
+                                        $query->where('id', '=', $deptId)
+                                            ->orWhere('level', 'like', $deptId . ',%')
+                                            ->orWhere('level', 'like', '%,' . $deptId)
+                                            ->orWhere('level', 'like', '%,' . $deptId . ',%');
+                                    })
+                                    ->pluck('id')
+                                    ->toArray();
+                            }
+                            $deptIds = array_merge($parentDepts, ...$ids);
+                            $this->userIds = array_merge(
+                                $this->userIds,
+                                Db::table('system_user_dept')->whereIn('dept_id', $deptIds)->pluck('user_id')->toArray()
+                            );
+                            $this->userIds[] = $this->userid;
+                            break;
+                        case SystemRole::DEPT_BELOW_SCOPE_BY_TABLE_DEPTID:
+                            $parentDepts = Db::table('system_user_dept')->where('user_id', $userModel->id)->pluck('dept_id')->toArray();
+                            $ids = [];
+                            foreach ($parentDepts as $deptId) {
+                                $ids[] = SystemDept::query()
+                                    ->where(function ($query) use ($deptId) {
+                                        $query->where('id', '=', $deptId)
+                                            ->orWhere('level', 'like', $deptId . ',%')
+                                            ->orWhere('level', 'like', '%,' . $deptId)
+                                            ->orWhere('level', 'like', '%,' . $deptId . ',%');
+                                    })
+                                    ->pluck('id')
+                                    ->toArray();
+                            }
+                            $deptIds = array_merge($parentDepts, ...$ids);
+
+                            //                            // 本部门及子部门数据权限 以 当前表的dept_id作为条件
+                            //                            if (! in_array('dept_id', $this->model->getFillable())) {
+                            //                                break;
+                            //                            }
+
+                            $this->builder = $this->builder->whereIn('dept_id', $deptIds);
+                            // no break
+                        case SystemRole::SELF_SCOPE:
+                            $this->userIds[] = $this->userid;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        };
+
+        $a = $dataScope->execute();
+        var_dump(get_class($a));
+    }
+
+    protected function getQueryType(string $query_type)
+    {
+        return match ($query_type) {
+            'neq' => '<>',
+            'gt' => '<',
+            'gte' => '<=',
+            'lt' => '>',
+            'lte' => '>=',
+            'like' => 'like',
+            'between' => 'between',
+            'in' => 'in',
+            'notin' => 'notin',
+            default => '=',
+        };
     }
 }

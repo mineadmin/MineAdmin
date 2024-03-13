@@ -120,10 +120,11 @@ class AutoFormController extends MineController
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping('changeStatus')]
-    public function changeStatus(): ResponseInterface
+    #[PutMapping('changeStatus/{table_id}')]
+    public function changeStatus($table_id): ResponseInterface
     {
         return $this->service->changeStatus(
+            $table_id,
             (int) $this->request->input('id'),
             (string) $this->request->input('statusValue'),
             (string) $this->request->input('statusName', 'status')

@@ -208,7 +208,7 @@ class AutoFromMapper
     {
         // 使用Db
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         $columns = SettingGenerateColumns::query()->where('table_id', '=', $table_id)->get();
         $columnNames = $columns->pluck('column_name')->toArray();
 
@@ -332,7 +332,7 @@ class AutoFromMapper
     public function save(mixed $table_id, array $data): mixed
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }
@@ -412,7 +412,7 @@ class AutoFromMapper
     public function update(mixed $table_id, mixed $id, array $data): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }
@@ -427,7 +427,7 @@ class AutoFromMapper
     public function updateByCondition(mixed $table_id, array $condition, array $data): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }
@@ -442,7 +442,7 @@ class AutoFromMapper
     public function realDelete(mixed $table_id, array $ids): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }
@@ -468,7 +468,7 @@ class AutoFromMapper
     public function disable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }
@@ -482,7 +482,7 @@ class AutoFromMapper
     public function enable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $pkColumn = SettingGenerateColumns::query()->where(['is_pk' => 2, 'table_id' => $table_id])->first();
         if (is_null($pkColumn)) {
             return false;
         }

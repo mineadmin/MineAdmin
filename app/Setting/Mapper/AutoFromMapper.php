@@ -36,9 +36,9 @@ use function Hyperf\Support\env;
 
 class AutoFromMapper
 {
-    public function getList(?array $params, bool $isScope = true): array
+    public function getList(mixed $table_id, ?array $params, bool $isScope = true): array
     {
-        return $this->listQuerySetting($params, $isScope)->get()->toArray();
+        return $this->listQuerySetting($table_id, $params, $isScope)->get()->toArray();
     }
 
     /**
@@ -47,7 +47,7 @@ class AutoFromMapper
     public function getPageList(mixed $table_id, ?array $params, bool $isScope = true, string $pageName = 'page'): array
     {
         $paginate = $this->listQuerySetting($table_id, $params, $isScope)->paginate(
-            (int) ($params['pageSize'] ?? $this->model::PAGE_SIZE),
+            (int) ($params['pageSize'] ?? 15),
             ['*'],
             $pageName,
             (int) ($params[$pageName] ?? 1)
@@ -64,66 +64,68 @@ class AutoFromMapper
      */
     public function getRemoteList(?array $params): array
     {
-        if (! config('mineadmin.remote_api_enabled')) {
-            throw new MineException('系统未启用【远程通用列表查询】', 500);
-        }
-        /* @var $model MineModel */
-        $model = $this->getModel();
-        $query = null;
-        if (! empty($params['relations']) && is_array($params['relations'])) {
-            foreach ($params['relations'] as $item) {
-                $this->dynamicRelations($model, $item);
-                /* @var $query Builder */
-                $query = $model->with([$item['name'] => function ($query) use ($item) {
-                    $paramsWhere = [];
-                    if (! empty($item['filter']) && is_array($item['filter'])) {
-                        foreach ($item['filter'] as $name => $where) {
-                            $paramsWhere[$name] = $where;
-                        }
-                    }
-                    return $this->emptyBuildQuery($paramsWhere, $query);
-                }]);
-            }
-        }
-
-        /* @var $query Builder */
-        if (is_null($query)) {
-            $query = $model::query();
-        }
-
-        $paramsWhere = [];
-        if (! empty($params['filter']) && is_array($params['filter'])) {
-            foreach ($params['filter'] as $name => $where) {
-                $paramsWhere[$name] = $where;
-            }
-        }
-        $query = $this->emptyBuildQuery($paramsWhere, $query);
-
-        if (! empty($params['sort']) && is_array($params['sort'])) {
-            foreach ($params['sort'] as $name => $sortType) {
-                $query->orderBy($name, $sortType);
-            }
-        }
-
-        if (! empty($params['group']) && is_array($params['group'])) {
-            foreach ($params['group'] as $name) {
-                $query->groupBy($name);
-            }
-        }
-
-        if (isset($params['dataScope']) && $params['dataScope']) {
-            $query->userDataScope();
-        }
-
-        if (isset($params['openPage']) && $params['openPage']) {
-            $pageName = $params['pageName'] ?? 'page';
-            $pageSize = $params['pageSize'] ?? $this->model::PAGE_SIZE;
-            return $this->setPaginate($query->paginate($pageSize, $params['select'] ?? ['*'], $pageName, $params[$pageName] ?? 1), $params);
-        }
-
-        return method_exists($this, 'handleItems')
-            ? (new MineCollection($this->handleItems($query->get($params['select'] ?? ['*']), $params)))->toArray()
-            : $query->get($params['select'] ?? ['*'])->toArray();
+        //  todo
+        return [];
+        //        if (! config('mineadmin.remote_api_enabled')) {
+        //            throw new MineException('系统未启用【远程通用列表查询】', 500);
+        //        }
+        //        /* @var $model MineModel */
+        //        $model = $this->getModel();
+        //        $query = null;
+        //        if (! empty($params['relations']) && is_array($params['relations'])) {
+        //            foreach ($params['relations'] as $item) {
+        //                $this->dynamicRelations($model, $item);
+        //                /* @var $query Builder */
+        //                $query = $model->with([$item['name'] => function ($query) use ($item) {
+        //                    $paramsWhere = [];
+        //                    if (! empty($item['filter']) && is_array($item['filter'])) {
+        //                        foreach ($item['filter'] as $name => $where) {
+        //                            $paramsWhere[$name] = $where;
+        //                        }
+        //                    }
+        //                    return $this->emptyBuildQuery($paramsWhere, $query);
+        //                }]);
+        //            }
+        //        }
+        //
+        //        /* @var $query Builder */
+        //        if (is_null($query)) {
+        //            $query = $model::query();
+        //        }
+        //
+        //        $paramsWhere = [];
+        //        if (! empty($params['filter']) && is_array($params['filter'])) {
+        //            foreach ($params['filter'] as $name => $where) {
+        //                $paramsWhere[$name] = $where;
+        //            }
+        //        }
+        //        $query = $this->emptyBuildQuery($paramsWhere, $query);
+        //
+        //        if (! empty($params['sort']) && is_array($params['sort'])) {
+        //            foreach ($params['sort'] as $name => $sortType) {
+        //                $query->orderBy($name, $sortType);
+        //            }
+        //        }
+        //
+        //        if (! empty($params['group']) && is_array($params['group'])) {
+        //            foreach ($params['group'] as $name) {
+        //                $query->groupBy($name);
+        //            }
+        //        }
+        //
+        //        if (isset($params['dataScope']) && $params['dataScope']) {
+        //            $query->userDataScope();
+        //        }
+        //
+        //        if (isset($params['openPage']) && $params['openPage']) {
+        //            $pageName = $params['pageName'] ?? 'page';
+        //            $pageSize = $params['pageSize'] ?? 15;
+        //            return $this->setPaginate($query->paginate($pageSize, $params['select'] ?? ['*'], $pageName, $params[$pageName] ?? 1), $params);
+        //        }
+        //
+        //        return method_exists($this, 'handleItems')
+        //            ? (new MineCollection($this->handleItems($query->get($params['select'] ?? ['*']), $params)))->toArray()
+        //            : $query->get($params['select'] ?? ['*'])->toArray();
     }
 
     /**
@@ -164,8 +166,14 @@ class AutoFromMapper
     {
         // 使用Db
         $table = SettingGenerateTables::find($table_id);
-        $columns = SettingGenerateColumns::query()->where('table_id', '=', $table_id)->get()->toArray();
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        $columns = SettingGenerateColumns::query()->where('table_id', '=', $table_id)->get();
+        $columnNames = $columns->pluck('column_name')->toArray();
 
+        $pk = '';
+        if (! is_null($pkColumn)) {
+            $pk = $pkColumn->column_name;
+        }
         $query = Db::table($table->getTableName());
 
         if (($params['recycle'] ?? false) === true) {
@@ -176,7 +184,7 @@ class AutoFromMapper
         }
 
         if ($params['select'] ?? false) {
-            $query->select($this->filterQueryAttributes($params['select']));
+            $query->select($this->filterQueryAttributes($pk, $columnNames, $params['select']));
         }
 
         $query = $this->handleOrder($query, $params);
@@ -184,7 +192,7 @@ class AutoFromMapper
         if ($isScope) {
             $query = $this->userDataScope($query);
         }
-        return $this->handleSearch($columns, $query, $params);
+        return $this->handleSearch($columns->toArray(), $query, $params);
     }
 
     /**
@@ -231,6 +239,8 @@ class AutoFromMapper
                         $query->whereIn($column['column_name'], $params[$column['column_name']]);
                     } elseif ($query_type == 'notin') {
                         $query->whereNotIn($column['column_name'], $params[$column['column_name']]);
+                    } elseif ($query_type == 'like') {
+                        $query->where($column['column_name'], $query_type, '%' . $params[$column['column_name']] . '%');
                     } else {
                         $query->where($column['column_name'], $query_type, $params[$column['column_name']]);
                     }
@@ -244,40 +254,34 @@ class AutoFromMapper
     /**
      * 过滤查询字段不存在的属性.
      */
-    public function filterQueryAttributes(array $fields, bool $removePk = false): array
+    public function filterQueryAttributes(string $pk, array $columns, array $fields, bool $removePk = false): array
     {
-        $model = new $this->model();
-        $attrs = $model->getFillable();
         foreach ($fields as $key => $field) {
-            if (! in_array(trim($field), $attrs) && mb_strpos(str_replace('AS', 'as', $field), 'as') === false) {
+            if (! in_array(trim($field), $columns) && mb_strpos(str_replace('AS', 'as', $field), 'as') === false) {
                 unset($fields[$key]);
             } else {
                 $fields[$key] = trim($field);
             }
         }
-        if ($removePk && in_array($model->getKeyName(), $fields)) {
-            unset($fields[array_search($model->getKeyName(), $fields)]);
+        if ($removePk && in_array($pk, $fields)) {
+            unset($fields[array_search($pk, $fields)]);
         }
-        $model = null;
         return (count($fields) < 1) ? ['*'] : $fields;
     }
 
     /**
      * 过滤新增或写入不存在的字段.
      */
-    public function filterExecuteAttributes(array &$data, bool $removePk = false): void
+    public function filterExecuteAttributes(string $pk, array $columns, array &$data, bool $removePk = false): void
     {
-        $model = new $this->model();
-        $attrs = $model->getFillable();
         foreach ($data as $name => $val) {
-            if (! in_array($name, $attrs)) {
+            if (! in_array($name, $columns)) {
                 unset($data[$name]);
             }
         }
-        if ($removePk && isset($data[$model->getKeyName()])) {
-            unset($data[$model->getKeyName()]);
+        if ($removePk && isset($data[$pk])) {
+            unset($data[$pk]);
         }
-        $model = null;
     }
 
     /**
@@ -286,53 +290,64 @@ class AutoFromMapper
     public function save(mixed $table_id, array $data): mixed
     {
         $table = SettingGenerateTables::find($table_id);
-        // /$this->filterExecuteAttributes($data, $this->getModel()->incrementing);
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
+        $columns = SettingGenerateColumns::query()->pluck('column_name')->toArray();
+        $removePk = false;
+        if ($pkColumn->column_type == 'bigint' || $pkColumn->column_type) { // 应该是自增， 后续应该 列表里记录 是否为自增
+            $removePk = true;
+        }
+        $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, $removePk);
         return Db::table($table->getTableName())->insertGetId($data);
-        //        $model = $this->model::create($data);
-        //        return $model->{$model->getKeyName()};
     }
 
     /**
      * 读取一条数据.
      */
-    public function read(mixed $table_id, mixed $id, array $column = ['*']): ?MineModel
+    public function read(mixed $table_id, mixed $id, array $column = ['*']): mixed
     {
-        return ($model = $this->model::find($id, $column)) ? $model : null;
+        $table = SettingGenerateTables::find($table_id);
+        return Db::table($table->getTableName())->find($id, $column);
     }
 
     /**
      * 按条件读取一行数据.
-     * @return mixed
      */
-    public function first(array $condition, array $column = ['*']): ?MineModel
+    public function first(mixed $table_id, array $condition, array $column = ['*']): mixed
     {
-        return ($model = $this->model::where($condition)->first($column)) ? $model : null;
+        $table = SettingGenerateTables::find($table_id);
+        return Db::table($table->getTableName())->where($condition)->first($column);
     }
 
     /**
      * 获取单个值
      * @return null|HigherOrderTapProxy|mixed|void
      */
-    public function value(array $condition, string $columns = 'id')
+    public function value(mixed $table_id, array $condition, string $columns = 'id')
     {
-        return ($model = $this->model::where($condition)->value($columns)) ? $model : null;
+        $table = SettingGenerateTables::find($table_id);
+        return Db::table($table->getTableName())->where($condition)->value($columns);
     }
 
     /**
      * 获取单列值
      */
-    public function pluck(array $condition, string $columns = 'id', ?string $key = null): array
+    public function pluck(mixed $table_id, array $condition, string $columns = 'id', ?string $key = null): array
     {
-        return $this->model::where($condition)->pluck($columns, $key)->toArray();
+        $table = SettingGenerateTables::find($table_id);
+        return Db::table($table->getTableName())->where($condition)->pluck($columns, $key)->toArray();
     }
 
     /**
      * 从回收站读取一条数据.
      * @noinspection PhpUnused
      */
-    public function readByRecycle(mixed $id): ?MineModel
+    public function readByRecycle(mixed $table_id, mixed $id): mixed
     {
-        return ($model = $this->model::withTrashed()->find($id)) ? $model : null;
+        $table = SettingGenerateTables::find($table_id);
+        return Db::table($table->getTableName())->whereNotNull('deleted_at')->find($id);
     }
 
     /**
@@ -346,11 +361,6 @@ class AutoFromMapper
         Db::table($table->getTableName())->whereIn('id', $ids)->update([
             'deleted_at' => date('Y-m-d H:i:s'),
         ]);
-        //        foreach($data as $row) {
-        //            if ($row)
-        //        }
-        //        delete($data);
-        //        $this->model::destroy($ids);
         return true;
     }
 
@@ -360,17 +370,27 @@ class AutoFromMapper
     public function update(mixed $table_id, mixed $id, array $data): bool
     {
         $table = SettingGenerateTables::find($table_id);
-        //        $this->filterExecuteAttributes($data, true);
-        return Db::table($table->getTableName())->where('id', '=', $id)->update($data) > 0;
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
+        $columns = SettingGenerateColumns::query()->pluck('column_name')->toArray();
+        $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, true);
+        return Db::table($table->getTableName())->where($pkColumn->column_name, '=', $id)->update($data) > 0;
     }
 
     /**
      * 按条件更新数据.
      */
-    public function updateByCondition(array $condition, array $data): bool
+    public function updateByCondition(mixed $table_id, array $condition, array $data): bool
     {
-        $this->filterExecuteAttributes($data, true);
-        return $this->model::query()->where($condition)->update($data) > 0;
+        $table = SettingGenerateTables::find($table_id);
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
+        $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, true);
+        return Db::table($table->getTableName())->where($condition)->update($data) > 0;
     }
 
     /**
@@ -379,8 +399,12 @@ class AutoFromMapper
     public function realDelete(mixed $table_id, array $ids): bool
     {
         $table = SettingGenerateTables::find($table_id);
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
         foreach ($ids as $id) {
-            Db::table($table->getTableName())->where('id', '=', $id)->whereNotNull('deleted_at')->delete();
+            Db::table($table->getTableName())->where($pkColumn->column_name, '=', $id)->whereNotNull('deleted_at')->delete();
         }
         return true;
     }
@@ -398,272 +422,34 @@ class AutoFromMapper
     /**
      * 单个或批量禁用数据.
      */
-    public function disable(array $ids, string $field = 'status'): bool
+    public function disable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
-        $this->model::query()->whereIn((new $this->model())->getKeyName(), $ids)->update([$field => $this->model::DISABLE]);
+        $table = SettingGenerateTables::find($table_id);
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
+        Db::table($table->getTableName())->whereIn($pkColumn->column_name, $ids)->update([$field => 2]);
         return true;
     }
 
     /**
      * 单个或批量启用数据.
      */
-    public function enable(array $ids, string $field = 'status'): bool
+    public function enable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
-        $this->model::query()->whereIn((new $this->model())->getKeyName(), $ids)->update([$field => $this->model::ENABLE]);
+        $table = SettingGenerateTables::find($table_id);
+        $pkColumn = SettingGenerateColumns::query()->where('is_pk', '=', 2)->first();
+        if (is_null($pkColumn)) {
+            return false;
+        }
+        Db::table($table->getTableName())->whereIn($pkColumn->column_name, $ids)->update([$field => 1]);
         return true;
     }
 
-    public function getModel(): MineModel
+    public function numberOperation(mixed $table_id, mixed $id, string $field, int $value): bool
     {
-        return new $this->model();
-    }
-
-    /**
-     * 数据导入.
-     * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    #[Transaction]
-    public function import(string $dto, ?\Closure $closure = null): bool
-    {
-        return (new MineCollection())->import($dto, $this->getModel(), $closure);
-    }
-
-    /**
-     * 闭包通用查询设置.
-     * @param null|\Closure $closure 传入的闭包查询
-     */
-    public function settingClosure(?\Closure $closure = null): Builder
-    {
-        return $this->model::where(function ($query) use ($closure) {
-            if ($closure instanceof \Closure) {
-                $closure($query);
-            }
-        });
-    }
-
-    /**
-     * 闭包通用方式查询一条数据.
-     * @param array|string[] $column
-     * @return null|Builder|Model
-     */
-    public function one(?\Closure $closure = null, array $column = ['*'])
-    {
-        return $this->settingClosure($closure)->select($column)->first();
-    }
-
-    /**
-     * 闭包通用方式查询数据集合.
-     * @param array|string[] $column
-     */
-    public function get(?\Closure $closure = null, array $column = ['*']): array
-    {
-        return $this->settingClosure($closure)->get($column)->toArray();
-    }
-
-    /**
-     * 闭包通用方式统计
-     */
-    public function count(?\Closure $closure = null, string $column = '*'): int
-    {
-        return $this->settingClosure($closure)->count($column);
-    }
-
-    /**
-     * 闭包通用方式查询最大值
-     * @return mixed|string|void
-     */
-    public function max(?\Closure $closure = null, string $column = '*')
-    {
-        return $this->settingClosure($closure)->max($column);
-    }
-
-    /**
-     * 闭包通用方式查询最小值
-     * @return mixed|string|void
-     */
-    public function min(?\Closure $closure = null, string $column = '*')
-    {
-        return $this->settingClosure($closure)->min($column);
-    }
-
-    /**
-     * 数字更新操作.
-     */
-    public function numberOperation(mixed $id, string $field, int $value): bool
-    {
-        return $this->update($id, [$field => $value]);
-    }
-
-    /**
-     * 搜索参数注入.
-     * @param mixed $params
-     */
-    public function paramsEmptyQuery($params, array $where = [], mixed $query = null): mixed
-    {
-        if (! $query) {
-            $query = $this->model::query();
-        }
-
-        $object = new class($params, $where) {
-            public array $paramsWhere = [];
-
-            public function __construct($params, $where)
-            {
-                foreach ($params as $field => $value) {
-                    if (isset($where[$field])) {
-                        $this->caseWhere($field, $where[$field], $value);
-                    }
-                }
-            }
-
-            public function caseWhere($field, $operator, $value): void
-            {
-                if (is_scalar($operator)) {
-                    $res = $this->scalarOptionHandle($field, $operator, $value);
-                } elseif (is_array($operator)) {
-                    $res = $this->arrayOptionHandle($field, $operator, $value);
-                } else {
-                    $res = $this->scalarOptionHandle($field, $operator, $value);
-                }
-                $this->paramsWhere[$res[0]] = [$res[1], $res[2]];
-            }
-
-            /**
-             * 标量类型获取.
-             * @param mixed $field
-             * @param mixed $operator
-             * @param mixed $value
-             */
-            public function scalarOptionHandle($field, $operator, $value): array
-            {
-                return [$field, $operator, $value];
-            }
-
-            /**
-             * 数组类型处理.
-             * @param mixed $field
-             * @param mixed $operator
-             * @param mixed $value
-             */
-            public function arrayOptionHandle($field, $operator, $value): array
-            {
-                return [$field, $operator, $value];
-            }
-
-            public function getParamsWhere(): array
-            {
-                return $this->paramsWhere;
-            }
-        };
-        return $this->emptyBuildQuery($object->getParamsWhere(), $query);
-    }
-
-    /**
-     * 非空查询方法
-     * 案例
-     * [
-     *  'field' => 1,
-     *  'field' => ['=', 'index']
-     * ].
-     */
-    public function emptyBuildQuery(array $paramsWhere = [], mixed $query = null): mixed
-    {
-        if (! $query) {
-            $query = $this->model::query();
-        }
-        $object = new class($paramsWhere, $query) {
-            public mixed $query;
-
-            public function __construct($paramsWhere, mixed $query)
-            {
-                $this->query = $query;
-                foreach ($paramsWhere as $field => $value) {
-                    if ($value) {
-                        if (is_scalar($value)) {
-                            $this->scalarWhere($field, '=', $value);
-                        } elseif (is_array($value)) {
-                            $this->arrayWhere($field, $value);
-                        }
-                    }
-                }
-            }
-
-            public function scalarWhere($field, $operator, $value): void
-            {
-                [$operator, $value] = $this->optionHandler($field, $operator, $value);
-                $this->query->where($field, $operator, $value);
-            }
-
-            private function arrayWhere($field, $value): void
-            {
-                [$value[0], $value[1]] = $this->optionHandler($field, $value[0], $value[1]);
-                $this->query->where($field, $value[0], $value[1]);
-            }
-
-            public function optionHandler($field, $operator, $value): array
-            {
-                switch ($operator) {
-                    case 'like':
-                    case 'like%':
-                        if (is_scalar($value)) {
-                            throw new NormalStatusException("{$field} type error:The expectation is a string");
-                        }
-                        $likeMap = ['like' => '%#{val}%', 'like%' => '#{val}%'];
-                        $value = str_replace('#{val}', $value, $likeMap[$operator]);
-                        break;
-                }
-                return [$operator, $value];
-            }
-
-            public function getQuery(): mixed
-            {
-                return $this->query;
-            }
-        };
-        return $object->getQuery();
-    }
-
-    /**
-     * 动态关联模型.
-     * @param $config ['name', 'model', 'type', 'localKey', 'foreignKey', 'middleTable', 'as', 'where', 'whereIn' ]
-     */
-    public function dynamicRelations(MineModel $model, &$config): void
-    {
-        $model->resolveRelationUsing($config['name'], function ($primaryModel) use ($config) {
-            $namespace = str_replace('.', '\\', $config['model']);
-            if ($config['type'] === 'hasOne') {
-                return $primaryModel->hasOne(new $namespace(), $config['foreignKey'], $config['localKey']);
-            }
-            if ($config['type'] === 'hasMany') {
-                return $primaryModel->hasMany(new $namespace(), $config['foreignKey'], $config['localKey']);
-            }
-            if ($config['type'] === 'belongsTo') {
-                return $primaryModel->belongsTo(new $namespace(), $config['foreignKey'], $config['localKey']);
-            }
-            if ($config['type'] === 'belongsToMany') {
-                $primaryModel->belongsToMany(
-                    new $namespace(),
-                    $config['middleTable'],
-                    $config['foreignKey'],
-                    $config['localKey']
-                );
-                if (! empty($config['as'])) {
-                    $primaryModel->as($config['as']);
-                }
-                if (! empty($config['where']) && is_array($config['where'])) {
-                    foreach ($config['where'] as $field => $value) {
-                        $primaryModel->wherePivot($field, $value);
-                    }
-                }
-                if (! empty($config['whereIn']) && is_array($config['whereIn'])) {
-                    foreach ($config['whereIn'] as $field => $value) {
-                        $primaryModel->wherePivotIn($field, $value);
-                    }
-                }
-            }
-        });
+        return $this->update($table_id, $id, [$field => $value]);
     }
 
     protected function userDataScope($query, ?int $userid = null, $dataScopeField = 'created_by')
@@ -823,4 +609,253 @@ class AutoFromMapper
             default => '=',
         };
     }
+
+    //
+    //    /**
+    //     * 数据导入.
+    //     * @throws Exception
+    //     * @throws ContainerExceptionInterface
+    //     * @throws NotFoundExceptionInterface
+    //     */
+    //    #[Transaction]
+    //    public function import(string $dto, ?\Closure $closure = null): bool
+    //    {
+    //        return (new MineCollection())->import($dto, $this->getModel(), $closure);
+    //    }
+    //
+    //    /**
+    //     * 闭包通用查询设置.
+    //     * @param null|\Closure $closure 传入的闭包查询
+    //     */
+    //    public function settingClosure(?\Closure $closure = null): Builder
+    //    {
+    //        return $this->model::where(function ($query) use ($closure) {
+    //            if ($closure instanceof \Closure) {
+    //                $closure($query);
+    //            }
+    //        });
+    //    }
+    //
+    //    /**
+    //     * 闭包通用方式查询一条数据.
+    //     * @param array|string[] $column
+    //     * @return null|Builder|Model
+    //     */
+    //    public function one(?\Closure $closure = null, array $column = ['*'])
+    //    {
+    //        return $this->settingClosure($closure)->select($column)->first();
+    //    }
+    //
+    //    /**
+    //     * 闭包通用方式查询数据集合.
+    //     * @param array|string[] $column
+    //     */
+    //    public function get(?\Closure $closure = null, array $column = ['*']): array
+    //    {
+    //        return $this->settingClosure($closure)->get($column)->toArray();
+    //    }
+    //
+    //    /**
+    //     * 闭包通用方式统计
+    //     */
+    //    public function count(?\Closure $closure = null, string $column = '*'): int
+    //    {
+    //        return $this->settingClosure($closure)->count($column);
+    //    }
+    //
+    //    /**
+    //     * 闭包通用方式查询最大值
+    //     * @return mixed|string|void
+    //     */
+    //    public function max(?\Closure $closure = null, string $column = '*')
+    //    {
+    //        return $this->settingClosure($closure)->max($column);
+    //    }
+    //
+    //    /**
+    //     * 闭包通用方式查询最小值
+    //     * @return mixed|string|void
+    //     */
+    //    public function min(?\Closure $closure = null, string $column = '*')
+    //    {
+    //        return $this->settingClosure($closure)->min($column);
+    //    }
+    //
+    //    /**
+    //     * 数字更新操作.
+    //     */
+    //    public function numberOperation(mixed $id, string $field, int $value): bool
+    //    {
+    //        return $this->update($id, [$field => $value]);
+    //    }
+    //
+    //    /**
+    //     * 搜索参数注入.
+    //     * @param mixed $params
+    //     */
+    //    public function paramsEmptyQuery($params, array $where = [], mixed $query = null): mixed
+    //    {
+    //        if (! $query) {
+    //            $query = $this->model::query();
+    //        }
+    //
+    //        $object = new class($params, $where) {
+    //            public array $paramsWhere = [];
+    //
+    //            public function __construct($params, $where)
+    //            {
+    //                foreach ($params as $field => $value) {
+    //                    if (isset($where[$field])) {
+    //                        $this->caseWhere($field, $where[$field], $value);
+    //                    }
+    //                }
+    //            }
+    //
+    //            public function caseWhere($field, $operator, $value): void
+    //            {
+    //                if (is_scalar($operator)) {
+    //                    $res = $this->scalarOptionHandle($field, $operator, $value);
+    //                } elseif (is_array($operator)) {
+    //                    $res = $this->arrayOptionHandle($field, $operator, $value);
+    //                } else {
+    //                    $res = $this->scalarOptionHandle($field, $operator, $value);
+    //                }
+    //                $this->paramsWhere[$res[0]] = [$res[1], $res[2]];
+    //            }
+    //
+    //            /**
+    //             * 标量类型获取.
+    //             * @param mixed $field
+    //             * @param mixed $operator
+    //             * @param mixed $value
+    //             */
+    //            public function scalarOptionHandle($field, $operator, $value): array
+    //            {
+    //                return [$field, $operator, $value];
+    //            }
+    //
+    //            /**
+    //             * 数组类型处理.
+    //             * @param mixed $field
+    //             * @param mixed $operator
+    //             * @param mixed $value
+    //             */
+    //            public function arrayOptionHandle($field, $operator, $value): array
+    //            {
+    //                return [$field, $operator, $value];
+    //            }
+    //
+    //            public function getParamsWhere(): array
+    //            {
+    //                return $this->paramsWhere;
+    //            }
+    //        };
+    //        return $this->emptyBuildQuery($object->getParamsWhere(), $query);
+    //    }
+    //
+    //    /**
+    //     * 非空查询方法
+    //     * 案例
+    //     * [
+    //     *  'field' => 1,
+    //     *  'field' => ['=', 'index']
+    //     * ].
+    //     */
+    //    public function emptyBuildQuery(array $paramsWhere = [], mixed $query = null): mixed
+    //    {
+    //        if (! $query) {
+    //            $query = $this->model::query();
+    //        }
+    //        $object = new class($paramsWhere, $query) {
+    //            public mixed $query;
+    //
+    //            public function __construct($paramsWhere, mixed $query)
+    //            {
+    //                $this->query = $query;
+    //                foreach ($paramsWhere as $field => $value) {
+    //                    if ($value) {
+    //                        if (is_scalar($value)) {
+    //                            $this->scalarWhere($field, '=', $value);
+    //                        } elseif (is_array($value)) {
+    //                            $this->arrayWhere($field, $value);
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //
+    //            public function scalarWhere($field, $operator, $value): void
+    //            {
+    //                [$operator, $value] = $this->optionHandler($field, $operator, $value);
+    //                $this->query->where($field, $operator, $value);
+    //            }
+    //
+    //            private function arrayWhere($field, $value): void
+    //            {
+    //                [$value[0], $value[1]] = $this->optionHandler($field, $value[0], $value[1]);
+    //                $this->query->where($field, $value[0], $value[1]);
+    //            }
+    //
+    //            public function optionHandler($field, $operator, $value): array
+    //            {
+    //                switch ($operator) {
+    //                    case 'like':
+    //                    case 'like%':
+    //                        if (is_scalar($value)) {
+    //                            throw new NormalStatusException("{$field} type error:The expectation is a string");
+    //                        }
+    //                        $likeMap = ['like' => '%#{val}%', 'like%' => '#{val}%'];
+    //                        $value = str_replace('#{val}', $value, $likeMap[$operator]);
+    //                        break;
+    //                }
+    //                return [$operator, $value];
+    //            }
+    //
+    //            public function getQuery(): mixed
+    //            {
+    //                return $this->query;
+    //            }
+    //        };
+    //        return $object->getQuery();
+    //    }
+    //
+    //    /**
+    //     * 动态关联模型.
+    //     * @param $config ['name', 'model', 'type', 'localKey', 'foreignKey', 'middleTable', 'as', 'where', 'whereIn' ]
+    //     */
+    //    public function dynamicRelations(MineModel $model, &$config): void
+    //    {
+    //        $model->resolveRelationUsing($config['name'], function ($primaryModel) use ($config) {
+    //            $namespace = str_replace('.', '\\', $config['model']);
+    //            if ($config['type'] === 'hasOne') {
+    //                return $primaryModel->hasOne(new $namespace(), $config['foreignKey'], $config['localKey']);
+    //            }
+    //            if ($config['type'] === 'hasMany') {
+    //                return $primaryModel->hasMany(new $namespace(), $config['foreignKey'], $config['localKey']);
+    //            }
+    //            if ($config['type'] === 'belongsTo') {
+    //                return $primaryModel->belongsTo(new $namespace(), $config['foreignKey'], $config['localKey']);
+    //            }
+    //            if ($config['type'] === 'belongsToMany') {
+    //                $primaryModel->belongsToMany(
+    //                    new $namespace(),
+    //                    $config['middleTable'],
+    //                    $config['foreignKey'],
+    //                    $config['localKey']
+    //                );
+    //                if (! empty($config['as'])) {
+    //                    $primaryModel->as($config['as']);
+    //                }
+    //                if (! empty($config['where']) && is_array($config['where'])) {
+    //                    foreach ($config['where'] as $field => $value) {
+    //                        $primaryModel->wherePivot($field, $value);
+    //                    }
+    //                }
+    //                if (! empty($config['whereIn']) && is_array($config['whereIn'])) {
+    //                    foreach ($config['whereIn'] as $field => $value) {
+    //                        $primaryModel->wherePivotIn($field, $value);
+    //                    }
+    //                }
+    //            }
+    //        });
+    //    }
 }

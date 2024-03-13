@@ -117,11 +117,11 @@ class AutoFormService
     /**
      * 批量新增.
      */
-    public function batchSave(array $collects): bool
+    public function batchSave(mixed $table_id, array $collects): bool
     {
-        return Db::transaction(function () use ($collects) {
+        return Db::transaction(function () use ($collects, $table_id) {
             foreach ($collects as $collect) {
-                $this->mapper->save($collect);
+                $this->mapper->save($table_id, $collect);
             }
             return true;
         });
@@ -140,9 +140,9 @@ class AutoFormService
      * User:mike.
      * @return null|HigherOrderTapProxy|mixed|void
      */
-    public function value(array $condition, string $columns = 'id')
+    public function value(mixed $table_id, array $condition, string $columns = 'id')
     {
-        return $this->mapper->value($condition, $columns);
+        return $this->mapper->value($table_id, $condition, $columns);
     }
 
     /**
@@ -150,18 +150,18 @@ class AutoFormService
      * User:mike.
      * @return null|array
      */
-    public function pluck(array $condition, string $columns = 'id'): array
+    public function pluck(mixed $table_id, array $condition, string $columns = 'id'): array
     {
-        return $this->mapper->pluck($condition, $columns);
+        return $this->mapper->pluck($table_id, $condition, $columns);
     }
 
     /**
      * 从回收站读取一条数据.
      * @noinspection PhpUnused
      */
-    public function readByRecycle(mixed $id): MineModel
+    public function readByRecycle(mixed $table_id, mixed $id): MineModel
     {
-        return $this->mapper->readByRecycle($id);
+        return $this->mapper->readByRecycle($table_id, $id);
     }
 
     /**
@@ -183,9 +183,9 @@ class AutoFormService
     /**
      * 按条件更新数据.
      */
-    public function updateByCondition(array $condition, array $data): bool
+    public function updateByCondition(mixed $table_id, array $condition, array $data): bool
     {
-        return $this->mapper->updateByCondition($condition, $data);
+        return $this->mapper->updateByCondition($table_id, $condition, $data);
     }
 
     /**
@@ -207,33 +207,33 @@ class AutoFormService
     /**
      * 单个或批量禁用数据.
      */
-    public function disable(array $ids, string $field = 'status'): bool
+    public function disable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
-        return ! empty($ids) && $this->mapper->disable($ids, $field);
+        return ! empty($ids) && $this->mapper->disable($table_id, $ids, $field);
     }
 
     /**
      * 单个或批量启用数据.
      */
-    public function enable(array $ids, string $field = 'status'): bool
+    public function enable(mixed $table_id, array $ids, string $field = 'status'): bool
     {
-        return ! empty($ids) && $this->mapper->enable($ids, $field);
+        return ! empty($ids) && $this->mapper->enable($table_id, $ids, $field);
     }
 
     /**
      * 修改数据状态
      */
-    public function changeStatus(mixed $id, string $value, string $filed = 'status'): bool
+    public function changeStatus(mixed $table_id, mixed $id, string $value, string $filed = 'status'): bool
     {
-        return $value == MineModel::ENABLE ? $this->mapper->enable([$id], $filed) : $this->mapper->disable([$id], $filed);
+        return $value == 1 ? $this->mapper->enable($table_id, [$id], $filed) : $this->mapper->disable($table_id, [$id], $filed);
     }
 
     /**
      * 数字更新操作.
      */
-    public function numberOperation(mixed $id, string $field, int $value): bool
+    public function numberOperation(mixed $table_id, mixed $id, string $field, int $value): bool
     {
-        return $this->mapper->numberOperation($id, $field, $value);
+        return $this->mapper->numberOperation($table_id, $id, $field, $value);
     }
 
     /**

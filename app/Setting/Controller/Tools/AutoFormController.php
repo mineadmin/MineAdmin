@@ -59,7 +59,19 @@ class AutoFormController extends MineController
     #[GetMapping('index/{table_id}')]
     public function index($table_id): ResponseInterface
     {
-        return $this->success($this->service->getPageList($table_id, $this->request->all()));
+        $table = $this->tablesService->read($table_id)->toArray();
+        if ($table['type'] == 'tree') {
+            $data = $this->service->getTreeList($table_id, $this->request->all());
+        } else {
+            $data = $this->service->getPageList($table_id, $this->request->all());
+        }
+        return $this->success($data);
+    }
+
+    #[GetMapping('tree/{table_id}')]
+    public function tree($table_id): ResponseInterface
+    {
+        return $this->success($this->service->getSelectTree($table_id));
     }
 
     /**

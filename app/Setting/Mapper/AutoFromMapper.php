@@ -143,10 +143,52 @@ class AutoFromMapper
         ];
     }
 
+    public function toTree(array $data = [], int $parentId = 0, string $id = 'id', string $parentField = 'parent_id', string $children = 'children'): array
+    {
+        if (empty($data)) {
+            return [];
+        }
+
+        $tree = [];
+
+        foreach ($data as $value) {
+            $value = (array) $value;
+            if ($value[$parentField] == $parentId) {
+                $child = $this->toTree((array) $data, $value[$id], $id, $parentField, $children);
+                if (! empty($child)) {
+                    $value[$children] = $child;
+                }
+                array_push($tree, $value);
+            }
+        }
+
+        unset($data);
+        return $tree;
+    }
+
+    /**
+     * 获取前端选择树.
+     */
+    public function getSelectTree(mixed $table_id): array
+    {
+        $table = SettingGenerateTables::find($table_id);
+        if ($table->type != 'tree') {
+            return [];
+        }
+
+        $select[] = $table->options['tree_id'];
+        $select[] = $table->options['tree_parent_id'];
+        $select[] = $table->options['tree_id'] . ' AS value';
+        $select[] = $table->options['tree_name'] . ' AS label';
+
+        return $this->toTree(Db::table($table->getTableName())->select($select)->get()->toArray());
+    }
+
     /**
      * 获取树列表.
      */
     public function getTreeList(
+        mixed $table_id,
         ?array $params = null,
         bool $isScope = true,
         string $id = 'id',
@@ -155,8 +197,8 @@ class AutoFromMapper
     ): array {
         $params['_mineadmin_tree'] = true;
         $params['_mineadmin_tree_pid'] = $parentField;
-        $data = $this->listQuerySetting($params, $isScope)->get();
-        return $data->toTree([], $data[0]->{$parentField} ?? 0, $id, $parentField, $children);
+        $data = $this->listQuerySetting($table_id, $params, $isScope)->get();
+        return $this->toTree($data->toArray(), $data[0]->{$parentField} ?? 0, $id, $parentField, $children);
     }
 
     /**
@@ -389,6 +431,7 @@ class AutoFromMapper
         if (is_null($pkColumn)) {
             return false;
         }
+        $columns = SettingGenerateColumns::query()->pluck('column_name')->toArray();
         $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, true);
         return Db::table($table->getTableName())->where($condition)->update($data) > 0;
     }

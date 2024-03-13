@@ -83,27 +83,35 @@ class AutoFormService
     }
 
     /**
+     * 获取前端选择树.
+     */
+    public function getSelectTree(mixed $table_id): array
+    {
+        return $this->mapper->getSelectTree($table_id);
+    }
+
+    /**
      * 获取树列表.
      */
-    public function getTreeList(?array $params = null, bool $isScope = true): array
+    public function getTreeList(mixed $table_id, ?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = false;
-        return $this->mapper->getTreeList($params, $isScope);
+        return $this->mapper->getTreeList($table_id, $params, $isScope);
     }
 
     /**
      * 从回收站获取树列表.
      */
-    public function getTreeListByRecycle(?array $params = null, bool $isScope = true): array
+    public function getTreeListByRecycle(mixed $table_id, ?array $params = null, bool $isScope = true): array
     {
         if ($params['select'] ?? null) {
             $params['select'] = explode(',', $params['select']);
         }
         $params['recycle'] = true;
-        return $this->mapper->getTreeList($params, $isScope);
+        return $this->mapper->getTreeList($table_id, $params, $isScope);
     }
 
     /**

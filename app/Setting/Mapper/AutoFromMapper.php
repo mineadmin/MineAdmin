@@ -276,7 +276,7 @@ class AutoFromMapper
                             [$params[$column['column_name']][0], $params[$column['column_name']][1]]
                         );
                     }
-                } if (isset($params[$column['column_name']]) && filled($params[$column['column_name']])) {
+                } elseif (isset($params[$column['column_name']]) && filled($params[$column['column_name']])) {
                     if ($query_type == 'in') {
                         $query->whereIn($column['column_name'], $params[$column['column_name']]);
                     } elseif ($query_type == 'notin') {
@@ -342,6 +342,12 @@ class AutoFromMapper
             $removePk = true;
         }
         $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, $removePk);
+        if (in_array('created_at', $columns)) {
+            $data['created_at'] = date('Y-m-d H:i:s');
+        }
+        if (isset($columns['created_by'])) {
+            $data['created_by'] = user()->getId();
+        }
         return Db::table($table->getTableName())->insertGetId($data);
     }
 
@@ -418,6 +424,12 @@ class AutoFromMapper
         }
         $columns = SettingGenerateColumns::query()->pluck('column_name')->toArray();
         $this->filterExecuteAttributes($pkColumn->column_name, $columns, $data, true);
+        if (in_array('updated_at', $columns)) {
+            $data['updated_at'] = date('Y-m-d H:i:s');
+        }
+        if (isset($columns['created_by'])) {
+            $data['updated_by'] = user()->getId();
+        }
         return Db::table($table->getTableName())->where($pkColumn->column_name, '=', $id)->update($data) > 0;
     }
 

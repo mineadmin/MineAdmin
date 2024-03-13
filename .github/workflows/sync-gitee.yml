@@ -8,7 +8,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     env:
-      SSH_PRIVATE_KEY: ${{ secrets.SPLIT_PRIVATE_KEY }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

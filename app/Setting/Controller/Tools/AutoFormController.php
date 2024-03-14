@@ -48,7 +48,10 @@ class AutoFormController extends MineController
     #[GetMapping(path: '{table_id}'), Permission('setting:autoform:{table_id}')]
     public function table(mixed $table_id)
     {
-        $table = $this->tablesService->read($table_id)->toArray();
+        $table = $this->tablesService->read($table_id);
+        if (empty($table)) {
+            return $this->error('没找到此表, 请检查表id');
+        }
         $columns = $this->columnsService->getList(['table_id' => $table_id]);
         $table['columns'] = $columns;
         return $this->response->success('ok', $table);
@@ -60,8 +63,11 @@ class AutoFormController extends MineController
     #[GetMapping('index/{table_id}'), Permission('setting:autoform:{table_id}')]
     public function index($table_id): ResponseInterface
     {
-        $table = $this->tablesService->read($table_id)->toArray();
-        if ($table['type'] == 'tree') {
+        $table = $this->tablesService->read($table_id);
+        if (empty($table)) {
+            return $this->error('没找到此表, 请检查表id');
+        }
+        if ($table->type == 'tree') {
             $data = $this->service->getTreeList($table_id, $this->request->all());
         } else {
             $data = $this->service->getPageList($table_id, $this->request->all());

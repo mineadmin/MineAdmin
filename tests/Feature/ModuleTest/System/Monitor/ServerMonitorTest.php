@@ -14,7 +14,7 @@ beforeEach(function () {
 });
 
 test('monitor test', function () {
-    if (swoole_is_in_container()) {
+    if (is_in_container()) {
         testFailResponse($this->get($this->prefix . '/monitor'));
     } else {
         testSuccessResponse($this->get($this->prefix . '/monitor'));

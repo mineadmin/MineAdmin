@@ -22,6 +22,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
+use Mine\Annotation\Permission;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -47,7 +48,7 @@ class AutoFormController extends MineController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[GetMapping(path: '{table_id}')]
+    #[GetMapping(path: '{table_id}'),Permission('setting.autoform,setting:autoform:table')]
     public function table(mixed $table_id)
     {
         $table = $this->tablesService->read($table_id)?->toArray();
@@ -62,7 +63,7 @@ class AutoFormController extends MineController
     /**
      * 列表.
      */
-    #[GetMapping('index/{table_id}')]
+    #[GetMapping('index/{table_id}'),Permission('setting.autoform,setting:autoform:index')]
     public function index($table_id): ResponseInterface
     {
         $table = $this->tablesService->read($table_id)?->toArray();
@@ -77,7 +78,7 @@ class AutoFormController extends MineController
         return $this->success($data);
     }
 
-    #[GetMapping('tree/{table_id}')]
+    #[GetMapping('tree/{table_id}'),Permission('setting.autoform,setting:autoform:tree')]
     public function tree($table_id): ResponseInterface
     {
         return $this->success($this->service->getSelectTree($table_id));
@@ -85,10 +86,8 @@ class AutoFormController extends MineController
 
     /**
      * 新增.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    #[PostMapping('save/{table_id}')]
+    #[PostMapping('save/{table_id}'),Permission('setting.autoform,setting:autoform:save')]
     public function save($table_id): ResponseInterface
     {
         return $this->success(['id' => $this->service->save($table_id, $this->request->all())]);
@@ -96,11 +95,8 @@ class AutoFormController extends MineController
 
     /**
      * 更新.
-     * @param int $id
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    #[PutMapping('update/{table_id}/{id}')]
+    #[PutMapping('update/{table_id}/{id}'),Permission('setting.autoform,setting:autoform:update')]
     public function update(mixed $table_id, mixed $id): ResponseInterface
     {
         return $this->service->update($table_id, $id, $this->request->all()) ? $this->success() : $this->error();
@@ -108,16 +104,14 @@ class AutoFormController extends MineController
 
     /**
      * 读取数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    #[GetMapping('read/{table_id}/{id}')]
+    #[GetMapping('read/{table_id}/{id}'),Permission('setting.autoform,setting:autoform:read')]
     public function read(mixed $table_id, int $id): ResponseInterface
     {
         return $this->success($this->service->read($table_id, $id));
     }
 
-    #[DeleteMapping('delete/{table_id}')]
+    #[DeleteMapping('delete/{table_id}'),Permission('setting.autoform,setting:autoform:delete')]
     public function delete(mixed $table_id): ResponseInterface
     {
         $ids = (array) $this->request->input('ids', []);
@@ -126,10 +120,8 @@ class AutoFormController extends MineController
 
     /**
      * 更改数据状态
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    #[PutMapping('changeStatus/{table_id}')]
+    #[PutMapping('changeStatus/{table_id}'),Permission('setting.autoform,setting:autoform:changeStatus')]
     public function changeStatus($table_id): ResponseInterface
     {
         return $this->service->changeStatus(
@@ -143,7 +135,7 @@ class AutoFormController extends MineController
     /**
      * 回收站角色分页列表.
      */
-    #[GetMapping('recycle/{table_id}')]
+    #[GetMapping('recycle/{table_id}'),Permission('setting.autoform,setting:autoform:recycle')]
     public function recycle($table_id): ResponseInterface
     {
         return $this->success($this->service->getPageListByRecycle($table_id, $this->request->all()));
@@ -152,7 +144,7 @@ class AutoFormController extends MineController
     /**
      * 单个或批量真实删除数据 （清空回收站）.
      */
-    #[DeleteMapping('realDelete/{table_id}')]
+    #[DeleteMapping('realDelete/{table_id}'),Permission('setting.autoform,setting:autoform:realDelete')]
     public function realDelete($table_id): ResponseInterface
     {
         return $this->service->realDelete($table_id, (array) $this->request->input('ids', [])) ? $this->success() : $this->error();
@@ -161,7 +153,7 @@ class AutoFormController extends MineController
     /**
      * 单个或批量恢复在回收站的数据.
      */
-    #[PutMapping('recovery/{table_id}')]
+    #[PutMapping('recovery/{table_id}'),Permission('setting.autoform,setting:autoform:recovery')]
     public function recovery($table_id): ResponseInterface
     {
         return $this->service->recovery($table_id, (array) $this->request->input('ids', [])) ? $this->success() : $this->error();
@@ -170,7 +162,7 @@ class AutoFormController extends MineController
     /**
      * 数据导入.
      */
-    #[PostMapping('import')]
+    #[PostMapping('import'),Permission('setting.autoform,setting:autoform:import')]
     public function import(): ResponseInterface
     {
         return $this->error('未实现');
@@ -179,7 +171,7 @@ class AutoFormController extends MineController
     /**
      * 数据导出.
      */
-    #[PostMapping('export')]
+    #[PostMapping('export'),Permission('setting.autoform,setting:autoform:export')]
     public function export(): ResponseInterface
     {
         return $this->error('未实现');

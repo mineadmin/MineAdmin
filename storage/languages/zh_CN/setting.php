@@ -25,4 +25,7 @@ return [
         'not_found_table' => '找不到表名',
     ],
     'names_type_error' => '给定的数据类型错误',
+    'auto_from' => [
+        'table_not_found' => '表找不到',
+    ],
 ];

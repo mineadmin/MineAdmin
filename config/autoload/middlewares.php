@@ -10,11 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use Hyperf\Validation\Middleware\ValidationMiddleware;
-use Mine\Middlewares\CheckModuleMiddleware;
 
 return [
     'http' => [
-        CheckModuleMiddleware::class,
         ValidationMiddleware::class,
     ],
 ];

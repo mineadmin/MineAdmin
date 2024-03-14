@@ -53,6 +53,8 @@ class AutoFormController extends MineController
             return $this->error('没找到此表, 请检查表id');
         }
         $columns = $this->columnsService->getList(['table_id' => $table_id]);
+        $table = $table->toArray();
+
         $table['columns'] = $columns;
         return $this->response->success('ok', $table);
     }

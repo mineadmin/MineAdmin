@@ -58,6 +58,7 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
                 'sort' => count($data) - $k,
                 'allow_roles' => $item['allow_roles'] ?? null,
                 'options' => $item['options'] ?? null,
+                'extra' => $item['extra'],
             ];
 
             // 设置默认选项

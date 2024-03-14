@@ -645,8 +645,7 @@ class AutoFromMapper
             }
         };
 
-        $a = $dataScope->execute();
-        var_dump(get_class($a));
+        return $dataScope->execute();
     }
 
     protected function getQueryType(string $query_type)

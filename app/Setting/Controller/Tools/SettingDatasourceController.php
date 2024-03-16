@@ -19,12 +19,14 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineCollection;
 use Mine\MineController;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
@@ -37,6 +39,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class SettingDatasourceController.
  */
 #[Controller(prefix: 'setting/datasource'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class SettingDatasourceController extends MineController
 {
     /**

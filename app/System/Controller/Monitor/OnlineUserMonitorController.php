@@ -16,9 +16,11 @@ use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -30,6 +32,7 @@ use Psr\SimpleCache\InvalidArgumentException;
  * Class OnlineUserMonitorController.
  */
 #[Controller(prefix: 'system/onlineUser'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class OnlineUserMonitorController extends MineController
 {
     #[Inject]

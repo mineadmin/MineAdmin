@@ -223,7 +223,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
         while (false !== ($configKey = $redis->scan($iterator, $prefix . 'config:*', 100))) {
             $redis->del($configKey);
         }
-        while (false !== ($dictKey = $redis->scan($iterator, $prefix . 'Dict:*', 100))) {
+        while (false !== ($dictKey = $redis->scan($iterator, $prefix . 'system:dict:*', 100))) {
             $redis->del($dictKey);
         }
         $redis->del([$prefix . 'crontab', $prefix . 'modules']);

@@ -124,7 +124,7 @@ class SystemDeptMapper extends AbstractMapper
     /**
      * 查询部门名称.
      */
-    public function getDeptName(array $ids = null): array
+    public function getDeptName(?array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }

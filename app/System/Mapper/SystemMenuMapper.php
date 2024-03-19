@@ -111,7 +111,7 @@ class SystemMenuMapper extends AbstractMapper
     /**
      * 查询菜单code.
      */
-    public function getMenuCode(array $ids = null): array
+    public function getMenuCode(?array $ids = null): array
     {
         return $this->model::query()->whereIn('id', $ids)->pluck('code')->toArray();
     }
@@ -179,7 +179,7 @@ class SystemMenuMapper extends AbstractMapper
     /**
      * 查询菜单code.
      */
-    public function getMenuName(array $ids = null): array
+    public function getMenuName(?array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }

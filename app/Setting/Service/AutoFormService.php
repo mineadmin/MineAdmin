@@ -250,7 +250,7 @@ class AutoFormService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function export(array $params, ?string $dto, string $filename = null, \Closure $callbackData = null): ResponseInterface
+    public function export(array $params, ?string $dto, ?string $filename = null, ?\Closure $callbackData = null): ResponseInterface
     {
         if (empty($dto)) {
             return container()->get(MineResponse::class)->error('导出未指定DTO');

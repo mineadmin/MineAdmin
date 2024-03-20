@@ -11,4 +11,8 @@ php bin/hyperf.php db:seed --path=app/System/Database/Seeders
 
 php bin/hyperf.php mine:update
 
-composer test
+php bin/hyperf.php initial:super-admin --yes
+
+
+
+./vendor/bin/pest --parallel

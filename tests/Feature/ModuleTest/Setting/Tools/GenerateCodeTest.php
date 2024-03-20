@@ -100,18 +100,3 @@ test('sync delete', function () {
         'ids' => [$this->mock->id],
     ]));
 });
-
-//
-// test('generator', function () {
-//    var_dump($this->post($this->prefix . '/generate', [
-//        'ids' => [
-//            $this->mock->id,
-//        ],
-//    ]));
-//    expect(true)->toBeTrue();
-// //    testSuccessResponse($this->post($this->prefix . '/generate', [
-// //        'ids' => [
-// //            $this->mock->id,
-// //        ],
-// //    ]));
-// });

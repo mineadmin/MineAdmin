@@ -101,7 +101,7 @@ trait MineControllerTestCase
         testSuccessResponse($this->put($this->prefix . '/' . $uri, compact('id', 'numberName', 'numberValue')));
     }
 
-    public function getParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function getParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -113,7 +113,7 @@ trait MineControllerTestCase
         }
     }
 
-    public function postParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function postParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -125,7 +125,7 @@ trait MineControllerTestCase
         }
     }
 
-    public function delParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function delParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -137,7 +137,7 @@ trait MineControllerTestCase
         }
     }
 
-    public function putParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function putParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;

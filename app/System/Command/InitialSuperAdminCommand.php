@@ -43,7 +43,7 @@ class InitialSuperAdminCommand extends HyperfCommand
             $password = '12345678';
         }
         $username = $this->username;
-        $this->mock = SystemUser::create([
+        SystemUser::create([
             'id' => env('SUPER_ADMIN', 1),
             'username' => $username,
             'password' => $password,

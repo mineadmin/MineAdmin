@@ -15,6 +15,7 @@ namespace App\System\Command;
 use App\System\Model\SystemUser;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;
+use Hyperf\DbConnection\Annotation\Transactional;
 use Hyperf\DbConnection\Db;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -25,6 +26,7 @@ class InitialSuperAdminCommand extends HyperfCommand
 
     protected string $username = 'superAdmin';
 
+    #[Transactional]
     public function __invoke()
     {
         $yes = $this->input->getOption('yes');

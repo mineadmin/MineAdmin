@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Setting\Model\SettingConfigGroup;
+use Hyperf\DbConnection\Db;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
@@ -20,10 +21,12 @@ test('config group controller', function () {
         $this->buildTest('getNoParamsTest') => 'index',
     ]);
     $this->remoteTest();
-    testSuccessResponse($this->post($this->prefix . '/save', [
-        'name' => Str::random(3),
-        'code' => Str::random(4),
-    ]));
-    $id = SettingConfigGroup::query()->first()->value('id');
-    testSuccessResponse($this->delete($this->prefix . '/delete', compact('id')));
+    Db::transaction(function () {
+        testSuccessResponse($this->post($this->prefix . '/save', [
+            'name' => Str::random(3),
+            'code' => Str::random(4),
+        ]));
+        $id = SettingConfigGroup::query()->first()->value('id');
+        testSuccessResponse($this->delete($this->prefix . '/delete', compact('id')));
+    });
 });

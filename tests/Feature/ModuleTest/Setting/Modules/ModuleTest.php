@@ -21,13 +21,15 @@ use Nette\Utils\FileSystem;
  */
 beforeEach(function () {
     $this->prefix = '/setting/module';
+    if (file_exists(BASE_PATH . '/app/Demo')) {
+        FileSystem::delete(BASE_PATH . '/app/Demo');
+    }
 });
 
 test('module controller test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
     ]);
-    FileSystem::delete(BASE_PATH . '/app/Demo');
     testSuccessResponse($this->put($this->prefix . '/save', [
         'name' => 'Demo',
         'label' => 'sample module',
@@ -40,4 +42,8 @@ test('module controller test', function () {
     testSuccessResponse($this->delete($this->prefix . '/delete', [
         'name' => 'Demo',
     ]));
+});
+
+afterEach(function () {
+    FileSystem::delete(BASE_PATH . '/app/Demo');
 });

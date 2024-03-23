@@ -9,7 +9,10 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Nette\Utils\FileSystem;
+
 test('common test', function () {
+    FileSystem::delete(BASE_PATH . '/app/Demo');
     $result = $this->get('/setting/common/getModuleList');
     testSuccessResponse($result);
     expect($result['data'])

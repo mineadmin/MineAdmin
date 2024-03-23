@@ -14,6 +14,7 @@ use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemOperLog;
 use App\System\Model\SystemQueueLog;
 use Carbon\Carbon;
+use Hyperf\Stringable\Str;
 
 beforeEach(function () {
     $this->prefix = '/system/logs';
@@ -51,9 +52,28 @@ test('logs test', function () {
         'consume_status' => 2,
         'delay_time' => 3,
     ]);
+
+    SystemQueueLog::create([
+        'exchange_name' => 'xxx',
+        'routing_key_name' => 'xxx',
+        'queue_name' => 'xxx',
+        'queue_content' => 'xxx',
+        'log_content' => 'xxxx',
+        'produce_status' => 1,
+        'consume_status' => 2,
+        'delay_time' => 3,
+    ]);
     testSuccessResponse($this->delete($this->prefix . '/deleteQueueLog', [
-        'ids' => array_column(SystemQueueLog::query()->select(['id'])->get()->toArray(), 'id'),
+        'ids' => array_column(SystemQueueLog::query()->limit(1)->select(['id'])->get()->toArray(), 'id'),
     ]));
+    SystemLoginLog::create([
+        'username' => Str::random(10),
+        'ip' => '127.0.0.1',
+        'ip_location' => 'xxx',
+        'login_time' => Carbon::now(),
+        'os' => 'xxx',
+        'browser' => 'xxx',
+    ]);
     testSuccessResponse($this->delete($this->prefix . '/deleteLoginLog', [
         'ids' => array_column(SystemLoginLog::query()->select(['id'])->get()->toArray(), 'id'),
     ]));

@@ -51,38 +51,38 @@ trait MineControllerTestCase
     ): int {
         $saveUri = $this->prefix . '/' . $uris[0];
         foreach ($failParams as $param) {
-            testFailResponse($this->post($saveUri, $param));
+            expect($this->post($saveUri, $param))->toBeHttpFail();
         }
         $result = $this->post($saveUri, $successParams);
-        testSuccessResponse($result);
+        expect($result)->toBeHttpSuccess();
         $id = Arr::get($result, 'data.id');
         $updateUri = $this->prefix . '/' . $uris[1] . '/' . $id;
-        testSuccessResponse($this->put($updateUri, $updateSuccessParams));
+        expect($this->put($updateUri, $updateSuccessParams))->toBeHttpSuccess();
         foreach ($updateFailParams as $param) {
-            testFailResponse($this->put($updateUri, $param));
+            expect($this->put($updateUri, $param))->toBeHttpFail();
         }
         return $id;
     }
 
     public function remoteTest(string $uri = 'remote')
     {
-        testSuccessResponse($this->post($this->prefix . '/' . $uri));
+        expect($this->post($this->prefix . '/' . $uri))->toBeHttpSuccess();
     }
 
     public function recoveryAndDeleteTest(array $ids, array $uris = ['delete', 'realDelete', 'recovery'])
     {
         foreach ($uris as $url) {
             if ($url === 'recovery') {
-                testSuccessResponse($this->put($this->prefix . '/' . $url, compact('ids')));
+                expect($this->put($this->prefix . '/' . $url, compact('ids')))->toBeHttpSuccess();
             } else {
-                testSuccessResponse($this->delete($this->prefix . '/' . $url, compact('ids')));
+                expect($this->delete($this->prefix . '/' . $url, compact('ids')))->toBeHttpSuccess();
             }
         }
     }
 
     public function changeStatusTest(int|string $id, int $status = 1, string $uri = 'changeStatus')
     {
-        testSuccessResponse($this->put($this->prefix . '/' . $uri, compact('id', 'status')));
+        expect($this->put($this->prefix . '/' . $uri, compact('id', 'status')))->toBeHttpSuccess();
     }
 
     public function getNoParamsTest(string $route, ?\Closure $customer = null): void
@@ -92,16 +92,16 @@ trait MineControllerTestCase
         if ($customer !== null) {
             $customer($result);
         } else {
-            testSuccessResponse($result);
+            expect($result)->toBeHttpSuccess();
         }
     }
 
     public function numberOperationTest(int|string $id, string $numberName = 'created_by', int $numberValue = 1, string $uri = 'numberOperation')
     {
-        testSuccessResponse($this->put($this->prefix . '/' . $uri, compact('id', 'numberName', 'numberValue')));
+        expect($this->put($this->prefix . '/' . $uri, compact('id', 'numberName', 'numberValue')))->toBeHttpSuccess();
     }
 
-    public function getParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function getParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -109,11 +109,11 @@ trait MineControllerTestCase
         if ($customerTest !== null) {
             $customerTest($result);
         } else {
-            testSuccessResponse($result);
+            expect($result)->toBeHttpSuccess();
         }
     }
 
-    public function postParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function postParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -121,11 +121,11 @@ trait MineControllerTestCase
         if ($customerTest !== null) {
             $customerTest($result);
         } else {
-            testSuccessResponse($result);
+            expect($result)->toBeHttpSuccess();
         }
     }
 
-    public function delParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function delParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -133,11 +133,11 @@ trait MineControllerTestCase
         if ($customerTest !== null) {
             $customerTest($result);
         } else {
-            testSuccessResponse($result);
+            expect($result)->toBeHttpSuccess();
         }
     }
 
-    public function putParamsMockTest(string $route, array|\Closure $customer = null, ?\Closure $customerTest = null): void
+    public function putParamsMockTest(string $route, null|array|\Closure $customer = null, ?\Closure $customerTest = null): void
     {
         $uri = $this->getUri($route);
         $params = $customer instanceof \Closure ? $customer() : $customer;
@@ -145,7 +145,7 @@ trait MineControllerTestCase
         if ($customerTest !== null) {
             $customerTest($result);
         } else {
-            testSuccessResponse($result);
+            expect($result)->toBeHttpSuccess();
         }
     }
 

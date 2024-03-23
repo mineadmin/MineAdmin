@@ -19,9 +19,9 @@ return [
     'excel_drive' => 'auto',
     // 是否启用 远程通用列表查询 功能
     'remote_api_enabled' => true,
-    'http'  =>  [
-        'headers'   =>  [
-            'Server'    =>  'MineAdmin'
-        ]
-    ]
+    'http' => [
+        'headers' => [
+            'Server' => 'MineAdmin',
+        ],
+    ],
 ];

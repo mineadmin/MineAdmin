@@ -13,44 +13,33 @@ use App\System\Model\SystemUser;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
+use Hyperf\Snowflake\IdGeneratorInterface;
+use Hyperf\Stringable\Str;
 use HyperfTests\HttpTestCase;
 use HyperfTests\MineControllerTestCase;
 use Mine\Aspect\OperationLogAspect;
 
 function testSuccessResponse(mixed $result)
 {
-    expect($result)
-        ->toBeArray()
-        ->toHaveKey('requestId')
-        ->toHaveKey('success')
-        ->toHaveKey('message')
-        ->toHaveKey('code')
-        ->toHaveKey('data')
-        ->and($result['code'])
-        ->toEqual(200);
+    expect($result)->toBeHttpSuccess();
 }
 
 function testFailResponse(mixed $result)
 {
-    expect($result)
-        ->toBeArray()
-        ->toHaveKey('requestId')
-        ->toHaveKey('success')
-        ->toHaveKey('message')
-        ->toHaveKey('code')
-        ->and($result['success'])
-        ->toBeFalse()
-        ->and($result['code'] !== 200)
-        ->toBeTrue();
+    expect($result)->toBeHttpFail();
 }
 
 uses(HttpTestCase::class, MineControllerTestCase::class)
     ->beforeEach(function () {
         // Create Super Administrator
-        Db::table('system_user')->truncate();
-        $this->password = '123456';
-        $this->username = 'admin';
-        SystemUser::whereKey(env('SUPER_ADMIN', 1))->delete();
+        $this->password = Str::random(10);
+        $this->username = Str::random(10);
+        /**
+         * @var Hyperf\Contract\IdGeneratorInterface $generator
+         */
+        $generator = make(IdGeneratorInterface::class);
+        putenv(sprintf('SUPER_ADMIN=%d', $generator->generate()));
+        putenv(sprintf('ADMIN_ROLE=%d', $generator->generate()));
         $this->mock = SystemUser::create([
             'id' => env('SUPER_ADMIN', 1),
             'username' => $this->username,
@@ -67,7 +56,6 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        Db::table('system_role')->truncate();
         // Create Administrator Role
         Db::table('system_role')->insert([
             'id' => env('ADMIN_ROLE', 1),
@@ -83,8 +71,8 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
             'remark' => '系统内置角色，不可删除',
         ]);
         if (env('DB_DRIVER') === 'pgsql') {
-            Db::select("SELECT setval('system_user_id_seq', 1)");
-            Db::select("SELECT setval('system_role_id_seq', 1)");
+            Db::select(sprintf("SELECT setval('system_user_id_seq', %d)", env('SUPER_ADMIN')));
+            Db::select(sprintf("SELECT setval('system_role_id_seq', %d)", env('ADMIN_ROLE')));
         }
 
         $operationLogAspect = new class() extends OperationLogAspect {

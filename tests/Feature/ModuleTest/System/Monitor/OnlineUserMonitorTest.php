@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGenerator;
+use Hyperf\Snowflake\IdGeneratorInterface;
 
 beforeEach(function () {
     $this->prefix = '/system/onlineUser';
@@ -21,7 +22,7 @@ test('online user controller test', function () {
     /**
      * @var IdGenerator $idGenerator
      */
-    $idGenerator = make(IdGenerator::class);
+    $idGenerator = make(IdGeneratorInterface::class);
     $redis = make(Redis::class);
     $id = $idGenerator->generate();
     $key = sprintf('%sToken:%s', config('cache.default.prefix'), $id);

@@ -38,6 +38,7 @@ class CommonController extends MineController
     #[GetMapping('getModuleList')]
     public function getModuleList(): ResponseInterface
     {
+        $this->mine->scanModule();
         return $this->success($this->mine->getModuleInfo());
     }
 }

@@ -11,10 +11,8 @@ declare(strict_types=1);
  */
 use Nette\Utils\FileSystem;
 
-beforeEach(function () {
-    FileSystem::delete(BASE_PATH . '/app/Demo');
-});
 test('common test', function () {
+    FileSystem::delete(BASE_PATH . '/app/Demo');
     $result = $this->get('/setting/common/getModuleList');
     testSuccessResponse($result);
     expect($result['data'])

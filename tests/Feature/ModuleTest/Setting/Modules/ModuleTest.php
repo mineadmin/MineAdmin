@@ -40,4 +40,5 @@ test('module controller test', function () {
     testSuccessResponse($this->delete($this->prefix . '/delete', [
         'name' => 'Demo',
     ]));
+    FileSystem::delete(BASE_PATH . '/app/Demo');
 });

@@ -52,8 +52,19 @@ test('logs test', function () {
         'consume_status' => 2,
         'delay_time' => 3,
     ]);
+
+    SystemQueueLog::create([
+        'exchange_name' => 'xxx',
+        'routing_key_name' => 'xxx',
+        'queue_name' => 'xxx',
+        'queue_content' => 'xxx',
+        'log_content' => 'xxxx',
+        'produce_status' => 1,
+        'consume_status' => 2,
+        'delay_time' => 3,
+    ]);
     testSuccessResponse($this->delete($this->prefix . '/deleteQueueLog', [
-        'ids' => array_column(SystemQueueLog::query()->select(['id'])->get()->toArray(), 'id'),
+        'ids' => array_column(SystemQueueLog::query()->limit(1)->select(['id'])->get()->toArray(), 'id'),
     ]));
     SystemLoginLog::create([
         'username' => Str::random(10),

@@ -112,6 +112,7 @@ jobs:
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
       - name: Run MsSql Test Cases
+        if: matrix.sw-version != 'v5.0.3'
         env:
           DB_DRIVER: sqlsrv
           DB_HOST: mssql

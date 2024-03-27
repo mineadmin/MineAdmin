@@ -22,14 +22,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql,pdo_odbc bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql,pdo_odbc, bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
-        run: composer update -oW
+        run: |
+          composer update -oW
+          odbcinst -q -s
       - name: Run CS Fix
         run: |
           vendor/bin/php-cs-fixer fix app --dry-run --diff
           vendor/bin/php-cs-fixer fix api --dry-run --diff
-          odbcinst -q -s
   tests:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}

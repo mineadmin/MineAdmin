@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql,pdo_odbc, bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
         run: composer update -oW
       - name: Run CS Fix
@@ -60,7 +60,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql, bcmath
+          extensions: redis, pdo, pdo_mysql,pdo_odbc, bcmath
           ini-values: opcache.enable_cli=0
       - name: Setup Swoole
         run: |

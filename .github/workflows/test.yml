@@ -22,16 +22,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql, pdo_ODBC,bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql,pdo_odbc,bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
         run: composer update -oW
       - name: Run CS Fix
         run: |
+          cat /etc/php/8.1/cli/conf.d/20-pdo_sqlsrv.ini
           vendor/bin/php-cs-fixer fix app --dry-run --diff
           vendor/bin/php-cs-fixer fix api --dry-run --diff
-      - name: Dump SQL Server
-        run: |
-          odbcinst -q -s -d -n "SQL Server"
   tests:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}
@@ -98,6 +96,7 @@ jobs:
         run: |
           php -i
           php -m
+          cat /etc/php/8.1/cli/conf.d/20-pdo_sqlsrv.ini
       - name: Run Mysql Test Cases
         env:
           DB_DRIVER: mysql

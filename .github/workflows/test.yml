@@ -22,12 +22,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql,pdo_odbc,bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql,pdo_ODBC,bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
-        run: composer update -oW
+        run: |
+          cat /etc/php/${{ matrix.php-version }}/cli/conf.d/20-pdo_pgsql.ini,
+          composer update -oW
+
       - name: Run CS Fix
         run: |
-          cat /etc/php/8.1/cli/conf.d/20-pdo_sqlsrv.ini
           vendor/bin/php-cs-fixer fix app --dry-run --diff
           vendor/bin/php-cs-fixer fix api --dry-run --diff
   tests:

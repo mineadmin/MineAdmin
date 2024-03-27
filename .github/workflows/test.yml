@@ -122,7 +122,7 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
           ODBC_ENABLE: true
-          ODBC_NAME_DSN: "DRIVER={ODBC Driver 18 for SQL Server};SERVER=mssql,1433;TrustServerCertificate=yes;database=mineadmin"
+          ODBC_DSN: "DRIVER={ODBC Driver 18 for SQL Server};SERVER=mssql,1433;TrustServerCertificate=yes;database=mineadmin"
         run: |
           composer require hyperf/database-sqlserver-incubator
           ./.travis/run.test.sh

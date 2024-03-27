@@ -62,6 +62,8 @@ jobs:
           tools: phpize
           extensions: redis, pdo, pdo_mysql,pdo_odbc, bcmath
           ini-values: opcache.enable_cli=0
+        run: |
+          odbcinst -q -s
       - name: Setup Swoole
         run: |
           sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev

@@ -87,6 +87,8 @@ jobs:
         run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mysql.sh
       - name: Setup PostgreSQL
         run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.pgsql.sh
+      - name: Setup MsSql
+        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mssql.sh
       - name: Run Scripts Before Test
         run: cp .travis/.env.example .env
       - name: Print PHP Environments
@@ -109,3 +111,15 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
+      - name: Run MsSql Test Cases
+        env:
+          DB_DRIVER: sqlsrv
+          DB_HOST: mssql
+          DB_PORT: 1433
+          DB_USERNAME: SA
+          DB_PASSWORD: mineadmin123,./
+          DB_CHARSET: utf8
+          DB_DATABASE: mineadmin
+        run: |
+          composer require hyperf/database-sqlserver-incubator
+          ./.travis/run.test.sh

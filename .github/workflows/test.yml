@@ -31,7 +31,7 @@ jobs:
           vendor/bin/php-cs-fixer fix api --dry-run --diff
       - name: Dump SQL Server
         run: |
-          odbcinst -q -s
+          odbcinst -q -s -d -n "SQL Server"
   tests:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}

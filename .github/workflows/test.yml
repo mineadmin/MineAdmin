@@ -61,7 +61,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,pdo_ODBC,pdo_sqlsrv,bcmath
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,bcmath
           ini-values: opcache.enable_cli=0
       - name: Setup Swoole
         run: |
@@ -78,6 +78,22 @@ jobs:
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
+      - name: Setup ODBC
+        if: matrix.sw-version != 'v5.0.3'
+        run: |
+          if ! [[ "18.04 20.04 22.04 23.04" == *"$(lsb_release -rs)"* ]];
+          then
+          echo "Ubuntu $(lsb_release -rs) is not currently supported.";
+          exit;
+          fi
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+          curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+          source ~/.bashrc
+          sudo apt-get install -y unixodbc-dev
       - name: Setup Packages
         run: ./.travis/requirement.install.sh
       - name: Run PHPStan
@@ -96,7 +112,6 @@ jobs:
         run: |
           php -i
           php -m
-          cat /etc/php/8.1/cli/conf.d/20-pdo_sqlsrv.ini
       - name: Run Mysql Test Cases
         env:
           DB_DRIVER: mysql

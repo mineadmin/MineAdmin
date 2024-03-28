@@ -1,4 +1,4 @@
-name: PHPUnit for MineAdmin
+name: MineAdmin Unit and Ci Test
 
 on:
   push:
@@ -22,11 +22,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql,pdo_ODBC,bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql,bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
-        run: |
-          cat /etc/php/${{ matrix.php-version }}/cli/conf.d/20-pdo_pgsql.ini,
-          composer update -oW
+        run: composer update -oW
 
       - name: Run CS Fix
         run: |
@@ -63,7 +61,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,pdo_ODBC, bcmath
+          extensions: redis, pdo, pdo_mysql,pdo_ODBC,pdo_sqlsrv,bcmath
           ini-values: opcache.enable_cli=0
       - name: Setup Swoole
         run: |
@@ -74,7 +72,7 @@ jobs:
           rm swoole.tar.gz
           cd swoole
           phpize
-          ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
+          ./configure --enable-openssl --enable-swoole-curl --with-swoole-odbc --enable-cares --enable-swoole-pgsql --enable-brotli
           make -j$(nproc)
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"

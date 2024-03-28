@@ -76,7 +76,10 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
   - openssl
   - redis
   - pcntl
-- Mysql >= 5.7
+- [x] Mysql >= 5.7
+- [x] Pgsql >= 10
+- [x] Sql Server Latest
+- Sqlsrv is Latest
 - Redis >= 4.0
 - Git >= 2.x
 

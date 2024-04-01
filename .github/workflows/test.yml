@@ -61,8 +61,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,PDO_ODBC,bcmath
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
           ini-values: opcache.enable_cli=0
+        env:
+          PDO_ODBC_OPTS: --prefix=/usr/local/unixODBC --includedir=/usr/local/include --libdir=/usr/local/lib -bindir=/usr/local/bin --sysconfdir=/usr/local/etc
       - name: Setup ODBC
         if: matrix.sw-version != 'v5.0.3'
         run: |

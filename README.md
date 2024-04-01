@@ -149,8 +149,10 @@ php bin/hyperf.php mine:install
 
 ## 贡献者
 
-感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
-<a href="https://github.com/mineadmin/mineadmin/graphs/contributors"><img src="https://opencollective.com/mineadmin/contributors.svg?width=890&button=false" /></a>
+> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
+<a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
+</a>
 
 [![贡献者趋势](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 

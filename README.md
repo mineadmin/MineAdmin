@@ -143,10 +143,18 @@ php bin/hyperf.php mine:install
 ## 通过 OSCS 安全认证
 [![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/9ztZvuSN6OLFjCDGVo)
 
-## Stargazers over time
+## star 趋势
 
 [![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
+## 贡献者
+
+> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
+<a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
+</a>
+
+[![贡献者趋势](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 
 ## 演示图片
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />

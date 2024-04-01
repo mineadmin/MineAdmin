@@ -61,7 +61,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,bcmath
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,PDO_ODBC,bcmath
           ini-values: opcache.enable_cli=0
       - name: Setup ODBC
         if: matrix.sw-version != 'v5.0.3'

@@ -147,6 +147,11 @@ The use of this software shall not be used to develop any software or applicatio
 
 [![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
+Thank you to all the code contributors who have participated in the development of MineAdmin。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
+<a href="https://github.com/mineadmin/mineadmin/graphs/contributors"><img src="https://opencollective.com/mineadmin/contributors.svg?width=890&button=false" /></a>
+
+[![Contributor Trends](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
+
 
 ## Demo image
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />

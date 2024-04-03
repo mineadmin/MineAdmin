@@ -37,9 +37,6 @@ class SettingConfigGroupSeeder extends Seeder
                 'code' => 'site_config',
                 'created_by' => 1,
                 'updated_by' => 1,
-                'created_at' => '2022-07-23 15:08:44',
-                'updated_at' => '2022-07-23 15:08:44',
-                'remark' => null,
             ],
             [
                 'id' => 2,
@@ -47,9 +44,6 @@ class SettingConfigGroupSeeder extends Seeder
                 'code' => 'upload_config',
                 'created_by' => 1,
                 'updated_by' => 1,
-                'created_at' => '2022-07-23 15:09:31',
-                'updated_at' => '2022-07-23 15:09:33',
-                'remark' => null,
             ],
         ];
         foreach ($data as $value) {

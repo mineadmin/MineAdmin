@@ -30,7 +30,7 @@ class SettingConfigGroupSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config_group')->truncate();
-        SettingConfigGroup::query()->insert([
+        $data = [
             [
                 'id' => 1,
                 'name' => '站点配置',
@@ -51,6 +51,9 @@ class SettingConfigGroupSeeder extends Seeder
                 'updated_at' => '2022-07-23 15:09:33',
                 'remark' => null,
             ],
-        ]);
+        ];
+        foreach ($data as $value) {
+            SettingConfigGroup::create($value);
+        }
     }
 }

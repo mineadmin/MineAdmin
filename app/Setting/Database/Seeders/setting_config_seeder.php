@@ -29,7 +29,7 @@ class SettingConfigSeeder extends Seeder
     public function run()
     {
         SettingConfig::truncate();
-        SettingConfig::insert([
+        $data = [
             [
                 'group_id' => 1,
                 'key' => 'site_copyright',
@@ -94,6 +94,9 @@ class SettingConfigSeeder extends Seeder
                 'config_select_data' => '[{"label":"本地上传","value":"1"},{"label":"阿里云OSS","value":"2"},{"label":"七牛云","value":"3"},{"label":"腾讯云COS","value":"4"}]',
                 'sort' => 99,
             ],
-        ]);
+        ];
+        foreach ($data as $value) {
+            SettingConfig::create($value);
+        }
     }
 }

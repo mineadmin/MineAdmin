@@ -28,6 +28,7 @@ class SystemDictDataSeeder extends Seeder
      */
     public function run()
     {
+        SystemDictData::truncate();
         Db::table('system_dict_data')->truncate();
 
         foreach ($this->getData() as $item) {

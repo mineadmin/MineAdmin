@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemDictType;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -24,22 +25,23 @@ test('dict type controller test', function () {
     $this->remoteTest();
 
     $successParam = [
-        'name' => Str::random(5),
-        'code' => Str::random(6),
+        'name' => Str::random(30),
+        'code' => Str::random(30),
     ];
     $failParams = [
         Arr::only($successParam, 'name'),
         Arr::only($successParam, 'code'),
     ];
     $updateSuccessParam = [
-        'name' => Str::random(5),
-        'code' => Str::random(6),
+        'name' => Str::random(30),
+        'code' => Str::random(30),
     ];
     $updateFailParams = [
         Arr::only($updateSuccessParam, 'name'),
         Arr::only($updateSuccessParam, 'code'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemDictType::query()->where('name', $updateSuccessParam['name'])->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemApiColumn;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -52,7 +53,8 @@ test('Api Column put test', function () {
         Arr::only($updateSuccessParam, 'data_type'),
         Arr::only($updateSuccessParam, 'is_required'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemApiColumn::query()->first()->id;
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

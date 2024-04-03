@@ -14,41 +14,41 @@ beforeEach(function () {
 });
 
 test('getUserList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getUserList'));
+    expect($this->get($this->prefix . '/getUserList'))->toBeHttpSuccess();
 });
 
 test('getUserInfoByIds test', function () {
-    testSuccessResponse($this->post($this->prefix . '/getUserInfoByIds', ['ids' => [1, 2, 3]]));
+    expect($this->post($this->prefix . '/getUserInfoByIds', ['ids' => [1, 2, 3]]))->toBeHttpSuccess();
 });
 
 test('getDeptTreeList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getDeptTreeList'));
+    expect($this->get($this->prefix . '/getDeptTreeList'))->toBeHttpSuccess();
 });
 
 test('getRoleList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getRoleList'));
+    expect($this->get($this->prefix . '/getRoleList'))->toBeHttpSuccess();
 });
 
 test('getPostList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getPostList'));
+    expect($this->get($this->prefix . '/getPostList'))->toBeHttpSuccess();
 });
 
 test('getOperationLogList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getOperationLogList'));
+    expect($this->get($this->prefix . '/getOperationLogList'))->toBeHttpSuccess();
 });
 
 test('getLoginLogList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getLoginLogList'));
+    expect($this->get($this->prefix . '/getLoginLogList'))->toBeHttpSuccess();
 });
 
 test('getResourceList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getResourceList'));
+    expect($this->get($this->prefix . '/getResourceList'))->toBeHttpSuccess();
 });
 
 test('getNoticeList test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getNoticeList'));
+    expect($this->get($this->prefix . '/getNoticeList'))->toBeHttpSuccess();
 });
 
 test('clearAllCache test', function () {
-    testSuccessResponse($this->get($this->prefix . '/clearAllCache'));
+    expect($this->get($this->prefix . '/clearAllCache'))->toBeHttpSuccess();
 });

@@ -24,13 +24,13 @@ test('DataMaintain test', function () {
 });
 
 test('optimize tables test', function () {
-    testSuccessResponse($this->post($this->prefix . '/optimize', [
+    expect($this->post($this->prefix . '/optimize', [
         'tables' => $this->tables,
-    ]));
+    ]))->toBeHttpSuccess();
 });
 
 test('fragment tables test', function () {
-    testSuccessResponse($this->post($this->prefix . '/fragment', [
+    expect($this->post($this->prefix . '/fragment', [
         'tables' => $this->tables,
-    ]));
+    ]))->toBeHttpSuccess();
 });

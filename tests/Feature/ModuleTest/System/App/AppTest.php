@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemApp;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -52,11 +53,12 @@ test('App Group put test', function () {
         Arr::only($updateSuccessParam, 'app_secret'),
         Arr::only($updateSuccessParam, 'app_id'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemApp::query()->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);
 
-    testSuccessResponse($this->put($this->prefix . '/bind/' . $id));
+    expect($this->put($this->prefix . '/bind/' . $id))->toBeHttpSuccess();
     $this->recoveryAndDeleteTest([$id]);
 });

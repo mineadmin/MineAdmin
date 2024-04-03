@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemApi;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -27,10 +28,10 @@ test('Api Group get test', function () {
 
 test('Api Group put test', function () {
     $successParam = [
-        'name' => Str::random(5),
-        'class_name' => Str::random(5),
-        'method_name' => Str::random(5),
-        'access_name' => Str::random(5),
+        'name' => Str::random(20),
+        'class_name' => Str::random(20),
+        'method_name' => Str::random(20),
+        'access_name' => Str::random(20),
         'auth_mode' => 1,
         'request_mode' => 1,
         'group_id' => 1,
@@ -45,10 +46,10 @@ test('Api Group put test', function () {
         Arr::only($successParam, 'group_id'),
     ];
     $updateSuccessParam = [
-        'name' => Str::random(5),
-        'class_name' => Str::random(5),
-        'method_name' => Str::random(5),
-        'access_name' => Str::random(5),
+        'name' => Str::random(20),
+        'class_name' => Str::random(20),
+        'method_name' => Str::random(20),
+        'access_name' => Str::random(20),
         'auth_mode' => 1,
         'request_mode' => 1,
         'group_id' => 1,
@@ -62,7 +63,8 @@ test('Api Group put test', function () {
         Arr::only($updateSuccessParam, 'access_name'),
         Arr::only($updateSuccessParam, 'group_id'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemApi::query()->orderByDesc('id')->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

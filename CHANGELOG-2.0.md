@@ -11,4 +11,4 @@
 
 ## Added
 
-- [#208](https://github.com/mineadmin/MineAdmin/pull/208) Adding interface testing process in sql server environment
+- [#208](https://github.com/mineadmin/MineAdmin/pull/208) Adding interface testing process in sql server environment. Optimization of existing unit tests, data structure changes in some migration files

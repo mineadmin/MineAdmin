@@ -19,16 +19,6 @@ use HyperfTests\HttpTestCase;
 use HyperfTests\MineControllerTestCase;
 use Mine\Aspect\OperationLogAspect;
 
-function testSuccessResponse(mixed $result)
-{
-    expect($result)->toBeHttpSuccess();
-}
-
-function testFailResponse(mixed $result)
-{
-    expect($result)->toBeHttpFail();
-}
-
 uses(HttpTestCase::class, MineControllerTestCase::class)
     ->beforeEach(function () {
         // Create Super Administrator

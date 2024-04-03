@@ -11,4 +11,4 @@
 ### 修复
 
 - [#205](https://github.com/mineadmin/MineAdmin/pull/205) 指定 swagger 组件版本
-- [#208](https://github.com/mineadmin/MineAdmin/pull/208) 增加 sql server 环境下的接口测试流程
+- [#208](https://github.com/mineadmin/MineAdmin/pull/208) 增加 sql server 环境下的接口测试流程、优化现有单元测试，部分迁移文件数据结构变更

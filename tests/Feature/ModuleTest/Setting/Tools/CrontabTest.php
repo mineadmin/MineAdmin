@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\Setting\Model\SettingCrontab;
 use App\Setting\Model\SettingCrontabLog;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
@@ -50,14 +51,15 @@ test('data change test', function () {
         Arr::only($updateSuccessParam, 'rule'),
         Arr::only($updateSuccessParam, 'target'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SettingCrontab::query()->first()->id;
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);
 
-    testSuccessResponse($this->post($this->prefix . '/run', [
+    expect($this->post($this->prefix . '/run', [
         'id' => $id,
-    ]));
+    ]))->toBeHttpSuccess();
     SettingCrontabLog::create([
         'crontab_id' => 1,
         'name' => 'xxx',
@@ -66,9 +68,9 @@ test('data change test', function () {
         'exception_info' => 'xxx',
         'status' => 1,
     ]);
-    testSuccessResponse($this->delete($this->prefix . '/deleteCrontabLog', [
+    expect($this->delete($this->prefix . '/deleteCrontabLog', [
         'ids' => array_column(SettingCrontabLog::query()->get()->toArray(), 'id'),
-    ]));
+    ]))->toBeHttpSuccess();
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id], ['delete']);
 });

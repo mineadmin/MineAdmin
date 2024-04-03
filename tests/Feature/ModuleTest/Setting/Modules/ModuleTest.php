@@ -28,17 +28,17 @@ test('module controller test', function () {
         $this->buildTest('getNoParamsTest') => 'index',
     ]);
     FileSystem::delete(BASE_PATH . '/app/Demo');
-    testSuccessResponse($this->put($this->prefix . '/save', [
+    expect($this->put($this->prefix . '/save', [
         'name' => 'Demo',
         'label' => 'sample module',
         'version' => '1.0.0',
         'description' => 'An example of a basic module',
-    ]));
-    testSuccessResponse($this->put($this->prefix . '/install', [
-        'name' => 'Demo',
-    ]));
-    testSuccessResponse($this->delete($this->prefix . '/delete', [
-        'name' => 'Demo',
-    ]));
+    ]))->toBeHttpSuccess()
+        ->and($this->put($this->prefix . '/install', [
+            'name' => 'Demo',
+        ]))->toBeHttpSuccess()
+        ->and($this->delete($this->prefix . '/delete', [
+            'name' => 'Demo',
+        ]))->toBeHttpSuccess();
     FileSystem::delete(BASE_PATH . '/app/Demo');
 });

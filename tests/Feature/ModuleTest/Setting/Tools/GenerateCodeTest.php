@@ -41,7 +41,7 @@ test('generator code test', function () {
         return;
     }
     $table = SystemUser::getModel()->getTable();
-    testSuccessResponse($this->post($this->prefix . '/loadTable', [
+    expect($this->post($this->prefix . '/loadTable', [
         'source' => Mine::getMineName(),
         'names' => [
             [
@@ -49,7 +49,7 @@ test('generator code test', function () {
                 'comment' => 'test',
             ],
         ],
-    ]));
+    ]))->toBeHttpSuccess();
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'index',
         $this->buildTest('getNoParamsTest') => 'getDataSourceList',
@@ -60,7 +60,7 @@ test('generator code test', function () {
         'id' => $this->mock->id,
     ]));*/
 
-    testSuccessResponse($this->post($this->prefix . '/update', [
+    expect($this->post($this->prefix . '/update', [
         'id' => $this->mock->id,
         'table_name' => $table,
         'table_comment' => Str::random(4),
@@ -87,7 +87,7 @@ test('generator code test', function () {
         'build_menu' => 1,
         'component_type' => 1,
         'options' => [],
-    ]));
+    ]))->toBeHttpSuccess();
 });
 
 test('sync delete', function () {
@@ -96,9 +96,9 @@ test('sync delete', function () {
     }
     //    testSuccessResponse($this->put($this->prefix . '/sync/' . $this->mock->id));
 
-    testSuccessResponse($this->delete($this->prefix . '/delete', [
+    expect($this->delete($this->prefix . '/delete', [
         'ids' => [$this->mock->id],
-    ]));
+    ]))->toBeHttpSuccess();
 });
 
 //

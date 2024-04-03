@@ -25,7 +25,7 @@ test('queue message test', function () {
 test('update read status', function () {
     $ids = array_column(SystemQueueMessage::query()->select(['id'])->get()->toArray(), 'id');
 
-    testSuccessResponse($this->put($this->prefix . '/updateReadStatus', [
+    expect($this->put($this->prefix . '/updateReadStatus', [
         'ids' => $ids,
-    ]));
+    ]))->toBeHttpSuccess();
 });

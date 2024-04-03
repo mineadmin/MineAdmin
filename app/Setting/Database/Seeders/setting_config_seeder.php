@@ -34,6 +34,7 @@ class SettingConfigSeeder extends Seeder
                 'group_id' => 1,
                 'key' => 'site_copyright',
                 'name' => '版权信息',
+                'value' => 'Copyright © 2019-2022 MineAdmin. All rights reserved.',
                 'input_type' => 'textarea',
                 'sort' => 96,
             ],

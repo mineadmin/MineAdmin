@@ -51,7 +51,7 @@ class UpdateVersion120 extends Migration
                 'icon' => 'icon-storage',
                 'route' => 'setting/datasource',
                 'component' => 'setting/datasource/index',
-                'redirect' => null,
+                'redirect' => '',
                 'is_hidden' => '2',
                 'type' => 'M',
                 'status' => '1',
@@ -61,39 +61,149 @@ class UpdateVersion120 extends Migration
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'deleted_at' => null,
-                'remark' => null,
+                'remark' => 'null',
             ]
         );
+        $menus = $this->menu($pid);
 
-        $tableName = env('DB_PREFIX') . SystemMenu::getModel()->getTable();
-
-        if (env('DB_DRIVER') == 'pgsql') {
-            $sql = [
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理列表', 'setting:datasource:index', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理保存', 'setting:datasource:save', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理更新', 'setting:datasource:update', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理读取', 'setting:datasource:read', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理删除', 'setting:datasource:delete', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导入', 'setting:datasource:import', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"parent_id\", \"level\", \"name\", \"code\", \"icon\", \"route\", \"component\", \"redirect\", \"is_hidden\", \"type\", \"status\", \"sort\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"deleted_at\", \"remark\") VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导出', 'setting:datasource:export', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-            ];
-        } else {
-            $sql = [
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理列表', 'setting:datasource:index', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理保存', 'setting:datasource:save', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理更新', 'setting:datasource:update', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理读取', 'setting:datasource:read', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理删除', 'setting:datasource:delete', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导入', 'setting:datasource:import', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-                "INSERT INTO `{$tableName}`(`parent_id`, `level`, `name`, `code`, `icon`, `route`, `component`, `redirect`, `is_hidden`, `type`, `status`, `sort`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`, `remark`) VALUES ({$pid}, '0,4000,{$pid}', '数据源管理导出', 'setting:datasource:export', NULL, NULL, NULL, NULL, 2, 'B', 1, 0, 1, NULL, '2023-04-01 20:20:01', '2023-04-01 20:20:01', NULL, NULL)",
-            ];
-        }
-
-        foreach ($sql as $item) {
-            Db::insert($item);
+        foreach ($menus as $menu) {
+            SystemMenu::create($menu);
         }
 
         redis()->flushAll();
+    }
+
+    public function menu(int $pid): array
+    {
+        return [
+            [
+                'parent_id' => $pid,
+                'level' => "0,4000,{$pid}",
+                'name' => '数据源管理列表',
+                'code' => 'setting:datasource:index',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0, // 假设创建者ID为0
+                'updated_by' => 0, // 假设更新者ID为0
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid, 'level' => "0,4000,{$pid}",
+                'name' => '数据源管理保存',
+                'code' => 'setting:datasource:save',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid, 'level' => "0,4000,{$pid}",
+                'name' => '数据源管理更新',
+                'code' => 'setting:datasource:update',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid, 'level' => "0,4000,{$pid}",
+                'name' => '数据源管理读取',
+                'code' => 'setting:datasource:read',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid, 'level' => "0,4000,{$pid}",
+                'name' => '数据源管理删除',
+                'code' => 'setting:datasource:delete',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid, 'level' => "0,4000,{$pid}",
+                'name' => '数据源管理导入',
+                'code' => 'setting:datasource:import',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+            [
+                'parent_id' => $pid,
+                'level' => "0,4000,{$pid}",
+                'name' => '数据源管理导出',
+                'code' => 'setting:datasource:export',
+                'icon' => '',
+                'route' => '',
+                'component' => '',
+                'redirect' => '',
+                'is_hidden' => 2,
+                'type' => 'B',
+                'status' => 1,
+                'sort' => 0,
+                'created_by' => 0,
+                'updated_by' => 0,
+
+                'deleted_at' => null,
+                'remark' => '',
+            ],
+        ];
     }
 
     /**

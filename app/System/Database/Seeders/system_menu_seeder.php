@@ -54,8 +54,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 99,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -75,8 +74,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 99,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -96,8 +94,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -117,8 +114,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -138,8 +134,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -159,8 +154,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -180,8 +174,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -201,8 +194,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -222,8 +214,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -243,8 +234,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -264,8 +254,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -285,8 +274,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -306,8 +294,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -327,8 +314,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -348,8 +334,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -369,8 +354,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -390,8 +374,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 96,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -411,8 +394,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -432,8 +414,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -453,8 +434,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -474,8 +454,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -495,8 +474,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -516,8 +494,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -537,8 +514,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -558,8 +534,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -579,8 +554,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -600,8 +574,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -621,8 +594,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 97,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -642,8 +614,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -663,8 +634,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -684,8 +654,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -705,8 +674,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -726,8 +694,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -747,8 +714,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -768,8 +734,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -789,8 +754,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -810,8 +774,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -831,8 +794,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -852,8 +814,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -873,8 +834,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -894,8 +854,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -915,8 +874,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -936,8 +894,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -957,8 +914,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -978,8 +934,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -999,8 +954,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1020,8 +974,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1041,8 +994,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1062,8 +1014,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1083,8 +1034,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1104,8 +1054,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1125,8 +1074,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1146,8 +1094,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1167,8 +1114,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1188,8 +1134,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1209,8 +1154,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1230,8 +1174,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1251,8 +1194,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1272,8 +1214,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1293,8 +1234,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1314,8 +1254,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1335,8 +1274,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1356,8 +1294,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1377,8 +1314,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1398,8 +1334,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 99,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1419,8 +1354,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1440,8 +1374,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1461,8 +1394,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1482,8 +1414,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1503,8 +1434,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1524,8 +1454,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1545,8 +1474,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1566,8 +1494,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1587,8 +1514,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1608,8 +1534,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1629,8 +1554,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1650,8 +1574,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1671,8 +1594,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1692,8 +1614,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1713,8 +1634,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1734,8 +1654,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 95,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1755,8 +1674,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1776,8 +1694,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1797,8 +1714,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1818,8 +1734,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1839,8 +1754,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 97,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1860,8 +1774,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 99,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1881,8 +1794,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 95,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1902,8 +1814,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1923,8 +1834,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1944,8 +1854,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1965,8 +1874,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -1986,8 +1894,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2007,8 +1914,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2028,8 +1934,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2049,8 +1954,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 95,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2070,8 +1974,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 99,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2091,8 +1994,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2112,8 +2014,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2133,8 +2034,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2154,8 +2054,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2175,8 +2074,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2196,8 +2094,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2217,8 +2114,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2238,8 +2134,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2259,8 +2154,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2280,8 +2174,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2301,8 +2194,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2322,8 +2214,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2343,8 +2234,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2364,8 +2254,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2385,8 +2274,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2406,8 +2294,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2427,8 +2314,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2448,8 +2334,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2469,8 +2354,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2490,8 +2374,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2511,8 +2394,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2532,8 +2414,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2553,8 +2434,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2574,8 +2454,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2595,8 +2474,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 90,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2616,8 +2494,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2637,8 +2514,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2658,8 +2534,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2679,8 +2554,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2700,8 +2574,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2721,8 +2594,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2742,8 +2614,6 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2763,8 +2633,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2784,8 +2653,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2805,8 +2673,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2826,8 +2693,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2847,8 +2713,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2868,8 +2733,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2889,8 +2753,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2910,8 +2773,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2931,8 +2793,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2952,8 +2813,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2973,8 +2833,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -2994,8 +2853,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3015,8 +2873,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3036,8 +2893,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3057,8 +2913,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3078,8 +2933,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3099,8 +2953,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 80,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3120,8 +2973,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3141,8 +2993,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3162,8 +3013,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3183,8 +3033,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3204,8 +3053,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3225,8 +3073,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3246,8 +3093,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3267,8 +3113,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3288,8 +3133,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3309,8 +3153,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3330,8 +3173,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3351,8 +3193,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3372,8 +3213,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3393,8 +3233,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3414,8 +3253,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3435,8 +3273,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3456,8 +3293,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3477,8 +3313,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3498,8 +3333,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3519,8 +3353,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3540,8 +3373,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3561,8 +3393,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3582,8 +3413,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3603,8 +3433,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3624,8 +3453,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3645,8 +3473,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 98,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3666,8 +3493,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3687,8 +3513,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3708,8 +3533,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3729,8 +3553,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3750,8 +3573,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3771,8 +3593,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3792,8 +3613,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3813,8 +3633,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3834,8 +3653,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3855,8 +3673,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 94,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3876,8 +3693,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3897,8 +3713,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3918,8 +3733,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3939,8 +3753,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3960,8 +3773,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -3981,8 +3793,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4002,8 +3813,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4023,8 +3833,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4044,8 +3853,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4065,8 +3873,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4086,8 +3893,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4107,8 +3913,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],
@@ -4128,8 +3933,7 @@ class SystemMenuSeeder extends Seeder
                 'sort' => 0,
                 'created_by' => 0,
                 'updated_by' => 0,
-                'created_at' => 0,
-                'updated_at' => 0,
+
                 'deleted_at' => null,
                 'remark' => '',
             ],

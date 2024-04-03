@@ -20,7 +20,6 @@ declare(strict_types=1);
  */
 use App\Setting\Model\SettingConfig;
 use Hyperf\Database\Seeders\Seeder;
-use Hyperf\DbConnection\Db;
 
 class SettingConfigSeeder extends Seeder
 {
@@ -29,33 +28,72 @@ class SettingConfigSeeder extends Seeder
      */
     public function run()
     {
-        Db::table('setting_config')->truncate();
-        $tableName = env('DB_PREFIX') . SettingConfig::getModel()->getTable();
-        if (env('DB_DRIVER') == 'pgsql') {
-            $sql = [
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_copyright', NULL, '版权信息', 'textarea', NULL, 96, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_desc', NULL, '网站描述', 'textarea', NULL, 97, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_keywords', '后台管理系统', '网站关键字', 'input', NULL, 98, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_name', 'MineAdmin', '网站名称', 'input', NULL, 99, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (1, 'site_record_number', NULL, '网站备案号', 'input', NULL, 95, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (2, 'upload_allow_file', 'txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md', '文件类型', 'input', NULL, 0, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (2, 'upload_allow_image', 'jpg,jpeg,png,gif,svg,bmp', '图片类型', 'input', NULL, 0, NULL)",
-                "INSERT INTO \"{$tableName}\"(\"group_id\", \"key\", \"value\", \"name\", \"input_type\", \"config_select_data\", \"sort\", \"remark\") VALUES (2, 'upload_mode', '1', '上传模式', 'select', '[{\"label\":\"本地上传\",\"value\":\"1\"},{\"label\":\"阿里云OSS\",\"value\":\"2\"},{\"label\":\"七牛云\",\"value\":\"3\"},{\"label\":\"腾讯云COS\",\"value\":\"4\"}]', 99, NULL)",
-            ];
-        } else {
-            $sql = [
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_copyright', NULL, '版权信息', 'textarea', NULL, 96, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_desc', NULL, '网站描述', 'textarea', NULL, 97, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_keywords', '后台管理系统', '网站关键字', 'input', NULL, 98, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_name', 'MineAdmin', '网站名称', 'input', NULL, 99, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (1, 'site_record_number', NULL, '网站备案号', 'input', NULL, 95, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (2, 'upload_allow_file', 'txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md', '文件类型', 'input', NULL, 0, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (2, 'upload_allow_image', 'jpg,jpeg,png,gif,svg,bmp', '图片类型', 'input', NULL, 0, NULL)",
-                "INSERT INTO `{$tableName}`(`group_id`, `key`, `value`, `name`, `input_type`, `config_select_data`, `sort`, `remark`) VALUES (2, 'upload_mode', '1', '上传模式', 'select', '[{\"label\":\"本地上传\",\"value\":\"1\"},{\"label\":\"阿里云OSS\",\"value\":\"2\"},{\"label\":\"七牛云\",\"value\":\"3\"},{\"label\":\"腾讯云COS\",\"value\":\"4\"}]', 99, NULL)",
-            ];
-        }
-        foreach ($sql as $item) {
-            Db::insert($item);
-        }
+        SettingConfig::truncate();
+        SettingConfig::insert([
+            [
+                'group_id' => 1,
+                'key' => 'site_copyright',
+                'name' => '版权信息',
+                'input_type' => 'textarea',
+                'sort' => 96,
+            ],
+            [
+                'group_id' => 1,
+                'key' => 'site_desc',
+                'value' => 'MineAdmin',
+                'name' => '网站描述',
+                'input_type' => 'textarea',
+                'sort' => 97,
+            ],
+            [
+                'group_id' => 1,
+                'key' => 'site_keywords',
+                'value' => '后台管理系统',
+                'name' => '网站关键字',
+                'input_type' => 'input',
+                'sort' => 98,
+            ],
+            [
+                'group_id' => 1,
+                'key' => 'site_name',
+                'value' => 'MineAdmin',
+                'name' => '网站名称',
+                'input_type' => 'input',
+                'sort' => 99,
+            ],
+            [
+                'group_id' => 1,
+                'key' => 'site_record_number',
+                'value' => 'xxx',
+                'name' => '网站备案号',
+                'input_type' => 'input',
+                'sort' => 95,
+            ],
+            [
+                'group_id' => 2,
+                'key' => 'upload_allow_file',
+                'value' => 'txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md',
+                'name' => '文件类型',
+                'input_type' => 'input',
+                'sort' => 0,
+            ],
+            [
+                'group_id' => 2,
+                'key' => 'upload_allow_image',
+                'value' => 'jpg,jpeg,png,gif,svg,bmp',
+                'name' => '图片类型',
+                'input_type' => 'input',
+                'sort' => 0,
+            ],
+            [
+                'group_id' => 2,
+                'key' => 'upload_mode',
+                'value' => '1',
+                'name' => '上传模式',
+                'input_type' => 'select',
+                'config_select_data' => '[{"label":"本地上传","value":"1"},{"label":"阿里云OSS","value":"2"},{"label":"七牛云","value":"3"},{"label":"腾讯云COS","value":"4"}]',
+                'sort' => 99,
+            ],
+        ]);
     }
 }

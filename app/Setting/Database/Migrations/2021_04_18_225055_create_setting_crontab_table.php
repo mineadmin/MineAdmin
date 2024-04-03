@@ -30,8 +30,8 @@ class CreateSettingCrontabTable extends Migration
                 'type',
                 ['default' => 4, 'comment' => '任务类型 (1 command, 2 class, 3 url, 4 eval)']
             )->default(1);
-            $table->addColumn('string', 'target', ['length' => 500, 'comment' => '调用任务字符串']);
-            $table->addColumn('string', 'parameter', ['length' => 1000, 'comment' => '调用任务参数']);
+            $table->addColumn('string', 'target', ['length' => 500, 'comment' => '调用任务字符串'])->default('');
+            $table->addColumn('string', 'parameter', ['length' => 1000, 'comment' => '调用任务参数'])->default('');
             $table->addColumn('string', 'rule', ['length' => 32, 'comment' => '任务执行表达式']);
             $table->addColumn(
                 'smallInteger',

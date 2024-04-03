@@ -29,10 +29,15 @@ class SystemMenuSeeder extends Seeder
      */
     public function run()
     {
-        Db::table('system_menu')->truncate();
+        SystemMenu::truncate();
         foreach ($this->getData() as $item) {
             Db::insert($item);
         }
+    }
+
+    public function data(): array
+    {
+        return [];
     }
 
     protected function getData(): array

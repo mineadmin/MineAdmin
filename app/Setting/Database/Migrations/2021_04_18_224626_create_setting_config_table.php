@@ -26,8 +26,8 @@ class CreateSettingConfigTable extends Migration
             $table->addColumn('bigInteger', 'group_id', ['comment' => '组id']);
             $table->addColumn('string', 'key', ['length' => 32, 'comment' => '配置键名'])
                 ->primary();
-            $table->addColumn('string', 'value', ['length' => 255, 'comment' => '配置值']);
-            $table->addColumn('string', 'name', ['length' => 255, 'comment' => '配置名称']);
+            $table->addColumn('string', 'value', ['length' => 255, 'comment' => '配置值'])->default('');
+            $table->addColumn('string', 'name', ['length' => 255, 'comment' => '配置名称'])->default('');
             $table->addColumn('string', 'input_type', ['length' => 32, 'comment' => '数据输入类型'])->default('text');
             $table->addColumn('string', 'config_select_data', ['length' => 500, 'comment' => '配置选项数据'])->default('');
             $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序']);

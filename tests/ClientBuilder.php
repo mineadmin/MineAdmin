@@ -51,6 +51,7 @@ class ClientBuilder
         $key = sprintf('%sToken:%s', config('cache.default.prefix'), $user->id);
         $redis = make(Redis::class);
         $redis->set($key, $token);
+        usleep(100);
         return $token;
     }
 

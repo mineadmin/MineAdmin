@@ -32,14 +32,12 @@ class SettingConfigGroupSeeder extends Seeder
         Db::table('setting_config_group')->truncate();
         $data = [
             [
-                'id' => 1,
                 'name' => '站点配置',
                 'code' => 'site_config',
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
             [
-                'id' => 2,
                 'name' => '上传配置',
                 'code' => 'upload_config',
                 'created_by' => 1,

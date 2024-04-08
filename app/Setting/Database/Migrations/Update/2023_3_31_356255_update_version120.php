@@ -92,8 +92,6 @@ class UpdateVersion120 extends Migration
         foreach ($sql as $item) {
             Db::insert($item);
         }
-
-        redis()->flushAll();
     }
 
     /**

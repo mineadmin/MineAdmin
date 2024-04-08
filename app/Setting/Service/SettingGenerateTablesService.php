@@ -100,7 +100,7 @@ class SettingGenerateTablesService extends AbstractService
                 ]
             );
             $tableInfo = [
-                'table_name' => $item['name'],
+                'table_name' => str_replace(env('DB_PREFIX'), '', $item['name']),
                 'table_comment' => $item['comment'],
                 'menu_name' => $item['comment'],
                 'type' => 'single',

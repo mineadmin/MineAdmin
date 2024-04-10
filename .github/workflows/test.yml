@@ -134,7 +134,7 @@ jobs:
       - name: Run MsSql Test Cases
         if: matrix.sw-version != 'v5.0.3'
         env:
-          DB_DRIVER: sqlsrv
+          DB_DRIVER: odbc-sql-server
           DB_HOST: mssql
           DB_PORT: 1433
           DB_USERNAME: SA

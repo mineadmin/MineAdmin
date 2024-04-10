@@ -144,5 +144,5 @@ jobs:
           ODBC_ENABLE: true
           ODBC_DSN: "DRIVER={ODBC Driver 18 for SQL Server};SERVER=127.0.0.1,1433;TrustServerCertificate=yes;database=mineadmin"
         run: |
-          composer require hyperf/database-sqlserver-incubator
+          composer require mineadmin/odbc-sql-server
           ./.travis/run.test.sh

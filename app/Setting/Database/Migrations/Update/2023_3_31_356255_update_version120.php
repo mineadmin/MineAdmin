@@ -69,8 +69,6 @@ class UpdateVersion120 extends Migration
         foreach ($menus as $menu) {
             SystemMenu::create($menu);
         }
-
-        redis()->flushAll();
     }
 
     public function menu(int $pid): array

@@ -21,12 +21,16 @@ class SystemMenuSeeder extends Seeder
     public function run()
     {
         SystemMenu::truncate();
-        Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] ON;');
+        if (env('DB_DRIVER') === 'odbc-sql-server') {
+            Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] ON;');
+        }
         $data = $this->data();
         foreach ($data as $i => $value) {
             SystemMenu::create($value);
         }
-        Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] OFF;');
+        if (env('DB_DRIVER') === 'odbc-sql-server') {
+            Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] OFF;');
+        }
     }
 
     public function data(): array

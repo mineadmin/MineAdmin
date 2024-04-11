@@ -1,4 +1,4 @@
-name: PHPUnit for MineAdmin
+name: MineAdmin Unit and Ci Test
 
 on:
   push:
@@ -22,9 +22,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
+          extensions: redis, pdo, pdo_mysql,bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
         run: composer update -oW
+
       - name: Run CS Fix
         run: |
           vendor/bin/php-cs-fixer fix app --dry-run --diff
@@ -60,8 +61,27 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql, bcmath
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
           ini-values: opcache.enable_cli=0
+        env:
+          PDO_ODBC_OPTS: --prefix=/usr/local/unixODBC --includedir=/usr/local/include --libdir=/usr/local/lib -bindir=/usr/local/bin --sysconfdir=/usr/local/etc
+      - name: Setup ODBC
+        if: matrix.sw-version != 'v5.0.3'
+        run: |
+          if ! [[ "18.04 20.04 22.04 23.04" == *"$(lsb_release -rs)"* ]];
+          then
+          echo "Ubuntu $(lsb_release -rs) is not currently supported.";
+          exit;
+          fi
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+          curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+          source ~/.bashrc
+          sudo apt-get install -y unixodbc-dev
+          odbcinst -j
       - name: Setup Swoole
         run: |
           sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
@@ -71,7 +91,7 @@ jobs:
           rm swoole.tar.gz
           cd swoole
           phpize
-          ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
+          ./configure --enable-openssl --enable-swoole-curl --with-swoole-odbc=unixODBC,/usr --enable-cares --enable-swoole-pgsql --enable-brotli
           make -j$(nproc)
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
@@ -87,6 +107,8 @@ jobs:
         run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mysql.sh
       - name: Setup PostgreSQL
         run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.pgsql.sh
+      - name: Setup MsSql
+        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mssql.sh
       - name: Run Scripts Before Test
         run: cp .travis/.env.example .env
       - name: Print PHP Environments
@@ -109,3 +131,18 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
+      - name: Run MsSql Test Cases
+        if: matrix.sw-version != 'v5.0.3'
+        env:
+          DB_DRIVER: odbc-sql-server
+          DB_HOST: mssql
+          DB_PORT: 1433
+          DB_USERNAME: SA
+          DB_PASSWORD: mineadmin123,./
+          DB_CHARSET: utf8
+          DB_DATABASE: mineadmin
+          ODBC_ENABLE: true
+          ODBC_DSN: "DRIVER={ODBC Driver 18 for SQL Server};SERVER=127.0.0.1,1433;TrustServerCertificate=yes;database=mineadmin"
+        run: |
+          composer require mineadmin/odbc-sql-server:dev-main
+          ./.travis/run.test.sh

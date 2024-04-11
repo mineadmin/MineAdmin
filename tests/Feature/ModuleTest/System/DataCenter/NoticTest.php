@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemNotice;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -42,7 +43,8 @@ test('notice test', function () {
         Arr::only($updateSuccessParam, 'type'),
         Arr::only($updateSuccessParam, 'content'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemNotice::query()->first()->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

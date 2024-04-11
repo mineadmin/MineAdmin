@@ -37,21 +37,21 @@ test('setting config controller test', function () {
         'key' => $successParam['key'],
         'name' => Str::random(3),
     ];
-    testSuccessResponse($this->post($this->prefix . '/save', $successParam));
+    expect($this->post($this->prefix . '/save', $successParam))->toBeHttpSuccess();
     foreach ($failParams as $failParam) {
-        testFailResponse($this->post($this->prefix . '/save', $failParam));
+        expect($this->post($this->prefix . '/save', $failParam))->toBeHttpFail();
     }
-    testSuccessResponse($this->post($this->prefix . '/update', $updateSuccessParam));
-    testSuccessResponse($this->post($this->prefix . '/updateByKeys', [
-        $successParam['key'] => '123321',
-    ]));
+    expect($this->post($this->prefix . '/update', $updateSuccessParam))->toBeHttpSuccess()
+        ->and($this->post($this->prefix . '/updateByKeys', [
+            $successParam['key'] => '123321',
+        ]))->toBeHttpSuccess();
     $id = SettingConfig::query()->where('key', $successParam['key'])->select(['key'])->value('key');
 
-    testSuccessResponse($this->delete(
+    expect($this->delete(
         $this->prefix . '/delete',
         [
             'ids' => [$id],
         ]
-    ));
-    testSuccessResponse($this->post($this->prefix . '/clearCache', []));
+    ))->toBeHttpSuccess()
+        ->and($this->post($this->prefix . '/clearCache', []))->toBeHttpSuccess();
 });

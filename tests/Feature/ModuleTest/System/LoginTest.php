@@ -17,37 +17,37 @@ beforeEach(function () {
 });
 
 test('login and logout test', function () {
-    testFailResponse($this->post($this->prefix . '/login', []));
-    testFailResponse($this->post($this->prefix . '/login', [
-        'username' => 'superAdmin',
-    ]));
-    testFailResponse($this->post($this->prefix . '/login', [
-        'username' => 'superAdmin',
-        'password' => Str::random(12),
-    ]));
+    expect($this->post($this->prefix . '/login', []))->toBeHttpFail()
+        ->and($this->post($this->prefix . '/login', [
+            'username' => 'superAdmin',
+        ]))->toBeHttpFail()
+        ->and($this->post($this->prefix . '/login', [
+            'username' => 'superAdmin',
+            'password' => Str::random(12),
+        ]))->toBeHttpFail();
     $result = $this->post($this->prefix . '/login', [
         'username' => $this->username,
         'password' => $this->password,
     ]);
-    testSuccessResponse($result);
-    expect($result)->toHaveKey('data.token');
+    expect($result)->toBeHttpSuccess()
+        ->and($result)->toHaveKey('data.token');
     $token = Arr::get($result, 'data.token');
     $result = $this->post($this->prefix . '/logout');
-    testSuccessResponse($result);
+    expect($result)->toBeHttpSuccess();
 });
 
 test('getInfo test', function () {
-    testSuccessResponse($this->get($this->prefix . '/getInfo'));
+    expect($this->get($this->prefix . '/getInfo'))->toBeHttpSuccess();
 });
 
 test('refresh token test', function () {
     $result = $this->post($this->prefix . '/refresh');
-    testSuccessResponse($result);
-    expect($result)->toHaveKey('data.token');
+    expect($result)->toBeHttpSuccess()
+        ->and($result)->toHaveKey('data.token');
 });
 
 test('getBingBackgroundImage test', function () {
     $result = $this->get($this->prefix . '/getBingBackgroundImage');
-    testSuccessResponse($result);
-    expect($result)->toHaveKey('data.url');
+    expect($result)->toBeHttpSuccess()
+        ->and($result)->toHaveKey('data.url');
 });

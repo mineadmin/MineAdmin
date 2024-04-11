@@ -30,22 +30,22 @@ class SettingConfigGroupSeeder extends Seeder
     public function run()
     {
         Db::table('setting_config_group')->truncate();
-        $tableName = env('DB_PREFIX') . SettingConfigGroup::getModel()->getTable();
-
-        if (env('DB_DRIVER') == 'pgsql') {
-            Db::select("SELECT setval('{$tableName}_id_seq', 2)");
-            $sql = [
-                "INSERT INTO \"{$tableName}\"(\"id\", \"name\", \"code\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"remark\") VALUES (1, '站点配置', 'site_config', 1, 1, '2022-07-23 15:08:44', '2022-07-23 15:08:44', NULL)",
-                "INSERT INTO \"{$tableName}\"(\"id\", \"name\", \"code\", \"created_by\", \"updated_by\", \"created_at\", \"updated_at\", \"remark\") VALUES (2, '上传配置', 'upload_config', 1, 1, '2022-07-23 15:09:31', '2022-07-23 15:09:33', NULL)",
-            ];
-        } else {
-            $sql = [
-                "INSERT INTO `{$tableName}`(`id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`, `remark`) VALUES (1, '站点配置', 'site_config', 1, 1, '2022-07-23 15:08:44', '2022-07-23 15:08:44', NULL)",
-                "INSERT INTO `{$tableName}`(`id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`, `remark`) VALUES (2, '上传配置', 'upload_config', 1, 1, '2022-07-23 15:09:31', '2022-07-23 15:09:33', NULL)",
-            ];
-        }
-        foreach ($sql as $item) {
-            Db::insert($item);
+        $data = [
+            [
+                'name' => '站点配置',
+                'code' => 'site_config',
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
+            [
+                'name' => '上传配置',
+                'code' => 'upload_config',
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
+        ];
+        foreach ($data as $value) {
+            SettingConfigGroup::create($value);
         }
     }
 }

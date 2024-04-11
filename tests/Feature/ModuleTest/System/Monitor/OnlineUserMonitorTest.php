@@ -14,7 +14,7 @@ beforeEach(function () {
 });
 
 test('online user controller test', function () {
-    testSuccessResponse($this->get($this->prefix . '/index'));
+    expect($this->get($this->prefix . '/index'))->toBeHttpSuccess();
     $id = $this->mock->id;
-    testSuccessResponse($this->post($this->prefix . '/kick', compact('id')));
+    expect($this->post($this->prefix . '/kick', compact('id')))->toBeHttpSuccess();
 });

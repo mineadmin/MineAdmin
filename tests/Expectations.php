@@ -9,6 +9,9 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use Hyperf\Collection\Arr;
+use HyperfTests\ClientBuilder;
+
 expect()->extend('toBeHttpSuccess', function () {
     return $this->toBeArray()
         ->toHaveKey('requestId')
@@ -30,4 +33,28 @@ expect()->extend('toBeHttpFail', function () {
         ->toBeFalse()
         ->and($this->value['code'] !== 200)
         ->toBeTrue();
+});
+
+expect()->extend('toBeSaveAndUpdate', function (
+    array $successParams,
+    array $failParams,
+    array $updateSuccessParams,
+    array $updateFailParams,
+    array $uris = ['save', 'update']
+) {
+    $this->toBeString();
+    $saveUri = $this->value . '/' . $uris[0];
+    foreach ($failParams as $param) {
+        $failResult = ClientBuilder::post($saveUri, $param);
+        expect($failResult)->toBeHttpFail();
+    }
+    $result = ClientBuilder::post($saveUri, $successParams);
+    expect($result)->toBeHttpSuccess();
+    $id = Arr::get($result, 'data.id');
+    $updateUri = $this->value . '/' . $uris[1] . '/' . $id;
+    expect(ClientBuilder::put($updateUri, $updateSuccessParams))->toBeHttpSuccess();
+    foreach ($updateFailParams as $param) {
+        expect(ClientBuilder::put($updateUri, $param))->toBeHttpFail();
+    }
+    return $id;
 });

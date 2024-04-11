@@ -14,7 +14,7 @@ use Nette\Utils\FileSystem;
 test('common test', function () {
     FileSystem::delete(BASE_PATH . '/app/Demo');
     $result = $this->get('/setting/common/getModuleList');
-    testSuccessResponse($result);
-    expect($result['data'])
+    expect($result)->toBeHttpSuccess()
+        ->and($result['data'])
         ->toHaveCount(2);
 });

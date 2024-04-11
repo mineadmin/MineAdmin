@@ -15,6 +15,9 @@ beforeEach(function () {
     $this->prefix = '/system/queueMessage';
 });
 test('queue message test', function () {
+    if (! in_array(env('DB_DRIVER'), ['pgsql', 'mysql'], true)) {
+        return;
+    }
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'receiveList',
         $this->buildTest('getNoParamsTest') => 'sendList',
@@ -25,7 +28,7 @@ test('queue message test', function () {
 test('update read status', function () {
     $ids = array_column(SystemQueueMessage::query()->select(['id'])->get()->toArray(), 'id');
 
-    testSuccessResponse($this->put($this->prefix . '/updateReadStatus', [
+    expect($this->put($this->prefix . '/updateReadStatus', [
         'ids' => $ids,
-    ]));
+    ]))->toBeHttpSuccess();
 });

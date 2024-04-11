@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemDictData;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -23,11 +24,11 @@ test('DictData test', function () {
         $this->buildTest('getNoParamsTest') => 'lists',
         $this->buildTest('getNoParamsTest') => 'recycle',
     ]);
-    testSuccessResponse($this->post($this->prefix . '/clearCache'));
+    expect($this->post($this->prefix . '/clearCache'))->toBeHttpSuccess();
     $successParam = [
-        'label' => Str::random(5),
-        'code' => Str::random(6),
-        'value' => Str::random(6),
+        'label' => Str::random(20),
+        'code' => Str::random(20),
+        'value' => Str::random(20),
         'type_id' => 1,
     ];
     $failParams = [
@@ -36,9 +37,9 @@ test('DictData test', function () {
         Arr::only($successParam, 'value'),
     ];
     $updateSuccessParam = [
-        'label' => Str::random(5),
-        'code' => Str::random(6),
-        'value' => Str::random(6),
+        'label' => Str::random(20),
+        'code' => Str::random(20),
+        'value' => Str::random(20),
         'type_id' => 1,
     ];
     $updateFailParams = [
@@ -46,14 +47,16 @@ test('DictData test', function () {
         Arr::only($updateSuccessParam, 'code'),
         Arr::only($updateSuccessParam, 'value'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    SystemDictData::truncate();
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemDictData::query()->where('code', $updateSuccessParam['code'])->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);
-    testSuccessResponse($this->put($this->prefix . '/numberOperation', [
+    expect($this->put($this->prefix . '/numberOperation', [
         'id' => $id,
         'numberName' => 'status',
-    ]));
+    ]))->toBeHttpSuccess();
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);
 });

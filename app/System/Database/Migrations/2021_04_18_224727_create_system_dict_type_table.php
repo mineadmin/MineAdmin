@@ -24,15 +24,14 @@ class CreateSystemDictTypeTable extends Migration
             $table->engine = 'Innodb';
             $table->comment('字典类型表');
             $table->bigIncrements('id')->comment('主键');
-            $table->addColumn('string', 'name', ['length' => 50, 'comment' => '字典名称'])->nullable();
-            $table->addColumn('string', 'code', ['length' => 100, 'comment' => '字典标示'])->nullable();
-            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
-            $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
-            $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
+            $table->addColumn('string', 'name', ['length' => 50, 'comment' => '字典名称'])->default('');
+            $table->addColumn('string', 'code', ['length' => 100, 'comment' => '字典标示'])->default('');
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->default(2);
+            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->default(0);
+            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->default(0);
+            $table->timestamps();
             $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->default('');
         });
     }
 

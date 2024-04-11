@@ -15,8 +15,8 @@ beforeEach(function () {
 
 test('monitor test', function () {
     if (is_in_container()) {
-        testFailResponse($this->get($this->prefix . '/monitor'));
+        expect($this->get($this->prefix . '/monitor'))->toBeHttpFail();
     } else {
-        testSuccessResponse($this->get($this->prefix . '/monitor'));
+        expect($this->get($this->prefix . '/monitor'))->toBeHttpSuccess();
     }
 });

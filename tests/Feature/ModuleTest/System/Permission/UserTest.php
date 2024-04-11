@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\System\Model\SystemUser;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -46,20 +47,21 @@ test('user controller testing', function () {
         Arr::only($updateSuccessParam, 'dept_ids'),
         Arr::only($updateSuccessParam, 'role_ids'),
     ];
-    $id = $this->saveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
+    $id = SystemUser::query()->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);
-    testSuccessResponse($this->post($this->prefix . '/clearCache', ['id' => $id]));
-    testSuccessResponse($this->post($this->prefix . '/setHomePage', ['id' => $id, 'dashboard' => 'xxx.vue']));
-    testSuccessResponse($this->post($this->prefix . '/updateInfo', ['dashboard' => 'xxx.vue']));
-    testSuccessResponse($this->post($this->prefix . '/modifyPassword', [
-        'newPassword' => '123456',
-        'newPassword_confirmation' => '123456',
-        'oldPassword' => $this->password,
-    ]));
+    expect($this->post($this->prefix . '/clearCache', ['id' => $id]))->toBeHttpSuccess()
+        ->and($this->post($this->prefix . '/setHomePage', ['id' => $id, 'dashboard' => 'xxx.vue']))->toBeHttpSuccess()
+        ->and($this->post($this->prefix . '/updateInfo', ['dashboard' => 'xxx.vue']))->toBeHttpSuccess()
+        ->and($this->post($this->prefix . '/modifyPassword', [
+            'newPassword' => '123456',
+            'newPassword_confirmation' => '123456',
+            'oldPassword' => $this->password,
+        ]))->toBeHttpSuccess();
     $this->password = '123456';
-    testSuccessResponse($this->put($this->prefix . '/initUserPassword', ['id' => $id]));
+    expect($this->put($this->prefix . '/initUserPassword', ['id' => $id]))->toBeHttpSuccess();
 
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);

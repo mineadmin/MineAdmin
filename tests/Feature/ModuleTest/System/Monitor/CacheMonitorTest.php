@@ -21,21 +21,21 @@ beforeEach(function () {
 });
 
 test('get monitor test', function () {
-    testSuccessResponse($this->get($this->prefix . '/monitor'));
+    expect($this->get($this->prefix . '/monitor'))->toBeHttpSuccess();
 });
 
 test('view test', function () {
-    testSuccessResponse($this->post($this->prefix . '/view', [
+    expect($this->post($this->prefix . '/view', [
         'key' => 'cache1',
-    ]));
+    ]))->toBeHttpSuccess();
 });
 
 test('delete test', function () {
-    testSuccessResponse($this->delete($this->prefix . '/delete', [
+    expect($this->delete($this->prefix . '/delete', [
         'key' => 'cache1',
-    ]));
+    ]))->toBeHttpSuccess();
 });
 
 test('clear test', function () {
-    testSuccessResponse($this->delete($this->prefix . '/clear'));
+    expect($this->delete($this->prefix . '/clear'))->toBeHttpSuccess();
 });

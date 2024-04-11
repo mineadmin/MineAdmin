@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 use App\System\Model\SystemMenu;
 use Hyperf\Database\Seeders\Seeder;
+use Hyperf\DbConnection\Db;
 
 class SystemMenuSeeder extends Seeder
 {
@@ -20,10 +21,12 @@ class SystemMenuSeeder extends Seeder
     public function run()
     {
         SystemMenu::truncate();
+        Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] ON;');
         $data = $this->data();
         foreach ($data as $i => $value) {
             SystemMenu::create($value);
         }
+        Db::unprepared('SET IDENTITY_INSERT [' . SystemMenu::getModel()->getTable() . '] OFF;');
     }
 
     public function data(): array

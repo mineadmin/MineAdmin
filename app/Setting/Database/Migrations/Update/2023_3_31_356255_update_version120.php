@@ -13,7 +13,6 @@ use App\System\Model\SystemMenu;
 use Hyperf\Database\Migrations\Migration;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
-use Hyperf\DbConnection\Db;
 
 /**
  * 升级1.2.0版.
@@ -41,8 +40,9 @@ class UpdateVersion120 extends Migration
                 $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
             });
         }
+
         // 菜单数据
-        $pid = Db::table('system_menu')->insertGetId(
+        $pid = SystemMenu::create(
             [
                 'parent_id' => 4000,
                 'level' => '0,4000',
@@ -58,12 +58,10 @@ class UpdateVersion120 extends Migration
                 'sort' => 0,
                 'created_by' => 1,
                 'updated_by' => 0,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
                 'deleted_at' => null,
-                'remark' => 'null',
+                'remark' => '',
             ]
-        );
+        )->id;
         $menus = $this->menu($pid);
 
         foreach ($menus as $menu) {

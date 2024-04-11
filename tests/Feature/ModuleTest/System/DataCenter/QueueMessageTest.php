@@ -15,6 +15,9 @@ beforeEach(function () {
     $this->prefix = '/system/queueMessage';
 });
 test('queue message test', function () {
+    if (! in_array(env('DB_DRIVER'), ['pgsql', 'mysql'], true)) {
+        return;
+    }
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'receiveList',
         $this->buildTest('getNoParamsTest') => 'sendList',

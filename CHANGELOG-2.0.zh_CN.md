@@ -1,5 +1,9 @@
 # v2.0 - TBD
 
+## v2.0.1-beta.7 TDB
+
+-
+
 ## v2.0.0-beta.6
 
 - [#178](https://github.com/mineadmin/MineAdmin/pull/178) 代码生成器增加预览页面

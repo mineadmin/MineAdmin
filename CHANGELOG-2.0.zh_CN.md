@@ -2,7 +2,7 @@
 
 ## v2.0.1-beta.7 TDB
 
--
+- [#225](https://github.com/mineadmin/MineAdmin/pull/225) 优化 ws amqp 处理逻辑
 
 ## v2.0.0-beta.6
 

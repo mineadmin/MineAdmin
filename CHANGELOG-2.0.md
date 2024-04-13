@@ -1,5 +1,9 @@
 # v2.0 - TBD
 
+## v2.0.1-beta.7 TDB
+
+- [#225](https://github.com/mineadmin/MineAdmin/pull/225) Optimising ws amqp processing logic
+
 ## v2.0.0-beta.6
 
 - [#178](https://github.com/mineadmin/MineAdmin/pull/178) Code generator add preview page

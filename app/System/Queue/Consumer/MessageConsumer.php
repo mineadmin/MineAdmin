@@ -19,8 +19,6 @@ use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 
 /**
  * 后台内部消息队列消费处理.
- * @deprecated 2.0
- * @see https://github.com/mineadmin/MineAdmin/discussions/162
  */
 // #[Consumer(exchange: "mineadmin", routingKey: "message.routing", queue: "message.queue", name: "message.queue", nums: 1)]
 class MessageConsumer extends ConsumerMessage

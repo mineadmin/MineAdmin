@@ -131,7 +131,7 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
         ];
         $producer = new MessageProducer($data);
         $queueName = strchr($producer->getRoutingKey(), '.', true) . '.queue';
-        $id = $this->service->save([
+        $id = $this->save([
             'exchange_name' => $producer->getExchange(),
             'routing_key_name' => $producer->getRoutingKey(),
             'queue_name' => $queueName,
@@ -152,7 +152,7 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
                 $producer
             );
         } catch (\Exception $e) {
-            $this->service->update((int) $id, [
+            $this->update((int) $id, [
                 'produce_status' => self::PRODUCE_STATUS_FAIL,
                 'log_content' => $e->getMessage(),
             ]);

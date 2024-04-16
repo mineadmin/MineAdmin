@@ -50,16 +50,9 @@ return [
             'region' => '',
             'domain' => '',
             'schema' => 'http://',
-            // overtrue/flysystem-cos ^2.0 配置如下
-            'credentials' => [
-                'appId' => '',
-                'secretId' => '',
-                'secretKey' => '',
-            ],
-            // overtrue/flysystem-cos ^3.0 配置如下
-            // 'app_id' => env('COS_APPID'),
-            // 'secret_id' => env('COS_SECRET_ID'),
-            // 'secret_key' => env('COS_SECRET_KEY'),
+            'app_id' => env('COS_APPID'),
+            'secret_id' => env('COS_SECRET_ID'),
+            'secret_key' => env('COS_SECRET_KEY'),
             // 可选，如果 bucket 为私有访问请打开此项
             // 'signed_url' => false,
             'bucket' => '',

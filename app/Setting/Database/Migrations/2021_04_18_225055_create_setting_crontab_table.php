@@ -29,20 +29,20 @@ class CreateSettingCrontabTable extends Migration
                 'smallInteger',
                 'type',
                 ['default' => 4, 'comment' => '任务类型 (1 command, 2 class, 3 url, 4 eval)']
-            )->default(1);
-            $table->addColumn('string', 'target', ['length' => 500, 'comment' => '调用任务字符串'])->default('');
-            $table->addColumn('string', 'parameter', ['length' => 1000, 'comment' => '调用任务参数'])->default('');
+            )->nullable();
+            $table->addColumn('string', 'target', ['length' => 500, 'comment' => '调用任务字符串'])->nullable();
+            $table->addColumn('string', 'parameter', ['length' => 1000, 'comment' => '调用任务参数'])->nullable();
             $table->addColumn('string', 'rule', ['length' => 32, 'comment' => '任务执行表达式']);
             $table->addColumn(
                 'smallInteger',
                 'singleton',
                 ['default' => 1, 'comment' => '是否单次执行 (1 是 2 不是)']
-            )->default(1);
-            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->default(2);
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->default(0);
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->default(0);
+            )->nullable();
+            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
+            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
+            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
             $table->timestamps();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->default('');
+            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
         });
     }
 

@@ -136,3 +136,41 @@ if (! function_exists('is_in_container')) {
         return strpos($mountinfo, 'kubepods') > 0 || strpos($mountinfo, 'docker') > 0;
     }
 }
+
+if (! function_exists('has_permission')) {
+    /**
+     * 检查用户是否拥有某权限
+     * @param string $code
+     * @param int|null $userId
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function has_permission(string $code, ?int $userId = null): bool
+    {
+        $codes = container()->get(\App\System\Service\SystemUserService::class)->getInfo($userId)['codes'];
+        if ($codes[0] === '*') {
+            return true;
+        }
+        return in_array($code, $codes);
+    }
+}
+
+if (! function_exists('has_role')) {
+    /**
+     * 检查用户是否拥有某角色
+     * @param string $code
+     * @param int|null $userId
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function has_role(string $code, ?int $userId = null): bool
+    {
+        $roles = container()->get(\App\System\Service\SystemUserService::class)->getInfo($userId)['roles'];
+        if ($roles === 'superAdmin') {
+            return true;
+        }
+        return in_array($code, $roles);
+    }
+}

@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Setting\Service\SettingConfigService;
+use App\System\Service\SystemUserService;
 use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
@@ -139,16 +140,13 @@ if (! function_exists('is_in_container')) {
 
 if (! function_exists('has_permission')) {
     /**
-     * 检查用户是否拥有某权限
-     * @param string $code
-     * @param int|null $userId
-     * @return bool
+     * 检查用户是否拥有某权限.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     function has_permission(string $code, ?int $userId = null): bool
     {
-        $codes = container()->get(\App\System\Service\SystemUserService::class)->getInfo($userId)['codes'];
+        $codes = container()->get(SystemUserService::class)->getInfo($userId)['codes'];
         if ($codes[0] === '*') {
             return true;
         }
@@ -158,16 +156,13 @@ if (! function_exists('has_permission')) {
 
 if (! function_exists('has_role')) {
     /**
-     * 检查用户是否拥有某角色
-     * @param string $code
-     * @param int|null $userId
-     * @return bool
+     * 检查用户是否拥有某角色.
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     function has_role(string $code, ?int $userId = null): bool
     {
-        $roles = container()->get(\App\System\Service\SystemUserService::class)->getInfo($userId)['roles'];
+        $roles = container()->get(SystemUserService::class)->getInfo($userId)['roles'];
         if ($roles === 'superAdmin') {
             return true;
         }

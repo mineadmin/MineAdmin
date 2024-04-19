@@ -68,13 +68,15 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取用户信息.
+     * @param int|null $userId
+     * @return array
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function getInfo(): array
+    public function getInfo(?int $userId = null): array
     {
-        if ($uid = user()->getId()) {
-            return $this->getCacheInfo((int) $uid);
+        if ($uid = ( is_null($userId) ? user()->getId() : $userId )) {
+            return $this->getCacheInfo($uid);
         }
         throw new MineException(t('system.unable_get_userinfo'), 500);
     }

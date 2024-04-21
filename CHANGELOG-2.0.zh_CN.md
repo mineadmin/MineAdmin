@@ -3,6 +3,7 @@
 ## v2.0.1-beta.7 TDB
 
 - [#225](https://github.com/mineadmin/MineAdmin/pull/225) 优化 ws amqp 处理逻辑
+- [#232](https://github.com/mineadmin/MineAdmin/pull/232) 移除根目录api以及相关命名空间
 
 ## v2.0.0-beta.6
 

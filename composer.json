@@ -40,8 +40,7 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "app/",
-      "Api\\": "api/"
+      "App\\": "app/"
     },
     "files": [
       "common/common.php"

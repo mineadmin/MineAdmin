@@ -10,12 +10,12 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\AppStore;
+namespace Plugin\MineAdmin\AppStore;
 
-class UninstallScript
+class InstallScript
 {
     public function __invoke()
     {
-        echo '插件卸载时执行的方法';
+        echo '插件安装时执行的方法';
     }
 }

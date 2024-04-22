@@ -1,0 +1,24 @@
+{
+  "name": "app-store",
+  "description": "MineAdmin 应用商店可视化管理插件",
+  "author": [
+    {
+      "name": "mineadmin"
+    }
+  ],
+  "package": {
+    "dependencies": {
+
+    }
+  },
+  "composer": {
+    "require": {
+    },
+    "psr-4": {
+      "Plugin\\MineAdmin\\AppStore\\": "Src"
+    },
+    "installScript": "Plugin\\MineAdmin\\AppStore\\InstallScript",
+    "uninstallScript": "Plugin\\MineAdmin\\AppStore\\UninstallScript",
+    "config": "Plugin\\MineAdmin\\AppStore\\ConfigProvider"
+  }
+}

@@ -18,7 +18,7 @@ class IndexController extends MineController
     #[GetMapping('index')]
     public function index()
     {
-        $data = $this->serviceImpl->list([]);
+        $data = $this->serviceImpl->list(['page' => 1, 'size' => 10]);
         return $this->success($data);
     }
 }

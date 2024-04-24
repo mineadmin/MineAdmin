@@ -74,7 +74,7 @@ class UserController extends MineController
     #[PostMapping('save'), Permission('system:user:save'), OperationLog]
     public function save(SystemUserRequest $request): ResponseInterface
     {
-        return $this->success(['id' => $this->service->save($request->all())]);
+        return $this->success(['id' => $this->service->save($request->validated())]);
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends MineController
     #[PutMapping('update/{id}'), Permission('system:user:update'), OperationLog]
     public function update(int $id, SystemUserRequest $request): ResponseInterface
     {
-        return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
+        return $this->service->update($id, $request->validated()) ? $this->success() : $this->error();
     }
 
     /**
@@ -184,9 +184,9 @@ class UserController extends MineController
      * @throws NotFoundExceptionInterface
      */
     #[PostMapping('updateInfo')]
-    public function updateInfo(): ResponseInterface
+    public function updateInfo(SystemUserRequest $request): ResponseInterface
     {
-        return $this->service->updateInfo(array_merge($this->request->all(), ['id' => user()->getId()])) ? $this->success() : $this->error();
+        return $this->service->updateInfo(array_merge($request->validated(), ['id' => user()->getId()])) ? $this->success() : $this->error();
     }
 
     /**

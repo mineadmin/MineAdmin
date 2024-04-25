@@ -38,7 +38,7 @@ class SystemUserRequest extends MineFormRequest
             'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
-            'remark' => 'max:255'
+            'remark' => 'max:255',
         ];
     }
 
@@ -54,7 +54,7 @@ class SystemUserRequest extends MineFormRequest
             'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
-            'remark' => 'max:255'
+            'remark' => 'max:255',
         ];
     }
 
@@ -114,8 +114,7 @@ class SystemUserRequest extends MineFormRequest
     }
 
     /**
-     * 更改用户资料验证规则
-     * @return array
+     * 更改用户资料验证规则.
      */
     public function updateInfoRules(): array
     {
@@ -123,7 +122,7 @@ class SystemUserRequest extends MineFormRequest
             'username' => 'max:20',
             'phone' => 'phone_number',
             'email' => 'email',
-            'signed' => 'max:255'
+            'signed' => 'max:255',
         ];
     }
 
@@ -147,7 +146,7 @@ class SystemUserRequest extends MineFormRequest
             'phone' => '手机',
             'email' => '邮箱',
             'remark' => '备注',
-            'signed' => '个人签名'
+            'signed' => '个人签名',
         ];
     }
 }

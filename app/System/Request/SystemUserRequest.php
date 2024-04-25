@@ -34,21 +34,27 @@ class SystemUserRequest extends MineFormRequest
         return [
             'username' => 'required|max:20',
             'password' => 'required|min:6',
+            'phone' => 'phone_number',
+            'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
+            'remark' => 'max:255',
         ];
     }
 
     /**
-     * 新增数据验证规则
+     * 更新数据验证规则
      * return array.
      */
     public function updateRules(): array
     {
         return [
             'username' => 'required|max:20',
+            'phone' => 'phone_number',
+            'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
+            'remark' => 'max:255',
         ];
     }
 
@@ -108,6 +114,19 @@ class SystemUserRequest extends MineFormRequest
     }
 
     /**
+     * 更改用户资料验证规则.
+     */
+    public function updateInfoRules(): array
+    {
+        return [
+            'username' => 'max:20',
+            'phone' => 'phone_number',
+            'email' => 'email',
+            'signed' => 'max:255',
+        ];
+    }
+
+    /**
      * 字段映射名称
      * return array.
      */
@@ -124,6 +143,10 @@ class SystemUserRequest extends MineFormRequest
             'status' => '用户状态',
             'dept_ids' => '部门ID',
             'role_ids' => '角色列表',
+            'phone' => '手机',
+            'email' => '邮箱',
+            'remark' => '备注',
+            'signed' => '个人签名',
         ];
     }
 }

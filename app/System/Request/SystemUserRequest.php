@@ -120,7 +120,7 @@ class SystemUserRequest extends MineFormRequest
     public function updateInfoRules(): array
     {
         return [
-            'username' => 'required|max:20',
+            'username' => 'max:20',
             'phone' => 'phone_number',
             'email' => 'email',
             'signed' => 'max:255'

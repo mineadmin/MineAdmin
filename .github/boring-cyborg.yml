@@ -12,12 +12,14 @@ labelPRBasedOnFilePath:
     - src/*/composer.json
 
 firstPRWelcomeComment: >
-  Thanks for opening this pull request! Please check out our contributing guidelines.
-
+  Thanks for opening this pull request! Please check out our [contributing guidelines](https://github.com/mineadmin/MineAdmin/blob/master/CONTRIBUTING.md).
+  感谢您开启此拉取请求！请查看我们的 [贡献者指南](https://github.com/mineadmin/MineAdmin/blob/master/CONTRIBUTING.md#L51)。
 # Comment to be posted to congratulate user on their first merged PR
 firstPRMergeComment: >
   Awesome work, congrats on your first merged pull request!
+  祝贺你的第一个拉取请求被合并！
 
 # Comment to be posted to on first time issues
 firstIssueWelcomeComment: >
   Thanks for opening your first issue here! Be sure to follow the issue template!
+  感谢您在这里反馈第一个问题！请务必遵循问题模板！

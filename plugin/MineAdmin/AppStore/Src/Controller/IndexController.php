@@ -31,6 +31,12 @@ class IndexController extends MineController
         return $this->success($this->serviceImpl->list($this->request->all()));
     }
 
+    #[GetMapping('getMyApp')]
+    public function getMyApp(): ResponseInterface
+    {
+        return $this->success($this->serviceImpl->myApp($this->request->all()));
+    }
+
     #[GetMapping('detail')]
     public function detail(): ResponseInterface
     {

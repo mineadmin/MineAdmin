@@ -148,7 +148,7 @@ class SystemUserMapper extends AbstractMapper
                 })
                 ->pluck('id')
                 ->toArray();
-            $query->whereHas('depts', fn($query) => $query->whereIn('id', $deptIds));
+            $query->whereHas('depts', fn ($query) => $query->whereIn('id', $deptIds));
         }
         if (isset($params['username']) && filled($params['username'])) {
             $query->where('username', 'like', '%' . $params['username'] . '%');

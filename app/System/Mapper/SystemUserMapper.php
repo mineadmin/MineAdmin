@@ -16,7 +16,6 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;

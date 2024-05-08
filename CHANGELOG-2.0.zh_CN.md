@@ -3,7 +3,7 @@
 ## v2.0.1-beta.7 TDB
 
 - [#225](https://github.com/mineadmin/MineAdmin/pull/225) 优化 ws amqp 处理逻辑
-
+- [#250](https://github.com/mineadmin/MineAdmin/pull/250) 优化 用户管理筛选逻辑
 ## v2.0.0-beta.6
 
 - [#178](https://github.com/mineadmin/MineAdmin/pull/178) 代码生成器增加预览页面

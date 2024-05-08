@@ -139,21 +139,16 @@ class SystemUserMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['dept_id']) && filled($params['dept_id']) && is_string($params['dept_id'])) {
-            $tablePrefix = env('DB_PREFIX');
-            $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
-                ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
-                ->whereIn(
-                    'dept.dept_id',
-                    SystemDept::query()
-                        ->where(function ($query) use ($params) {
-                            $query->where('id', '=', $params['dept_id'])
-                                ->orWhere('level', 'like', $params['dept_id'] . ',%')
-                                ->orWhere('level', 'like', '%,' . $params['dept_id'])
-                                ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
-                        })
-                        ->pluck('id')
-                        ->toArray()
-                );
+            $deptIds = SystemDept::query()
+                ->where(function ($query) use ($params) {
+                    $query->where('id', '=', $params['dept_id'])
+                        ->orWhere('level', 'like', $params['dept_id'] . ',%')
+                        ->orWhere('level', 'like', '%,' . $params['dept_id'])
+                        ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
+                })
+                ->pluck('id')
+                ->toArray();
+            $query->whereHas('depts', fn($query) => $query->whereIn('id', $deptIds));
         }
         if (isset($params['username']) && filled($params['username'])) {
             $query->where('username', 'like', '%' . $params['username'] . '%');

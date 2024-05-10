@@ -10,7 +10,7 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
-    "xmo/app-store": "2.0.x-dev",
+    "mineadmin/app-store": "2.0.x-dev",
     "xmo/jwt-auth": "2.0.x-dev",
     "xmo/mine-core": "2.0.x-dev",
     "xmo/mine-generator": "2.0.x-dev",

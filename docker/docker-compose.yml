@@ -1,0 +1,83 @@
+version: '3'
+services:
+  # 首先下载前端，https://gitee.com/mineadmin/mineadmin-vue
+  # 在后端根目录建立mine-ui目录，把前端文件复制过来。
+  # 容器内访问宿主机的地址用：host.docker.internal
+  # 宿主机也可以在hosts文件添加：127.0.0.1 host.docker.internal
+  # mine-ui的.env.development文件127.0.0.1替换为host.docker.internal
+  nginx-frontend:
+    container_name: ${NGINX_CONTAINER_NAME}
+    image: ${NGINX_VERSION}
+    restart: always
+    environment:
+      - "TIMEZONE=${TIMEZONE}"
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ${NGINX_ROOT_PATH}:/usr/share/nginx/html
+      - ${NGINX_CONF_PATH}:/etc/nginx/conf.d
+      - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+
+  # mineadmin的.env的mysql、redis如果连接到宿主机，地址用：host.docker.internal
+  # 如果是连接到docker内服务，则用服务名称，如:redis
+  hyperf:
+    container_name: ${HYPERF_CONTAINER_NAME}
+    image: ${HYPERF_VERSION}
+    restart: always
+    environment:
+      - "TIMEZONE=${TIMEZONE}"
+      - "APP_PROJECT=hyperf"
+      - "APP_SYSTEM_ENV=docker"
+    working_dir: ${HYPERF_ENTRYPOINT_DIR}
+    ports:
+      - ${HYPERF_HTTP_PORT}:9501
+      - ${HYPERF_WEBSOCKET_PORT}:9502
+      - ${HYPERF_RPC_PORT}:9503
+    volumes:
+      - ${HYPERF_PROJECT_PATH}:/opt/www
+    entrypoint: ["php", "watch", "-c"]
+
+  # 没有将volumes映射出来，需要持久化自行百度一下
+
+  mysql:
+    container_name: ${MYSQL_CONTAINER_NAME}
+    image: mysql:${MYSQL_VERSION}
+    restart: always
+    environment:
+      - "TZ=${TIMEZONE}"
+      -  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - "explicit_defaults_for_timestamp=true"
+      - "lower_case_table_names=1"
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - ${MYSQL_DATA_PATH}:/var/lib/mysql
+      - ${MYSQL_LOGS_PATH}:/var/log/mysql
+      - ${MYSQL_CONF_PATH}:/etc/mysql
+    # command: "--default-authentication-plugin=mysql_native_password"
+
+  redis:
+    container_name: ${REDIS_CONTAINER_NAME}
+    image: ${REDIS_VERSION}
+    restart: always
+    environment:
+      - "TZ=${TIMEZONE}"
+    ports:
+        - ${REDIS_PORT}:6379
+    volumes:
+      - ${REDIS_DATA_PATH}:/data
+    command: "redis-server /data/redis.conf"
+
+  rabbitmq:
+    container_name: ${RABBITMQ_CONTAINER_NAME}
+    image: ${RABBITMQ_VERSION}
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "${RABBITMQ_ERLANG_PORT}:4369"
+      - "${RABBITMQ_CLIENT_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+      - "${RABBITMQ_NODE_PORT}:25672"

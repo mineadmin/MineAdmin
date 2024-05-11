@@ -184,9 +184,9 @@ class UserController extends MineController
      * @throws NotFoundExceptionInterface
      */
     #[PostMapping('updateInfo')]
-    public function updateInfo(): ResponseInterface
+    public function updateInfo(SystemUserRequest $request): ResponseInterface
     {
-        return $this->service->updateInfo(array_merge($this->request->all(), ['id' => user()->getId()])) ? $this->success() : $this->error();
+        return $this->service->updateInfo(array_merge($request->all(), ['id' => user()->getId()])) ? $this->success() : $this->error();
     }
 
     /**

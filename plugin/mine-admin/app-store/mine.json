@@ -15,7 +15,7 @@
     "require": {
     },
     "psr-4": {
-      "Plugin\\MineAdmin\\AppStore\\": "Src"
+      "Plugin\\MineAdmin\\AppStore\\": "src"
     },
     "installScript": "Plugin\\MineAdmin\\AppStore\\InstallScript",
     "uninstallScript": "Plugin\\MineAdmin\\AppStore\\UninstallScript",

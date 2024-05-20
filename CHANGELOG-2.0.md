@@ -1,6 +1,11 @@
 # v2.0 - TBD
 
-## v2.0.1-beta.7 TDB
+## v2.0-RC
+
+### Added
+
+
+## v2.0.1-beta.7
 
 - [#225](https://github.com/mineadmin/MineAdmin/pull/225) Optimising ws amqp processing logic
 - [#250](https://github.com/mineadmin/MineAdmin/pull/250) Optimise user filtering logic

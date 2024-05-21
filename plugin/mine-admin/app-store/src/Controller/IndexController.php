@@ -28,18 +28,12 @@ class IndexController extends MineController
     public AppStoreServiceImpl $serviceImpl;
 
     #[Inject]
-    public Service $Service;
+    public Service $service;
 
     #[GetMapping('index')]
     public function index(): ResponseInterface
     {
         return $this->success($this->serviceImpl->list($this->request->all()));
-    }
-
-    #[GetMapping('getMyApp')]
-    public function getMyApp(): ResponseInterface
-    {
-        return $this->success($this->serviceImpl->myApp($this->request->all()));
     }
 
     #[GetMapping('getPayApp')]
@@ -48,16 +42,39 @@ class IndexController extends MineController
         return $this->success($this->serviceImpl->payApp());
     }
 
+    #[GetMapping('getLocalAppInstallList')]
+    public function getLocalAppInstallList(): ResponseInterface
+    {
+        return $this->success($this->service->getLocalAppInstallList());
+    }
+
+    #[GetMapping('getLocalAppList')]
+    public function getLocalAppList(): ResponseInterface
+    {
+        return $this->success($this->service->getLocalAppList());
+    }
+
     #[GetMapping('detail')]
     public function detail(): ResponseInterface
     {
         return $this->success($this->serviceImpl->view($this->request->input('identifier')));
     }
 
-    #[PostMapping('downloadAndInstall')]
-    public function downloadAndInstall(): ResponseInterface
+    #[PostMapping('download')]
+    public function download(): ResponseInterface
     {
-        return $this->success($this->Service->downloadAndInstall($this->request->all()));
+        return $this->success( ['result' => $this->service->download($this->request->all())] );
+    }
+    #[PostMapping('install')]
+    public function install(): ResponseInterface
+    {
+        return $this->success( ['result' => $this->service->install($this->request->all())] );
+    }
+
+    #[PostMapping('unInstall')]
+    public function unInstall(): ResponseInterface
+    {
+        return $this->success( ['result' => $this->service->unInstall($this->request->all())] );
     }
 
     #[GetMapping('hasAccessToken')]

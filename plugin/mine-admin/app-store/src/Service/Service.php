@@ -54,7 +54,6 @@ class Service
         }
 
         $pluginName =  $params['space'] . "/" . $params['identifier'];
-
         try {
             Plugin::install($pluginName);
         } catch (\RuntimeException $e) {
@@ -77,7 +76,10 @@ class Service
         foreach ($list as $splFileInfo) {
             $info = Plugin::read($splFileInfo->getRelativePath());
             if (! empty($info)) {
-                $items[$info['name']] = $info['status'];
+                $items[$info['name']] = [
+                    'status' => $info['status'],
+                    'version' => $info['version'],
+                ];
             }
         }
         return $items;

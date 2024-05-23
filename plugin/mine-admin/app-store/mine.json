@@ -1,6 +1,7 @@
 {
   "name": "mine-admin/app-store",
   "description": "MineAdmin 应用商店可视化管理插件",
+  "version": "1.0",
   "author": [
     {
       "name": "mineadmin"

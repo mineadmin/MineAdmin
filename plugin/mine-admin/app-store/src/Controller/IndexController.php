@@ -65,6 +65,7 @@ class IndexController extends MineController
     {
         return $this->success( ['result' => $this->service->download($this->request->all())] );
     }
+
     #[PostMapping('install')]
     public function install(): ResponseInterface
     {

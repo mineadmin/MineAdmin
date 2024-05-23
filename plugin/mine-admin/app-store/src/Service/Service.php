@@ -55,6 +55,7 @@ class Service
 
         $pluginName =  $params['space'] . "/" . $params['identifier'];
         try {
+            Plugin::forceRefreshJsonPath();
             Plugin::install($pluginName);
         } catch (\RuntimeException $e) {
             throw new MineException($e->getMessage());
@@ -63,8 +64,25 @@ class Service
         return true;
     }
 
-    public function unInstall(): bool
+    public function unInstall(array $params): bool
     {
+        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
+            throw new MineException('请检查space、identifier、version参数是否正确');
+        }
+
+        $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
+
+        if (! file_exists($path . '/install.lock') ) {
+            throw new MineException('应用并未安装');
+        }
+
+        $pluginName =  $params['space'] . "/" . $params['identifier'];
+        try {
+            Plugin::forceRefreshJsonPath();
+            Plugin::uninstall($pluginName);
+        } catch (\RuntimeException $e) {
+            throw new MineException($e->getMessage());
+        }
         return true;
     }
 

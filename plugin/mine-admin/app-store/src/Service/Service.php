@@ -103,8 +103,29 @@ class Service
         return $items;
     }
 
-    public function getLocalAppList(): array
+    public function uploadLocalApp(\Hyperf\HttpMessage\Upload\UploadedFile $file): bool
     {
-        return [];
+        try {
+            $runtimePath = BASE_PATH . '/runtime/' . uniqid('mineApp', true) . '.zip';
+            $file->moveTo($runtimePath);
+            $zip = new \ZipArchive();
+            $zip->open($runtimePath);
+            if ($zip->status !== \ZipArchive::ER_OK) {
+                throw new \RuntimeException('Failed to open the zip file');
+            }
+            $json = json_decode(
+                $zip->getFromName('mine.json'),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+            $zip->extractTo(Plugin::PLUGIN_PATH . '/' . $json['name']);
+            $zip->close();
+            Plugin::forceRefreshJsonPath();
+            Plugin::install($json['name']);
+        } catch (\Throwable $e) {
+            throw new MineException($e->getMessage());
+        }
+        return true;
     }
 }

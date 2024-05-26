@@ -48,12 +48,6 @@ class IndexController extends MineController
         return $this->success($this->service->getLocalAppInstallList());
     }
 
-    #[GetMapping('getLocalAppList')]
-    public function getLocalAppList(): ResponseInterface
-    {
-        return $this->success($this->service->getLocalAppList());
-    }
-
     #[GetMapping('detail')]
     public function detail(): ResponseInterface
     {
@@ -76,6 +70,13 @@ class IndexController extends MineController
     public function unInstall(): ResponseInterface
     {
         return $this->success( ['result' => $this->service->unInstall($this->request->all())] );
+    }
+
+    #[PostMapping('uploadLocalApp')]
+    public function uploadLocalApp(): ResponseInterface
+    {
+        $this->service->uploadLocalApp($this->request->file('file'));
+        return $this->success();
     }
 
     #[GetMapping('hasAccessToken')]

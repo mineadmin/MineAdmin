@@ -1,0 +1,36 @@
+name: Pull Request CS Fixer
+on:
+  pull_request:
+
+jobs:
+  cs-fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ '8.1' ]
+        swoole: [ 'swoole' ]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          extensions: redis,pdo,pdo_mysql,bcmatch,${{ matrix.swoole }}
+      - name: Setup Packages
+        run: composer update -oW
+      - name: Run CS Fix
+        run: |
+          vendor/bin/php-cs-fixer fix app
+          vendor/bin/php-cs-fixer fix api
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: '-A'
+          author_name: StyleCI
+          author_email: root@imoi.cn
+          message: 'Apply CS Fixer'
+          push: true

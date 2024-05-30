@@ -11,13 +11,13 @@
   "license": "Apache-2.0",
   "require": {
     "mineadmin/app-store": "^2.0.x-dev",
-    "xmo/jwt-auth": "^2.0-RC",
-    "xmo/mine-core": "^2.0-RC",
-    "xmo/mine-generator": "^2.0-RC",
-    "xmo/mine-helpers": "^2.0-RC",
-    "xmo/mine-office": "^2.0-RC",
-    "xmo/mine-service": "^2.0-RC",
-    "xmo/mine-translatable": "^2.0-RC"
+    "xmo/jwt-auth": "^2.0-stable",
+    "xmo/mine-core": "^2.0-stable",
+    "xmo/mine-generator": "^2.0-stable",
+    "xmo/mine-helpers": "^2.0-stable",
+    "xmo/mine-office": "^2.0-stable",
+    "xmo/mine-service": "^2.0-stable",
+    "xmo/mine-translatable": "^2.0-stable"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

@@ -18,6 +18,7 @@ jobs:
         swoole: [ 'swoole']
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request'
         with:
           ref: ${{ github.head_ref }}
       - name: Setup PHP
@@ -34,7 +35,7 @@ jobs:
         with:
           add: '-A'
           author_name: StyleCI
-          author_email: xmo@root.cn
+          author_email: root@imoi.cn
           message: 'Apply CS Fixer'
           push: true
   tests:

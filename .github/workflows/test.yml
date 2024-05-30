@@ -8,28 +8,28 @@ on:
 
 jobs:
   cs-fix:
-    name: PHP CS Fix on PHP${{ matrix.php }} ${{ matrix.swoole }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php: [ '8.1','8.2','8.3' ]
-        swoole: [ 'swoole']
+        php: [ '8.1' ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
-        with:
-          tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql,bcmath, ${{ matrix.swoole }}
       - name: Setup Packages
         run: composer update -oW
-
       - name: Run CS Fix
         run: |
-          vendor/bin/php-cs-fixer fix app --dry-run --diff
-          vendor/bin/php-cs-fixer fix api --dry-run --diff
+          vendor/bin/php-cs-fixer fix app
+          vendor/bin/php-cs-fixer fix api
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply php-cs-fixer changes
   tests:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}

@@ -131,6 +131,7 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.travis/run.test.sh
+        # 因为 mssql 依赖现在有问题，暂时未修复。等修复后再开启
 #      - name: Run MsSql Test Cases
 #        if: matrix.sw-version != 'v5.0.3'
 #        env:

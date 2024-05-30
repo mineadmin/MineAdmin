@@ -15,12 +15,15 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php: [ '8.1' ]
+        swoole: [ 'swoole']
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
+        with:
+          extensions: redis,pdo,pdo_mysql,bcmatch,${{ matrix.swoole }}
       - name: Setup Packages
         run: composer update -oW
       - name: Run CS Fix

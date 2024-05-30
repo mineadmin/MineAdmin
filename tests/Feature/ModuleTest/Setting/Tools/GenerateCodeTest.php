@@ -34,7 +34,7 @@ beforeEach(function () {
         'component_type' => 1,
         'options' => [],
     ]);
-});
+})->skip(version_compare(swoole_version(),'6.0','>'),'swoole version must be less than 6.0');
 
 test('generator code test', function () {
     if (env('DB_DRIVER') !== 'mysql') {

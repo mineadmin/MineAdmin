@@ -1,11 +1,9 @@
 name: MineAdmin Unit and Ci Test
-
 on:
   push:
   pull_request:
   schedule:
     - cron: '0 2 * * *'
-
 jobs:
   tests:
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}

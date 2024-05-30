@@ -30,9 +30,13 @@ jobs:
         run: |
           vendor/bin/php-cs-fixer fix app
           vendor/bin/php-cs-fixer fix api
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: EndBug/add-and-commit@v9
         with:
-          commit_message: Apply php-cs-fixer changes
+          add: '-A'
+          author_name: StyleCI
+          author_email: xmo@root.cn
+          message: 'Apply CS Fixer'
+          push: true
   tests:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}

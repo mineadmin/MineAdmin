@@ -123,6 +123,7 @@ class Service
             $zip->close();
             Plugin::forceRefreshJsonPath();
             Plugin::install($json['name']);
+            @unlink($runtimePath);
         } catch (\Throwable $e) {
             throw new MineException($e->getMessage());
         }

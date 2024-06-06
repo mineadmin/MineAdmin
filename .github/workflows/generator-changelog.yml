@@ -1,9 +1,10 @@
 name: Auto Generator Changelog
+
 on:
   pull_request:
     types: [closed] #only closed pr
     branches:
-      - main #trigger this action if the pr is related with this branch
+      - master #trigger this action if the pr is related with this branch
 
 jobs:
   update_changelog:

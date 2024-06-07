@@ -1,0 +1,15 @@
+name: Pierre-Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  autocomment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Pierre-Review
+        uses: aummo/pierre-review@main

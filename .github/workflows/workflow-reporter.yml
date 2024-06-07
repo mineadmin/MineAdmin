@@ -1,0 +1,12 @@
+# Receive the workflow stats
+workflowStat: true
+
+# Receive the workflow job stats
+jobStat: true
+
+
+salutation: Hello
+
+# Custom body message
+# This will come after salutation
+body: 持续集成工作流程失败。请查询相关详情

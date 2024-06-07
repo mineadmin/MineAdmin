@@ -2,7 +2,15 @@ name: Pierre-Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+  pull_request_review_comment:
+    types: [created]
+
+concurrency:
+  group:
+    ${{ github.repository }}-${{ github.event.number || github.head_ref ||
+    github.sha }}-${{ github.workflow }}-${{ github.event_name ==
+    'pull_request_review_comment' && 'pr_comment' || 'pr' }}
+  cancel-in-progress: ${{ github.event_name != 'pull_request_review_comment' }}
 
 jobs:
   autocomment:
@@ -10,6 +18,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Run Pierre-Review
         uses: aummo/pierre-review@main
+      - name: PR Review & Summary Bot with AI and Chat Features Experimental
+        uses: primathontech/primathon-ai-code-reviewer-experimental@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          debug: false
+          review_simple_changes: false
+          review_comment_lgtm: false

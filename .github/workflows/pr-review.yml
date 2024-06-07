@@ -31,14 +31,3 @@ jobs:
           debug: false
           review_simple_changes: true
           review_comment_lgtm: true
-      - name: Run PR Auto on initial open PR
-        if: github.event_name == 'pull_request'
-        id: pr_auto_id
-        uses: vblagoje/pr-auto@v1
-        with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          user_prompt: ${{ github.event.pull_request.body }}
-      - name: Update PR description
-        uses: vblagoje/update-pr@v1
-        with:
-          pr-body: ${{ steps.pr_auto_id.outputs.pr-text }}

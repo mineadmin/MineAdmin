@@ -12,10 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: main
-
+        uses: actions/checkout@v4
       - name: Update Changelog
         uses: AntonioGally/ag-changelogger/@main
         with:

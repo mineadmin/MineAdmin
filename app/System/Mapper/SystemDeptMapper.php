@@ -55,7 +55,11 @@ class SystemDeptMapper extends AbstractMapper
                 ->orderBy('parent_id')->orderBy('sort', 'desc')
                 ->get()->toArray();
 
-            return (new MineCollection())->toTree(array_merge($treeData, $deptTree), $treeData[0]['parent_id'] ?? 0);
+            // 去除重复部门
+            $deptTree = array_merge($treeData, $deptTree);
+            $deptTree = array_values(array_column($deptTree, null, 'id'));
+
+            return (new MineCollection())->toTree($deptTree, $treeData[0]['parent_id'] ?? 0);
         }
         return $deptTree;
     }

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\System\Mapper;
 
-use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemUploadfile;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
@@ -28,7 +27,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 class SystemUploadFileMapper extends AbstractMapper
 {
     /**
-     * @var SystemLoginLog
+     * @var SystemUploadfile
      */
     public $model;
 
@@ -89,7 +88,7 @@ class SystemUploadFileMapper extends AbstractMapper
         foreach ($ids as $id) {
             $model = $this->model::withTrashed()->find($id);
             if ($model) {
-                $storageMode = match ($model->storage_mode) {
+                $storageMode = match ((string) $model->storage_mode) {
                     '1' => 'local',
                     '2' => 'oss',
                     '3' => 'qiniu',

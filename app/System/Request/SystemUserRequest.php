@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\System\Request;
 
+use App\System\Model\SystemUser;
 use App\System\Service\SystemUserService;
 use Mine\MineFormRequest;
 
@@ -81,7 +82,9 @@ class SystemUserRequest extends MineFormRequest
             'newPassword_confirmation' => 'required|string',
             'oldPassword' => ['required', function ($attribute, $value, $fail) {
                 $service = $this->container->get(SystemUserService::class);
-                /* @var SystemUser $model */
+                /**
+                 * @var SystemUser $model
+                 */
                 $model = $service->mapper->getModel()::find((int) user()->getId(), ['password']);
                 if (! $service->mapper->checkPass($value, $model->password)) {
                     $fail(t('system.valid_password'));

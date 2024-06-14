@@ -70,7 +70,7 @@ class VerifyInterfaceMiddleware implements MiddlewareInterface
     protected function auth(ServerRequestInterface $request): int
     {
         try {
-            /* @var $service SystemAppService */
+            /** @var SystemAppService $service */
             $service = container()->get(SystemAppService::class);
             $queryParams = $request->getQueryParams();
             $apiData = $this->_getApiData();

@@ -46,7 +46,7 @@ class ApiLogListener implements ListenerInterface
      */
     public function process(object $event): void
     {
-        /* @var $event ApiAfter */
+        /** @var ApiAfter $event */
         $data = $event->getApiData();
         $request = container()->get(MineRequest::class);
         $service = container()->get(SystemApiLogService::class);

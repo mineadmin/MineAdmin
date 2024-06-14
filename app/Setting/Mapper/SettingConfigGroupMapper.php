@@ -33,7 +33,9 @@ class SettingConfigGroupMapper extends AbstractMapper
      */
     public function deleteGroupAndConfig(mixed $id): bool
     {
-        /** @var SettingConfigGroup $model */
+        /**
+         * @var SettingConfigGroup $model
+         */
         $model = $this->read($id);
         $model->configs()->delete();
         return $model->delete();

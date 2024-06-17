@@ -184,7 +184,7 @@ class SystemUserMapper extends AbstractMapper
             $isAll = $params['showDeptAll'] ?? false;
 
             $query->with(['depts' => function ($query) use ($isAll) {
-                /**
+                /*
                  *  @var Builder $query
                  */
                 $query->where('status', SystemDept::ENABLE);

@@ -41,6 +41,12 @@ services:
       - MYSQL_ROOT_PASSWORD=12345678
       - "explicit_defaults_for_timestamp=true"
       - "lower_case_table_names=1"
+    volumes:
+      - ./docker/mysql/57/my.cnf:/etc/my.cnf/:ro
+      - ./docker/mysql/57/data:/var/lib/mysql/:rw
+      - ./docker/mysql/57/logs:/var/log/mysql/:rw
+    ports:
+      - 3306:3306
     image: mysql:5.7
     restart: always
     # command: "--default-authentication-plugin=mysql_native_password"

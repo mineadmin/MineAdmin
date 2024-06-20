@@ -34,6 +34,10 @@ class ValidatorFactoryResolvedListener implements ListenerInterface
         $validatorFactory = $event->validatorFactory;
 
         $validatorFactory->extend('phone_number', function (string $attribute, mixed $value, array $parameters, Validator $validator): bool {
+            if (! $value) {
+                return false;
+            }
+
             return (bool) preg_match('/^1[3-9]\d{9}$/', $value);
         });
     }

@@ -259,14 +259,11 @@ class SystemUserService extends AbstractService implements UserServiceInterface
             return false;
         }
 
-        $model = $this->mapper->getModel()::find($params['id']);
+        $id = $params['id'];
         unset($params['id'], $params['password']);
-        foreach ($params as $key => $param) {
-            $model[$key] = $param;
-        }
+        $this->clearCache((string) $id);
 
-        $this->clearCache((string) $model['id']);
-        return $model->save();
+        return $this->mapper->update($id, $params);
     }
 
     /**

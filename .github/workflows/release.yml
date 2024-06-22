@@ -6,6 +6,8 @@ on:
 
 name: Release
 
+permissions: write-all
+
 jobs:
   release:
     name: Release

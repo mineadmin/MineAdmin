@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Build
-        run: cp -rf .github/workflows/Dockerfile . && docker build -t hyperf .
+        run: docker build -t hyperf .
+      - name: docker-compose
+        run:
+          docker-compose up -d

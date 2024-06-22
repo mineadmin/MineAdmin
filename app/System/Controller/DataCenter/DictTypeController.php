@@ -54,11 +54,10 @@ class DictTypeController extends MineController
     }
 
     /**
-     * @return ResponseInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[GetMapping("list")]
+    #[GetMapping('list')]
     public function list(): ResponseInterface
     {
         return $this->success($this->service->getList($this->request->all()));

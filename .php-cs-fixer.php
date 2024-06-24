@@ -11,6 +11,7 @@ EOF;
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
+    ->setParallelConfig(new PhpCsFixer\Runner\Parallel\ParallelConfig(8, 24))
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,

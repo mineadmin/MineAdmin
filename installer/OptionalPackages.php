@@ -79,6 +79,8 @@ class OptionalPackages
      */
     private $installerSource;
 
+    private array $removeSources = [];
+
     /**
      * @var string
      */
@@ -108,6 +110,9 @@ class OptionalPackages
         $this->parseComposerDefinition($composer, $composerFile);
         // Source path for this file
         $this->installerSource = realpath(__DIR__);
+        $this->removeSources = [
+            $this->installerSource,
+        ];
     }
 
     /**
@@ -320,7 +325,9 @@ class OptionalPackages
                 unlink($target);
             }
         }
-        $this->recursiveRmdir($this->installerSource);
+        foreach ($this->removeSources as $source){
+            $this->recursiveRmdir($source);
+        }
     }
 
     /**
@@ -330,7 +337,6 @@ class OptionalPackages
      */
     private function recursiveRmdir(string $directory): void
     {
-        var_dump($directory);
         if (! is_dir($directory)) {
             return;
         }

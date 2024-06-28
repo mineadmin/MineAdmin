@@ -1,10 +1,15 @@
 {
-  "name": "xmo/mineadmin",
+  "name": "mineadmin/mineadmin",
   "type": "project",
   "keywords": [
     "mineadmin",
     "swoole",
-    "hyperf"
+    "hyperf",
+    "crud",
+    "fast",
+    "developer",
+    "admin",
+    "app store"
   ],
   "homepage": "https://www.mineadmin.com/",
   "description": "Quickly build a background management system for web applications",

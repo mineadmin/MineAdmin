@@ -324,75 +324,13 @@ class OptionalPackages
     }
 
     /**
-     * Prepare and ask questions and return the answer.
-     *
-     * @param int|string $defaultOption
-     * @return bool|int|string
-     * @codeCoverageIgnore
-     */
-    private function askQuestion(array $question, $defaultOption)
-    {
-        // Construct question
-        $ask = [
-            sprintf("\n  <question>%s</question>\n", $question['question']),
-        ];
-        $defaultText = $defaultOption;
-        foreach ($question['options'] as $key => $option) {
-            $defaultText = ($key === $defaultOption) ? $option['name'] : $defaultText;
-            $ask[] = sprintf("  [<comment>%s</comment>] %s\n", $key, $option['name']);
-        }
-        if ($question['required'] !== true) {
-            $ask[] = "  [<comment>n</comment>] None of the above\n";
-        }
-        $ask[] = ($question['custom-package'] === true)
-            ? sprintf(
-                '  Make your selection or type a composer package name and version <comment>(%s)</comment>: ',
-                $defaultText
-            )
-            : sprintf('  Make your selection <comment>(%s)</comment>: ', $defaultText);
-        while (true) {
-            // Ask for user input
-            $answer = $this->io->ask(implode($ask), (string) $defaultOption);
-            // Handle none of the options
-            if ($answer === 'n' && $question['required'] !== true) {
-                return 'n';
-            }
-            // Handle numeric options
-            if (is_numeric($answer) && isset($question['options'][(int) $answer])) {
-                return (int) $answer;
-            }
-            // Handle string options
-            if (isset($question['options'][$answer])) {
-                return $answer;
-            }
-            // Search for package
-            if ($question['custom-package'] === true && preg_match(self::PACKAGE_REGEX, $answer, $match)) {
-                $packageName = $match['name'];
-                $packageVersion = $match['version'];
-                if (! $packageVersion) {
-                    $this->io->write('<error>No package version specified</error>');
-                    continue;
-                }
-                $this->io->write(sprintf('  - Searching for <info>%s:%s</info>', $packageName, $packageVersion));
-                $optionalPackage = $this->composer->getRepositoryManager()->findPackage($packageName, $packageVersion);
-                if ($optionalPackage === null) {
-                    $this->io->write(sprintf('<error>Package not found %s:%s</error>', $packageName, $packageVersion));
-                    continue;
-                }
-                return sprintf('%s:%s', $packageName, $packageVersion);
-            }
-            $this->io->write('<error>Invalid answer</error>');
-        }
-        return false;
-    }
-
-    /**
      * Recursively remove a directory.
      *
      * @codeCoverageIgnore
      */
     private function recursiveRmdir(string $directory): void
     {
+        var_dump($directory);
         if (! is_dir($directory)) {
             return;
         }

@@ -107,7 +107,7 @@ class OptionalPackages
         // Parse the composer.json
         $this->parseComposerDefinition($composer, $composerFile);
         // Source path for this file
-        $this->installerSource = realpath(__DIR__) . 'OptionalPackages.php/';
+        $this->installerSource = realpath(__DIR__);
     }
 
     /**

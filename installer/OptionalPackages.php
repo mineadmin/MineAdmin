@@ -103,8 +103,8 @@ class OptionalPackages
         // Get composer.json location
         $composerFile = Factory::getComposerFile();
         // Calculate project root from composer.json, if necessary
-        $this->projectRoot = $projectRoot ?: realpath(dirname($composerFile));
-        $this->projectRoot = rtrim($this->projectRoot, '/\\') . 'OptionalPackages.php/';
+        // Calculate project root from composer.json, if necessary
+        $this->projectRoot = realpath(dirname($composerFile));
 
         // Parse the composer.json
         $this->parseComposerDefinition($composer, $composerFile);
@@ -112,6 +112,8 @@ class OptionalPackages
         $this->installerSource = realpath(__DIR__);
         $this->removeSources = [
             $this->installerSource,
+            /*$this->projectRoot.'/.github',
+            $this->projectRoot.'/.travis',*/
         ];
     }
 

@@ -14,9 +14,9 @@ namespace App\System\Mapper;
 
 use App\System\Model\SystemRole;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Annotation\Transactional;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\DeleteCache;
-use Mine\Annotation\Transaction;
 
 class SystemRoleMapper extends AbstractMapper
 {
@@ -77,13 +77,11 @@ class SystemRoleMapper extends AbstractMapper
     /**
      * 新建角色.
      */
-    #[Transaction]
+    #[Transactional]
     public function save(array $data): mixed
     {
         $menuIds = $data['menu_ids'] ?? [];
         $deptIds = $data['dept_ids'] ?? [];
-        $this->filterExecuteAttributes($data);
-
         $role = $this->model::create($data);
         empty($menuIds) || $role->menus()->sync(array_unique($menuIds), false);
         empty($deptIds) || $role->depts()->sync($deptIds, false);
@@ -93,12 +91,12 @@ class SystemRoleMapper extends AbstractMapper
     /**
      * 更新角色.
      */
-    #[DeleteCache('loginInfo:*'), Transaction]
+    #[DeleteCache('loginInfo:*'), Transactional]
     public function update(mixed $id, array $data): bool
     {
         $menuIds = $data['menu_ids'] ?? [];
         $deptIds = $data['dept_ids'] ?? [];
-        $this->filterExecuteAttributes($data, true);
+        $data = $this->filterExecuteAttributes($data, true);
         $this->model::query()->where('id', $id)->update($data);
         if ($id != env('ADMIN_ROLE')) {
             $role = $this->model::find($id);
@@ -128,7 +126,7 @@ class SystemRoleMapper extends AbstractMapper
     /**
      * 批量真实删除角色.
      */
-    #[DeleteCache('loginInfo:*'), Transaction]
+    #[DeleteCache('loginInfo:*'), Transactional]
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {

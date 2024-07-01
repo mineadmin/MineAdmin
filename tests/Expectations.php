@@ -42,7 +42,6 @@ expect()->extend('toBeSaveAndUpdate', function (
     array $updateFailParams,
     array $uris = ['save', 'update']
 ) {
-    $this->toBeString();
     $saveUri = $this->value . '/' . $uris[0];
     foreach ($failParams as $param) {
         $failResult = ClientBuilder::post($saveUri, $param);

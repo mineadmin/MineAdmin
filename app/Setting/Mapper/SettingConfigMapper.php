@@ -77,7 +77,7 @@ class SettingConfigMapper extends AbstractMapper
      */
     public function save(array $data): mixed
     {
-        $this->filterExecuteAttributes($data);
+        $data = $this->filterExecuteAttributes($data);
         $model = $this->model::create($data);
         return ($model->{$model->getKeyName()}) ? 1 : 0;
     }

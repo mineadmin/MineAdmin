@@ -96,7 +96,7 @@ class SystemRoleMapper extends AbstractMapper
     {
         $menuIds = $data['menu_ids'] ?? [];
         $deptIds = $data['dept_ids'] ?? [];
-        $data = $this->filterExecuteAttributes($data, true);
+        $this->filterExecuteAttributes($data, true);
         $this->model::query()->where('id', $id)->update($data);
         if ($id != env('ADMIN_ROLE')) {
             $role = $this->model::find($id);

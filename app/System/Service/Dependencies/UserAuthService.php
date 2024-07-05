@@ -53,7 +53,7 @@ class UserAuthService implements UserServiceInterface
             if ($mapper->checkPass($userServiceVo->getPassword(), $userinfo->password)) {
                 if (
                     ($userinfo->status == SystemUser::USER_NORMAL)
-                    || ($userinfo->status == SystemUser::USER_BAN && $userinfo->getKeyName() == env('SUPER_ADMIN'))
+                    || ($userinfo->status == SystemUser::USER_BAN && $userinfo->getKey() == env('SUPER_ADMIN'))
                 ) {
                     $userLoginAfter->message = t('jwt.login_success');
                     $token = user()->getToken($userLoginAfter->userinfo);

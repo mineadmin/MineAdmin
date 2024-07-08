@@ -130,11 +130,11 @@ if (! function_exists('delete_cache')) {
 if (! function_exists('is_in_container')) {
     function is_in_container(): bool
     {
-        if (! file_exists('/proc/self/mountinfo')) {
-            return false;
+        if (file_exists('/.dockerenv')) {
+            return true;
         }
-        $mountinfo = file_get_contents('/proc/self/mountinfo');
-        return strpos($mountinfo, 'kubepods') > 0 || strpos($mountinfo, 'docker') > 0;
+        $cgroup = file_get_contents('/proc/1/cgroup');
+        return strpos($cgroup, 'kubepods') > 0 || strpos($cgroup, 'docker') > 0;
     }
 }
 

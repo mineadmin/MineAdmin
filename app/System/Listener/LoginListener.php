@@ -22,7 +22,6 @@ use Mine\Helper\Str;
 use Mine\MineRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Xmo\JWTAuth\JWT;
 
 /**
  * Class LoginListener.
@@ -61,20 +60,10 @@ class LoginListener implements ListenerInterface
             'login_time' => date('Y-m-d H:i:s'),
         ]);
 
-        if ($event->loginStatus && $event->token) {
-            # 多点登录情况下，只保存一个key会导致最近时刻登录的用户如果登出之后,则该用户不会出现在在线用户监控列表中
-            # 利用 token 设置jwt的jti 来做多点登录token的判断
-            $jwt = container()->get(JWT::class);
-            $parserData = $jwt->getParserData($event->token);
-            $scene = $parserData['jwt_scene'];
-            $config = $jwt->getSceneConfig($scene);
-            $key = match ($config['login_type']) {
-                'sso' => sprintf('%sToken:%s', config('cache.default.prefix'), $event->userinfo['id']),
-                'mpop' => sprintf('%sToken:%s:%s', config('cache.default.prefix'), $event->userinfo['id'], $parserData['jti']),
-            };
-            $redis->del($key);
-            $redis->set($key, $event->token, config('jwt.ttl'));
-        }
+        $key = sprintf('%sToken:%s', config('cache.default.prefix'), $event->userinfo['id']);
+
+        $redis->del($key);
+        ($event->loginStatus && $event->token) && $redis->set($key, $event->token, config('jwt.ttl'));
 
         if ($event->loginStatus) {
             $event->userinfo['login_ip'] = $ip;

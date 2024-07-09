@@ -128,8 +128,7 @@ class SystemUserService extends AbstractService implements UserServiceInterface
         while (false !== ($users = $redis->scan($iterator, $key, 100))) {
             foreach ($users as $user) {
                 // 如果是已经加入到黑名单的就代表不是登录状态了
-                // 重写正则 用来 匹配 多点登录 使用的token的key
-                if (! $this->hasTokenBlack($redis->get($user)) && preg_match('/:(\d+)(:|$)/', $user, $match) && isset($match[1])) {
+                if (! $this->hasTokenBlack($redis->get($user)) && preg_match("/{$key}(\\d+)$/", $user, $match) && isset($match[1])) {
                     $userIds[] = $match[1];
                 }
             }
@@ -191,21 +190,13 @@ class SystemUserService extends AbstractService implements UserServiceInterface
     public function kickUser(string $id): bool
     {
         $redis = redis();
-        // 保证获取到所有token，方便一次性全部下线。
-        $key = sprintf('%sToken:%s*', config('cache.default.prefix'), $id);
-        while (false !== ($users = $redis->scan($iterator, $key, 100))) {
-            $jwt = $this->container->get(JWT::class);
-            foreach ($users as $user) {
-                $token = $redis->get($user);
-                if (! is_string($token)) {
-                    continue;
-                }
-                $scene = $jwt->getParserData($token)['jwt_scene'];
-                $jwt->logout($token, $scene);
-                $redis->del($user);
-            }
-            unset($users);
+        $key = sprintf('%sToken:%s', config('cache.default.prefix'), $id);
+        $token = $redis->get($key);
+        if (! is_string($token)) {
+            throw new MineException(t('system.not_user_token'));
         }
+        user()->getJwt()->logout($redis->get($key), 'default');
+        $redis->del($key);
         return true;
     }
 
@@ -353,16 +344,16 @@ class SystemUserService extends AbstractService implements UserServiceInterface
 
     private function hasTokenBlack(string $token): bool
     {
-        # token解析的数据有scene信息，只需要判断当前token在对应场景下是否有黑名单
         $jwt = $this->container->get(JWT::class);
-        $scene = $jwt->getParserData($token)['jwt_scene'];
         $scenes = array_keys(config('jwt.scene'));
-        $jti = $jwt->getParserData($token)['jti'];
-        if (in_array($scene, $scenes) && $jwt->setScene($scene)->blackList->hasTokenBlack(
-            $jwt->getParserData($token),
-            $jwt->getSceneConfig($scene)
-        )) {
-            return true;
+        foreach ($scenes as $scene) {
+            $sceneJwt = $jwt->setScene($scene);
+            if ($sceneJwt->blackList->hasTokenBlack(
+                $sceneJwt->getParserData($token),
+                $jwt->getSceneConfig($scene)
+            )) {
+                return true;
+            }
         }
         return false;
     }

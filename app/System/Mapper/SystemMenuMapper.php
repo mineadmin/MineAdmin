@@ -159,6 +159,21 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
+     * 批量更新菜单.
+     */
+    #[DeleteCache('loginInfo:*'), Transaction]
+    public function batchUpdate(array $update): bool
+    {
+        foreach ($update as $item) {
+            $result = parent::update($item['id'], $item['data']);
+            if (! $result) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 逻辑删除菜单.
      */
     #[DeleteCache('loginInfo:*')]
@@ -190,12 +205,25 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
+     * 获取子孙menus.
+     */
+    public function getDescendantsMenus(int $parentId): array
+    {
+        $params = ['level' => $parentId];
+        return $this->handleSearch($this->model::query(), $params)->get()->toArray();
+    }
+
+    /**
      * 搜索处理器.
      */
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
+        }
+
+        if (isset($params['level']) && filled($params['level'])) {
+            $query->where('level', 'like', '%' . $params['level'] . '%');
         }
 
         if (isset($params['name']) && filled($params['name'])) {

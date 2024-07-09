@@ -159,9 +159,7 @@ class SystemMenuMapper extends AbstractMapper
     }
 
     /**
-     * 批量更新菜单
-     * @param array $update
-     * @return bool
+     * 批量更新菜单.
      */
     #[DeleteCache('loginInfo:*'), Transaction]
     public function batchUpdate(array $update): bool

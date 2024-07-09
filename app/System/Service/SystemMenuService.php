@@ -141,10 +141,6 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
     }
 
     /**
-     * 更新子菜单.
-     */
-
-    /**
      * 真实删除菜单.
      */
     public function realDel(array $ids): ?array

@@ -207,9 +207,9 @@ class SystemMenuMapper extends AbstractMapper
     /**
      * 获取子孙menus.
      */
-    public function getDescendantsMenus(int $parentId): array
+    public function getDescendantsMenus(int $id): array
     {
-        $params = ['level' => $parentId];
+        $params = ['level' => $id];
         return $this->handleSearch($this->model::query(), $params)->get()->toArray();
     }
 

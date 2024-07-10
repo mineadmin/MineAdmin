@@ -152,7 +152,7 @@ class SystemDeptMapper extends AbstractMapper
     /**
      * 获取子孙部门.
      */
-    public function getDescendantsMenus(int $parentId): array
+    public function getDescendantsDepts(int $parentId): array
     {
         $params = ['level' => $parentId];
         return $this->handleSearch($this->model::query(), $params)->get()->toArray();

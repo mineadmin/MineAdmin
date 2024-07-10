@@ -101,7 +101,7 @@ class SystemDeptService extends AbstractService
             'id' => $id,
             'data' => $handleData,
         ];
-        $descendants = $this->mapper->getDescendantsMenus((int) $id);
+        $descendants = $this->mapper->getDescendantsDepts((int) $id);
         foreach ($descendants as $descendant) {
             $handleDescendantMenuLevelData = $this->handleDescendantDeptLevels($descendant['level'], $handleData['level'], $id);
             $update[] = [

@@ -136,6 +136,7 @@ class SystemDeptMapper extends AbstractMapper
         }
         return true;
     }
+
     /**
      * 查询部门名称.
      */

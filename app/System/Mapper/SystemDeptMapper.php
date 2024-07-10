@@ -126,11 +126,36 @@ class SystemDeptMapper extends AbstractMapper
     }
 
     /**
+     * 批量更新部门
+     * @param array $update
+     * @return bool
+     */
+    #[Transaction]
+    public function batchUpdate(array $update): bool
+    {
+        foreach ($update as $item) {
+            $result = parent::update($item['id'], $item['data']);
+            if (! $result) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 查询部门名称.
      */
     public function getDeptName(?array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
+    }
+    /**
+     * 获取子孙部门.
+     */
+    public function getDescendantsMenus(int $parentId): array
+    {
+        $params = ['level' => $parentId];
+        return $this->handleSearch($this->model::query(), $params)->get()->toArray();
     }
 
     public function checkChildrenExists(int $id): bool
@@ -145,6 +170,10 @@ class SystemDeptMapper extends AbstractMapper
     {
         if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
+        }
+
+        if (isset($params['level']) && filled($params['level'])) {
+            $query->where('level', 'like', '%' . $params['level'] . '%');
         }
 
         if (isset($params['name']) && filled($params['name'])) {

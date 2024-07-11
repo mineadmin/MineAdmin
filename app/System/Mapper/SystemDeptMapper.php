@@ -125,6 +125,18 @@ class SystemDeptMapper extends AbstractMapper
         return true;
     }
 
+    #[Transaction]
+    public function batchUpdate(array $update): bool
+    {
+        foreach ($update as $item) {
+            $result = parent::update($item['id'], $item['data']);
+            if (! $result) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 查询部门名称.
      */
@@ -138,6 +150,12 @@ class SystemDeptMapper extends AbstractMapper
         return $this->model::withTrashed()->where('parent_id', $id)->exists();
     }
 
+    public function getDescendantsDepts(int $id): array
+    {
+        $params = ['level' => $id];
+        return $this->handleSearch($this->model::query(), $params)->get()->toArray();
+    }
+
     /**
      * 搜索处理器.
      */
@@ -145,6 +163,10 @@ class SystemDeptMapper extends AbstractMapper
     {
         if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
+        }
+
+        if (isset($params['level']) && filled($params['level'])) {
+            $query->where('level', 'like', '%' . $params['level'] . '%');
         }
 
         if (isset($params['name']) && filled($params['name'])) {

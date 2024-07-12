@@ -16,14 +16,12 @@ use App\System\Model\SystemApiLog;
 use App\System\Model\SystemLoginLog;
 use App\System\Model\SystemOperLog;
 use App\System\Model\SystemQueueLog;
-use Mine\Annotation\Transaction;
 
 class ClearLogCrontab
 {
     /**
      * 清理所有日志.
      */
-    #[Transaction]
     public function execute(): string
     {
         SystemOperLog::truncate();

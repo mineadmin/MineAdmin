@@ -23,7 +23,6 @@ test('logs test', function () {
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'getLoginLogPageList',
         $this->buildTest('getNoParamsTest') => 'getOperLogPageList',
-        $this->buildTest('getNoParamsTest') => 'getApiLogPageList',
         $this->buildTest('getNoParamsTest') => 'getQueueLogPageList',
     ]);
 

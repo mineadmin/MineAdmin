@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Process;
 
 use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\ProcessManager;
 use Psr\Container\ContainerExceptionInterface;
@@ -66,7 +65,6 @@ class DemoProcess extends AbstractProcess
      */
     public function handle(): void
     {
-        while (ProcessManager::isRunning()) {
-        }
+        while (ProcessManager::isRunning());
     }
 }

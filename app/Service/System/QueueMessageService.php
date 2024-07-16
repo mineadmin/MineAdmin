@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Service\System;
 
+use App\Job\Vo\QueueMessageVo;
 use App\Mapper\System\QueueMessageMapper;
 use App\Model\System\QueueMessage;
-use App\Job\Vo\QueueMessageVo;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;

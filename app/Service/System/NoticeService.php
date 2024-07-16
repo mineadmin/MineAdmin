@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Service\System;
 
+use App\Job\Vo\QueueMessageVo;
 use App\Mapper\System\NoticeMapper;
 use App\Mapper\System\UserMapper;
 use App\Model\System\QueueMessage;
-use App\Job\Vo\QueueMessageVo;
 use Hyperf\Snowflake\IdGenerator\SnowflakeIdGenerator;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;

@@ -27,7 +27,7 @@ use Mine\MineController;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use Psr\Http\Message\ResponseInterface;
 
-#[Controller(prefix: 'setting/autoform'), Auth]class AutoFormController extends MineController
+#[Controller(prefix: 'setting/autoform'), Auth] class AutoFormController extends MineController
 {
     #[Inject]
     public GenerateTablesService $tablesService;

@@ -14,9 +14,7 @@ namespace App\Http\Admin\Setting\Controller;
 
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
-use Hyperf\HttpServer\Annotation\Middleware;
 use Mine\Annotation\Auth;
-use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

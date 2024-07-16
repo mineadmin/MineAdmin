@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Service\System;
 
-use App\Mapper\System\QueueLogMapper;
-use App\Model\System\User;
 use App\Job\Queue\Consumer\MessageConsumer;
 use App\Job\Queue\Producer\MessageProducer;
 use App\Job\Vo\AmqpQueueVo;
 use App\Job\Vo\QueueMessageVo;
+use App\Mapper\System\QueueLogMapper;
+use App\Model\System\User;
 use Hyperf\Amqp\Producer;
 use Hyperf\Codec\Json;
 use Hyperf\Di\Annotation\AnnotationCollector;

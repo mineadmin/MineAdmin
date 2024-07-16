@@ -19,11 +19,9 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
-use Hyperf\HttpServer\Annotation\Middleware;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
-use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -76,7 +74,6 @@ class LogsController extends MineController
         return $this->success($this->operLogService->getPageList($this->request->all()));
     }
 
-
     /**
      * 获取队列日志列表.
      * @throws ContainerExceptionInterface
@@ -120,5 +117,4 @@ class LogsController extends MineController
     {
         return $this->loginLogService->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
     }
-
 }

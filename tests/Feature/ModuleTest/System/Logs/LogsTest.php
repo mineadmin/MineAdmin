@@ -9,10 +9,9 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemApiLog;
-use App\System\Model\SystemLoginLog;
-use App\System\Model\SystemOperLog;
-use App\System\Model\SystemQueueLog;
+use App\Model\System\LoginLog;
+use App\Model\System\OperLog;
+use App\Model\System\QueueLog;
 use Carbon\Carbon;
 use Hyperf\Stringable\Str;
 
@@ -28,7 +27,7 @@ test('logs test', function () {
         $this->buildTest('getNoParamsTest') => 'getQueueLogPageList',
     ]);
 
-    SystemOperLog::create([
+    OperLog::create([
         'username' => 'aaa',
         'method' => 'xxx',
         'router' => 'xxx',
@@ -40,9 +39,9 @@ test('logs test', function () {
         'response_data' => 'xxx',
     ]);
     expect($this->delete($this->prefix . '/deleteOperLog', [
-        'ids' => array_column(SystemOperLog::query()->select(['id'])->get()->toArray(), 'id'),
+        'ids' => array_column(OperLog::query()->select(['id'])->get()->toArray(), 'id'),
     ]))->toBeHttpSuccess();
-    SystemQueueLog::create([
+    QueueLog::create([
         'exchange_name' => 'xxx',
         'routing_key_name' => 'xxx',
         'queue_name' => 'xxx',
@@ -53,7 +52,7 @@ test('logs test', function () {
         'delay_time' => 3,
     ]);
 
-    SystemQueueLog::create([
+    QueueLog::create([
         'exchange_name' => 'xxx',
         'routing_key_name' => 'xxx',
         'queue_name' => 'xxx',
@@ -64,9 +63,9 @@ test('logs test', function () {
         'delay_time' => 3,
     ]);
     expect($this->delete($this->prefix . '/deleteQueueLog', [
-        'ids' => array_column(SystemQueueLog::query()->limit(1)->select(['id'])->get()->toArray(), 'id'),
+        'ids' => array_column(QueueLog::query()->limit(1)->select(['id'])->get()->toArray(), 'id'),
     ]))->toBeHttpSuccess();
-    SystemLoginLog::create([
+    LoginLog::create([
         'username' => Str::random(10),
         'ip' => '127.0.0.1',
         'ip_location' => 'xxx',
@@ -75,21 +74,6 @@ test('logs test', function () {
         'browser' => 'xxx',
     ]);
     expect($this->delete($this->prefix . '/deleteLoginLog', [
-        'ids' => array_column(SystemLoginLog::query()->select(['id'])->get()->toArray(), 'id'),
-    ]))->toBeHttpSuccess();
-    SystemApiLog::create([
-        'api_id' => 1,
-        'api_name' => 'xxx',
-        'access_name' => 'xxx',
-        'request_data' => 'xxx',
-        'response_code' => 'xxxx',
-        'response_data' => 'xxxx',
-        'ip' => '114.114.114.114',
-        'ip_location' => 'xxxxx',
-        'access_time' => Carbon::now(),
-        'remark' => 'xxxx',
-    ]);
-    expect($this->delete($this->prefix . '/deleteApiLog', [
-        'ids' => array_column(SystemApiLog::query()->select(['id'])->get()->toArray(), 'id'),
+        'ids' => array_column(LoginLog::query()->select(['id'])->get()->toArray(), 'id'),
     ]))->toBeHttpSuccess();
 });

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemMenu;
+use App\Model\System\Menu;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -42,7 +42,7 @@ it('menu controller test', function () {
         Arr::only($updateSuccessParam, 'code'),
     ];
     expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
-    $id = SystemMenu::query()->value('id');
+    $id = Menu::query()->value('id');
     $this->changeStatusTest($id);
     $this->recoveryAndDeleteTest([$id]);
 });

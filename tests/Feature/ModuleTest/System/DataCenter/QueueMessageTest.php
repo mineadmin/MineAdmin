@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemQueueMessage;
+use App\Model\System\QueueMessage;
 
 beforeEach(function () {
     $this->prefix = '/system/queueMessage';
@@ -26,7 +26,7 @@ test('queue message test', function () {
 });
 
 test('update read status', function () {
-    $ids = array_column(SystemQueueMessage::query()->select(['id'])->get()->toArray(), 'id');
+    $ids = array_column(QueueMessage::query()->select(['id'])->get()->toArray(), 'id');
 
     expect($this->put($this->prefix . '/updateReadStatus', [
         'ids' => $ids,

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemUser;
+use App\Model\System\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -48,7 +48,7 @@ test('user controller testing', function () {
         Arr::only($updateSuccessParam, 'role_ids'),
     ];
     expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
-    $id = SystemUser::query()->value('id');
+    $id = User::query()->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

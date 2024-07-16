@@ -9,17 +9,17 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Setting\Model\SettingGenerateColumns;
-use App\Setting\Model\SettingGenerateTables;
-use App\System\Model\SystemUser;
+use App\Model\Setting\GenerateColumns;
+use App\Model\Setting\GenerateTables;
+use App\Model\System\User;
 use Hyperf\Stringable\Str;
 use Mine\Mine;
 
 beforeEach(function () {
     $this->prefix = '/setting/code';
-    SettingGenerateTables::truncate();
-    $this->table = SystemUser::getModel()->getTable();
-    $this->mock = SettingGenerateTables::create([
+    GenerateTables::truncate();
+    $this->table = User::getModel()->getTable();
+    $this->mock = GenerateTables::create([
         'table_name' => $this->table,
         'table_comment' => Str::random(4),
         'module_name' => 'system',
@@ -40,7 +40,7 @@ test('generator code test', function () {
     if (env('DB_DRIVER') !== 'mysql') {
         return;
     }
-    $table = SystemUser::getModel()->getTable();
+    $table = User::getModel()->getTable();
     expect($this->post($this->prefix . '/loadTable', [
         'source' => Mine::getMineName(),
         'names' => [
@@ -71,7 +71,7 @@ test('generator code test', function () {
         'package_name' => 'App\\System\\Controller\\Test',
         'columns' => [
             [
-                'id' => SettingGenerateColumns::query()->first()->getKey(),
+                'id' => GenerateColumns::query()->first()->getKey(),
                 'column_name' => 'xxxx',
                 'is_insert' => true,
                 'is_edit' => true,

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemUploadfile;
+use App\Model\System\Uploadfile;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
@@ -17,7 +17,7 @@ beforeEach(function () {
 });
 
 test('attachment test', function () {
-    $file = SystemUploadfile::create([
+    $file = Uploadfile::create([
         'storage_mode' => 1,
         'origin_name' => 'xxx',
         'object_name' => 'xxx',

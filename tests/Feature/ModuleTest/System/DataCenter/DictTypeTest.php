@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemDictType;
+use App\Model\System\DictType;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -41,7 +41,7 @@ test('dict type controller test', function () {
         Arr::only($updateSuccessParam, 'code'),
     ];
     expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
-    $id = SystemDictType::query()->where('name', $updateSuccessParam['name'])->value('id');
+    $id = DictType::query()->where('name', $updateSuccessParam['name'])->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

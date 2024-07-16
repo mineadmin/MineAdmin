@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Setting\Model\SettingConfig;
+use App\Model\Setting\Config;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -45,7 +45,7 @@ test('setting config controller test', function () {
         ->and($this->post($this->prefix . '/updateByKeys', [
             $successParam['key'] => '123321',
         ]))->toBeHttpSuccess();
-    $id = SettingConfig::query()->where('key', $successParam['key'])->select(['key'])->value('key');
+    $id = Config::query()->where('key', $successParam['key'])->select(['key'])->value('key');
 
     expect($this->delete(
         $this->prefix . '/delete',

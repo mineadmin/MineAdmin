@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace HyperfTests;
 
-use App\System\Model\SystemUser;
+use App\Model\System\User;
 use Hyperf\Redis\Redis;
 use Hyperf\Testing\Client;
 use Xmo\JWTAuth\JWT;
@@ -46,7 +46,7 @@ class ClientBuilder
     public static function getBearToken(): ?string
     {
         $jwt = make(JWT::class);
-        $user = SystemUser::query()->whereKey(env('SUPER_ADMIN', 1))->first();
+        $user = User::query()->whereKey(env('SUPER_ADMIN', 1))->first();
         $token = $jwt->getToken($user->toArray());
         $key = sprintf('%sToken:%s', config('cache.default.prefix'), $user->id);
         $redis = make(Redis::class);

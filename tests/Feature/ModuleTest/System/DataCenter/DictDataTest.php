@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemDictData;
+use App\Model\System\DictData;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -47,9 +47,9 @@ test('DictData test', function () {
         Arr::only($updateSuccessParam, 'code'),
         Arr::only($updateSuccessParam, 'value'),
     ];
-    SystemDictData::truncate();
+    DictData::truncate();
     expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
-    $id = SystemDictData::query()->where('code', $updateSuccessParam['code'])->value('id');
+    $id = DictData::query()->where('code', $updateSuccessParam['code'])->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'read/' . $id,
     ]);

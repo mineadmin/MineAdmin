@@ -9,10 +9,10 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Setting\Service\SettingConfigService;
-use App\System\Service\SystemUserService;
-use App\System\Vo\AmqpQueueVo;
-use App\System\Vo\QueueMessageVo;
+use App\Service\Setting\ConfigService;
+use App\Service\System\UserService;
+use App\Job\Vo\AmqpQueueVo;
+use App\Job\Vo\QueueMessageVo;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\Context\ApplicationContext;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
@@ -62,7 +62,7 @@ if (! function_exists('sys_config')) {
      */
     function sys_config(string $key, mixed $default = null): mixed
     {
-        return container()->get(SettingConfigService::class)->getConfigByKey($key) ?? $default;
+        return container()->get(ConfigService::class)->getConfigByKey($key) ?? $default;
     }
 }
 
@@ -76,7 +76,7 @@ if (! function_exists('sys_group_config')) {
      */
     function sys_group_config(string $groupKey, mixed $default = []): mixed
     {
-        return container()->get(SettingConfigService::class)->getConfigByGroupKey($groupKey) ?? $default;
+        return container()->get(ConfigService::class)->getConfigByGroupKey($groupKey) ?? $default;
     }
 }
 
@@ -146,7 +146,7 @@ if (! function_exists('has_permission')) {
      */
     function has_permission(string $code, ?int $userId = null): bool
     {
-        $codes = container()->get(SystemUserService::class)->getInfo($userId)['codes'];
+        $codes = container()->get(UserService::class)->getInfo($userId)['codes'];
         if ($codes[0] === '*') {
             return true;
         }
@@ -162,7 +162,7 @@ if (! function_exists('has_role')) {
      */
     function has_role(string $code, ?int $userId = null): bool
     {
-        $roles = container()->get(SystemUserService::class)->getInfo($userId)['roles'];
+        $roles = container()->get(UserService::class)->getInfo($userId)['roles'];
         if ($roles === 'superAdmin') {
             return true;
         }

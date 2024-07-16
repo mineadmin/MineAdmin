@@ -16,5 +16,5 @@ test('common test', function () {
     $result = $this->get('/setting/common/getModuleList');
     expect($result)->toBeHttpSuccess()
         ->and($result['data'])
-        ->toHaveCount(2);
+        ->toHaveCount(0);
 });

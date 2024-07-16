@@ -9,11 +9,11 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemUser;
+use App\Model\System\User;
 
 beforeEach(function () {
     $this->prefix = '/system/dataMaintain';
-    $this->tables = [SystemUser::getModel()->getTable()];
+    $this->tables = [User::getModel()->getTable()];
 });
 
 test('DataMaintain test', function () {

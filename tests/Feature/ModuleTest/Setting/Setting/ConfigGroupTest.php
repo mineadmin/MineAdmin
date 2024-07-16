@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Setting\Model\SettingConfigGroup;
+use App\Model\Setting\ConfigGroup;
 use Hyperf\Stringable\Str;
 
 beforeEach(function () {
@@ -24,6 +24,6 @@ test('config group controller', function () {
         'name' => Str::random(3),
         'code' => Str::random(4),
     ]))->toBeHttpSuccess();
-    $id = SettingConfigGroup::query()->first()->value('id');
+    $id = ConfigGroup::query()->first()->value('id');
     expect($this->delete($this->prefix . '/delete', compact('id')))->toBeHttpSuccess();
 });

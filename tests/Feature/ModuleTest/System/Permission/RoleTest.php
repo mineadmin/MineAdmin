@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemRole;
+use App\Model\System\Role;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 
@@ -43,7 +43,7 @@ it('role controller test', function () {
         Arr::only($updateSuccessParam, 'code'),
     ];
     expect($this->prefix)->toBeSaveAndUpdate($successParam, $failParams, $updateSuccessParam, $updateFailParams);
-    $id = SystemRole::query()->value('id');
+    $id = Role::query()->value('id');
     $this->actionTest([
         $this->buildTest('getNoParamsTest') => 'getDeptByRole/' . $id,
         $this->buildTest('getNoParamsTest') => 'getMenuByRole/' . $id,

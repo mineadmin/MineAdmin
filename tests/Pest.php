@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Model\SystemUser;
+use App\Model\System\User;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\DbConnection\Db;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
@@ -23,7 +23,7 @@ uses(HttpTestCase::class, MineControllerTestCase::class)
         // Create Super Administrator
         $this->password = Str::random(10);
         $this->username = Str::random(10);
-        $this->mock = SystemUser::create([
+        $this->mock = User::create([
             'username' => $this->username,
             'password' => $this->password,
             'user_type' => '100',

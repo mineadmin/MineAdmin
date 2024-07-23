@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Repository\DataCenter;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\DataCenter\DictData;
 use App\Model\DataCenter\DictType;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 use Mine\Annotation\Transaction;
 
 /**

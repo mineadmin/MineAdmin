@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Listener\System;
 
-use App\Model\System\Uploadfile;
+use App\Model\DataCenter\Uploadfile;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use League\Flysystem\FilesystemException;

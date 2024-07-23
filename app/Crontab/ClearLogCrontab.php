@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Crontab;
 
-use App\Model\System\LoginLog;
-use App\Model\System\OperLog;
-use App\Model\System\QueueLog;
+use App\Model\Logs\LoginLog;
+use App\Model\Logs\OperLog;
+use App\Model\Logs\QueueLog;
 use Mine\Annotation\Transaction;
 
 class ClearLogCrontab

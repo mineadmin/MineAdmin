@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Tools;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Tools\GenerateColumns;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 
 /**
  * 生成业务字段信息表查询类

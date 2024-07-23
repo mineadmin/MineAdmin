@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Service\Tools;
 
-use App\Repository\Tools\GenerateColumnsRepository;
 use App\Model\Tools\GenerateColumns;
+use App\Repository\Tools\GenerateColumnsRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\GenerateColumnServiceInterface;

@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Permission\Post;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 
 class PostRepository extends AbstractRepository
 {

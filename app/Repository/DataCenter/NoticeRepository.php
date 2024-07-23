@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\Repository\DataCenter;
 
 use App\DataCenter\Model\Notice;
-use Hyperf\Database\Model\Builder;
 use App\Kernel\IRepository\AbstractRepository;
+use Hyperf\Database\Model\Builder;
 
 /**
  * 通知管理Mapper类.

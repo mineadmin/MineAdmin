@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
-use App\Repository\Permission\MenuRepository;
 use App\Model\Permission\Menu;
+use App\Repository\Permission\MenuRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\MenuServiceInterface;

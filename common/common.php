@@ -9,15 +9,14 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Service\Setting\ConfigService;
-use App\Service\System\UserService;
+
+use App\Service\Permission\UserService;
 use App\Job\Vo\AmqpQueueVo;
 use App\Job\Vo\QueueMessageVo;
+use App\Service\Settings\ConfigService;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\Context\ApplicationContext;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 if (! function_exists('env')) {
@@ -55,10 +54,6 @@ if (! function_exists('make')) {
 if (! function_exists('sys_config')) {
     /**
      * 获取后台系统配置.
-     *
-     * @throws RedisException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function sys_config(string $key, mixed $default = null): mixed
     {
@@ -69,10 +64,6 @@ if (! function_exists('sys_config')) {
 if (! function_exists('sys_group_config')) {
     /**
      * 获取后台系统配置.
-     *
-     * @param null|mixed $default
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function sys_group_config(string $groupKey, mixed $default = []): mixed
     {
@@ -83,9 +74,6 @@ if (! function_exists('sys_group_config')) {
 if (! function_exists('push_queue_message')) {
     /**
      * 推送消息到队列.
-     * @throws Throwable
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function push_queue_message(QueueMessageVo $message, array $receiveUsers = []): bool
     {
@@ -98,9 +86,6 @@ if (! function_exists('push_queue_message')) {
 if (! function_exists('add_queue')) {
     /**
      * 添加任务到队列.
-     * @throws Throwable
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function add_queue(AmqpQueueVo $amqpQueueVo): bool
     {
@@ -113,8 +98,6 @@ if (! function_exists('add_queue')) {
 if (! function_exists('delete_cache')) {
     /**
      * 删除框架自带的注解缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function delete_cache(string $prefix, array $args): void
     {
@@ -141,8 +124,6 @@ if (! function_exists('is_in_container')) {
 if (! function_exists('has_permission')) {
     /**
      * 检查用户是否拥有某权限.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function has_permission(string $code, ?int $userId = null): bool
     {
@@ -157,8 +138,6 @@ if (! function_exists('has_permission')) {
 if (! function_exists('has_role')) {
     /**
      * 检查用户是否拥有某角色.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     function has_role(string $code, ?int $userId = null): bool
     {

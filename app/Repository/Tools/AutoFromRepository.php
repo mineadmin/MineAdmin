@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Repository\Tools;
 
-use App\Model\Tools\GenerateColumns;
-use App\Model\Tools\GenerateTables;
 use App\Model\Permission\Dept;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
+use App\Model\Tools\GenerateColumns;
+use App\Model\Tools\GenerateTables;
 use Hyperf\Contract\LengthAwarePaginatorInterface;
 use Hyperf\Database\Model\Model;
 use Hyperf\Database\Query\Builder;

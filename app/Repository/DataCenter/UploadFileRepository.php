@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Repository\DataCenter;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\DataCenter\Uploadfile;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Filesystem\FilesystemFactory;
-use App\Kernel\IRepository\AbstractRepository;
 use Mine\Event\RealDeleteUploadFile;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

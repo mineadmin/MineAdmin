@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Listener\System;
 
-use App\Model\System\LoginLog;
-use App\Model\System\User;
-use App\Service\System\LoginLogService;
+use App\Model\Logs\LoginLog;
+use App\Model\Permission\User;
+use App\Service\Logs\LoginLogService;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Event\UserLoginAfter;

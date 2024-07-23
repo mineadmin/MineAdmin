@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\Service\DataCenter;
 
 use App\Job\Vo\QueueMessageVo;
-use App\Repository\DataCenter\QueueMessageRepository;
 use App\Model\DataCenter\QueueMessage;
+use App\Repository\DataCenter\QueueMessageRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;

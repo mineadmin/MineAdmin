@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request;
 
-use App\Model\System\User;
-use App\Service\System\UserService;
+use App\Model\Permission\User;
+use App\Service\Permission\UserService;
 use Mine\MineFormRequest;
 
 class UserRequest extends MineFormRequest

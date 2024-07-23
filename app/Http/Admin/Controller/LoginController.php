@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\Request\UserRequest;
-use App\Service\System\UserService;
+use App\Service\Permission\UserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;

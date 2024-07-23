@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Repository\DataCenter;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\DataCenter\QueueMessage;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
-use App\Kernel\IRepository\AbstractRepository;
 use Mine\Annotation\Transaction;
 
 /**

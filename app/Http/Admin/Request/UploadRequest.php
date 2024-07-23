@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request;
 
-use App\Service\Setting\ConfigService;
+use App\Service\Settings\ConfigService;
 use Mine\MineFormRequest;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

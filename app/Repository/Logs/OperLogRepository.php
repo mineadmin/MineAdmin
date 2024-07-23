@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Logs;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Logs\OperLog;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 
 class OperLogRepository extends AbstractRepository
 {

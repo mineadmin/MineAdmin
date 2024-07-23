@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace App\Service\DataCenter;
 
 use App\Job\Vo\QueueMessageVo;
+use App\Model\DataCenter\QueueMessage;
 use App\Repository\DataCenter\NoticeRepository;
 use App\Repository\Permission\UserRepository;
-use App\Model\DataCenter\QueueMessage;
 use Hyperf\Snowflake\IdGenerator\SnowflakeIdGenerator;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;

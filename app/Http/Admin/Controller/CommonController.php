@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Service\System\DeptService;
-use App\Service\System\LoginLogService;
-use App\Service\System\NoticeService;
-use App\Service\System\OperLogService;
-use App\Service\System\PostService;
-use App\Service\System\RoleService;
-use App\Service\System\UploadFileService;
-use App\Service\System\UserService;
+use App\Service\DataCenter\NoticeService;
+use App\Service\DataCenter\UploadFileService;
+use App\Service\Logs\LoginLogService;
+use App\Service\Logs\OperLogService;
+use App\Service\Permission\DeptService;
+use App\Service\Permission\PostService;
+use App\Service\Permission\RoleService;
+use App\Service\Permission\UserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;

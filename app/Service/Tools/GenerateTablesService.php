@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Service\Tools;
 
-use App\Repository\Tools\GenerateTablesRepository;
 use App\Model\Tools\GenerateTables;
+use App\Repository\Tools\GenerateTablesRepository;
 use App\Service\DataCenter\DataMaintainService;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Annotation\Transactional as Transaction;
@@ -24,8 +24,8 @@ use Mine\Exception\MineException;
 use Mine\Generator\ApiGenerator;
 use Mine\Generator\ControllerGenerator;
 use Mine\Generator\DtoGenerator;
-use Mine\Generator\RepositoryGenerator;
 use Mine\Generator\ModelGenerator;
+use Mine\Generator\RepositoryGenerator;
 use Mine\Generator\RequestGenerator;
 use Mine\Generator\ServiceGenerator;
 use Mine\Generator\SqlGenerator;
@@ -50,8 +50,6 @@ class GenerateTablesService extends AbstractService
 
     protected GenerateColumnsService $generateColumnsService;
 
-    protected ModuleService $moduleService;
-
     protected ContainerInterface $container;
 
     /**
@@ -61,14 +59,12 @@ class GenerateTablesService extends AbstractService
         GenerateTablesRepository $repository,
         DataMaintainService $dataMaintainService,
         generateColumnsService $generateColumnsService,
-        ModuleService $moduleService,
         ContainerInterface $container,
         private readonly ValidatorFactory $validatorFactory
     ) {
         $this->repository = $repository;
         $this->dataMaintainService = $dataMaintainService;
         $this->generateColumnsService = $generateColumnsService;
-        $this->moduleService = $moduleService;
         $this->container = $container;
     }
 
@@ -190,30 +186,6 @@ class GenerateTablesService extends AbstractService
     }
 
     /**
-     * 获取所有模型.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function getModels(): array
-    {
-        $models = [];
-        foreach ($this->moduleService->getModuleCache() as $item) {
-            if ($item['enabled']) {
-                $path = sprintf('%s/app/%s/Model/*', BASE_PATH, $item['name']);
-                foreach (glob($path) as $file) {
-                    $models[] = sprintf(
-                        '\App\%s\Model\%s',
-                        $item['name'],
-                        str_replace('.php', '', basename($file))
-                    );
-                }
-            }
-        }
-
-        return $models;
-    }
-
-    /**
      * 预览代码
      * @throws \Exception
      */
@@ -248,7 +220,7 @@ class GenerateTablesService extends AbstractService
             [
                 'tab_name' => 'Repository.php',
                 'name' => 'repository',
-                // TODO 这个需要改mine-generator
+                // TODO 这个需要改mine-generator @phpstan-ignore-next-line
                 'code' => make(RepositoryGenerator::class)->setGenInfo($model)->preview(),
                 'lang' => 'php',
             ],
@@ -300,7 +272,7 @@ class GenerateTablesService extends AbstractService
             ControllerGenerator::class,
             ModelGenerator::class,
             ServiceGenerator::class,
-            RepositoryGenerator::class,
+            //            RepositoryGenerator::class,
             RequestGenerator::class,
             ApiGenerator::class,
             VueIndexGenerator::class,

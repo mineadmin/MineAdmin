@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace App\Repository\Tools;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Tools\Datasource;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Exception\MineException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use App\Kernel\IRepository\AbstractRepository;
 
 /**
  * 数据源管理Repository类.

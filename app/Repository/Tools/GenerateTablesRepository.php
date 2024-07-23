@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Tools;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Tools\GenerateTables;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 use Mine\Annotation\Transaction;
 
 /**

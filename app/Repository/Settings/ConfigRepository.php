@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Settings;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Settings\Config;
 use Hyperf\Database\Model\Builder;
-use App\Kernel\IRepository\AbstractRepository;
 
 class ConfigRepository extends AbstractRepository
 {

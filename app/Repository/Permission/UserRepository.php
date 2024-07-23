@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
+use App\Kernel\IRepository\AbstractRepository;
 use App\Model\Permission\Dept;
 use App\Model\Permission\User;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
-use App\Kernel\IRepository\AbstractRepository;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
 

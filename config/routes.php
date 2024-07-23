@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Http\Admin\System\Middleware\WsAuthMiddleware;
+use App\Ws\Admin\Middleware\WsAuthMiddleware;
 use Hyperf\HttpServer\Router\Router;
 
 Router::get('/', function () {

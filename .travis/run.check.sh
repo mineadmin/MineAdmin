@@ -3,5 +3,3 @@
 set -e
 
 composer analyse app
-
-composer analyse api

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\System\Middleware\WsAuthMiddleware;
+use App\Http\Admin\System\Middleware\WsAuthMiddleware;
 use Hyperf\HttpServer\Router\Router;
 
 Router::get('/', function () {
@@ -22,7 +22,7 @@ Router::get('/favicon.ico', function () {
 
 // 消息ws服务器
 Router::addServer('message', function () {
-    Router::get('/message.io', 'App\System\Controller\ServerController', [
+    Router::get('/message.io', 'App\Http\Admin\System\Controller\ServerController', [
         'middleware' => [WsAuthMiddleware::class],
     ]);
 });

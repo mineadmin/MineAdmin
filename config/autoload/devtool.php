@@ -26,7 +26,7 @@ return [
             'namespace' => 'App\\Command',
         ],
         'controller' => [
-            'namespace' => 'App\\Controller',
+            'namespace' => 'App\\Http\\Controller',
         ],
         'job' => [
             'namespace' => 'App\\Job',

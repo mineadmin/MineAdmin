@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service\DataCenter;
 
-use App\Job\Vo\QueueMessageVo;
+use App\Async\Job\Vo\QueueMessageVo;
 use App\Model\DataCenter\QueueMessage;
 use App\Repository\DataCenter\QueueMessageRepository;
 use Mine\Abstracts\AbstractService;

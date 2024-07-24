@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Service\Logs;
 
-use App\Amqp\Consumer\MessageConsumer;
-use App\Amqp\Producer\MessageProducer;
-use App\Job\Vo\AmqpQueueVo;
-use App\Job\Vo\QueueMessageVo;
+use App\Async\Amqp\Consumer\MessageConsumer;
+use App\Async\Amqp\Producer\MessageProducer;
+use App\Async\Job\Vo\AmqpQueueVo;
+use App\Async\Job\Vo\QueueMessageVo;
 use App\Model\Permission\User;
 use App\Repository\Logs\QueueLogRepository;
 use App\Service\Permission\UserService;

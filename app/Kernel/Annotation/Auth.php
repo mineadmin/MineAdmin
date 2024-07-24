@@ -10,10 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Async\Process\DemoProcess;
-use Mine\Crontab\MineCrontabProcess;
+namespace App\Kernel\Annotation;
 
-return [
-    MineCrontabProcess::class,
-    DemoProcess::class
-];
+use Hyperf\Di\Annotation\AbstractAnnotation;
+
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class Auth extends AbstractAnnotation
+{
+    public function __construct(
+        public string $name = 'default'
+    ) {}
+}

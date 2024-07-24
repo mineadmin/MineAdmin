@@ -15,8 +15,9 @@
   "description": "Quickly build a background management system for web applications",
   "license": "Apache-2.0",
   "require": {
+    "hyperf/cache": "~3.1.0",
+    "lcobucci/jwt": "~5.3.0",
     "mineadmin/app-store": "~2.0",
-    "xmo/jwt-auth": "~2.0",
     "xmo/mine-core": "~2.0",
     "xmo/mine-generator": "~2.0",
     "xmo/mine-helpers": "~2.0",

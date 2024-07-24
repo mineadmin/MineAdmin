@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
+use App\Async\Job\Vo\AmqpQueueVo;
+use App\Async\Job\Vo\QueueMessageVo;
 use App\Service\Permission\UserService;
-use App\Job\Vo\AmqpQueueVo;
-use App\Job\Vo\QueueMessageVo;
 use App\Service\Settings\ConfigService;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
 use Hyperf\Context\ApplicationContext;

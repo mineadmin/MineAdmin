@@ -10,9 +10,8 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Amqp\Consumer;
+namespace App\Async\Amqp\Consumer;
 
-use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;

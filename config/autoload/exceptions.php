@@ -19,12 +19,7 @@ use Mine\Exception\Handler\ValidationExceptionHandler;
 return [
     'handler' => [
         'http' => [
-            HttpExceptionHandler::class,
-            ValidationExceptionHandler::class,
-            TokenExceptionHandler::class,
-            NoPermissionExceptionHandler::class,
-            NormalStatusExceptionHandler::class,
-            AppExceptionHandler::class,
+            HttpExceptionHandler::class
         ],
     ],
 ];

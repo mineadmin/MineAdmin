@@ -11,11 +11,9 @@ declare(strict_types=1);
  */
 
 use App\Kernel\Auth\Jwt;
-use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\RegisteredClaims;
-use function Hyperf\Support\env;
 
 return [
     'default' =>[
@@ -46,6 +44,6 @@ return [
     // 以下为示例配置，在你想要使用不同的场景时，可以在这里添加配置.可以填一个。其他会使用默认配置
     'application'   =>  [
         // jwt 配置 https://lcobucci-jwt.readthedocs.io/en/latest/
-        'key'   => InMemory::base64Encoded(env('JWT_APPLICATION_SECRET')),
+//        'key'   => InMemory::base64Encoded(env('JWT_APPLICATION_SECRET')),
     ]
 ];

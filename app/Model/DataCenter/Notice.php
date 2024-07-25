@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\DataCenter\Model;
+namespace App\Model\DataCenter;
 
 use Carbon\Carbon;
 use Hyperf\Database\Model\SoftDeletes;

@@ -17,9 +17,8 @@ use App\Model\DataCenter\QueueMessage;
 use App\Repository\DataCenter\QueueMessageRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 信息管理服务类.
@@ -74,9 +73,6 @@ class QueueMessageService extends AbstractService implements QueueMessageService
 
     /**
      * 发私信
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws \Throwable
      */
     public function sendPrivateMessage(array $data): bool
     {
@@ -86,7 +82,8 @@ class QueueMessageService extends AbstractService implements QueueMessageService
         // 固定私信类型
         $queueMessage->setContentType(QueueMessage::TYPE_PRIVATE_MESSAGE);
         $queueMessage->setSendBy(user()->getId());
-        return push_queue_message($queueMessage, $data['users']) !== -1;
+        
+        return container()->get(QueueLogServiceInterface::class)->pushMessage($queueMessage, $data['users']) !== -1;
     }
 
     /**

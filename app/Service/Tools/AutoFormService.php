@@ -24,8 +24,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use function Hyperf\Collection\collect;
-
 class AutoFormService
 {
     public $repository;

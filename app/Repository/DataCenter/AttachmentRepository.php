@@ -12,22 +12,22 @@ declare(strict_types=1);
 
 namespace App\Repository\DataCenter;
 
+use App\Kernel\Event\RealDeleteAttachment;
 use App\Kernel\IRepository\AbstractRepository;
-use App\Model\DataCenter\Uploadfile;
+use App\Model\DataCenter\Attachment;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Filesystem\FilesystemFactory;
-use Mine\Event\RealDeleteUploadFile;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class UserRepository.
  */
-class UploadFileRepository extends AbstractRepository
+class AttachmentRepository extends AbstractRepository
 {
     /**
-     * @var Uploadfile
+     * @var Attachment
      */
     public $model;
 
@@ -39,7 +39,7 @@ class UploadFileRepository extends AbstractRepository
 
     public function assignModel()
     {
-        $this->model = Uploadfile::class;
+        $this->model = Attachment::class;
     }
 
     /**
@@ -99,7 +99,7 @@ class UploadFileRepository extends AbstractRepository
                     '8' => 'minio',
                     default => 'local',
                 };
-                $event = new RealDeleteUploadFile(
+                $event = new RealDeleteAttachment(
                     $model,
                     $this->container->get(FilesystemFactory::class)->get($storageMode)
                 );

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service\DataCenter;
 
-use App\Repository\DataCenter\UploadFileRepository;
+use App\Repository\DataCenter\AttachmentRepository;
 use Hyperf\Collection\Collection;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
@@ -23,18 +23,16 @@ use Mine\Exception\NormalStatusException;
 use Mine\Helper\Str;
 use Mine\MineResponse;
 use Mine\MineUpload;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * 文件上传业务
  * Class LoginLogService.
  */
-class UploadFileService extends AbstractService
+class AttachmentService extends AbstractService
 {
     /**
-     * @var UploadFileRepository
+     * @var AttachmentRepository
      */
     public $repository;
 
@@ -43,7 +41,7 @@ class UploadFileService extends AbstractService
 
     protected MineUpload $mineUpload;
 
-    public function __construct(UploadFileRepository $repository, MineUpload $mineUpload)
+    public function __construct(AttachmentRepository $repository, MineUpload $mineUpload)
     {
         $this->repository = $repository;
         $this->mineUpload = $mineUpload;
@@ -51,8 +49,6 @@ class UploadFileService extends AbstractService
 
     /**
      * 上传文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function upload(UploadedFile $uploadedFile, array $config = []): array
     {
@@ -94,8 +90,6 @@ class UploadFileService extends AbstractService
     /**
      * 保存网络图片.
      * @param array $data ['url', 'path']
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function saveNetworkImage(array $data): array
     {
@@ -116,8 +110,6 @@ class UploadFileService extends AbstractService
 
     /**
      * @throws FilesystemException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function responseFile(string $hash): ResponseInterface
     {

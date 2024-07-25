@@ -1,21 +1,26 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use App\Model\Permission\User;
 use Hyperf\Database\Seeders\Seeder;
-use Hyperf\DbConnection\Db;
 
 class SystemUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
-        Db::table('user')->truncate();
-        Db::table('user')->insert([
+        User::truncate();
+        User::create([
             'username' => 'superAdmin',
             'password' => password_hash('admin123', PASSWORD_DEFAULT),
             'user_type' => '100',

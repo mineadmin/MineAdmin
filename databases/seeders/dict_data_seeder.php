@@ -17,7 +17,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Model\System\DictData;
+use App\Model\DataCenter\DictData;
 use Hyperf\Database\Seeders\Seeder;
 
 class SystemDictDataSeeder extends Seeder
@@ -34,6 +34,9 @@ class SystemDictDataSeeder extends Seeder
         }
     }
 
+    /**
+     * Database seeds data.
+     */
     public function data(): array
     {
         return [

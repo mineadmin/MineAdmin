@@ -24,8 +24,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -40,8 +38,6 @@ class SystemConfigController extends MineController
 
     /**
      * 获取配置列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:config, setting:config:index')]
     public function index(): ResponseInterface
@@ -51,8 +47,6 @@ class SystemConfigController extends MineController
 
     /**
      * 保存配置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('setting:config:save'), OperationLog]
     public function save(ConfigRequest $request): ResponseInterface
@@ -62,8 +56,6 @@ class SystemConfigController extends MineController
 
     /**
      * 更新配置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('update'), Permission('setting:config:update'), OperationLog]
     public function update(ConfigRequest $request): ResponseInterface
@@ -73,8 +65,6 @@ class SystemConfigController extends MineController
 
     /**
      * 按 keys 更新配置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('updateByKeys'), Permission('setting:config:update'), OperationLog]
     public function updateByKeys(): ResponseInterface
@@ -84,8 +74,6 @@ class SystemConfigController extends MineController
 
     /**
      * 删除配置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('setting:config:delete'), OperationLog]
     public function delete(): ResponseInterface
@@ -95,8 +83,6 @@ class SystemConfigController extends MineController
 
     /**
      * 清除配置缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('clearCache'), Permission('setting:config:clearCache'), OperationLog]
     public function clearCache(): ResponseInterface

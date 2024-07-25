@@ -15,8 +15,6 @@ namespace App\Listener\System;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Mine\Event\UserDelete;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -33,8 +31,6 @@ class UserDeleteListener implements ListenerInterface
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws InvalidArgumentException
      * @throws \RedisException
      */

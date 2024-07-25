@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
- namespace App\Kernel\Event;
+namespace App\Kernel\Event;
 
 use Hyperf\DbConnection\Model\Model;
 use League\Flysystem\Filesystem;

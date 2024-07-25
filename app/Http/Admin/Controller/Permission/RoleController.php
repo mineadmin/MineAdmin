@@ -25,8 +25,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -40,8 +38,6 @@ class RoleController extends MineController
 
     /**
      * 角色分页列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:role, system:role:index')]
     public function index(): ResponseInterface
@@ -51,8 +47,6 @@ class RoleController extends MineController
 
     /**
      * 回收站角色分页列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:role:recycle')]
     public function recycle(): ResponseInterface
@@ -62,8 +56,6 @@ class RoleController extends MineController
 
     /**
      * 通过角色获取菜单.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getMenuByRole/{id}')]
     public function getMenuByRole(int $id): ResponseInterface
@@ -73,8 +65,6 @@ class RoleController extends MineController
 
     /**
      * 通过角色获取部门.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getDeptByRole/{id}')]
     public function getDeptByRole(int $id): ResponseInterface
@@ -84,8 +74,6 @@ class RoleController extends MineController
 
     /**
      * 获取角色列表 (不验证权限).
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('list')]
     public function list(): ResponseInterface
@@ -95,8 +83,6 @@ class RoleController extends MineController
 
     /**
      * 新增角色.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:role:save'), OperationLog]
     public function save(RoleRequest $request): ResponseInterface
@@ -106,8 +92,6 @@ class RoleController extends MineController
 
     /**
      * 更新角色.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:role:update'), OperationLog]
     public function update(int $id, RoleRequest $request): ResponseInterface
@@ -117,8 +101,6 @@ class RoleController extends MineController
 
     /**
      * 更新用户菜单权限.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('menuPermission/{id}'), Permission('system:role:menuPermission'), OperationLog]
     public function menuPermission(int $id): ResponseInterface
@@ -128,8 +110,6 @@ class RoleController extends MineController
 
     /**
      * 更新用户数据权限.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('dataPermission/{id}'), Permission('system:role:dataPermission'), OperationLog]
     public function dataPermission(int $id): ResponseInterface
@@ -139,8 +119,6 @@ class RoleController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:role:delete')]
     public function delete(): ResponseInterface
@@ -150,8 +128,6 @@ class RoleController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:role:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -161,8 +137,6 @@ class RoleController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:role:recovery')]
     public function recovery(): ResponseInterface
@@ -172,8 +146,6 @@ class RoleController extends MineController
 
     /**
      * 更改角色状态
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('changeStatus'), Permission('system:role:changeStatus'), OperationLog]
     public function changeStatus(RoleRequest $request): ResponseInterface
@@ -184,8 +156,6 @@ class RoleController extends MineController
 
     /**
      * 数字运算操作.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('numberOperation'), Permission('system:role:update'), OperationLog]
     public function numberOperation(): ResponseInterface

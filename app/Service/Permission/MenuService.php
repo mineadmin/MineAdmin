@@ -17,8 +17,6 @@ use App\Repository\Permission\MenuRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Interfaces\ServiceInterface\MenuServiceInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 #[DependProxy(values: [MenuServiceInterface::class])]
 class MenuService extends AbstractService implements MenuServiceInterface
@@ -58,8 +56,6 @@ class MenuService extends AbstractService implements MenuServiceInterface
 
     /**
      * 通过code获取菜单名称.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function findNameByCode(string $code): string
     {

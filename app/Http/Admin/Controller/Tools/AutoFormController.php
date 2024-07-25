@@ -24,7 +24,6 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use Psr\Http\Message\ResponseInterface;
 
 #[Controller(prefix: 'setting/autoform'), Auth] class AutoFormController extends MineController
@@ -40,12 +39,9 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 配置信息.
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[GetMapping(path: '{table_id}'), Permission('setting:autoform:{table_id}')]
-    public function table(mixed $table_id)
+    public function table(mixed $table_id): ResponseInterface
     {
         $table = $this->tablesService->read($table_id);
         if (empty($table)) {
@@ -84,8 +80,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 新增.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping('save/{table_id}'), Permission('setting:autoform:{table_id}:save')]
     public function save($table_id): ResponseInterface
@@ -95,9 +89,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 更新.
-     * @param int $id
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping('update/{table_id}/{id}'), Permission('setting:autoform:{table_id}:update')]
     public function update(mixed $table_id, mixed $id): ResponseInterface
@@ -107,8 +98,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 读取数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[GetMapping('read/{table_id}/{id}'), Permission('setting:autoform:{table_id}:read')]
     public function read(mixed $table_id, int $id): ResponseInterface
@@ -125,8 +114,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 更改数据状态
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping('changeStatus/{table_id}'), Permission('setting:autoform:{table_id}:update')]
     public function changeStatus($table_id): ResponseInterface
@@ -141,8 +128,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 回收站角色分页列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle/{table_id}'), Permission('setting:autoform:{table_id}:recycle')]
     public function recycle($table_id): ResponseInterface
@@ -152,8 +137,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete/{table_id}'), Permission('setting:autoform:{table_id}:realDelete')]
     public function realDelete($table_id): ResponseInterface
@@ -163,8 +146,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PutMapping('recovery/{table_id}'), Permission('setting:autoform:{table_id}:recovery')]
     public function recovery($table_id): ResponseInterface
@@ -174,8 +155,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 数据导入.
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping('import'), Permission('setting:autoform:{table_id}:import')]
     public function import(): ResponseInterface
@@ -186,9 +165,6 @@ use Psr\Http\Message\ResponseInterface;
 
     /**
      * 数据导出.
-     * @throws Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[PostMapping('export'), Permission('setting:autoform:{table_id}:export')]
     public function export(): ResponseInterface

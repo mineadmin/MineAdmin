@@ -26,8 +26,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -42,8 +40,6 @@ class DictDataController extends MineController
 
     /**
      * 列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:dict, system:dict:index')]
     public function index(): ResponseInterface
@@ -53,8 +49,6 @@ class DictDataController extends MineController
 
     /**
      * 快捷查询一个字典.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('list')]
     public function list(): ResponseInterface
@@ -64,8 +58,6 @@ class DictDataController extends MineController
 
     /**
      * 快捷查询多个字典.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('lists')]
     public function lists(): ResponseInterface
@@ -75,8 +67,6 @@ class DictDataController extends MineController
 
     /**
      * 清除字典缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('clearCache'), Permission('system:dict:clearCache'), OperationLog]
     public function clearCache(): ResponseInterface
@@ -86,8 +76,6 @@ class DictDataController extends MineController
 
     /**
      * 回收站列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:dict:recycle')]
     public function recycle(): ResponseInterface
@@ -97,8 +85,6 @@ class DictDataController extends MineController
 
     /**
      * 新增字典类型.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:dict:save'), OperationLog, DeleteCache('')]
     public function save(DictDataRequest $request): ResponseInterface
@@ -108,8 +94,6 @@ class DictDataController extends MineController
 
     /**
      * 获取一个字典类型数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:dict:read')]
     public function read(int $id): ResponseInterface
@@ -119,8 +103,6 @@ class DictDataController extends MineController
 
     /**
      * 更新一个字典类型.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:dict:update'), OperationLog, DeleteCache('system:dict:*')]
     public function update(int $id, DictDataRequest $request): ResponseInterface
@@ -130,8 +112,6 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量字典数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:dict:delete'), DeleteCache('system:dict:*')]
     public function delete(): ResponseInterface
@@ -141,8 +121,6 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量真实删除字典 （清空回收站）.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:dict:realDelete'), OperationLog, DeleteCache('system:dict:*')]
     public function realDelete(): ResponseInterface
@@ -152,8 +130,6 @@ class DictDataController extends MineController
 
     /**
      * 单个或批量恢复在回收站的字典.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:dict:recovery'), DeleteCache('system:dict:*')]
     public function recovery(): ResponseInterface
@@ -163,8 +139,6 @@ class DictDataController extends MineController
 
     /**
      * 更改字典状态
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('changeStatus'), Permission('system:dict:update'), OperationLog, DeleteCache('system:dict:*')]
     public function changeStatus(DictDataRequest $request): ResponseInterface
@@ -175,8 +149,6 @@ class DictDataController extends MineController
 
     /**
      * 数字运算操作.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('numberOperation'), Permission('system:dict:update'), OperationLog]
     public function numberOperation(): ResponseInterface

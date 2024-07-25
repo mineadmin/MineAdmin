@@ -20,10 +20,7 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 在线用户监控
@@ -37,8 +34,6 @@ class OnlineUserMonitorController extends MineController
 
     /**
      * 获取在线用户列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:onlineUser, system:onlineUser:index')]
     public function getPageList(): ResponseInterface
@@ -48,9 +43,6 @@ class OnlineUserMonitorController extends MineController
 
     /**
      * 强退用户.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws InvalidArgumentException
      */
     #[PostMapping('kick'), Permission('system:onlineUser:kick')]
     public function kickUser(): ResponseInterface

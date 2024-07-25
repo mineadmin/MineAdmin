@@ -25,8 +25,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -40,8 +38,6 @@ class PostController extends MineController
 
     /**
      * 岗位分页列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:post, system:post:index')]
     public function index(): ResponseInterface
@@ -51,8 +47,6 @@ class PostController extends MineController
 
     /**
      * 岗位回收站分页列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:post:recycle')]
     public function recycle(): ResponseInterface
@@ -62,8 +56,6 @@ class PostController extends MineController
 
     /**
      * 获取岗位列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('list')]
     public function list(): ResponseInterface
@@ -73,8 +65,6 @@ class PostController extends MineController
 
     /**
      * 保存数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('system:post:save'), OperationLog]
     public function save(PostRequest $request): ResponseInterface
@@ -84,8 +74,6 @@ class PostController extends MineController
 
     /**
      * 获取一条数据信息.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:post:read')]
     public function read(int $id): ResponseInterface
@@ -95,8 +83,6 @@ class PostController extends MineController
 
     /**
      * 更新数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:post:update'), OperationLog]
     public function update(int $id, PostRequest $request): ResponseInterface
@@ -106,8 +92,6 @@ class PostController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:post:delete')]
     public function delete(): ResponseInterface
@@ -117,8 +101,6 @@ class PostController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:post:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -128,8 +110,6 @@ class PostController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:post:recovery')]
     public function recovery(): ResponseInterface
@@ -139,8 +119,6 @@ class PostController extends MineController
 
     /**
      * 更改岗位状态
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('changeStatus'), Permission('system:post:changeStatus'), OperationLog]
     public function changeStatus(PostRequest $request): ResponseInterface
@@ -151,8 +129,6 @@ class PostController extends MineController
 
     /**
      * 数字运算操作.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('numberOperation'), Permission('system:post:update'), OperationLog]
     public function numberOperation(): ResponseInterface

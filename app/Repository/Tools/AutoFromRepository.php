@@ -28,8 +28,6 @@ use Mine\Exception\NormalStatusException;
 use Mine\MineCollection;
 use Mine\MineModel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class AutoFromRepository
 {
@@ -397,8 +395,6 @@ class AutoFromRepository
 
     /**
      * 单个或批量软删除数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function delete(mixed $table_id, array $ids): bool
     {

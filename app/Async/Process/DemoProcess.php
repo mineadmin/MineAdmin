@@ -16,9 +16,7 @@ use App\Process\Coroutine;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\ProcessManager;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Swoole\Server;
 
 class DemoProcess extends AbstractProcess
@@ -35,10 +33,6 @@ class DemoProcess extends AbstractProcess
      */
     private $logger;
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
@@ -60,10 +54,6 @@ class DemoProcess extends AbstractProcess
         return true;
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function handle(): void
     {
         while (ProcessManager::isRunning());

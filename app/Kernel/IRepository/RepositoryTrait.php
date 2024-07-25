@@ -22,8 +22,6 @@ use Mine\Exception\NormalStatusException;
 use Mine\MineCollection;
 use Mine\MineModel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 trait RepositoryTrait
 {
@@ -299,8 +297,6 @@ trait RepositoryTrait
 
     /**
      * 单个或批量软删除数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function delete(array $ids): bool
     {
@@ -373,8 +369,6 @@ trait RepositoryTrait
     /**
      * 数据导入.
      * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function import(string $dto, ?\Closure $closure = null): bool
     {

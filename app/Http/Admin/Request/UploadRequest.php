@@ -14,8 +14,6 @@ namespace App\Http\Admin\Request;
 
 use App\Service\Settings\ConfigService;
 use Mine\MineFormRequest;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class UploadRequest extends MineFormRequest
 {
@@ -30,8 +28,6 @@ class UploadRequest extends MineFormRequest
     /**
      * 上传文件验证规则.
      * @return string[]
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function uploadFileRules(): array
@@ -45,8 +41,6 @@ class UploadRequest extends MineFormRequest
     /**
      * 上传图片验证规则.
      * @return string[]
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function uploadImageRules(): array
@@ -88,8 +82,7 @@ class UploadRequest extends MineFormRequest
     }
 
     /**
-     * 字段映射名称
-     * return array.
+     * 字段映射名称.
      */
     public function attributes(): array
     {
@@ -112,8 +105,6 @@ class UploadRequest extends MineFormRequest
     /**
      * 获取Mimes.
      * @param mixed $key
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     protected function getMimes($key): string

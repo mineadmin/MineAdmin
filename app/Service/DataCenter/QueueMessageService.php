@@ -82,7 +82,7 @@ class QueueMessageService extends AbstractService implements QueueMessageService
         // 固定私信类型
         $queueMessage->setContentType(QueueMessage::TYPE_PRIVATE_MESSAGE);
         $queueMessage->setSendBy(user()->getId());
-        
+
         return container()->get(QueueLogServiceInterface::class)->pushMessage($queueMessage, $data['users']) !== -1;
     }
 

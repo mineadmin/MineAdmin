@@ -31,9 +31,7 @@ use Mine\Generator\ServiceGenerator;
 use Mine\Generator\SqlGenerator;
 use Mine\Generator\VueIndexGenerator;
 use Mine\Mine;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 业务生成信息表业务处理类
@@ -70,8 +68,6 @@ class GenerateTablesService extends AbstractService
 
     /**
      * 装载数据表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[Transaction]
     public function loadTable(array $params): bool
@@ -171,8 +167,6 @@ class GenerateTablesService extends AbstractService
 
     /**
      * 生成代码
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function generate(array $ids): string
     {
@@ -259,8 +253,6 @@ class GenerateTablesService extends AbstractService
 
     /**
      * 生成步骤.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     protected function generateCodeFile(mixed $id, int $adminId): GenerateTables
@@ -294,8 +286,6 @@ class GenerateTablesService extends AbstractService
 
     /**
      * 打包代码文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     protected function packageCodeFile(): string
     {
@@ -342,8 +332,6 @@ class GenerateTablesService extends AbstractService
 
     /**
      * 初始化生成设置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     protected function initGenerateSetting(): void
     {

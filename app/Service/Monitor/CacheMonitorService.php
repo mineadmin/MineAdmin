@@ -13,15 +13,9 @@ declare(strict_types=1);
 namespace App\Service\Monitor;
 
 use Hyperf\Redis\Redis;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class CacheMonitorService
 {
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function getCacheServerInfo(): array
     {
         $redis = container()->get(Redis::class);
@@ -52,8 +46,6 @@ class CacheMonitorService
 
     /**
      * 查看缓存内容.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function view(string $key): string
     {
@@ -62,8 +54,6 @@ class CacheMonitorService
 
     /**
      * 删除一个缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function delete(string $key): bool
     {
@@ -72,8 +62,6 @@ class CacheMonitorService
 
     /**
      * 清空所有缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function clear(): bool
     {

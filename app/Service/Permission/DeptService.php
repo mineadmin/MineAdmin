@@ -15,8 +15,6 @@ namespace App\Service\Permission;
 use App\Repository\Permission\DeptRepository;
 use Mine\Abstracts\AbstractService;
 use Mine\Exception\NormalStatusException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class DeptService extends AbstractService
 {
@@ -78,8 +76,6 @@ class DeptService extends AbstractService
 
     /**
      * 新增部门.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): mixed
     {
@@ -88,8 +84,6 @@ class DeptService extends AbstractService
 
     /**
      * 更新部门.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function update(mixed $id, array $data): bool
     {
@@ -125,8 +119,6 @@ class DeptService extends AbstractService
 
     /**
      * 处理数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     protected function handleData(array $data): array
     {

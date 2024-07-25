@@ -24,8 +24,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -40,8 +38,6 @@ class SystemConfigGroupController extends MineController
 
     /**
      * 获取系统组配置.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:config, setting:config:index')]
     public function index(): ResponseInterface
@@ -51,8 +47,6 @@ class SystemConfigGroupController extends MineController
 
     /**
      * 保存配置组.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('setting:config:save'), OperationLog('保存配置组')]
     public function save(ConfigGroupRequest $request): ResponseInterface
@@ -62,8 +56,6 @@ class SystemConfigGroupController extends MineController
 
     /**
      * 更新配置组.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('update'), Permission('setting:config:update'), OperationLog('更新配置组')]
     public function update(ConfigGroupRequest $request): ResponseInterface
@@ -73,8 +65,6 @@ class SystemConfigGroupController extends MineController
 
     /**
      * 删除配置组.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('setting:config:delete'), OperationLog('删除配置组')]
     public function delete(): ResponseInterface

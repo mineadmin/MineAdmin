@@ -23,8 +23,6 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -54,8 +52,6 @@ class LogsController extends MineController
 
     /**
      * 获取登录日志列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getLoginLogPageList'), Permission('system:loginLog')]
     public function getLoginLogPageList(): ResponseInterface
@@ -65,8 +61,6 @@ class LogsController extends MineController
 
     /**
      * 获取操作日志列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getOperLogPageList'), Permission('system:operLog')]
     public function getOperLogPageList(): ResponseInterface
@@ -76,8 +70,6 @@ class LogsController extends MineController
 
     /**
      * 获取队列日志列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getQueueLogPageList'), Permission('system:queueLog')]
     public function getQueueLogPageList(): ResponseInterface
@@ -87,8 +79,6 @@ class LogsController extends MineController
 
     /**
      * 删除队列日志.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteQueueLog'), Permission('system:queueLog:delete'), OperationLog]
     public function deleteQueueLog(): ResponseInterface
@@ -98,8 +88,6 @@ class LogsController extends MineController
 
     /**
      * 删除操作日志.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteOperLog'), Permission('system:operLog:delete'), OperationLog]
     public function deleteOperLog(): ResponseInterface
@@ -109,8 +97,6 @@ class LogsController extends MineController
 
     /**
      * 删除登录日志.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('deleteLoginLog'), Permission('system:loginLog:delete'), OperationLog]
     public function deleteLoginLog(): ResponseInterface

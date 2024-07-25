@@ -19,8 +19,6 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -34,8 +32,6 @@ class ServerMonitorController extends MineController
 
     /**
      * 获取服务器信息.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('monitor'), Permission('system:monitor:server')]
     public function getServerInfo(): ResponseInterface

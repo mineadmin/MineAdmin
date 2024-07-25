@@ -20,8 +20,6 @@ use Hyperf\Snowflake\IdGenerator\SnowflakeIdGenerator;
 use Mine\Abstracts\AbstractService;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 通知管理服务类.
@@ -42,9 +40,6 @@ class NoticeService extends AbstractService
 
     /**
      * 保存公告.
-     * @throws ContainerExceptionInterface
-     * @throws \Throwable
-     * @throws NotFoundExceptionInterface
      */
     #[Transaction]
     public function save(array $data): mixed

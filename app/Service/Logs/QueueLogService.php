@@ -27,8 +27,6 @@ use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 队列管理服务类.
@@ -76,8 +74,6 @@ class QueueLogService extends AbstractService implements QueueLogServiceInterfac
 
     /**
      * 添加任务到队列.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function addQueue(AmqpQueueVo $amqpQueueVo): bool
@@ -95,8 +91,6 @@ class QueueLogService extends AbstractService implements QueueLogServiceInterfac
 
     /**
      * 推送消息到队列.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     public function pushMessage(QueueMessageVo $message, array $receiveUsers = []): bool

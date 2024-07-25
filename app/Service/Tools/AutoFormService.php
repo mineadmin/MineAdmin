@@ -20,8 +20,6 @@ use Mine\MineCollection;
 use Mine\MineModel;
 use Mine\MineResponse;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class AutoFormService
@@ -245,8 +243,6 @@ class AutoFormService
     /**
      * 导出数据.
      * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function export(array $params, ?string $dto, ?string $filename = null, ?\Closure $callbackData = null): ResponseInterface
     {
@@ -264,8 +260,6 @@ class AutoFormService
     /**
      * 数据导入.
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function import(string $dto, ?\Closure $closure = null): bool
     {

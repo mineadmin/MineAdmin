@@ -52,8 +52,7 @@ class ConfigRequest extends MineFormRequest
     }
 
     /**
-     * 字段映射名称
-     * return array.
+     * 字段映射名称.
      */
     public function attributes(): array
     {

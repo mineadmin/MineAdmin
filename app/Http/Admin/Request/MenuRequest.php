@@ -25,8 +25,7 @@ class MenuRequest extends MineFormRequest
     }
 
     /**
-     * 新增数据验证规则
-     * return array.
+     * 新增数据验证规则.
      */
     public function saveRules(): array
     {
@@ -37,8 +36,7 @@ class MenuRequest extends MineFormRequest
     }
 
     /**
-     * 更新数据验证规则
-     * return array.
+     * 更新数据验证规则.
      */
     public function updateRules(): array
     {
@@ -49,8 +47,7 @@ class MenuRequest extends MineFormRequest
     }
 
     /**
-     * 修改状态数据验证规则
-     * return array.
+     * 修改状态数据验证规则.
      */
     public function changeStatusRules(): array
     {

@@ -17,8 +17,6 @@ use Mine\Abstracts\AbstractService;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\RoleServiceInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 #[DependProxy(values: [RoleServiceInterface::class])]
 class RoleService extends AbstractService implements RoleServiceInterface
@@ -57,8 +55,6 @@ class RoleService extends AbstractService implements RoleServiceInterface
 
     /**
      * 通过code获取角色名称.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function findNameByCode(string $code): string
     {

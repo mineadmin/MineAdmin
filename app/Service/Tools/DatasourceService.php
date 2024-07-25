@@ -16,8 +16,6 @@ use App\Repository\Tools\DatasourceRepository;
 use Hyperf\Database\Model\Collection;
 use Mine\Abstracts\AbstractService;
 use Mine\Helper\Str;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 数据源管理服务类.
@@ -36,8 +34,6 @@ class DatasourceService extends AbstractService
 
     /**
      * 测试数据库连接.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function testLink(array $params): bool
     {
@@ -101,8 +97,6 @@ class DatasourceService extends AbstractService
 
     /**
      * 设置需要分页的数组数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     protected function getArrayData(array $params = []): array
     {

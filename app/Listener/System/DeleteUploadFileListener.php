@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Listener\System;
 
-use App\Model\DataCenter\Uploadfile;
+use App\Kernel\Event\RealDeleteAttachment;
+use App\Model\DataCenter\Attachment;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use League\Flysystem\FilesystemException;
-use Mine\Event\RealDeleteUploadFile;
 
 /**
  * Class DeleteUploadFileListener.
@@ -27,7 +27,7 @@ class DeleteUploadFileListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            RealDeleteUploadFile::class,
+            RealDeleteAttachment::class,
         ];
     }
 
@@ -36,7 +36,7 @@ class DeleteUploadFileListener implements ListenerInterface
      */
     public function process(object $event): void
     {
-        $filePath = $this->getFilePath($event->getModel());
+        $filePath = $this->getAttachmentPath($event->getModel());
         try {
             $event->getFilesystem()->delete($filePath);
         } catch (\Exception $e) {
@@ -48,7 +48,7 @@ class DeleteUploadFileListener implements ListenerInterface
     /**
      * 获取文件路径.
      */
-    public function getFilePath(Uploadfile $model): string
+    public function getAttachmentPath(Attachment $model): string
     {
         return $model->storage_path . '/' . $model->object_name;
     }

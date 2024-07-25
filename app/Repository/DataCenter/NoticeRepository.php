@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Repository\DataCenter;
 
-use App\DataCenter\Model\Notice;
 use App\Kernel\IRepository\AbstractRepository;
+use App\Model\DataCenter\Notice;
 use Hyperf\Database\Model\Builder;
 
 /**

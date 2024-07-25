@@ -25,8 +25,6 @@ use Mine\Exception\MineException;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\UserServiceInterface;
 use Mine\MineRequest;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Xmo\JWTAuth\JWT;
 
@@ -68,8 +66,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 获取用户信息.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function getInfo(?int $userId = null): array
     {
@@ -81,8 +77,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 新增用户.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function save(array $data): mixed
     {
@@ -145,8 +139,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 删除用户.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function delete(array $ids): bool
     {
@@ -164,8 +156,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 真实删除用户.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function realDelete(array $ids): bool
     {
@@ -219,8 +209,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 清除用户缓存.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function clearCache(string $id): bool
@@ -242,8 +230,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 设置用户首页.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function setHomePage(array $params): bool
@@ -258,8 +244,6 @@ class UserService extends AbstractService implements UserServiceInterface
 
     /**
      * 用户更新个人资料.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function updateInfo(array $params): bool

@@ -27,9 +27,6 @@ use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineCollection;
 use Mine\MineController;
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -48,8 +45,6 @@ class DatasourceController extends MineController
 
     /**
      * 列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('setting:datasource, setting:datasource:index')]
     public function index(): ResponseInterface
@@ -59,8 +54,6 @@ class DatasourceController extends MineController
 
     /**
      * 新增.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('save'), Permission('setting:datasource:save'), OperationLog]
     public function save(DatasourceRequest $request): ResponseInterface
@@ -70,8 +63,6 @@ class DatasourceController extends MineController
 
     /**
      * 更新.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('setting:datasource:update'), OperationLog]
     public function update(int $id, DatasourceRequest $request): ResponseInterface
@@ -81,8 +72,6 @@ class DatasourceController extends MineController
 
     /**
      * 读取数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('setting:datasource:read')]
     public function read(int $id): ResponseInterface
@@ -92,8 +81,6 @@ class DatasourceController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('setting:datasource:delete'), OperationLog]
     public function delete(): ResponseInterface
@@ -103,8 +90,6 @@ class DatasourceController extends MineController
 
     /**
      * 数据导入.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('import'), Permission('setting:datasource:import')]
     public function import(): ResponseInterface
@@ -114,9 +99,6 @@ class DatasourceController extends MineController
 
     /**
      * 下载导入模板
-     * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('downloadTemplate')]
     public function downloadTemplate(): ResponseInterface
@@ -126,9 +108,6 @@ class DatasourceController extends MineController
 
     /**
      * 数据导出.
-     * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('export'), Permission('setting:datasource:export'), OperationLog]
     public function export(): ResponseInterface
@@ -138,9 +117,6 @@ class DatasourceController extends MineController
 
     /**
      * 测试数据库连接.
-     * @throws Exception
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('testLink')]
     public function testLink(): ResponseInterface
@@ -150,8 +126,6 @@ class DatasourceController extends MineController
 
     /**
      * 获取数据源的表列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getDataSourceTablePageList')]
     public function getDataSourceTablePageList(): ResponseInterface

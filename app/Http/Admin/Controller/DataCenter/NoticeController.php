@@ -25,8 +25,6 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -41,8 +39,6 @@ class NoticeController extends MineController
 
     /**
      * 列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:notice, system:notice:index')]
     public function index(): ResponseInterface
@@ -52,8 +48,6 @@ class NoticeController extends MineController
 
     /**
      * 回收站列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:notice:recycle')]
     public function recycle(): ResponseInterface
@@ -63,8 +57,6 @@ class NoticeController extends MineController
 
     /**
      * 新增.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \Throwable
      */
     #[PostMapping('save'), Permission('system:notice:save'), OperationLog]
@@ -75,8 +67,6 @@ class NoticeController extends MineController
 
     /**
      * 读取数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('read/{id}'), Permission('system:notice:read')]
     public function read(int $id): ResponseInterface
@@ -86,8 +76,6 @@ class NoticeController extends MineController
 
     /**
      * 更新.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('update/{id}'), Permission('system:notice:update'), OperationLog]
     public function update(int $id, NoticeRequest $request): ResponseInterface
@@ -97,8 +85,6 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量删除数据到回收站.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:notice:delete')]
     public function delete(): ResponseInterface
@@ -108,8 +94,6 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量真实删除数据 （清空回收站）.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:notice:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -119,8 +103,6 @@ class NoticeController extends MineController
 
     /**
      * 单个或批量恢复在回收站的数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:notice:recovery')]
     public function recovery(): ResponseInterface

@@ -25,8 +25,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 新增数据验证规则
-     * return array.
+     * 新增数据验证规则.
      */
     public function saveRules(): array
     {
@@ -36,8 +35,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 新增部门领导验证规则
-     * return array.
+     * 新增部门领导验证规则.
      */
     public function addLeaderRules(): array
     {
@@ -48,8 +46,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 删除部门领导验证规则
-     * return array.
+     * 删除部门领导验证规则.
      */
     public function delLeaderRules(): array
     {
@@ -60,8 +57,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 更新数据验证规则
-     * return array.
+     * 更新数据验证规则.
      */
     public function updateRules(): array
     {
@@ -71,8 +67,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 修改状态数据验证规则
-     * return array.
+     * 修改状态数据验证规则.
      */
     public function changeStatusRules(): array
     {
@@ -83,8 +78,7 @@ class DeptRequest extends MineFormRequest
     }
 
     /**
-     * 字段映射名称
-     * return array.
+     * 字段映射名称.
      */
     public function attributes(): array
     {

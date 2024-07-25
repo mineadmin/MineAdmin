@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Service\DataCenter\NoticeService;
 use App\Service\DataCenter\AttachmentService;
+use App\Service\DataCenter\NoticeService;
 use App\Service\Logs\LoginLogService;
 use App\Service\Logs\OperLogService;
 use App\Service\Permission\DeptService;

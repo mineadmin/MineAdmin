@@ -17,8 +17,6 @@ use App\Model\Tools\Datasource;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Exception\MineException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 数据源管理Repository类.
@@ -50,8 +48,6 @@ class DatasourceRepository extends AbstractRepository
 
     /**
      * 测试数据库连接.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function getDataSourceTableList(array|object $params): array
     {

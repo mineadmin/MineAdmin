@@ -30,8 +30,7 @@ class CrontabRequest extends MineFormRequest
     }
 
     /**
-     * 新增数据验证规则
-     * return array.
+     * 新增数据验证规则.
      */
     public function saveRules(): array
     {
@@ -39,8 +38,7 @@ class CrontabRequest extends MineFormRequest
     }
 
     /**
-     * 新增数据验证规则
-     * return array.
+     * 新增数据验证规则.
      */
     public function updateRules(): array
     {
@@ -48,8 +46,7 @@ class CrontabRequest extends MineFormRequest
     }
 
     /**
-     * 字段映射名称
-     * return array.
+     * 字段映射名称.
      */
     public function attributes(): array
     {

@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace App\Async\Amqp\Producer;
 
 use Hyperf\Amqp\Message\ProducerMessage;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 后台内部消息队列生产处理.
@@ -22,12 +20,7 @@ use Psr\Container\NotFoundExceptionInterface;
 // #[Producer(exchange: "mineadmin", routingKey: "message.routing")]
 class MessageProducer extends ProducerMessage
 {
-    /**
-     * @param mixed $data
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function __construct($data)
+    public function __construct(mixed $data)
     {
         console()->info(
             sprintf(

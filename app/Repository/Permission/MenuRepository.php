@@ -19,8 +19,6 @@ use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
 use Mine\Annotation\DeleteCache;
 use Mine\Annotation\Transaction;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class MenuRepository extends AbstractRepository
 {
@@ -77,8 +75,6 @@ class MenuRepository extends AbstractRepository
 
     /**
      * 获取前端选择树.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \RedisException
      */
     public function getSelectTree(array $data): array

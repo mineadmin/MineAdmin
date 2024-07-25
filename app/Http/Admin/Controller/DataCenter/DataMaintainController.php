@@ -21,8 +21,6 @@ use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -36,8 +34,6 @@ class DataMaintainController extends MineController
 
     /**
      * 列表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:dataMaintain, system:dataMaintain:index')]
     public function index(): ResponseInterface
@@ -47,8 +43,6 @@ class DataMaintainController extends MineController
 
     /**
      * 详情.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('detailed'), Permission('system:dataMaintain:detailed')]
     public function detailed(): ResponseInterface
@@ -58,8 +52,6 @@ class DataMaintainController extends MineController
 
     /**
      * 优化表.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('optimize'), Permission('system:dataMaintain:optimize'), OperationLog]
     public function optimize(): ResponseInterface
@@ -70,8 +62,6 @@ class DataMaintainController extends MineController
 
     /**
      * 清理表碎片.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('fragment'), Permission('system:dataMaintain:fragment'), OperationLog]
     public function fragment(): ResponseInterface

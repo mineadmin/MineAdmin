@@ -35,14 +35,14 @@ use Mine\MineModel;
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
  */
-class Uploadfile extends MineModel
+class Attachment extends MineModel
 {
     use SoftDeletes;
 
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'uploadfile';
+    protected ?string $table = 'attachment';
 
     /**
      * The attributes that are mass assignable.

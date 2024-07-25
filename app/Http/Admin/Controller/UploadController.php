@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\Request\UploadRequest;
-use App\Service\DataCenter\UploadFileService;
+use App\Service\DataCenter\AttachmentService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -22,8 +22,6 @@ use League\Flysystem\FilesystemException;
 use Mine\Annotation\Auth;
 use Mine\Exception\MineException;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -33,12 +31,10 @@ use Psr\Http\Message\ResponseInterface;
 class UploadController extends MineController
 {
     #[Inject]
-    protected UploadFileService $service;
+    protected AttachmentService $service;
 
     /**
      * 上传文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('uploadFile'), Auth]
     public function uploadFile(UploadRequest $request): ResponseInterface
@@ -55,8 +51,6 @@ class UploadController extends MineController
 
     /**
      * 上传图片.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('uploadImage'), Auth]
     public function uploadImage(UploadRequest $request): ResponseInterface
@@ -73,8 +67,6 @@ class UploadController extends MineController
 
     /**
      * 分块上传.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PostMapping('chunkUpload'), Auth]
     public function chunkUpload(UploadRequest $request): ResponseInterface
@@ -84,8 +76,6 @@ class UploadController extends MineController
 
     /**
      * 保存网络图片.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws \Exception
      */
     #[PostMapping('saveNetworkImage'), Auth]
@@ -96,8 +86,6 @@ class UploadController extends MineController
 
     /**
      * 获取当前目录所有文件和目录.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getAllFiles'), Auth]
     public function getAllFile(): ResponseInterface
@@ -109,8 +97,6 @@ class UploadController extends MineController
 
     /**
      * 通过ID获取文件信息.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getFileInfoById')]
     public function getFileInfoByid(): ResponseInterface
@@ -120,8 +106,6 @@ class UploadController extends MineController
 
     /**
      * 通过HASH获取文件信息.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('getFileInfoByHash')]
     public function getFileInfoByHash(): ResponseInterface
@@ -131,8 +115,6 @@ class UploadController extends MineController
 
     /**
      * 根据id下载文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('downloadById')]
     public function downloadById(): ResponseInterface
@@ -150,8 +132,6 @@ class UploadController extends MineController
 
     /**
      * 根据hash下载文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('downloadByHash')]
     public function downloadByHash(): ResponseInterface
@@ -170,8 +150,6 @@ class UploadController extends MineController
     /**
      * 输出图片、文件.
      * @throws FilesystemException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('showFile/{hash}')]
     public function showFile(string $hash): ResponseInterface

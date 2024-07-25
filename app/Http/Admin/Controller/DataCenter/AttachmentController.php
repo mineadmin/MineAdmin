@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\DataCenter;
 
-use App\Service\DataCenter\UploadFileService;
+use App\Service\DataCenter\AttachmentService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -24,24 +24,20 @@ use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
 use Mine\MineController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 文件管理控制器
- * Class UploadFileController.
+ * 附件管理控制器
+ * Class AttachmentController.
  */
 #[Controller(prefix: 'system/attachment'), Auth]
 class AttachmentController extends MineController
 {
     #[Inject]
-    protected UploadFileService $service;
+    protected AttachmentService $service;
 
     /**
      * 列表数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('index'), Permission('system:attachment, system:attachment:index')]
     public function index(): ResponseInterface
@@ -51,8 +47,6 @@ class AttachmentController extends MineController
 
     /**
      * 回收站列表数据.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[GetMapping('recycle'), Permission('system:attachment:recycle')]
     public function recycle(): ResponseInterface
@@ -62,8 +56,6 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量删除附件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delete'), Permission('system:attachment:delete')]
     public function delete(): ResponseInterface
@@ -73,8 +65,6 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量真实删除文件 （清空回收站）.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('realDelete'), Permission('system:attachment:realDelete'), OperationLog]
     public function realDelete(): ResponseInterface
@@ -84,8 +74,6 @@ class AttachmentController extends MineController
 
     /**
      * 单个或批量恢复在回收站的文件.
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[PutMapping('recovery'), Permission('system:attachment:recovery')]
     public function recovery(): ResponseInterface

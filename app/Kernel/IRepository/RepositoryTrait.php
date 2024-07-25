@@ -25,8 +25,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-use function Hyperf\Config\config;
-
 trait RepositoryTrait
 {
     /**

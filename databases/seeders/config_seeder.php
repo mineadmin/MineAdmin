@@ -18,7 +18,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Model\Config;
+use App\Model\Settings\Config;
 use Hyperf\Database\Seeders\Seeder;
 
 class ConfigSeeder extends Seeder
@@ -29,7 +29,18 @@ class ConfigSeeder extends Seeder
     public function run()
     {
         Config::truncate();
-        $data = [
+        $data = $this->data();
+        foreach ($data as $value) {
+            Config::create($value);
+        }
+    }
+
+    /**
+     * Database seeds data.
+     */
+    public function data(): array
+    {
+        return [
             [
                 'group_id' => 1,
                 'key' => 'site_copyright',
@@ -101,8 +112,5 @@ class ConfigSeeder extends Seeder
                 'sort' => 99,
             ],
         ];
-        foreach ($data as $value) {
-            Config::create($value);
-        }
     }
 }

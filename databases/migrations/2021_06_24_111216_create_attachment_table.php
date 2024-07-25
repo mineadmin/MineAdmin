@@ -13,14 +13,14 @@ use Hyperf\Database\Migrations\Migration;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 
-class CreateUploadfileTable extends Migration
+class CreateAttachmentTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('uploadfile', function (Blueprint $table) {
+        Schema::create('attachment', function (Blueprint $table) {
             $table->engine = 'Innodb';
             $table->comment('上传文件信息表');
             $table->bigIncrements('id')->comment('主键');

@@ -1,21 +1,26 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
-use Hyperf\DbConnection\Db;
 
 class SystemRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
-        Db::table('role')->truncate();
-        Db::table('role')->insert([
+        Role::truncate();
+        Role::create([
             'name' => '超级管理员（创始人）',
             'code' => 'superAdmin',
             'data_scope' => 0,

@@ -18,9 +18,8 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Model\ConfigGroup;
+use App\Model\Settings\ConfigGroup;
 use Hyperf\Database\Seeders\Seeder;
-use Hyperf\DbConnection\Db;
 
 class ConfigGroupSeeder extends Seeder
 {
@@ -29,8 +28,19 @@ class ConfigGroupSeeder extends Seeder
      */
     public function run()
     {
-        Db::table('config_group')->truncate();
-        $data = [
+        ConfigGroup::truncate();
+        $data = $this->data();
+        foreach ($data as $value) {
+            ConfigGroup::create($value);
+        }
+    }
+
+    /**
+     * Database seeds data.
+     */
+    public function data(): array
+    {
+        return [
             [
                 'name' => '站点配置',
                 'code' => 'site_config',
@@ -44,8 +54,5 @@ class ConfigGroupSeeder extends Seeder
                 'updated_by' => 1,
             ],
         ];
-        foreach ($data as $value) {
-            ConfigGroup::create($value);
-        }
     }
 }

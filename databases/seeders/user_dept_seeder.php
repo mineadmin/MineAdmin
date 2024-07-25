@@ -20,21 +20,18 @@ declare(strict_types=1);
  */
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class SystemUserDeptSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function run()
     {
         Db::table('user_dept')->truncate();
-        // 设置超管默认部门
-        Db::table('user_dept')->insert(['user_id' => env('SUPER_ADMIN', 1), 'dept_id' => 1]);
+        Db::table('user_dept')->create([
+            'user_id' => env('SUPER_ADMIN', 1),
+            'dept_id' => 1,
+        ]);
     }
 }

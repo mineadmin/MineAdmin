@@ -64,8 +64,7 @@ Move to the front-end repository
 17. cache monitoring , view the Redis information and the system used key information
 18. API management , application and interface management , interface authorization and other functions. Interface documents are automatically generated , input and output parameter checking , etc.
 19. queue management, message queue management functions, message management, message sending. The use of ws mode instant messaging reminders (need to install rabbitMQ)
-20. application market , you can download a variety of basic applications , plug-ins , front-end components , etc. (under development ...)
-
+20. application market , you can download a variety of basic applications , plug-ins , front-end components , etc.（Please set the `MINE_ACCESS_TOKEN` in the `.env` file. [Get it](https://www.mineadmin.com/member/setting)）
 ## Environment requirements
 
 - Swoole >= 5.0 with `Short Name` turned off.
@@ -86,9 +85,7 @@ Move to the front-end repository
 
 - To download the project, make sure you have installed ``Composer``.
 ```shell
-git clone https://gitee.com/xmo/MineAdmin && cd MineAdmin
-composer config -g repo.packagist composer https://mirrors.tencent.com/composer/
-composer install
+composer create-project mineadmin/mineadmin:~2.0 --no-cache
 ```
 
 ## Project Installation

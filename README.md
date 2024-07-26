@@ -64,7 +64,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 17. 缓存监控，查看Redis信息和系统所使用key的信息
 18. API管理，对应用和接口管理、接口授权等功能。接口文档自动生成，输入、输出参数检查等
 19. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
-20. 应用市场，可下载各种基础应用、插件、前端组件等等（开发中...）
+20. 应用市场，可下载各种基础应用、插件、前端组件等等（注意配置 `.env`文件中的 `MINE_ACCESS_TOKEN`  [在此处获取](https://www.mineadmin.com/member/setting)）
 
 ## 环境需求
 
@@ -89,7 +89,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 - 项目下载，请确保已经安装了 `Composer`
 ```shell
-composer create-project mineadmin/mineadmin --keep-vcs
+composer create-project mineadmin/mineadmin:~2.0 --no-cache
 ```
 
 ## 项目安装

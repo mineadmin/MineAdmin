@@ -2,23 +2,22 @@
 
 namespace App\Exception;
 
-use App\Kernel\Http\Response;
-use App\Kernel\Http\ResultCode;
-use Throwable;
+use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
 
 class BusinessException extends \RuntimeException
 {
-    private Response $response;
+    private Result $response;
 
-    public function __construct(string $message = "", ResultCode $code = ResultCode::FAIL, mixed $data = [])
+    public function __construct(ResultCode $code = ResultCode::FAIL,?string $message = null, mixed $data = [])
     {
-        $this->response = new Response($code,$message,$data);
+        $this->response = new Result($code,$message,$data);
     }
 
     /**
-     * @return Response
+     * @return Result
      */
-    public function getResponse(): Response
+    public function getResponse(): Result
     {
         return $this->response;
     }

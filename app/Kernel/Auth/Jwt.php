@@ -140,4 +140,11 @@ class Jwt implements JwtInterface
     {
         return Carbon::now()->addSeconds(Arr::get($this->config, 'ttl', 600))->toDateTimeImmutable();
     }
+
+    public function getConfig(string $key, mixed $default = null): mixed
+    {
+        return Arr::get($this->config, $key, $default);
+    }
+
+
 }

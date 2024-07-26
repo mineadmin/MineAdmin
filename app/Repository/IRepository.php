@@ -123,4 +123,12 @@ abstract class IRepository
         return $this->getModel()::whereKey($id)->first();
     }
 
+    /**
+     * @return null|T
+     */
+    public function findByFilter(array $params): mixed
+    {
+        return $this->getQuery($params)->first();
+    }
+
 }

@@ -64,7 +64,7 @@ class AbstractCrudService
     /**
      * @return IRepository<T>
      */
-    public function getRepository()
+    public function getRepository(): mixed
     {
         if (!empty($this->repository) && is_object($this->repository)){
             return $this->repository;

@@ -110,14 +110,4 @@ class User extends Model
     {
         $this->attributes['password'] = password_hash($value, PASSWORD_DEFAULT);
     }
-
-    /**
-     * 验证密码
-     * @param mixed $password
-     * @param mixed $hash
-     */
-    public static function passwordVerify($password, $hash): bool
-    {
-        return password_verify($password, $hash);
-    }
 }

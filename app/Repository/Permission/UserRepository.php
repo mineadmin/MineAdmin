@@ -31,15 +31,15 @@ class UserRepository extends IRepository
     ){}
 
     /**
-     * 通过用户名检查用户.
+     * Check the user by username.
      */
-    public function checkUserByUsername(string $username): ?User
+    public function checkUserByUsername(string $username): User
     {
         return $this->getModel()->newQuery()->where('username', $username)->firstOrFail();
     }
 
     /**
-     * 通过用户名检查是否存在.
+     * Check for presence by username.
      */
     public function existsByUsername(string $username): bool
     {
@@ -47,16 +47,13 @@ class UserRepository extends IRepository
     }
 
     /**
-     * 检查用户密码
+     * Check user password
      */
     public function checkPass(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
     }
 
-    /**
-     * 新增用户.
-     */
     #[Transaction]
     public function save(array $data): mixed
     {
@@ -91,9 +88,6 @@ class UserRepository extends IRepository
         return false;
     }
 
-    /**
-     * 真实批量删除用户.
-     */
     #[Transaction]
     public function realDelete(array $ids): bool
     {
@@ -108,10 +102,6 @@ class UserRepository extends IRepository
         }
         return true;
     }
-
-    /**
-     * 获取用户信息.
-     */
     public function read(mixed $id, array $column = ['*']): ?User
     {
         return $this->getModel()->newQuery()->with([
@@ -121,22 +111,19 @@ class UserRepository extends IRepository
         ])->whereKey($id)->select($column)->first();
     }
 
-    /**
-     * 搜索处理器.
-     */
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query
             ->when(Arr::get($params,'dept_id'),function (Builder $query,$deptId){
-            $deptIds = Dept::query()
-                ->where('id',$deptId)
-                ->orWhere('level','like',$deptId.',%')
-                ->orWhere('level','like','%,'.$deptId)
-                ->orWhere('level','like','%,'.$deptId.',%')
-                ->pluck('id')
-                ->toArray();
-            $query->whereRelation('depts','id','in',$deptIds);
-        })
+                $deptIds = Dept::query()
+                    ->where('id',$deptId)
+                    ->orWhere('level','like',$deptId.',%')
+                    ->orWhere('level','like','%,'.$deptId)
+                    ->orWhere('level','like','%,'.$deptId.',%')
+                    ->pluck('id')
+                    ->toArray();
+                $query->whereRelation('depts','id','in',$deptIds);
+            })
             ->when(Arr::get($params,'username'),function (Builder $query,$username){
                 $query->where('username','like','%'.$username.'%');
             })

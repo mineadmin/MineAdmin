@@ -2,23 +2,23 @@
 
 namespace App\Http\Common\Controller;
 
-use App\Kernel\Http\Response;
-use App\Kernel\Http\ResultCode;
+use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
 
 abstract class AbstractController
 {
-    protected function success(mixed $data = [],?string $message = null): Response
+    protected function success(mixed $data = [],?string $message = null): Result
     {
-        return new Response(ResultCode::SUCCESS,$message,$data);
+        return new Result(ResultCode::SUCCESS,$message,$data);
     }
 
-    protected function error(?string $message = null,mixed $data = []): Response
+    protected function error(?string $message = null,mixed $data = []): Result
     {
-        return new Response(ResultCode::FAIL,$message,$data);
+        return new Result(ResultCode::FAIL,$message,$data);
     }
 
-    protected function json(ResultCode $code,mixed $data = [],?string $message = null): Response
+    protected function json(ResultCode $code,mixed $data = [],?string $message = null): Result
     {
-        return new Response($code,$message,$data);
+        return new Result($code,$message,$data);
     }
 }

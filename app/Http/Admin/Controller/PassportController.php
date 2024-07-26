@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\Middleware\AuthMiddleware;
+use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Request\UserRequest;
 use App\Http\Common\Controller\AbstractController;
+use App\Http\Common\Result;
 use App\Service\Permission\UserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -22,36 +24,44 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
+use Hyperf\Swagger\Request\SwaggerRequest;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class LoginController.
  */
 #[OA\HyperfServer(name: 'http')]
-#[OA\Tag(name: 'admin:passport', description: '登录')]
 class PassportController extends AbstractController
 {
-    #[Inject]
-    protected UserService $systemUserService;
-
-    #[Inject]
-    protected UserServiceInterface $userService;
+    public function __construct(
+        private readonly UserService $userService
+    ){}
 
     /**
      * 登录.
      */
     #[OA\Post(
         path: '/admin/passport/login',
-        description: '系统登录'
+        operationId: 'passportLogin',
+        summary: '系统登录',
+        tags: ['admin:passport']
     )]
-    #[Middleware(AuthMiddleware::class)]
-    public function login(UserRequest $request): ResponseInterface
+    #[OA\RequestBody(content: new OA\JsonContent(
+        properties: [
+            new OA\Property('username', description: '用户名', type: 'string', example: 'admin',rules: 'required'),
+            new OA\Property('password', description: '密码',  type: 'string', example: '123456',rules: 'required'),
+        ]
+    ))]
+    public function login(SwaggerRequest $request): Result
     {
-        $requestData = $request->validated();
-        $vo = new UserServiceVo();
-        $vo->setUsername($requestData['username']);
-        $vo->setPassword($requestData['password']);
-        return $this->success(['token' => $this->userService->login($vo)]);
+        $username = $request->input('username');
+        $password = $request->input('password');
+        return $this->success(
+            $this->userService->login(
+                $username,
+                $password
+            )
+        );
     }
 
     /**
@@ -80,16 +90,51 @@ class PassportController extends AbstractController
      */
     #[PostMapping('refresh')]
     #[Middleware(AuthMiddleware::class)]
-    public function refresh(LoginUser $user): ResponseInterface
+    public function refresh(LoginUser $user): Result
     {
         return $this->success(['token' => $user->refresh()]);
     }
 
-    /**
-     * 获取每日的必应背景图.
-     */
-    #[GetMapping('getBingBackgroundImage')]
-    public function getBingBackgroundImage(): ResponseInterface
+    #[OA\Get(
+        path: 'getBingBackgroundImage',
+        operationId: 'getBingBackgroundImage',
+        description: '获取每日的必应背景图',
+    )]
+    #[OA\Response(
+        response: 200,
+        description: '成功',
+        content: new OA\JsonContent(example: '{
+  "images": [
+    {
+      "startdate": "20240726",
+      "fullstartdate": "202407261600",
+      "enddate": "20240727",
+      "url": "/th?id=OHR.RhinelandVineyards_ZH-CN3332101688_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+      "urlbase": "/th?id=OHR.RhinelandVineyards_ZH-CN3332101688",
+      "copyright": "摩泽尔河谷的葡萄园，莱茵兰-法尔茨，德国 (© Jorg Greuel/Getty Images)",
+      "copyrightlink": "https://www.bing.com/search?q=%E6%B3%95%E5%B0%94%E8%8C%A8%E8%91%A1%E8%90%84%E9%85%92%E4%BA%A7%E5%8C%BA&form=hpcapt&mkt=zh-cn",
+      "title": "完美的葡萄酒",
+      "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20240726_RhinelandVineyards%22&FORM=HPQUIZ",
+      "wp": true,
+      "hsh": "4d0805d3edb368d9cebf56b7376cd938",
+      "drk": 1,
+      "top": 1,
+      "bot": 1,
+      "hs": [
+        
+      ]
+    }
+  ],
+  "tooltips": {
+    "loading": "正在加载...",
+    "previous": "上一个图像",
+    "next": "下一个图像",
+    "walle": "此图片不能下载用作壁纸。",
+    "walls": "下载今日美图。仅限用作桌面壁纸。"
+  }
+}')
+    )]
+    public function getBingBackgroundImage(): Result
     {
         try {
             $response = file_get_contents('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');

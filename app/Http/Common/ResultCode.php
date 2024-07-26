@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Kernel\Http;
+namespace App\Http\Common;
 
 use Hyperf\Constants\Annotation\Constants;
 use Hyperf\Constants\Annotation\Message;
 use Hyperf\Constants\ConstantsTrait;
+use Hyperf\Swagger\Annotation as OA;
 
 #[Constants]
+#[OA\Schema(title: 'ResultCode',type: 'integer',default: 200)]
 enum ResultCode: int
 {
     use ConstantsTrait;
@@ -31,4 +33,9 @@ enum ResultCode: int
 
     #[Message('不可接受')]
     case NOT_ACCEPTABLE = 406;
+
+    #[Message('请求参数错误')]
+    case UNPROCESSABLE_ENTITY = 422;
+
+
 }

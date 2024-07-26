@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Admin\Swagger;
+namespace App\Http\Common\Swagger;
 
 use Hyperf\Swagger\Annotation as OA;
 
@@ -27,14 +27,16 @@ use Hyperf\Swagger\Annotation as OA;
     externalDocs: new OA\ExternalDocumentation(description: '开发文档', url: 'https://v3.doc.mineadmin.com')
 )]
 #[OA\SecurityScheme(
-    securityScheme: 'BearerAuth',
+    securityScheme: 'Bearer',
     type: 'http',
+    name: 'Authorization',
     bearerFormat: 'JWT',
     scheme: 'bearer'
 )]
 #[OA\SecurityScheme(
-    securityScheme: 'token',
+    securityScheme: 'ApiKey',
     type: 'apiKey',
+    name: 'token',
     in: 'header'
 )]
 class Server

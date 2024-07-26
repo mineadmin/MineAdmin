@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Logs;
 
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键

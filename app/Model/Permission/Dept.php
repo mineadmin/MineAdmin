@@ -16,7 +16,8 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键
@@ -35,7 +36,7 @@ use Mine\MineModel;
  * @property string $remark 备注
  * @property Collection|Role[] $roles
  */
-class Dept extends MineModel
+class Dept extends Model
 {
     use SoftDeletes;
 

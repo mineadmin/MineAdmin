@@ -14,7 +14,7 @@ namespace App\Model\Settings;
 
 use Carbon\Carbon;
 use Hyperf\Database\Model\Relations\HasMany;
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键

@@ -15,7 +15,7 @@ namespace App\Async\Crontab;
 use App\Model\Logs\LoginLog;
 use App\Model\Logs\OperLog;
 use App\Model\Logs\QueueLog;
-use Mine\Annotation\Transaction;
+use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 
 class ClearLogCrontab
 {

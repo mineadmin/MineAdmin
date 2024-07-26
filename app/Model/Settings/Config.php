@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Settings;
 
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $group_id 组id

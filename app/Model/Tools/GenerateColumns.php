@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Model\Tools;
 
 use Carbon\Carbon;
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键

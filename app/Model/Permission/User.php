@@ -16,7 +16,8 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 用户ID，主键
@@ -43,7 +44,7 @@ use Mine\MineModel;
  * @property null|Collection|Dept[] $depts
  * @property mixed $password 密码
  */
-class User extends MineModel
+class User extends Model
 {
     use SoftDeletes;
 

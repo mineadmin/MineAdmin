@@ -12,23 +12,24 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Http\Admin\Middleware\AuthMiddleware;
 use App\Http\Admin\Request\UploadRequest;
+use App\Http\Common\Controller\AbstractController;
 use App\Service\DataCenter\AttachmentService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use League\Flysystem\FilesystemException;
-use Mine\Annotation\Auth;
-use Mine\Exception\MineException;
-use Mine\MineController;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class UploadController.
  */
 #[Controller(prefix: 'system')]
-class UploadController extends MineController
+#[Middleware(AuthMiddleware::class)]
+class UploadController extends AbstractController
 {
     #[Inject]
     protected AttachmentService $service;
@@ -36,7 +37,7 @@ class UploadController extends MineController
     /**
      * 上传文件.
      */
-    #[PostMapping('uploadFile'), Auth]
+    #[PostMapping('uploadFile')]
     public function uploadFile(UploadRequest $request): ResponseInterface
     {
         if ($request->validated() && $request->file('file')->isValid()) {
@@ -52,7 +53,7 @@ class UploadController extends MineController
     /**
      * 上传图片.
      */
-    #[PostMapping('uploadImage'), Auth]
+    #[PostMapping('uploadImage')]
     public function uploadImage(UploadRequest $request): ResponseInterface
     {
         if ($request->validated() && $request->file('image')->isValid()) {
@@ -68,7 +69,7 @@ class UploadController extends MineController
     /**
      * 分块上传.
      */
-    #[PostMapping('chunkUpload'), Auth]
+    #[PostMapping('chunkUpload')]
     public function chunkUpload(UploadRequest $request): ResponseInterface
     {
         return ($data = $this->service->chunkUpload($request->validated())) ? $this->success($data) : $this->error();
@@ -78,7 +79,7 @@ class UploadController extends MineController
      * 保存网络图片.
      * @throws \Exception
      */
-    #[PostMapping('saveNetworkImage'), Auth]
+    #[PostMapping('saveNetworkImage')]
     public function saveNetworkImage(UploadRequest $request): ResponseInterface
     {
         return $this->success($this->service->saveNetworkImage($request->validated()));
@@ -87,7 +88,7 @@ class UploadController extends MineController
     /**
      * 获取当前目录所有文件和目录.
      */
-    #[GetMapping('getAllFiles'), Auth]
+    #[GetMapping('getAllFiles')]
     public function getAllFile(): ResponseInterface
     {
         return $this->success(

@@ -12,16 +12,9 @@ declare(strict_types=1);
 
 namespace App\Model\Tools;
 
-use App\Model\Permission\Menu;
 use Carbon\Carbon;
-use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Relations\HasMany;
-use Hyperf\DbConnection\Model\Model;
-use Mine\Generator\Contracts\GeneratorTablesContract;
-use Mine\Generator\Enums\ComponentTypeEnum;
-use Mine\Generator\Enums\GenerateTypeEnum;
-use Mine\Generator\Enums\GeneratorTypeEnum;
-use Mine\MineModel;
+use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键
@@ -44,7 +37,7 @@ use Mine\MineModel;
  * @property Carbon $updated_at 更新时间
  * @property string $remark 备注
  */
-class GenerateTables extends MineModel implements GeneratorTablesContract
+class GenerateTables extends MineModel
 {
     /**
      * The table associated with the model.
@@ -67,89 +60,5 @@ class GenerateTables extends MineModel implements GeneratorTablesContract
     public function columns(): HasMany
     {
         return $this->hasMany(GenerateColumns::class, 'table_id', 'id');
-    }
-
-    public function getModuleName(): string
-    {
-        return $this->module_name;
-    }
-
-    public function getTableName(): string
-    {
-        return $this->table_name;
-    }
-
-    public function getGenerateMenus(): ?string
-    {
-        return $this->generate_menus;
-    }
-
-    public function getType(): GeneratorTypeEnum
-    {
-        return GeneratorTypeEnum::from($this->type);
-    }
-
-    public function getMenuName(): string
-    {
-        return $this->menu_name;
-    }
-
-    public function getNamespace(): string
-    {
-        return $this->namespace;
-    }
-
-    public function getPackageName(): ?string
-    {
-        return $this->package_name;
-    }
-
-    public function getGenerateType(): GenerateTypeEnum
-    {
-        return GenerateTypeEnum::from($this->generate_type);
-    }
-
-    public function getComponentType(): ComponentTypeEnum
-    {
-        return match ($this->component_type) {
-            2 => ComponentTypeEnum::DRAWER,
-            3 => ComponentTypeEnum::TAG,
-            default => ComponentTypeEnum::MODAL
-        };
-    }
-
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    public function getPkName(): string
-    {
-        return $this->getQualifiedKeyName();
-    }
-
-    public function getColumns(): Collection
-    {
-        return $this->columns()->get();
-    }
-
-    public function handleQuery(\Closure $closure): mixed
-    {
-        return $closure(GenerateColumns::query());
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getBelongMenuId(): int
-    {
-        return $this->belong_menu_id;
-    }
-
-    public function getSystemMenuFind(\Closure $closure): Model
-    {
-        return $closure(Menu::query());
     }
 }

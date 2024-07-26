@@ -10,10 +10,8 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Async\Process\DemoProcess;
-use Mine\Crontab\MineCrontabProcess;
+use Hyperf\Crontab\Process\CrontabDispatcherProcess;
 
 return [
-    MineCrontabProcess::class,
-    DemoProcess::class
+    CrontabDispatcherProcess::class
 ];

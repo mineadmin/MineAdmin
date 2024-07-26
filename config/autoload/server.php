@@ -28,7 +28,7 @@ return [
             'port' => 9501,
             'sock_type' => SWOOLE_SOCK_TCP,
             'callbacks' => [
-                Event::ON_REQUEST => [MineServer::class, 'onRequest'],
+                Event::ON_REQUEST => [\Hyperf\HttpServer\Server::class,'onRequest'],
             ],
         ],
         [
@@ -50,12 +50,10 @@ return [
         ],
     ],
     'settings' => [
-        // 对外部可以直接访问的目录地址，建议使用nginx反向代理访问
-        Constant::OPTION_DOCUMENT_ROOT => BASE_PATH . '/public',
         // 开启外部可以访问
         Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         Constant::OPTION_ENABLE_COROUTINE => true,
-        Constant::OPTION_WORKER_NUM => swoole_cpu_num(),
+        Constant::OPTION_WORKER_NUM => env('APP_DEBUG') ? 1 : swoole_cpu_num(),
         Constant::OPTION_PID_FILE => BASE_PATH . '/runtime/hyperf.pid',
         Constant::OPTION_OPEN_TCP_NODELAY => true,
         Constant::OPTION_MAX_COROUTINE => 100000,

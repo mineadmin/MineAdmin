@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Service\Permission;
 
 use App\Exception\BusinessException;
@@ -7,7 +17,6 @@ use App\Http\Common\ResultCode;
 use App\Kernel\Auth\JwtFactory;
 use App\Repository\Permission\UserRepository;
 use App\Service\AbstractCrudService;
-use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractCrudService<UserRepository>
@@ -15,29 +24,29 @@ use function Symfony\Component\Translation\t;
 class UserService extends AbstractCrudService
 {
     public function __construct(
-        private UserRepository $repository,
-        private JwtFactory $jwtFactory
-    ){}
+        protected readonly UserRepository $repository,
+        protected readonly JwtFactory $jwtFactory
+    ) {}
 
-    public function login(string $username,string $password): array
+    public function login(string $username, string $password): array
     {
         $user = $this->getRepository()->checkUserByUsername($username);
 
-        if (!$this->getRepository()->checkPass($password,$user->password)){
-            throw new BusinessException(ResultCode::UNAUTHORIZED,trans('auth.password_error'));
+        if (! $this->getRepository()->checkPass($password, $user->password)) {
+            throw new BusinessException(ResultCode::UNAUTHORIZED, trans('auth.password_error'));
         }
-        $jwt =$this->jwtFactory->get();
+        $jwt = $this->jwtFactory->get();
         $token = $jwt->builder($user->only(['id']));
         return [
             'token' => $token->toString(),
-            'expire_at' => (int)$jwt->getConfig('ttl',0),
-            'user'  =>  $user->only([
+            'expire_at' => (int) $jwt->getConfig('ttl', 0),
+            'user' => $user->only([
                 'username',
                 'nickname',
                 'avatar',
                 'status',
                 'created_at',
-            ])
+            ]),
         ];
     }
 }

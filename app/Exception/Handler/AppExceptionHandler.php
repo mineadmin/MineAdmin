@@ -1,31 +1,37 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Exception\Handler;
 
 use App\Exception\BusinessException;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Hyperf\Codec\Json;
-use Hyperf\Context\ResponseContext;
 use Hyperf\ExceptionHandler\ExceptionHandler as Base;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Validation\ValidationException;
 use Swow\Psr7\Message\ResponsePlusInterface;
-use Throwable;
-use function App\Kernel\set_cors_response;
 
 class AppExceptionHandler extends Base
 {
     /**
      * @param BusinessException $throwable
-     * @param ResponsePlusInterface $response
      * @return ResponsePlusInterface
      */
-    public function handle(Throwable $throwable, ResponsePlusInterface $response)
+    public function handle(\Throwable $throwable, ResponsePlusInterface $response)
     {
         $this->stopPropagation();
         $result = new Result();
-        switch ($throwable){
+        switch ($throwable) {
             case $throwable instanceof ValidationException:
                 $result->code = ResultCode::UNPROCESSABLE_ENTITY;
                 $result->message = $throwable->validator->errors()->first();
@@ -37,7 +43,7 @@ class AppExceptionHandler extends Base
                 $result->code = ResultCode::FAIL;
                 $result->message = $throwable->getMessage();
         }
-        return  $response
+        return $response
             ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->withBody(new SwooleStream(Json::encode($result)))
             ->withHeader('Access-Control-Allow-Origin', '*')
@@ -46,9 +52,8 @@ class AppExceptionHandler extends Base
             ->withHeader('Access-Control-Allow-Headers', 'DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,Authorization');
     }
 
-    public function isValid(Throwable $throwable): bool
+    public function isValid(\Throwable $throwable): bool
     {
         return true;
     }
-
 }

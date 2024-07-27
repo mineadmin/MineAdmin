@@ -13,12 +13,9 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\Middleware\AuthMiddleware;
-use App\Http\Admin\Request\Passport\LoginRequest;
-use App\Http\Admin\Request\UserRequest;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Result;
 use App\Service\Permission\UserService;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
@@ -35,12 +32,12 @@ class PassportController extends AbstractController
 {
     public function __construct(
         private readonly UserService $userService
-    ){}
+    ) {}
 
     /**
      * 登录.
      */
-    #[OA\Post(
+    #[Post(
         path: '/admin/passport/login',
         operationId: 'passportLogin',
         summary: '系统登录',
@@ -48,8 +45,8 @@ class PassportController extends AbstractController
     )]
     #[OA\RequestBody(content: new OA\JsonContent(
         properties: [
-            new OA\Property('username', description: '用户名', type: 'string', example: 'admin',rules: 'required'),
-            new OA\Property('password', description: '密码',  type: 'string', example: '123456',rules: 'required'),
+            new OA\Property('username', description: '用户名', type: 'string', example: 'admin', rules: 'required'),
+            new OA\Property('password', description: '密码', type: 'string', example: '123456', rules: 'required'),
         ]
     ))]
     public function login(SwaggerRequest $request): Result

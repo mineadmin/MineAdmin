@@ -33,8 +33,6 @@ date_default_timezone_set('Asia/Shanghai');
 ! defined('START_TIME') && define('START_TIME', time());    // 启动时间
 ! defined('HF_VERSION') && define('HF_VERSION', '3.1');     // 定义hyperf版本号
 
-// Runtime::enableCoroutine(true);
-
 require BASE_PATH . '/vendor/autoload.php';
 
 Plugin::init();

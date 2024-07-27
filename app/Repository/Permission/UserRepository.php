@@ -17,7 +17,6 @@ use App\Model\Permission\User;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
-use Hyperf\Database\Model\Model;
 use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 
 /**
@@ -27,8 +26,8 @@ use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 class UserRepository extends IRepository
 {
     public function __construct(
-        private readonly User $model
-    ){}
+        protected readonly User $model
+    ) {}
 
     /**
      * Check the user by username.
@@ -47,7 +46,7 @@ class UserRepository extends IRepository
     }
 
     /**
-     * Check user password
+     * Check user password.
      */
     public function checkPass(string $password, string $hash): bool
     {
@@ -77,7 +76,7 @@ class UserRepository extends IRepository
         $role_ids = $data['role_ids'] ?? [];
         $post_ids = $data['post_ids'] ?? [];
         $dept_ids = $data['dept_ids'] ?? [];
-        $result = parent::updateById($id,$data);
+        $result = parent::updateById($id, $data);
         $user = $this->getModel()::find($id);
         if ($user && $result) {
             ! empty($role_ids) && $user->roles()->sync($role_ids);
@@ -102,6 +101,7 @@ class UserRepository extends IRepository
         }
         return true;
     }
+
     public function read(mixed $id, array $column = ['*']): ?User
     {
         return $this->getModel()->newQuery()->with([
@@ -114,51 +114,51 @@ class UserRepository extends IRepository
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query
-            ->when(Arr::get($params,'dept_id'),function (Builder $query,$deptId){
+            ->when(Arr::get($params, 'dept_id'), function (Builder $query, $deptId) {
                 $deptIds = Dept::query()
-                    ->where('id',$deptId)
-                    ->orWhere('level','like',$deptId.',%')
-                    ->orWhere('level','like','%,'.$deptId)
-                    ->orWhere('level','like','%,'.$deptId.',%')
+                    ->where('id', $deptId)
+                    ->orWhere('level', 'like', $deptId . ',%')
+                    ->orWhere('level', 'like', '%,' . $deptId)
+                    ->orWhere('level', 'like', '%,' . $deptId . ',%')
                     ->pluck('id')
                     ->toArray();
-                $query->whereRelation('depts','id','in',$deptIds);
+                $query->whereRelation('depts', 'id', 'in', $deptIds);
             })
-            ->when(Arr::get($params,'username'),function (Builder $query,$username){
-                $query->where('username','like','%'.$username.'%');
+            ->when(Arr::get($params, 'username'), function (Builder $query, $username) {
+                $query->where('username', 'like', '%' . $username . '%');
             })
-            ->when(Arr::get($params,'phone'),function (Builder $query,$phone){
-                $query->where('phone',$phone);
+            ->when(Arr::get($params, 'phone'), function (Builder $query, $phone) {
+                $query->where('phone', $phone);
             })
-            ->when(Arr::get($params,'email'),function (Builder $query,$email){
-                $query->where('email',$email);
+            ->when(Arr::get($params, 'email'), function (Builder $query, $email) {
+                $query->where('email', $email);
             })
-            ->when(Arr::exists($params,'status'),function (Builder $query)use ($params){
-                $query->where('status',Arr::get($params,'status'));
+            ->when(Arr::exists($params, 'status'), function (Builder $query) use ($params) {
+                $query->where('status', Arr::get($params, 'status'));
             })
-            ->when(Arr::exists($params,'user_type'),function (Builder $query)use ($params){
-                $query->where('user_type',Arr::get($params,'user_type'));
+            ->when(Arr::exists($params, 'user_type'), function (Builder $query) use ($params) {
+                $query->where('user_type', Arr::get($params, 'user_type'));
             })
-            ->when(Arr::exists($params,'nickname'),function (Builder $query)use ($params){
-                $query->where('nickname','like','%'.Arr::get($params,'nickname').'%');
+            ->when(Arr::exists($params, 'nickname'), function (Builder $query) use ($params) {
+                $query->where('nickname', 'like', '%' . Arr::get($params, 'nickname') . '%');
             })
-            ->when(Arr::exists($params,'created_at'),function (Builder $query)use ($params){
-                $query->whereBetween('created_at',[
-                    Arr::get($params,'created_at')[0].' 00:00:00',
-                    Arr::get($params,'created_at')[1].' 23:59:59'
+            ->when(Arr::exists($params, 'created_at'), function (Builder $query) use ($params) {
+                $query->whereBetween('created_at', [
+                    Arr::get($params, 'created_at')[0] . ' 00:00:00',
+                    Arr::get($params, 'created_at')[1] . ' 23:59:59',
                 ]);
             })
-            ->when(Arr::get($params,'user_ids'),function (Builder $query,$userIds){
-                $query->whereIn('id',$userIds);
+            ->when(Arr::get($params, 'user_ids'), function (Builder $query, $userIds) {
+                $query->whereIn('id', $userIds);
             })
-            ->when(Arr::get($params,'role_id'),function (Builder $query,$roleId){
-                $query->whereHas('roles',function (Builder $query)use ($roleId){
-                    $query->where('role_id',$roleId);
+            ->when(Arr::get($params, 'role_id'), function (Builder $query, $roleId) {
+                $query->whereHas('roles', function (Builder $query) use ($roleId) {
+                    $query->where('role_id', $roleId);
                 });
             })
-            ->when(Arr::get($params,'post_id'),function (Builder $query,$postId){
-                $query->whereHas('posts',function (Builder $query)use ($postId){
-                    $query->where('post_id',$postId);
+            ->when(Arr::get($params, 'post_id'), function (Builder $query, $postId) {
+                $query->whereHas('posts', function (Builder $query) use ($postId) {
+                    $query->where('post_id', $postId);
                 });
             });
     }
@@ -168,9 +168,9 @@ class UserRepository extends IRepository
      */
     public function initUserPassword(int $id, string $password): bool
     {
-        return (boolean)$this->getModel()::query()
+        return (bool) $this->getModel()::query()
             ->whereKey($id)->first()
-            ?->fill(['password'  =>  password_hash($password,PASSWORD_DEFAULT)])
+            ?->fill(['password' => password_hash($password, PASSWORD_DEFAULT)])
             ->save();
     }
 

@@ -79,6 +79,11 @@ class Jwt implements JwtInterface
         return $this->getCacheDriver()->delete($token->toString());
     }
 
+    public function getConfig(string $key, mixed $default = null): mixed
+    {
+        return Arr::get($this->config, $key, $default);
+    }
+
     protected function getJwtFacade(): JwtFacade
     {
         return new JwtFacade(clock: $this->getClock());
@@ -140,11 +145,4 @@ class Jwt implements JwtInterface
     {
         return Carbon::now()->addSeconds(Arr::get($this->config, 'ttl', 600))->toDateTimeImmutable();
     }
-
-    public function getConfig(string $key, mixed $default = null): mixed
-    {
-        return Arr::get($this->config, $key, $default);
-    }
-
-
 }

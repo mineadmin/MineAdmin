@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace HyperfTests;
 
-use App\Model\System\User;
-use Hyperf\Redis\Redis;
 use Hyperf\Testing\Client;
 use Hyperf\Testing\Concerns\RunTestsInCoroutine;
 use PHPUnit\Framework\TestCase;
-use Xmo\JWTAuth\JWT;
 
 /**
  * Class HttpTestCase.
@@ -46,26 +43,6 @@ abstract class HttpTestCase extends TestCase
 
     public function __call($name, $arguments)
     {
-        $count = count($arguments);
-        if (! isset($arguments[2])) {
-            if ($count === 1) {
-                $arguments[1] = [];
-            }
-            $arguments[2] = [
-                'Authorization' => 'Bearer ' . $this->getBearToken(),
-            ];
-        }
         return $this->client->{$name}(...$arguments);
-    }
-
-    public function getBearToken(): ?string
-    {
-        $jwt = make(JWT::class);
-        $user = User::query()->whereKey(env('SUPER_ADMIN', 1))->first();
-        $token = $jwt->getToken($user->toArray());
-        $key = sprintf('%sToken:%s', config('cache.default.prefix'), $user->id);
-        $redis = make(Redis::class);
-        $redis->set($key, $token);
-        return $token;
     }
 }

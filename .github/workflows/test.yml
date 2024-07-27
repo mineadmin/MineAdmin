@@ -29,9 +29,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ matrix.php-version }}-composer
           restore-keys: |
-            ${{ matrix.php-version }}-composer-
+            ${{ matrix.php-version }}-composer
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run CS Fix
@@ -101,9 +101,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ matrix.php-version }}-composer
           restore-keys: |
-            ${{ matrix.php-version }}-composer-
+            ${{ matrix.php-version }}-composer
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

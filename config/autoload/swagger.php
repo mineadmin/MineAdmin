@@ -10,6 +10,8 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
+use App\Kernel\Swagger\Processor\FormRequestProcessor;
+use App\Kernel\Swagger\Processor\MappingProcessor;
 use Symfony\Component\Finder\Finder;
 
 return [
@@ -23,6 +25,6 @@ return [
         'paths' => Finder::create()->in(BASE_PATH.'/app/Http')->name('*.php')->getIterator(),
     ],
     'processors' => [
-        // users can append their own processors here
+        new FormRequestProcessor,
     ],
 ];

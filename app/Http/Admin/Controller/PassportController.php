@@ -12,17 +12,20 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Kernel\Swagger\Attributes\ApiOperation;
+use App\Kernel\Swagger\Attributes\JsonResponse;
 use App\Service\Permission\UserService;
+use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
-use Hyperf\Swagger\Request\SwaggerRequest;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -38,28 +41,19 @@ class PassportController extends AbstractController
     /**
      * 登录.
      */
-    #[Post(
+    #[OA\Post(
         path: '/admin/passport/login',
         operationId: 'passportLogin',
         summary: '系统登录',
         tags: ['admin:passport']
     )]
-    #[OA\RequestBody(content: new OA\JsonContent(
-        properties: [
-            new OA\Property('username', description: '用户名', type: 'string', example: 'admin', rules: 'required|exists:user,username'),
-            new OA\Property('password', description: '密码', type: 'string', example: '123456', rules: 'required'),
-        ]
-    ))]
-    #[OA\Response(
-        response: 200,
-        description: '登录成功',
-        content: new OA\JsonContent(
-            ref: Result::class,
-            example: '{"code":200,"message":"成功","data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}',
-            additionalProperties: new OA\AdditionalProperties(PassportLoginVo::class)
-        )
+    #[JsonResponse(
+        instance: new Result(data: new PassportLoginVo()),
+        title: '登录成功',
+        description: '登录成功返回对象',
+        example: '{"code":200,"message":"成功","data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}'
     )]
-    public function login(SwaggerRequest $request): Result
+    public function login(LoginRequest $request): Result
     {
         $username = (string)$request->input('username');
         $password = (string)$request->input('password');

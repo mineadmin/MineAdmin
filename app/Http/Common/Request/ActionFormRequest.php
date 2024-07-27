@@ -55,6 +55,9 @@ class ActionFormRequest extends FormRequest
         return true;
     }
 
+    /**
+     * @deprecated swagger 原因废弃
+     */
     protected function getAction(): ?string
     {
         /**

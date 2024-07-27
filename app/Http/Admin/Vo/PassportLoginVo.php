@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Admin\Vo;
-use App\Http\Common\Schema\User;
 use Hyperf\Swagger\Annotation as OA;
 
 #[OA\Schema(

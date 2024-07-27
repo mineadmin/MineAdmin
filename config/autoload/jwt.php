@@ -22,7 +22,7 @@ return [
         // jwt 签名key
         'key'   => InMemory::base64Encoded(env('JWT_SECRET')),
         // jwt 签名算法 可选 https://lcobucci-jwt.readthedocs.io/en/latest/supported-algorithms/
-        'alg'   => env('JWT_ALG', Sha256::class),
+        'alg'   => new Sha256(),
         // token过期时间，单位为秒
         'ttl' => env('JWT_TTL', 300),
         // 黑名单模式

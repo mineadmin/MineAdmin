@@ -21,7 +21,7 @@ class CreateRoleDeptTable extends Migration
     public function up(): void
     {
         Schema::create('role_dept', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('角色与部门关联表');
             $table->addColumn('bigInteger', 'role_id', ['unsigned' => true, 'comment' => '角色主键']);
             $table->addColumn('bigInteger', 'dept_id', ['unsigned' => true, 'comment' => '部门主键']);

@@ -46,6 +46,7 @@ class Jwt implements JwtInterface
                     $builder->withClaim($key, $value);
                 }
                 $builder->expiresAt($this->getExpireAt());
+                return $builder;
             }
         );
     }

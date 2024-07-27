@@ -9,10 +9,11 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use Mine\Log\Processor\UuidRequestIdProcessor;
+
+use App\Kernel\Log\UuidRequestIdProcessor;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
+use Monolog\Level;
 
 return [
     'default' => [
@@ -20,7 +21,27 @@ return [
             'class' => RotatingFileHandler::class,
             'constructor' => [
                 'filename' => BASE_PATH . '/runtime/logs/debug/mine.log',
-                'level' => Logger::DEBUG,
+                'level' => Level::Debug,
+            ],
+        ],
+        'formatter' => [
+            'class' => LineFormatter::class,
+            'constructor' => [
+                'format' => null,
+                'dateFormat' => 'Y-m-d H:i:s',
+                'allowInlineLineBreaks' => true,
+            ],
+        ],
+        'processor' => [
+            'class' => UuidRequestIdProcessor::class,
+        ],
+    ],
+    'error' => [
+        'handler' => [
+            'class' => RotatingFileHandler::class,
+            'constructor' => [
+                'filename' => BASE_PATH . '/runtime/logs/error.log',
+                'level' => Level::Error,
             ],
         ],
         'formatter' => [
@@ -39,8 +60,8 @@ return [
         'handler' => [
             'class' => RotatingFileHandler::class,
             'constructor' => [
-                'filename' => BASE_PATH . '/runtime/logs/sql/sql.log',
-                'level' => Logger::DEBUG,
+                'filename' => BASE_PATH . '/runtime/logs/sql.log',
+                'level' => Level::Debug,
             ],
         ],
         'formatter' => [

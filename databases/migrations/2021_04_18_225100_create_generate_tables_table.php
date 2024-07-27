@@ -21,7 +21,7 @@ class CreateGenerateTablesTable extends Migration
     public function up(): void
     {
         Schema::create('generate_tables', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('代码生成业务信息表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'table_name', ['length' => 200, 'comment' => '表名称'])->nullable();
@@ -42,11 +42,10 @@ class CreateGenerateTablesTable extends Migration
             $table->addColumn('smallInteger', 'build_menu', ['default' => 1, 'comment' => '是否构建菜单'])->nullable();
             $table->addColumn('smallInteger', 'component_type', ['default' => 1, 'comment' => '组件显示方式'])->nullable();
             $table->addColumn('string', 'options', ['length' => 1500, 'comment' => '其他业务选项'])->nullable();
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
-            $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
-            $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->bigInteger('created_by')->comment('创建者')->default(0);
+            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->datetimes();
+            $table->string('remark')->comment('备注')->default('');
         });
     }
 

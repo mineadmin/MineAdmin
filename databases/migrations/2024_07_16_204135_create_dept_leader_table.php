@@ -21,7 +21,7 @@ class CreateDeptLeaderTable extends Migration
     public function up(): void
     {
         Schema::create('dept_leader', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('部门领导表');
             $table->addColumn('bigInteger', 'dept_id', ['unsigned' => true, 'comment' => '部门主键']);
             $table->addColumn('bigInteger', 'user_id', ['unsigned' => true, 'comment' => '用户主键']);

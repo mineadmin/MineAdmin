@@ -47,15 +47,6 @@ class User extends Model
 {
     use SoftDeletes;
 
-    public const USER_NORMAL = 1;
-
-    public const USER_BAN = 2;
-
-    /**
-     * 系统用户.
-     */
-    public const TYPE_SYS_USER = '100';
-
     /**
      * The table associated with the model.
      */
@@ -107,6 +98,6 @@ class User extends Model
      */
     public function setPasswordAttribute($value): void
     {
-        $this->attributes['password'] = password_hash($value, PASSWORD_DEFAULT);
+        $this->attributes['password'] = password_hash((string)$value, PASSWORD_DEFAULT);
     }
 }

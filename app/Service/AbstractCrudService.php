@@ -18,6 +18,7 @@ use Hyperf\DbConnection\Traits\HasContainer;
 
 /**
  * @template T
+ * @property-read IRepository<T>|class-string<IRepository<T>> $repository
  */
 class AbstractCrudService
 {

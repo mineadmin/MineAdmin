@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\Middleware\AuthMiddleware;
+use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
+use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Service\Permission\UserService;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -45,14 +46,23 @@ class PassportController extends AbstractController
     )]
     #[OA\RequestBody(content: new OA\JsonContent(
         properties: [
-            new OA\Property('username', description: '用户名', type: 'string', example: 'admin', rules: 'required'),
+            new OA\Property('username', description: '用户名', type: 'string', example: 'admin', rules: 'required|exists:user,username'),
             new OA\Property('password', description: '密码', type: 'string', example: '123456', rules: 'required'),
         ]
     ))]
+    #[OA\Response(
+        response: 200,
+        description: '登录成功',
+        content: new OA\JsonContent(
+            ref: Result::class,
+            example: '{"code":200,"message":"成功","data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}',
+            additionalProperties: new OA\AdditionalProperties(PassportLoginVo::class)
+        )
+    )]
     public function login(SwaggerRequest $request): Result
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $username = (string)$request->input('username');
+        $password = (string)$request->input('password');
         return $this->success(
             $this->userService->login(
                 $username,
@@ -64,11 +74,16 @@ class PassportController extends AbstractController
     /**
      * 退出.
      */
-    #[PostMapping('logout')]
+    #[Post(
+        path: '/admin/passport/logout',
+        operationId: 'passportLogout',
+        summary: '退出',
+        security: [['bearerAuth' => []]],
+        tags: ['admin:passport']
+    )]
     #[Middleware(AuthMiddleware::class)]
     public function logout(): ResponseInterface
     {
-        $this->userService->logout();
         return $this->success();
     }
 

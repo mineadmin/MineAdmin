@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Admin\Vo;
+use App\Http\Common\Schema\User;
+use Hyperf\Swagger\Annotation as OA;
+
+#[OA\Schema(
+    description: '登录成功返回',
+    example: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}'
+)]
+class PassportLoginVo
+{
+    #[OA\Property(
+        description: 'token',
+        type: 'string',
+        example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k'
+    )]
+    public string $token;
+
+    #[OA\Property(
+        description: '过期时间,单位秒',
+        type: 'integer',
+        example: 300
+    )]
+    public int $expire_at;
+}

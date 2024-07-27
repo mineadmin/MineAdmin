@@ -22,7 +22,7 @@ class CreateDatasourceTable extends Migration
     {
         if (! Schema::hasTable('datasource')) {
             Schema::create('datasource', function (Blueprint $table) {
-                $table->engine = 'Innodb';
+                
                 $table->comment('数据源表');
                 $table->bigIncrements('id')->comment('主键');
                 $table->addColumn('string', 'source_name', ['length' => 32, 'comment' => '数据源名称']);
@@ -33,7 +33,7 @@ class CreateDatasourceTable extends Migration
                 $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
                 $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
                 $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-                $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+                $table->string('remark')->comment('备注')->default('');
             });
         }
     }

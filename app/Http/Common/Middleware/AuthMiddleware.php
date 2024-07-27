@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Middleware;
+namespace App\Http\Common\Middleware;
 
 use App\Kernel\Auth\JwtFactory;
 use App\Kernel\Auth\JwtInterface;

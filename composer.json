@@ -56,7 +56,8 @@
     "hyperf/validation": "~3.1",
     "hyperf/websocket-server": "~3.1",
     "lcobucci/jwt": "~5.3.0",
-    "mineadmin/app-store": "~2.0"
+    "mineadmin/app-store": "~2.0",
+    "ramsey/uuid": "^4.7"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

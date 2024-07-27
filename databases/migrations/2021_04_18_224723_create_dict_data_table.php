@@ -21,21 +21,20 @@ class CreateDictDataTable extends Migration
     public function up(): void
     {
         Schema::create('dict_data', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('字典数据表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'type_id', ['unsigned' => true, 'comment' => '字典类型ID']);
             $table->addColumn('string', 'label', ['length' => 50, 'comment' => '字典标签'])->nullable();
             $table->addColumn('string', 'value', ['length' => 100, 'comment' => '字典值'])->nullable();
             $table->addColumn('string', 'code', ['length' => 100, 'comment' => '字典标示'])->nullable();
-            $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
-            $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '状态 (1正常 2停用)'])->nullable();
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
-            $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
-            $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->smallInteger('sort')->comment('排序')->default(0);
+            $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
+            $table->bigInteger('created_by')->comment('创建者')->default(0);
+            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->datetimes();
+            $table->softDeletes();
+            $table->string('remark')->comment('备注')->default('');
             $table->index('type_id');
         });
     }

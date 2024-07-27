@@ -21,7 +21,7 @@ class CreateNoticeTable extends Migration
     public function up(): void
     {
         Schema::create('notice', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('系统公告表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'message_id')->comment('消息ID');
@@ -29,12 +29,11 @@ class CreateNoticeTable extends Migration
             $table->addColumn('smallInteger', 'type', ['comment' => '公告类型（1通知 2公告）']);
             $table->addColumn('text', 'content', ['length' => 1, 'comment' => '公告内容'])->nullable();
             $table->addColumn('integer', 'click_num', ['comment' => '浏览次数', 'default' => 0])->nullable();
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
-            $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
-            $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->bigInteger('created_by')->comment('创建者')->default(0);
+            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->datetimes();
+            $table->softDeletes();
+            $table->string('remark')->comment('备注')->default('');
             $table->index('message_id');
         });
     }

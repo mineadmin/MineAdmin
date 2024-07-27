@@ -2,17 +2,60 @@
 
 namespace HyperfTests\Feature\Admin;
 
+use App\Http\Common\ResultCode;
+use App\Model\Permission\User;
+use Hyperf\Collection\Arr;
+use Hyperf\Stringable\Str;
 use HyperfTests\HttpTestCase;
-use PHPUnit\Framework\TestCase;
 
 class PassportControllerTest extends HttpTestCase
 {
-    public function testLogin()
+    public function testLoginUsernameNotFound()
     {
+        User::where('username','admin')->forceDelete();
         $result = $this->post('/admin/passport/login', [
             'username' => 'admin',
             'password' => 'admin'
         ]);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::UNPROCESSABLE_ENTITY->value);
+    }
+
+    public function testLoginUserPasswordFail()
+    {
+        $user = User::create([
+            'username'  =>  Str::random(10),
+            'password'  =>  password_hash('123456',PASSWORD_DEFAULT),
+        ]);
+
+        $result = $this->post('/admin/passport/login', [
+            'username' => $user->username,
+            'password' => 'admin'
+        ]);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::UNPROCESSABLE_ENTITY->value);
+        $user->forceDelete();
+    }
+
+    public function testLoginSuccess()
+    {
+        $user = User::create([
+            'username'  =>  Str::random(10),
+            'password'  =>  123456,
+        ]);
+
+        $result = $this->post('/admin/passport/login', [
+            'username' => $user->username,
+            'password' => '123456'
+        ]);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::SUCCESS->value);
+        $this->assertArrayHasKey('token',$result['data']);
+        $this->assertArrayHasKey('expire_at',$result['data']);
+        $this->assertIsInt($result['data']['expire_at']);
+        $user->forceDelete();
+    }
+
+    public function testLogoutFail()
+    {
+        $result = $this->post('/admin/passport/logout');
         var_dump($result);
     }
 }

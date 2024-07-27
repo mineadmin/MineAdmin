@@ -32,7 +32,7 @@ class Result implements Arrayable
         public ResultCode $code = ResultCode::SUCCESS,
         #[Property(title: '响应消息', type: 'string')]
         public ?string $message = null,
-        #[Property(title: '响应数据', type: 'object', nullable: true)]
+        #[Property(title: '响应数据')]
         public mixed $data = []
     ) {
         if ($this->message === null) {

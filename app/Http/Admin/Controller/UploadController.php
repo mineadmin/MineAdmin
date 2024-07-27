@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\Middleware\AuthMiddleware;
 use App\Http\Admin\Request\UploadRequest;
 use App\Http\Common\Controller\AbstractController;
+use App\Http\Common\Middleware\AuthMiddleware;
 use App\Service\DataCenter\AttachmentService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;

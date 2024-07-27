@@ -21,7 +21,7 @@ class CreateOperLogTable extends Migration
     public function up(): void
     {
         Schema::create('oper_log', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('操作日志表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
@@ -33,12 +33,11 @@ class CreateOperLogTable extends Migration
             $table->addColumn('text', 'request_data', ['comment' => '请求数据'])->nullable();
             $table->addColumn('string', 'response_code', ['length' => 5, 'comment' => '响应状态码'])->nullable();
             $table->addColumn('text', 'response_data', ['comment' => '响应数据'])->nullable();
-            $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
-            $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();
-            $table->addColumn('timestamp', 'created_at', ['precision' => 0, 'comment' => '创建时间'])->nullable();
-            $table->addColumn('timestamp', 'updated_at', ['precision' => 0, 'comment' => '更新时间'])->nullable();
-            $table->addColumn('timestamp', 'deleted_at', ['precision' => 0, 'comment' => '删除时间'])->nullable();
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->bigInteger('created_by')->comment('创建者')->default(0);
+            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->datetimes();
+            $table->softDeletes();
+            $table->string('remark')->comment('备注')->default('');
             $table->index('username');
         });
     }

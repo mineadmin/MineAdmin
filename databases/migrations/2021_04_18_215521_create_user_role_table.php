@@ -21,7 +21,7 @@ class CreateUserRoleTable extends Migration
     public function up(): void
     {
         Schema::create('user_role', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('用户与角色关联表');
             $table->addColumn('bigInteger', 'user_id', ['unsigned' => true, 'comment' => '用户主键']);
             $table->addColumn('bigInteger', 'role_id', ['unsigned' => true, 'comment' => '角色主键']);

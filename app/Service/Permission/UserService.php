@@ -31,22 +31,14 @@ class UserService extends AbstractCrudService
     public function login(string $username, string $password): array
     {
         $user = $this->getRepository()->checkUserByUsername($username);
-
         if (! $this->getRepository()->checkPass($password, $user->password)) {
-            throw new BusinessException(ResultCode::UNAUTHORIZED, trans('auth.password_error'));
+            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
         $jwt = $this->jwtFactory->get();
         $token = $jwt->builder($user->only(['id']));
         return [
             'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
-            'user' => $user->only([
-                'username',
-                'nickname',
-                'avatar',
-                'status',
-                'created_at',
-            ]),
+            'expire_at' => (int) $jwt->getConfig('ttl', 0)
         ];
     }
 }

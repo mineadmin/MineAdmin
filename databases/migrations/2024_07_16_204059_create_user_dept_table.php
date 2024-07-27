@@ -21,7 +21,7 @@ class CreateUserDeptTable extends Migration
     public function up(): void
     {
         Schema::create('user_dept', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('用户与部门关联表');
             $table->addColumn('bigInteger', 'user_id', ['unsigned' => true, 'comment' => '用户主键']);
             $table->addColumn('bigInteger', 'dept_id', ['unsigned' => true, 'comment' => '部门主键']);

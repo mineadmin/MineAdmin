@@ -21,7 +21,7 @@ class CreateUserPostTable extends Migration
     public function up(): void
     {
         Schema::create('user_post', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('用户与岗位关联表');
             $table->addColumn('bigInteger', 'user_id', ['unsigned' => true, 'comment' => '用户主键']);
             $table->addColumn('bigInteger', 'post_id', ['unsigned' => true, 'comment' => '岗位主键']);

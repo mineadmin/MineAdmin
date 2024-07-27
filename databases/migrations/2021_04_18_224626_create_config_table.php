@@ -21,7 +21,7 @@ class CreateConfigTable extends Migration
     public function up(): void
     {
         Schema::create('config', function (Blueprint $table) {
-            $table->engine = 'Innodb';
+            
             $table->comment('参数配置信息表');
             $table->addColumn('bigInteger', 'group_id', ['comment' => '组id']);
             $table->addColumn('string', 'key', ['length' => 32, 'comment' => '配置键名'])->primary();
@@ -30,7 +30,7 @@ class CreateConfigTable extends Migration
             $table->addColumn('string', 'input_type', ['length' => 32, 'comment' => '数据输入类型'])->nullable();
             $table->addColumn('json', 'config_select_data', ['comment' => '配置选项数据'])->nullable();
             $table->addColumn('smallInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序']);
-            $table->addColumn('string', 'remark', ['length' => 255, 'comment' => '备注'])->nullable();
+            $table->string('remark')->comment('备注')->default('');
             $table->index('group_id');
         });
     }

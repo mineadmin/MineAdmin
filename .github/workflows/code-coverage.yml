@@ -82,9 +82,9 @@ jobs:
       - name: Setup Services
         run: ./.github/ci/setup.services.sh
       - name: Setup Mysql
-        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.github/ci/setup.mysql.sh
+        run: bash ./.github/ci/setup.mysql.sh
       - name: Setup PostgreSQL
-        run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.github/ci/setup.pgsql.sh
+        run: bash ./.github/ci/setup.pgsql.sh
       - name: Run Scripts Before Test
         run: cp .github/ci/.env.example .env
       - name: Print PHP Environments

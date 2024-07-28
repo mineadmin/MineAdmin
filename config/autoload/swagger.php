@@ -25,6 +25,6 @@ return [
         'paths' => Finder::create()->in(BASE_PATH.'/app/Http')->name('*.php')->getIterator(),
     ],
     'processors' => [
-        new FormRequestProcessor,
+//        new FormRequestProcessor
     ],
 ];

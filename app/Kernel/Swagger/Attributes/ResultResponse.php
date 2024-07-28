@@ -9,7 +9,7 @@ use Hyperf\Swagger\Annotation\Property;
 use OpenApi\Generator;
 
 #[Attribute(Attribute::IS_REPEATABLE| Attribute::TARGET_METHOD)]
-class JsonResponse extends Base
+class ResultResponse extends Base
 {
     public function __construct(
         object $instance,
@@ -18,7 +18,7 @@ class JsonResponse extends Base
         ?string $description = null,
         mixed $example = Generator::UNDEFINED,
         ?array $headers = null,
-        ?int $response = 200
+        ?int $response = 200,
     )
     {
         parent::__construct(

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use App\Model\Permission\Dept;
 use Hyperf\Database\Seeders\Seeder;
 
-class SystemDeptSeeder extends Seeder
+class DeptSeeder extends Seeder
 {
     /**
      * Run the database seeds.

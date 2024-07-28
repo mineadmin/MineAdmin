@@ -21,7 +21,7 @@ declare(strict_types=1);
 use App\Model\DataCenter\DictType;
 use Hyperf\Database\Seeders\Seeder;
 
-class SystemDictTypeSeeder extends Seeder
+class DictTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

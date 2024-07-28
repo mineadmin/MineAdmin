@@ -12,7 +12,7 @@ declare(strict_types=1);
 use App\Model\Permission\User;
 use Hyperf\Database\Seeders\Seeder;
 
-class SystemUserSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

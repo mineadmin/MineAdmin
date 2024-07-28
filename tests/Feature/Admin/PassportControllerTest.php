@@ -56,6 +56,28 @@ class PassportControllerTest extends HttpTestCase
     public function testLogoutFail()
     {
         $result = $this->post('/admin/passport/logout');
-        var_dump($result);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::UNAUTHORIZED->value);
+    }
+
+    public function testLogoutSuccess()
+    {
+        $user = User::create([
+            'username'  =>  Str::random(10),
+            'password'  =>  123456,
+        ]);
+        $result = $this->post('/admin/passport/login', [
+            'username' => $user->username,
+            'password' => '123456'
+        ]);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::SUCCESS->value);
+        $this->assertArrayHasKey('token',$result['data']);
+        $this->assertArrayHasKey('expire_at',$result['data']);
+        $this->assertIsInt($result['data']['expire_at']);
+        $token = $result['data']['token'];
+        $result = $this->post('/admin/passport/logout',[],[
+            'Authorization' => 'Bearer '.$token
+        ]);
+        $this->assertSame(Arr::get($result,'code'),ResultCode::SUCCESS->value);
+        $user->forceDelete();
     }
 }

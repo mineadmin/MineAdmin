@@ -17,17 +17,14 @@ use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Swagger\Attributes\ApiOperation;
 use App\Kernel\Swagger\Attributes\FormRequestBody;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Service\Permission\UserService;
-use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
-use OpenApi\Attributes\RequestBody;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -81,7 +78,7 @@ class PassportController extends AbstractController
         tags: ['admin:passport']
     )]
     #[Middleware(AuthMiddleware::class)]
-    public function logout(): ResponseInterface
+    public function logout(): Result
     {
         return $this->success();
     }
@@ -107,7 +104,7 @@ class PassportController extends AbstractController
     }
 
     #[OA\Get(
-        path: 'getBingBackgroundImage',
+        path: 'admin/passport/getBingBackgroundImage',
         operationId: 'getBingBackgroundImage',
         description: '获取每日的必应背景图',
     )]

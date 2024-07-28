@@ -107,7 +107,7 @@
     "test": "co-phpunit --prepend tests/bootstrap.php --colors=always",
     "coverage": "pest --coverage --coverage-clover tests/coverage.xml ",
     "cs-fix": "php-cs-fixer fix $1",
-    "analyse": "phpstan analyse --memory-limit 500M -l 0 -c phpstan.neon ./app ./config",
+    "analyse": "phpstan analyse --memory-limit 500M -l 8 -c phpstan.neon ./app ./config",
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "php ./bin/hyperf.php start"

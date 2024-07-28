@@ -21,7 +21,7 @@ declare(strict_types=1);
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
-class SystemUserDeptSeeder extends Seeder
+class UserDeptSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,7 +29,7 @@ class SystemUserDeptSeeder extends Seeder
     public function run()
     {
         Db::table('user_dept')->truncate();
-        Db::table('user_dept')->create([
+        Db::table('user_dept')->insert([
             'user_id' => env('SUPER_ADMIN', 1),
             'dept_id' => 1,
         ]);

@@ -12,11 +12,25 @@ use Hyperf\Validation\Request\FormRequest;
 ])]
 class LoginRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
             'username'  =>  'required|string|exists:user,username',
             'password'  =>  'required|string',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        //
+        return [
+            'username'  =>  trans('user.username'),
+            'password'  =>  trans('user.password'),
         ];
     }
 }

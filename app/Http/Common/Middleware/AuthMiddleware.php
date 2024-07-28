@@ -45,7 +45,7 @@ class AuthMiddleware implements MiddlewareInterface
     private function getToken(ServerRequestInterface $request): string
     {
         if ($request->hasHeader('Authorization')) {
-            return Str::replace('Bear ', '', $request->getHeaderLine('Authorization'));
+            return Str::replace('Bearer ', '', $request->getHeaderLine('Authorization'));
         }
         if ($request->hasHeader('token')) {
             return $request->getHeaderLine('token');

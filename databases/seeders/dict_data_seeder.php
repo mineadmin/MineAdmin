@@ -20,7 +20,7 @@ declare(strict_types=1);
 use App\Model\DataCenter\DictData;
 use Hyperf\Database\Seeders\Seeder;
 
-class SystemDictDataSeeder extends Seeder
+class DictDataSeeder extends Seeder
 {
     /**
      * Run the database seeds.

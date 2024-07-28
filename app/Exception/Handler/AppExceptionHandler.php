@@ -12,13 +12,11 @@ declare(strict_types=1);
 
 namespace App\Exception\Handler;
 
-use App\Exception\BusinessException;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Hyperf\Codec\Json;
 use Hyperf\Context\Context;
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use Hyperf\Validation\ValidationException;
 use Swow\Psr7\Message\ResponsePlusInterface;
 use Throwable;
 

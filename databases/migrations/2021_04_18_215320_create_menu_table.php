@@ -34,14 +34,11 @@ class CreateMenuTable extends Migration
             $table->tinyInteger('is_hidden')->comment('是否隐藏 (1是 2否)')->default(1);
             $table->string('type',1)->default('')->comment('菜单类型, (M菜单 B按钮 L链接 I iframe)');
             $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
-            $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
-            $table->smallInteger('sort')->comment('排序')->default(0);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->bigInteger('created_by')->comment('创建者')->default(0);
             $table->bigInteger('updated_by')->comment('更新者')->default(0);
             $table->datetimes();
             $table->softDeletes();
-            $table->string('remark')->comment('备注')->default('');
             $table->string('remark')->comment('备注')->default('');
         });
     }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
 
-class SystemRoleSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.

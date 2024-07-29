@@ -58,12 +58,16 @@ class ResultResponse extends Base
         $property = new Property();
         $property->property = $reflectionProperty->getName();
         $typeName = $reflectionProperty->getType()?->getName();
-        if (class_exists($typeName)) {
+        if ($property->ref === Generator::UNDEFINED && class_exists($typeName)) {
             $property->ref = $typeName;
         }
-        if (is_object($value)) {
+        if ($property->ref === Generator::UNDEFINED && is_object($value)) {
             $property->ref = get_class($value);
         }
+        if ($property->ref === Generator::UNDEFINED && is_string($value) && class_exists($value)) {
+            $property->ref = $value;
+        }
+
         if ($property->ref === Generator::UNDEFINED) {
             $property->type = $typeName;
         }

@@ -12,20 +12,32 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
+use App\Events\User\LoginSuccessEvent;
 use App\Exception\BusinessException;
+use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
 use App\Kernel\Auth\JwtFactory;
+use App\Kernel\Auth\JwtInterface;
+use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
 use App\Service\AbstractCrudService;
+use Lcobucci\JWT\UnencryptedToken;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends AbstractCrudService<UserRepository>
  */
 class UserService extends AbstractCrudService
 {
+    /**
+     * @var string jwt场景
+     */
+    private string $jwt = 'default';
+
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly JwtFactory $jwtFactory
+        protected readonly JwtFactory $jwtFactory,
+        protected readonly EventDispatcherInterface $dispatcher
     ) {}
 
     public function login(string $username, string $password): array
@@ -34,11 +46,36 @@ class UserService extends AbstractCrudService
         if (! $this->getRepository()->checkPass($password, $user->password)) {
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
-        $jwt = $this->jwtFactory->get();
+        $this->dispatcher->dispatch(new LoginSuccessEvent($user));
+        $jwt = $this->getJwt();
         $token = $jwt->builder($user->only(['id']));
         return [
             'token' => $token->toString(),
             'expire_at' => (int) $jwt->getConfig('ttl', 0),
         ];
+    }
+
+    public function checkJwt(UnencryptedToken $token): bool
+    {
+        $jwt = $this->getJwt();
+        if ($jwt->hasBlackList($token)) {
+            throw new JwtInBlackException();
+        }
+        return true;
+    }
+
+    public function logout(UnencryptedToken $token)
+    {
+        $this->getJwt()->addBlackList($token);
+    }
+
+    public function getJwt(): JwtInterface
+    {
+        return $this->jwtFactory->get($this->jwt);
+    }
+
+    public function getInfo(UnencryptedToken $token): ?User
+    {
+        return $this->getRepository()->findById((int) $token->claims()->all()['id']);
     }
 }

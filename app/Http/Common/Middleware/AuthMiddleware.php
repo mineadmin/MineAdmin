@@ -14,25 +14,38 @@ namespace App\Http\Common\Middleware;
 
 use App\Kernel\Auth\JwtFactory;
 use App\Kernel\Auth\JwtInterface;
+use App\Service\Permission\UserService;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
+use Lcobucci\JWT\UnencryptedToken;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Swow\Psr7\Message\ServerRequestPlusInterface;
 
 class AuthMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly JwtFactory $jwtFactory
+        private readonly JwtFactory $jwtFactory,
+        private readonly UserService $userService
     ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $token = $this->getJwt()->parser($this->getToken($request));
+        $this->userService->checkJwt($token);
+
         return $handler->handle(
-            $request->setAttribute(
-                'token',
-                $this->getJwt()->parser($this->getToken($request))
+            value(
+                function (ServerRequestPlusInterface $request, UnencryptedToken $token) {
+                    $this->userService->checkJwt($token);
+                    return $request->setAttribute('token', $token);
+                },
+                $request,
+                $this->getJwt()->parser(
+                    $this->getToken($request)
+                )
             )
         );
     }

@@ -12,19 +12,24 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Kernel\Swagger\Attributes\ResultResponse;
+use App\Schema\User;
 use App\Service\Permission\UserService;
-use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
-use Psr\Http\Message\ResponseInterface;
+
+use function App\Http\Admin\Support\user;
 
 /**
  * Class LoginController.
@@ -32,8 +37,11 @@ use Psr\Http\Message\ResponseInterface;
 #[OA\HyperfServer(name: 'http')]
 class PassportController extends AbstractController
 {
+    use RequestScopedTokenTrait;
+
     public function __construct(
-        private readonly UserService $userService
+        private readonly UserService $userService,
+        private readonly CurrentUser $currentUser
     ) {}
 
     /**
@@ -79,20 +87,31 @@ class PassportController extends AbstractController
         security: [['bearerAuth' => []]],
         tags: ['admin:passport']
     )]
+    #[ResultResponse(instance: new Result(), example: '{"code":200,"message":"成功","data":[]}')]
     #[Middleware(AuthMiddleware::class)]
-    public function logout(): Result
+    public function logout(RequestInterface $request)
     {
+        $this->userService->logout($this->getToken());
         return $this->success();
     }
 
     /**
      * 用户信息.
      */
-    #[GetMapping('getInfo')]
+    #[OA\Get(
+        path: '/admin/passport/getInfo',
+        operationId: 'getInfo',
+        summary: '获取用户信息',
+        security: [['bearerAuth' => []]],
+        tags: ['admin:passport']
+    )]
     #[Middleware(AuthMiddleware::class)]
-    public function getInfo(): ResponseInterface
+    #[ResultResponse(
+        instance: new Result(data: User::class),
+    )]
+    public function getInfo(): Result
     {
-        return $this->success($this->systemUserService->getInfo());
+        return $this->success(Arr::except(user()?->toArray(), ['password']));
     }
 
     /**

@@ -15,7 +15,7 @@ namespace App\Schema;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
-#[Schema(title: 'User')]
+#[Schema]
 class User implements \JsonSerializable
 {
     #[Property(property: 'id', title: '用户ID，主键', type: 'int')]
@@ -23,9 +23,6 @@ class User implements \JsonSerializable
 
     #[Property(property: 'username', title: '用户名', type: 'string')]
     public ?string $username;
-
-    #[Property(property: 'password', title: '密码', type: 'string')]
-    public ?string $password;
 
     #[Property(property: 'user_type', title: '用户类型：(100系统用户)', type: 'string')]
     public ?string $userType;
@@ -54,7 +51,7 @@ class User implements \JsonSerializable
     #[Property(property: 'login_ip', title: '最后登陆IP', type: 'string')]
     public ?string $loginIp;
 
-    #[Property(property: 'login_time', title: '最后登陆时间', type: 'mixed')]
+    #[Property(property: 'login_time', title: '最后登陆时间', type: 'string')]
     public mixed $loginTime;
 
     #[Property(property: 'backend_setting', title: '后台设置数据', type: 'string')]
@@ -66,13 +63,13 @@ class User implements \JsonSerializable
     #[Property(property: 'updated_by', title: '更新者', type: 'int')]
     public ?int $updatedBy;
 
-    #[Property(property: 'created_at', title: '创建时间', type: 'mixed')]
+    #[Property(property: 'created_at', title: '创建时间', type: 'string')]
     public mixed $createdAt;
 
-    #[Property(property: 'updated_at', title: '更新时间', type: 'mixed')]
+    #[Property(property: 'updated_at', title: '更新时间', type: 'string')]
     public mixed $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '删除时间', type: 'mixed')]
+    #[Property(property: 'deleted_at', title: '删除时间', type: 'string')]
     public mixed $deletedAt;
 
     #[Property(property: 'remark', title: '备注', type: 'string')]
@@ -82,7 +79,6 @@ class User implements \JsonSerializable
     {
         $this->id = $model->id;
         $this->username = $model->username;
-        $this->password = $model->password;
         $this->userType = $model->user_type;
         $this->nickname = $model->nickname;
         $this->phone = $model->phone;
@@ -104,6 +100,6 @@ class User implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'username' => $this->username, 'password' => $this->password, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'dashboard' => $this->dashboard, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'username' => $this->username, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'dashboard' => $this->dashboard, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
     }
 }

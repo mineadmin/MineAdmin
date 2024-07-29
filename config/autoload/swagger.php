@@ -10,8 +10,6 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
-use App\Kernel\Swagger\Processor\FormRequestProcessor;
-use App\Kernel\Swagger\Processor\MappingProcessor;
 use Symfony\Component\Finder\Finder;
 
 return [
@@ -22,7 +20,10 @@ return [
     'url' => '/swagger',
     'auto_generate' => true,
     'scan' => [
-        'paths' => Finder::create()->in(BASE_PATH.'/app/Http')->name('*.php')->getIterator(),
+        'paths' => Finder::create()
+            ->in([BASE_PATH.'/app/Http',BASE_PATH.'/app/Schema'])
+            ->name('*.php')
+            ->getIterator(),
     ],
     'processors' => [
 //        new FormRequestProcessor

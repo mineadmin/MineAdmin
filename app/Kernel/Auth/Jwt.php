@@ -43,7 +43,7 @@ class Jwt implements JwtInterface
             function (Builder $builder, \DateTimeImmutable $immutable) use ($claims) {
                 $builder->issuedAt($immutable);
                 foreach ($claims as $key => $value) {
-                    $builder->withClaim($key, $value);
+                    $builder = $builder->withClaim($key, $value);
                 }
                 $builder->expiresAt($this->getExpireAt());
                 return $builder;

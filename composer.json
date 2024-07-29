@@ -80,7 +80,8 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/"
-    }
+    },
+    "files": ["app/Http/Admin/Support.php"]
   },
   "autoload-dev": {
     "psr-4": {

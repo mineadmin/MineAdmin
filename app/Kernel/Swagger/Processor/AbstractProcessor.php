@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Kernel\Swagger\Processor;
 
 use OpenApi\Analysis;
@@ -13,5 +23,5 @@ abstract class AbstractProcessor implements ProcessorInterface
         return $analysis;
     }
 
-    abstract function handle(Analysis $analysis);
+    abstract public function handle(Analysis $analysis);
 }

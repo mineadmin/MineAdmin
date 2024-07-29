@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Http\Common\Middleware;
 
 use Hyperf\Contract\TranslatorInterface;
@@ -12,7 +22,7 @@ class TranslationMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly TranslatorInterface $translator
-    ){}
+    ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -29,5 +39,4 @@ class TranslationMiddleware implements MiddlewareInterface
         }
         return $locale ?: 'zh_CN';
     }
-
 }

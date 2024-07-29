@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Exception\Handler;
 
 use App\Http\Common\Result;
@@ -13,7 +23,6 @@ use Hyperf\Logger\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Throwable;
 
 abstract class AbstractHandler extends ExceptionHandler
 {
@@ -21,16 +30,16 @@ abstract class AbstractHandler extends ExceptionHandler
         private readonly ConfigInterface $config,
         private readonly ContainerInterface $container,
         private readonly LoggerFactory $loggerFactory
-    ){}
+    ) {}
 
-    abstract function handleResponse(\Throwable $throwable): Result;
+    abstract public function handleResponse(\Throwable $throwable): Result;
 
-    public function handle(Throwable $throwable, ResponsePlusInterface $response)
+    public function handle(\Throwable $throwable, ResponsePlusInterface $response)
     {
         $this->report($throwable);
-        return value(function (ResponsePlusInterface $responsePlus){
+        return value(function (ResponsePlusInterface $responsePlus) {
             // 如果是 debug 模式，自动处理跨域
-            if ($this->isDebug()){
+            if ($this->isDebug()) {
                 $responsePlus
                     ->setHeader('Access-Control-Allow-Origin', '*')
                     ->setHeader('Access-Control-Allow-Credentials', 'true')
@@ -38,7 +47,7 @@ abstract class AbstractHandler extends ExceptionHandler
                     ->setHeader('Access-Control-Allow-Headers', 'DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,Authorization');
             }
             return $responsePlus;
-        },$this->handlerRequestId(
+        }, $this->handlerRequestId(
             $this->handlerResult(
                 $response,
                 $this->handleResponse($throwable)
@@ -47,41 +56,39 @@ abstract class AbstractHandler extends ExceptionHandler
     }
 
     /**
-     * 处理result 打包到 response body 中
+     * 上报日志+打印错误.
      */
-    protected function handlerResult(ResponsePlusInterface $responsePlus,Result $result): ResponsePlusInterface
+    public function report(\Throwable $throwable)
+    {
+        // 如果是debug模式，打印错误到控制台
+        if ($this->isDebug()) {
+            $this->container->get(ApplicationInterface::class)->renderThrowable($throwable, new ConsoleOutput());
+        }
+        $this->loggerFactory
+            ->get('error')
+            ->error($throwable->getMessage(), ['exception' => $throwable]);
+    }
+
+    /**
+     * 处理result 打包到 response body 中.
+     */
+    protected function handlerResult(ResponsePlusInterface $responsePlus, Result $result): ResponsePlusInterface
     {
         return $responsePlus
             ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->setBody(new SwooleStream(Json::encode($result)));
     }
 
+    protected function isDebug(): bool
+    {
+        return (bool) $this->config->get('debug');
+    }
+
     /**
-     * 处理 response 加上 request-id 信息
+     * 处理 response 加上 request-id 信息.
      */
     private function handlerRequestId(ResponsePlusInterface $responsePlus): ResponsePlusInterface
     {
-        return $responsePlus->setHeader('Request-Id',UuidRequestIdProcessor::getUuid());
+        return $responsePlus->setHeader('Request-Id', UuidRequestIdProcessor::getUuid());
     }
-
-    protected function isDebug(): bool
-    {
-        return (boolean)$this->config->get('debug');
-    }
-
-    /**
-     * 上报日志+打印错误
-     */
-    public function report(Throwable $throwable)
-    {
-        // 如果是debug模式，打印错误到控制台
-        if ($this->isDebug()){
-            $this->container->get(ApplicationInterface::class)->renderThrowable($throwable,new ConsoleOutput());
-        }
-        $this->loggerFactory
-            ->get('error')
-            ->error($throwable->getMessage(),['exception' => $throwable]);
-    }
-
-
 }

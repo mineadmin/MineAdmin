@@ -1,27 +1,32 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Exception\Handler;
 
 use App\Exception\BusinessException;
 use App\Http\Common\Result;
-use Throwable;
 
 class BusinessExceptionHandler extends AbstractHandler
 {
-
     /**
      * @param BusinessException $throwable
      */
-    function handleResponse(Throwable $throwable): Result
+    public function handleResponse(\Throwable $throwable): Result
     {
         $this->stopPropagation();
         return $throwable->getResponse();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isValid(Throwable $throwable): bool
+    public function isValid(\Throwable $throwable): bool
     {
         return $throwable instanceof BusinessException;
     }

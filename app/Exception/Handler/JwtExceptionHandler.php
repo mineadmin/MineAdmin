@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Exception\Handler;
 
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
-use Hyperf\ExceptionHandler\ExceptionHandler;
 use Lcobucci\JWT\Exception;
-use Lcobucci\JWT\Token\InvalidTokenStructure;
-use Swow\Psr7\Message\ResponsePlusInterface;
-use Throwable;
 
 class JwtExceptionHandler extends AbstractHandler
 {
-    function handleResponse(Throwable $throwable): Result
+    public function handleResponse(\Throwable $throwable): Result
     {
         $this->stopPropagation();
-        switch ($throwable){
+        switch ($throwable) {
             default:
                 return new Result(
                     code: ResultCode::UNAUTHORIZED,
@@ -24,10 +30,8 @@ class JwtExceptionHandler extends AbstractHandler
         }
     }
 
-
-    public function isValid(Throwable $throwable): bool
+    public function isValid(\Throwable $throwable): bool
     {
-        return ($throwable instanceof Exception);
+        return $throwable instanceof Exception;
     }
-
 }

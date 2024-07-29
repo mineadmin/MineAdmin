@@ -38,7 +38,7 @@ class UserService extends AbstractCrudService
         $token = $jwt->builder($user->only(['id']));
         return [
             'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0)
+            'expire_at' => (int) $jwt->getConfig('ttl', 0),
         ];
     }
 }

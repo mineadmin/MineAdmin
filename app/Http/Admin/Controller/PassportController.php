@@ -17,7 +17,6 @@ use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Swagger\Attributes\FormRequestBody;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Service\Permission\UserService;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -40,7 +39,7 @@ class PassportController extends AbstractController
     /**
      * 登录.
      */
-    #[OA\Post(
+    #[Post(
         path: '/admin/passport/login',
         operationId: 'passportLogin',
         summary: '系统登录',
@@ -53,12 +52,15 @@ class PassportController extends AbstractController
         example: '{"code":200,"message":"成功","data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}'
     )]
     #[OA\RequestBody(content: new OA\JsonContent(
-        ref: LoginRequest::class, title: '登录请求参数', required: ['username','password'], example: '{"username":"admin","password":"123456"}'
+        ref: LoginRequest::class,
+        title: '登录请求参数',
+        required: ['username', 'password'],
+        example: '{"username":"admin","password":"123456"}'
     ))]
-    public function login( LoginRequest $request): Result
+    public function login(LoginRequest $request): Result
     {
-        $username = (string)$request->input('username');
-        $password = (string)$request->input('password');
+        $username = (string) $request->input('username');
+        $password = (string) $request->input('password');
         return $this->success(
             $this->userService->login(
                 $username,

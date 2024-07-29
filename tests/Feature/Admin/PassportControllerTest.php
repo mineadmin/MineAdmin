@@ -152,7 +152,7 @@ class PassportControllerTest extends HttpTestCase
         $this->assertSame(Arr::get($refresh,'code'),ResultCode::SUCCESS->value);
         $this->assertArrayHasKey('token',$refresh['data']);
         $this->assertArrayHasKey('expire_at',$refresh['data']);
-        
+
         $user->forceDelete();
     }
 }

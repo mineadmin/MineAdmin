@@ -28,4 +28,10 @@ class CurrentUser
     {
         return $this->service->getInfo($this->getToken());
     }
+
+    public function refresh(): array
+    {
+        $token = $this->getToken();
+        return $this->service->refreshToken($token);
+    }
 }

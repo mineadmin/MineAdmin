@@ -24,7 +24,6 @@ use App\Schema\User;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
@@ -117,11 +116,20 @@ class PassportController extends AbstractController
     /**
      * 刷新token.
      */
-    #[PostMapping('refresh')]
+    #[Post(
+        path: '/admin/passport/refresh',
+        operationId: 'refresh',
+        summary: '刷新token',
+        security: [['bearerAuth' => []]],
+        tags: ['admin:passport']
+    )]
     #[Middleware(AuthMiddleware::class)]
-    public function refresh(LoginUser $user): Result
+    #[ResultResponse(
+        instance: new Result(data: new PassportLoginVo())
+    )]
+    public function refresh(CurrentUser $user): Result
     {
-        return $this->success(['token' => $user->refresh()]);
+        return $this->success($user->refresh());
     }
 
     #[OA\Get(

@@ -21,6 +21,7 @@ use App\Kernel\Auth\JwtInterface;
 use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
 use App\Service\AbstractCrudService;
+use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -77,5 +78,16 @@ class UserService extends AbstractCrudService
     public function getInfo(UnencryptedToken $token): ?User
     {
         return $this->getRepository()->findById((int) $token->claims()->all()['id']);
+    }
+
+    public function refreshToken(UnencryptedToken $token): array
+    {
+        $jwt = $this->getJwt();
+        $jwt->addBlackList($token);
+        $token = $jwt->builder(Arr::only($token->claims()->all(), 'id'));
+        return [
+            'token' => $token->toString(),
+            'expire_at' => (int) $jwt->getConfig('ttl', 0),
+        ];
     }
 }

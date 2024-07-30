@@ -23,6 +23,7 @@ use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\User;
 use App\Service\Permission\UserService;
+use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -133,7 +134,7 @@ class PassportController extends AbstractController
     }
 
     #[OA\Get(
-        path: 'admin/passport/getBingBackgroundImage',
+        path: '/admin/passport/getBingBackgroundImage',
         operationId: 'getBingBackgroundImage',
         description: '获取每日的必应背景图',
     )]
@@ -175,7 +176,7 @@ class PassportController extends AbstractController
     {
         try {
             $response = file_get_contents('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
-            $content = json_decode($response);
+            $content = Json::decode($response);
             if ($url = Arr::get($content, 'images.0.url')) {
                 return $this->success([
                     'url' => 'https://cn.bing.com' . $url,

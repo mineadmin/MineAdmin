@@ -12,7 +12,6 @@ declare(strict_types=1);
 use Hyperf\Contract\ApplicationInterface;
 use Hyperf\Di\ClassLoader;
 use Mine\AppStore\Plugin;
-use Swoole\Runtime;
 
 /*
  * This file is part of MineAdmin.

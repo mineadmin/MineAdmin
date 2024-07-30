@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Build
         run: |
-          copy .github/ci/.env.example .env
+          cp .github/ci/.env.example .env
           docker build -t hyperf .
       - name: docker-compose
         run:

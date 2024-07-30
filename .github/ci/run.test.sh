@@ -2,4 +2,4 @@
 
 set -e
 
-./vendor/bin/pest --parallel
+./vendor/bin/co-phpunit --prepend tests/bootstrap.php --colors=always

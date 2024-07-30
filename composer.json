@@ -106,7 +106,7 @@
       "rm -rf runtime/container"
     ],
     "test": "co-phpunit --prepend tests/bootstrap.php --colors=always",
-    "coverage": "pest --coverage --coverage-clover tests/coverage.xml ",
+    "coverage": "co-phpunit --prepend tests/bootstrap.php --colors=always --coverage-xml tests/coverage.xml ",
     "cs-fix": "php-cs-fixer fix $1",
     "analyse": "phpstan analyse --memory-limit 500M -l 5 -c phpstan.neon ./app ./config",
     "start": [

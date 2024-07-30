@@ -40,14 +40,7 @@ jobs:
           extensions: redis, pdo, pdo_mysql, bcmath
           ini-values: opcache.enable_cli=0
           coverage: xdebug
-      - name: Setup Swoole Cache
-        id: setup-swoole-cache
-        uses: actions/cache@v4
-        with:
-          path: swoole
-          key: swoole-${{ matrix.sw-version }}
       - name: Install Swoole
-        if: steps.setup-swoole-cache.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz -O swoole.tar.gz
           mkdir -p swoole
@@ -65,16 +58,6 @@ jobs:
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
           php --ri xdebug
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ matrix.php-version }}-composer
-          restore-keys: |
-            ${{ matrix.php-version }}-composer
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

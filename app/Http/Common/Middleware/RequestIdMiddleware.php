@@ -22,6 +22,7 @@ class RequestIdMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // @phpstan-ignore-next-line
         return $handler->handle($request)->setHeader('Request-Id', UuidRequestIdProcessor::getUuid());
     }
 }

@@ -41,10 +41,13 @@ class UserService extends AbstractCrudService
         protected readonly EventDispatcherInterface $dispatcher
     ) {}
 
+    /**
+     * @return array<string,int|string>
+     */
     public function login(string $username, string $password): array
     {
-        $user = $this->getRepository()->checkUserByUsername($username);
-        if (! $this->getRepository()->checkPass($password, $user->password)) {
+        $user = $this->repository->checkUserByUsername($username);
+        if (! $this->repository->checkPass($password, $user->password)) {
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
         $this->dispatcher->dispatch(new LoginSuccessEvent($user));
@@ -77,9 +80,12 @@ class UserService extends AbstractCrudService
 
     public function getInfo(UnencryptedToken $token): ?User
     {
-        return $this->getRepository()->findById((int) $token->claims()->all()['id']);
+        return $this->repository->findById((int) $token->claims()->all()['id']);
     }
 
+    /**
+     * @return array<string,int|string>
+     */
     public function refreshToken(UnencryptedToken $token): array
     {
         $jwt = $this->getJwt();

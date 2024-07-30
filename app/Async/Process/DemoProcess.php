@@ -12,50 +12,19 @@ declare(strict_types=1);
 
 namespace App\Async\Process;
 
-use App\Process\Coroutine;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\ProcessManager;
-use Psr\Container\ContainerInterface;
-use Swoole\Server;
 
 class DemoProcess extends AbstractProcess
 {
     public string $name = 'Demo Process';
 
-    /**
-     * @var Server
-     */
-    private $server;
-
-    /**
-     * @var StdoutLoggerInterface
-     */
-    private $logger;
-
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        $this->logger = $container->get(StdoutLoggerInterface::class);
-    }
-
-    public function bind($server): void
-    {
-        $this->server = $server;
-        parent::bind($server);
-    }
-
-    /**
-     * 是否自启进程.
-     * @param Coroutine\Server|Server $server
-     */
-    public function isEnable($server): bool
-    {
-        return true;
-    }
-
     public function handle(): void
     {
-        while (ProcessManager::isRunning());
+        while (ProcessManager::isRunning()) {
+            $this->container->get(StdoutLoggerInterface::class)->info('Hello Hyperf Process');
+            sleep(1);
+        }
     }
 }

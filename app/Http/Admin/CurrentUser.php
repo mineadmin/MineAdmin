@@ -34,4 +34,9 @@ class CurrentUser
         $token = $this->getToken();
         return $this->service->refreshToken($token);
     }
+
+    public function id(): int
+    {
+        return $this->user()?->id;
+    }
 }

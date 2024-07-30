@@ -21,29 +21,14 @@ use Hyperf\Paginator\AbstractPaginator;
 use function Hyperf\Collection\value;
 
 /**
- * @template T
- * @property Model|T $model
+ * @template T of Model
+ * @property T $model
  */
 abstract class IRepository
 {
     use HasContainer;
 
     public const PER_PAGE_PARAM_NAME = 'per_page';
-
-    /**
-     * @return Model|T
-     */
-    public function getModel()
-    {
-        if (! empty($this->model) && is_object($this->model)) {
-            return $this->model;
-        }
-
-        if (! empty($this->model) && class_exists($this->model) || interface_exists($this->model)) {
-            return $this->getContainer()->get($this->model);
-        }
-        throw new \RuntimeException(sprintf('Cannot detect the model of %s', static::class));
-    }
 
     abstract public function handleSearch(Builder $query, array $params): Builder;
 
@@ -91,12 +76,12 @@ abstract class IRepository
      */
     public function create(array $data): mixed
     {
-        return $this->getModel()::make($data)->save();
+        return $this->model::make($data)->save();
     }
 
     public function updateById(mixed $id, array $data): bool
     {
-        return (bool) $this->getModel()::whereKey($id)->update($data);
+        return (bool) $this->model::whereKey($id)->update($data);
     }
 
     /**
@@ -106,17 +91,17 @@ abstract class IRepository
     {
         return value(function (Model $model, mixed $id, array $data) {
             return $model->newModelQuery()->whereKey($id)->first()?->fill($data)->save();
-        }, $this->getModel(), $id, $data);
+        }, $this->model, $id, $data);
     }
 
     public function deleteById(mixed $id): bool
     {
-        return (bool) $this->getModel()::whereKey($id)->delete();
+        return (bool) $this->model::whereKey($id)->delete();
     }
 
     public function forceDeleteById(mixed $id): bool
     {
-        return $this->getModel()::whereKey($id)->forceDelete();
+        return $this->model::whereKey($id)->forceDelete();
     }
 
     /**
@@ -124,7 +109,7 @@ abstract class IRepository
      */
     public function findById(mixed $id): mixed
     {
-        return $this->getModel()::whereKey($id)->first();
+        return $this->model::whereKey($id)->first();
     }
 
     /**
@@ -139,6 +124,6 @@ abstract class IRepository
     {
         return value(function (Builder $builder, array $params) {
             return $this->handleSearch($builder, $params);
-        }, $this->getModel()->newModelQuery(), $params);
+        }, $this->model->newModelQuery(), $params);
     }
 }

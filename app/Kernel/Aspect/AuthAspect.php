@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Kernel\Aspect;
 
+use App\Exception\BusinessException;
+use App\Http\Common\ResultCode;
 use App\Kernel\Annotation\Auth;
 use App\Kernel\Auth\JwtFactory;
 use Hyperf\Context\RequestContext;
@@ -37,6 +39,9 @@ class AuthAspect extends AbstractAspect
         if (! empty($meta->class[Auth::class])) {
             $annotation = $meta->class[Auth::class];
             $name = $annotation->name;
+        }
+        if (! isset($name)) {
+            throw new BusinessException(ResultCode::UNAUTHORIZED);
         }
         $jwt = $this->jwtFactory->get($name);
         $token = $jwt->parser($this->getToken());

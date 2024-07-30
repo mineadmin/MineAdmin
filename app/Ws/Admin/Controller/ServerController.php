@@ -12,24 +12,27 @@ declare(strict_types=1);
 
 namespace App\Ws\Admin\Controller;
 
-use App\Service\DataCenter\QueueMessageService;
+use App\Http\Admin\CurrentUser;
 use Hyperf\Contract\OnCloseInterface;
 use Hyperf\Contract\OnMessageInterface;
 use Hyperf\Contract\OnOpenInterface;
+use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\WebSocketServer\Context;
-use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
-
-use function App\Kernel\container;
 
 /**
  * Class ServerController.
  */
 class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
+    public function __construct(
+        private readonly CurrentUser $user,
+        private readonly StdoutLoggerInterface $logger
+    ) {}
+
     /**
      * 成功连接到 ws 回调.
      * @param Response|Server $server
@@ -37,12 +40,10 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
      */
     public function onOpen($server, $request): void
     {
-        $uid = user()->getUserInfo(
-            container()->get(ServerRequestInterface::class)->getQueryParams()['token']
-        )['id'];
+        $uid = $this->user->id();
         Context::set('uid', $uid);
 
-        console()->info(
+        $this->logger->info(
             "WebSocket [ user connection to message server: id > {$uid}, " .
             "fd > {$request->fd}, time > " . date('Y-m-d H:i:s') . ' ]'
         );
@@ -56,16 +57,16 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
     public function onMessage($server, $frame): void
     {
         $data = json_decode($frame->data, true);
-        switch ($data['event']) {
-            case 'get_unread_message':
-                $service = container()->get(QueueMessageService::class);
-                $server->push($frame->fd, json_encode([
-                    'event' => 'ev_new_message',
-                    'message' => 'success',
-                    'data' => $service->getUnreadMessage(Context::get('uid'))['items'],
-                ]));
-                break;
-        }
+        //        switch ($data['event']) {
+        //            case 'get_unread_message':
+        //                $service = container()->get(QueueMessageService::class);
+        //                $server->push($frame->fd, json_encode([
+        //                    'event' => 'ev_new_message',
+        //                    'message' => 'success',
+        //                    'data' => $service->getUnreadMessage(Context::get('uid'))['items'],
+        //                ]));
+        //                break;
+        //        }
     }
 
     /**
@@ -74,7 +75,7 @@ class ServerController implements OnMessageInterface, OnOpenInterface, OnCloseIn
      */
     public function onClose($server, int $fd, int $reactorId): void
     {
-        console()->info(
+        $this->logger->info(
             'WebSocket [ user close connect for message server: id > ' . Context::get('uid') . ', ' .
             "fd > {$fd}, time > " . date('Y-m-d H:i:s') . ' ]'
         );

@@ -200,7 +200,7 @@ class UserService extends AbstractCrudService
      */
     public function setHomePage(array $params): bool
     {
-        $res = ($this->repository->getModel())::query()
+        $res = ($this->repository->model)::query()
             ->where('id', $params['id'])
             ->update(['dashboard' => $params['dashboard']]) > 0;
 
@@ -247,7 +247,7 @@ class UserService extends AbstractCrudService
     #[Cacheable(prefix: 'loginInfo', value: 'userId_#{id}', ttl: 0)]
     protected function getCacheInfo(int $id): array
     {
-        $user = $this->repository->getModel()->find($id);
+        $user = $this->repository->model->find($id);
         $user->addHidden('deleted_at', 'password');
         $data['user'] = $user->toArray();
         if (user()->isSuperAdmin()) {

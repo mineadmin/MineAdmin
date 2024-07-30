@@ -18,7 +18,7 @@ use Hyperf\DbConnection\Traits\HasContainer;
 
 /**
  * @template T
- * @property class-string<IRepository<T>>|IRepository<T> $repository
+ * @property IRepository<T> $repository
  */
 class AbstractCrudService
 {
@@ -26,12 +26,12 @@ class AbstractCrudService
 
     public function page(array $params, int $page = 1, int $pageSize = 10): array
     {
-        return $this->getRepository()->page($params, $page, $pageSize);
+        return $this->repository->page($params, $page, $pageSize);
     }
 
     public function getList(array $paras): Collection
     {
-        return $this->getRepository()->list($paras);
+        return $this->repository->list($paras);
     }
 
     /**
@@ -39,7 +39,7 @@ class AbstractCrudService
      */
     public function create(array $data): mixed
     {
-        return $this->getRepository()->create($data);
+        return $this->repository->create($data);
     }
 
     /**
@@ -55,12 +55,12 @@ class AbstractCrudService
      */
     public function updateById(mixed $id, array $data): mixed
     {
-        return $this->getRepository()->updateById($id, $data);
+        return $this->repository->updateById($id, $data);
     }
 
     public function deleteById(mixed $id, bool $force = true): bool
     {
-        return $force ? $this->getRepository()->forceDeleteById($id) : $this->getRepository()->deleteById($id);
+        return $force ? $this->repository->forceDeleteById($id) : $this->repository->deleteById($id);
     }
 
     /**
@@ -68,21 +68,6 @@ class AbstractCrudService
      */
     public function findById(mixed $id): mixed
     {
-        return $this->getRepository()->findById($id);
-    }
-
-    /**
-     * @return IRepository<T>
-     */
-    public function getRepository(): mixed
-    {
-        if (! empty($this->repository) && is_object($this->repository)) {
-            return $this->repository;
-        }
-        if (class_exists($this->repository) || interface_exists($this->repository)) {
-            return $this->getContainer()->get($this->repository);
-        }
-
-        throw new \RuntimeException(sprintf('Cannot detect the repository of %s', static::class));
+        return $this->repository->findById($id);
     }
 }

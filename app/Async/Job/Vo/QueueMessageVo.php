@@ -58,68 +58,44 @@ class QueueMessageVo
      */
     protected int $delayTime = 0;
 
-    /**
-     * @return mixed
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return $this
-     */
     public function setTitle(string $title): QueueMessageVo
     {
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getContentType(): string
     {
         return $this->contentType;
     }
 
-    /**
-     * @return $this
-     */
     public function setContentType(string $contentType): QueueMessageVo
     {
         $this->contentType = $contentType;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @return $this
-     */
     public function setContent(string $content): QueueMessageVo
     {
         $this->content = $content;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSendBy(): int
     {
         return $this->sendBy;
     }
 
-    /**
-     * @param string $sendBy
-     */
     public function setSendBy(int $sendBy): QueueMessageVo
     {
         $this->sendBy = $sendBy;

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
+use App\Exception\BusinessException;
+use App\Http\Common\ResultCode;
 use App\Model\Permission\Dept;
 use App\Model\Permission\User;
 use App\Repository\IRepository;
@@ -34,7 +36,14 @@ class UserRepository extends IRepository
      */
     public function checkUserByUsername(string $username): User
     {
-        return $this->getModel()->newQuery()->where('username', $username)->firstOrFail();
+        /**
+         * @var null|User $result
+         */
+        $result = $this->model->newQuery()->where('username', $username)->first();
+        if (empty($result)) {
+            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY);
+        }
+        return $result;
     }
 
     /**
@@ -42,7 +51,7 @@ class UserRepository extends IRepository
      */
     public function existsByUsername(string $username): bool
     {
-        return $this->getModel()->newQuery()->where('username', $username)->exists();
+        return $this->model->newQuery()->where('username', $username)->exists();
     }
 
     /**
@@ -60,7 +69,7 @@ class UserRepository extends IRepository
         $post_ids = $data['post_ids'] ?? [];
         $dept_ids = $data['dept_ids'] ?? [];
 
-        $user = $this->getModel()::create($data);
+        $user = $this->model::create($data);
         $user->roles()->sync($role_ids, false);
         $user->posts()->sync($post_ids, false);
         $user->depts()->sync($dept_ids, false);
@@ -77,7 +86,7 @@ class UserRepository extends IRepository
         $post_ids = $data['post_ids'] ?? [];
         $dept_ids = $data['dept_ids'] ?? [];
         $result = parent::updateById($id, $data);
-        $user = $this->getModel()::find($id);
+        $user = $this->model::find($id);
         if ($user && $result) {
             ! empty($role_ids) && $user->roles()->sync($role_ids);
             ! empty($dept_ids) && $user->depts()->sync($dept_ids);
@@ -91,7 +100,7 @@ class UserRepository extends IRepository
     public function realDelete(array $ids): bool
     {
         foreach ($ids as $id) {
-            $user = $this->getModel()::withTrashed()->find($id);
+            $user = $this->model::withTrashed()->find($id);
             if ($user) {
                 $user->roles()->detach();
                 $user->posts()->detach();
@@ -104,7 +113,7 @@ class UserRepository extends IRepository
 
     public function read(mixed $id, array $column = ['*']): ?User
     {
-        return $this->getModel()->newQuery()->with([
+        return $this->model->newQuery()->with([
             'roles:id,name',
             'posts:id,name',
             'depts:id,name',
@@ -168,7 +177,7 @@ class UserRepository extends IRepository
      */
     public function initUserPassword(int $id, string $password): bool
     {
-        return (bool) $this->getModel()::query()
+        return (bool) $this->model::query()
             ->whereKey($id)->first()
             ?->fill(['password' => password_hash($password, PASSWORD_DEFAULT)])
             ->save();
@@ -179,6 +188,6 @@ class UserRepository extends IRepository
      */
     public function getUserInfoByIds(array $ids, array $select = ['id', 'username', 'nickname', 'phone', 'email', 'created_at']): array
     {
-        return $this->getModel()->newQuery()->whereKey($ids)->select($select)->get()->toArray();
+        return $this->model->newQuery()->whereKey($ids)->select($select)->get()->toArray();
     }
 }

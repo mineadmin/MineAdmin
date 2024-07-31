@@ -21,30 +21,30 @@ use Hyperf\Swagger\Annotation as OA;
 #[OA\Schema(title: 'Api Response', description: 'Api Response')]
 class Result implements Arrayable
 {
-	/**
-	 * @param ResultCode $code
-	 * @param null|string $message
-	 * @param T $data
-	 */
-	public function __construct(
-		#[OA\Property(ref: 'ResultCode', title: '响应码')]
-		public ResultCode $code = ResultCode::SUCCESS,
-		#[OA\Property(title: '响应消息', type: 'string')]
-		public ?string $message = null,
-		#[OA\Property(title: '响应数据')]
-		public mixed $data = []
-	) {
-		if ($this->message === null) {
-			$this->message = ResultCode::getMessage($this->code->value);
-		}
-	}
+    /**
+     * @param ResultCode $code
+     * @param null|string $message
+     * @param T $data
+     */
+    public function __construct(
+        #[OA\Property(ref: 'ResultCode', title: '响应码')]
+        public ResultCode $code = ResultCode::SUCCESS,
+        #[OA\Property(title: '响应消息', type: 'string')]
+        public ?string $message = null,
+        #[OA\Property(title: '响应数据')]
+        public mixed $data = []
+    ) {
+        if ($this->message === null) {
+            $this->message = ResultCode::getMessage($this->code->value);
+        }
+    }
 
-	public function toArray(): array
-	{
-		return [
-			'code' => $this->code->value,
-			'message' => $this->message,
-			'data' => $this->data,
-		];
-	}
+    public function toArray(): array
+    {
+        return [
+            'code' => $this->code->value,
+            'message' => $this->message,
+            'data' => $this->data,
+        ];
+    }
 }

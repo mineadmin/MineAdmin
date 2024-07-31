@@ -11,7 +11,7 @@ jobs:
       - name: Build
         run: |
           cp .github/ci/.env.example .env
-          docker build --no-cache -t hyperf .
+          docker build -t hyperf .
       - name: docker-compose
         run:
           docker-compose up -d

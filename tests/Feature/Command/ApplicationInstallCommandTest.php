@@ -14,6 +14,7 @@ namespace HyperfTests\Feature\Command;
 
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Contract\ApplicationInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -22,6 +23,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  * @internal
  * @coversNothing
  */
+#[Group('migrations')]
 class ApplicationInstallCommandTest extends TestCase
 {
     public function testRun(): void

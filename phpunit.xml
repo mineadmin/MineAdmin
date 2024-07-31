@@ -12,7 +12,7 @@
   <source>
     <include>
       <directory suffix=".php">./app</directory>
-      <directory suffix=".php">./api</directory>
+      <directory suffix=".php">./databases</directory>
       <directory suffix=".php">./plugin</directory>
       <directory prefix="App" suffix=".php">./runtime/container/proxy</directory>
     </include>

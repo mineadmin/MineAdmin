@@ -19,14 +19,14 @@ class Service
      */
     public function download(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+        if (empty($params['identifier']) || empty($params['version'])) {
+            throw new MineException('请检查identifier、version参数是否正确');
         }
 
         $service = make(AppStoreServiceImpl::class);
 
-        if (! is_dir(BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'])) {
-            $result = $service->download($params['space'], $params['identifier'], $params['version']);
+        if (! is_dir(BASE_PATH . '/plugin/' . $params['identifier'])) {
+            $result = $service->download($params['identifier'], $params['version']);
             if (! $result) {
                 throw new MineException('应用下载失败');
             }
@@ -43,17 +43,17 @@ class Service
      */
     public function install(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
+        if (empty($params['identifier']) || empty($params['version'])) {
             throw new MineException('请检查space、identifier、version参数是否正确');
         }
 
-        $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
+        $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if ( file_exists($path . '/install.lock') ) {
             throw new MineException('应用已经安装过');
         }
 
-        $pluginName =  $params['space'] . "/" . $params['identifier'];
+        $pluginName =  $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
             Plugin::install($pluginName);
@@ -66,17 +66,17 @@ class Service
 
     public function unInstall(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+        if (empty($params['identifier']) || empty($params['version'])) {
+            throw new MineException('请检查identifier、version参数是否正确');
         }
 
-        $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
+        $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if (! file_exists($path . '/install.lock') ) {
             throw new MineException('应用并未安装');
         }
 
-        $pluginName =  $params['space'] . "/" . $params['identifier'];
+        $pluginName =  $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
             Plugin::uninstall($pluginName);

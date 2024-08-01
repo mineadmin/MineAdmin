@@ -53,7 +53,7 @@ class QueueHandleListener implements ListenerInterface
 
     public function process(object $event): void
     {
-        if ($event instanceof Event && $event->getMessage()->job()) {
+        if ($event instanceof Event) {
             $job = $event->getMessage()->job();
             $jobClass = get_class($job);
             if ($job instanceof AnnotationJob) {

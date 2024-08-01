@@ -15,14 +15,14 @@ namespace App\Exception\Handler;
 use App\Http\Common\Result;
 use App\Kernel\Log\UuidRequestIdProcessor;
 use Hyperf\Codec\Json;
-use Hyperf\Contract\ApplicationInterface;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler;
+use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 abstract class AbstractHandler extends ExceptionHandler
 {
@@ -62,7 +62,9 @@ abstract class AbstractHandler extends ExceptionHandler
     {
         // 如果是debug模式，打印错误到控制台
         if ($this->isDebug()) {
-            $this->container->get(ApplicationInterface::class)->renderThrowable($throwable, new ConsoleOutput());
+            $this->container->get(StdoutLoggerInterface::class)->error(
+                $this->container->get(FormatterInterface::class)->format($throwable)
+            );
         }
         $this->loggerFactory
             ->get('error')

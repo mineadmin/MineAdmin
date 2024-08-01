@@ -15,13 +15,13 @@ namespace App\Model\Permission;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键
  * @property int $parent_id 父ID
- * @property string $level 组级集合
  * @property string $name 菜单名称
  * @property string $code 菜单标识代码
  * @property string $icon 菜单图标
@@ -76,5 +76,10 @@ class Menu extends MineModel
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_menu', 'menu_id', 'role_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'parent_id', 'id');
     }
 }

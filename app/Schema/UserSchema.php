@@ -12,11 +12,12 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
+use App\Model\Permission\User;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
 #[Schema]
-class User implements \JsonSerializable
+class UserSchema implements \JsonSerializable
 {
     #[Property(property: 'id', title: '用户ID，主键', type: 'int')]
     public ?int $id;
@@ -75,7 +76,7 @@ class User implements \JsonSerializable
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
-    public function __construct(\App\Model\Permission\User $model)
+    public function __construct(User $model)
     {
         $this->id = $model->id;
         $this->username = $model->username;

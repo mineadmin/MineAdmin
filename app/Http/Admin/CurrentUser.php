@@ -16,7 +16,7 @@ use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Model\Permission\User;
 use App\Service\Permission\UserService;
 
-class CurrentUser
+final class CurrentUser
 {
     use RequestScopedTokenTrait;
 

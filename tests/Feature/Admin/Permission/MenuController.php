@@ -21,14 +21,14 @@ use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Stringable\Str;
-use HyperfTests\Feature\Admin\ControllerTest;
+use HyperfTests\Feature\Admin\Controller;
 use HyperfTests\Feature\Admin\GetTokenTrait;
 
 /**
  * @internal
  * @coversNothing
  */
-class MenuControllerTest extends ControllerTest
+class MenuController extends Controller
 {
     use GetTokenTrait;
 

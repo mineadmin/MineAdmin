@@ -15,7 +15,6 @@ namespace App\Model\Permission;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
-use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model as MineModel;
 
@@ -78,8 +77,8 @@ class Menu extends MineModel
         return $this->belongsToMany(Role::class, 'role_menu', 'menu_id', 'role_id');
     }
 
-    public function children(): HasMany
+    public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id', 'id');
+        return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
     }
 }

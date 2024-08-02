@@ -42,7 +42,7 @@ class MenuRepository extends IRepository
     public function getTreeMenuByUid(int $userId): array
     {
         return $this->getQuery(['user_id' => $userId, 'sortable' => ['sort' => 'asc']])
-            ->with(['children', 'children.children', 'children.children.children'])
+            ->with(['children'])
             ->get()
             ->toArray();
     }

@@ -20,15 +20,15 @@ use App\Kernel\Auth\JwtFactory;
 use App\Kernel\Auth\JwtInterface;
 use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
-use App\Service\AbstractCrudService;
+use App\Service\IService;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @extends AbstractCrudService<UserRepository>
+ * @extends IService<UserRepository>
  */
-class UserService extends AbstractCrudService
+class UserService extends IService
 {
     /**
      * @var string jwt场景

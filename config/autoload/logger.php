@@ -20,28 +20,8 @@ return [
         'handler' => [
             'class' => RotatingFileHandler::class,
             'constructor' => [
-                'filename' => BASE_PATH . '/runtime/logs/debug/mine.log',
+                'filename' => BASE_PATH . '/runtime/logs/debug.log',
                 'level' => Level::Debug,
-            ],
-        ],
-        'formatter' => [
-            'class' => LineFormatter::class,
-            'constructor' => [
-                'format' => null,
-                'dateFormat' => 'Y-m-d H:i:s',
-                'allowInlineLineBreaks' => true,
-            ],
-        ],
-        'processor' => [
-            'class' => UuidRequestIdProcessor::class,
-        ],
-    ],
-    'error' => [
-        'handler' => [
-            'class' => RotatingFileHandler::class,
-            'constructor' => [
-                'filename' => BASE_PATH . '/runtime/logs/error.log',
-                'level' => Level::Error,
             ],
         ],
         'formatter' => [

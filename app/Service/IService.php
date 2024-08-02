@@ -20,7 +20,7 @@ use Hyperf\DbConnection\Traits\HasContainer;
  * @template T
  * @property IRepository<T> $repository
  */
-class AbstractCrudService
+abstract class IService
 {
     use HasContainer;
 

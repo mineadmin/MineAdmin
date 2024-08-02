@@ -14,7 +14,7 @@ namespace App\Service\Permission;
 
 use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
-use App\Service\AbstractCrudService;
+use App\Service\IService;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Contract\ContainerInterface;
@@ -24,9 +24,9 @@ use Psr\SimpleCache\InvalidArgumentException;
 /**
  * 用户业务
  * Class UserService.
- * @implements AbstractCrudService<User>
+ * @implements IService<User>
  */
-class UserService extends AbstractCrudService
+class UserService extends IService
 {
 
     public function __construct(

@@ -21,7 +21,7 @@ use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Kernel\Swagger\Attributes\ResultResponse;
-use App\Schema\User;
+use App\Schema\UserSchema;
 use App\Service\Permission\UserService;
 use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
@@ -107,7 +107,7 @@ class PassportController extends AbstractController
     )]
     #[Middleware(AuthMiddleware::class)]
     #[ResultResponse(
-        instance: new Result(data: User::class),
+        instance: new Result(data: UserSchema::class),
     )]
     public function getInfo(): Result
     {

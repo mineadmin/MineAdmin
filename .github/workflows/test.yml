@@ -121,4 +121,5 @@ jobs:
           DB_DATABASE: mineadmin
         run: |
           composer require hyperf/database-pgsql:~3.1 -vvv 
+          php bin/hyperf.php
           ./.github/ci/run.test.sh

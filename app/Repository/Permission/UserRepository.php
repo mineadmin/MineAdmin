@@ -19,13 +19,12 @@ use App\Model\Permission\User;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
-use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 
 /**
  * Class UserRepository.
  * @extends IRepository<User>
  */
-class UserRepository extends IRepository
+final class UserRepository extends IRepository
 {
     public function __construct(
         protected readonly User $model
@@ -60,64 +59,6 @@ class UserRepository extends IRepository
     public function checkPass(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
-    }
-
-    #[Transaction]
-    public function save(array $data): mixed
-    {
-        $role_ids = $data['role_ids'] ?? [];
-        $post_ids = $data['post_ids'] ?? [];
-        $dept_ids = $data['dept_ids'] ?? [];
-
-        $user = $this->model::create($data);
-        $user->roles()->sync($role_ids, false);
-        $user->posts()->sync($post_ids, false);
-        $user->depts()->sync($dept_ids, false);
-        return $user->id;
-    }
-
-    /**
-     * 更新用户.
-     */
-    #[Transaction]
-    public function update(mixed $id, array $data): bool
-    {
-        $role_ids = $data['role_ids'] ?? [];
-        $post_ids = $data['post_ids'] ?? [];
-        $dept_ids = $data['dept_ids'] ?? [];
-        $result = parent::updateById($id, $data);
-        $user = $this->model::find($id);
-        if ($user && $result) {
-            ! empty($role_ids) && $user->roles()->sync($role_ids);
-            ! empty($dept_ids) && $user->depts()->sync($dept_ids);
-            $user->posts()->sync($post_ids);
-            return true;
-        }
-        return false;
-    }
-
-    #[Transaction]
-    public function realDelete(array $ids): bool
-    {
-        foreach ($ids as $id) {
-            $user = $this->model::withTrashed()->find($id);
-            if ($user) {
-                $user->roles()->detach();
-                $user->posts()->detach();
-                $user->depts()->detach();
-                $user->forceDelete();
-            }
-        }
-        return true;
-    }
-
-    public function read(mixed $id, array $column = ['*']): ?User
-    {
-        return $this->model->newQuery()->with([
-            'roles:id,name',
-            'posts:id,name',
-            'depts:id,name',
-        ])->whereKey($id)->select($column)->first();
     }
 
     public function handleSearch(Builder $query, array $params): Builder

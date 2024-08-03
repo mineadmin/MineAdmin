@@ -31,7 +31,7 @@ class Result implements Arrayable
         public ResultCode $code = ResultCode::SUCCESS,
         #[OA\Property(title: '响应消息', type: 'string')]
         public ?string $message = null,
-        #[OA\Property(title: '响应数据')]
+        #[OA\Property(title: '响应数据', type: 'array')]
         public mixed $data = []
     ) {
         if ($this->message === null) {

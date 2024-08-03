@@ -13,7 +13,7 @@ declare(strict_types=1);
 use Symfony\Component\Finder\Finder;
 
 return [
-    'enable' => env('APP_DEBUG'),
+    'enable' => true,
     'port' => 9503,
     'json_dir' => BASE_PATH . '/storage/swagger',
     'html' => null,

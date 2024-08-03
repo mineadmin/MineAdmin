@@ -15,13 +15,13 @@ namespace App\Model\Permission;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 
 /**
  * @property int $id 主键
  * @property int $parent_id 父ID
- * @property string $level 组级集合
  * @property string $name 部门名称
  * @property string $leader 负责人
  * @property string $phone 联系电话
@@ -33,7 +33,8 @@ use Hyperf\DbConnection\Model\Model;
  * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
- * @property Collection|Role[] $roles
+ * @property Collection<int,Role> $roles
+ * @property Collection<int,self> $children
  */
 class Dept extends Model
 {
@@ -54,27 +55,19 @@ class Dept extends Model
      */
     protected array $casts = ['id' => 'integer', 'parent_id' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
-    /**
-     * 通过中间表获取角色.
-     */
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'role_dept', 'dept_id', 'role_id');
-    }
-
-    /**
-     * 通过中间表关联部门.
-     */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_dept', 'dept_id', 'user_id');
     }
 
-    /**
-     * 通过中间表关联部门.
-     */
     public function leader(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'dept_leader', 'dept_id', 'user_id');
+    }
+
+    public function children(): HasMany
+    {
+        // @phpstan-ignore-next-line
+        return $this->hasMany(Dept::class, 'parent_id', 'id')->with('children');
     }
 }

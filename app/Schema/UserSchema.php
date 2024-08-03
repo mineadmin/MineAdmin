@@ -26,7 +26,7 @@ class UserSchema implements \JsonSerializable
     public ?string $username;
 
     #[Property(property: 'user_type', title: '用户类型：(100系统用户)', type: 'string')]
-    public ?string $userType;
+    public ?int $userType;
 
     #[Property(property: 'nickname', title: '用户昵称', type: 'string')]
     public ?string $nickname;
@@ -56,7 +56,7 @@ class UserSchema implements \JsonSerializable
     public mixed $loginTime;
 
     #[Property(property: 'backend_setting', title: '后台设置数据', type: 'string')]
-    public ?string $backendSetting;
+    public ?array $backendSetting;
 
     #[Property(property: 'created_by', title: '创建者', type: 'int')]
     public ?int $createdBy;

@@ -22,7 +22,7 @@ use App\Http\Common\Result;
 use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\UserSchema;
-use App\Service\Permission\UserService;
+use App\Service\PassportService;
 use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -32,21 +32,15 @@ use Hyperf\Swagger\Annotation\Post;
 
 use function App\Http\Admin\Support\user;
 
-/**
- * Class LoginController.
- */
 #[OA\HyperfServer(name: 'http')]
-class PassportController extends AbstractController
+final class PassportController extends AbstractController
 {
     use RequestScopedTokenTrait;
 
     public function __construct(
-        private readonly UserService $userService
+        private readonly PassportService $passportService
     ) {}
 
-    /**
-     * 登录.
-     */
     #[Post(
         path: '/admin/passport/login',
         operationId: 'passportLogin',
@@ -70,16 +64,13 @@ class PassportController extends AbstractController
         $username = (string) $request->input('username');
         $password = (string) $request->input('password');
         return $this->success(
-            $this->userService->login(
+            $this->passportService->login(
                 $username,
                 $password
             )
         );
     }
 
-    /**
-     * 退出.
-     */
     #[Post(
         path: '/admin/passport/logout',
         operationId: 'passportLogout',
@@ -89,15 +80,12 @@ class PassportController extends AbstractController
     )]
     #[ResultResponse(instance: new Result(), example: '{"code":200,"message":"成功","data":[]}')]
     #[Middleware(AuthMiddleware::class)]
-    public function logout(RequestInterface $request)
+    public function logout(RequestInterface $request): Result
     {
-        $this->userService->logout($this->getToken());
+        $this->passportService->logout($this->getToken());
         return $this->success();
     }
 
-    /**
-     * 用户信息.
-     */
     #[OA\Get(
         path: '/admin/passport/getInfo',
         operationId: 'getInfo',
@@ -114,9 +102,6 @@ class PassportController extends AbstractController
         return $this->success(Arr::except(user()?->toArray(), ['password']));
     }
 
-    /**
-     * 刷新token.
-     */
     #[Post(
         path: '/admin/passport/refresh',
         operationId: 'refresh',

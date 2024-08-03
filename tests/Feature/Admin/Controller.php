@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin;
 
 use App\Model\Permission\User;
+use App\Service\PermissionService;
+use Casbin\Enforcer;
+use Hyperf\Context\ApplicationContext;
 use HyperfTests\HttpTestCase;
 
 /**
@@ -36,5 +39,15 @@ class Controller extends HttpTestCase
     protected function tearDown(): void
     {
         $this->user->forceDelete();
+    }
+
+    protected function getPermissionService(): PermissionService
+    {
+        return ApplicationContext::getContainer()->get(PermissionService::class);
+    }
+
+    protected function getEnforce(): Enforcer
+    {
+        return $this->getPermissionService()->getEnforce();
     }
 }

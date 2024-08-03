@@ -14,19 +14,24 @@ namespace App\Http\Admin;
 
 use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Model\Permission\User;
+use App\Service\PassportService;
 use App\Service\Permission\UserService;
+use App\Service\PermissionService;
+use Hyperf\Collection\Collection;
 
 final class CurrentUser
 {
     use RequestScopedTokenTrait;
 
     public function __construct(
-        private readonly UserService $service
+        private readonly PassportService $service,
+        private readonly UserService $userService,
+        private readonly PermissionService $permissionService
     ) {}
 
     public function user(): ?User
     {
-        return $this->service->getInfo($this->getToken());
+        return $this->userService->getInfo($this->id());
     }
 
     public function refresh(): array
@@ -37,6 +42,16 @@ final class CurrentUser
 
     public function id(): int
     {
-        return $this->user()?->id;
+        return (int) $this->getToken()->claims()->get('id');
+    }
+
+    public function menus(): Collection
+    {
+        return $this->permissionService->getMenuTreeByUserId($this->id());
+    }
+
+    public function roles(): Collection
+    {
+        return $this->permissionService->getRolesByUserId($this->id());
     }
 }

@@ -22,6 +22,7 @@
     "ext-pdo_mysql": "*",
     "ext-redis": "*",
     "ext-swoole": ">=5.0",
+    "casbin/casbin": "^3.23",
     "hyperf/async-queue": "3.1.*",
     "hyperf/cache": "3.1.*",
     "hyperf/command": "3.1.*",
@@ -107,8 +108,14 @@
     "post-autoload-dump": [
       "rm -rf runtime/container"
     ],
-    "test": "composer coverage",
-    "coverage": "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always --coverage-xml tests/coverage.xml && co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations --colors=always --coverage-xml tests/coverage.xml",
+    "test": [
+      "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always",
+      "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations"
+    ],
+    "coverage": [
+      "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always --coverage-xml tests/coverage.xml",
+      "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations --colors=always --coverage-xml tests/coverage.xml"
+    ],
     "cs-fix": "php-cs-fixer fix $1",
     "analyse": "phpstan analyse --memory-limit 500M -l 5 -c phpstan.neon.dist ./app ./config",
     "start": [

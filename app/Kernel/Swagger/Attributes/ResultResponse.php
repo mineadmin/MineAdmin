@@ -21,7 +21,7 @@ use OpenApi\Generator;
 class ResultResponse extends Base
 {
     public function __construct(
-        object $instance,
+        object|string $instance,
         ?string $title = null,
         ?array $examples = null,
         ?string $description = null,
@@ -37,13 +37,7 @@ class ResultResponse extends Base
         );
     }
 
-    private function generatorResponse(object $instance, ?string $title, mixed $example, ?array $examples = []): JsonContent
-    {
-        $properties = $this->parserInstance($instance);
-        return new JsonContent(examples: $examples, title: $title, properties: $properties, example: $example);
-    }
-
-    private function parserInstance(object $instance): array
+    protected function parserInstance(object|string $instance): array
     {
         $result = [];
         $reflectionClass = new \ReflectionClass($instance);
@@ -53,7 +47,7 @@ class ResultResponse extends Base
         return $result;
     }
 
-    private function parserProperty(\ReflectionProperty $reflectionProperty, mixed $value): Property
+    protected function parserProperty(\ReflectionProperty $reflectionProperty, mixed $value): Property
     {
         $property = new Property();
         $property->property = $reflectionProperty->getName();
@@ -68,10 +62,12 @@ class ResultResponse extends Base
         if ($property->ref === Generator::UNDEFINED && is_string($value) && class_exists($value)) {
             $property->ref = $value;
         }
-
-        if ($property->ref === Generator::UNDEFINED) {
-            $property->type = $typeName;
-        }
         return $property;
+    }
+
+    private function generatorResponse(object|string $instance, ?string $title, mixed $example, ?array $examples = []): JsonContent
+    {
+        $properties = $this->parserInstance($instance);
+        return new JsonContent(examples: $examples, title: $title, properties: $properties, example: $example);
     }
 }

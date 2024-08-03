@@ -14,6 +14,7 @@ namespace App\Model\Permission;
 
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
+use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
@@ -21,7 +22,7 @@ use Hyperf\DbConnection\Model\Model;
 /**
  * @property int $id 用户ID，主键
  * @property string $username 用户名
- * @property string $user_type 用户类型：(100系统用户)
+ * @property int $user_type 用户类型：(100系统用户)
  * @property string $nickname 用户昵称
  * @property string $phone 手机
  * @property string $email 用户邮箱
@@ -31,7 +32,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property int $status 状态 (1正常 2停用)
  * @property string $login_ip 最后登陆IP
  * @property string $login_time 最后登陆时间
- * @property string $backend_setting 后台设置数据
+ * @property array $backend_setting 后台设置数据
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
  * @property Carbon $created_at 创建时间
@@ -66,7 +67,7 @@ class User extends Model
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'json'];
+    protected array $casts = ['id' => 'integer', 'status' => 'integer', 'user_type' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'json'];
 
     /**
      * 通过中间表关联角色.
@@ -99,5 +100,10 @@ class User extends Model
     public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = password_hash((string) $value, PASSWORD_DEFAULT);
+    }
+
+    public function creating(Creating $event)
+    {
+        $this->password = 123456;
     }
 }

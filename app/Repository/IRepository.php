@@ -81,7 +81,7 @@ abstract class IRepository
 
     public function updateById(mixed $id, array $data): bool
     {
-        return (bool) $this->model::whereKey($id)->update($data);
+        return (bool) $this->model::whereKey($id)->first()?->update($data);
     }
 
     /**
@@ -96,12 +96,13 @@ abstract class IRepository
 
     public function deleteById(mixed $id): bool
     {
-        return (bool) $this->model::whereKey($id)->delete();
+        // @phpstan-ignore-next-line
+        return (bool) $this->model->whereKey($id)->delete();
     }
 
     public function forceDeleteById(mixed $id): bool
     {
-        return $this->model::whereKey($id)->forceDelete();
+        return (bool) $this->model::whereKey($id)->forceDelete();
     }
 
     /**
@@ -120,7 +121,7 @@ abstract class IRepository
         return $this->getQuery($params)->first();
     }
 
-    protected function getQuery(array $params = []): Builder
+    public function getQuery(array $params = []): Builder
     {
         return value(function (Builder $builder, array $params) {
             return $this->handleSearch($builder, $params);

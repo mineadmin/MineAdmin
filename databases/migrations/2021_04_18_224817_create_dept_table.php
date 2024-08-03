@@ -25,10 +25,9 @@ class CreateDeptTable extends Migration
             $table->comment('部门信息表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('bigInteger', 'parent_id', ['unsigned' => true, 'comment' => '父ID']);
-            $table->addColumn('string', 'level', ['length' => 500, 'comment' => '组级集合']);
             $table->addColumn('string', 'name', ['length' => 30, 'comment' => '部门名称']);
-            $table->addColumn('string', 'leader', ['length' => 20, 'comment' => '负责人'])->nullable();
-            $table->addColumn('string', 'phone', ['length' => 11, 'comment' => '联系电话'])->nullable();
+            $table->addColumn('string', 'leader', ['length' => 20, 'comment' => '负责人'])->default(0);
+            $table->addColumn('string', 'phone', ['length' => 11, 'comment' => '联系电话'])->default(0);
             $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->bigInteger('created_by')->comment('创建者')->default(0);

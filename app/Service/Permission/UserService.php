@@ -12,88 +12,60 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
-use App\Events\User\LoginSuccessEvent;
-use App\Exception\BusinessException;
-use App\Exception\JwtInBlackException;
-use App\Http\Common\ResultCode;
-use App\Kernel\Auth\JwtFactory;
-use App\Kernel\Auth\JwtInterface;
+use App\Kernel\Casbin\Factory;
 use App\Model\Permission\User;
+use App\Repository\Permission\MenuRepository;
+use App\Repository\Permission\RoleRepository;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
-use Hyperf\Collection\Arr;
-use Lcobucci\JWT\UnencryptedToken;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Casbin\Enforcer;
+use Hyperf\Cache\Annotation\Cacheable;
+use Hyperf\Collection\Collection;
 
 /**
  * @extends IService<UserRepository>
  */
-class UserService extends IService
+final class UserService extends IService
 {
-    /**
-     * @var string jwt场景
-     */
-    private string $jwt = 'default';
-
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly JwtFactory $jwtFactory,
-        protected readonly EventDispatcherInterface $dispatcher
+        private readonly Factory $factory,
+        private readonly MenuRepository $menuRepository,
+        private readonly RoleRepository $roleRepository
     ) {}
 
-    /**
-     * @return array<string,int|string>
-     */
-    public function login(string $username, string $password): array
+    #[Cacheable(prefix: 'user', ttl: 60)]
+    public function getInfo(int $id): ?User
     {
-        $user = $this->repository->checkUserByUsername($username);
-        if (! $this->repository->checkPass($password, $user->password)) {
-            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
-        }
-        $this->dispatcher->dispatch(new LoginSuccessEvent($user));
-        $jwt = $this->getJwt();
-        $token = $jwt->builder($user->only(['id']));
-        return [
-            'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
-        ];
+        return $this->repository->findById($id);
     }
 
-    public function checkJwt(UnencryptedToken $token): bool
+    #[Cacheable(prefix: 'user', ttl: 60)]
+    public function getFieldByUserId(int $userId, string $field): mixed
     {
-        $jwt = $this->getJwt();
-        if ($jwt->hasBlackList($token)) {
-            throw new JwtInBlackException();
-        }
-        return true;
+        return $this->repository->getQuery([
+            'id' => $userId,
+        ])->value($field);
     }
 
-    public function logout(UnencryptedToken $token)
+    public function getMenuTreeByUserId(int $userId): Collection
     {
-        $this->getJwt()->addBlackList($token);
+        $user = $this->getInfo($userId);
+        $permissions = $this->getEnforce()->getPermissionsForUser($user->username);
+        return $this->menuRepository->getMenuByCode($permissions);
     }
 
-    public function getJwt(): JwtInterface
+    public function getRolesByUserId(int $userId): Collection
     {
-        return $this->jwtFactory->get($this->jwt);
+        $user = $this->getInfo($userId);
+        $roleCodes = $this->getEnforce()->getRolesForUser($user->username);
+        return $this->roleRepository->getQuery([
+            'code' => $roleCodes,
+        ])->get();
     }
 
-    public function getInfo(UnencryptedToken $token): ?User
+    private function getEnforce(): Enforcer
     {
-        return $this->repository->findById((int) $token->claims()->all()['id']);
-    }
-
-    /**
-     * @return array<string,int|string>
-     */
-    public function refreshToken(UnencryptedToken $token): array
-    {
-        $jwt = $this->getJwt();
-        $jwt->addBlackList($token);
-        $token = $jwt->builder(Arr::only($token->claims()->all(), 'id'));
-        return [
-            'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
-        ];
+        return $this->factory->enforcer();
     }
 }

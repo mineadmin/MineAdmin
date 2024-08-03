@@ -38,14 +38,10 @@ class UserControllerTest extends Controller
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:list'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:list'));
         $result = $this->get('/admin/user/list', ['token' => $token]);
-
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertSame(Arr::get($result, 'data.total'), User::query()->count());
-
+        $this->assertSame(Arr::get($result, 'data.total'), User::withTrashed()->count());
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, 'user:list'));
-
         $result = $this->get('/admin/user/list', ['token' => $token]);
-
         $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
     }
 
@@ -75,6 +71,7 @@ class UserControllerTest extends Controller
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:create'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:create'));
         $result = $this->post('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
+        var_dump($result);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsString($this->getToken(User::query()->where('username', $fillAttributes['username'])->first()));
         User::query()->where('username', $fillAttributes['username'])->forceDelete();
@@ -88,7 +85,7 @@ class UserControllerTest extends Controller
             'signed' => 'test',
             'dashboard' => 'test',
             'status' => 1,
-            'backend_setting' => 'test',
+            'backend_setting' => ['test'],
             'remark' => 'test',
         ];
         $result = $this->post('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);

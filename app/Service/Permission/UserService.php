@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
-use App\Kernel\Casbin\Factory;
 use App\Model\Permission\User;
 use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
@@ -29,7 +28,7 @@ final class UserService extends IService
 {
     public function __construct(
         protected readonly UserRepository $repository,
-        private readonly Factory $factory,
+        private readonly Enforcer $enforcer,
         private readonly MenuRepository $menuRepository,
         private readonly RoleRepository $roleRepository
     ) {}
@@ -66,6 +65,6 @@ final class UserService extends IService
 
     private function getEnforce(): Enforcer
     {
-        return $this->factory->enforcer();
+        return $this->enforcer;
     }
 }

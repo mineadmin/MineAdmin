@@ -25,6 +25,11 @@ final class Factory
         private readonly ContainerInterface $container
     ) {}
 
+    public function __invoke()
+    {
+        return $this->enforcer();
+    }
+
     public function enforcer()
     {
         return new Enforcer(

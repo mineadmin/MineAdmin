@@ -33,7 +33,7 @@ class CreateUserTable extends Migration
             $table->string('signed', 255)->default('')->comment('个人签名');
             $table->string('dashboard', 100)->default('')->comment('后台首页类型');
             $table->tinyInteger('status')->default(1)->comment('状态 (1正常 2停用)');
-            $table->ipAddress('login_ip')->default('')->comment('最后登陆IP');
+            $table->ipAddress('login_ip')->default('127.0.0.1')->comment('最后登陆IP');
             $table->timestamp('login_time')->useCurrent()->comment('最后登陆时间');
             $table->json('backend_setting')->nullable()->comment('后台设置数据');
             $table->bigInteger('created_by')->default(0)->comment('创建者');

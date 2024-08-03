@@ -5,6 +5,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: docker:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -13,5 +15,5 @@ jobs:
           cp .github/ci/.env.example .env
           docker build -t hyperf .
       - name: docker-compose
-        run:
+        run: |
           docker-compose up -d

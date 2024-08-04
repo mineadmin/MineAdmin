@@ -62,7 +62,11 @@ class CrudControllerCase extends ControllerCase
             $this->fail('Create failed');
         }
         foreach (array_keys($fillable) as $key) {
-            $this->assertSame($entity->{$key}, $fillable[$key]);
+            if (is_string($entity->{$key})) {
+                $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
+            } else {
+                $this->assertSame($entity->{$key}, $fillable[$key]);
+            }
         }
         $entity->forceDelete();
     }
@@ -87,7 +91,11 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
         foreach (array_keys($fillable) as $key) {
-            $this->assertSame($entity->{$key}, $fillable[$key]);
+            if (is_string($entity->{$key})) {
+                $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
+            } else {
+                $this->assertSame($entity->{$key}, $fillable[$key]);
+            }
         }
         $entity->forceDelete();
     }

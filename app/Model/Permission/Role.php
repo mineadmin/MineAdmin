@@ -29,7 +29,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property int $updated_by 更新者
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
- * @property string $deleted_at 删除时间
+ * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
  * @property Collection|Dept[] $depts
  * @property Collection|Menu[] $menus
@@ -70,7 +70,13 @@ class Role extends MineModel
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'data_scope' => 'integer', 'status' => 'integer', 'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = [
+        'id' => 'integer', 'data_scope' => 'integer',
+        'status' => 'integer', 'sort' => 'integer',
+        'created_by' => 'integer', 'updated_by' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     /**
      * 通过中间表获取菜单.
@@ -78,14 +84,6 @@ class Role extends MineModel
     public function menus(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class, 'role_menu', 'role_id', 'menu_id');
-    }
-
-    /**
-     * 通过中间表获取用户.
-     */
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'user_role', 'role_id', 'user_id');
     }
 
     /**

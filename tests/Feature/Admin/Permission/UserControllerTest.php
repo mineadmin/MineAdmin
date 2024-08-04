@@ -16,15 +16,15 @@ use App\Http\Common\ResultCode;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
-use HyperfTests\Feature\Admin\Controller;
+use HyperfTests\Feature\Admin\ControllerCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class UserControllerTest extends Controller
+class UserControllerTest extends ControllerCase
 {
-    public function testList(): void
+    public function testPageList(): void
     {
         $token = $this->token;
 
@@ -71,7 +71,6 @@ class UserControllerTest extends Controller
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:create'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:create'));
         $result = $this->post('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
-        var_dump($result);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsString($this->getToken(User::query()->where('username', $fillAttributes['username'])->first()));
         User::query()->where('username', $fillAttributes['username'])->forceDelete();

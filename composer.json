@@ -33,6 +33,7 @@
     "hyperf/coroutine": "3.1.*",
     "hyperf/crontab": "~3.1",
     "hyperf/database": "3.1.*",
+    "hyperf/database-pgsql": "*",
     "hyperf/db-connection": "3.1.*",
     "hyperf/di": "3.1.*",
     "hyperf/dispatcher": "3.1.*",

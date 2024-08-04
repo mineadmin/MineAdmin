@@ -33,7 +33,7 @@ class SaveRequest extends FormRequest
         return [
             'name' => 'required|string|max:60',
             'code' => 'required|string|max:60',
-            'status' => 'required|integer|in:1,2',
+            'status' => 'sometimes|integer|in:0,1',
             'sort' => 'required|integer',
             'remark' => 'nullable|string|max:255',
         ];

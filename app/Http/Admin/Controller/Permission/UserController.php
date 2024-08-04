@@ -34,8 +34,8 @@ use Hyperf\Swagger\Annotation\Put;
 use OpenApi\Attributes\RequestBody;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(AuthMiddleware::class)]
-#[Middleware(PermissionMiddleware::class)]
+#[Middleware(middleware: AuthMiddleware::class, priority: 100)]
+#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
 final class UserController extends AbstractController
 {
     public function __construct(private readonly UserService $userService) {}

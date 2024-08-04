@@ -17,7 +17,7 @@ use Hyperf\Validation\Request\FormRequest;
 
 #[\App\Kernel\Swagger\Attributes\FormRequest(
     schema: RoleSchema::class,
-    properties: [
+    only: [
         'name', 'code', 'status', 'sort', 'remark',
     ]
 )]

@@ -15,15 +15,13 @@ namespace App\Http\Admin\Controller\Permission;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\Role\CreateRequest;
-use App\Http\Admin\Request\Permission\Role\SaveRequest;
+use App\Http\Admin\Request\MenuRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
 use App\Kernel\Swagger\Attributes\PageResponse;
 use App\Kernel\Swagger\Attributes\ResultResponse;
-use App\Schema\RoleSchema;
-use App\Service\Permission\RoleService;
+use App\Service\Permission\MenuService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;
@@ -37,82 +35,80 @@ use Hyperf\Swagger\Annotation\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-class RoleController extends AbstractController
+class MenuController extends AbstractController
 {
     public function __construct(
-        private readonly RoleService $service,
-        private readonly CurrentUser $currentUser
+        private readonly MenuService $service,
+        private readonly CurrentUser $user
     ) {}
 
     #[Get(
-        path: '/admin/role/list',
-        operationId: 'roleList',
-        summary: '角色列表',
+        path: '/admin/menu/list',
+        operationId: 'menuList',
+        summary: '菜单列表',
         security: [['bearerAuth' => []]],
-        tags: ['角色管理'],
+        tags: ['菜单管理']
     )]
-    #[PageResponse(instance: RoleSchema::class)]
-    #[Permission(code: 'role:list')]
+    #[Permission(code: 'menu:list')]
+    #[ResultResponse(instance: new Result())]
     public function pageList(RequestInterface $request): Result
     {
-        return $this->success(
-            $this->service->page(
-                $request->all(),
-                $this->getCurrentPage(),
-                $this->getPageSize()
-            )
-        );
+        return $this->success($this->service->page(
+            $request->all(),
+            $this->getCurrentPage(),
+            $this->getPageSize()
+        ));
     }
 
     #[Post(
-        path: '/admin/role',
-        operationId: 'roleCreate',
-        summary: '创建角色',
+        path: '/admin/menu',
+        operationId: 'menuCreate',
+        summary: '创建菜单',
         security: [['bearerAuth' => []]],
-        tags: ['角色管理'],
+        tags: ['菜单管理']
     )]
     #[RequestBody(
-        content: new JsonContent(ref: CreateRequest::class)
+        content: new JsonContent(ref: MenuRequest::class, title: '创建菜单')
     )]
-    #[Permission(code: 'role:create')]
-    #[ResultResponse(instance: new Result())]
-    public function create(CreateRequest $request): Result
+    #[PageResponse(instance: new Result())]
+    #[Permission(code: 'menu:create')]
+    public function create(MenuRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
-            'created_by' => $this->currentUser->id(),
+            'created_by' => $this->user->id(),
         ]));
         return $this->success();
     }
 
     #[Put(
-        path: '/admin/role/{id}',
-        operationId: 'roleSave',
-        summary: '保存角色',
+        path: '/admin/menu/{id}',
+        operationId: 'menuEdit',
+        summary: '编辑菜单',
         security: [['bearerAuth' => []]],
-        tags: ['角色管理'],
+        tags: ['菜单管理']
     )]
     #[RequestBody(
-        content: new JsonContent(ref: SaveRequest::class)
+        content: new JsonContent(ref: MenuRequest::class, title: '编辑菜单')
     )]
-    #[Permission(code: 'role:save')]
-    #[ResultResponse(instance: new Result())]
-    public function save(int $id, SaveRequest $request): Result
+    #[PageResponse(instance: new Result())]
+    #[Permission(code: 'menu:save')]
+    public function save(int $id, MenuRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [
-            'updated_by' => $this->currentUser->id(),
+            'updated_by' => $this->user->id(),
         ]));
         return $this->success();
     }
 
     #[Delete(
-        path: '/admin/role/{id}',
-        operationId: 'roleDelete',
-        summary: '删除角色',
+        path: '/admin/menu/{id}',
+        operationId: 'menuDelete',
+        summary: '删除菜单',
         security: [['bearerAuth' => []]],
-        tags: ['角色管理'],
+        tags: ['菜单管理']
     )]
-    #[ResultResponse(instance: new Result())]
-    #[Permission(code: 'role:delete')]
+    #[PageResponse(instance: new Result())]
+    #[Permission(code: 'menu:delete')]
     public function delete(int $id): Result
     {
         $this->service->deleteById($id, false);

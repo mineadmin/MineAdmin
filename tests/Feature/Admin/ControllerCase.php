@@ -22,7 +22,7 @@ use HyperfTests\HttpTestCase;
  * @internal
  * @coversNothing
  */
-class Controller extends HttpTestCase
+class ControllerCase extends HttpTestCase
 {
     use GetTokenTrait;
 

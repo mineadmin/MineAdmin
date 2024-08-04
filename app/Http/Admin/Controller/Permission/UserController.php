@@ -14,8 +14,8 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\UserCreateRequest;
-use App\Http\Admin\Request\Permission\UserSaveRequest;
+use App\Http\Admin\Request\Permission\User\CreateRequest;
+use App\Http\Admin\Request\Permission\User\SaveRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
@@ -34,8 +34,8 @@ use Hyperf\Swagger\Annotation\Put;
 use OpenApi\Attributes\RequestBody;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(AuthMiddleware::class)]
-#[Middleware(PermissionMiddleware::class)]
+#[Middleware(middleware: AuthMiddleware::class, priority: 100)]
+#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
 final class UserController extends AbstractController
 {
     public function __construct(private readonly UserService $userService) {}
@@ -68,9 +68,9 @@ final class UserController extends AbstractController
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:create')]
-    #[RequestBody(content: new JsonContent(ref: UserCreateRequest::class, title: '创建用户'))]
+    #[RequestBody(content: new JsonContent(ref: CreateRequest::class, title: '创建用户'))]
     #[ResultResponse(new Result())]
-    public function create(UserCreateRequest $request): Result
+    public function create(CreateRequest $request): Result
     {
         $this->userService->create($request->validated());
         return $this->success();
@@ -99,9 +99,9 @@ final class UserController extends AbstractController
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:save')]
-    #[RequestBody(content: new JsonContent(ref: UserSaveRequest::class, title: '更新用户'))]
+    #[RequestBody(content: new JsonContent(ref: SaveRequest::class, title: '更新用户'))]
     #[ResultResponse(new Result())]
-    public function save(int $userId, UserSaveRequest $request): Result
+    public function save(int $userId, SaveRequest $request): Result
     {
         $this->userService->updateById($userId, $request->validated());
         return $this->success();

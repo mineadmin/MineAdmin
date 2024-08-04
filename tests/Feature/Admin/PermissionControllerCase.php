@@ -15,7 +15,7 @@ namespace HyperfTests\Feature\Admin;
 use App\Http\Common\ResultCode;
 use Hyperf\Collection\Arr;
 
-class PermissionController extends Controller
+class PermissionControllerCase extends ControllerCase
 {
     public function testMenus(): void
     {

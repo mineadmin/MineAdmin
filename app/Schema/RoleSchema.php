@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Schema;
 
 use App\Model\Permission\Role;
+use Carbon\CarbonInterface;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
@@ -43,14 +44,14 @@ class RoleSchema implements \JsonSerializable
     #[Property(property: 'updated_by', title: '更新者', type: 'int')]
     public ?int $updatedBy;
 
-    #[Property(property: 'created_at', title: '', type: 'mixed')]
+    #[Property(property: 'created_at', title: '', type: 'string')]
     public mixed $createdAt;
 
-    #[Property(property: 'updated_at', title: '', type: 'mixed')]
-    public mixed $updatedAt;
+    #[Property(property: 'updated_at', title: '', type: 'string')]
+    public string $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '', type: 'mixed')]
-    public mixed $deletedAt;
+    #[Property(property: 'deleted_at', title: '', type: 'string')]
+    public string $deletedAt;
 
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
@@ -66,8 +67,8 @@ class RoleSchema implements \JsonSerializable
         $this->createdBy = $model->created_by;
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
-        $this->updatedAt = $model->updated_at;
-        $this->deletedAt = $model->deleted_at;
+        $this->updatedAt = $model->updated_at->format(CarbonInterface::DEFAULT_TO_STRING_FORMAT);
+        $this->deletedAt = $model->deleted_at->format(CarbonInterface::DEFAULT_TO_STRING_FORMAT);
         $this->remark = $model->remark;
     }
 

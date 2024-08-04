@@ -110,6 +110,10 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_DATABASE: mineadmin
         run: ./.github/ci/run.test.sh
+      - name: Clear Redis Cache
+        run: |
+          docker exec redis redis-cli FLUSHALL
+          sleep 1
       - name: Run PgSql Test Cases
         env:
           DB_DRIVER: pgsql

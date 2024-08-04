@@ -24,9 +24,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::truncate();
-        Role::truncate();
-        Dept::truncate();
-
         User::create([
             'username' => 'SuperAdmin',
             'password' => password_hash('123456', PASSWORD_DEFAULT),

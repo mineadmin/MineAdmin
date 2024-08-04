@@ -71,7 +71,6 @@ class UserControllerTest extends Controller
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:create'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:create'));
         $result = $this->post('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
-        var_dump($result);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsString($this->getToken(User::query()->where('username', $fillAttributes['username'])->first()));
         User::query()->where('username', $fillAttributes['username'])->forceDelete();

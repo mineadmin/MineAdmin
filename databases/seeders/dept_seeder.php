@@ -31,7 +31,6 @@ class DeptSeeder extends Seeder
         Dept::truncate();
         Dept::create([
             'parent_id' => 0,
-            'level' => '0',
             'name' => '曼艺科技',
             'leader' => '曼艺',
             'phone' => '16888888888',

@@ -102,19 +102,20 @@ class CrudControllerCase extends ControllerCase
 
     public function caseDelete(string $uri, Model $entity, string $roleCode, bool $isForceDelete = false): void
     {
+        $requestPath = $uri . $entity->getKey();
         $token = $this->token;
-        $result = $this->delete($uri . $entity->getKey());
+        $result = $this->delete($requestPath);
         $this->assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
-        $result = $this->delete($uri . $entity->getKey(), [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
         $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $result = $this->delete($uri . $entity->getKey(), [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
-        $result = $this->delete($uri . $entity->getKey(), [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         if (! $isForceDelete) {
             $entity->refresh();

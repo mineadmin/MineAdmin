@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin\Permission;
 
 use App\Http\Common\ResultCode;
+use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use Hyperf\Stringable\Str;
 use HyperfTests\Feature\Admin\ControllerCase;
@@ -148,5 +149,104 @@ class RoleControllerTest extends ControllerCase
         $entity->refresh();
         $this->assertTrue($entity->trashed());
         $entity->forceDelete();
+    }
+
+    public function testBatchGrantPermissionsForRole(): void
+    {
+        $menus = [
+            Menu::create([
+                'parent_id' => 0,
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'icon' => Str::random(10),
+                'route' => Str::random(10),
+                'component' => Str::random(10),
+                'redirect' => Str::random(10),
+                'is_hidden' => rand(0, 1),
+                'type' => Str::random(1),
+                'status' => rand(0, 1),
+                'sort' => rand(1, 100),
+                'remark' => Str::random(10),
+            ]),
+            Menu::create([
+                'parent_id' => 0,
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'icon' => Str::random(10),
+                'route' => Str::random(10),
+                'component' => Str::random(10),
+                'redirect' => Str::random(10),
+                'is_hidden' => rand(0, 1),
+                'type' => Str::random(1),
+                'status' => rand(0, 1),
+                'sort' => rand(1, 100),
+                'remark' => Str::random(10),
+            ]),
+            Menu::create([
+                'parent_id' => 0,
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'icon' => Str::random(10),
+                'route' => Str::random(10),
+                'component' => Str::random(10),
+                'redirect' => Str::random(10),
+                'is_hidden' => rand(0, 1),
+                'type' => Str::random(1),
+                'status' => rand(0, 1),
+                'sort' => rand(1, 100),
+                'remark' => Str::random(10),
+            ]),
+        ];
+        $menuIds = array_column($menus, 'id');
+        $codes = array_column($menus, 'code');
+        $role = Role::create([
+            'name' => Str::random(10),
+            'code' => Str::random(10),
+            'sort' => rand(1, 100),
+            'status' => rand(0, 1),
+            'remark' => Str::random(),
+        ]);
+        $token = $this->token;
+        $enforce = $this->getEnforce();
+        foreach ($codes as $code) {
+            $this->assertFalse($enforce->hasPermissionForUser($role->code, $code));
+            $this->assertTrue($enforce->addPermissionForUser($role->code, $code));
+            $this->assertTrue($enforce->hasPermissionForUser($role->code, $code));
+        }
+        $uri = '/admin/role/' . $role->id . '/permission';
+        $result = $this->put($uri);
+        $this->assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
+        $result = $this->put($uri, [], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
+        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
+        $userRole = Role::create([
+            'name' => Str::random(10),
+            'code' => Str::random(10),
+            'sort' => rand(1, 100),
+            'status' => rand(0, 1),
+            'remark' => Str::random(),
+        ]);
+        $this->assertFalse($enforce->hasRoleForUser($this->user->username, $userRole->code));
+        $this->assertTrue($enforce->addRoleForUser($this->user->username, $userRole->code));
+        $this->assertTrue($enforce->hasRoleForUser($this->user->username, $userRole->code));
+        $this->assertTrue($enforce->addPermissionForUser($userRole->code, 'role:permission'));
+        $this->assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:permission'));
+        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
+
+        $this->assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
+        $allPermission = $enforce->getImplicitPermissionsForUser($this->user->username);
+        $all = [];
+        array_walk_recursive($allPermission, function ($value) use (&$all) {
+            $all[] = $value;
+        });
+
+        foreach ($codes as $code) {
+            $this->assertTrue(in_array($code, $all));
+        }
+
+        $this->assertSame($result['code'], ResultCode::SUCCESS->value);
+        $role->forceDelete();
+        Menu::query()->whereIn('id', $menuIds)->forceDelete();
     }
 }

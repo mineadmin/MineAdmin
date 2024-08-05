@@ -133,7 +133,7 @@ class RoleController extends AbstractController
     #[RequestBody(content: new JsonContent(
         ref: BatchGrantPermissionsForRoleRequest::class
     ))]
-    #[Permission(code: 'role:grant')]
+    #[Permission(code: 'role:permission')]
     public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
     {
         if (! $this->service->existsById($id)) {

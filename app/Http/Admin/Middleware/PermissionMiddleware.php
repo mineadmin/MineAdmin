@@ -68,11 +68,19 @@ final class PermissionMiddleware implements MiddlewareInterface
         $codes = $permission->getCode();
         $username = $this->currentUser->user()->username;
         $enforce = $this->permissionService->getEnforce();
+        $allPermissionCode = $enforce->getImplicitPermissionsForUser($username);
+        if (Arr::isList($allPermissionCode)) {
+            $result = [];
+            array_walk_recursive($allPermissionCode, function ($value) use (&$result) {
+                $result[] = $value;
+            });
+            $allPermissionCode = $result;
+        }
         foreach ($codes as $code) {
-            if ($operation === Permission::OPERATION_AND && ! $enforce->hasPermissionForUser($username, $code)) {
+            if ($operation === Permission::OPERATION_AND && ! in_array($code, $allPermissionCode, true)) {
                 throw new BusinessException(code: ResultCode::FORBIDDEN);
             }
-            if ($operation === Permission::OPERATION_OR && $enforce->hasPermissionForUser($username, $code)) {
+            if ($operation === Permission::OPERATION_OR && in_array($code, $allPermissionCode, true)) {
                 return;
             }
         }

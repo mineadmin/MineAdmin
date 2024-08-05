@@ -6,4 +6,5 @@ return [
     'status'    =>  'Status',
     'sort'  =>  'Sort',
     'remark'    =>  'Remark',
+    'permission_ids'    =>  'Permission ID',
 ];

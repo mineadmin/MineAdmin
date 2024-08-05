@@ -6,4 +6,5 @@ return [
     'status'    =>  '状态',
     'sort'  =>  '排序',
     'remark'    =>  '备注',
+    'permission_ids'    =>  '权限ID',
 ];

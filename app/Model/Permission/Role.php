@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Kernel\Casbin\Rule\Rule;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
@@ -83,7 +84,28 @@ class Role extends MineModel
      */
     public function menus(): BelongsToMany
     {
-        return $this->belongsToMany(Menu::class, 'role_menu', 'role_id', 'menu_id');
+        // @phpstan-ignore-next-line
+        return $this->belongsToMany(
+            Menu::class,
+            Rule::getModel()->getTable(),
+            'v0',
+            'v1',
+            'code',
+            'code'
+        )->where(Rule::getModel()->getTable() . '.ptype', 'p');
+    }
+
+    public function users(): BelongsToMany
+    {
+        // @phpstan-ignore-next-line
+        return $this->belongsToMany(
+            User::class,
+            Rule::getModel()->getTable(),
+            'v1',
+            'v0',
+            'code',
+            'username'
+        )->where(Rule::getModel()->getTable() . '.ptype', 'g');
     }
 
     /**

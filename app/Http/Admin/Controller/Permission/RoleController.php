@@ -12,13 +12,16 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Permission;
 
+use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
+use App\Http\Admin\Request\Permission\Role\BatchGrantPermissionsForRoleRequest;
 use App\Http\Admin\Request\Permission\Role\CreateRequest;
 use App\Http\Admin\Request\Permission\Role\SaveRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
 use App\Kernel\Annotation\Permission;
 use App\Kernel\Swagger\Attributes\PageResponse;
 use App\Kernel\Swagger\Attributes\ResultResponse;
@@ -116,6 +119,26 @@ class RoleController extends AbstractController
     public function delete(int $id): Result
     {
         $this->service->deleteById($id, false);
+        return $this->success();
+    }
+
+    #[Put(
+        path: '/admin/role/{id}/permission',
+        operationId: 'roleGrantPermissions',
+        summary: '角色授权',
+        security: [['bearerAuth' => []]],
+        tags: ['角色管理'],
+    )]
+    #[ResultResponse(instance: new Result())]
+    #[RequestBody(content: new JsonContent(
+        ref: BatchGrantPermissionsForRoleRequest::class
+    ))]
+    #[Permission(code: 'role:permission')]
+    public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
+    {
+        if (! $this->service->existsById($id)) {
+            throw new BusinessException(code: ResultCode::NOT_FOUND);
+        }
         return $this->success();
     }
 }

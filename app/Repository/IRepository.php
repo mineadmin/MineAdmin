@@ -127,4 +127,9 @@ abstract class IRepository
             return $this->handleSearch($builder, $params);
         }, $this->model->newModelQuery(), $params);
     }
+
+    public function existsById(mixed $id): bool
+    {
+        return (bool) $this->model::whereKey($id)->exists();
+    }
 }

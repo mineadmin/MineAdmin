@@ -16,3 +16,4 @@ parameters:
     - '#.with no value type specified in iterable type array.*#'
     - '#.return type specified.*#'
     - '#Access to an undefined property.*#'
+    - '#Call to an undefined static method App\\Kernel\\Casbin\\Rule\\Rule::getModel\(\)#'

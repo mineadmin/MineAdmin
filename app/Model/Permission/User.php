@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Kernel\Casbin\Rule\Rule;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Events\Creating;
@@ -74,7 +75,15 @@ class User extends Model
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
+        // @phpstan-ignore-next-line
+        return $this->belongsToMany(
+            Role::class,
+            Rule::getModel()->getTable(),
+            'v0',
+            'v1',
+            'username',
+            'code'
+        )->where(Rule::getModel()->getTable() . '.ptype', '=', 'g');
     }
 
     /**

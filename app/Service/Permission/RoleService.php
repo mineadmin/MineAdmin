@@ -12,12 +12,23 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
+use App\Model\Permission\Role;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
 
+/**
+ * @extends IService<Role>
+ */
 class RoleService extends IService
 {
     public function __construct(
         protected readonly RoleRepository $repository
     ) {}
+
+    public function batchGrantPermissionsForRole(int $id, array $menuIds): void
+    {
+        $entity = $this->repository->findById($id);
+        // @phpstan-ignore-next-line
+        $entity->menus()->sync($menuIds);
+    }
 }

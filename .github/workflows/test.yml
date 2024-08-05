@@ -37,7 +37,7 @@ jobs:
       - name: Run CS Fix
         run: |
           vendor/bin/php-cs-fixer fix app --dry-run --diff
-  tests:
+  tests-swoole:
     needs: cs-fix
     name: Test on PHP${{ matrix.php-version }} Swoole-${{ matrix.sw-version }}
     runs-on: "${{ matrix.os }}"
@@ -124,3 +124,101 @@ jobs:
           DB_CHARSET: utf8
           DB_DATABASE: mineadmin
         run: ./.github/ci/run.test.sh
+  tests-swow:
+    needs: cs-fix
+    name: Test on PHP${{ matrix.php-version }} Swow-${{ matrix.sw-version }}
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php-version: [ '8.3', '8.2', '8.1' ]
+        sw-version: [ 'develop' ]
+        exclude:
+          - php-version: '8.3'
+            sw-version: 'v5.0.3'
+      max-parallel: 20
+      fail-fast: false
+    env:
+      SW_VERSION: ${{ matrix.sw-version }}
+      MYSQL_VERSION: '8.0'
+      PGSQL_VERSION: '14'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upgrade
+        run: |
+          sudo apt-get clean
+          sudo apt-get update
+          sudo apt-get upgrade -f
+          COMPOSER_JSON_PATH="composer.json"
+          COMPOSER_JSON_CONTENT=$(cat $COMPOSER_JSON_PATH)
+          COMPOSER_DATA=$(echo $COMPOSER_JSON_CONTENT | jq 'del(.require["ext-swoole"])')
+          COMPOSER_DATA=$(echo $COMPOSER_DATA | jq '.require["hyperf/engine-swow"] = "*"')
+          echo $COMPOSER_DATA | jq '.' > $COMPOSER_JSON_PATH
+          cp -f .github/ci/hyperf.php bin/hyperf.php
+          cp -f .github/ci/server.php config/autoload/server.php
+          cp -f .github/ci/bootstrap.php tests/bootstrap.php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: phpize
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
+          ini-values: opcache.enable_cli=0
+      - name: Install Swow
+        run: |
+          wget https://github.com/swow/swow/archive/${SW_VERSION}.tar.gz -O swow.tar.gz
+          mkdir -p swow
+          tar -xf swow.tar.gz -C swow --strip-components=1
+          rm swow.tar.gz
+      - name: Setup Swow
+        run: |
+          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
+          cd swow/ext
+          phpize
+          ./configure --enable-openssl --enable-swow-curl --enable-cares --enable-swow-pgsql --enable-brotli
+          make && sudo make install
+          sudo sh -c "echo extension=swow > /etc/php/${{ matrix.php-version }}/cli/conf.d/swow.ini"
+          php --ri swow
+      - name: Setup Packages
+        run: | 
+          ./.github/ci/requirement.install.sh
+      - name: Run PHPStan
+        run: ./.github/ci/run.check.sh
+      - name: Setup Services
+        run: ./.github/ci/setup.services.sh
+      - name: Setup Mysql
+        run: bash ./.github/ci/setup.mysql.sh
+      - name: Setup PostgreSQL
+        run: bash ./.github/ci/setup.pgsql.sh
+      - name: Run Scripts Before Test
+        run: cp .github/ci/.env.example .env
+      - name: Print PHP Environments
+        run: |
+          sudo rm -rf /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini
+          php -i
+          php -m
+      - name: Run Mysql Test Cases
+        env:
+          DB_DRIVER: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: mineadmin
+        run: |
+          vendor/bin/phpunit --group=migrations --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --colors=always
+          vendor/bin/phpunit --exclude-group=migrations --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --colors=always
+      - name: Clear Redis Cache
+        run: |
+          docker exec redis redis-cli FLUSHALL
+          sleep 1
+      - name: Run PgSql Test Cases
+        env:
+          DB_DRIVER: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          DB_CHARSET: utf8
+          DB_DATABASE: mineadmin
+        run: |
+          vendor/bin/phpunit --group=migrations --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --colors=always
+          vendor/bin/phpunit --exclude-group=migrations --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist --colors=always

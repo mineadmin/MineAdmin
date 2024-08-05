@@ -75,6 +75,7 @@ class User extends Model
      */
     public function roles(): BelongsToMany
     {
+        // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Role::class,
             Rule::getModel()->getTable(),

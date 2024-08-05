@@ -84,6 +84,7 @@ class Role extends MineModel
      */
     public function menus(): BelongsToMany
     {
+        // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Menu::class,
             Rule::getModel()->getTable(),
@@ -96,6 +97,7 @@ class Role extends MineModel
 
     public function users(): BelongsToMany
     {
+        // @phpstan-ignore-next-line
         return $this->belongsToMany(
             User::class,
             Rule::getModel()->getTable(),

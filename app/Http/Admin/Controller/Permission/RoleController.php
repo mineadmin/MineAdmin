@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Permission;
 
+use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
@@ -20,6 +21,7 @@ use App\Http\Admin\Request\Permission\Role\CreateRequest;
 use App\Http\Admin\Request\Permission\Role\SaveRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
 use App\Kernel\Annotation\Permission;
 use App\Kernel\Swagger\Attributes\PageResponse;
 use App\Kernel\Swagger\Attributes\ResultResponse;
@@ -132,9 +134,11 @@ class RoleController extends AbstractController
         ref: BatchGrantPermissionsForRoleRequest::class
     ))]
     #[Permission(code: 'role:grant')]
-    public function batchGrantPermissionsForRole(BatchGrantPermissionsForRoleRequest $request): Result
+    public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
     {
-        $validated = $request->validated();
+        if (! $this->service->existsById($id)) {
+            throw new BusinessException(code: ResultCode::NOT_FOUND);
+        }
         return $this->success();
     }
 }

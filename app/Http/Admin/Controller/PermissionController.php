@@ -13,12 +13,10 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\CurrentUser;
-use App\Http\Admin\Vo\Permission\Menu\ListVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;

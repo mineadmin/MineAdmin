@@ -33,7 +33,7 @@ use OpenApi\Attributes\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-class PostController extends AbstractController
+final class PostController extends AbstractController
 {
     public function __construct(
         private readonly CurrentUser $user,

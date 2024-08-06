@@ -27,6 +27,7 @@ use App\Kernel\Swagger\Attributes\PageResponse;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\RoleSchema;
 use App\Service\Permission\RoleService;
+use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;
@@ -40,7 +41,7 @@ use Hyperf\Swagger\Annotation\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-class RoleController extends AbstractController
+final class RoleController extends AbstractController
 {
     public function __construct(
         private readonly RoleService $service,
@@ -139,6 +140,8 @@ class RoleController extends AbstractController
         if (! $this->service->existsById($id)) {
             throw new BusinessException(code: ResultCode::NOT_FOUND);
         }
+        $permissionIds = Arr::get($request->validated(), 'permission_ids', []);
+        $this->service->batchGrantPermissionsForRole($id, $permissionIds);
         return $this->success();
     }
 }

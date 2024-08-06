@@ -233,20 +233,47 @@ class RoleControllerTest extends ControllerCase
         $this->assertTrue($enforce->addPermissionForUser($userRole->code, 'role:permission'));
         $this->assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:permission'));
         $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
-
+        $this->assertSame($result['code'], ResultCode::SUCCESS->value);
         $this->assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
-        $allPermission = $enforce->getImplicitPermissionsForUser($this->user->username);
+        $this->asserRolePermission($role->code, $codes);
+
+        // Delete role permission
+        foreach ($codes as $code) {
+            $this->assertTrue($enforce->hasPermissionForUser($role->code, $code));
+            $this->assertTrue($enforce->deletePermissionForUser($role->code, $code));
+            $this->assertFalse($enforce->hasPermissionForUser($role->code, $code));
+        }
+        $this->asserRolePermission($role->code, $codes, false);
+
+        foreach ($codes as $code) {
+            $this->assertFalse($enforce->hasPermissionForUser($role->code, $code));
+            $this->assertTrue($enforce->addPermissionForUser($role->code, $code));
+            $this->assertTrue($enforce->hasPermissionForUser($role->code, $code));
+        }
+        $this->asserRolePermission($role->code, $codes);
+
+        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame($result['code'], ResultCode::SUCCESS->value);
+        $this->asserRolePermission($role->code, $codes);
+        $enforce->deleteRole($role->code);
+        $this->asserRolePermission($role->code, $codes, false);
+
+        $role->forceDelete();
+        Menu::query()->whereIn('id', $menuIds)->forceDelete();
+    }
+
+    public function asserRolePermission(string $roleCode, array $codes, bool $in = true): void
+    {
+        $enforce = $this->getEnforce();
+        $allPermission = $enforce->getImplicitPermissionsForUser($roleCode);
         $all = [];
         array_walk_recursive($allPermission, function ($value) use (&$all) {
             $all[] = $value;
         });
 
         foreach ($codes as $code) {
-            $this->assertTrue(in_array($code, $all));
+            $in ? $this->assertTrue(in_array($code, $all))
+                : $this->assertFalse(in_array($code, $all));
         }
-
-        $this->assertSame($result['code'], ResultCode::SUCCESS->value);
-        $role->forceDelete();
-        Menu::query()->whereIn('id', $menuIds)->forceDelete();
     }
 }

@@ -35,7 +35,7 @@ use Hyperf\Swagger\Annotation\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-class MenuController extends AbstractController
+final class MenuController extends AbstractController
 {
     public function __construct(
         private readonly MenuService $service,

@@ -18,7 +18,6 @@ use App\Repository\Permission\RoleRepository;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
 use Casbin\Enforcer;
-use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Collection\Collection;
 
 /**
@@ -33,13 +32,11 @@ final class UserService extends IService
         private readonly RoleRepository $roleRepository
     ) {}
 
-    #[Cacheable(prefix: 'user', ttl: 60)]
     public function getInfo(int $id): ?User
     {
         return $this->repository->findById($id);
     }
 
-    #[Cacheable(prefix: 'user', ttl: 60)]
     public function getFieldByUserId(int $userId, string $field): mixed
     {
         return $this->repository->getQuery([

@@ -32,17 +32,39 @@ final class PermissionService
 
     public function getMenuTreeByUserId(int $userId): Collection
     {
+        // 用户本身的菜单 codes
+        $userMenuCodes = $this->getEnforce()->getImplicitPermissionsForUser(
+            $this->userService->getFieldByUserId($userId, 'username')
+        );
+        $all = [];
+        array_walk_recursive($userMenuCodes, function ($item) use (&$all) {
+            $all[] = $item;
+        });
+        $all = array_unique($all);
+        if (! $all) {
+            return Collection::make();
+        }
         return $this->menuRepository->getMenuByCode(
-            $this->getEnforce()->getPermissionsForUser(
-                $this->userService->getFieldByUserId($userId, 'username')
-            )
+            $all
         );
     }
 
     public function getRolesByUserId(int $userId): Collection
     {
+        $roleCodes = $this->getEnforce()->getImplicitRolesForUser(
+            $this->userService->getFieldByUserId($userId, 'username')
+        );
+        $all = [];
+        array_walk_recursive($roleCodes, function ($item) use (&$all) {
+            $all[] = $item;
+        });
+        $all = array_unique($all);
+
+        if (! $all) {
+            return Collection::make();
+        }
         return $this->roleRepository->getQuery([
-            'code' => $this->getEnforce()->getRolesForUser($this->userService->getFieldByUserId($userId, 'username')),
+            'code' => $all,
         ])->get();
     }
 

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin;
 
 use App\Http\Common\ResultCode;
+use App\Kernel\Casbin\Rule\Rule;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
@@ -27,6 +28,8 @@ class PermissionControllerTest extends ControllerCase
 {
     public function testMenus(): void
     {
+        Menu::truncate();
+        Rule::truncate();
         $token = $this->token;
         $noTokenResult = $this->get('/admin/permission/menus');
         $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
@@ -128,6 +131,7 @@ class PermissionControllerTest extends ControllerCase
 
     public function testRoles(): void
     {
+        Rule::truncate();
         Role::truncate();
         $role = [
             Role::create([

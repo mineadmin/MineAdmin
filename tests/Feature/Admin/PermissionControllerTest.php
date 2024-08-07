@@ -28,9 +28,11 @@ class PermissionControllerTest extends ControllerCase
 {
     public function testMenus(): void
     {
-        Menu::truncate();
+        User::truncate();
         Rule::truncate();
-        $token = $this->token;
+        Menu::truncate();
+        $user = $this->generatorUser();
+        $token = $this->getToken($user);
         $noTokenResult = $this->get('/admin/permission/menus');
         $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
@@ -113,14 +115,14 @@ class PermissionControllerTest extends ControllerCase
         $this->assertSame(count(Arr::get($result, 'data')), 0);
 
         User::query()->where('username', 'SuperAdmin')->forceDelete();
-        $this->user->fill(['username' => 'SuperAdmin'])->save();
+        $user->fill(['username' => 'SuperAdmin'])->save();
 
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));
         $this->assertSame(count(Arr::get($result, 'data')), count($menus));
 
-        $this->user->fill(['username' => Str::random()])->save();
+        $user->fill(['username' => Str::random()])->save();
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));
@@ -131,8 +133,11 @@ class PermissionControllerTest extends ControllerCase
 
     public function testRoles(): void
     {
+        User::truncate();
         Rule::truncate();
         Role::truncate();
+        $user = $this->generatorUser();
+        $token = $this->getToken($user);
         $role = [
             Role::create([
                 'name' => Str::random(10),
@@ -163,7 +168,6 @@ class PermissionControllerTest extends ControllerCase
                 'remark' => Str::random(),
             ]),
         ];
-        $token = $this->token;
         $noTokenResult = $this->get('/admin/permission/roles');
         $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
@@ -172,13 +176,13 @@ class PermissionControllerTest extends ControllerCase
         $this->assertIsArray(Arr::get($result, 'data'));
         $this->assertSame(count(Arr::get($result, 'data')), 0);
 
-        $this->user->fill(['username' => 'SuperAdmin'])->save();
+        $user->fill(['username' => 'SuperAdmin'])->save();
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));
         $this->assertSame(count(Arr::get($result, 'data')), count($role));
 
-        $this->user->fill(['username' => Str::random()])->save();
+        $user->fill(['username' => Str::random()])->save();
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));

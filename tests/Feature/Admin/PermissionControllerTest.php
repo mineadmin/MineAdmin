@@ -163,6 +163,7 @@ class PermissionControllerTest extends ControllerCase
         $noTokenResult = $this->get('/admin/permission/roles');
         $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
+        User::query()->where('username', 'SuperAdmin')->forceDelete();
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));
         $this->assertSame(count(Arr::get($result, 'data')), 0);

@@ -92,7 +92,7 @@ class Jwt implements JwtInterface
 
     protected function getClock(): Clock
     {
-        return new class() implements Clock {
+        return new class implements Clock {
             public function now(): \DateTimeImmutable
             {
                 return Carbon::now()->toDateTimeImmutable();

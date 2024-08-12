@@ -14,7 +14,6 @@ namespace App\Repository\Permission;
 
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
-use App\Model\Permission\Dept;
 use App\Model\Permission\User;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
@@ -64,16 +63,6 @@ final class UserRepository extends IRepository
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query
-            ->when(Arr::get($params, 'dept_id'), function (Builder $query, $deptId) {
-                $deptIds = Dept::query()
-                    ->where('id', $deptId)
-                    ->orWhere('level', 'like', $deptId . ',%')
-                    ->orWhere('level', 'like', '%,' . $deptId)
-                    ->orWhere('level', 'like', '%,' . $deptId . ',%')
-                    ->pluck('id')
-                    ->toArray();
-                $query->whereRelation('depts', 'id', 'in', $deptIds);
-            })
             ->when(Arr::get($params, 'username'), function (Builder $query, $username) {
                 $query->where('username', 'like', '%' . $username . '%');
             })

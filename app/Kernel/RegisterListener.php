@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Kernel;
 
+use App\Kernel\Support\Filesystem;
+use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Database\Commands\Migrations\GenMigrateCommand;
 use Hyperf\Database\Commands\Seeders\GenSeederCommand;
 use Hyperf\Database\Migrations\Migrator;
@@ -19,8 +21,6 @@ use Hyperf\Database\Seeders\Seed;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
-use Nette\Utils\FileSystem;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 #[Listener]
 class RegisterListener implements ListenerInterface
@@ -34,7 +34,7 @@ class RegisterListener implements ListenerInterface
     {
         return [
             BootApplication::class,
-            ConsoleTerminateEvent::class,
+            AfterExecute::class,
         ];
     }
 
@@ -44,13 +44,13 @@ class RegisterListener implements ListenerInterface
             $this->migrator->path(BASE_PATH . '/databases/migrations');
             $this->seed->path(BASE_PATH . '/databases/seeders');
         }
-        if ($event instanceof ConsoleTerminateEvent) {
+        if ($event instanceof AfterExecute) {
             $command = $event->getCommand();
             if ($command instanceof GenMigrateCommand) {
-                FileSystem::copy(BASE_PATH . '/migrations', BASE_PATH . '/databases/migrations');
+                Filesystem::copy(BASE_PATH . '/migrations', BASE_PATH . '/databases/migrations');
             }
             if ($command instanceof GenSeederCommand) {
-                FileSystem::copy(BASE_PATH . '/seeders', BASE_PATH . '/databases/seeders');
+                Filesystem::copy(BASE_PATH . '/seeders', BASE_PATH . '/databases/seeders');
             }
         }
     }

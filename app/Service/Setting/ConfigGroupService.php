@@ -10,14 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Service\Permission;
+namespace App\Service\Setting;
 
-use App\Repository\Permission\DeptRepository;
+use App\Repository\Setting\ConfigGroupRepository;
 use App\Service\IService;
 
-class DeptService extends IService
+class ConfigGroupService extends IService
 {
     public function __construct(
-        protected readonly DeptRepository $repository
+        protected ConfigGroupRepository $repository
     ) {}
 }

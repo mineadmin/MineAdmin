@@ -30,7 +30,10 @@ abstract class IRepository
 
     public const PER_PAGE_PARAM_NAME = 'per_page';
 
-    abstract public function handleSearch(Builder $query, array $params): Builder;
+    public function handleSearch(Builder $query, array $params): Builder
+    {
+        return $query;
+    }
 
     public function perQuery(Builder $query): Builder
     {
@@ -47,7 +50,7 @@ abstract class IRepository
         return $page;
     }
 
-    public function list(array $params): Collection
+    public function list(array $params = []): Collection
     {
         return $this->perQuery($this->getQuery($params))->get();
     }

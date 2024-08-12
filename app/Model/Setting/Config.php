@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Model\Settings;
+namespace App\Model\Setting;
 
 use Hyperf\DbConnection\Model\Model as MineModel;
 
@@ -20,7 +20,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property string $value 配置值
  * @property string $name 配置名称
  * @property string $input_type 数据输入类型
- * @property string $config_select_data 配置选项数据
+ * @property array $config_select_data 配置选项数据
  * @property int $sort 排序
  * @property string $remark 备注
  */

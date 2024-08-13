@@ -10,8 +10,6 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Model\Permission\Dept;
-use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Database\Seeders\Seeder;
@@ -25,7 +23,6 @@ class UserSeeder extends Seeder
     {
         User::truncate();
         Role::truncate();
-        Dept::truncate();
 
         User::create([
             'username' => 'SuperAdmin',

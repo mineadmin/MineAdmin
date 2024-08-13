@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Repository\Settings;
 
 use App\Kernel\IRepository\AbstractRepository;
-use App\Model\Settings\ConfigGroup;
+use App\Model\Setting\ConfigGroup;
 
 class ConfigGroupRepository extends AbstractRepository
 {

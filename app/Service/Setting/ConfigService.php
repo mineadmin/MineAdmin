@@ -10,14 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Service\Permission;
+namespace App\Service\Setting;
 
-use App\Repository\Permission\PostRepository;
+use App\Repository\Setting\ConfigRepository;
 use App\Service\IService;
 
-class PostService extends IService
+class ConfigService extends IService
 {
     public function __construct(
-        protected readonly PostRepository $repository
+        protected ConfigRepository $repository
     ) {}
 }

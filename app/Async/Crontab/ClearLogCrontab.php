@@ -14,7 +14,6 @@ namespace App\Async\Crontab;
 
 use App\Model\Logs\LoginLog;
 use App\Model\Logs\OperLog;
-use App\Model\Logs\QueueLog;
 use Hyperf\DbConnection\Annotation\Transactional as Transaction;
 
 class ClearLogCrontab
@@ -27,7 +26,6 @@ class ClearLogCrontab
     {
         OperLog::truncate();
         LoginLog::truncate();
-        QueueLog::truncate();
 
         return 'Clear logs successfully';
     }

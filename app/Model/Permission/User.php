@@ -87,22 +87,6 @@ class User extends Model
     }
 
     /**
-     * 通过中间表关联岗位.
-     */
-    public function posts(): BelongsToMany
-    {
-        return $this->belongsToMany(Post::class, 'user_post', 'user_id', 'post_id');
-    }
-
-    /**
-     * 通过中间表关联部门.
-     */
-    public function depts(): BelongsToMany
-    {
-        return $this->belongsToMany(Dept::class, 'user_dept', 'user_id', 'dept_id');
-    }
-
-    /**
      * 密码加密.
      * @param mixed $value
      */

@@ -32,7 +32,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property Carbon $updated_at 更新时间
  * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
- * @property Collection|Dept[] $depts
+ * @property Collection|Post[] $posts
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
  */
@@ -106,13 +106,5 @@ class Role extends MineModel
             'code',
             'username'
         )->where(Rule::getModel()->getTable() . '.ptype', 'g');
-    }
-
-    /**
-     * 通过中间表获取部门.
-     */
-    public function depts(): BelongsToMany
-    {
-        return $this->belongsToMany(Dept::class, 'role_dept', 'role_id', 'dept_id');
     }
 }

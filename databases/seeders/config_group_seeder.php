@@ -18,7 +18,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Model\Settings\ConfigGroup;
+use App\Model\Setting\ConfigGroup;
 use Hyperf\Database\Seeders\Seeder;
 
 class ConfigGroupSeeder extends Seeder

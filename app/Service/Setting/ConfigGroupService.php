@@ -15,7 +15,7 @@ namespace App\Service\Setting;
 use App\Repository\Setting\ConfigGroupRepository;
 use App\Service\IService;
 
-class ConfigGroupService extends IService
+final class ConfigGroupService extends IService
 {
     public function __construct(
         protected ConfigGroupRepository $repository

@@ -20,7 +20,7 @@ use Hyperf\Context\RequestContext;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 
-class AuthAspect extends AbstractAspect
+final class AuthAspect extends AbstractAspect
 {
     public array $annotations = [
         Auth::class,

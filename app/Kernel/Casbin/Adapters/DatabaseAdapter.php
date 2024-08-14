@@ -17,7 +17,7 @@ use Casbin\Model\Model;
 use Casbin\Persist\Adapter;
 use Casbin\Persist\AdapterHelper;
 
-class DatabaseAdapter implements Adapter
+final class DatabaseAdapter implements Adapter
 {
     use AdapterHelper;
 

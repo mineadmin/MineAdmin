@@ -59,9 +59,12 @@
     "hyperf/websocket-server": "~3.1",
     "lcobucci/jwt": "~5.3.0",
     "mineadmin/app-store": "~2.0",
-    "ramsey/uuid": "^4.7"
+    "ramsey/uuid": "^4.7",
+    "ext-fileinfo": "*"
   },
   "require-dev": {
+    "doctrine/dbal": "^3.6",
+    "fakerphp/faker": "^1.23",
     "friendsofphp/php-cs-fixer": "^3.0",
     "hyperf/devtool": "3.1.*",
     "hyperf/ide-helper": "3.1.*",
@@ -70,8 +73,7 @@
     "mockery/mockery": "^1.0",
     "phpstan/phpstan": "^1.10",
     "swoole/ide-helper": "^5.0",
-    "zircote/swagger-php": "4.8.0",
-    "doctrine/dbal": "^3.6"
+    "zircote/swagger-php": "4.8.0"
   },
   "suggest": {
     "ext-openssl": "Required to use HTTPS.",

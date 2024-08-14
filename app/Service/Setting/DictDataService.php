@@ -15,7 +15,7 @@ namespace App\Service\Setting;
 use App\Repository\Setting\DictDataRepository;
 use App\Service\IService;
 
-class DictDataService extends IService
+final class DictDataService extends IService
 {
     public function __construct(
         protected readonly DictDataRepository $repository,

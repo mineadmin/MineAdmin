@@ -17,7 +17,7 @@ use App\Repository\Setting\DictTypeRepository;
 use App\Service\IService;
 use Hyperf\DbConnection\Annotation\Transactional;
 
-class DictTypeService extends IService
+final class DictTypeService extends IService
 {
     public function __construct(
         protected readonly DictTypeRepository $repository,

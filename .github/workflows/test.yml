@@ -54,7 +54,7 @@ jobs:
           sudo apt-get clean
           sudo apt-get update
           sudo apt-get upgrade -f
-      - name: Setup PHP
+      - name: Setup PHP TS
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
@@ -63,6 +63,7 @@ jobs:
           ini-values: opcache.enable_cli=0
         env:
           PDO_ODBC_OPTS: --prefix=/usr/local/unixODBC --includedir=/usr/local/include --libdir=/usr/local/lib -bindir=/usr/local/bin --sysconfdir=/usr/local/etc
+          phpts: ts
       - name: Setup ODBC
         if: matrix.sw-version != 'v5.0.3'
         run: |
@@ -89,7 +90,7 @@ jobs:
           rm swoole.tar.gz
           cd swoole
           phpize
-          ./configure --enable-openssl --enable-swoole-curl --with-swoole-odbc=unixODBC,/usr --enable-cares --enable-swoole-pgsql --enable-brotli
+          ./configure --enable-openssl --enable-swoole-curl --with-swoole-odbc=unixODBC,/usr --enable-cares --enable-swoole-pgsql --enable-brotli --enable-swoole-thread
           make -j$(nproc)
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"

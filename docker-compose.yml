@@ -42,7 +42,7 @@ services:
       - "explicit_defaults_for_timestamp=true"
       - "lower_case_table_names=1"
     volumes:
-      - ./docker/mysql/57/my.cnf:/etc/my.cnf/:ro
+      - ./docker/mysql/57/my.cnf:/etc/mysql/my.cnf:ro
       - ./docker/mysql/57/data:/var/lib/mysql/:rw
       - ./docker/mysql/57/logs:/var/log/mysql/:rw
     ports:

@@ -15,7 +15,7 @@ namespace App\Kernel\Auth;
 use Hyperf\Collection\Arr;
 use Hyperf\Contract\ConfigInterface;
 
-class JwtFactory
+final class JwtFactory
 {
     public function __construct(
         private readonly ConfigInterface $config,

@@ -28,7 +28,7 @@ use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Psr\Clock\ClockInterface as Clock;
 
-class Jwt implements JwtInterface
+final class Jwt implements JwtInterface
 {
     public function __construct(
         private readonly array $config,
@@ -85,12 +85,12 @@ class Jwt implements JwtInterface
         return Arr::get($this->config, $key, $default);
     }
 
-    protected function getJwtFacade(): JwtFacade
+    private function getJwtFacade(): JwtFacade
     {
         return new JwtFacade(clock: $this->getClock());
     }
 
-    protected function getClock(): Clock
+    private function getClock(): Clock
     {
         return new class implements Clock {
             public function now(): \DateTimeImmutable
@@ -100,27 +100,27 @@ class Jwt implements JwtInterface
         };
     }
 
-    protected function getSigner(): Signer
+    private function getSigner(): Signer
     {
         return Arr::get($this->config, 'alg');
     }
 
-    protected function getSigningKey(): Key
+    private function getSigningKey(): Key
     {
         return Arr::get($this->config, 'key');
     }
 
-    protected function getCacheDriver(): DriverInterface
+    private function getCacheDriver(): DriverInterface
     {
         return $this->cacheManager->getDriver($this->getBlackConfig('connection'));
     }
 
-    protected function getBlackConfig(string $name, mixed $default = null): mixed
+    private function getBlackConfig(string $name, mixed $default = null): mixed
     {
         return Arr::get($this->config, 'blacklist.' . $name, $default);
     }
 
-    protected function getBlackListConstraint(): Constraint
+    private function getBlackListConstraint(): Constraint
     {
         $cache = $this->getCacheDriver();
         $enable = $this->getBlackConfig('enable', false);
@@ -142,7 +142,7 @@ class Jwt implements JwtInterface
         };
     }
 
-    protected function getExpireAt(): \DateTimeImmutable
+    private function getExpireAt(): \DateTimeImmutable
     {
         return Carbon::now()->addSeconds(Arr::get($this->config, 'ttl', 600))->toDateTimeImmutable();
     }

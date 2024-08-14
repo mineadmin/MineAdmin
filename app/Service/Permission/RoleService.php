@@ -20,7 +20,7 @@ use Hyperf\Collection\Arr;
 /**
  * @extends IService<Role>
  */
-class RoleService extends IService
+final class RoleService extends IService
 {
     public function __construct(
         protected readonly RoleRepository $repository

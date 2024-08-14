@@ -23,7 +23,7 @@ use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class PassportService extends IService
+final class PassportService extends IService
 {
     /**
      * @var string jwt场景

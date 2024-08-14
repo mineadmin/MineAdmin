@@ -17,7 +17,7 @@ use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
 
-class ConfigGroupRepository extends IRepository
+final class ConfigGroupRepository extends IRepository
 {
     public function __construct(
         protected readonly ConfigGroup $model

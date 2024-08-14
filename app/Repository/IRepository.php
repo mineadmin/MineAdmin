@@ -79,7 +79,7 @@ abstract class IRepository
      */
     public function create(array $data): mixed
     {
-        return $this->model::make($data)->save();
+        return $this->model::create($data);
     }
 
     public function updateById(mixed $id, array $data): bool

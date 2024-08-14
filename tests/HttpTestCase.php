@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace HyperfTests;
 
+use Faker\Factory;
+use Faker\Generator;
 use Hyperf\Testing\Client;
 use Hyperf\Testing\Concerns\RunTestsInCoroutine;
 use PHPUnit\Framework\TestCase;
@@ -44,5 +46,10 @@ abstract class HttpTestCase extends TestCase
     public function __call($name, $arguments)
     {
         return $this->client->{$name}(...$arguments);
+    }
+
+    protected function fakerGenerator(): Generator
+    {
+        return Factory::create();
     }
 }

@@ -31,21 +31,20 @@ class DictDataControllerTest extends CrudControllerCase
     {
         $this->caseCreate('/admin/dictData', 'dictData:create', [
             'type_id' => 1,
-            'label' =>  Str::random(50),
+            'label' => Str::random(50),
             'value' => Str::random(100),
             'code' => Str::random(100),
             'sort' => 0,
             'status' => rand(0, 1),
             'remark' => Str::random(),
         ], DictData::class);
-
     }
 
     public function testSave(): void
     {
         $entity = DictData::create([
             'type_id' => 1,
-            'label' =>  Str::random(50),
+            'label' => Str::random(50),
             'value' => Str::random(100),
             'code' => Str::random(100),
             'sort' => 0,
@@ -54,7 +53,7 @@ class DictDataControllerTest extends CrudControllerCase
         ]);
         $this->caseSave('/admin/dictData/', $entity, 'dictData:save', [
             'type_id' => 1,
-            'label' =>  Str::random(50),
+            'label' => Str::random(50),
             'value' => Str::random(100),
             'code' => Str::random(100),
             'sort' => 1,
@@ -67,7 +66,7 @@ class DictDataControllerTest extends CrudControllerCase
     {
         $entity = DictData::create([
             'type_id' => 1,
-            'label' =>  Str::random(50),
+            'label' => Str::random(50),
             'value' => Str::random(100),
             'code' => Str::random(100),
             'sort' => 1,

@@ -15,7 +15,7 @@ namespace App\Kernel\Annotation;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 #[\Attribute(\Attribute::TARGET_METHOD)]
-class Auth extends AbstractAnnotation
+final class Auth extends AbstractAnnotation
 {
     public function __construct(
         public string $name = 'default'

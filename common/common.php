@@ -169,3 +169,9 @@ if (! function_exists('has_role')) {
         return in_array($code, $roles);
     }
 }
+
+if (! function_exists('pt')) {
+    function pt(string $prefix, string $key, array $replace = []) {
+        return t("plugin.$prefix.$key", $replace);
+    }
+}

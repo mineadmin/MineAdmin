@@ -20,7 +20,7 @@ class Service
     public function download(array $params): bool
     {
         if (empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查identifier、version参数是否正确');
+            throw new MineException(pt('mine-admin.app-store', 'check_identifier_version'));
         }
 
         $service = make(AppStoreServiceImpl::class);
@@ -28,7 +28,7 @@ class Service
         if (! is_dir(BASE_PATH . '/plugin/' . $params['identifier'])) {
             $result = $service->download($params['identifier'], $params['version']);
             if (! $result) {
-                throw new MineException('应用下载失败');
+                throw new MineException(t('plugin.mine-admin.app-store.app_download_failed'));
             }
         }
 
@@ -44,13 +44,13 @@ class Service
     public function install(array $params): bool
     {
         if (empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+            throw new MineException(t('plugin.mine-admin.app-store.check_space_identifier_version'));
         }
 
         $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if ( file_exists($path . '/install.lock') ) {
-            throw new MineException('应用已经安装过');
+            throw new MineException(t('plugin.mine-admin.app-store.app_installed'));
         }
 
         $pluginName =  $params['identifier'];
@@ -67,13 +67,13 @@ class Service
     public function unInstall(array $params): bool
     {
         if (empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查identifier、version参数是否正确');
+            throw new MineException(t('plugin.mine-admin.app-store.check_identifier_version'));
         }
 
         $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if (! file_exists($path . '/install.lock') ) {
-            throw new MineException('应用并未安装');
+            throw new MineException(t('plugin.mine-admin.app-store.app_not_installed'));
         }
 
         $pluginName =  $params['identifier'];
@@ -111,7 +111,7 @@ class Service
             $zip = new \ZipArchive();
             $zip->open($runtimePath);
             if ($zip->status !== \ZipArchive::ER_OK) {
-                throw new \RuntimeException('Failed to open the zip file');
+                throw new \RuntimeException(t('plugin.mine-admin.app-store.open_zip_failed'));
             }
             $json = json_decode(
                 $zip->getFromName('mine.json'),

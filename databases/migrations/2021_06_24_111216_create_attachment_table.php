@@ -30,7 +30,7 @@ class CreateAttachmentTable extends Migration
             $table->addColumn('string', 'hash', ['length' => 64, 'comment' => '文件hash'])->nullable();
             $table->addColumn('string', 'mime_type', ['length' => 255, 'comment' => '资源类型'])->nullable();
             $table->addColumn('string', 'storage_path', ['length' => 100, 'comment' => '存储目录'])->nullable();
-            $table->addColumn('string', 'suffix', ['length' => 10, 'comment' => '文件后缀'])->nullable();
+            $table->addColumn('string', 'suffix', ['length' => 20, 'comment' => '文件后缀'])->nullable();
             $table->addColumn('bigInteger', 'size_byte', ['length' => 20, 'comment' => '字节数'])->nullable();
             $table->addColumn('string', 'size_info', ['length' => 50, 'comment' => '文件大小'])->nullable();
             $table->addColumn('string', 'url', ['length' => 255, 'comment' => 'url地址'])->nullable();

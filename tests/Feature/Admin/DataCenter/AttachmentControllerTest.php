@@ -70,7 +70,6 @@ class AttachmentControllerTest extends ControllerCase
         ], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        var_dump($result);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->assertIsArray(Arr::get($result, 'data'));
         $this->assertArrayHasKey('storage_mode', Arr::get($result, 'data'));

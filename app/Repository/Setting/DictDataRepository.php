@@ -17,7 +17,7 @@ use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
 
-class DictDataRepository extends IRepository
+final class DictDataRepository extends IRepository
 {
     public function __construct(
         protected readonly DictData $model

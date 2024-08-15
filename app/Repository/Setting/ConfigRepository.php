@@ -17,7 +17,7 @@ use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
 
-class ConfigRepository extends IRepository
+final class ConfigRepository extends IRepository
 {
     public function __construct(
         protected readonly Config $model
@@ -43,5 +43,10 @@ class ConfigRepository extends IRepository
                 return $query->where('code', $code);
             })
             ->orderBy('sort');
+    }
+
+    public function findFiledByKey(string $string, mixed $default = null): mixed
+    {
+        return $this->model->newQuery()->where('key', $string)->value('value') ?? $default;
     }
 }

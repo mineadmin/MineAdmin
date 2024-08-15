@@ -36,7 +36,7 @@ use Hyperf\Swagger\Annotation\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-class ConfigController extends AbstractController
+final class ConfigController extends AbstractController
 {
     public function __construct(
         protected ConfigService $service,

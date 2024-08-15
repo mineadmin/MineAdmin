@@ -32,7 +32,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property int $updated_by 更新者
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
- * @property string $deleted_at 删除时间
+ * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
  */
 class Attachment extends MineModel
@@ -52,5 +52,5 @@ class Attachment extends MineModel
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'storage_mode' => 'integer', 'size_byte' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'storage_mode' => 'integer', 'size_byte' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deleted_at' => 'datetime'];
 }

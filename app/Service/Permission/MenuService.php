@@ -15,7 +15,7 @@ namespace App\Service\Permission;
 use App\Repository\Permission\MenuRepository;
 use App\Service\IService;
 
-class MenuService extends IService
+final class MenuService extends IService
 {
     public function __construct(
         protected readonly MenuRepository $repository

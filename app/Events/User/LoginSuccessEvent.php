@@ -17,7 +17,7 @@ use App\Model\Permission\User;
 /**
  * 登录成功事件.
  */
-class LoginSuccessEvent
+final class LoginSuccessEvent
 {
     public function __construct(
         private readonly User $user

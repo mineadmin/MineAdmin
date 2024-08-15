@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Kernel\Support;
 
-class Filesystem
+final class Filesystem
 {
     public static function copy(string $source, string $target, bool $deleteSource = true): void
     {
@@ -26,5 +26,16 @@ class Filesystem
         if ($deleteSource) {
             \Nette\Utils\FileSystem::delete($source);
         }
+    }
+
+    public static function formatSize(int $size): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        $index = 0;
+        for ($i = 0; $size >= 1024 && $i < 5; ++$i) {
+            $size /= 1024;
+            $index = $i;
+        }
+        return round($size, 2) . $units[$index];
     }
 }

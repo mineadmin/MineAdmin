@@ -17,7 +17,7 @@ use App\Model\Permission\User;
 /**
  * 登出事件.
  */
-class LogoutEvent
+final class LogoutEvent
 {
     public function __construct(
         private readonly User $user

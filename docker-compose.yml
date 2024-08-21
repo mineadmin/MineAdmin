@@ -9,36 +9,8 @@ services:
     working_dir: "/opt/www"
     ports:
       - "9501:9501"
-      - "9502:9502"
-      - "9503:9503"
     volumes:
       - ./:/opt/www
+    # 执行 php mine migrate 再执行 php mine db:seed
+
     entrypoint: ["php", "watch", "-c"]
-
-  # 没有将volumes映射出来，需要持久化自行百度一下
-
-  mysql:
-    environment:
-      - "TZ=Asia/Shanghai"
-      - MYSQL_ROOT_PASSWORD=12345678
-      - "explicit_defaults_for_timestamp=true"
-      - "lower_case_table_names=1"
-    ports:
-      - 3306:3306
-    image: mysql:5.7
-    restart: always
-    # command: "--default-authentication-plugin=mysql_native_password"
-  redis:
-    image: redis
-    restart: always
-  rabbitmq:
-    image: rabbitmq:management
-    restart: always
-    ports:
-      - "4369:4369"
-      - "5672:5672"
-      - "15672:15672"
-      - "25672:25672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=mineadmin
-      - RABBITMQ_DEFAULT_PASS=123456

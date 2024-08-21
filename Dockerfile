@@ -65,8 +65,8 @@ WORKDIR /opt/www
 
 COPY . /opt/www
 
-RUN composer install --no-dev -o && php bin/hyperf.php
+RUN composer install --no-dev -o && php mine
 
 EXPOSE 9501 9502 9503
 
-ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]
+ENTRYPOINT ["php", "/opt/www/mine", "start"]

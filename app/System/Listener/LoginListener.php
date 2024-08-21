@@ -70,7 +70,7 @@ class LoginListener implements ListenerInterface
             $config = $jwt->getSceneConfig($scene);
             $key = match ($config['login_type']) {
                 'sso' => sprintf('%sToken:%s', config('cache.default.prefix'), $event->userinfo['id']),
-                'mpop' => sprintf('%sToken:%s:%s', config('cache.default.prefix'), $event->userinfo['id'], $parserData['jti']),
+                default => sprintf('%sToken:%s:%s', config('cache.default.prefix'), $event->userinfo['id'], $parserData['jti']),
             };
             $redis->del($key);
             $redis->set($key, $event->token, config('jwt.ttl'));

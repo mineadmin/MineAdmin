@@ -122,11 +122,11 @@
     "analyse": "phpstan analyse --memory-limit 500M -l 5 -c phpstan.neon.dist ./app ./config",
     "start": [
       "Composer\\Config::disableProcessTimeout",
-      "php mine start"
+      "php bin/hyperf.php start"
     ],
     "dev": [
       "Composer\\Config::disableProcessTimeout",
-      "php mine server:watch"
+      "php bin/hyperf.php server:watch"
     ]
   }
 }

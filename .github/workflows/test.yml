@@ -157,7 +157,7 @@ jobs:
           COMPOSER_DATA=$(echo $COMPOSER_JSON_CONTENT | jq 'del(.require["ext-swoole"])')
           COMPOSER_DATA=$(echo $COMPOSER_DATA | jq '.require["hyperf/engine-swow"] = "*"')
           echo $COMPOSER_DATA | jq '.' > $COMPOSER_JSON_PATH
-          cp -f .github/ci/hyperf.php mine
+          cp -f .github/ci/hyperf.php bin/hyperf.php
           cp -f .github/ci/server.php config/autoload/server.php
           cp -f .github/ci/bootstrap.php tests/bootstrap.php
       - name: Setup PHP

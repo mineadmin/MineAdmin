@@ -1,0 +1,118 @@
+loginForm:
+  loginButton: 登录
+  passwordPlaceholder: 请输入密码
+  codeLabel: 验证码
+  usernameLabel: 账户
+  codePlaceholder: 请输入验证码
+  usernamePlaceholder: 请输入账户
+  passwordLabel: 密码
+mineAdmin:
+  settings:
+    copyRights:
+      date: 时间
+      website: 网址
+      enable: 启用版权
+      putOnRecord: 备案号
+      company: 公司
+    primaryColorSetting: 主颜色设置
+    toolBarSettings: 工具栏设置
+    tabBarSettings: 标签栏设置
+    save: 保存配置
+    colorMode: 颜色模式
+    layoutSetting: 布局设置
+    title: 后台设置
+    layouts:
+      classic: 经典布局
+      columns: 分栏布局
+      mixed: 混合布局
+    watermarkText: 水印文字
+    colorModes:
+      system: 系统
+      light: 明亮
+      dark: 黑暗
+    mainAsideSetting: 主侧栏设置
+    enableWatermark: 启用水印
+    otherSettings: 其他设置
+    mainAsides:
+      autoToFirstMenu: 自动进入第一个菜单
+      mainMenuTitle: 主菜单标题
+    copyRightSettings: 版权设置
+    enableBreadcrumb: 启用面包屑
+    tabbars:
+      mode: 标签栏风格
+      modeCard: 卡片
+      enable: 启用标签栏
+      modeDefault: 默认
+  runtime:
+    devDependencies: 开发依赖
+    pluginList: 插件列表
+    pluginCount: 插件总数
+    systemVersion: 系统版本
+    coreInfo: 核心信息
+    dependencies: 生产依赖
+    lastBuildTime: 最后构建时间
+  sys:
+    notComponent: 没有找到页面，无法跳转
+    unknown: 未知
+  uc:
+    shortBackControl: 返回
+    backControl: 返回控制面板
+    setAllRead: 全部设为已读
+    title: 用户中心
+  notification:
+    todo: 待办
+    allRead: 全部已读
+    gotoTheList: 转到列表
+    message: 消息
+    notice: 通知
+  search:
+    placeholder: 搜索页面，支持名称、标识以及URL的模糊查询
+    noNameMenu: 未命名菜单
+    notResult: 没有搜索到页面
+  userBar:
+    systemInfo: 系统信息
+    logout: 退出系统
+    shortcuts: 快捷键介绍
+    clearCache: 清除缓存
+    uc: 用户中心
+  common:
+    saveSuccess: 保存成功
+    clearCache: 缓存已清空
+  plugin:
+    disabled: 已禁用
+    enabled: 已启用
+  tab:
+    cannotUnfixed: 此标签不能取消固定
+    favorites: 标签页收藏夹
+    addFavorite: 加入到收藏夹
+    fullscreen: 全屏标签页
+    closeLeft: 关闭左侧标签页
+    closeOther: 关闭其他标签页
+    closeRight: 关闭右侧标签页
+    refresh: 刷新标签页
+    fixed: 固定标签页
+    has: 此标签页已收藏过
+    noFavorite: 还没有收藏任何标签页
+    close: 关闭标签页
+  slogan: 一款开箱即用的后台管理系统
+  toolbars:
+    notification: 通知
+    settings: 设置
+    search: 搜索
+    fullscreen: 全屏
+    sorts: 工具栏排序
+    switchMode: 切换颜色模式
+    translate: 国际化
+  mark: 开箱即用
+menu:
+  uc:index: 首页
+  dashboard:analysis: 分析页
+  pageNotFound: 找不到页面
+  appstore: 应用商店
+  dashboard:workbench: 工作台
+  dashboard:report: 统计报表
+  uc:logs: 日志
+  login: 登录
+  uc:message: 消息
+  welcome: 欢迎页
+  dashboard: 仪表盘

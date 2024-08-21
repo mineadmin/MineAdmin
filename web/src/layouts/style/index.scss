@@ -1,0 +1,83 @@
+.app-container {
+  @apply h-full relative overflow-hidden;
+
+  & .mine-main {
+    @apply w-full relative h-full overflow-y-auto overflow-x-hidden
+      bg-gray-1 text-gray-8 dark-bg-dark-9 dark-text-gray-2
+    ;
+
+    transition: all 0.3s;
+  }
+
+  & .mine-bars {
+    @apply sticky z-20 top-0;
+
+    transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, opacity 0.3s, display 0.3s, transform 0.3s;
+  }
+
+  & .mine-worker-area {
+    @apply relative z-10;
+
+    transition: all 0.3s;
+  }
+
+  & .mine-aside {
+    @apply relative z-30
+    ;
+
+    transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, opacity 0.3s, display 0.3s, transform 0.3s;
+  }
+
+  & .mine-wrapper-not-full {
+    height: calc(100% - var(--mine-g-header-height));
+  }
+
+  & .mine-wrapper-not-full {
+    height: calc(100% - var(--mine-g-header-height));
+  }
+
+  & .mine-wrapper-full {
+    height: 100%;
+  }
+
+  & .mine-wrapper {
+    @apply flex relative;
+
+    transition: width 0.3s, transform 0.5s, box-shadow 0.3s, top 0.3s;
+
+    & .mine-aside {
+      @apply flex h-full;
+    }
+  }
+}
+
+.mine-back-top {
+  @apply fixed bottom-6 right-10 z-1000
+    h-10 w-10 flex cursor-pointer
+  items-center justify-center rounded-full
+  bg-white shadow-sm ring-1 ring-gray-2 hover-bg-gray-1
+  dark-ring-gray-7 dark-hover-bg-gray-9/50 dark-bg-gray-9
+  ;
+}
+
+.mine-desc-info {
+  @apply flex justify-between items-center text-sm mt-2;
+
+  & .mine-desc-label {
+    @apply w-8/12 text-gray-8 dark-text-gray-2;
+  }
+
+  & .mine-desc-value {
+    @apply w-4/12 text-gray-5 dark-text-gray-3 text-right;
+  }
+}
+
+.mine-aside-animate-enter-active,
+.mine-aside-animate-leave-active {
+  transition: transform 0.3s;
+}
+
+.mine-aside-animate-enter-from,
+.mine-aside-animate-leave-to {
+  transform: translateX(calc((var(--mine-g-main-aside-width) + var(--mine-g-sub-aside-width)) * -1));
+}

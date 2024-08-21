@@ -1,0 +1,100 @@
+.mine-main-aside-content {
+  @apply
+    relative h-full flex
+    w-[var(--mine-g-main-aside-width)]
+  bg-[#f3f4f8] dark-bg-dark-9
+  border-r-0 border-r-solid
+  border-r-[#e8e9ec]
+  dark-border-r-dark-6
+  relative z-30;
+
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.3s, width 0.3s;
+}
+
+.mine-main-aside,
+ .mine-main-header {
+  transition: all 0.3s;
+}
+
+.mine-main-aside-list {
+  @apply h-full overflow-y-auto transition-shadow-300;
+
+  overscroll-behavior: contain;
+  // firefox隐藏滚动条
+  scrollbar-width: none;
+  // chrome隐藏滚动条
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &.shadow-top {
+    box-shadow: inset 0 10px 10px -10px var(--mine-g-box-shadow-color), inset 0 0 0 transparent;
+  }
+
+  &.shadow-bottom {
+    box-shadow: inset 0 0 0 transparent, inset 0 -10px 10px -10px var(--mine-g-box-shadow-color);
+  }
+
+  &.shadow-top.shadow-bottom {
+    box-shadow: inset 0 10px 10px -10px var(--mine-g-box-shadow-color), inset 0 -10px 10px -10px var(--mine-g-box-shadow-color);
+  }
+
+  & a {
+    @apply
+      rounded-md
+      text-gray-7 dark-text-gray-2
+      cursor-pointer truncate
+      text-[14px] duration-50 text-center
+      transition-all group outline-0 outline-dashed
+      outline-[rgb(var(--ui-primary)/50%)]
+    ;
+
+    & .mine-main-aside-icon {
+      @apply transition-all h-[35px] object-cover;
+
+      font-size: 20px !important;
+    }
+  }
+
+  & a:hover {
+    @apply
+      bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+      dark-bg-[rgb(var(--ui-primary)/30%)] dark-text-gray-2
+      outline-width-1 outline-dashed outline-[rgb(var(--ui-primary)/50%)]
+    ;
+
+    & .mine-main-aside-icon {
+      @apply scale-100 duration-150;
+
+      font-size: 24px !important;
+    }
+  }
+
+  & a.active {
+    @apply
+      bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+      dark-bg-[rgb(var(--ui-primary)/70%)] dark-text-gray-2
+      outline-1 outline-solid outline-[rgb(var(--ui-primary))]
+    ;
+  }
+}
+
+.mine-main-aside-enter-active,
+.mine-main-aside-leave-active {
+  @apply transition-delay-300;
+}
+
+.mine-main-aside-enter-from,
+.mine-main-aside-leave-to {
+  @apply transform-translate-x-[calc(var(--mine-g-main-aside-width) * -1)];
+}
+
+.mine-main-header-enter-active,
+.mine-main-header-leave-active {
+  @apply transition-delay-300;
+}
+
+.mine-main-header-enter-from,
+.mine-main-header-leave-to {
+  @apply transform-translate-y-[calc(var(--mine-g-header-height) * -1)];
+}

@@ -1,0 +1,120 @@
+.mine-tab-container {
+  @apply relative;
+}
+
+.mine-tabbar {
+  @apply text-sm flex items-center relative overflow-x-hidden w-full
+    bg-[#f9fafc]
+    dark-bg-dark-8
+    b-b-1 b-b-solid b-[#e8e9ec] dark-b-dark-5
+  ;
+
+  height: var(--mine-g-tabbar-height);
+
+  & .tab-item {
+    @apply bg-gray-1 dark-bg-dark-6
+      cursor-default relative transition-all duration-300;
+
+    & .title { @apply px-1.5 w-16 truncate text-sm; }
+
+    & .title,
+ & .menu-icon,
+ & .icon {
+      @apply text-gray-5 dark-text-gray-3;
+    }
+
+    & .icon {
+      @apply rounded-full p-[1px] mx-1 cursor-pointer transition-all duration-300 relative
+        hover-ring-1 hover-ring-gray-4 hover-bg-gray-1 hover-text-gray-5 dark-hover-bg-gray-6
+      ;
+    }
+
+    &.cardPlan {
+      @apply py-1 flex items-center px-2 rounded ml-1.5
+        ring-1 ring-[#e8e9ec] dark-ring-dark-5 transition-all duration-200 relative
+      ;
+    }
+
+    &.rectanglePlan {
+      @apply flex items-center h-full px-2 transition-all duration-200 relative
+        ring-1 ring-[#e8e9ec] dark-ring-dark-5
+      ;
+    }
+
+    &.cardPlan.active,
+    &.rectanglePlan.active {
+      @apply bg-white z-2
+        dark-bg-dark-3 shadow-inset shadow-sm
+      ;
+
+      .icon,
+      .menu-icon,
+      .title {
+        @apply text-gray-9 dark-text-gray-1;
+      }
+    }
+
+    &.cardPlan:hover,
+    &.rectanglePlan:hover {
+      @apply bg-[#fafafa]
+        dark-bg-dark-4
+      ;
+
+      .icon,
+      .menu-icon,
+      .title {
+        @apply text-gray-9 dark-text-gray-1;
+      }
+    }
+  }
+}
+
+.mine-tab-contextmenu {
+  @apply z-1000 !rounded-md !ring-1 !ring-gray-2 !dark-ring-dark-3
+    dark-bg-dark-8
+  ;
+
+  .mx-context-menu-item:hover {
+    @apply dark-bg-dark-4; }
+
+  .mx-context-menu-item-sperator {
+    @apply dark-bg-dark-8;
+  }
+
+  .mx-context-menu-item-sperator::after {
+    @apply dark-bg-dark-3;
+  }
+
+  .mx-item-row span,
+ .mx-item-row .icon {
+    @apply dark-text-gray-2;
+  }
+}
+
+.mine-tab-more-operation {
+  @apply absolute right-2 top-[5px] rounded z-10 cursor-pointer transition-all duration-300
+    shadow-sm ring-1
+    ring-gray-2
+    bg-white
+    hover-bg-gray-2
+    dark-ring-gray-6
+    dark-bg-gray-7
+    dark-hover-bg-gray-6
+  ;
+}
+
+.tabbar-move,
+.tabbar-enter-active,
+.tabbar-leave-active {
+  transition: all 0.2s;
+}
+
+.tabbar-enter-from,
+.tabbar-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.tabbar-leave-active {
+  //position: absolute !important;
+}

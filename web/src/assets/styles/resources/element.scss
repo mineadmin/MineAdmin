@@ -1,0 +1,8 @@
+.el-menu {
+  .el-menu-item:hover {
+    @apply
+    dark-bg-[var(--el-color-primary-light-1)]
+    dark-text-[var(--el-color-primary-light-9)]
+    ;
+  }
+}

@@ -1,0 +1,21 @@
+.mine-header-main {
+  @apply
+    bg-[#f3f4f8] dark-bg-dark-9
+    b-b-solid b-b-1
+    border-b-[#e8e9ec] dark-border-b-dark-5
+
+    ;
+
+  height: var(--mine-g-header-height);
+  transition: height 0.3s, top 0.3s, left 0.3s, transform 0.3s;
+}
+
+.mine-header-enter-active,
+.mine-header-leave-active {
+  transition: transform 0.3s;
+}
+
+.mine-header-enter-from,
+.mine-header-leave-to {
+  transform: translateY(calc(var(--mine-g-header-height) * -1));
+}

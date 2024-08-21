@@ -1,0 +1,13 @@
+const use{{ properCase name }}Store = defineStore(
+  // 唯一ID
+  '{{ camelCase name }}',
+  () => {
+    const someThing = ref(0)
+
+    return {
+      someThing,
+    }
+  },
+)
+
+export default use{{ properCase name }}Store

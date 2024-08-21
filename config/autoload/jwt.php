@@ -112,7 +112,7 @@ return [
         ],
         'application3' => [
             'secret' => 'application3', // 非对称加密使用字符串,请使用自己加密的字符串
-            'login_type' => 'mppo', //  登录方式，sso为单点登录，mpop为多点登录
+            'login_type' => 'mpop', //  登录方式，sso为单点登录，mpop为多点登录
             'ttl' => 7200, // token过期时间，单位为秒
             'blacklist_cache_ttl' => env('JWT_TTL', 7200), // 黑名单缓存token时间，注意：该时间一定要设置比token过期时间要大一点，默认为100秒,最好设置跟过期时间一样
         ],

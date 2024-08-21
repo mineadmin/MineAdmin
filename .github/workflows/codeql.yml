@@ -57,6 +57,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+            # Fetch just the latest commit so that we can determine which files were changed
+            fetch-depth: 0
+            path: web
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL

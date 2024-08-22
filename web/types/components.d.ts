@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
     MaIconPicker: typeof import('./../src/components/ma-icon-picker/index.vue')['default']
+    MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']
     MaSvgIcon: typeof import('./../src/components/ma-svg-icon/index.vue')['default']
     MaVerifyCode: typeof import('./../src/components/ma-verify-code/index.vue')['default']
     Panel: typeof import('./../src/components/ma-icon-picker/panel.vue')['default']

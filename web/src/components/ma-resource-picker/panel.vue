@@ -69,7 +69,7 @@ function selectResource(item: any) {
   <div class="ma-resource-panel h-full w-full">
     <div class="h-41px flex justify-between">
       <div class="w-500px">
-        <MTabs model-value="all" :options="resourceType">
+        <MTabs model-value="all" :options="resourceType" class="text-sm">
           <!--          <template #default="{ item }"> -->
           <!--            <div class="flex flex-col items-center"> -->
           <!--              <ma-svg-icon :name="item.icon" :size="20" /> -->

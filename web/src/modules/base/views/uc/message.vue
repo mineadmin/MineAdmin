@@ -90,7 +90,7 @@ const tabOptions = reactive([
 .slider {
   @apply w-full lg:w-3/12 b-r-0 lg:b-r-1
     b-r-gray-2 b-r-solid pr-2.5 dark-b-dark-5 h-[10rem]
-  lg:h-full overflow-y-auto relative
+    lg:h-full overflow-y-auto relative
   ;
 }
 

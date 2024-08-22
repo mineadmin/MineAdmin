@@ -127,9 +127,10 @@ handleTabChange(currentName.value)
 .icon-item {
   @apply flex items-center justify-center;
 }
+
 .pagination {
   @apply absolute bottom-0 w-full b-t-1 b-t-solid pt-2 flex justify-end items-end
-  bg-white  dark-bg-dark-8
+    bg-white  dark-bg-dark-8
   b-t-gray-2 dark-b-t-dark-5
   ;
 }
@@ -139,7 +140,7 @@ handleTabChange(currentName.value)
 
   .icon-item {
     @apply flex items-center justify-center py-3 rounded-md
-    hover-ring-2 hover-ring-[rgb(var(--ui-primary))];
+      hover-ring-2 hover-ring-[rgb(var(--ui-primary))];
   }
 
   .icon-item.active {

@@ -5,7 +5,7 @@
 .mine-menu-link {
   @apply flex items-center justify-between text-sm px-[var(--mine-g-menu-retract-width)] mt-1.5 cursor-pointer
     decoration-none rounded truncate overflow-x-hidden
-  text-gray-7 dark-text-gray-2
+    text-gray-7 dark-text-gray-2
   ;
 
   transition: all 0.2s, display 0.3s;
@@ -26,7 +26,7 @@
     @apply
       relative ml-1 w-[10px]
       after:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px])
-    before:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px]);
+      before:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px]);
   }
 }
 

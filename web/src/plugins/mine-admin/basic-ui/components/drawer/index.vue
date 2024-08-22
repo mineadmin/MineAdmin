@@ -90,7 +90,8 @@ function close() {
 
 <style lang="scss" scoped>
 .drawer-mask {
-  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15; }
+  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15;
+}
 
 .close-btn {
   @apply cursor-pointer b-0 bg-white dark-bg-dark-5;

@@ -28,10 +28,6 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaIconPicker' })
 
-const emit = defineEmits<{
-  (event: 'update:modelValue', value: string): void
-}>()
-
 const model = defineModel<string>()
 const iconPanelRef = ref()
 
@@ -73,7 +69,6 @@ const dialogVisible = ref<boolean>(false)
         ref="iconPanelRef"
         @select="(icon: string) => {
           model = icon
-          emit('update:modelValue', icon)
           dialogVisible = false
         }"
       />

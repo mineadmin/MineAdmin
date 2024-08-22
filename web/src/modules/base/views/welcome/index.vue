@@ -57,7 +57,7 @@ useTable('table').then((table: MaTableExpose) => {
         asd
       </div>
     </div>
-    <div class="mine-card">
+    <div class="mine-card h-500px">
       <MaResourcePanel v-model="resource" multiple :limit="2" />
     </div>
     <div class="mine-card">

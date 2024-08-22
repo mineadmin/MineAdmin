@@ -1,11 +1,13 @@
 <script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
 import useTable from '@/hooks/useTable.ts'
+import MaResourcePanel from '@/components/ma-resource-picker/panel.vue'
 
 defineOptions({ name: 'welcome' })
 
 const userinfo = useUserStore().getUserInfo()
 const icon = ref('')
+const resource = ref('')
 
 useTable('table').then((table: MaTableExpose) => {
   table.setPagination({
@@ -56,8 +58,10 @@ useTable('table').then((table: MaTableExpose) => {
       </div>
     </div>
     <div class="mine-card">
+      <MaResourcePanel v-model="resource" multiple :limit="2" />
+    </div>
+    <div class="mine-card">
       <ma-icon-picker v-model="icon" />
-
       <ma-table ref="table" class="mt-5" />
     </div>
   </div>

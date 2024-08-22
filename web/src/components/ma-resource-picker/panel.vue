@@ -66,8 +66,8 @@ function selectResource(item: any) {
 </script>
 
 <template>
-  <div class="ma-resource-panel h-500px flex flex-col">
-    <div class="flex justify-between">
+  <div class="ma-resource-panel h-full w-full">
+    <div class="h-41px flex justify-between">
       <div class="w-500px">
         <MTabs model-value="all" :options="resourceType">
           <!--          <template #default="{ item }"> -->
@@ -88,33 +88,30 @@ function selectResource(item: any) {
         </el-button>
       </div>
     </div>
-    <div>
-      <div class="relative">
-        <OverlayScrollbarsComponent class="h-[400px] py-3">
-          <div class="flex flex-wrap">
-            <el-space wrap>
-              <template v-for="(item, index) in 20" :key="index">
-                <div class="resource-item" :class="{ active: pathSelected.includes(item) }" @click="selectResource(item)">
-                  <div class="resource-item__name">
-                    资源{{ item }}
-                  </div>
+    <div class="relative h-full">
+      <OverlayScrollbarsComponent class="h-[calc(100%-60px)] px-3 py-3">
+        <div class="flex flex-wrap">
+          <el-space wrap fill :fill-ratio="9">
+            <template v-for="(item, index) in 13" :key="index">
+              <div class="resource-item" :class="{ active: pathSelected.includes(item) }" @click="selectResource(item)">
+                <div class="resource-item__name">
+                  资源{{ item }}
                 </div>
-              </template>
-            </el-space>
-          </div>
-        </OverlayScrollbarsComponent>
-      </div>
+              </div>
+            </template>
+          </el-space>
+        </div>
+      </OverlayScrollbarsComponent>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .ma-resource-panel{
-  @apply flex;
 }
 
 .resource-item{
-  @apply relative h-[120px] w-[120px] transition-all duration-100 ease-in-out;
+  @apply relative h-[120px] w-[120px] ;
   border: 2px solid transparent;
   --un-bg-opacity: 0.1;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));

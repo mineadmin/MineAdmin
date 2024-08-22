@@ -17,8 +17,10 @@ const props = withDefaults(
   defineProps<{
     options: optionItems[]
     direction?: 'horizontal' | 'vertical'
+    align?: 'start' | 'center' | 'end'
   }>(), {
     direction: 'horizontal',
+    align: 'center',
   })
 
 const emit = defineEmits<{
@@ -83,11 +85,14 @@ onMounted(() => {
     <div class="tab-list-item-selected" />
     <a
       v-for="item in props.options"
-      class="tab-list-item"
+      class="tab-list-item text-left"
       :class="{
         'active': item.value === value,
         'w-full': props.direction === 'horizontal',
         'h-full': props.direction === 'vertical',
+      }"
+      :style="{
+        'justify-content': props.align,
       }"
       @click="(e: MouseEvent) => handleClick(e, item)"
     >

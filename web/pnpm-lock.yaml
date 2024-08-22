@@ -15,8 +15,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2
       '@mineadmin/table':
-        specifier: ^1.0.2
-        version: 1.0.2(element-plus@2.8.0(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+        specifier: ^1.0.3
+        version: 1.0.3(element-plus@2.8.0(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.1(vue@3.4.38(typescript@5.5.4))
@@ -1080,8 +1080,8 @@ packages:
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
     engines: {node: '>=10'}
 
-  '@mineadmin/table@1.0.2':
-    resolution: {integrity: sha512-v3hUS7rl6ZpYuxMMX7RuWYGxebBtKnJn2N1vH7PJcAyyz0gSguCvCawaNdL9wWbzHMWd0jq8yPCX5oAIo7QtRg==}
+  '@mineadmin/table@1.0.3':
+    resolution: {integrity: sha512-OXs5UprXUnk9kDNFhPMLMyEdhJ09MVIaDPf6YPrKmdw+F2ahwhxMzYXrCIlwSGWPO62dTwZq7hXfdsvlhZWR7Q==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -6045,7 +6045,7 @@ snapshots:
       string-argv: 0.3.2
       type-detect: 4.1.0
 
-  '@mineadmin/table@1.0.2(element-plus@2.8.0(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+  '@mineadmin/table@1.0.3(element-plus@2.8.0(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       element-plus: 2.8.0(vue@3.4.38(typescript@5.5.4))
       vue: 3.4.38(typescript@5.5.4)

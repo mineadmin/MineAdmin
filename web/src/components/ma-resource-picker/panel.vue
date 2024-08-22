@@ -20,6 +20,7 @@ zh_TW:
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
+import MInput from '$/mine-admin/basic-ui/components/input/index.vue'
 
 interface Resource {
   id: number
@@ -50,26 +51,31 @@ const props = withDefaults(defineProps<{
 })
 
 const resourceType = ref([
-  { label: '所有', value: 'all', icon: 'ant-design:appstore-outlined' },
+  { label: '所有', value: '', icon: 'ant-design:appstore-outlined' },
   { label: '图片', value: 'image', icon: 'ant-design:picture-outlined' },
   { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined' },
   { label: '音频', value: 'audio', icon: 'ant-design:audit-outlined' },
   { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined' },
-  { label: '程序', value: 'program', icon: 'ant-design:code-outlined' },
+  { label: '程序', value: 'application', icon: 'ant-design:code-outlined' },
 ])
 const resourceList = ref<Resource[]>([])
 const pathSelected = ref<string[]>([])
 
-// 使用示例
-function query(params = {}) {
-  useHttp().get('/mock/attachment/list', { params }).then(({ data }) => {
+const queryParams = ref({
+  page: 1,
+  limit: 10,
+  origin_name: '',
+  mime_type: '',
+})
+
+function query() {
+  useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
     resourceList.value = data.items
   })
 }
-query({
-  page: 1,
-  pageSize: 40,
-})
+
+watch(queryParams, query, { deep: true })
+
 function selectResource(item: string) {
   // 多选
   if (pathSelected.value.includes(item)) {
@@ -88,28 +94,17 @@ function selectResource(item: string) {
     }
   }
 }
-
-const count = ref(10)
 </script>
 
 <template>
   <div class="ma-resource-panel h-full w-full">
     <div class="h-41px flex justify-between">
       <div class="w-500px">
-        <MTabs model-value="all" :options="resourceType" class="text-sm">
-          <!--          <template #default="{ item }"> -->
-          <!--            <div class="flex flex-col items-center"> -->
-          <!--              <ma-svg-icon :name="item.icon" :size="20" /> -->
-          <!--              <span class="mt-1 text-16px">{{ item.label }}</span> -->
-          <!--            </div> -->
-          <!--          </template> -->
-        </MTabs>
-        <el-input-number v-model="count" :min="1" :max="100" />
+        <MTabs v-model="queryParams.mime_type" :options="resourceType" class="text-sm" />
       </div>
-      <div>
-        <el-button
-          bg
-        >
+      <div class="flex">
+        <MInput v-model="queryParams.origin_name" placeholder="搜索资源名" class="w-[calc(100%-100px)]" />
+        <el-button bg>
           <template #icon>
             <ma-svg-icon name="ant-design:appstore-outlined" />
           </template>
@@ -123,7 +118,7 @@ const count = ref(10)
             <template v-for="resource in resourceList" :key="resource.id">
               <div class="resource-item" :class="{ active: pathSelected.includes(resource.url) }" @click="selectResource(resource.url)">
                 <div class="resource-item__name">
-                  资源资源资源资源资源资源资源资源资源资源资源{{ resource.url }}
+                  {{ resource.origin_name }}
                 </div>
               </div>
             </template>

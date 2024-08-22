@@ -12,13 +12,21 @@ export default defineFakeRoute([
       const start = (page - 1) * pageSize
       const end = page * pageSize
 
-      // eslint-disable-next-line ts/ban-ts-comment
       // @ts-expect-error
       const originName: string | null = query.origin_name
+      // @ts-expect-error
+      const mimeType: string | null = query.mime_type
       // 先把文件名中包含 originName 的文件筛选出来 要考虑 query.origin_name 为空的则不过滤了
-      const filteredData = originName
-        ? attachments.filter(item => item.origin_name.includes(originName))
-        : attachments
+      const filteredData = attachments.filter((item) => {
+        let isMatch = true
+        if (originName) {
+          isMatch = item.origin_name.includes(originName)
+        }
+        if (mimeType) {
+          isMatch = isMatch && item.mime_type.includes(mimeType)
+        }
+        return isMatch
+      })
 
       // 根据分页信息从预定义数据中选取一部分返回
       const pagedData = filteredData.slice(start, end)

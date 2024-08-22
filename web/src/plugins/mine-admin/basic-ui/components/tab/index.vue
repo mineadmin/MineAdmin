@@ -91,8 +91,10 @@ onMounted(() => {
       }"
       @click="(e: MouseEvent) => handleClick(e, item)"
     >
-      <ma-svg-icon v-if="item.icon" :name="item.icon" :size="16" />
-      <span>{{ item.label }}</span>
+      <slot name="default" :item="item">
+        <ma-svg-icon v-if="item.icon" :name="item.icon" :size="16" />
+        <span>{{ item.label }}</span>
+      </slot>
     </a>
   </div>
 </template>

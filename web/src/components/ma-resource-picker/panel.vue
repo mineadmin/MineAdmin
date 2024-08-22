@@ -21,6 +21,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 import MInput from '$/mine-admin/basic-ui/components/input/index.vue'
+import MButton from '$/mine-admin/basic-ui/components/button/index.vue'
 
 interface Resource {
   id: number
@@ -58,12 +59,14 @@ const resourceType = ref([
   { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined' },
   { label: '程序', value: 'application', icon: 'ant-design:code-outlined' },
 ])
+
+const total = ref<number>(0)
 const resourceList = ref<Resource[]>([])
 const pathSelected = ref<string[]>([])
 
 const queryParams = ref({
   page: 1,
-  limit: 10,
+  pageSize: 40,
   origin_name: '',
   mime_type: '',
 })
@@ -71,6 +74,8 @@ const queryParams = ref({
 function query() {
   useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
     resourceList.value = data.items
+    total.value = data.total
+    console.log(data)
   })
 }
 
@@ -97,11 +102,16 @@ function selectResource(item: string) {
 </script>
 
 <template>
-  <div class="ma-resource-panel h-full w-full">
+  <div class="ma-resource-panel h-full flex flex-col">
     <div class="h-41px flex justify-between">
       <div class="w-500px">
         <MTabs v-model="queryParams.mime_type" :options="resourceType" class="text-sm" />
       </div>
+      <MInput>
+        <template #suffix>
+          <MButton>清空</MButton>
+        </template>
+      </MInput>
       <div class="flex">
         <MInput v-model="queryParams.origin_name" placeholder="搜索资源名" class="w-[calc(100%-100px)]" />
         <el-button bg>
@@ -111,8 +121,8 @@ function selectResource(item: string) {
         </el-button>
       </div>
     </div>
-    <div class="relative h-full">
-      <OverlayScrollbarsComponent class="h-[calc(100%-60px)] px-3 py-3">
+    <div class="min-h-0 flex-1">
+      <OverlayScrollbarsComponent class="max-h-full py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resourceList" :key="resource.id">
@@ -127,6 +137,17 @@ function selectResource(item: string) {
         </div>
       </OverlayScrollbarsComponent>
     </div>
+    <div class="ma-resource-panel__footer">
+      <el-pagination
+        v-model:current-page="queryParams.page"
+        class="mt-8"
+        :total="total"
+        :page-size="queryParams.pageSize"
+        background
+        layout="prev, pager, next"
+        :pager-count="5"
+      />
+    </div>
   </div>
 </template>
 
@@ -135,10 +156,9 @@ function selectResource(item: string) {
   --un-bg-opacity: 0.1;
   @apply relative min-w-[120px] pb-[100%] rounded;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
-  box-shadow: 0 0 0 2px transparent;
 }
 .resource-item__name{
-  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden white-space-nowrap text-overflow-ellipsis bg-gray:20 px-10px text-12px leading-24px;
+  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:20 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis;
 }
 .resource-placeholder{
   @apply min-w-[120px] h-0 pointer-events-none p-0;
@@ -146,7 +166,7 @@ function selectResource(item: string) {
 
 .resource-item:hover,
 .resource-item.active {
-  box-shadow: 0 0 0 2px rgb(var(--ui-primary));
+  box-shadow:inset 0 0 0 2px rgb(var(--ui-primary));
 }
 
 .resource-item.active::after{

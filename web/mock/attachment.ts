@@ -35,7 +35,7 @@ export default defineFakeRoute([
         message: '请求成功',
         code: 200,
         data: {
-          total: pagedData.length, // 总数据量
+          total: filteredData.length, // 总数据量
           items: pagedData, // 当前页的数据
         },
       }

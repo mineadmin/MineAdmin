@@ -21,6 +21,26 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 
+interface Resource {
+  id: number
+  storage_mode: number
+  origin_name: string
+  object_name: string
+  hash: string
+  mime_type: string
+  storage_path: string
+  suffix: string
+  size_byte: number
+  size_info: string
+  url: string
+  created_by: number | null
+  updated_by: number | null
+  created_at: string | null
+  updated_at: string | null
+  deleted_at: string | null
+  remark: string | null
+}
+
 const props = withDefaults(defineProps<{
   multiple?: boolean
   limit?: number
@@ -30,12 +50,6 @@ const props = withDefaults(defineProps<{
 })
 
 const resourceType = ref([
-  // { title: '所有', key: 'all' },
-  // { title: '图片', key: 'image' },
-  // { title: '文档', key: 'document' },
-  // { title: '音频', key: 'audio' },
-  // { title: '视频', key: 'video' },
-  // { title: '程序', key: 'program' },
   { label: '所有', value: 'all', icon: 'ant-design:appstore-outlined' },
   { label: '图片', value: 'image', icon: 'ant-design:picture-outlined' },
   { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined' },
@@ -43,24 +57,35 @@ const resourceType = ref([
   { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined' },
   { label: '程序', value: 'program', icon: 'ant-design:code-outlined' },
 ])
-const pathSelected = ref([])
+const resourceList = ref<Resource[]>([])
+const pathSelected = ref<string[]>([])
 
-function selectResource(item: any) {
-  if (props.multiple) {
-    // 多选
-    if (pathSelected.value.includes(item)) {
-      pathSelected.value = pathSelected.value.filter(i => i !== item)
-    }
-    else {
+// 使用示例
+function query(params = {}) {
+  useHttp().get('/mock/attachment/list', { params }).then(({ data }) => {
+    resourceList.value = data.items
+  })
+}
+query({
+  page: 1,
+  pageSize: 40,
+})
+function selectResource(item: string) {
+  // 多选
+  if (pathSelected.value.includes(item)) {
+    pathSelected.value = pathSelected.value.filter(i => i !== item)
+  }
+  else {
+    if (props.multiple) {
       // 判断是否上限
       if (props.limit && pathSelected.value.length >= props.limit) {
         return ElMessage.warning(`最多选择${props.limit}个`)
       }
       pathSelected.value.push(item)
     }
-  }
-  else {
-    pathSelected.value = [item]
+    else {
+      pathSelected.value = [item]
+    }
   }
 }
 
@@ -95,14 +120,14 @@ const count = ref(10)
       <OverlayScrollbarsComponent class="h-[calc(100%-60px)] px-3 py-3">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
-            <template v-for="(item, index) in count" :key="index">
-              <div class="resource-item" :class="{ active: pathSelected.includes(item) }" @click="selectResource(item)">
+            <template v-for="resource in resourceList" :key="resource.id">
+              <div class="resource-item" :class="{ active: pathSelected.includes(resource.url) }" @click="selectResource(resource.url)">
                 <div class="resource-item__name">
-                  资源{{ item }}
+                  资源资源资源资源资源资源资源资源资源资源资源{{ resource.url }}
                 </div>
               </div>
             </template>
-            <div v-for="i in 10" class="resource-placeholder"></div>
+            <div v-for="i in 10" class="resource-placeholder" />
           </el-space>
         </div>
       </OverlayScrollbarsComponent>
@@ -113,12 +138,12 @@ const count = ref(10)
 <style scoped lang="scss">
 .resource-item{
   --un-bg-opacity: 0.1;
-  @apply relative min-w-[120px] pb-[100%];
+  @apply relative min-w-[120px] pb-[100%] rounded;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
   box-shadow: 0 0 0 2px transparent;
 }
 .resource-item__name{
-  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] text-ellipsis bg-gray:20 px-10px text-12px leading-24px;
+  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden white-space-nowrap text-overflow-ellipsis bg-gray:20 px-10px text-12px leading-24px;
 }
 .resource-placeholder{
   @apply min-w-[120px] h-0 pointer-events-none p-0;
@@ -138,5 +163,4 @@ const count = ref(10)
   top: 0;
   background: rgba(var(--ui-primary) / var(--un-bg-opacity));
 }
-
 </style>

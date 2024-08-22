@@ -58,7 +58,7 @@ useTable('table').then((table: MaTableExpose) => {
       </div>
     </div>
     <div class="mine-card h-500px">
-      <MaResourcePanel v-model="resource" multiple :limit="2" />
+      <MaResourcePanel v-model="resource" multiple :limit="5" />
     </div>
     <div class="mine-card">
       <ma-icon-picker v-model="icon" />

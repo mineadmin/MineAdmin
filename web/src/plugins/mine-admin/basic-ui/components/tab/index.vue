@@ -16,14 +16,16 @@ defineOptions({ name: 'MTabs' })
 const props = withDefaults(
   defineProps<{
     options: optionItems[]
-  }>(), {})
+    direction?: 'horizontal' | 'vertical'
+  }>(), {
+    direction: 'horizontal',
+  })
 
 const emit = defineEmits<{
   change: [T]
 }>()
 
 const id = ref<string>(`tabDomId_${Math.floor(Math.random() * 100000 + Math.random() * 20000 + Math.random() * 5000)}`)
-
 const value = defineModel<T>()
 const selectedEl = ref<HTMLElement>()
 
@@ -45,8 +47,16 @@ function handleClick(e: MouseEvent, item: optionItems): any {
 
 function setSelectedElStyle(node: HTMLElement) {
   if (selectedEl.value) {
-    selectedEl.value.style.width = `${node.offsetWidth}px`
-    selectedEl.value.style.transform = `translateX(${node.offsetLeft - 4}px)`
+    if (props.direction === 'vertical') {
+      selectedEl.value.style.height = `${node.offsetHeight}px`
+      selectedEl.value.style.width = `${node.offsetWidth}px`
+      selectedEl.value.style.transform = `translateY(${node.offsetTop - 4}px)`
+    }
+    else {
+      selectedEl.value.style.height = `${node.offsetHeight}px`
+      selectedEl.value.style.width = `${node.offsetWidth}px`
+      selectedEl.value.style.transform = `translateX(${node.offsetLeft - 4}px)`
+    }
   }
 }
 
@@ -55,6 +65,13 @@ function initSelectedElStyle() {
   node && setSelectedElStyle(node)
 }
 
+watch([
+  () => props.options,
+  () => props.direction,
+], () => {
+  nextTick(initSelectedElStyle)
+}, { deep: true })
+
 onMounted(() => {
   selectedEl.value = document.querySelector(`#${id.value} .tab-list-item-selected`) as HTMLElement
   useResizeObserver(document.body, initSelectedElStyle)
@@ -62,12 +79,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :id="id" class="tabs-list-container">
+  <div :id="id" class="tabs-list-container" :class="{ 'flex-col': props.direction === 'vertical' }">
     <div class="tab-list-item-selected" />
     <a
       v-for="item in props.options"
       class="tab-list-item"
-      :class="{ active: item.value === value }"
+      :class="{
+        'active': item.value === value,
+        'w-full': props.direction === 'horizontal',
+        'h-full': props.direction === 'vertical',
+      }"
       @click="(e: MouseEvent) => handleClick(e, item)"
     >
       <ma-svg-icon v-if="item.icon" :name="item.icon" :size="16" />
@@ -88,7 +109,7 @@ onMounted(() => {
 
 .tab-list-item {
   @apply flex items-center justify-center gap-1.5 relative z-3 dark-text-gray-4 text-gray-5
-    px-2 py-1.5 rounded cursor-pointer w-full transition-all duration-500
+    px-2 py-1.5 rounded cursor-pointer transition-all duration-500
   ;
 }
 

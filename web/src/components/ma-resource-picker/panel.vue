@@ -63,6 +63,8 @@ function selectResource(item: any) {
     pathSelected.value = [item]
   }
 }
+
+const count = ref(10)
 </script>
 
 <template>
@@ -77,6 +79,7 @@ function selectResource(item: any) {
           <!--            </div> -->
           <!--          </template> -->
         </MTabs>
+        <el-input-number v-model="count" :min="1" :max="100" />
       </div>
       <div>
         <el-button
@@ -92,13 +95,14 @@ function selectResource(item: any) {
       <OverlayScrollbarsComponent class="h-[calc(100%-60px)] px-3 py-3">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
-            <template v-for="(item, index) in 13" :key="index">
+            <template v-for="(item, index) in count" :key="index">
               <div class="resource-item" :class="{ active: pathSelected.includes(item) }" @click="selectResource(item)">
                 <div class="resource-item__name">
                   资源{{ item }}
                 </div>
               </div>
             </template>
+            <div v-for="i in 10" class="resource-placeholder"></div>
           </el-space>
         </div>
       </OverlayScrollbarsComponent>
@@ -107,24 +111,24 @@ function selectResource(item: any) {
 </template>
 
 <style scoped lang="scss">
-.ma-resource-panel{
+.resource-item{
+  --un-bg-opacity: 0.1;
+  @apply relative min-w-[120px] pb-[100%];
+  background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
+  box-shadow: 0 0 0 2px transparent;
+}
+.resource-item__name{
+  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] text-ellipsis bg-gray:20 px-10px text-12px leading-24px;
+}
+.resource-placeholder{
+  @apply min-w-[120px] h-0 pointer-events-none p-0;
 }
 
-.resource-item{
-  @apply relative h-[120px] w-[120px] ;
-  border: 2px solid transparent;
-  --un-bg-opacity: 0.1;
-  background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
-  &__name{
-    @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] text-ellipsis bg-gray:20 px-10px text-12px leading-24px;
-  }
+.resource-item:hover,
+.resource-item.active {
+  box-shadow: 0 0 0 2px rgb(var(--ui-primary));
 }
-.resource-item:hover{
-  border:2px solid rgb(var(--ui-primary))
-}
-.resource-item.active{
-  border:2px solid rgb(var(--ui-primary));
-}
+
 .resource-item.active::after{
   content: '';
   position: absolute;
@@ -134,4 +138,5 @@ function selectResource(item: any) {
   top: 0;
   background: rgba(var(--ui-primary) / var(--un-bg-opacity));
 }
+
 </style>

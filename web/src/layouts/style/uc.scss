@@ -4,7 +4,7 @@
   .mine-uc-aside {
     @apply b-r-1 b-r-solid w-[240px]
       border-r-[#e8e9ec]
-    dark-border-r-dark-6
+      dark-border-r-dark-6
     bg-white
     dark-bg-dark-9
     shadow
@@ -20,7 +20,6 @@
           @apply
             px-4 py-2.5 decoration-none flex items-center text-[15px] gap-x-3 rounded-md
             text-gray-8 dark-text-gray-2 transform transition-all mt-0.5;
-
         }
 
         a:hover {
@@ -75,7 +74,6 @@
       & a {
         @apply flex flex-col block decoration-none text-sm py-1 items-center justify-center
           text-dark-9 dark-text-gray-1 bg-gray-2 dark-bg-dark-6 gap-y-0.5 rounded-md;
-
       }
 
       & a.active {

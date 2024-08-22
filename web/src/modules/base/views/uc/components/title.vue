@@ -22,6 +22,6 @@ const title = computed(() => {
 <style scoped lang="scss">
 .title {
   @apply h-[55px] flex items-center justify-between
-  bg-white px-3 dark-bg-dark-8 dark-b-b-dark-4 b-b-1 b-b-solid b-b-gray-2;
+    bg-white px-3 dark-bg-dark-8 dark-b-b-dark-4 b-b-1 b-b-solid b-b-gray-2;
 }
 </style>

@@ -18,8 +18,8 @@
     & .title { @apply px-1.5 w-16 truncate text-sm; }
 
     & .title,
- & .menu-icon,
- & .icon {
+    & .menu-icon,
+    & .icon {
       @apply text-gray-5 dark-text-gray-3;
     }
 
@@ -75,7 +75,8 @@
   ;
 
   .mx-context-menu-item:hover {
-    @apply dark-bg-dark-4; }
+    @apply dark-bg-dark-4;
+  }
 
   .mx-context-menu-item-sperator {
     @apply dark-bg-dark-8;
@@ -86,7 +87,7 @@
   }
 
   .mx-item-row span,
- .mx-item-row .icon {
+  .mx-item-row .icon {
     @apply dark-text-gray-2;
   }
 }

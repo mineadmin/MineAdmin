@@ -55,6 +55,7 @@ body {
 
   & ::-webkit-scrollbar-thumb {
     border-radius: 0.6em;
+
     @apply bg-gray-3 hover:bg-gray-4;
   }
 
@@ -73,7 +74,7 @@ body {
   .mine-max-size-exit {
     @apply flex items-center justify-center
       text-dark-5dark-text-stone-1
-    bg-[rgb(0,0,0,0.2)] dark-bg-[rgb(255,255,255,0.2)]
+      bg-[rgb(0,0,0,0.2)] dark-bg-[rgb(255,255,255,0.2)]
     ;
   }
 
@@ -109,7 +110,7 @@ textarea {
 
 .v-popper--theme-tooltip .v-popper__inner {
   @apply text-sm b-1 b-solid
-  b-dark-3 !bg-dark-3 !text-white
+    b-dark-3 !bg-dark-3 !text-white
   dark-b-stone-2 !dark-bg-stone-2 !dark-text-black
   ;
 }

@@ -152,6 +152,7 @@ function canPreview(item: Resource) {
 }
 
 function handleDoubleClick(item: Resource) {
+  // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
   if (canPreview(item)) {
     openImageViewer([item.url])
   }

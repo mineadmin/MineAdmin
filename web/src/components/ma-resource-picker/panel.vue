@@ -100,8 +100,8 @@ function query() {
 watch(queryParams, () => {
   query()
 }, { deep: true, immediate: true })
-function toggleSelect(item: Resource) {
-  const key = item.url
+function toggleSelect(resource: Resource) {
+  const key = resource.url
   // 多选
   if (pathSelected.value.includes(key)) {
     pathSelected.value = pathSelected.value.filter(i => i !== key)
@@ -123,25 +123,25 @@ function clearSelected() {
   pathSelected.value = []
 }
 
-function isSelected(item: Resource) {
-  return pathSelected.value.includes(item.url)
+function isSelected(resource: Resource) {
+  return pathSelected.value.includes(resource.url)
 }
 
-function canPreview(item: Resource) {
-  return item.mime_type.startsWith('image')
+function canPreview(resource: Resource) {
+  return resource.mime_type.startsWith('image')
 }
 
-function handleDoubleClick(item: Resource) {
+function handleDoubleClick(resource: Resource) {
   // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
-  if (canPreview(item)) {
-    useImageViewer([item.url])
+  if (canPreview(resource)) {
+    useImageViewer([resource.url])
   }
   else {
     message.warning('该资源无法预览,下载请右键')
   }
 }
 
-function executeContextmenu(e: MouseEvent, item: Resource) {
+function executeContextmenu(e: MouseEvent, resource: Resource) {
   e.preventDefault()
   ContextMenu.showContextMenu({
     x: e.x,
@@ -152,18 +152,18 @@ function executeContextmenu(e: MouseEvent, item: Resource) {
     items: [
       {
         label: '选中',
-        hidden: isSelected(item),
+        hidden: isSelected(resource),
         icon: 'i-ri:check-fill',
         onClick: () => {
-          toggleSelect(item)
+          toggleSelect(resource)
         },
       },
       {
         label: '取消选中',
-        hidden: !isSelected(item),
+        hidden: !isSelected(resource),
         icon: 'i-ri:close-fill',
         onClick: () => {
-          toggleSelect(item)
+          toggleSelect(resource)
         },
       },
       // 独选此项
@@ -173,15 +173,15 @@ function executeContextmenu(e: MouseEvent, item: Resource) {
         divided: true,
         onClick: () => {
           clearSelected()
-          toggleSelect(item)
+          toggleSelect(resource)
         },
       },
       {
         label: '查看',
         icon: 'i-ri:search-eye-line',
-        disabled: !canPreview(item),
+        disabled: !canPreview(resource),
         onClick: () => {
-          useImageViewer([item.url])
+          useImageViewer([resource.url])
         },
       },
       {

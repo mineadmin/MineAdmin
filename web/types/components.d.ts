@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Dialog: typeof import('./../src/components/ma-resource-picker/dialog.vue')['default']
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
     MaIconPicker: typeof import('./../src/components/ma-icon-picker/index.vue')['default']
     MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']

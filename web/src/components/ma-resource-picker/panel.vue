@@ -23,6 +23,7 @@ import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import { render } from 'vue'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
@@ -35,6 +36,8 @@ const props = withDefaults(defineProps<{
   limit: undefined,
   pageSize: 40,
 })
+
+const message = useMessage()
 
 const imageViewerRef = ref()
 
@@ -144,8 +147,17 @@ function isSelected(item: Resource) {
   return pathSelected.value.includes(item.url)
 }
 
-function isImage(item: Resource) {
+function canPreview(item: Resource) {
   return item.mime_type.startsWith('image')
+}
+
+function handleDoubleClick(item: Resource) {
+  if (canPreview(item)) {
+    openImageViewer([item.url])
+  }
+  else {
+    message.warning('该资源无法预览,下载请右键')
+  }
 }
 
 function executeContextmenu(e: MouseEvent, item: Resource) {
@@ -186,7 +198,7 @@ function executeContextmenu(e: MouseEvent, item: Resource) {
       {
         label: '查看',
         icon: 'i-ri:search-eye-line',
-        disabled: !isImage(item), // 仅图片允许查看
+        disabled: !canPreview(item),
         onClick: () => {
           openImageViewer([item.url])
         },
@@ -233,6 +245,7 @@ function executeContextmenu(e: MouseEvent, item: Resource) {
                 class="resource-item"
                 :class="{ active: isSelected(resource) }"
                 @click="toggleSelect(resource)"
+                @dblclick="handleDoubleClick(resource)"
                 @contextmenu="(e: MouseEvent) => executeContextmenu(e, resource)"
               >
                 <div class="resource-item__image">

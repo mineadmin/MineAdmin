@@ -2,7 +2,7 @@ import { h, render } from 'vue'
 import type { ImageViewerProps } from 'element-plus'
 import { ElImageViewer } from 'element-plus'
 
-type Options = ImageViewerProps
+type Options = Partial<Omit<ImageViewerProps, 'urlList'>>
 export function useImageViewer(images: string[], options?: Options) {
   const imageViewerDom = document.createElement('div')
 

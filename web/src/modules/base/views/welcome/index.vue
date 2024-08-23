@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
 import useTable from '@/hooks/useTable.ts'
-import MaResourcePanel from '@/components/ma-resource-picker/panel.vue'
+import MaResourcePicker from '@/components/ma-resource-picker/index.vue'
 
 defineOptions({ name: 'welcome' })
 
@@ -58,7 +58,8 @@ useTable('table').then((table: MaTableExpose) => {
       </div>
     </div>
     <div class="mine-card h-500px">
-      <MaResourcePanel v-model="resource" multiple :limit="5" />
+      <MaResourcePicker />
+      <!--      <MaResourcePanel v-model="resource" multiple :limit="5" /> -->
     </div>
     <div class="mine-card">
       <ma-icon-picker v-model="icon" />

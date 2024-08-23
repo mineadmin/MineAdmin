@@ -18,8 +18,10 @@ zh_TW:
 
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import { ElMessage } from 'element-plus'
+import { ElImageViewer, ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import ContextMenu from '@imengyu/vue3-context-menu'
+import { render } from 'vue'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 
 defineOptions({ name: 'MaResourcePanel' })
@@ -33,6 +35,26 @@ const props = withDefaults(defineProps<{
   limit: undefined,
   pageSize: 40,
 })
+
+const imageViewerRef = ref()
+
+// 可以将此功能抽离 usrImageViewer
+function openImageViewer(images, initialIndex = 0) {
+  const vnode = h(ElImageViewer, {
+    urlList: images,
+    hideOnClickModal: true,
+    zIndex: 2500,
+    initialIndex,
+    onClose: () => {
+      if (imageViewerRef.value) {
+        render(null, imageViewerRef.value)
+      }
+    },
+  })
+  imageViewerRef.value = document.createElement('div')
+  document.body.appendChild(imageViewerRef.value)
+  render(vnode, imageViewerRef.value)
+}
 
 interface Resource {
   id: number
@@ -95,10 +117,11 @@ function query() {
 watch(queryParams, () => {
   query()
 }, { deep: true, immediate: true })
-function selectResource(item: string) {
+function toggleSelect(item: Resource) {
+  const key = item.url
   // 多选
-  if (pathSelected.value.includes(item)) {
-    pathSelected.value = pathSelected.value.filter(i => i !== item)
+  if (pathSelected.value.includes(key)) {
+    pathSelected.value = pathSelected.value.filter(i => i !== key)
   }
   else {
     if (props.multiple) {
@@ -106,12 +129,78 @@ function selectResource(item: string) {
       if (props.limit && pathSelected.value.length >= props.limit) {
         return ElMessage.warning(`最多选择${props.limit}个`)
       }
-      pathSelected.value.push(item)
+      pathSelected.value.push(key)
     }
     else {
-      pathSelected.value = [item]
+      pathSelected.value = [key]
     }
   }
+}
+function clearSelected() {
+  pathSelected.value = []
+}
+
+function isSelected(item: Resource) {
+  return pathSelected.value.includes(item.url)
+}
+
+function isImage(item: Resource) {
+  return item.mime_type.startsWith('image')
+}
+
+function executeContextmenu(e: MouseEvent, item: Resource) {
+  e.preventDefault()
+  ContextMenu.showContextMenu({
+    x: e.x,
+    y: e.y,
+    zIndex: 9999,
+    iconFontClass: '',
+    customClass: 'mine-tab-contextmenu',
+    items: [
+      {
+        label: '选中',
+        hidden: isSelected(item),
+        icon: 'i-ri:check-fill',
+        onClick: () => {
+          toggleSelect(item)
+        },
+      },
+      {
+        label: '取消选中',
+        hidden: !isSelected(item),
+        icon: 'i-ri:close-fill',
+        onClick: () => {
+          toggleSelect(item)
+        },
+      },
+      // 独选此项
+      {
+        label: '独选此项',
+        icon: 'i-ri:checkbox-circle-line',
+        divided: true,
+        onClick: () => {
+          clearSelected()
+          toggleSelect(item)
+        },
+      },
+      {
+        label: '查看',
+        icon: 'i-ri:search-eye-line',
+        disabled: !isImage(item), // 仅图片允许查看
+        onClick: () => {
+          openImageViewer([item.url])
+        },
+      },
+      {
+        label: '下载',
+        icon: 'i-ri:download-line',
+        onClick: () => {
+          // 下载待接入
+        },
+      },
+
+    ],
+  })
 }
 </script>
 
@@ -140,7 +229,12 @@ function selectResource(item: string) {
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resourceList" :key="resource.id">
-              <div class="resource-item" :class="{ active: pathSelected.includes(resource.url) }" @click="selectResource(resource.url)">
+              <div
+                class="resource-item"
+                :class="{ active: isSelected(resource) }"
+                @click="toggleSelect(resource)"
+                @contextmenu="(e: MouseEvent) => executeContextmenu(e, resource)"
+              >
                 <div class="resource-item__image">
                   <el-image :src="resource.url" fit="cover" />
                 </div>

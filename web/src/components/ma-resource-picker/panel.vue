@@ -19,9 +19,8 @@ zh_TW:
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
-import MInput from '$/mine-admin/basic-ui/components/input/index.vue'
-import MButton from '$/mine-admin/basic-ui/components/button/index.vue'
 
 interface Resource {
   id: number
@@ -60,9 +59,11 @@ const resourceType = ref([
   { label: '程序', value: 'application', icon: 'ant-design:code-outlined' },
 ])
 
+const loading = ref(false)
 const total = ref<number>(0)
 const resourceList = ref<Resource[]>([])
 const pathSelected = ref<string[]>([])
+const scrollbarRef = ref(null)
 
 const queryParams = ref({
   page: 1,
@@ -71,16 +72,25 @@ const queryParams = ref({
   mime_type: '',
 })
 
+const skeletonNum = computed(() => {
+  return loading.value ? queryParams.value.pageSize : 0
+})
+
 function query() {
-  useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
-    resourceList.value = data.items
-    total.value = data.total
-    console.log(data)
+  resourceList.value = []
+  loading.value = true
+  return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
+    setTimeout(() => {
+      resourceList.value = data.items
+      total.value = data.total
+      loading.value = false
+    }, 3000)
   })
 }
 
-watch(queryParams, query, { deep: true })
-
+watch(queryParams, () => {
+  query()
+}, { deep: true, immediate: true })
 function selectResource(item: string) {
   // 多选
   if (pathSelected.value.includes(item)) {
@@ -107,22 +117,22 @@ function selectResource(item: string) {
       <div class="w-500px">
         <MTabs v-model="queryParams.mime_type" :options="resourceType" class="text-sm" />
       </div>
-      <MInput>
-        <template #suffix>
-          <MButton>清空</MButton>
-        </template>
-      </MInput>
-      <div class="flex">
-        <MInput v-model="queryParams.origin_name" placeholder="搜索资源名" class="w-[calc(100%-100px)]" />
-        <el-button bg>
-          <template #icon>
-            <ma-svg-icon name="ant-design:appstore-outlined" />
+
+      <div class="flex flex-1 justify-end">
+        <el-input v-model="queryParams.origin_name" placeholder="搜索资源名" class="max-w-[240px]">
+          <template #suffix>
+            <el-icon><Search /></el-icon>
           </template>
-        </el-button>
+        </el-input>
+        <!--        <el-button bg> -->
+        <!--          <template #icon> -->
+        <!--            <ma-svg-icon name="ant-design:appstore-outlined" /> -->
+        <!--          </template> -->
+        <!--        </el-button> -->
       </div>
     </div>
     <div class="min-h-0 flex-1">
-      <OverlayScrollbarsComponent class="max-h-full py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
+      <OverlayScrollbarsComponent ref="scrollbarRef" class="max-h-full py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resourceList" :key="resource.id">
@@ -132,6 +142,11 @@ function selectResource(item: string) {
                 </div>
               </div>
             </template>
+            <el-skeleton v-for="i in skeletonNum" class="resource-skeleton relative" animated>
+              <template #template>
+                <el-skeleton-item class="absolute h-full w-full" variant="rect" />
+              </template>
+            </el-skeleton>
             <div v-for="i in 10" class="resource-placeholder" />
           </el-space>
         </div>
@@ -140,6 +155,7 @@ function selectResource(item: string) {
     <div class="ma-resource-panel__footer">
       <el-pagination
         v-model:current-page="queryParams.page"
+        :disabled="loading"
         class="mt-8"
         :total="total"
         :page-size="queryParams.pageSize"
@@ -152,16 +168,32 @@ function selectResource(item: string) {
 </template>
 
 <style scoped lang="scss">
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ma-resource-panel{
+  --resource-item-size:120px;
+}
 .resource-item{
+  animation: fadeIn 0.3s ease-out forwards;
   --un-bg-opacity: 0.1;
-  @apply relative min-w-[120px] pb-[100%] rounded;
+  @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
 }
 .resource-item__name{
   @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:20 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis;
 }
 .resource-placeholder{
-  @apply min-w-[120px] h-0 pointer-events-none p-0;
+  @apply min-w-[var(--resource-item-size)] h-0 pointer-events-none p-0;
+}
+.resource-skeleton{
+  @apply min-w-[var(--resource-item-size)] pb-[100%];
 }
 
 .resource-item:hover,

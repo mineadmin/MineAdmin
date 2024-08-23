@@ -18,12 +18,12 @@ zh_TW:
 
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import { ElImageViewer, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import { render } from 'vue'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
@@ -38,26 +38,6 @@ const props = withDefaults(defineProps<{
 })
 
 const message = useMessage()
-
-const imageViewerRef = ref()
-
-// 可以将此功能抽离 usrImageViewer
-function openImageViewer(images, initialIndex = 0) {
-  const vnode = h(ElImageViewer, {
-    urlList: images,
-    hideOnClickModal: true,
-    zIndex: 2500,
-    initialIndex,
-    onClose: () => {
-      if (imageViewerRef.value) {
-        render(null, imageViewerRef.value)
-      }
-    },
-  })
-  imageViewerRef.value = document.createElement('div')
-  document.body.appendChild(imageViewerRef.value)
-  render(vnode, imageViewerRef.value)
-}
 
 interface Resource {
   id: number
@@ -154,7 +134,7 @@ function canPreview(item: Resource) {
 function handleDoubleClick(item: Resource) {
   // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
   if (canPreview(item)) {
-    openImageViewer([item.url])
+    useImageViewer([item.url])
   }
   else {
     message.warning('该资源无法预览,下载请右键')
@@ -201,7 +181,7 @@ function executeContextmenu(e: MouseEvent, item: Resource) {
         icon: 'i-ri:search-eye-line',
         disabled: !canPreview(item),
         onClick: () => {
-          openImageViewer([item.url])
+          useImageViewer([item.url])
         },
       },
       {

@@ -45,9 +45,11 @@ interface Resource {
 const props = withDefaults(defineProps<{
   multiple?: boolean
   limit?: number
+  pageSize?: number
 }>(), {
   multiple: false,
   limit: undefined,
+  pageSize: 40,
 })
 
 const resourceType = ref([
@@ -67,7 +69,7 @@ const scrollbarRef = ref(null)
 
 const queryParams = ref({
   page: 1,
-  pageSize: 40,
+  pageSize: props.pageSize,
   origin_name: '',
   mime_type: '',
 })
@@ -84,7 +86,7 @@ function query() {
       resourceList.value = data.items
       total.value = data.total
       loading.value = false
-    }, 3000)
+    }, Math.floor(Math.random() * 900 + 100))
   })
 }
 
@@ -181,7 +183,7 @@ function selectResource(item: string) {
   --resource-item-size:120px;
 }
 .resource-item{
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.38s ease-out forwards;
   --un-bg-opacity: 0.1;
   @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));

@@ -22,6 +22,8 @@ import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 
+defineOptions({ name: 'MaResourcePanel' })
+
 interface Resource {
   id: number
   storage_mode: number

@@ -26,7 +26,7 @@ function generateData() {
       suffix,
       size_byte: 1024 * id, // 示例：基于id的简单计算
       size_info: `${id}KB`, // 直接基于id生成
-      url: `http://example.com/resource_${id}`,
+      url: `https://picsum.photos/300/300?random=${id}`,
       created_by: (id % 10) + 1,
       updated_by: (id % 10) + 1,
       created_at: `2023-01-01`,

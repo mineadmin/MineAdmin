@@ -203,23 +203,17 @@ function selectResource(item: string) {
   @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:20 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis;
 }
 .resource-item__selected{
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  // 背景色从中间到右上角 纯白色 就是只要右上角三角形是白色的 别的地方是空白的
+  @apply absolute top--30px right--30px w-40px h-40px;
+  //transition: all 0.1s ease-in-out;
   background-image: linear-gradient(to top right, transparent 50%, rgb(var(--ui-primary)) 50%);
-
 }
 .resource-item__selected-icon{
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 2px;
-  color: #fff;
+  @apply absolute top-0 right-0 p-2px c-white;
 }
+.resource-item.active .resource-item__selected{
+  @apply top-0 right-0;
+}
+
 .resource-placeholder{
   @apply min-w-[var(--resource-item-size)] h-0 pointer-events-none p-0;
 }
@@ -229,28 +223,6 @@ function selectResource(item: string) {
 
 .resource-item:hover,
 .resource-item.active {
-  //@apply ring-2 ring-[rgb(var(--ui-primary))];
   @apply ring-2 ring-[rgb(var(--ui-primary))];
-  //box-shadow:inset 0 0 0 2px rgb(var(--ui-primary));
-  //border: 2px rgb(var(--ui-primary)) solid;
-}
-.resource-item.active .resource-item__selected{
-  opacity: 1;
-}
-
-.resource-item.active::after{
-  //content: '选中'; /* 角标显示的文本 */
-  //position: absolute;
-  //top: 0;
-  //right: 0;
-  //background-color: red; /* 角标背景颜色 */
-  //color: white; /* 文本颜色 */
-  //padding: 5px 10px; /* 内边距 */
-  //font-size: 12px; /* 文本大小 */
-  //transform: rotate(45deg); /* 仅旋转，不平移 */
-  //transform-origin: 100% 0%; /* 变形的基点设置为右上角 */
-  //border-radius: 2px; /* 轻微的圆角效果 */
-  //z-index: 1; /* 确保角标在顶层 */
-  //white-space: nowrap; /* 防止文本折行 */
 }
 </style>

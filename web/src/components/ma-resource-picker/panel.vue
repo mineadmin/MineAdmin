@@ -24,6 +24,16 @@ import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
 
 defineOptions({ name: 'MaResourcePanel' })
 
+const props = withDefaults(defineProps<{
+  multiple?: boolean
+  limit?: number
+  pageSize?: number
+}>(), {
+  multiple: false,
+  limit: undefined,
+  pageSize: 40,
+})
+
 interface Resource {
   id: number
   storage_mode: number
@@ -43,16 +53,6 @@ interface Resource {
   deleted_at: string | null
   remark: string | null
 }
-
-const props = withDefaults(defineProps<{
-  multiple?: boolean
-  limit?: number
-  pageSize?: number
-}>(), {
-  multiple: false,
-  limit: undefined,
-  pageSize: 40,
-})
 
 const resourceType = ref([
   { label: '所有', value: '', icon: 'ant-design:appstore-outlined' },
@@ -136,13 +136,19 @@ function selectResource(item: string) {
       </div>
     </div>
     <div class="min-h-0 flex-1">
-      <OverlayScrollbarsComponent ref="scrollbarRef" class="max-h-full py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
+      <OverlayScrollbarsComponent ref="scrollbarRef" class="max-h-full px-[2px] py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resourceList" :key="resource.id">
               <div class="resource-item" :class="{ active: pathSelected.includes(resource.url) }" @click="selectResource(resource.url)">
+                <div class="resource-item__image">
+                  <el-image :src="resource.url" fit="cover" />
+                </div>
                 <div class="resource-item__name">
                   {{ resource.origin_name }}
+                </div>
+                <div class="resource-item__selected">
+                  <ma-svg-icon class="resource-item__selected-icon" name="gravity-ui:circle-check-fill" :size="18" />
                 </div>
               </div>
             </template>
@@ -186,12 +192,33 @@ function selectResource(item: string) {
 }
 .resource-item{
   animation: fadeIn 0.38s ease-out forwards;
-  --un-bg-opacity: 0.1;
-  @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded;
+  --un-bg-opacity: 0.3;
+  @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded overflow-hidden border-box;
   background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
+}
+.resource-item__image{
+  @apply absolute bottom-0 left-0 h-full w-full;
 }
 .resource-item__name{
   @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:20 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis;
+}
+.resource-item__selected{
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  // 背景色从中间到右上角 纯白色 就是只要右上角三角形是白色的 别的地方是空白的
+  background-image: linear-gradient(to top right, transparent 50%, rgb(var(--ui-primary)) 50%);
+
+}
+.resource-item__selected-icon{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px;
+  color: #fff;
 }
 .resource-placeholder{
   @apply min-w-[var(--resource-item-size)] h-0 pointer-events-none p-0;
@@ -202,16 +229,28 @@ function selectResource(item: string) {
 
 .resource-item:hover,
 .resource-item.active {
-  box-shadow:inset 0 0 0 2px rgb(var(--ui-primary));
+  //@apply ring-2 ring-[rgb(var(--ui-primary))];
+  @apply ring-2 ring-[rgb(var(--ui-primary))];
+  //box-shadow:inset 0 0 0 2px rgb(var(--ui-primary));
+  //border: 2px rgb(var(--ui-primary)) solid;
+}
+.resource-item.active .resource-item__selected{
+  opacity: 1;
 }
 
 .resource-item.active::after{
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  top: 0;
-  background: rgba(var(--ui-primary) / var(--un-bg-opacity));
+  //content: '选中'; /* 角标显示的文本 */
+  //position: absolute;
+  //top: 0;
+  //right: 0;
+  //background-color: red; /* 角标背景颜色 */
+  //color: white; /* 文本颜色 */
+  //padding: 5px 10px; /* 内边距 */
+  //font-size: 12px; /* 文本大小 */
+  //transform: rotate(45deg); /* 仅旋转，不平移 */
+  //transform-origin: 100% 0%; /* 变形的基点设置为右上角 */
+  //border-radius: 2px; /* 轻微的圆角效果 */
+  //z-index: 1; /* 确保角标在顶层 */
+  //white-space: nowrap; /* 防止文本折行 */
 }
 </style>

@@ -68,6 +68,8 @@ const dialogVisible = ref<boolean>(false)
       <div class="h-[600px]">
         <MaResourcePanel
           ref="iconPanelRef"
+          :limit="12"
+          multiple
           @select="(icon: string) => {
             model = icon
             dialogVisible = false

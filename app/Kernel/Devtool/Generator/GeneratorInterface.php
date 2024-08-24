@@ -10,11 +10,11 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Kernel\Casbin\Factory;
-use Casbin\Enforcer;
-use Psr\Container\ContainerInterface;
+namespace App\Kernel\Devtool\Generator;
 
-return [
-    Enforcer::class => Factory::class,
-    \App\Kernel\Upload\UploadInterface::class   =>  \App\Kernel\Upload\Factory::class
-];
+interface GeneratorInterface
+{
+    public function generator();
+
+    public function preview();
+}

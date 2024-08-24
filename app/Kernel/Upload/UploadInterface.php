@@ -10,11 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Kernel\Casbin\Factory;
-use Casbin\Enforcer;
-use Psr\Container\ContainerInterface;
+namespace App\Kernel\Upload;
 
-return [
-    Enforcer::class => Factory::class,
-    \App\Kernel\Upload\UploadInterface::class   =>  \App\Kernel\Upload\Factory::class
-];
+use App\Kernel\Upload\Exception\UploadFailException;
+
+interface UploadInterface
+{
+    /**
+     * @throws UploadFailException
+     */
+    public function upload(\SplFileInfo $fileInfo): Upload;
+}

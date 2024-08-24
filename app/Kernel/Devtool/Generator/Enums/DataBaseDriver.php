@@ -10,11 +10,13 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Kernel\Casbin\Factory;
-use Casbin\Enforcer;
-use Psr\Container\ContainerInterface;
+namespace App\Kernel\Devtool\Generator\Enums;
 
-return [
-    Enforcer::class => Factory::class,
-    \App\Kernel\Upload\UploadInterface::class   =>  \App\Kernel\Upload\Factory::class
-];
+enum DataBaseDriver: string
+{
+    case MYSQL = 'mysql';
+    case PGSQL = 'pgsql';
+    case SQLITE = 'sqlite';
+    case SQLSRV = 'sqlsrv';
+    case ORACLE = 'oracle';
+}

@@ -21,43 +21,24 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import type { MTabsOptionItems } from '$/mine-admin/basic-ui/components/tab/type'
+import type { FileType, Resource, ResourcePanelEmits, ResourcePanelProps } from './type.ts'
+
 import { useMessage } from '@/hooks/useMessage.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
-const props = withDefaults(defineProps<{
-  multiple?: boolean
-  limit?: number
-  pageSize?: number
-  returnType?: 'id' | 'url' | 'hash'// 完整数据/id/url/hash
-}>(), {
+const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
   pageSize: 40,
   returnType: 'id',
 })
 
+// 事件等后续开发确认
+const emit = defineEmits<ResourcePanelEmits>()
+
 const message = useMessage()
-
-interface Resource {
-  id: number
-  storage_mode: number
-  origin_name: string
-  object_name: string
-  hash: string
-  mime_type: string
-  storage_path: string
-  suffix: string
-  size_byte: number
-  size_info: string
-  url: string
-}
-
-interface FileType extends MTabsOptionItems<string> {
-  suffix: string
-}
 
 const fileTypes = ref<FileType[]>([
   { label: '所有', value: '', icon: 'ant-design:appstore-outlined', suffix: '' },

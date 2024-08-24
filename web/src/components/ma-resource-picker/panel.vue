@@ -21,7 +21,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import type { OptionItems } from '$/mine-admin/basic-ui/components/tab/type'
+import type { MTabsOptionItems } from '$/mine-admin/basic-ui/components/tab/type'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
@@ -55,7 +55,7 @@ interface Resource {
   url: string
 }
 
-interface FileType extends OptionItems<string> {
+interface FileType extends MTabsOptionItems<string> {
   suffix: string
 }
 

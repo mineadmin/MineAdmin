@@ -34,7 +34,7 @@ export interface ResourcePanelProps {
 export interface ResourcePanelEmits {
   // 事件暂时未使用,等待后续接入 这些事件只是假设有 参数也是还未确定的,等后续开发确定
   (event: 'cancel'): void // 用户点击取消
-  (event: 'confirm', selectedResources: Resource[]): void // 用户确认选中的资源
+  (event: 'confirm', selectedKey: Array<string | number>, selectedResources: Resource[]): void // 用户确认选中的资源
   (event: 'selectionChange', selectedResources: Resource[]): void // 用户选择的资源发生变化
   (event: 'search', query: string): void // 用户进行搜索操作
   (event: 'preview', resource: Resource): void // 用户请求预览资源

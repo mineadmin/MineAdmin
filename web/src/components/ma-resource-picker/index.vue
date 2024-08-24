@@ -37,6 +37,11 @@ const resource = ref()
 watch(resource, (value) => {
   console.log(value)
 }, { deep: true })
+
+function onConfirm(keys, resources) {
+  console.log(keys, resources)
+  dialogVisible.value = false
+}
 </script>
 
 <template>
@@ -74,8 +79,11 @@ watch(resource, (value) => {
         <MaResourcePanel
           ref="iconPanelRef"
           v-model="resource"
+          :page-size="24"
           :limit="12"
           multiple
+          @cancel="dialogVisible = false"
+          @confirm="onConfirm"
         />
       </div>
     </el-dialog>

@@ -134,8 +134,9 @@ function getCover(resource: Resource) {
  * 获取文件类型图标
  */
 function getIcon(resource: Resource) {
-  const suffix = resource.suffix
-  return 'vscode-icons:file-type-commitizen'
+  return null
+  // const suffix = resource.suffix
+  // return 'vscode-icons:file-type-commitizen'
 }
 
 /**
@@ -188,6 +189,14 @@ function clearSelected() {
   selectedKeys.value = []
 }
 
+function cancel() {
+  emit('cancel')
+}
+
+function confirm() {
+  emit('confirm', selectedKeys.value, resources.value.filter(i => selectedKeys.value.includes(i[props.returnType])))
+}
+
 /**
  * 处理点击资源事件
  */
@@ -199,13 +208,10 @@ function handleClick(resource: Resource) {
  * 处理双击资源事件
  */
 function handleDbClick(resource: Resource) {
-  // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
-  if (canPreview(resource)) {
-    useImageViewer([resource.url])
-  }
-  else {
-    message.warning('该资源无法预览,下载请右键')
-  }
+  // 双击确认选中单个元素
+  clearSelected()
+  select(resource)
+  confirm()
 }
 
 /**
@@ -279,7 +285,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
           @change="(value:string) => queryParams.suffix = fileTypes.find(i => i.value === value)?.suffix || ''"
         >
           <template #default="{ item }">
-            <div class="flex items-center">
+            <div class="flex items-center justify-center">
               <ma-svg-icon v-if="item.icon" :name="item.icon" :size="17" class="mr-1 flex items-center justify-center" />
               <span>{{ item.label }}</span>
             </div>
@@ -301,9 +307,9 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         <!--        </el-button> -->
       </div>
     </div>
-    <div class="my-2 min-h-0 flex-1">
+    <div class="mt-2 min-h-0 flex-1">
       <OverlayScrollbarsComponent v-if="loading || resources.length" class="max-h-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
-        <div class="flex flex-wrap px-[2px] py-[2px]">
+        <div class="flex flex-wrap px-[2px] pt-[2px]">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resources" :key="resource.id">
               <div
@@ -383,10 +389,10 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         />
       </div>
       <div>
-        <el-button @click="handleCancel">
+        <el-button @click="cancel">
           取消
         </el-button>
-        <el-button type="primary" @click="handleConfirm">
+        <el-button type="primary" @click="confirm">
           确认
         </el-button>
       </div>

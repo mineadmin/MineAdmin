@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\DataCenter\Attachment;
+use App\Model\Attachment;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 

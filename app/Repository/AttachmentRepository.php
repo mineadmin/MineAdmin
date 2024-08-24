@@ -10,10 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Repository\DataCenter;
+namespace App\Repository;
 
-use App\Model\DataCenter\Attachment;
-use App\Repository\IRepository;
+use App\Model\Attachment;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
 

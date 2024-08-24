@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Request\DataCenter;
+namespace App\Http\Admin\Request;
 
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;

@@ -33,7 +33,9 @@ final class PermissionController extends AbstractController
 
     #[Get(
         path: '/admin/permission/menus',
+        operationId: 'PermissionMenus',
         summary: '获取当前用户菜单',
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['权限']
     )]
     #[PageResponse(
@@ -49,7 +51,9 @@ final class PermissionController extends AbstractController
 
     #[Get(
         path: '/admin/permission/roles',
+        operationId: 'PermissionRoles',
         summary: '获取当前用户角色',
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['权限']
     )]
     #[PageResponse(

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace HyperfTests\Feature\Admin\Permission;
 
+use App\Constants\User\Status;
+use App\Constants\User\Type;
 use App\Http\Common\ResultCode;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
@@ -151,14 +153,14 @@ class UserControllerTest extends ControllerCase
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();
         $this->assertSame($user->username, $fillAttributes['username']);
-        $this->assertSame($user->user_type, (int) $fillAttributes['user_type']);
+        $this->assertSame($user->user_type, Type::from($fillAttributes['user_type']));
         $this->assertSame($user->nickname, $fillAttributes['nickname']);
         $this->assertSame($user->phone, $fillAttributes['phone']);
         $this->assertSame($user->email, $fillAttributes['email']);
         $this->assertSame($user->avatar, $fillAttributes['avatar']);
         $this->assertSame($user->signed, $fillAttributes['signed']);
         $this->assertSame($user->dashboard, $fillAttributes['dashboard']);
-        $this->assertSame($user->status, $fillAttributes['status']);
+        $this->assertSame($user->status, Status::from($fillAttributes['status']));
         $this->assertSame($user->backend_setting, $fillAttributes['backend_setting']);
         $this->assertSame($user->remark, $fillAttributes['remark']);
         $user->forceDelete();

@@ -10,19 +10,18 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Controller\DataCenter;
+namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\DataCenter\UploadRequest;
+use App\Http\Admin\Request\UploadRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
 use App\Kernel\Swagger\Attributes\PageResponse;
 use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\AttachmentSchema;
-use App\Service\DataCenter\AttachmentService;
+use App\Service\AttachmentService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;

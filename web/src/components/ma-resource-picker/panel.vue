@@ -21,7 +21,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import MTabs from '$/mine-admin/basic-ui/components/tab/index.vue'
+import type { OptionItems } from '$/mine-admin/basic-ui/components/tab/type'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
@@ -31,10 +31,12 @@ const props = withDefaults(defineProps<{
   multiple?: boolean
   limit?: number
   pageSize?: number
+  returnType?: 'id' | 'url' | 'hash'// 完整数据/id/url/hash
 }>(), {
   multiple: false,
   limit: undefined,
   pageSize: 40,
+  returnType: 'id',
 })
 
 const message = useMessage()
@@ -51,15 +53,13 @@ interface Resource {
   size_byte: number
   size_info: string
   url: string
-  created_by: number | null
-  updated_by: number | null
-  created_at: string | null
-  updated_at: string | null
-  deleted_at: string | null
-  remark: string | null
 }
 
-const resourceType = ref([
+interface FileType extends OptionItems<string> {
+  suffix: string
+}
+
+const fileTypes = ref<FileType[]>([
   { label: '所有', value: '', icon: 'ant-design:appstore-outlined', suffix: '' },
   { label: '图片', value: 'image', icon: 'ant-design:picture-outlined', suffix: 'png,jpg,jpeg,gif,bmp' },
   { label: '音频', value: 'audio', icon: 'ant-design:audit-outlined', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
@@ -81,23 +81,18 @@ const queryParams = ref({
   origin_name: '',
   suffix: '',
 })
+
+/**
+ * 加载占位符数量
+ */
 const skeletonNum = computed(() => {
   return loading.value ? queryParams.value.pageSize : 0
 })
-function updateQueryParamsSuffix(value) {
-  // 使用find方法查找对应的资源类型对象
-  const selectedResourceType = resourceType.value.find(type => type.value === value)
-  // 如果找到了对应的资源类型，则更新queryParams.suffix
-  if (selectedResourceType) {
-    queryParams.value.suffix = selectedResourceType.suffix
-  }
-  else {
-    // 如果没有找到（例如用户选择了“所有”），则清空queryParams.suffix
-    queryParams.value.suffix = null
-  }
-}
 
-function query() {
+/**
+ * 查询资源列表
+ */
+async function query(): Promise<void> {
   resourceList.value = []
   loading.value = true
   return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
@@ -113,6 +108,10 @@ watch(queryParams, () => {
   query()
 }, { deep: true, immediate: true })
 
+/**
+ * 获取封面
+ * @param resource
+ */
 function getCover(resource: Resource) {
   if (resource.mime_type.startsWith('image')) {
     return resource.url
@@ -122,8 +121,11 @@ function getCover(resource: Resource) {
   }
 }
 
+/**
+ * 切换选中状态
+ */
 function toggleSelect(resource: Resource) {
-  const key = resource.url
+  const key: string = resource[props.returnType]
   // 多选
   if (pathSelected.value.includes(key)) {
     pathSelected.value = pathSelected.value.filter(i => i !== key)
@@ -141,18 +143,34 @@ function toggleSelect(resource: Resource) {
     }
   }
 }
+
+/**
+ * 清空选中
+ */
 function clearSelected() {
   pathSelected.value = []
 }
 
+/**
+ * 判断是否被选中
+ * @param resource
+ */
 function isSelected(resource: Resource) {
-  return pathSelected.value.includes(resource.url)
+  const key: string = resource[props.returnType]
+  return pathSelected.value.includes(key)
 }
 
+/**
+ * 判断是否能预览
+ * @param resource
+ */
 function canPreview(resource: Resource) {
   return resource.mime_type.startsWith('image')
 }
 
+/**
+ * 处理双击资源事件
+ */
 function handleDoubleClick(resource: Resource) {
   // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
   if (canPreview(resource)) {
@@ -163,6 +181,9 @@ function handleDoubleClick(resource: Resource) {
   }
 }
 
+/**
+ * 右键菜单
+ */
 function executeContextmenu(e: MouseEvent, resource: Resource) {
   e.preventDefault()
   ContextMenu.showContextMenu({
@@ -223,7 +244,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="h-41px flex justify-between">
       <div class="w-600px">
-        <MTabs v-model="resourceTypeSelected" :options="resourceType" class="text-sm" @change="updateQueryParamsSuffix" />
+        <MTabs v-model="resourceTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" />
       </div>
 
       <div class="flex flex-1 justify-end">

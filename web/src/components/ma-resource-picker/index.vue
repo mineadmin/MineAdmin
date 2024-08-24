@@ -32,6 +32,11 @@ const model = defineModel<string>()
 const iconPanelRef = ref()
 
 const dialogVisible = ref<boolean>(false)
+const resource = ref()
+
+watch(resource, (value) => {
+  console.log(value)
+}, { deep: true })
 </script>
 
 <template>
@@ -68,12 +73,9 @@ const dialogVisible = ref<boolean>(false)
       <div class="h-[600px]">
         <MaResourcePanel
           ref="iconPanelRef"
+          v-model="resource"
           :limit="12"
           multiple
-          @select="(icon: string) => {
-            model = icon
-            dialogVisible = false
-          }"
         />
       </div>
       <template #footer>

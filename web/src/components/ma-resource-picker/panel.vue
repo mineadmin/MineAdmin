@@ -32,11 +32,14 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
   pageSize: 40,
-  returnType: 'id',
+  returnType: 'url',
+  dbClickConfirm: false,
 })
 
 // 事件等后续开发确认
 const emit = defineEmits<ResourcePanelEmits>()
+
+const modelValue = defineModel<Array<string | number> | string | number>()
 
 const message = useMessage()
 
@@ -48,14 +51,43 @@ const fileTypes = ref<FileType[]>([
   { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
   { label: '压缩包', value: 'package', icon: 'ant-design:zip-file-outlined', suffix: 'zip,rar,7z,tar,gz' },
 ])
+const fileTypeSelected = ref('')
 
+/**
+ * 加载状态
+ */
 const loading = ref(false)
-const total = ref<number>(0)
-const resourceList = ref<Resource[]>([])
-const pathSelected = ref<string[]>([])
-const scrollbarRef = ref(null)
-const resourceTypeSelected = ref('')
 
+/**
+ * 当前资源列表
+ */
+const resources = ref<Resource[]>([])
+
+/**
+ * 资源总数
+ */
+const total = ref<number>(0)
+
+/**
+ * 选中资源的key列表,该数据可用做直接返回
+ */
+const selectedKeys = ref<Array<string | number>>([])
+
+watchEffect(() => {
+  // 监听v-model变化
+  const value = modelValue.value
+  selectedKeys.value = Array.isArray(value) ? value : value ? [value] : []
+})
+
+watchEffect(() => {
+  // 监听选中值变化
+  const keys = selectedKeys.value
+  modelValue.value = props.multiple ? keys : keys[0]
+})
+
+/**
+ * 查询参数
+ */
 const queryParams = ref({
   page: 1,
   pageSize: props.pageSize,
@@ -71,23 +103,21 @@ const skeletonNum = computed(() => {
 })
 
 /**
- * 查询资源列表
+ * 资源查询方法
  */
 async function query(): Promise<void> {
-  resourceList.value = []
+  resources.value = []
   loading.value = true
   return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
     setTimeout(() => {
-      resourceList.value = data.items
+      resources.value = data.items
       total.value = data.total
       loading.value = false
     }, Math.floor(Math.random() * 900 + 100))
   })
 }
 
-watch(queryParams, () => {
-  query()
-}, { deep: true, immediate: true })
+watch(queryParams, query, { deep: true, immediate: true })
 
 /**
  * 获取封面
@@ -103,42 +133,12 @@ function getCover(resource: Resource) {
 }
 
 /**
- * 切换选中状态
- */
-function toggleSelect(resource: Resource) {
-  const key: string = resource[props.returnType]
-  // 多选
-  if (pathSelected.value.includes(key)) {
-    pathSelected.value = pathSelected.value.filter(i => i !== key)
-  }
-  else {
-    if (props.multiple) {
-      // 判断是否上限
-      if (props.limit && pathSelected.value.length >= props.limit) {
-        return ElMessage.warning(`最多选择${props.limit}个`)
-      }
-      pathSelected.value.push(key)
-    }
-    else {
-      pathSelected.value = [key]
-    }
-  }
-}
-
-/**
- * 清空选中
- */
-function clearSelected() {
-  pathSelected.value = []
-}
-
-/**
  * 判断是否被选中
  * @param resource
  */
 function isSelected(resource: Resource) {
-  const key: string = resource[props.returnType]
-  return pathSelected.value.includes(key)
+  const key: string | number = resource[props.returnType]
+  return selectedKeys.value.includes(key)
 }
 
 /**
@@ -150,9 +150,49 @@ function canPreview(resource: Resource) {
 }
 
 /**
+ * 选中资源
+ */
+function select(resource: Resource) {
+  const key: string | number = resource[props.returnType]
+  // 单选
+  if (props.multiple) {
+    // 判断是否上限
+    if (props.limit && selectedKeys.value.length >= props.limit) {
+      return ElMessage.warning(`最多选择${props.limit}个`)
+    }
+    selectedKeys.value.push(key)
+  }
+  else {
+    selectedKeys.value = [key]
+  }
+}
+
+/**
+ * 取消选中
+ */
+function unSelect(resource: Resource) {
+  const key: string | number = resource[props.returnType]
+  selectedKeys.value = selectedKeys.value.filter(i => i !== key)
+}
+
+/**
+ * 清空选中
+ */
+function clearSelected() {
+  selectedKeys.value = []
+}
+
+/**
+ * 处理点击资源事件
+ */
+function handleClick(resource: Resource) {
+  isSelected(resource) ? unSelect(resource) : select(resource)
+}
+
+/**
  * 处理双击资源事件
  */
-function handleDoubleClick(resource: Resource) {
+function handleDbClick(resource: Resource) {
   // 这里要考虑一下双击是做预览功能还是 直接双击选中+确认
   if (canPreview(resource)) {
     useImageViewer([resource.url])
@@ -179,7 +219,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         hidden: isSelected(resource),
         icon: 'i-ri:check-fill',
         onClick: () => {
-          toggleSelect(resource)
+          select(resource)
         },
       },
       {
@@ -187,7 +227,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         hidden: !isSelected(resource),
         icon: 'i-ri:close-fill',
         onClick: () => {
-          toggleSelect(resource)
+          unSelect(resource)
         },
       },
       // 独选此项
@@ -197,7 +237,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         divided: true,
         onClick: () => {
           clearSelected()
-          toggleSelect(resource)
+          select(resource)
         },
       },
       {
@@ -225,7 +265,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="h-41px flex justify-between">
       <div class="w-600px">
-        <MTabs v-model="resourceTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" />
+        <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" />
       </div>
 
       <div class="flex flex-1 justify-end">
@@ -242,15 +282,15 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
       </div>
     </div>
     <div class="min-h-0 flex-1">
-      <OverlayScrollbarsComponent ref="scrollbarRef" class="max-h-full px-[2px] py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
+      <OverlayScrollbarsComponent class="max-h-full px-[2px] py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap">
           <el-space wrap fill :fill-ratio="9">
-            <template v-for="resource in resourceList" :key="resource.id">
+            <template v-for="resource in resources" :key="resource.id">
               <div
                 class="resource-item"
                 :class="{ active: isSelected(resource) }"
-                @click="toggleSelect(resource)"
-                @dblclick="handleDoubleClick(resource)"
+                @click="handleClick(resource)"
+                @dblclick="handleDbClick(resource)"
                 @contextmenu="(e: MouseEvent) => executeContextmenu(e, resource)"
               >
                 <div class="resource-item__image">

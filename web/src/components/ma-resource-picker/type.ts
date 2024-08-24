@@ -27,6 +27,7 @@ export interface ResourcePanelProps {
   limit?: number
   pageSize?: number
   returnType?: 'id' | 'url' | 'hash'
+  dbClickConfirm?: boolean
 }
 
 // 定义 Emit 事件的类型

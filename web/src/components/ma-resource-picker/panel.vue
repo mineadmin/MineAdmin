@@ -106,8 +106,8 @@ const skeletonNum = computed(() => {
  * 资源查询方法
  */
 async function query(): Promise<void> {
-  resources.value = []
   loading.value = true
+  resources.value = []
   return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
     setTimeout(() => {
       resources.value = data.items
@@ -269,13 +269,27 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
-    <div class="h-41px flex justify-between">
+    <div class="flex justify-between">
       <div class="w-500px">
-        <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" />
+        <el-segmented
+          v-model="fileTypeSelected"
+          :options="fileTypes"
+          size="default"
+          block
+          @change="(value:string) => queryParams.suffix = fileTypes.find(i => i.value === value)?.suffix || ''"
+        >
+          <template #default="{ item }">
+            <div class="flex items-center">
+              <ma-svg-icon v-if="item.icon" :name="item.icon" :size="17" class="mr-1 flex items-center justify-center" />
+              <span>{{ item.label }}</span>
+            </div>
+          </template>
+        </el-segmented>
+        <!--        <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" /> -->
       </div>
 
-      <div class="flex flex-1 justify-end">
-        <el-input v-model="queryParams.origin_name" placeholder="搜索资源名" class="max-w-[240px]">
+      <div class="flex justify-end">
+        <el-input v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-[180px]">
           <template #suffix>
             <el-icon><Search /></el-icon>
           </template>
@@ -287,9 +301,9 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         <!--        </el-button> -->
       </div>
     </div>
-    <div class="min-h-0 flex-1">
-      <OverlayScrollbarsComponent class="max-h-full px-[2px] py-3" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
-        <div class="flex flex-wrap">
+    <div class="my-2 min-h-0 flex-1">
+      <OverlayScrollbarsComponent v-if="loading || resources.length" class="max-h-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
+        <div class="flex flex-wrap px-[2px] py-[2px]">
           <el-space wrap fill :fill-ratio="9">
             <template v-for="resource in resources" :key="resource.id">
               <div
@@ -329,27 +343,53 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                 </div>
               </div>
             </template>
-            <el-skeleton v-for="i in skeletonNum" class="resource-skeleton relative" animated>
+            <el-skeleton v-for="i in skeletonNum" :key="i" class="resource-skeleton relative" animated>
               <template #template>
                 <el-skeleton-item class="absolute h-full w-full" variant="rect" />
               </template>
             </el-skeleton>
-            <div v-for="i in 10" class="resource-placeholder" />
+            <div v-for="i in 10" :key="i" class="resource-placeholder" />
           </el-space>
         </div>
       </OverlayScrollbarsComponent>
+      <div v-else class="h-full w-full flex flex-1 items-center justify-center">
+        <el-empty />
+      </div>
     </div>
-    <div class="ma-resource-panel__footer">
-      <el-pagination
-        v-model:current-page="queryParams.page"
-        :disabled="loading"
-        class="mt-8"
-        :total="total"
-        :page-size="queryParams.pageSize"
-        background
-        layout="prev, pager, next"
-        :pager-count="5"
-      />
+    <div class="ma-resource-panel__footer flex justify-between">
+      <div class="flex items-center">
+        <el-button class="mr-4" :disabled="!selectedKeys.length" text bg>
+          <span :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
+            {{ selectedKeys.length }}
+            <template v-if="props.multiple && props.limit">
+              /{{ props.limit }}
+            </template>
+          </span>
+
+          <ma-svg-icon
+            class="ml-2 hover:color-[var(--el-color-danger)]"
+            name="ri:delete-bin-line" :size="16"
+            @click="clearSelected"
+          />
+        </el-button>
+        <el-pagination
+          v-model:current-page="queryParams.page"
+          :disabled="loading"
+          :total="total"
+          :page-size="queryParams.pageSize"
+          background
+          layout="prev, pager, next"
+          :pager-count="5"
+        />
+      </div>
+      <div>
+        <el-button @click="handleCancel">
+          取消
+        </el-button>
+        <el-button type="primary" @click="handleConfirm">
+          确认
+        </el-button>
+      </div>
     </div>
   </div>
 </template>

@@ -316,7 +316,8 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   @apply absolute bottom-0 left-0 h-full w-full;
 }
 .resource-item__name{
-  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:20 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis;
+  @apply absolute bottom-0 left-0 h-24px w-[calc(100%-20px)] overflow-hidden bg-gray:60 px-10px text-12px leading-24px whitespace-nowrap text-ellipsis c-white;
+
 }
 .resource-item__selected{
   @apply absolute top--30px right--30px w-40px h-40px;

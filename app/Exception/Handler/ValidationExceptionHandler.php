@@ -16,7 +16,7 @@ use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Hyperf\Validation\ValidationException;
 
-class ValidationExceptionHandler extends AbstractHandler
+final class ValidationExceptionHandler extends AbstractHandler
 {
     /**
      * @param ValidationException $throwable

@@ -35,7 +35,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
  */
-class Attachment extends MineModel
+final class Attachment extends MineModel
 {
     use SoftDeletes;
 

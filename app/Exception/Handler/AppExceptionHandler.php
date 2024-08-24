@@ -19,7 +19,7 @@ use Hyperf\Context\Context;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Swow\Psr7\Message\ResponsePlusInterface;
 
-class AppExceptionHandler extends AbstractHandler
+final class AppExceptionHandler extends AbstractHandler
 {
     public function handleResponse(\Throwable $throwable): Result
     {
@@ -33,7 +33,7 @@ class AppExceptionHandler extends AbstractHandler
     public function handle(\Throwable $throwable, ResponsePlusInterface $response)
     {
         if ($this->isDebug()) {
-            Context::set(static::class . '.throwable', [
+            Context::set(self::class . '.throwable', [
                 'message' => $throwable->getMessage(),
                 'file' => $throwable->getFile(),
                 'line' => $throwable->getLine(),
@@ -54,7 +54,7 @@ class AppExceptionHandler extends AbstractHandler
             return parent::handlerResult($responsePlus, $result);
         }
         $result = $result->toArray();
-        $result['throwable'] = Context::get(static::class . '.throwable');
+        $result['throwable'] = Context::get(self::class . '.throwable');
         return $responsePlus
             ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->setBody(new SwooleStream(Json::encode($result)));

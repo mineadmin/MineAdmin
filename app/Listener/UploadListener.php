@@ -17,7 +17,7 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
 #[Listener]
-class UploadListener implements ListenerInterface
+final class UploadListener implements ListenerInterface
 {
     public function listen(): array
     {

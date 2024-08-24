@@ -40,7 +40,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property string $remark 备注
  * @property Collection|Role[] $roles
  */
-class Menu extends MineModel
+final class Menu extends MineModel
 {
     use SoftDeletes;
 

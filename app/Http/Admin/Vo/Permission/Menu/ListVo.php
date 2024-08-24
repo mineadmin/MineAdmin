@@ -21,4 +21,4 @@ use Hyperf\Swagger\Annotation\Schema;
     description: '菜单列表',
     items: new Items(ref: MenuSchema::class)
 )]
-class ListVo {}
+final class ListVo {}

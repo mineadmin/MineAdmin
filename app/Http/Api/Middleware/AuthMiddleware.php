@@ -15,7 +15,7 @@ namespace App\Http\Api\Middleware;
 use App\Http\Common\Middleware\AuthMiddleware as CommonAuthMiddleware;
 use App\Kernel\Auth\JwtInterface;
 
-class AuthMiddleware extends CommonAuthMiddleware
+final class AuthMiddleware extends CommonAuthMiddleware
 {
     protected function getJwt(): JwtInterface
     {

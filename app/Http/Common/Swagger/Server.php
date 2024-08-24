@@ -49,4 +49,4 @@ use Hyperf\Swagger\Annotation as OA;
     name: 'token',
     in: 'header'
 )]
-class Server {}
+final class Server {}

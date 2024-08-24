@@ -32,11 +32,10 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property Carbon $updated_at 更新时间
  * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
- * @property Collection|Post[] $posts
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
  */
-class Role extends MineModel
+final class Role extends MineModel
 {
     use SoftDeletes;
 

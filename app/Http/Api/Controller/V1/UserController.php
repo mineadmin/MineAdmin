@@ -20,7 +20,7 @@ use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\Post;
 
 #[HyperfServer(name: 'http')]
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     public function __construct(
         private readonly PassportService $passportService

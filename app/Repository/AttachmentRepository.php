@@ -33,8 +33,7 @@ final class AttachmentRepository extends IRepository
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query->when(Arr::get($params, 'suffix'), function (Builder $query, $suffix) {
-            $suffix = is_array($suffix) ? $suffix : explode(',', $suffix);
-            $query->whereIn('suffix', $suffix);
+            $query->whereIn('suffix', Arr::wrap($suffix));
         });
     }
 }

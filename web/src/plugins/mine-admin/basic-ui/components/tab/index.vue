@@ -9,30 +9,26 @@
 -->
 <script setup lang="ts" generic="T extends string | number">
 import { useResizeObserver } from '@vueuse/core'
-import type { OptionItems } from './type.ts'
+import type { MTabsEmits, MTabsOptionItems, MTabsProps } from './type.ts'
 import useParentNode from '@/hooks/useParentNode.ts'
 
 defineOptions({ name: 'MTabs' })
 
 const props = withDefaults(
-  defineProps<{
-    options: OptionItems<T>[]
-    direction?: 'horizontal' | 'vertical'
-    align?: 'start' | 'center' | 'end'
-  }>(), {
+  defineProps<MTabsProps<T>>(),
+  {
     direction: 'horizontal',
     align: 'center',
-  })
+  },
+)
 
-const emit = defineEmits<{
-  (event: 'change', value: T, optionItem: OptionItems<T>): void
-}>()
+const emit = defineEmits<MTabsEmits>()
 
 const id = ref<string>(`tabDomId_${Math.floor(Math.random() * 100000 + Math.random() * 20000 + Math.random() * 5000)}`)
 const value = defineModel<T>()
 const selectedEl = ref<HTMLElement>()
 
-function handleClick(e: MouseEvent, item: OptionItems<T>): any {
+function handleClick(e: MouseEvent, item: MTabsOptionItems<T>): any {
   e.preventDefault()
   if (value.value !== item.value) {
     value.value = item.value

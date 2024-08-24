@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Kernel\Upload\UploadManager;
+use App\Kernel\Upload\UploadInterface;
 use App\Repository\AttachmentRepository;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -23,7 +23,7 @@ final class AttachmentService extends IService
 {
     public function __construct(
         protected readonly AttachmentRepository $repository,
-        protected readonly UploadManager $uploadManager
+        protected readonly UploadInterface $upload
     ) {}
 
     public function upload(SplFileInfo $fileInfo, int $userId): array
@@ -32,15 +32,21 @@ final class AttachmentService extends IService
         if ($attachment = $this->repository->findByHash($fileHash)) {
             return $attachment->toArray();
         }
-        return $this->repository->create(
-            [
-                ...$this->uploadManager->upload(
-                    $fileInfo,
-                ),
-                ...[
-                    'created_by' => $userId,
-                ]]
-        )->toArray();
+        $upload = $this->upload->upload(
+            $fileInfo,
+        );
+        return $this->repository->create([
+            'created_by' => $userId,
+            'storage_mode' => $upload->getStorageMode(),
+            'object_name' => $upload->getObjectName(),
+            'mime_type' => $upload->getMimeType(),
+            'storage_path' => $upload->getStoragePath(),
+            'hash' => $fileHash,
+            'suffix' => $upload->getSuffix(),
+            'size_byte' => $upload->getSizeByte(),
+            'size_info' => $upload->getSizeInfo(),
+            'url' => $upload->getUrl(),
+        ]);
     }
 
     public function getRepository(): AttachmentRepository

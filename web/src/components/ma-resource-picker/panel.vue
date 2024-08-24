@@ -60,12 +60,12 @@ interface Resource {
 }
 
 const resourceType = ref([
-  { label: '所有', value: '', icon: 'ant-design:appstore-outlined' },
-  { label: '图片', value: 'image', icon: 'ant-design:picture-outlined' },
-  { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined' },
-  { label: '音频', value: 'audio', icon: 'ant-design:audit-outlined' },
-  { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined' },
-  { label: '程序', value: 'application', icon: 'ant-design:code-outlined' },
+  { label: '所有', value: '', icon: 'ant-design:appstore-outlined', suffix: '' },
+  { label: '图片', value: 'image', icon: 'ant-design:picture-outlined', suffix: 'png,jpg,jpeg,gif,bmp' },
+  { label: '音频', value: 'audio', icon: 'ant-design:audit-outlined', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
+  { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
+  { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
+  { label: '压缩包', value: 'package', icon: 'ant-design:zip-file-outlined', suffix: 'zip,rar,7z,tar,gz' },
 ])
 
 const loading = ref(false)
@@ -73,17 +73,29 @@ const total = ref<number>(0)
 const resourceList = ref<Resource[]>([])
 const pathSelected = ref<string[]>([])
 const scrollbarRef = ref(null)
+const resourceTypeSelected = ref('')
 
 const queryParams = ref({
   page: 1,
   pageSize: props.pageSize,
   origin_name: '',
-  mime_type: '',
+  suffix: '',
 })
-
 const skeletonNum = computed(() => {
   return loading.value ? queryParams.value.pageSize : 0
 })
+function updateQueryParamsSuffix(value) {
+  // 使用find方法查找对应的资源类型对象
+  const selectedResourceType = resourceType.value.find(type => type.value === value)
+  // 如果找到了对应的资源类型，则更新queryParams.suffix
+  if (selectedResourceType) {
+    queryParams.value.suffix = selectedResourceType.suffix
+  }
+  else {
+    // 如果没有找到（例如用户选择了“所有”），则清空queryParams.suffix
+    queryParams.value.suffix = null
+  }
+}
 
 function query() {
   resourceList.value = []
@@ -100,6 +112,16 @@ function query() {
 watch(queryParams, () => {
   query()
 }, { deep: true, immediate: true })
+
+function getCover(resource: Resource) {
+  if (resource.mime_type.startsWith('image')) {
+    return resource.url
+  }
+  else {
+    return '/images/resource/default.png'
+  }
+}
+
 function toggleSelect(resource: Resource) {
   const key = resource.url
   // 多选
@@ -200,8 +222,8 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="h-41px flex justify-between">
-      <div class="w-500px">
-        <MTabs v-model="queryParams.mime_type" :options="resourceType" class="text-sm" />
+      <div class="w-600px">
+        <MTabs v-model="resourceTypeSelected" :options="resourceType" class="text-sm" @change="updateQueryParamsSuffix" />
       </div>
 
       <div class="flex flex-1 justify-end">
@@ -230,7 +252,13 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                 @contextmenu="(e: MouseEvent) => executeContextmenu(e, resource)"
               >
                 <div class="resource-item__image">
-                  <el-image :src="resource.url" fit="cover" />
+                  <el-image :src="getCover(resource)" fit="cover" class="h-full w-full">
+                    <template #error>
+                      <div class="h-full w-full flex items-center justify-center">
+                        <ma-svg-icon name="ri:image-fill" :size="18" />
+                      </div>
+                    </template>
+                  </el-image>
                 </div>
                 <div class="resource-item__name">
                   {{ resource.origin_name }}

@@ -78,12 +78,6 @@ watch(resource, (value) => {
           multiple
         />
       </div>
-      <template #footer>
-        <span class="float-right">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确认</el-button>
-        </span>
-      </template>
     </el-dialog>
   </div>
 </template>

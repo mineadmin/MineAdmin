@@ -12,18 +12,22 @@ export default defineFakeRoute([
       const start = (page - 1) * pageSize
       const end = page * pageSize
 
+      // eslint-disable-next-line ts/ban-ts-comment
       // @ts-expect-error
       const originName: string | null = query.origin_name
+      // eslint-disable-next-line ts/ban-ts-comment
       // @ts-expect-error
-      const mimeType: string | null = query.mime_type
+      const suffix: string | null = query.suffix
       // 先把文件名中包含 originName 的文件筛选出来 要考虑 query.origin_name 为空的则不过滤了
       const filteredData = attachments.filter((item) => {
         let isMatch = true
         if (originName) {
           isMatch = item.origin_name.includes(originName)
         }
-        if (mimeType) {
-          isMatch = isMatch && item.mime_type.includes(mimeType)
+        if (suffix) {
+          // 逗号分割数组
+          const _suffix = suffix.split(',')
+          isMatch = isMatch && _suffix.includes(item.suffix)
         }
         return isMatch
       })

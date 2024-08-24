@@ -44,12 +44,12 @@ const modelValue = defineModel<Array<string | number> | string | number>()
 const message = useMessage()
 
 const fileTypes = ref<FileType[]>([
-  { label: '所有', value: '', icon: 'ant-design:appstore-outlined', suffix: '' },
-  { label: '图片', value: 'image', icon: 'ant-design:picture-outlined', suffix: 'png,jpg,jpeg,gif,bmp' },
-  { label: '音频', value: 'audio', icon: 'ant-design:audit-outlined', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
-  { label: '视频', value: 'video', icon: 'ant-design:video-camera-outlined', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
-  { label: '文档', value: 'document', icon: 'ant-design:file-text-outlined', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
-  { label: '压缩包', value: 'package', icon: 'ant-design:zip-file-outlined', suffix: 'zip,rar,7z,tar,gz' },
+  { label: '所有', value: '', icon: 'ri:gallery-view-2', suffix: '' },
+  { label: '图片', value: 'image', icon: 'ri:image-line', suffix: 'png,jpg,jpeg,gif,bmp' },
+  { label: '视频', value: 'video', icon: 'ri:folder-video-line', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
+  { label: '音频', value: 'audio', icon: 'ri:file-music-line', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
+  { label: '文档', value: 'document', icon: 'ri:file-text-line', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
+  { label: '压缩包', value: 'package', icon: 'ri:folder-zip-line', suffix: 'zip,rar,7z,tar,gz' },
 ])
 const fileTypeSelected = ref('')
 
@@ -127,9 +127,15 @@ function getCover(resource: Resource) {
   if (resource.mime_type.startsWith('image')) {
     return resource.url
   }
-  else {
-    return '/images/resource/default.png'
-  }
+  return null
+}
+
+/**
+ * 获取文件类型图标
+ */
+function getIcon(resource: Resource) {
+  const suffix = resource.suffix
+  return 'vscode-icons:file-type-commitizen'
 }
 
 /**
@@ -264,7 +270,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="h-41px flex justify-between">
-      <div class="w-600px">
+      <div class="w-500px">
         <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" />
       </div>
 
@@ -293,14 +299,27 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                 @dblclick="handleDbClick(resource)"
                 @contextmenu="(e: MouseEvent) => executeContextmenu(e, resource)"
               >
-                <div class="resource-item__image">
-                  <el-image :src="getCover(resource)" fit="cover" class="h-full w-full">
-                    <template #error>
-                      <div class="h-full w-full flex items-center justify-center">
-                        <ma-svg-icon name="ri:image-fill" :size="18" />
-                      </div>
-                    </template>
-                  </el-image>
+                <div class="resource-item__cover">
+                  <template v-if="getCover(resource)">
+                    <el-image :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
+                      <template #error>
+                        <div class="h-full w-full flex items-center justify-center">
+                          <ma-svg-icon v-if="getIcon(resource)" :name="getIcon(resource)" :size="18" />
+                          <span>
+                            .{{ resource.suffix }}
+                          </span>
+                        </div>
+                      </template>
+                    </el-image>
+                  </template>
+                  <template v-else>
+                    <div class="h-full w-full flex items-center justify-center font-bold">
+                      <ma-svg-icon v-if="getIcon(resource)" :name="getIcon(resource)" :size="18" />
+                      <span>
+                        .{{ resource.suffix }}
+                      </span>
+                    </div>
+                  </template>
                 </div>
                 <div class="resource-item__name">
                   {{ resource.origin_name }}
@@ -353,7 +372,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   --un-bg-opacity: 0.3;
   @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded overflow-hidden border-box bg-gray-1  dark-bg-dark-3;
 }
-.resource-item__image{
+.resource-item__cover{
   @apply absolute bottom-0 left-0 h-full w-full;
 }
 .resource-item__name{

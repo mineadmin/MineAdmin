@@ -52,6 +52,9 @@ final class AttachmentController extends AbstractController
     {
         $params = $this->getRequest()->all();
         $params['current_user_id'] = $this->currentUser->id();
+        if (isset($params['suffix'])) {
+            $params['suffix'] = explode(',', $params['suffix']);
+        }
         return $this->success(
             $this->service->page($params, $this->getCurrentPage(), $this->getPageSize())
         );

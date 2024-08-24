@@ -17,7 +17,7 @@ use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
 #[Schema(title: 'MenuSchema')]
-class MenuSchema implements \JsonSerializable
+final class MenuSchema implements \JsonSerializable
 {
     #[Property(property: 'id', title: '主键', type: 'int')]
     public ?int $id;

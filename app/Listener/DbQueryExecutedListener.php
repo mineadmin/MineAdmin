@@ -22,7 +22,7 @@ use Hyperf\Logger\LoggerFactory;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
-class DbQueryExecutedListener implements ListenerInterface
+final class DbQueryExecutedListener implements ListenerInterface
 {
     use GetDebugTrait;
 

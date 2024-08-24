@@ -15,7 +15,7 @@ namespace App\Exception\Handler;
 use App\Exception\BusinessException;
 use App\Http\Common\Result;
 
-class BusinessExceptionHandler extends AbstractHandler
+final class BusinessExceptionHandler extends AbstractHandler
 {
     /**
      * @param BusinessException $throwable

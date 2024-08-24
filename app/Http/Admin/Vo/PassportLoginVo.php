@@ -18,7 +18,7 @@ use Hyperf\Swagger\Annotation as OA;
     description: '登录成功返回',
     example: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}'
 )]
-class PassportLoginVo
+final class PassportLoginVo
 {
     #[OA\Property(
         description: 'token',

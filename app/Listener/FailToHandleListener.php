@@ -22,7 +22,7 @@ use Hyperf\Logger\LoggerFactory;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
-class FailToHandleListener implements ListenerInterface
+final class FailToHandleListener implements ListenerInterface
 {
     use GetDebugTrait;
 

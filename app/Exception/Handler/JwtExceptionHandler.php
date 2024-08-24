@@ -16,7 +16,7 @@ use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Lcobucci\JWT\Exception;
 
-class JwtExceptionHandler extends AbstractHandler
+final class JwtExceptionHandler extends AbstractHandler
 {
     public function handleResponse(\Throwable $throwable): Result
     {

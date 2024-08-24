@@ -27,7 +27,7 @@ use Hyperf\Logger\LoggerFactory;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
-class QueueHandleListener implements ListenerInterface
+final class QueueHandleListener implements ListenerInterface
 {
     use GetDebugTrait;
 

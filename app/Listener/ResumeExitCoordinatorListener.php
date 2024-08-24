@@ -19,7 +19,7 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
 #[Listener]
-class ResumeExitCoordinatorListener implements ListenerInterface
+final class ResumeExitCoordinatorListener implements ListenerInterface
 {
     public function listen(): array
     {

@@ -45,7 +45,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
  */
-class User extends Model
+final class User extends Model
 {
     use SoftDeletes;
 

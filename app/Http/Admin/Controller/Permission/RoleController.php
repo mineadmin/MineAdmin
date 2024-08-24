@@ -52,7 +52,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/list',
         operationId: 'roleList',
         summary: '角色列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[PageResponse(instance: RoleSchema::class)]
@@ -72,7 +72,7 @@ final class RoleController extends AbstractController
         path: '/admin/role',
         operationId: 'roleCreate',
         summary: '创建角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[RequestBody(
@@ -92,7 +92,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/{id}',
         operationId: 'roleSave',
         summary: '保存角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[RequestBody(
@@ -112,7 +112,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/{id}',
         operationId: 'roleDelete',
         summary: '删除角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[ResultResponse(instance: new Result())]
@@ -127,7 +127,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/{id}/permission',
         operationId: 'roleGrantPermissions',
         summary: '角色授权',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[ResultResponse(instance: new Result())]

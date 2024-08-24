@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         Role::truncate();
         Role::create([
             'name' => '超级管理员（创始人）',
-            'code' => 'superAdmin',
+            'code' => 'SuperAdmin',
             'data_scope' => 0,
             'sort' => 0,
             'created_by' => env('SUPER_ADMIN', 0),

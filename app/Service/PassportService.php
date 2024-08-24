@@ -39,9 +39,9 @@ final class PassportService extends IService
     /**
      * @return array<string,int|string>
      */
-    public function login(string $username, string $password): array
+    public function login(string $username, string $password, int $userType = 100): array
     {
-        $user = $this->repository->checkUserByUsername($username);
+        $user = $this->repository->checkUserByUsername($username, $userType);
         if (! $this->repository->checkPass($password, $user->password)) {
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
@@ -78,12 +78,12 @@ final class PassportService extends IService
      */
     public function refreshToken(UnencryptedToken $token): array
     {
-        $jwt = $this->getJwt();
-        $jwt->addBlackList($token);
-        $token = $jwt->builder(Arr::only($token->claims()->all(), 'id'));
-        return [
-            'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
-        ];
+        return value(function (JwtInterface $jwt) use ($token) {
+            $jwt->addBlackList($token);
+            return [
+                'token' => $jwt->builder(Arr::only($token->claims()->all(), 'id'))->toString(),
+                'expire_at' => (int) $jwt->getConfig('ttl', 0),
+            ];
+        }, $this->getJwt());
     }
 }

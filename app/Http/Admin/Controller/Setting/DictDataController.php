@@ -44,7 +44,7 @@ final class DictDataController extends AbstractController
         path: '/admin/dictData/list',
         operationId: 'dictDataList',
         summary: '字典数据列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典数据']
     )]
     #[ResultResponse(instance: new Result())]
@@ -62,7 +62,7 @@ final class DictDataController extends AbstractController
         path: '/admin/dictData',
         operationId: 'dictDataCreate',
         summary: '字典数据创建',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典数据']
     )]
     #[ResultResponse(instance: new Result())]
@@ -81,7 +81,7 @@ final class DictDataController extends AbstractController
         path: '/admin/dictData/{id}',
         operationId: 'dictDataSave',
         summary: '字典数据保存',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典数据']
     )]
     #[ResultResponse(instance: new Result())]
@@ -99,7 +99,7 @@ final class DictDataController extends AbstractController
         path: '/admin/dictData/{id}',
         operationId: 'dictDataDelete',
         summary: '字典数据删除',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典类型']
     )]
     #[ResultResponse(instance: new Result())]

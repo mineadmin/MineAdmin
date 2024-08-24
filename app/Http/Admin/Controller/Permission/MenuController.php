@@ -46,7 +46,7 @@ final class MenuController extends AbstractController
         path: '/admin/menu/list',
         operationId: 'menuList',
         summary: '菜单列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[Permission(code: 'menu:list')]
@@ -64,7 +64,7 @@ final class MenuController extends AbstractController
         path: '/admin/menu',
         operationId: 'menuCreate',
         summary: '创建菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[RequestBody(
@@ -84,7 +84,7 @@ final class MenuController extends AbstractController
         path: '/admin/menu/{id}',
         operationId: 'menuEdit',
         summary: '编辑菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[RequestBody(
@@ -104,7 +104,7 @@ final class MenuController extends AbstractController
         path: '/admin/menu/{id}',
         operationId: 'menuDelete',
         summary: '删除菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[PageResponse(instance: new Result())]

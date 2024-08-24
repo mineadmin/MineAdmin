@@ -75,7 +75,7 @@ final class PassportController extends AbstractController
         path: '/admin/passport/logout',
         operationId: 'passportLogout',
         summary: '退出',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['admin:passport']
     )]
     #[ResultResponse(instance: new Result(), example: '{"code":200,"message":"成功","data":[]}')]
@@ -90,7 +90,7 @@ final class PassportController extends AbstractController
         path: '/admin/passport/getInfo',
         operationId: 'getInfo',
         summary: '获取用户信息',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['admin:passport']
     )]
     #[Middleware(AuthMiddleware::class)]
@@ -106,7 +106,7 @@ final class PassportController extends AbstractController
         path: '/admin/passport/refresh',
         operationId: 'refresh',
         summary: '刷新token',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['admin:passport']
     )]
     #[Middleware(AuthMiddleware::class)]

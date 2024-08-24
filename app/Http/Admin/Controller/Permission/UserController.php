@@ -44,7 +44,7 @@ final class UserController extends AbstractController
         path: '/admin/user/list',
         operationId: 'userList',
         summary: '用户列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:list')]
@@ -64,7 +64,7 @@ final class UserController extends AbstractController
         path: '/admin/user',
         operationId: 'userCreate',
         summary: '创建用户',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:create')]
@@ -80,7 +80,7 @@ final class UserController extends AbstractController
         path: '/admin/user/{userId}',
         operationId: 'userDelete',
         summary: '删除用户',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:delete')]
@@ -95,7 +95,7 @@ final class UserController extends AbstractController
         path: '/admin/user/{userId}',
         operationId: 'userUpdate',
         summary: '更新用户',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:save')]

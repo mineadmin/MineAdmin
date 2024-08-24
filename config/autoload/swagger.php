@@ -25,7 +25,5 @@ return [
             ->name('*.php')
             ->getIterator(),
     ],
-    'processors' => [
-//        new FormRequestProcessor
-    ],
+    'processors' => [],
 ];

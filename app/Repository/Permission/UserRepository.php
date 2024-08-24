@@ -32,12 +32,15 @@ final class UserRepository extends IRepository
     /**
      * Check the user by username.
      */
-    public function checkUserByUsername(string $username): User
+    public function checkUserByUsername(string $username, int $userType = 100): User
     {
         /**
          * @var null|User $result
          */
-        $result = $this->model->newQuery()->where('username', $username)->first();
+        $result = $this->model->newQuery()
+            ->where('username', $username)
+            ->where('user_type', $userType)
+            ->first();
         if (empty($result)) {
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY);
         }
@@ -93,11 +96,6 @@ final class UserRepository extends IRepository
             ->when(Arr::get($params, 'role_id'), function (Builder $query, $roleId) {
                 $query->whereHas('roles', function (Builder $query) use ($roleId) {
                     $query->where('role_id', $roleId);
-                });
-            })
-            ->when(Arr::get($params, 'post_id'), function (Builder $query, $postId) {
-                $query->whereHas('posts', function (Builder $query) use ($postId) {
-                    $query->where('post_id', $postId);
                 });
             });
     }

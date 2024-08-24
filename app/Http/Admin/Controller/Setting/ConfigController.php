@@ -48,7 +48,7 @@ final class ConfigController extends AbstractController
         path: '/admin/config',
         operationId: 'configList',
         summary: '配置列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:list')]
@@ -72,7 +72,7 @@ final class ConfigController extends AbstractController
         path: '/admin/config',
         operationId: 'configCreate',
         summary: '创建配置',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:create')]
@@ -90,7 +90,7 @@ final class ConfigController extends AbstractController
         path: '/admin/config/{id}',
         operationId: 'configEdit',
         summary: '编辑配置',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:edit')]
@@ -111,7 +111,7 @@ final class ConfigController extends AbstractController
         path: '/admin/config/{id}',
         operationId: 'configDelete',
         summary: '删除配置',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:delete')]

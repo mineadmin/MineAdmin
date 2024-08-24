@@ -27,8 +27,8 @@ use Swow\Psr7\Message\ServerRequestPlusInterface;
 class AuthMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly JwtFactory $jwtFactory,
-        private readonly PassportService $userService
+        protected readonly JwtFactory $jwtFactory,
+        protected readonly PassportService $userService
     ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -50,7 +50,7 @@ class AuthMiddleware implements MiddlewareInterface
         );
     }
 
-    private function getJwt(): JwtInterface
+    protected function getJwt(): JwtInterface
     {
         return $this->jwtFactory->get();
     }

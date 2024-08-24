@@ -15,6 +15,5 @@ use Casbin\Enforcer;
 use Psr\Container\ContainerInterface;
 
 return [
-//    Enforcer::class => fn(ContainerInterface $container) => $container->get(Factory::class)
     Enforcer::class => Factory::class
 ];

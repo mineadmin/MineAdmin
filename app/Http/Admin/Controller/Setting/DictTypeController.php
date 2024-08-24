@@ -44,7 +44,7 @@ final class DictTypeController extends AbstractController
         path: '/admin/dictType/list',
         operationId: 'dictTypeList',
         summary: '字典类型列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典类型']
     )]
     #[ResultResponse(instance: new Result())]
@@ -62,7 +62,7 @@ final class DictTypeController extends AbstractController
         path: '/admin/dictType',
         operationId: 'dictTypeCreate',
         summary: '字典类型创建',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典类型']
     )]
     #[ResultResponse(instance: new Result())]
@@ -81,7 +81,7 @@ final class DictTypeController extends AbstractController
         path: '/admin/dictType/{id}',
         operationId: 'deptSave',
         summary: '字典类型保存',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典类型']
     )]
     #[ResultResponse(instance: new Result())]
@@ -99,7 +99,7 @@ final class DictTypeController extends AbstractController
         path: '/admin/dictType/{id}',
         operationId: 'dictTypeDelete',
         summary: '字典类型删除',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['字典类型']
     )]
     #[ResultResponse(instance: new Result())]

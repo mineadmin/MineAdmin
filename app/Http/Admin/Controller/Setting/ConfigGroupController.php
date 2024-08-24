@@ -46,7 +46,7 @@ final class ConfigGroupController extends AbstractController
         path: '/admin/config/group',
         operationId: 'configGroupList',
         summary: '配置分组列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:group:list')]
@@ -66,7 +66,7 @@ final class ConfigGroupController extends AbstractController
         path: '/admin/config/group',
         operationId: 'configGroupCreate',
         summary: '添加配置分组',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:group:create')]
@@ -86,7 +86,7 @@ final class ConfigGroupController extends AbstractController
         path: '/admin/config/group/{id}',
         operationId: 'configGroupEdit',
         summary: '编辑配置分组',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:group:edit')]
@@ -109,7 +109,7 @@ final class ConfigGroupController extends AbstractController
         path: '/admin/config/group/{id}',
         operationId: 'configGroupDelete',
         summary: '删除配置分组',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['配置管理']
     )]
     #[Permission('config:group:delete')]

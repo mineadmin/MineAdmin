@@ -44,7 +44,7 @@ final class AttachmentController extends AbstractController
         path: '/admin/attachment/list',
         operationId: 'AttachmentList',
         summary: '附件列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['数据中心'],
     )]
     #[Permission(code: 'attachment:list')]
@@ -62,7 +62,7 @@ final class AttachmentController extends AbstractController
         path: '/admin/attachment/upload',
         operationId: 'UploadAttachment',
         summary: '上传附件',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['数据中心'],
     )]
     #[Permission(code: 'attachment:upload')]

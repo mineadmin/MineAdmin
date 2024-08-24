@@ -24,7 +24,7 @@ const props = withDefaults(
   })
 
 const emit = defineEmits<{
-  change: [T]
+  change: [T, optionItems]
 }>()
 
 const id = ref<string>(`tabDomId_${Math.floor(Math.random() * 100000 + Math.random() * 20000 + Math.random() * 5000)}`)
@@ -43,7 +43,7 @@ function handleClick(e: MouseEvent, item: optionItems): any {
     value.value = item.value
     const node = useParentNode(e, 'a') as HTMLElement
     setSelectedElStyle(node)
-    emit('change', item.value)
+    emit('change', item.value, item)
   }
 }
 

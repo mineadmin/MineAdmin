@@ -309,8 +309,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 .resource-item{
   animation: fadeIn 0.38s ease-out forwards;
   --un-bg-opacity: 0.3;
-  @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded overflow-hidden border-box;
-  background-color: rgb(var(--ui-primary) / var(--un-bg-opacity));
+  @apply relative min-w-[var(--resource-item-size)] pb-[100%] rounded overflow-hidden border-box bg-gray-1  dark-bg-dark-3;
 }
 .resource-item__image{
   @apply absolute bottom-0 left-0 h-full w-full;

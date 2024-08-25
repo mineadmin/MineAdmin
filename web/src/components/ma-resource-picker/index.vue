@@ -79,6 +79,7 @@ function onConfirm(keys, resources) {
         <MaResourcePanel
           ref="iconPanelRef"
           v-model="resource"
+          return-type="hash"
           :page-size="24"
           :limit="12"
           multiple

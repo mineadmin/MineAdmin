@@ -73,6 +73,8 @@ const total = ref<number>(0)
  */
 const selectedKeys = ref<Array<string | number>>([])
 
+const selected = ref<Resource[]>([])
+
 watchEffect(() => {
   // 监听v-model变化
   const value = modelValue.value
@@ -118,6 +120,13 @@ async function query(): Promise<void> {
 }
 
 watch(queryParams, query, { deep: true, immediate: true })
+
+/**
+ * 获取展示名
+ */
+function getLabel(key) {
+
+}
 
 /**
  * 获取封面
@@ -168,8 +177,12 @@ function select(resource: Resource) {
       return ElMessage.warning(`最多选择${props.limit}个`)
     }
     selectedKeys.value.push(key)
+    if (!selected.value.find(i => i[props.returnType] === key)) {
+      selected.value.push(resource)
+    }
   }
   else {
+    selected.value = [resource]
     selectedKeys.value = [key]
   }
 }

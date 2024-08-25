@@ -382,7 +382,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         <el-popover placement="top-start" :disabled="!selectedKeys.length" width="300px">
           <OverlayScrollbarsComponent class="max-h-300px w-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
             <el-space direction="vertical" fill class="p-2">
-              <template v-for="(resource, index) in selected" :key="resource.id">
+              <template v-for="resource in selected" :key="resource.id">
                 <div class="w-full flex flex-1 items-center justify-between">
                   <div>
                     {{ resource.origin_name }}

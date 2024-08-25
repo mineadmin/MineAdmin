@@ -25,7 +25,8 @@
 
     & .icon {
       @apply rounded-full p-[1px] mx-1 cursor-pointer transition-all duration-300 relative
-        hover-ring-1 hover-ring-gray-4 hover-bg-gray-1 hover-text-gray-5 dark-hover-bg-gray-6
+        hover-ring-1 hover-ring-stone-6 hover-bg-gray-1 hover-text-dark-2 dark-hover-bg-dark-6
+        object-
       ;
     }
 
@@ -50,7 +51,7 @@
       .icon,
       .menu-icon,
       .title {
-        @apply text-gray-9 dark-text-gray-1;
+        @apply text-dark-9 dark-text-gray-1;
       }
     }
 
@@ -63,7 +64,7 @@
       .icon,
       .menu-icon,
       .title {
-        @apply text-gray-9 dark-text-gray-1;
+        @apply text-dark-9 dark-text-gray-1;
       }
     }
   }

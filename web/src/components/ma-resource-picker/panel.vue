@@ -19,7 +19,7 @@ zh_TW:
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Delete, Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import type { FileType, Resource, ResourcePanelEmits, ResourcePanelProps } from './type.ts'
 
@@ -379,19 +379,15 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     </div>
     <div class="ma-resource-panel__footer flex justify-between">
       <div class="flex items-center">
-        <el-popover placement="top-start" :disabled="!selectedKeys.length" width="300px">
+        <el-popover placement="top-start" :disabled="!selectedKeys.length" width="auto">
           <OverlayScrollbarsComponent class="max-h-300px w-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
-            <el-space direction="vertical" fill class="p-2">
+            <el-space direction="vertical" fill class="p-3">
               <template v-for="resource in selected" :key="resource.id">
-                <div class="w-full flex flex-1 items-center justify-between">
-                  <div>
+                <div class="w-full flex">
+                  <div class="w-[240px] cursor-default overflow-hidden text-ellipsis whitespace-nowrap">
                     {{ resource.origin_name }}
                   </div>
-                  <ma-svg-icon
-                    class="ml-2 hover:color-[var(--el-color-danger)]"
-                    name="ri:delete-bin-line" :size="16"
-                    @click="unSelect(resource)"
-                  />
+                  <el-button :icon="Delete" circle text type="danger" @click="unSelect(resource)" />
                 </div>
               </template>
             </el-space>

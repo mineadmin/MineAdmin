@@ -9,6 +9,7 @@
  */
 const include = [
   '@mineadmin/table',
+  '@mineadmin/form',
   '@headlessui/vue',
   '@imengyu/vue3-context-menu',
   '@vueuse/core',
@@ -26,7 +27,6 @@ const include = [
   'path-to-regexp',
   'pinia',
   'qs',
-  'animate.css',
   'web-storage-cache',
   'sortablejs',
   'vue',

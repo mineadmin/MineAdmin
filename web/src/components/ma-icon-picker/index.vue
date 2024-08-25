@@ -23,7 +23,7 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import MaIconPanel from './panel.vue'
+import MaIconPanel from './ma-icon-panel.vue'
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaIconPicker' })

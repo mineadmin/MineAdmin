@@ -20,7 +20,6 @@ import createSvgIcon from './svg-icon'
 import createMock from './mock'
 import createCompression from './compression'
 import createArchiver from './archiver'
-import createConsole from './console'
 import createI18nMessage from './i18n-message'
 import createChunkSplit from './chunk'
 
@@ -38,7 +37,6 @@ export default function createVitePlugins(viteEnv: any, isBuild = false) {
   vitePlugins.push(createMock(viteEnv, isBuild))
   vitePlugins.push(...createCompression(viteEnv, isBuild))
   vitePlugins.push(createArchiver(viteEnv))
-  vitePlugins.push(createConsole(isBuild))
   vitePlugins.push(createI18nMessage())
   vitePlugins.push(createChunkSplit())
   return vitePlugins

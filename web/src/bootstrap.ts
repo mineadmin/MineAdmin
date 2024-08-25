@@ -13,6 +13,7 @@ import ElementPlus from 'element-plus'
 import { createI18n } from 'vue-i18n'
 import messages from '@intlify/unplugin-vue-i18n/messages'
 import MaTable from '@mineadmin/table'
+import MaForm from '@mineadmin/form'
 import VConsole from 'vconsole'
 import pinia from './store'
 import router from './router'
@@ -98,6 +99,7 @@ async function bootstrap(app: App): Promise<void> {
   app.use(router)
   app.use(ElementPlus, {})
   app.use(MaTable)
+  app.use(MaForm)
   registerDirectives(app)
   otherWorker(app)
   await createI18nService(app)

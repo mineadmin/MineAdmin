@@ -20,7 +20,7 @@ export default function startInfo(): any {
 
       console.log(
         boxen(
-          `${bold(cyan(`MineAdmin-UI Engine v${pkg.version}`))}\n\n${underline('https://github.com/mineadmin/ui')}`,
+          `${bold(cyan(`MineAdmin v${pkg.version}`))}\n\n${underline('https://github.com/mineadmin')}`,
           {
             padding: 1,
             margin: 1,

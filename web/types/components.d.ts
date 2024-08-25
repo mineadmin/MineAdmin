@@ -9,11 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     Dialog: typeof import('./../src/components/ma-resource-picker/dialog.vue')['default']
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
+    MaIconPanel: typeof import('./../src/components/ma-icon-picker/ma-icon-panel.vue')['default']
     MaIconPicker: typeof import('./../src/components/ma-icon-picker/index.vue')['default']
     MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']
     MaSvgIcon: typeof import('./../src/components/ma-svg-icon/index.vue')['default']
     MaVerifyCode: typeof import('./../src/components/ma-verify-code/index.vue')['default']
-    Panel: typeof import('./../src/components/ma-icon-picker/panel.vue')['default']
+    Panel: typeof import('./../src/components/ma-resource-picker/panel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

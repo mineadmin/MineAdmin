@@ -1,13 +1,82 @@
 <script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
+import type { MaFormExpose, MaModel } from '@mineadmin/form'
+import { ElMessage } from 'element-plus'
 import useTable from '@/hooks/useTable.ts'
-import MaResourcePicker from '@/components/ma-resource-picker/index.vue'
+import useForm from '@/hooks/useForm.ts'
 
 defineOptions({ name: 'welcome' })
 
 const userinfo = useUserStore().getUserInfo()
 const icon = ref('')
 const resource = ref('')
+
+const formModel = ref<MaModel>({
+  productCode: '',
+  productName: '',
+  image: '',
+})
+
+useForm('form').then((form: MaFormExpose) => {
+  form.setOptions({
+    labelWidth: '100px',
+    footerSlot: () => (
+      <div class="flex-center">
+        <el-button
+          type="primary"
+          onClick={() => {
+            console.log(formModel.value)
+            form.getElFormRef().validate()
+          }}
+        >
+          提交
+        </el-button>
+        <el-button onClick={() => form.getElFormRef().resetFields()}>重置</el-button>
+      </div>
+    ),
+  })
+
+  form.setItems([
+    {
+      label: '产成品编码',
+      prop: 'productCode',
+      render: 'input',
+      itemProps: {
+        rules: [{
+          required: true,
+          message: '请输入产成品编码',
+          trigger: 'blur',
+        }],
+      },
+      cols: { lg: 12, md: 12, sm: 24 },
+      renderProps: {
+        placeholder: '请输入产成品编码',
+      },
+    },
+    {
+      label: '产成品名称',
+      prop: 'productName',
+      cols: { lg: 12, md: 12, sm: 24 },
+      render: () => <el-input v-model={formModel.value.productName} />,
+      renderProps: {
+        onInput: (value: any) => ElMessage.success(value),
+        placeholder: '请输入产成品名称',
+        type: 'primary',
+      },
+      renderSlots: {
+        prepend: () => '设置文本框前置文字',
+      },
+    },
+    {
+      label: '选择图片',
+      prop: 'image',
+      cols: { lg: 24, md: 24, sm: 24 },
+      render: () => <ma-icon-picker v-model={formModel.value.image} class="w-full" />,
+    },
+  ])
+})
+
+useForm('form')
 
 useTable('table').then((table: MaTableExpose) => {
   table.setPagination({
@@ -57,12 +126,16 @@ useTable('table').then((table: MaTableExpose) => {
         asd
       </div>
     </div>
-    <div class="mine-card h-500px">
+    <div class="mine-card h-200px">
       <MaResourcePicker />
       <!--      <MaResourcePanel v-model="resource" multiple :limit="5" /> -->
     </div>
     <div class="mine-card">
-      <ma-icon-picker v-model="icon" />
+      {{ formModel }}
+      <ma-form ref="form" v-model="formModel" />
+    </div>
+    <div class="mine-card">
+      <MaIconPicker v-model="icon" />
       <ma-table ref="table" class="mt-5" />
     </div>
   </div>

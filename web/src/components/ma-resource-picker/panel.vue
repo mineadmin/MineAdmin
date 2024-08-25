@@ -75,17 +75,19 @@ const selectedKeys = ref<Array<string | number>>([])
 
 const selected = ref<Resource[]>([])
 
-watchEffect(() => {
-  // 监听v-model变化
-  const value = modelValue.value
-  selectedKeys.value = Array.isArray(value) ? value : value ? [value] : []
-})
+// 监听v-model变化，更新selectedKeys
+watch(() => modelValue.value, (newValue) => {
+  selectedKeys.value = Array.isArray(newValue) ? newValue : newValue ? [newValue] : []
+}, { deep: true })
 
-watchEffect(() => {
-  // 监听选中值变化
-  const keys = selectedKeys.value
-  modelValue.value = props.multiple ? keys : keys[0]
-})
+// 监听selectedKeys变化，更新v-model
+watch(() => selectedKeys.value, (newKeys) => {
+  const newValue = props.multiple ? newKeys : newKeys[0]
+  // 同样，只有在modelValue真正改变时才更新
+  if (modelValue.value !== newValue) {
+    modelValue.value = newValue
+  }
+}, { deep: true })
 
 /**
  * 查询参数
@@ -193,6 +195,7 @@ function select(resource: Resource) {
 function unSelect(resource: Resource) {
   const key: string | number = resource[props.returnType]
   selectedKeys.value = selectedKeys.value.filter(i => i !== key)
+  selected.value = selected.value.filter(i => i[props.returnType] !== key)
 }
 
 /**
@@ -200,6 +203,7 @@ function unSelect(resource: Resource) {
  */
 function clearSelected() {
   selectedKeys.value = []
+  selected.value = []
 }
 
 function cancel() {
@@ -207,7 +211,7 @@ function cancel() {
 }
 
 function confirm() {
-  emit('confirm', selectedKeys.value, resources.value.filter(i => selectedKeys.value.includes(i[props.returnType])))
+  emit('confirm', selectedKeys.value, selected.value)
 }
 
 /**
@@ -336,25 +340,23 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                   <template v-if="getCover(resource)">
                     <el-image :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
                       <template #error>
-                        <div class="h-full w-full flex items-center justify-center">
-                          <ma-svg-icon v-if="getIcon(resource)" :name="getIcon(resource)" :size="18" />
-                          <span>
-                            .{{ resource.suffix }}
-                          </span>
+                        <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
+                          <div class="cursor-default overflow-hidden text-ellipsis whitespace-pre-wrap">
+                            {{ resource.origin_name }}
+                          </div>
                         </div>
                       </template>
                     </el-image>
                   </template>
                   <template v-else>
-                    <div class="h-full w-full flex items-center justify-center font-bold">
-                      <ma-svg-icon v-if="getIcon(resource)" :name="getIcon(resource)" :size="18" />
-                      <span>
-                        .{{ resource.suffix }}
-                      </span>
+                    <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
+                      <div class="cursor-default overflow-hidden text-ellipsis whitespace-pre-wrap">
+                        {{ resource.origin_name }}
+                      </div>
                     </div>
                   </template>
                 </div>
-                <div class="resource-item__name">
+                <div v-if="getCover(resource)" class="resource-item__name cursor-default">
                   {{ resource.origin_name }}
                 </div>
                 <div class="resource-item__selected">

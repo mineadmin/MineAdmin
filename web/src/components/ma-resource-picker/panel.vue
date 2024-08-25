@@ -379,20 +379,40 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     </div>
     <div class="ma-resource-panel__footer flex justify-between">
       <div class="flex items-center">
-        <el-button class="mr-4" :disabled="!selectedKeys.length" text bg>
-          <span :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
-            {{ selectedKeys.length }}
-            <template v-if="props.multiple && props.limit">
-              /{{ props.limit }}
-            </template>
-          </span>
+        <el-popover placement="top-start" :disabled="!selectedKeys.length" width="300px">
+          <OverlayScrollbarsComponent class="max-h-300px w-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
+            <el-space direction="vertical" fill class="p-2">
+              <template v-for="(resource, index) in selected" :key="resource.id">
+                <div class="w-full flex flex-1 items-center justify-between">
+                  <div>
+                    {{ resource.origin_name }}
+                  </div>
+                  <ma-svg-icon
+                    class="ml-2 hover:color-[var(--el-color-danger)]"
+                    name="ri:delete-bin-line" :size="16"
+                    @click="unSelect(resource)"
+                  />
+                </div>
+              </template>
+            </el-space>
+          </OverlayScrollbarsComponent>
+          <template #reference>
+            <el-button class="mr-4" :disabled="!selectedKeys.length" text bg>
+              <span :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
+                {{ selectedKeys.length }}
+                <template v-if="props.multiple && props.limit">
+                  /{{ props.limit }}
+                </template>
+              </span>
 
-          <ma-svg-icon
-            class="ml-2 hover:color-[var(--el-color-danger)]"
-            name="ri:delete-bin-line" :size="16"
-            @click="clearSelected"
-          />
-        </el-button>
+              <ma-svg-icon
+                class="ml-2 hover:color-[var(--el-color-danger)]"
+                name="ri:delete-bin-line" :size="16"
+                @click="clearSelected"
+              />
+            </el-button>
+          </template>
+        </el-popover>
         <el-pagination
           v-model:current-page="queryParams.page"
           :disabled="loading"

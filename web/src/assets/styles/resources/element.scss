@@ -6,3 +6,12 @@
     ;
   }
 }
+
+.el-table {
+  @apply rounded;
+}
+
+.el-table th.el-table__cell {
+  @apply bg-gray-100 font-500 text-dark-9 dark-text-gray-1
+  !dark:bg-dark-5;
+}

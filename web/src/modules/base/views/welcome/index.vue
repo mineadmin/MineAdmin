@@ -76,11 +76,14 @@ useForm('form').then((form: MaFormExpose) => {
   ])
 })
 
-useForm('form')
-
 useTable('table').then((table: MaTableExpose) => {
   table.setPagination({
     total: 1000,
+  })
+
+  table.setOptions({
+    border: true,
+    stripe: true,
   })
 
   table.setColumns([

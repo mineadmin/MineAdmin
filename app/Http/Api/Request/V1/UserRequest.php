@@ -15,7 +15,7 @@ namespace App\Http\Api\Request\V1;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
 
-#[\App\Kernel\Swagger\Attributes\FormRequest(
+#[\Mine\Kernel\Swagger\Attributes\FormRequest(
     schema: UserSchema::class,
     only: [
         'username', 'password',

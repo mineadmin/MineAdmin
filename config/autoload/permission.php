@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel\Casbin\Adapters\DatabaseAdapter;
+use Mine\Kernel\Casbin\Adapters\DatabaseAdapter;
 
 return [
     /*

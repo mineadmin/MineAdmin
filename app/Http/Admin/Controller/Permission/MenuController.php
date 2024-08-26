@@ -19,8 +19,6 @@ use App\Http\Admin\Request\MenuRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Service\Permission\MenuService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -31,6 +29,8 @@ use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]

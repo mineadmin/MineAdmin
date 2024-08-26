@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin;
 
 use App\Http\Common\ResultCode;
-use App\Kernel\Casbin\Rule\Rule;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
+use Mine\Kernel\Casbin\Rule\Rule;
 
 /**
  * @internal

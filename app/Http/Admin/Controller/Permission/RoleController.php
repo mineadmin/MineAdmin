@@ -23,8 +23,6 @@ use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\RoleSchema;
 use App\Service\Permission\RoleService;
 use Hyperf\Collection\Arr;
@@ -37,6 +35,8 @@ use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]

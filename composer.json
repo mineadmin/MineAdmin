@@ -84,7 +84,8 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "app/"
+      "App\\": "app/",
+      "Mine\\Kernel\\": "kernel/"
     },
     "files": ["app/Http/Admin/Support.php"]
   },

@@ -15,7 +15,7 @@ namespace App\Http\Admin\Request\Permission\Role;
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
 
-#[\App\Kernel\Swagger\Attributes\FormRequest(
+#[\Mine\Kernel\Swagger\Attributes\FormRequest(
     schema: RoleSchema::class,
     only: [
         'name', 'code', 'status', 'sort', 'remark',

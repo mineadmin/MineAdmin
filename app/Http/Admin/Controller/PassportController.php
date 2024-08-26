@@ -19,8 +19,6 @@ use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Auth\Support\RequestScopedTokenTrait;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\UserSchema;
 use App\Service\PassportService;
 use Hyperf\Codec\Json;
@@ -29,6 +27,8 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
+use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 
 use function App\Http\Admin\Support\user;
 

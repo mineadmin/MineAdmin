@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Exception\Handler;
 
 use App\Http\Common\Result;
-use App\Kernel\Log\UuidRequestIdProcessor;
 use Hyperf\Codec\Json;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
@@ -21,6 +20,7 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
+use Mine\Kernel\Support\Logger\UuidRequestIdProcessor;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
 

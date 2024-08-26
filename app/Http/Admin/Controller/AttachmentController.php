@@ -18,8 +18,6 @@ use App\Http\Admin\Request\UploadRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\AttachmentSchema;
 use App\Service\AttachmentService;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -27,6 +25,8 @@ use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\Post;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 use Symfony\Component\Finder\SplFileInfo;
 
 #[HyperfServer(name: 'http')]

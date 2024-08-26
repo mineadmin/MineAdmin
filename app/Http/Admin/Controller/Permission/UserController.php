@@ -19,8 +19,6 @@ use App\Http\Admin\Request\Permission\User\SaveRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\UserSchema;
 use App\Service\Permission\UserService;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -31,6 +29,8 @@ use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 use OpenApi\Attributes\RequestBody;
 
 #[HyperfServer(name: 'http')]

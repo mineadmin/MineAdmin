@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Middleware;
 
 use App\Http\Common\Middleware\AuthMiddleware as CommonAuthMiddleware;
-use App\Kernel\Auth\JwtInterface;
+use Mine\Kernel\Jwt\JwtInterface;
 
 final class AuthMiddleware extends CommonAuthMiddleware
 {

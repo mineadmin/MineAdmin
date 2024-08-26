@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Http\Admin;
 
-use App\Kernel\Auth\Support\RequestScopedTokenTrait;
 use App\Model\Permission\User;
 use App\Service\PassportService;
 use App\Service\Permission\UserService;
 use App\Service\PermissionService;
 use Hyperf\Collection\Collection;
+use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
 
 final class CurrentUser
 {
@@ -36,8 +36,7 @@ final class CurrentUser
 
     public function refresh(): array
     {
-        $token = $this->getToken();
-        return $this->service->refreshToken($token);
+        return $this->service->refreshToken($this->getToken());
     }
 
     public function id(): int

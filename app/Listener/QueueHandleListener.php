@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Kernel\Traits\GetDebugTrait;
 use Hyperf\AsyncQueue\AnnotationJob;
 use Hyperf\AsyncQueue\Event\AfterHandle;
 use Hyperf\AsyncQueue\Event\BeforeHandle;
@@ -24,6 +23,7 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
+use Mine\Kernel\Support\Traits\GetDebugTrait;
 use Psr\Log\LoggerInterface;
 
 #[Listener]

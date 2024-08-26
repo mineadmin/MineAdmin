@@ -15,7 +15,7 @@ namespace App\Http\Admin\Request;
 use App\Schema\MenuSchema;
 use Hyperf\Validation\Request\FormRequest;
 
-#[\App\Kernel\Swagger\Attributes\FormRequest(
+#[\Mine\Kernel\Swagger\Attributes\FormRequest(
     schema: MenuSchema::class,
     only: [
         'parent_id', 'name', 'code', 'icon', 'route', 'component', 'redirect',

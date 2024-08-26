@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Middleware;
 
-use App\Http\Common\Middleware\AuthMiddleware as CommonAuthMiddleware;
 use Mine\Kernel\Jwt\JwtInterface;
+use Mine\Kernel\JwtAuth\Middleware\AbstractAuthMiddleware;
 
-final class AuthMiddleware extends CommonAuthMiddleware
+final class AuthMiddleware extends AbstractAuthMiddleware
 {
-    protected function getJwt(): JwtInterface
+    public function getJwt(): JwtInterface
     {
         return $this->jwtFactory->get('api');
     }

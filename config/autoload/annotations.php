@@ -15,6 +15,7 @@ return [
     'scan' => [
         'paths' => [
             BASE_PATH . '/app',
+            BASE_PATH . '/kernel',
         ],
         'collectors' => [],
         'ignore_annotations' => [],

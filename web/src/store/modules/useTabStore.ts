@@ -161,6 +161,10 @@ const useTabStore = defineStore(
       }
     }
 
+    function closeCurrentTab() {
+      closeTab(getCurrentTab() as MineTabbar)
+    }
+
     function getCurrentTab() {
       return tabList.value.find(item => item.fullPath === route.fullPath)
     }
@@ -193,6 +197,7 @@ const useTabStore = defineStore(
       closeLeftTab,
       closeRightTab,
       getCurrentTab,
+      closeCurrentTab,
       clearTab,
     }
   },

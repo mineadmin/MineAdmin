@@ -48,7 +48,7 @@ useForm('form').then((form: MaFormExpose) => {
           trigger: 'blur',
         }],
       },
-      cols: { lg: 12, md: 12, sm: 24 },
+      cols: { xl: 6, lg: 8, md: 12, sm: 24 },
       renderProps: {
         placeholder: '请输入产成品编码',
       },
@@ -56,7 +56,7 @@ useForm('form').then((form: MaFormExpose) => {
     {
       label: '产成品名称',
       prop: 'productName',
-      cols: { lg: 12, md: 12, sm: 24 },
+      cols: { xl: 6, lg: 8, md: 12, sm: 24 },
       render: () => <el-input v-model={formModel.value.productName} />,
       renderProps: {
         onInput: (value: any) => ElMessage.success(value),

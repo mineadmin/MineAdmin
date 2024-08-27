@@ -23,10 +23,14 @@
       @apply text-gray-5 dark-text-gray-3;
     }
 
-    & .icon {
+    & .number-icon {
+      @apply h-3.5 w-3.5 flex items-center justify-center text-[12px] !text-dark-9 !dark-text-gray-1
+      ring-1 ring-stone-6 bg-gray-1 dark-bg-dark-6;
+    }
+
+    & .icon, & .number-icon {
       @apply rounded-full p-[1px] mx-1 cursor-pointer transition-all duration-300 relative
         hover-ring-1 hover-ring-stone-6 hover-bg-gray-1 hover-text-dark-2 dark-hover-bg-dark-6
-        object-
       ;
     }
 
@@ -105,18 +109,23 @@
   ;
 }
 
-.tabbar-move,
-.tabbar-enter-active,
-.tabbar-leave-active {
-  transition: all 0.2s;
-}
+.mine-tab-container {
+  .tabbar-move,
+  .tabbar-enter-active,
+  .tabbar-leave-active {
+    transition: all 0.2s;
+  }
 
-.tabbar-enter-from,
-.tabbar-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
+  .tabbar-enter-from,
+  .tabbar-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 
-.tabbar-leave-active {
-  //position: absolute !important;
+  .tabbar-leave-active {
+    transition: all -0.2s;
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+    position: absolute !important;
+  }
 }

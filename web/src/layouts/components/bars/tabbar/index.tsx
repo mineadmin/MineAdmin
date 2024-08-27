@@ -37,7 +37,7 @@ export default defineComponent({
         y: e.y,
         zIndex: 1050,
         iconFontClass: '',
-        customClass: 'mine-tab-contextmenu',
+        customClass: 'mine-contextmenu',
         items: [
           {
             label: t('mineAdmin.tab.refresh') as string,
@@ -117,7 +117,10 @@ export default defineComponent({
 
     const { current } = useMagicKeys()
     const keys = computed(() => Array.from(current))
-    const pressKeys = reactive({
+    const pressKeys = reactive<{
+      oneKey: string | null
+      twoKey: string | null
+    }>({
       oneKey: null,
       twoKey: null,
     })
@@ -142,7 +145,7 @@ export default defineComponent({
             }
             break
           case 'arrowup':
-            await tabStore.maxSizeTab(tabStore.getCurrentTab())
+            await tabStore.maxSizeTab(tabStore.getCurrentTab() as MineTabbar)
             break
           case 'arrowdown':
             tabStore.exitMaxSizeTab()
@@ -172,7 +175,7 @@ export default defineComponent({
                 <span class="title">
                   {item?.i18n ? useTrans(item.i18n) : item.title}
                 </span>
-                {item.affix
+                {item.affix && pressKeys.oneKey !== 'alt'
                 && (
                   <ma-svg-icon
                     name="ic:baseline-push-pin"
@@ -198,7 +201,7 @@ export default defineComponent({
                     }}
                   />
                 )}
-                {pressKeys.oneKey === 'alt' && !item.affix
+                {pressKeys.oneKey === 'alt'
                 && (
                   <span class="number-icon">{ idx + 1 }</span>
                 )}

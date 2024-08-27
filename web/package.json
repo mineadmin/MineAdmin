@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@mineadmin/table": "^1.0.7",
-    "@mineadmin/form": "^1.0.3",
+    "@mineadmin/form": "^1.0.5",
     "@headlessui/vue": "^1.7.22",
     "@imengyu/vue3-context-menu": "^1.4.2",
     "@vueuse/core": "^10.11.0",
@@ -29,7 +29,7 @@
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",
     "echarts": "^5.5.1",
-    "element-plus": "^2.8.0",
+    "element-plus": "^2.8.1",
     "floating-vue": "5.2.2",
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",

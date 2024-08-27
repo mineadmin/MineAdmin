@@ -242,7 +242,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     y: e.y,
     zIndex: 9999,
     iconFontClass: '',
-    customClass: 'mine-tab-contextmenu',
+    customClass: 'mine-contextmenu',
     items: [
       {
         label: '选中',
@@ -328,7 +328,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     <div class="mt-2 min-h-0 flex-1">
       <OverlayScrollbarsComponent v-if="loading || resources.length" class="max-h-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap px-[2px] pt-[2px]">
-          <el-space wrap fill :fill-ratio="9">
+          <el-space fill wrap :fill-ratio="9">
             <template v-for="resource in resources" :key="resource.id">
               <div
                 class="resource-item"

@@ -74,29 +74,6 @@
   }
 }
 
-.mine-tab-contextmenu {
-  @apply z-1000 !rounded-md !ring-1 !ring-gray-2 !dark-ring-dark-3
-    dark-bg-dark-8
-  ;
-
-  .mx-context-menu-item:hover {
-    @apply dark-bg-dark-4;
-  }
-
-  .mx-context-menu-item-sperator {
-    @apply dark-bg-dark-8;
-  }
-
-  .mx-context-menu-item-sperator::after {
-    @apply dark-bg-dark-3;
-  }
-
-  .mx-item-row span,
-  .mx-item-row .icon {
-    @apply dark-text-gray-2;
-  }
-}
-
 .mine-tab-more-operation {
   @apply absolute right-2 top-[5px] rounded z-10 cursor-pointer transition-all duration-300
     shadow-sm ring-1

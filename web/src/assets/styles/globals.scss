@@ -70,6 +70,33 @@ body {
   }
 }
 
+// 右键菜单
+.mine-contextmenu {
+  @apply z-1000 !rounded-md !ring-1 !ring-gray-2 !dark-ring-dark-3
+  dark-bg-dark-8
+  ;
+
+  .mx-context-menu-item {
+    @apply w-auto !dark-text-gray-1;
+  }
+
+  .mx-context-menu-item.disabled {
+    @apply w-auto !dark-text-stone-7 !dark-bg-dark-8;
+  }
+
+  .mx-context-menu-item:hover {
+    @apply dark-bg-dark-4;
+  }
+
+  .mx-context-menu-item-sperator {
+    @apply dark-bg-dark-8;
+  }
+
+  .mx-context-menu-item-sperator::after {
+    @apply dark-bg-dark-3;
+  }
+}
+
 #app.mine-max-size {
   .mine-max-size-exit {
     @apply flex items-center justify-center

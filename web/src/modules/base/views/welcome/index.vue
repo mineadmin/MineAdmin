@@ -100,16 +100,40 @@ useTable('table').then((table: MaTableExpose) => {
     { name: '田七', age: 36, address: '上海市普陀区金沙江路 1516 弄' },
   ])
 })
+
+useTable('table2').then((table: MaTableExpose) => {
+  table.setPagination({
+    total: 1000,
+  })
+
+  table.setOptions({
+    border: true,
+    stripe: true,
+  })
+
+  table.setColumns([
+    { label: '姓名', prop: 'name' },
+    { label: '年龄', prop: 'age' },
+  ])
+
+  table.setData([
+    { name: '张三', age: 18, address: '上海市普陀区金沙江路 1518 弄' },
+    { name: '李四', age: 24, address: '上海市普陀区金沙江路 1517 弄' },
+    { name: '王五', age: 28, address: '上海市普陀区金沙江路 1519 弄' },
+    { name: '赵六', age: 32, address: '上海市普陀区金沙江路 1516 弄' },
+    { name: '田七', age: 36, address: '上海市普陀区金沙江路 1516 弄' },
+  ])
+})
 </script>
 
 <template>
   <div class="mine-layout">
     <div class="flex justify-between bg-white p-5 dark-bg-dark-8">
       <div class="flex gap-x-5">
-        <el-avatar v-role="['userinfo:add']" :src="userinfo?.avatar" :size="80" />
+        <el-avatar :src="userinfo?.avatar" :size="80" />
         <div class="flex flex-col justify-center gap-y-2">
           <span class="text-xl">早安，{{ userinfo?.nickname ?? userinfo?.username }} 愿你今天有个好心情！</span>
-          <span class="text-sm text-gray-5">某某公司 - 某某部门 - 技术总监</span>
+          <span class="text-sm text-dark-1 dark-text-gray-3">某某公司 - 某某部门 - 技术总监</span>
         </div>
       </div>
     </div>
@@ -134,12 +158,12 @@ useTable('table').then((table: MaTableExpose) => {
       <!--      <MaResourcePanel v-model="resource" multiple :limit="5" /> -->
     </div>
     <div class="mine-card">
-      {{ formModel }}
       <ma-form ref="form" v-model="formModel" />
     </div>
     <div class="mine-card">
       <MaIconPicker v-model="icon" />
       <ma-table ref="table" class="mt-5" />
+      <ma-table ref="table2" class="mt-5" />
     </div>
   </div>
 </template>

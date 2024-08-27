@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Kernel\Upload\UploadInterface;
 use App\Repository\AttachmentRepository;
+use Mine\Kernel\Upload\UploadInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

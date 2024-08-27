@@ -16,11 +16,11 @@ use App\Events\User\LoginSuccessEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
-use App\Kernel\Auth\JwtFactory;
-use App\Kernel\Auth\JwtInterface;
 use App\Repository\Permission\UserRepository;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
+use Mine\Kernel\Jwt\Factory;
+use Mine\Kernel\Jwt\JwtInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class PassportService extends IService
@@ -32,7 +32,7 @@ final class PassportService extends IService
 
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly JwtFactory $jwtFactory,
+        protected readonly Factory $jwtFactory,
         protected readonly EventDispatcherInterface $dispatcher
     ) {}
 

@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission\User;
 
-use App\Kernel\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
+use Mine\Kernel\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 
 #[FormRequestAnnotation(
     schema: UserSchema::class,

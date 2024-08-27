@@ -43,6 +43,15 @@ mineAdmin:
       modeCard: Card
       enable: Enable the tab bar
       modeDefault: Default
+  shortcuts:
+    switchN: Switch to N
+    switchLast: Toggle the last
+    searchOpen: Breathe out
+    searchBar: Search bar
+    tabs: Tabs
+    close: Close
+    exitMax: Exit max
+    toMax: Enter max
   runtime:
     devDependencies: Development dependencies
     pluginList: Plugins list

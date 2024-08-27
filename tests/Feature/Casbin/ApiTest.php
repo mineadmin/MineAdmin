@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace HyperfTests\Feature\Casbin;
 
-use App\Kernel\Casbin\Factory;
-use App\Kernel\Casbin\Rule\Rule;
 use Hyperf\Context\ApplicationContext;
+use Mine\Kernel\Casbin\Factory;
+use Mine\Kernel\Casbin\Rule\Rule;
 use PHPUnit\Framework\TestCase;
 
 /**

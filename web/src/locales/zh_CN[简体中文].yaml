@@ -43,6 +43,15 @@ mineAdmin:
       modeCard: 卡片
       enable: 启用标签栏
       modeDefault: 默认
+  shortcuts:
+    switchN: 切换到N页
+    switchLast: 切换最后一个
+    searchOpen: 呼出
+    searchBar: 搜索栏
+    tabs: 标签页
+    close: 关闭
+    exitMax: 退出最大化
+    toMax: 进入最大化
   runtime:
     devDependencies: 开发依赖
     pluginList: 插件列表

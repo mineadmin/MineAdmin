@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Listener\ModelListener;
 
-use App\Kernel\Traits\GetDebugTrait;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
@@ -22,6 +21,7 @@ use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\ModelListener\Annotation\ModelListener;
+use Mine\Kernel\Support\Traits\GetDebugTrait;
 use Psr\Log\LoggerInterface;
 
 #[ModelListener(models: [

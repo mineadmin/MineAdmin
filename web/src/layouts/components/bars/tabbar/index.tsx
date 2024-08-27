@@ -13,6 +13,7 @@ import { useI18n } from 'vue-i18n'
 import { TransitionGroup } from 'vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import ContextMenu from '@imengyu/vue3-context-menu'
+import { useMagicKeys } from '@vueuse/core'
 import useSettingStore from '@/store/modules/useSettingStore.ts'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import type { MineTabbar } from '#/global'
@@ -114,10 +115,46 @@ export default defineComponent({
       })
     }, { immediate: true, deep: true })
 
+    const { current } = useMagicKeys()
+    const keys = computed(() => Array.from(current))
+    const pressKeys = reactive({
+      oneKey: null,
+      twoKey: null,
+    })
+
+    watch(() => keys.value, async () => {
+      pressKeys.oneKey = keys.value[0] ?? null
+      pressKeys.twoKey = keys.value[1] ?? null
+
+      if (pressKeys.oneKey === 'alt' && pressKeys.twoKey !== null) {
+        switch (pressKeys.twoKey) {
+          case 'c':
+            tabStore.closeCurrentTab()
+            break
+          case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+            if (tabStore.tabList[Number(pressKeys.twoKey) - 1]) {
+              await tabStore.go(tabStore.tabList[Number(pressKeys.twoKey) - 1])
+            }
+            break
+          case '0':
+            if (tabStore.tabList[tabStore.tabList.length - 1]) {
+              await tabStore.go(tabStore.tabList[tabStore.tabList.length - 1])
+            }
+            break
+          case 'arrowup':
+            await tabStore.maxSizeTab(tabStore.getCurrentTab())
+            break
+          case 'arrowdown':
+            tabStore.exitMaxSizeTab()
+            break
+        }
+      }
+    }, { deep: true })
+
     return () => (
       <div ref="tabsRef" class="mine-tab-container !hidden !lg:flex">
         <TransitionGroup name="tabbar" tag="div" class="mine-tabbar" ref={el} onWheel={(e: WheelEvent) => handlerWheelScroll(e)}>
-          {tabStore.tabList?.map((item: any) => {
+          {tabStore.tabList?.map((item: any, idx: number) => {
             return (
               <a
                 key={item.fullPath}
@@ -150,7 +187,7 @@ export default defineComponent({
                     }}
                   />
                 )}
-                {!item.affix
+                {!item.affix && pressKeys.oneKey !== 'alt'
                 && (
                   <ma-svg-icon
                     name="material-symbols:close-rounded"
@@ -160,6 +197,10 @@ export default defineComponent({
                       tabStore.closeTab(item)
                     }}
                   />
+                )}
+                {pressKeys.oneKey === 'alt' && !item.affix
+                && (
+                  <span class="number-icon">{ idx + 1 }</span>
                 )}
               </a>
             )

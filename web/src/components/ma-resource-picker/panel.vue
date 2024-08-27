@@ -147,6 +147,7 @@ function getCover(resource: Resource) {
 function getIcon(resource: Resource) {
   return null
   // const suffix = resource.suffix
+  // 测试 ssh推送
   // return 'vscode-icons:file-type-commitizen'
 }
 

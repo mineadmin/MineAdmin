@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:nocheck": "vite build",
     "serve": "http-server ./dist -o",
     "svgo": "svgo -f src/assets/icons",
     "new": "plop",
@@ -18,8 +19,8 @@
     "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\" --cache --fix"
   },
   "dependencies": {
-    "@mineadmin/table": "^1.0.5",
-    "@mineadmin/form": "^1.0.1",
+    "@mineadmin/table": "^1.0.7",
+    "@mineadmin/form": "^1.0.3",
     "@headlessui/vue": "^1.7.22",
     "@imengyu/vue3-context-menu": "^1.4.2",
     "@vueuse/core": "^10.11.0",

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Kernel;
 
-use App\Kernel\Support\Filesystem;
 use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Database\Commands\Migrations\GenMigrateCommand;
 use Hyperf\Database\Commands\Seeders\GenSeederCommand;
@@ -21,6 +20,7 @@ use Hyperf\Database\Seeders\Seed;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
+use Mine\Kernel\Support\Filesystem;
 
 #[Listener]
 class RegisterListener implements ListenerInterface

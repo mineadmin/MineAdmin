@@ -14,13 +14,14 @@ namespace App\Model\Permission;
 
 use App\Constants\User\Status;
 use App\Constants\User\Type;
-use App\Kernel\Casbin\Rule\Rule;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
+use Mine\Kernel\Casbin\Rule\Rule;
+use Mine\Kernel\Security\Interfaces\UserInterface;
 
 /**
  * @property int $id 用户ID，主键
@@ -45,7 +46,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
  */
-final class User extends Model
+final class User extends Model implements UserInterface
 {
     use SoftDeletes;
 
@@ -102,5 +103,20 @@ final class User extends Model
     public function creating(Creating $event)
     {
         $this->password = 123456;
+    }
+
+    public function getIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    public function verify(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
+
+    public function findByIdentifier(mixed $identifier): ?UserInterface
+    {
+        return self::query()->find($identifier);
     }
 }

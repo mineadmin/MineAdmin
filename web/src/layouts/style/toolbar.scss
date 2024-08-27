@@ -189,3 +189,25 @@
   & .desc-label { @apply w-8/12; }
   & .desc-value { @apply w-4/12 text-right; }
 }
+
+
+.mine-shortcuts-block {
+  @apply w-full text-left;
+
+  & .title {
+    @apply text-[15px];
+  }
+  & .short-list {
+    @apply grid grid-cols-2 gap-y-3 mt-3;
+  }
+
+  .short-key {
+    @apply flex items-center gap-x-2 text-sm mr-2;
+  }
+
+  .short-key span {
+    @apply block px-1 py-0.5 dark-bg-dark-3 rounded bg-gray-1 ring-1 ring-gray-2 dark-ring-dark-1
+    min-w-4 flex justify-center items-center
+    ;
+  }
+}

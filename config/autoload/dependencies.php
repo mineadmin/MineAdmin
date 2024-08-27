@@ -10,11 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-use App\Kernel\Casbin\Factory;
 use Casbin\Enforcer;
-use Psr\Container\ContainerInterface;
+use Mine\Kernel\Casbin\Factory;
 
 return [
     Enforcer::class => Factory::class,
-    \App\Kernel\Upload\UploadInterface::class   =>  \App\Kernel\Upload\Factory::class
+    \Mine\Kernel\Upload\UploadInterface::class   =>  \Mine\Kernel\Upload\Factory::class
 ];

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Listener\Upload;
 
-use App\Kernel\Upload\Listener\UploadListener as AbstractUploadListener;
 use Hyperf\Event\Annotation\Listener;
+use Mine\Kernel\Upload\Listener\UploadListener as AbstractUploadListener;
 
 #[Listener]
 class UploadListener extends AbstractUploadListener

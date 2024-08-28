@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
 import type { MaFormExpose, MaModel } from '@mineadmin/form'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElOption } from 'element-plus'
 import { themeMode, useEcharts } from '@/hooks/useEcharts'
 import useTable from '@/hooks/useTable.ts'
 import useForm from '@/hooks/useForm.ts'
@@ -79,7 +79,6 @@ useForm('form').then((form: MaFormExpose) => {
       renderProps: {
         onInput: (value: any) => ElMessage.success(value),
         placeholder: '请输入产成品名称',
-        type: 'primary',
       },
       renderSlots: {
         prepend: () => '设置文本框前置文字',
@@ -90,6 +89,33 @@ useForm('form').then((form: MaFormExpose) => {
       prop: 'image',
       cols: { lg: 24, md: 24, sm: 24 },
       render: () => <ma-icon-picker v-model={formModel.value.image} class="w-full" />,
+    },
+    {
+      label: '下拉选项',
+      prop: 'selected',
+      cols: { lg: 24, md: 24, sm: 24 },
+      render: 'select',
+      itemProps: {
+        rules: [{ required: true, message: '请选择第几个' }],
+      },
+      renderProps: {
+        placeholder: '请选择产品类型',
+        onChange: (value: any) => {
+          console.log(value)
+          ElMessage.success(value.toString())
+        },
+      },
+      renderSlots: {
+        default: () => (
+          <>
+            {
+              Array.from([1, 2, 3, 4, 5, 6, 7, 8]).map((item, index) =>
+                <ElOption label={`第 ${item} 个`} value={index} />,
+              )
+            }
+          </>
+        ),
+      },
     },
   ])
 })

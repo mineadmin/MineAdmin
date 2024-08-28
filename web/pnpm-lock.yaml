@@ -14,6 +14,9 @@ importers:
       '@imengyu/vue3-context-menu':
         specifier: ^1.4.2
         version: 1.4.2
+      '@mineadmin/echarts':
+        specifier: ^1.0.0
+        version: 1.0.0(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/form':
         specifier: ^1.0.5
         version: 1.0.5(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
@@ -1079,6 +1082,11 @@ packages:
   '@jsdevtools/ez-spawn@3.0.4':
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
     engines: {node: '>=10'}
+
+  '@mineadmin/echarts@1.0.0':
+    resolution: {integrity: sha512-QmY7FRf4WxSAMM6+j+5ztca6SxOjGcKFfCd6JW5pOjImVTb9fTAzH1ferP+Yn2+chd8t3JyeYrgspK/BpBPVqg==}
+    peerDependencies:
+      element-plus: ^2.0.0
 
   '@mineadmin/form@1.0.5':
     resolution: {integrity: sha512-PLuPFAvqpreM6X9xAEfx73+7fSe3kbNdTZuiJTWIbLqM54V8mTn79CdLPwU5aQEsliDtBgkPBbsoGbLjb/TP2Q==}
@@ -5970,6 +5978,15 @@ snapshots:
       cross-spawn: 7.0.3
       string-argv: 0.3.2
       type-detect: 4.1.0
+
+  '@mineadmin/echarts@1.0.0(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+    dependencies:
+      '@vueuse/core': 10.11.1(vue@3.4.38(typescript@5.5.4))
+      element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
+      vue: 3.4.38(typescript@5.5.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - typescript
 
   '@mineadmin/form@1.0.5(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:

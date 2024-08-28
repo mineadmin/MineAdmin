@@ -2,6 +2,7 @@
 import type { MaTableExpose } from '@mineadmin/table'
 import type { MaFormExpose, MaModel } from '@mineadmin/form'
 import { ElMessage } from 'element-plus'
+import { themeMode, useEcharts } from '@/hooks/useEcharts'
 import useTable from '@/hooks/useTable.ts'
 import useForm from '@/hooks/useForm.ts'
 
@@ -9,12 +10,29 @@ defineOptions({ name: 'welcome' })
 
 const userinfo = useUserStore().getUserInfo()
 const icon = ref('')
+const ecs = ref()
 const resource = ref('')
 
 const formModel = ref<MaModel>({
   productCode: '',
   productName: '',
   image: '',
+})
+
+useEcharts(ecs, { theme: themeMode() }).setOption({
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  },
+  yAxis: {
+    type: 'value',
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line',
+    },
+  ],
 })
 
 useForm('form').then((form: MaFormExpose) => {
@@ -157,6 +175,7 @@ useTable('table2').then((table: MaTableExpose) => {
       <MaResourcePicker />
       <!--      <MaResourcePanel v-model="resource" multiple :limit="5" /> -->
     </div>
+    <div ref="ecs" class="mine-card h-300px" />
     <div class="mine-card">
       <ma-form ref="form" v-model="formModel" />
     </div>

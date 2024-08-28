@@ -24,7 +24,6 @@ import {
 import type { App } from 'vue'
 import mineDarkJson from './themes/mineDark.project.json'
 import type { ProviderService } from '#/global'
-import useGlobal from '@/hooks/auto-imports/useGlobal.ts'
 
 const { use } = echarts
 
@@ -48,7 +47,7 @@ use([
 const provider: ProviderService.Provider = {
   name: 'echarts',
   setProvider(app: App): void {
-    echarts.registerTheme('mineDark', mineDarkJson as any)
+    echarts.registerTheme('mineDark', mineDarkJson.theme as any)
     app.config.globalProperties.$echarts = echarts
   },
   getProvider() {

@@ -12,8 +12,6 @@ import type { App, Directive } from 'vue'
 import ElementPlus from 'element-plus'
 import { createI18n } from 'vue-i18n'
 import messages from '@intlify/unplugin-vue-i18n/messages'
-import MaTable from '@mineadmin/table'
-import MaForm from '@mineadmin/form'
 import VConsole from 'vconsole'
 import pinia from './store'
 import router from './router'
@@ -37,8 +35,6 @@ import 'virtual:svg-icons-register'
 import '@/assets/styles/globals.scss'
 // vue-m-message样式
 import 'vue-m-message/dist/style.css'
-// maTable样式
-import '@mineadmin/table/dist/style.css'
 
 async function createI18nService(app: App) {
   const locales: any[] = Object.entries(import.meta.glob('./locales/*.y(a)?ml')).map(([key]: any) => {
@@ -98,8 +94,6 @@ async function bootstrap(app: App): Promise<void> {
   app.use(pinia)
   app.use(router)
   app.use(ElementPlus, {})
-  app.use(MaTable)
-  app.use(MaForm)
   registerDirectives(app)
   otherWorker(app)
   await createI18nService(app)

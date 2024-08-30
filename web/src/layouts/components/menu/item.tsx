@@ -96,6 +96,15 @@ export default defineComponent({
                           )
                         }
                       </div>
+                      <div
+                        class={{
+                          'mine-menu-badge': true,
+                          'absolute right-10': (subMenu && !(rootMenu.isMenuPopup && level === 0)),
+                          'hidden': item.meta?.badge === undefined,
+                        }}
+                      >
+                        {item.meta?.badge?.()}
+                      </div>
                       {
                         (subMenu && !(rootMenu.isMenuPopup && level === 0))
                         && <i class={arrowIcon.value} />

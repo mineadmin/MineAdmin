@@ -310,6 +310,7 @@ declare namespace MineRoute {
   interface RouteMeta {
     title?: string | (() => string)
     i18n?: string | (() => string)
+    badge?: () => string | number
     icon?: string
     affix?: boolean
     hidden?: boolean

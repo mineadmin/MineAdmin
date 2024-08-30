@@ -28,6 +28,7 @@ const pluginConfig: Plugin.PluginConfig = {
       path: '/appstore',
       meta: {
         title: '应用市场',
+        badge: () => '99+',
         i18n: 'menu.appstore',
         icon: 'vscode-icons:file-type-azure',
         type: 'M',

@@ -28,6 +28,13 @@
       after:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px])
       before:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px]);
   }
+
+  .mine-menu-badge {
+    @apply text-xs py-0.5 px-1 rounded-md
+    bg-red-4 dark-bg-red-6
+      text-white
+    ;
+  }
 }
 
 .mine-menu-link:hover {

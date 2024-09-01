@@ -10,23 +10,32 @@
 import type { App } from 'vue'
 import MaTable from '@mineadmin/table'
 import MaForm from '@mineadmin/form'
+import MaSearch from '@mineadmin/search'
 
 import type { MaTableColumns, MaTableOptions, PaginationProps } from '@mineadmin/table'
 import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
+import type { MaSearchItem, MaSearchOptions } from '@mineadmin/search'
+
 import type { ProviderService } from '#/global'
 
 // maTable样式
 import '@mineadmin/table/dist/style.css'
+// maSearch样式
+import '@mineadmin/search/dist/style.css'
 
 interface MineCoreCommonConfig {
   table?: {
     commonOptions: MaTableOptions
     commonColumns: MaTableColumns[]
-    commonPagination: PaginationProps
+    commonPagination: PaginationProps | null
   }
   form?: {
     commonOptions: MaFormOptions
     commonItems: MaFormItem[]
+  }
+  search?: {
+    commonOptions: MaSearchOptions
+    commonItems: MaSearchItem[]
   }
 }
 
@@ -35,9 +44,13 @@ function commonConfig(): MineCoreCommonConfig {
     table: {
       commonOptions: {},
       commonColumns: [],
-      commonPagination: {},
+      commonPagination: null,
     },
     form: {
+      commonOptions: {},
+      commonItems: [],
+    },
+    search: {
       commonOptions: {},
       commonItems: [],
     },
@@ -49,6 +62,7 @@ const provider: ProviderService.Provider = {
   setProvider(app: App) {
     app.use(MaTable)
     app.use(MaForm)
+    app.use(MaSearch)
     app.config.globalProperties.$mineCore = commonConfig()
   },
   getProvider(): any {

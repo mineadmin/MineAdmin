@@ -18,8 +18,11 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/form':
-        specifier: ^1.0.5
-        version: 1.0.5(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+        specifier: ^1.0.13
+        version: 1.0.13(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+      '@mineadmin/search':
+        specifier: ^1.0.1
+        version: 1.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/table':
         specifier: ^1.0.7
         version: 1.0.7(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
@@ -1088,8 +1091,13 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/form@1.0.5':
-    resolution: {integrity: sha512-PLuPFAvqpreM6X9xAEfx73+7fSe3kbNdTZuiJTWIbLqM54V8mTn79CdLPwU5aQEsliDtBgkPBbsoGbLjb/TP2Q==}
+  '@mineadmin/form@1.0.13':
+    resolution: {integrity: sha512-g0Vs1rgx2yXgQSgxBbC55MjOMHmdBZbUMYJVcCXbGyAx75gpSHgobtBjg7WR5HIVHJCT6ITEtuf2U3MReuhVnw==}
+    peerDependencies:
+      element-plus: ^2.0.0
+
+  '@mineadmin/search@1.0.1':
+    resolution: {integrity: sha512-vuayMpiR+q1WSIBeVdH/GvKfPcDj32fmxpgraMj1DP0JvI3+UBsn+CSFUYRGa8ad4rMNA5/mvPiHobIvUpxzbQ==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -5988,7 +5996,14 @@ snapshots:
       - '@vue/composition-api'
       - typescript
 
-  '@mineadmin/form@1.0.5(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+  '@mineadmin/form@1.0.13(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+    dependencies:
+      element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
+      vue: 3.4.38(typescript@5.5.4)
+    transitivePeerDependencies:
+      - typescript
+
+  '@mineadmin/search@1.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
       vue: 3.4.38(typescript@5.5.4)

@@ -21,7 +21,7 @@
   "dependencies": {
     "@mineadmin/table": "^1.0.7",
     "@mineadmin/form": "^1.0.13",
-    "@mineadmin/echarts": "^1.0.0",
+    "@mineadmin/echarts": "^1.0.1",
     "@mineadmin/search": "^1.0.1",
     "@headlessui/vue": "^1.7.22",
     "@imengyu/vue3-context-menu": "^1.4.2",
@@ -43,7 +43,7 @@
     "pinia": "^2.2.0",
     "qs": "^6.13.0",
     "sortablejs": "1.15.2",
-    "vue": "^3.5.0",
+    "vue": "^3.4.35",
     "vue-i18n": "^9.13.1",
     "vue-m-message": "^4.0.2",
     "vue-router": "^4.4.2",

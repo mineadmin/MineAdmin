@@ -24,13 +24,10 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaIconPanel' })
 
-const { pageSize, className } = withDefaults(defineProps<{
+const { pageSize = 160, className = 'w-full' } = defineProps<{
   pageSize?: number
   className?: string
-}>(), {
-  className: 'w-full',
-  pageSize: 160,
-})
+}>()
 
 const emit = defineEmits<{
   (event: 'select', value: string): void

@@ -14,7 +14,6 @@ namespace App\Http\Common\Middleware;
 
 use Mine\Kernel\Jwt\JwtInterface;
 use Mine\Kernel\JwtAuth\Middleware\AbstractAuthMiddleware;
-use Psr\Http\Server\MiddlewareInterface;
 
 final class AuthMiddleware extends AbstractAuthMiddleware
 {

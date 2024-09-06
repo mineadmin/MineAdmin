@@ -46,7 +46,7 @@ use Mine\Kernel\Security\Interfaces\UserInterface;
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
  */
-final class User extends Model implements UserInterface
+final class User extends Model
 {
     use SoftDeletes;
 

@@ -56,14 +56,15 @@ final class PassportService extends IService
 
     public function checkJwt(UnencryptedToken $token): bool
     {
-        $jwt = $this->getJwt();
-        if ($jwt->hasBlackList($token)) {
-            throw new JwtInBlackException();
-        }
-        return true;
+        return value(function (JwtInterface $jwt) use ($token) {
+            if ($jwt->hasBlackList($token)) {
+                throw new JwtInBlackException();
+            }
+            return true;
+        }, $this->getJwt());
     }
 
-    public function logout(UnencryptedToken $token)
+    public function logout(UnencryptedToken $token): void
     {
         $this->getJwt()->addBlackList($token);
     }

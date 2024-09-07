@@ -15,7 +15,7 @@ namespace App\Http\Admin\Controller\Permission;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\MenuRequest;
+use App\Http\Admin\Request\Permission\MenuRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
@@ -101,7 +101,7 @@ final class MenuController extends AbstractController
     }
 
     #[Delete(
-        path: '/admin/menu/{id}',
+        path: '/admin/menu',
         operationId: 'menuDelete',
         summary: '删除菜单',
         security: [['Bearer' => [], 'ApiKey' => []]],
@@ -109,9 +109,9 @@ final class MenuController extends AbstractController
     )]
     #[PageResponse(instance: new Result())]
     #[Permission(code: 'menu:delete')]
-    public function delete(int $id): Result
+    public function delete(RequestInterface $request): Result
     {
-        $this->service->deleteById($id, false);
+        $this->service->deleteById($request->all(), false);
         return $this->success();
     }
 }

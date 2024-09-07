@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Request\Permission\User;
+namespace App\Http\Admin\Request\Permission;
 
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
@@ -46,7 +46,7 @@ use Mine\Kernel\Swagger\Attributes\FormRequest as FormRequestAnnotation;
         'remark',
     ]
 )]
-class CreateRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     public function authorize(): bool
     {

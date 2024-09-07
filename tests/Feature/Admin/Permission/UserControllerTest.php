@@ -103,15 +103,13 @@ class UserControllerTest extends ControllerCase
             'nickname' => Str::random(),
         ]);
         $token = $this->token;
-        $result = $this->delete('/admin/user/' . $user->id);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
-        $result = $this->delete('/admin/user/' . $user->id, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete('/admin/user', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
         $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:delete'));
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:delete'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:delete'));
-        $result = $this->delete('/admin/user/' . $user->id, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete('/admin/user', [$user->getKey()], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();
         $this->assertTrue($user->trashed());
@@ -127,15 +125,7 @@ class UserControllerTest extends ControllerCase
         ]);
         $token = $this->token;
         $result = $this->put('/admin/user/' . $user->id);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
-        $result = $this->put('/admin/user/' . $user->id, [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:save'));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:save'));
-        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:save'));
-        $result = $this->put('/admin/user/' . $user->id, [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
         $fillAttributes = [
             'username' => Str::random(),
             'user_type' => 100,
@@ -149,6 +139,14 @@ class UserControllerTest extends ControllerCase
             'backend_setting' => ['testxx'],
             'remark' => 'test',
         ];
+        $result = $this->put('/admin/user/' . $user->id, $fillAttributes);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        $result = $this->put('/admin/user/' . $user->id, $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        $enforce = $this->getEnforce();
+        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:save'));
+        $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:save'));
+        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:save'));
         $result = $this->put('/admin/user/' . $user->id, $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();

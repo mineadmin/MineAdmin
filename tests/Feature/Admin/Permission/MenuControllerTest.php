@@ -92,6 +92,6 @@ class MenuControllerTest extends CrudControllerCase
             'sort' => rand(1, 100),
             'remark' => Str::random(10),
         ]);
-        $this->caseDelete('/admin/menu/', $entity, 'menu:delete');
+        $this->caseDelete('/admin/menu', $entity, 'menu:delete');
     }
 }

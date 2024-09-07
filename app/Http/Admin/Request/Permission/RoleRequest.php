@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Request\Permission\Role;
+namespace App\Http\Admin\Request\Permission;
 
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
@@ -21,7 +21,7 @@ use Hyperf\Validation\Request\FormRequest;
         'name', 'code', 'status', 'sort', 'remark',
     ]
 )]
-class SaveRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     public function authorize(): bool
     {

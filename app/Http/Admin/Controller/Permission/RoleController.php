@@ -16,9 +16,8 @@ use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\Role\BatchGrantPermissionsForRoleRequest;
-use App\Http\Admin\Request\Permission\Role\CreateRequest;
-use App\Http\Admin\Request\Permission\Role\SaveRequest;
+use App\Http\Admin\Request\Permission\BatchGrantPermissionsForRoleRequest;
+use App\Http\Admin\Request\Permission\RoleRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
@@ -76,11 +75,11 @@ final class RoleController extends AbstractController
         tags: ['角色管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: CreateRequest::class)
+        content: new JsonContent(ref: RoleRequest::class)
     )]
     #[Permission(code: 'role:create')]
     #[ResultResponse(instance: new Result())]
-    public function create(CreateRequest $request): Result
+    public function create(RoleRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
             'created_by' => $this->currentUser->id(),
@@ -96,11 +95,11 @@ final class RoleController extends AbstractController
         tags: ['角色管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: SaveRequest::class)
+        content: new JsonContent(ref: RoleRequest::class)
     )]
     #[Permission(code: 'role:save')]
     #[ResultResponse(instance: new Result())]
-    public function save(int $id, SaveRequest $request): Result
+    public function save(int $id, RoleRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [
             'updated_by' => $this->currentUser->id(),
@@ -109,7 +108,7 @@ final class RoleController extends AbstractController
     }
 
     #[Delete(
-        path: '/admin/role/{id}',
+        path: '/admin/role',
         operationId: 'roleDelete',
         summary: '删除角色',
         security: [['Bearer' => [], 'ApiKey' => []]],
@@ -117,9 +116,9 @@ final class RoleController extends AbstractController
     )]
     #[ResultResponse(instance: new Result())]
     #[Permission(code: 'role:delete')]
-    public function delete(int $id): Result
+    public function delete(RequestInterface $request): Result
     {
-        $this->service->deleteById($id, false);
+        $this->service->deleteById($request->all(), false);
         return $this->success();
     }
 

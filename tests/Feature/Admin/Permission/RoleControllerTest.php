@@ -133,18 +133,18 @@ class RoleControllerTest extends ControllerCase
             'status' => rand(0, 1),
             'remark' => Str::random(),
         ]);
-        $result = $this->delete('/admin/role/' . $entity->id);
+        $result = $this->delete('/admin/role');
         $this->assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
-        $result = $this->delete('/admin/role/' . $entity->id, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete('/admin/role', [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
         $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'role:delete'));
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'role:delete'));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'role:delete'));
-        $result = $this->delete('/admin/role/' . $entity->id, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete('/admin/role', [$entity->id], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:delete'));
-        $result = $this->delete('/admin/role/' . $entity->id, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete('/admin/role', [$entity->id], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
         $this->assertTrue($entity->trashed());

@@ -14,8 +14,7 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\User\CreateRequest;
-use App\Http\Admin\Request\Permission\User\SaveRequest;
+use App\Http\Admin\Request\Permission\UserRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
@@ -68,16 +67,16 @@ final class UserController extends AbstractController
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:create')]
-    #[RequestBody(content: new JsonContent(ref: CreateRequest::class, title: '创建用户'))]
+    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '创建用户'))]
     #[ResultResponse(new Result())]
-    public function create(CreateRequest $request): Result
+    public function create(UserRequest $request): Result
     {
         $this->userService->create($request->validated());
         return $this->success();
     }
 
     #[Delete(
-        path: '/admin/user/{userId}',
+        path: '/admin/user',
         operationId: 'userDelete',
         summary: '删除用户',
         security: [['Bearer' => [], 'ApiKey' => []]],
@@ -85,9 +84,9 @@ final class UserController extends AbstractController
     )]
     #[Permission(code: 'user:delete')]
     #[ResultResponse(new Result())]
-    public function delete(int $userId): Result
+    public function delete(Request $request): Result
     {
-        $this->userService->deleteById($userId, false);
+        $this->userService->deleteById($request->all(), false);
         return $this->success();
     }
 
@@ -99,9 +98,9 @@ final class UserController extends AbstractController
         tags: ['用户管理']
     )]
     #[Permission(code: 'user:save')]
-    #[RequestBody(content: new JsonContent(ref: SaveRequest::class, title: '更新用户'))]
+    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '更新用户'))]
     #[ResultResponse(new Result())]
-    public function save(int $userId, SaveRequest $request): Result
+    public function save(int $userId, UserRequest $request): Result
     {
         $this->userService->updateById($userId, $request->validated());
         return $this->success();

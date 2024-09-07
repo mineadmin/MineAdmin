@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Request;
+namespace App\Http\Admin\Request\Permission;
 
 use App\Schema\MenuSchema;
 use Hyperf\Validation\Request\FormRequest;

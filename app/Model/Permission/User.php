@@ -21,7 +21,6 @@ use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 use Mine\Kernel\Casbin\Rule\Rule;
-use Mine\Kernel\Security\Interfaces\UserInterface;
 
 /**
  * @property int $id 用户ID，主键
@@ -75,48 +74,38 @@ final class User extends Model
         'updated_at' => 'datetime', 'backend_setting' => 'json',
     ];
 
-    /**
-     * 通过中间表关联角色.
-     */
     public function roles(): BelongsToMany
     {
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Role::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v0',
             'v1',
             'username',
             'code'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', '=', 'g');
     }
 
-    /**
-     * 密码加密.
-     * @param mixed $value
-     */
     public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = password_hash((string) $value, PASSWORD_DEFAULT);
     }
 
-    public function creating(Creating $event)
-    {
-        $this->password = 123456;
-    }
-
-    public function getIdentifier(): mixed
-    {
-        return $this->getKey();
-    }
-
-    public function verify(string $password): bool
+    public function verifyPassword(string $password): bool
     {
         return password_verify($password, $this->password);
     }
 
-    public function findByIdentifier(mixed $identifier): ?UserInterface
+    public function creating(Creating $event)
     {
-        return self::query()->find($identifier);
+        $this->resetPassword();
+    }
+
+    public function resetPassword(): void
+    {
+        $this->password = 123456;
     }
 }

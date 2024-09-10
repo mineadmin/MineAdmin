@@ -24,8 +24,8 @@ class ClearLogCrontab
     #[Transaction]
     public function execute(): string
     {
-        OperLog::truncate();
-        LoginLog::truncate();
+        //        OperLog::truncate();
+        //        LoginLog::truncate();
 
         return 'Clear logs successfully';
     }

@@ -86,11 +86,13 @@ final class Role extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Menu::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v0',
             'v1',
             'code',
             'code'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'p');
     }
 
@@ -99,11 +101,13 @@ final class Role extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             User::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v1',
             'v0',
             'code',
             'username'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'g');
     }
 }

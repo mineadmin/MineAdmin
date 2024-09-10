@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Attachment;
 use App\Repository\AttachmentRepository;
 use Mine\Kernel\Upload\UploadInterface;
 use Symfony\Component\Finder\SplFileInfo;
@@ -26,11 +27,11 @@ final class AttachmentService extends IService
         protected readonly UploadInterface $upload
     ) {}
 
-    public function upload(SplFileInfo $fileInfo, int $userId): array
+    public function upload(SplFileInfo $fileInfo, int $userId): Attachment
     {
         $fileHash = md5_file($fileInfo->getRealPath());
         if ($attachment = $this->repository->findByHash($fileHash)) {
-            return $attachment->toArray();
+            return $attachment;
         }
         $upload = $this->upload->upload(
             $fileInfo,

@@ -41,8 +41,8 @@ final class PassportService extends IService
      */
     public function login(string $username, string $password, int $userType = 100): array
     {
-        $user = $this->repository->checkUserByUsername($username, $userType);
-        if (! $this->repository->checkPass($password, $user->password)) {
+        $user = $this->repository->findByUnameType($username, $userType);
+        if (! $user->verifyPassword($password)) {
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
         $this->dispatcher->dispatch(new LoginSuccessEvent($user));

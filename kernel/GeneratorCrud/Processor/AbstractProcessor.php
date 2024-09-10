@@ -3,11 +3,15 @@
 namespace Mine\Kernel\GeneratorCrud\Processor;
 
 use Hyperf\CodeParser\Project;
+use Hyperf\View\RenderInterface;
 use Mine\Kernel\GeneratorCrud\Context;
 use Mine\Kernel\GeneratorCrud\Entity\GeneratorEntity;
 
 abstract class AbstractProcessor implements ProcessorInterface
 {
+    public function __construct(
+        protected readonly RenderInterface $render
+    ){}
 
     public function process(Context $c): GeneratorEntity
     {

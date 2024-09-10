@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
+use App\Constants\User\Status;
+use App\Constants\User\Type;
 use App\Model\Permission\User;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
@@ -26,7 +28,7 @@ final class UserSchema implements \JsonSerializable
     public ?string $username;
 
     #[Property(property: 'user_type', title: '用户类型：(100系统用户)', type: 'string')]
-    public ?int $userType;
+    public ?Type $userType;
 
     #[Property(property: 'nickname', title: '用户昵称', type: 'string')]
     public ?string $nickname;
@@ -47,7 +49,7 @@ final class UserSchema implements \JsonSerializable
     public ?string $dashboard;
 
     #[Property(property: 'status', title: '状态 (1正常 2停用)', type: 'int')]
-    public ?int $status;
+    public ?Status $status;
 
     #[Property(property: 'login_ip', title: '最后登陆IP', type: 'string')]
     public ?string $loginIp;

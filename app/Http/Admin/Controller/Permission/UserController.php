@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
+use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\Permission\UserRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
@@ -20,6 +21,7 @@ use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
 use App\Schema\UserSchema;
 use App\Service\Permission\UserService;
+use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Request;
 use Hyperf\Swagger\Annotation\Delete;
@@ -37,7 +39,10 @@ use OpenApi\Attributes\RequestBody;
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
 final class UserController extends AbstractController
 {
-    public function __construct(private readonly UserService $userService) {}
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly CurrentUser $currentUser
+    ) {}
 
     #[Get(
         path: '/admin/user/list',
@@ -57,6 +62,38 @@ final class UserController extends AbstractController
                 $this->getPageSize()
             )
         );
+    }
+
+    #[Put(
+        path: '/admin/user',
+        operationId: 'updateInfo',
+        summary: '更新用户信息',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['用户管理']
+    )
+    ]
+    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '修改个人信息'))]
+    #[Permission(code: 'user:info')]
+    #[ResultResponse(new Result())]
+    public function updateInfo(UserRequest $request): Result
+    {
+        $this->userService->updateById($this->currentUser->id(), Arr::except($request->validated(), ['password']));
+        return $this->success();
+    }
+
+    #[Put(
+        path: '/admin/user/password',
+        operationId: 'updatePassword',
+        summary: '修改密码',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['用户管理']
+    )]
+    #[Permission(code: 'user:password')]
+    #[ResultResponse(new Result())]
+    public function resetPassword(): Result
+    {
+        $this->userService->resetPassword($this->currentUser->id());
+        return $this->success();
     }
 
     #[Post(

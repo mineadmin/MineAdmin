@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Permission\Role;
 use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Service\Permission\UserService;
@@ -46,6 +47,9 @@ final class PermissionService
         );
     }
 
+    /**
+     * @return Collection|Collection<int, Role>
+     */
     public function getRolesByUserId(int $userId): Collection
     {
         $roleCodes = $this->getEnforce()->getImplicitRolesForUser(

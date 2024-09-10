@@ -36,4 +36,12 @@ final class UserService extends IService
             'id' => $userId,
         ])->value($field);
     }
+
+    public function resetPassword(int $id): bool
+    {
+        $entity = $this->repository->findById($id);
+        $entity->resetPassword();
+        $entity->save();
+        return true;
+    }
 }

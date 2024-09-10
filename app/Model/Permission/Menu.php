@@ -78,11 +78,13 @@ final class Menu extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Role::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v1',
             'v0',
             'code',
             'code'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'p');
     }
 

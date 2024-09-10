@@ -163,4 +163,67 @@ class UserControllerTest extends ControllerCase
         $this->assertSame($user->remark, $fillAttributes['remark']);
         $user->forceDelete();
     }
+
+    public function testUpdateInfo(): void
+    {
+        $user = $this->user;
+        $token = $this->token;
+        $result = $this->put('/admin/user');
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
+        $fillAttributes = [
+            'username' => Str::random(),
+            'user_type' => 100,
+            'nickname' => Str::random(),
+            'phone' => Str::random(8),
+            'email' => Str::random(10) . '@qq.com',
+            'avatar' => 'https://www.baidu.com',
+            'signed' => 'test',
+            'dashboard' => 'test',
+            'status' => 1,
+            'backend_setting' => ['testxx'],
+            'remark' => 'test',
+        ];
+        $result = $this->put('/admin/user', $fillAttributes);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        $result = $this->put('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        $enforce = $this->getEnforce();
+        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:info'));
+        $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:info'));
+        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:info'));
+        $result = $this->put('/admin/user', $fillAttributes, ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $user->refresh();
+        $this->assertSame($user->username, $fillAttributes['username']);
+        $this->assertSame($user->user_type, Type::from($fillAttributes['user_type']));
+        $this->assertSame($user->nickname, $fillAttributes['nickname']);
+        $this->assertSame($user->phone, $fillAttributes['phone']);
+        $this->assertSame($user->email, $fillAttributes['email']);
+        $this->assertSame($user->avatar, $fillAttributes['avatar']);
+        $this->assertSame($user->signed, $fillAttributes['signed']);
+        $this->assertSame($user->dashboard, $fillAttributes['dashboard']);
+        $this->assertSame($user->status, Status::from($fillAttributes['status']));
+        $this->assertSame($user->backend_setting, $fillAttributes['backend_setting']);
+        $this->assertSame($user->remark, $fillAttributes['remark']);
+        $user->forceDelete();
+    }
+
+    public function testResetPassword(): void
+    {
+        $token = $this->token;
+        $user = $this->user;
+        $oldPassword = $user->password;
+        $result = $this->put('/admin/user/password');
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        $result = $this->put('/admin/user/password', [], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        $enforce = $this->getEnforce();
+        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:password'));
+        $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:password'));
+        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:password'));
+        $result = $this->put('/admin/user/password', [], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $user->refresh();
+        $this->assertNotSame($oldPassword, $user->password);
+    }
 }

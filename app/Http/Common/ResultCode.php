@@ -23,27 +23,27 @@ enum ResultCode: int
 {
     use ConstantsTrait;
 
-    #[Message('成功')]
+    #[Message('result.success')]
     case SUCCESS = 200;
 
-    #[Message('失败')]
+    #[Message('result.fail')]
     case FAIL = 500;
 
-    #[Message('未登录')]
+    #[Message('result.unauthorized')]
     case UNAUTHORIZED = 401;
 
-    #[Message('禁止访问')]
+    #[Message('result.forbidden')]
     case FORBIDDEN = 403;
 
-    #[Message('未找到')]
+    #[Message('result.not_found')]
     case NOT_FOUND = 404;
 
-    #[Message('方法不允许')]
+    #[Message('result.method_not_allowed')]
     case METHOD_NOT_ALLOWED = 405;
 
-    #[Message('不可接受')]
+    #[Message('result.not_acceptable')]
     case NOT_ACCEPTABLE = 406;
 
-    #[Message('请求参数错误')]
+    #[Message('result.conflict')]
     case UNPROCESSABLE_ENTITY = 422;
 }

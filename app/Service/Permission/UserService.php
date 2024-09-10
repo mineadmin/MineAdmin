@@ -15,6 +15,7 @@ namespace App\Service\Permission;
 use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
+use Hyperf\Collection\Arr;
 
 /**
  * @extends IService<UserRepository>
@@ -43,5 +44,19 @@ final class UserService extends IService
         $entity->resetPassword();
         $entity->save();
         return true;
+    }
+
+    public function batchGrantRoleForUser(int $id, array $roleCodes): void
+    {
+        $entity = $this->repository->findById($id);
+        $syncData = [];
+        Arr::map($roleCodes, function ($roleCode) use (&$syncData) {
+            $syncData[$roleCode] = [
+                'ptype' => 'g',
+            ];
+        });
+        // @phpstan-ignore-next-line
+        $entity->roles()->sync($syncData);
+        var_dump($entity->roles()->pluck('role.id'));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'id'    => 'Role Id',
     'name'  =>  'Role name',
     'code'  =>  'Role code',
     'status'    =>  'Status',

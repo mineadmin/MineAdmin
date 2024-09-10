@@ -15,6 +15,7 @@ namespace App\Http\Admin\Controller\Permission;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
+use App\Http\Admin\Request\Permission\BatchGrantRolesForUserRequest;
 use App\Http\Admin\Request\Permission\UserRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
@@ -140,6 +141,22 @@ final class UserController extends AbstractController
     public function save(int $userId, UserRequest $request): Result
     {
         $this->userService->updateById($userId, $request->validated());
+        return $this->success();
+    }
+
+    #[Put(
+        path: '/admin/user/{id}/role',
+        operationId: 'batchGrantRolesForUser',
+        summary: '批量授权用户角色',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['用户管理']
+    )]
+    #[Permission(code: 'user:role')]
+    #[RequestBody(content: new JsonContent(ref: BatchGrantRolesForUserRequest::class, title: '批量授权用户角色'))]
+    #[ResultResponse(new Result())]
+    public function batchGrantRolesForUser(int $id, BatchGrantRolesForUserRequest $request): Result
+    {
+        $this->userService->batchGrantRoleForUser($id, $request->input('role_codes'));
         return $this->success();
     }
 }

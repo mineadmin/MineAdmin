@@ -15,6 +15,7 @@ namespace HyperfTests\Feature\Admin\Permission;
 use App\Constants\User\Status;
 use App\Constants\User\Type;
 use App\Http\Common\ResultCode;
+use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
@@ -225,5 +226,48 @@ class UserControllerTest extends ControllerCase
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();
         $this->assertNotSame($oldPassword, $user->password);
+    }
+
+    public function testBatchGrantRolesForUser(): void
+    {
+        $token = $this->token;
+        $user = $this->user;
+        $roles = [
+            Role::create([
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'sort' => rand(1, 100),
+                'status' => rand(0, 1),
+                'remark' => Str::random(),
+            ]),
+            Role::create([
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'sort' => rand(1, 100),
+                'status' => rand(0, 1),
+                'remark' => Str::random(),
+            ]),
+            Role::create([
+                'name' => Str::random(10),
+                'code' => Str::random(10),
+                'sort' => rand(1, 100),
+                'status' => rand(0, 1),
+                'remark' => Str::random(),
+            ]),
+        ];
+        $roleIds = array_map(fn ($role) => $role->id, $roles);
+        $roleCodes = array_map(fn ($role) => $role->code, $roles);
+        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        $enforce = $this->getEnforce();
+        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:role'));
+        $this->assertTrue($enforce->addPermissionForUser($this->user->username, 'user:role'));
+        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:role'));
+        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
+        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $user->refresh();
+        $this->assertSame($user->roles()->pluck('role.id')->toArray(), $roleIds);
     }
 }

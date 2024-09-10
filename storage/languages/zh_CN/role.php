@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'id'    => '角色id',
     'name'  =>  '角色名称',
     'code'  =>  '角色编码',
     'status'    =>  '状态',

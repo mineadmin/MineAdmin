@@ -77,6 +77,7 @@ declare namespace Plugin {
       // 网络返回后钩子
       networkResponse?: (response: T) => any | void
     }
+    [key: string]: T
   }
 }
 

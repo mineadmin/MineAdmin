@@ -11,22 +11,35 @@ import type { App } from 'vue'
 import type { ProviderService } from '#/global'
 import useGlobal from '@/hooks/auto-imports/useGlobal.ts'
 
-const pluginConfigs = {}
-async function getPluginConfig() {
+const pluginList = {}
+async function getPluginList() {
   const plugins = import.meta.glob('../../plugins/**/*/index.ts')
   for (const path in plugins) {
     const { default: plugin }: any = await plugins[path]()
-    pluginConfigs[plugin.config.info.name] = plugin
+    pluginList[plugin.config.info.name] = plugin
+  }
+}
+
+const pluginConfig = {}
+async function getPluginConfig() {
+  const configs = import.meta.glob('./config/**.ts')
+  for (const path in configs) {
+    const { default: config } = await configs[path]()
+    const matches = path.match(/[^config/][\w-]+/g)
+    const name = (matches[0] + matches[1]).replace('.', '/')
+    pluginConfig[name] = config
   }
 }
 
 const provider: ProviderService.Provider = {
   name: 'plugins',
   async init() {
+    await getPluginList()
     await getPluginConfig()
   },
   setProvider(app: App) {
-    app.config.globalProperties.$plugins = pluginConfigs
+    app.config.globalProperties.$plugins = pluginList
+    app.config.globalProperties.$pluginsConfig = pluginConfig
   },
   getProvider(): any {
     return useGlobal().$plugins

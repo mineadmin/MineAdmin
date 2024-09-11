@@ -28,6 +28,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Api\MApiCollector;
+use Mine\Annotation\Auth;
 use Mine\Helper\MineCode;
 use Mine\MineApi;
 use Psr\Container\ContainerExceptionInterface;
@@ -73,7 +74,7 @@ class ApiDocController extends MineApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[GetMapping('getAppAndInterfaceList/{id}')]
+    #[GetMapping('getAppAndInterfaceList/{id}'), Auth]
     public function getAppAndInterfaceList(string $id): ResponseInterface
     {
         $appAndInterfaceList = $this->systemAppService->getAppAndInterfaceList($id);
@@ -91,7 +92,7 @@ class ApiDocController extends MineApi
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[GetMapping('getColumnList/{id}')]
+    #[GetMapping('getColumnList/{id}'), Auth]
     public function getColumnList(string $id): ResponseInterface
     {
         // 如果api注解收集器里有，直接返回信息

@@ -38,9 +38,9 @@ const pluginConfig: Plugin.PluginConfig = {
     },
     routerRedirect: (route: RouteRecordRaw) => {
       // 劫持welcome路由返回practice.vue
-      if (route.path === '/welcome') {
-        // router.push('/cell-render')
-      }
+      // if (route.path === '/welcome') {
+      //   useRouter().push('/cell-render')
+      // }
     },
   },
   config: {

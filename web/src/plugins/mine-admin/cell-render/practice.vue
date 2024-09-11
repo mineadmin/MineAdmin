@@ -4,34 +4,36 @@ import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { useCellRenderTo } from './hooks/useCellRenderTo.ts'
 
 const options: MaProTableOptions = reactive({
+  adaptionOffsetBottom: 12,
   tableOptions: {
+    border: true,
     data: [
       {
         id: 1,
         name: '张三',
         age: 18,
-        image: 'https://picsum.photos/200/300?random=1,https://picsum.photos/200/300?random=2,https://picsum.photos/200/300?random=3',
+        image: 'https://picsum.photos/600/800?random=1,https://picsum.photos/600/800?random=2,https://picsum.photos/600/800?random=3',
         content: '对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生. 现在, 解决随机一段废话的问题, 是非常非常重要的. 所以, 对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生. 从这个角度来看, 我们不妨可以这样来想: 富勒曾经说过一句著名的话, 苦难磨炼一些人，也毁灭另一些人。这似乎解答了我的疑惑. 那么, 我们都知道, 只要有意义, 那么就必须慎重考虑.这种事实',
       },
       {
         id: 2,
         name: '李四',
         age: 19,
-        image: 'https://picsum.photos/200/300?random=1',
+        image: 'https://picsum.photos/600/800?random=4',
         content: '女',
       },
       {
         id: 3,
         name: '王五',
         age: 20,
-        image: 'https://picsum.photos/200/300?random=1',
+        image: 'https://picsum.photos/600/800?random=5',
         content: '男',
       },
       {
         id: 4,
         name: '赵六',
         age: 21,
-        image: 'https://picsum.photos/200/300?random=1',
+        image: 'https://picsum.photos/600/800?random=6',
         content: '女',
       },
     ],
@@ -45,7 +47,39 @@ const options: MaProTableOptions = reactive({
 })
 
 const schema: MaProTableSchema = reactive({
-  searchItems: [],
+  searchItems: [
+    {
+      label: '测试1',
+      props: 'test1',
+      render: 'input',
+    },
+    {
+      label: '测试2',
+      props: 'test2',
+      render: 'datePicker',
+    },
+    {
+      label: '测试3',
+      props: 'test3',
+      render: 'select',
+    },
+    {
+      label: '测试3',
+      props: 'test4',
+      render: 'cascader',
+    },
+    {
+      label: '测试5',
+      props: 'test5',
+      render: 'inputNumber',
+    },
+    {
+      label: '测试5',
+      props: 'test5',
+      render: 'datePicker',
+      span: 2,
+    },
+  ],
   tableColumns: [
     {
       label: 'ID',
@@ -74,13 +108,13 @@ const schema: MaProTableSchema = reactive({
       prop: 'content',
       align: 'left',
       // cellRender: data => <el-button>性别</el-button>,
-      // cellRenderTo: {
-      //   name: 'mz-url',
-      //   options: {
-      //     openable: true,
-      //     copyable: true,
-      //   },
-      // },
+      cellRenderTo: {
+        name: 'ma-url',
+        options: {
+          openable: true,
+          copyable: true,
+        },
+      },
     },
   ],
 })
@@ -91,7 +125,7 @@ console.log(useProTableRenderPlugin().getPlugins())
 </script>
 
 <template>
-  <div>
+  <div class="pt-2.5">
     <!--    <ma-pro-table :options="options" :schema="schema" /> -->
     <MaProTable :options="options" :schema="schema" />
   </div>

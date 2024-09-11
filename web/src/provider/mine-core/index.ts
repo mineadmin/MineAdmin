@@ -16,6 +16,8 @@ import MaProTable from '@mineadmin/pro-table'
 import type { MaTableColumns, MaTableOptions, PaginationProps } from '@mineadmin/table'
 import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
 import type { MaSearchItem, MaSearchOptions } from '@mineadmin/search'
+import ContextMenu from '@imengyu/vue3-context-menu'
+import MaSvgIcon from '@/components/ma-svg-icon/index.vue'
 
 import type { ProviderService } from '#/global'
 
@@ -66,7 +68,15 @@ const provider: ProviderService.Provider = {
     app.use(MaTable)
     app.use(MaForm)
     app.use(MaSearch)
-    app.use(MaProTable, { ssr: false, provider: { app } })
+    app.use(MaProTable, {
+      ssr: false,
+      provider: {
+        app,
+        http: useHttp,
+        icon: MaSvgIcon,
+        contextMenu: ContextMenu.showContextMenu,
+      },
+    })
     app.config.globalProperties.$mineCore = commonConfig()
   },
   getProvider(): any {

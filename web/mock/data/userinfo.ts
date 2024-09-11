@@ -14,7 +14,7 @@ export default {
     login_time: '2024-07-06 08:52:57',
     backend_setting: {
       app: {
-        colorMode: 'dark',
+        colorMode: 'auto',
         useLocale: 'zh_CN',
         whiteRoute: [
           'login',
@@ -24,7 +24,7 @@ export default {
         enableWatermark: false,
         primaryColor: '#15803D',
         showBreadcrumb: true,
-        loadUserSetting: true,
+        loadUserSetting: false,
         watermarkText: 'MineAdmin',
       },
       welcomePage: {

@@ -197,36 +197,5 @@ useTable('table2').then((table: MaTableExpose) => {
         asd
       </div>
     </div>
-    <div class="mine-card h-200px">
-      <MaResourcePicker />
-      <!--      <MaResourcePanel v-model="resource" multiple :limit="5" /> -->
-    </div>
-    <div ref="ecs" class="mine-card h-300px" />
-    <div class="mine-card">
-      <ma-search
-        ref="searchRef"
-        :search-items="[
-          { label: '姓名', prop: 'name', render: 'input' },
-          { label: '日期', prop: 'date', render: 'datePicker' },
-          { label: '日期', prop: 'date', render: 'datePicker' },
-          { label: '日期', prop: 'date', render: 'datePicker', span: 2 },
-          { label: '日期', prop: 'date', render: 'datePicker', span: 3 },
-          { label: '日期', prop: 'date', render: 'datePicker' },
-          { label: '日期', prop: 'date', render: 'datePicker', span: 2 },
-          { label: '日期', prop: 'date', render: 'datePicker', span: 2 },
-          { label: '日期', prop: 'date', render: 'select', span: 2 },
-        ]"
-
-        @search="(v) => console.log(v)"
-        @reset="(v) => console.log(v)"
-      />
-    </div>
-    <div class="mine-card">
-      <ma-form ref="form" v-model="formModel" />
-    </div>
-    <div class="mine-card">
-      <ma-table ref="table" class="mt-5" />
-      <ma-table ref="table2" class="mt-5" />
-    </div>
   </div>
 </template>

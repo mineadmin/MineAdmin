@@ -62,6 +62,8 @@ declare namespace Plugin {
     hooks?: {
       // 插件启动时触发，比如可以设置 enable = false，阻止插件启动
       start?: (config: Config) => any | void
+      // 插件在系统初始化完毕后触发，可调用Vue的上下文、inject等服务
+      setup?: () => any | void
       // 注册路由时触发，可以对路由进行所有操作
       registerRoute?: (router: Router, routesRaw: Route.RouteRecordRaw[] | Plugin.Views[] | MineRoute.routeRecord[]) => any | void
       // 登录时触发

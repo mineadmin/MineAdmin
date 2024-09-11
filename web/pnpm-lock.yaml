@@ -20,6 +20,9 @@ importers:
       '@mineadmin/form':
         specifier: ^1.0.15
         version: 1.0.15(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+      '@mineadmin/pro-table':
+        specifier: ^0.0.1
+        version: 0.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/search':
         specifier: ^1.0.3
         version: 1.0.3(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
@@ -1093,6 +1096,11 @@ packages:
 
   '@mineadmin/form@1.0.15':
     resolution: {integrity: sha512-+YiRtOITaJNiCscYs4NiKSh4+PUgJBbIMSDHfZgIp+IwjRz376C+BHgAnPQjoobjiDWxdgHgqqRc5jZByHdfnA==}
+    peerDependencies:
+      element-plus: ^2.0.0
+
+  '@mineadmin/pro-table@0.0.1':
+    resolution: {integrity: sha512-JUlrf5g12aLnA9HYMqYOSWZX3JwDOdQxx36vQ9NBXlX0adZ8P66B7cmnxfyiIQouicVCx+0H1ZCcOaCEtcesQw==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -5997,6 +6005,13 @@ snapshots:
       - typescript
 
   '@mineadmin/form@1.0.15(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+    dependencies:
+      element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
+      vue: 3.4.38(typescript@5.5.4)
+    transitivePeerDependencies:
+      - typescript
+
+  '@mineadmin/pro-table@0.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
       vue: 3.4.38(typescript@5.5.4)

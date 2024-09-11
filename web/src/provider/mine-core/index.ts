@@ -11,6 +11,7 @@ import type { App } from 'vue'
 import MaTable from '@mineadmin/table'
 import MaForm from '@mineadmin/form'
 import MaSearch from '@mineadmin/search'
+import MaProTable from '@mineadmin/pro-table'
 
 import type { MaTableColumns, MaTableOptions, PaginationProps } from '@mineadmin/table'
 import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
@@ -22,6 +23,8 @@ import type { ProviderService } from '#/global'
 import '@mineadmin/table/dist/style.css'
 // maSearch样式
 import '@mineadmin/search/dist/style.css'
+// MaProTable样式
+import '@mineadmin/pro-table/dist/style.css'
 
 interface MineCoreCommonConfig {
   table?: {
@@ -63,6 +66,7 @@ const provider: ProviderService.Provider = {
     app.use(MaTable)
     app.use(MaForm)
     app.use(MaSearch)
+    app.use(MaProTable, { ssr: false, provider: { app } })
     app.config.globalProperties.$mineCore = commonConfig()
   },
   getProvider(): any {

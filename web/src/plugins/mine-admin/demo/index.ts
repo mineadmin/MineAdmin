@@ -8,6 +8,7 @@
  * @Link   https://github.com/mineadmin
  */
 import type { RouteRecordRaw, Router } from 'vue-router'
+import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { Plugin } from '#/global'
 
 const pluginConfig: Plugin.PluginConfig = {
@@ -35,6 +36,15 @@ const pluginConfig: Plugin.PluginConfig = {
   hooks: {
     start: (config): any => {
       console.log('demo 插件启动前调用了 start 钩子', `插件版本: ${config.info.version}`)
+    },
+    setup: () => {
+      const { addPlugin, getPlugins } = useProTableRenderPlugin()
+      addPlugin({
+        name: 'test',
+        render: () => '我是demo插件渲染出来的内容',
+      })
+
+      console.log(getPlugins())
     },
     login: (formInfo) => {
       console.log('demo 插件的登录hook，此次登录用户信息：', formInfo)

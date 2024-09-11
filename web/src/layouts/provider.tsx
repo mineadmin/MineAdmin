@@ -29,6 +29,8 @@ export default defineComponent({
     watch(() => userStore.getLanguage(), (lang: string) => {
       attrsMerged.value.locale = locales[lang]
     })
+
+    onMounted(async () => await usePluginStore().callHooks('setup'))
     return () => (
       <el-config-provider {...attrsMerged.value}>
         {slots.default?.()}

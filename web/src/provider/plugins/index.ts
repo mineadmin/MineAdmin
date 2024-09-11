@@ -13,7 +13,7 @@ import useGlobal from '@/hooks/auto-imports/useGlobal.ts'
 
 const pluginList = {}
 async function getPluginList() {
-  const plugins = import.meta.glob('../../plugins/**/*/index.ts')
+  const plugins = import.meta.glob('../../plugins/*/*/index.ts')
   for (const path in plugins) {
     const { default: plugin }: any = await plugins[path]()
     pluginList[plugin.config.info.name] = plugin

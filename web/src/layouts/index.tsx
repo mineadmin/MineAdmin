@@ -45,7 +45,7 @@ export default defineComponent({
       v || clearGlobalWatermark()
     }, { immediate: true })
 
-    onMounted(async () => {
+    onMounted(() => {
       if (menuStore.subMenu.length > 0 && appSetting?.layout === 'columns') {
         menuStore.setSubAsideWidthByDefault()
       }
@@ -56,7 +56,6 @@ export default defineComponent({
         menuStore.setSubAsideWidthByDefault()
       }
       handleResize(subAsideEl)
-      await usePluginStore().callHooks('setup')
     })
 
     return () => (

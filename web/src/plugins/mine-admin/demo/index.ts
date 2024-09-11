@@ -43,8 +43,6 @@ const pluginConfig: Plugin.PluginConfig = {
         name: 'test',
         render: () => '我是demo插件渲染出来的内容',
       })
-
-      console.log(getPlugins())
     },
     login: (formInfo) => {
       console.log('demo 插件的登录hook，此次登录用户信息：', formInfo)

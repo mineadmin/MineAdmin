@@ -1,7 +1,9 @@
 <script setup lang="tsx">
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
+import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
 import type { MaTableExpose } from '@mineadmin/table'
+import { useCellRenderTo } from '$/mine-admin/cell-render/hooks/useCellRenderTo.ts'
 
 const proTableRef = ref()
 /**
@@ -19,6 +21,7 @@ const options: MaProTableOptions = reactive({
   adaptionOffsetBottom: 64,
   tableOptions: {
     border: true,
+    stripe: true,
     data: [],
   },
   searchOptions: {
@@ -50,7 +53,19 @@ const schema: MaProTableSchema = ref({
   ],
   tableColumns: [
     { label: 'ID', prop: 'id' },
-    { label: '存储路径', prop: 'storage_mode' },
+    {
+      label: '存储类型',
+      prop: 'storage_mode',
+      align: 'left',
+      cellRenderTo: useCellRenderTo('label', {
+        map: {
+          1: <el-tag type="danger">本地</el-tag>,
+          2: '阿里云',
+          3: '腾讯云',
+          4: '七牛云',
+        },
+      }),
+    },
     { label: '原始名称', prop: 'origin_name' },
     { label: '对象名称', prop: 'object_name' },
     { label: 'Hash', prop: 'hash' },
@@ -59,7 +74,7 @@ const schema: MaProTableSchema = ref({
     { label: '文件后缀', prop: 'suffix' },
     { label: '文件大小', prop: 'size_byte' },
     { label: '文件大小(友好)', prop: 'size_info' },
-    { label: '文件路径', prop: 'url' },
+    { label: '文件路径', prop: 'url', cellRenderTo: useCellRenderTo('url') },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },
   ],
@@ -91,6 +106,9 @@ watch(queryParams, query, { deep: true })
 onMounted(() => {
   query()
 })
+
+// 打印所有插件
+console.log(useProTableRenderPlugin().getPlugins())
 </script>
 
 <template>

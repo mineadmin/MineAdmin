@@ -11,11 +11,15 @@ import type { Options as UrlOptions } from './url/index.vue'
 import images from './images/index.vue'
 import type { Options as ImagesOptions } from './images/index.vue'
 
+import label from './label/index.vue'
+import type { Options as LabelOptions } from './label/index.vue'
+
 export const components = {
   content,
   buttons,
   url,
   images,
+  label,
 }
 // 导出组件的 Options 类型
 export interface ComponentOptions {
@@ -23,5 +27,6 @@ export interface ComponentOptions {
   buttons: ButtonsOptions
   url: UrlOptions
   images: ImagesOptions
+  label: LabelOptions
 }
 export type ComponentName = keyof typeof components

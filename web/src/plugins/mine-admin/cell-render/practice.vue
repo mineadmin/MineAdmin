@@ -1,42 +1,26 @@
 <script setup lang="tsx">
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
-import { useProTableRenderPlugin } from '@mineadmin/pro-table'
-import { useCellRenderTo } from './hooks/useCellRenderTo.ts'
+import { onMounted } from 'vue'
+import type { MaTableExpose } from '@mineadmin/table'
+
+const proTableRef = ref()
+/**
+ * 加载状态
+ */
+const loading = ref(false)
+const total = ref<number>(0)
+const queryParams = ref({
+  page: 1,
+  pageSize: 15,
+  origin_name: '',
+  suffix: '',
+})
 
 const options: MaProTableOptions = reactive({
-  adaptionOffsetBottom: 12,
+  adaptionOffsetBottom: 64,
   tableOptions: {
     border: true,
-    data: [
-      {
-        id: 1,
-        name: '张三',
-        age: 18,
-        image: 'https://picsum.photos/600/800?random=1,https://picsum.photos/600/800?random=2,https://picsum.photos/600/800?random=3',
-        content: '对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生. 现在, 解决随机一段废话的问题, 是非常非常重要的. 所以, 对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生. 从这个角度来看, 我们不妨可以这样来想: 富勒曾经说过一句著名的话, 苦难磨炼一些人，也毁灭另一些人。这似乎解答了我的疑惑. 那么, 我们都知道, 只要有意义, 那么就必须慎重考虑.这种事实',
-      },
-      {
-        id: 2,
-        name: '李四',
-        age: 19,
-        image: 'https://picsum.photos/600/800?random=4',
-        content: '女',
-      },
-      {
-        id: 3,
-        name: '王五',
-        age: 20,
-        image: 'https://picsum.photos/600/800?random=5',
-        content: '男',
-      },
-      {
-        id: 4,
-        name: '赵六',
-        age: 21,
-        image: 'https://picsum.photos/600/800?random=6',
-        content: '女',
-      },
-    ],
+    data: [],
   },
   searchOptions: {
 
@@ -46,88 +30,67 @@ const options: MaProTableOptions = reactive({
   },
 })
 
-const schema: MaProTableSchema = reactive({
+const schema: MaProTableSchema = ref({
   searchItems: [
     {
-      label: '测试1',
-      props: 'test1',
+      label: '存储类型',
+      prop: 'storage_mode',
       render: 'input',
     },
-    {
-      label: '测试2',
-      props: 'test2',
-      render: 'datePicker',
-    },
-    {
-      label: '测试3',
-      props: 'test3',
-      render: 'select',
-    },
-    {
-      label: '测试3',
-      props: 'test4',
-      render: 'cascader',
-    },
-    {
-      label: '测试5',
-      props: 'test5',
-      render: 'inputNumber',
-    },
-    {
-      label: '测试5',
-      props: 'test5',
-      render: 'datePicker',
-      span: 2,
-    },
+    { label: '原始名称', prop: 'origin_name', render: 'input' },
+    { label: '对象名称', prop: 'object_name', render: 'input' },
+    { label: 'Hash', prop: 'hash', render: 'input' },
+    { label: 'Mime Type', prop: 'mime_type', render: 'input' },
+    { label: '存储路径', prop: 'storage_path', render: 'input' },
+    { label: '文件后缀', prop: 'suffix', render: 'input' },
+    { label: '文件大小', prop: 'size_byte', render: 'input' },
+    { label: '文件大小(友好)', prop: 'size_info', render: 'input' },
+    { label: '文件路径', prop: 'url', render: 'input' },
+    { label: '创建时间', prop: 'created_at', render: 'input' },
+    { label: '更新时间', prop: 'updated_at', render: 'input' },
   ],
   tableColumns: [
-    {
-      label: 'ID',
-      prop: 'id',
-      width: '50px',
-      align: 'left',
-    },
-    {
-      label: '姓名',
-      prop: 'name',
-      align: 'left',
-    },
-    {
-      label: '年龄',
-      prop: 'age',
-      align: 'left',
-    },
-    {
-      label: '图片',
-      prop: 'image',
-      align: 'left',
-      cellRenderTo: useCellRenderTo('images'),
-    },
-    {
-      label: '正文',
-      prop: 'content',
-      align: 'left',
-      // cellRender: data => <el-button>性别</el-button>,
-      cellRenderTo: {
-        name: 'ma-url',
-        options: {
-          openable: true,
-          copyable: true,
-        },
-      },
-    },
+    { label: 'ID', prop: 'id' },
+    { label: '存储路径', prop: 'storage_mode' },
+    { label: '原始名称', prop: 'origin_name' },
+    { label: '对象名称', prop: 'object_name' },
+    { label: 'Hash', prop: 'hash' },
+    { label: 'Mime Type', prop: 'mime_type' },
+    { label: '存储路径', prop: 'storage_path' },
+    { label: '文件后缀', prop: 'suffix' },
+    { label: '文件大小', prop: 'size_byte' },
+    { label: '文件大小(友好)', prop: 'size_info' },
+    { label: '文件路径', prop: 'url' },
+    { label: '创建时间', prop: 'created_at' },
+    { label: '更新时间', prop: 'updated_at' },
   ],
 })
-console.log(useCellRenderTo('images', {
 
-}), 3333)
-console.log(useProTableRenderPlugin().getPlugins())
+async function query(tableRef: MaTableExpose): Promise<void> {
+  tableRef.setLoadingState(true)
+  tableRef.setData([])
+  return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
+    setTimeout(() => {
+      tableRef.setData(data.items)
+      console.log(data.items, 'setData')
+      console.log(tableRef)
+      tableRef.setPagination({
+        total: data.total,
+      })
+      tableRef.setLoadingState(false)
+    }, Math.floor(Math.random() * 900 + 100))
+  })
+}
+
+onMounted(() => {
+  query(proTableRef.value.getMaTableRef())
+})
 </script>
 
 <template>
   <div class="pt-2.5">
     <!--    <ma-pro-table :options="options" :schema="schema" /> -->
-    <MaProTable :options="options" :schema="schema" />
+    <MaProTable ref="proTableRef" :options="options" :schema="schema" />
   </div>
 </template>
 

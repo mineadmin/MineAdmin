@@ -20,11 +20,11 @@
     "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\" --cache --fix"
   },
   "dependencies": {
-    "@mineadmin/table": "^1.0.11",
+    "@mineadmin/table": "^1.0.15",
     "@mineadmin/form": "^1.0.15",
     "@mineadmin/echarts": "^1.0.1",
     "@mineadmin/search": "^1.0.9",
-    "@mineadmin/pro-table": "^0.0.5",
+    "@mineadmin/pro-table": "^0.0.9",
     "@headlessui/vue": "^1.7.22",
     "@imengyu/vue3-context-menu": "^1.4.2",
     "@vueuse/core": "^10.11.0",

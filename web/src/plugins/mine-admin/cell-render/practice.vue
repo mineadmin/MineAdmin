@@ -7,8 +7,7 @@ const proTableRef = ref()
 /**
  * 加载状态
  */
-const loading = ref(false)
-const total = ref<number>(0)
+
 const queryParams = ref({
   page: 1,
   pageSize: 15,
@@ -66,7 +65,13 @@ const schema: MaProTableSchema = ref({
   ],
 })
 
-async function query(tableRef: MaTableExpose): Promise<void> {
+async function query(): Promise<void> {
+  const tableRef: MaTableExpose = proTableRef.value.getMaTableRef()
+  if (!tableRef) {
+    // 抛异常
+    throw new Error('tableRef is undefined')
+  }
+
   tableRef.setLoadingState(true)
   tableRef.setData([])
   return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
@@ -82,8 +87,9 @@ async function query(tableRef: MaTableExpose): Promise<void> {
   })
 }
 
+watch(queryParams, query, { deep: true })
 onMounted(() => {
-  query(proTableRef.value.getMaTableRef())
+  query()
 })
 </script>
 

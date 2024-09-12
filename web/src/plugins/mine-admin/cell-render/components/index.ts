@@ -14,12 +14,16 @@ import type { Options as ImagesOptions } from './images/index.vue'
 import label from './label/index.vue'
 import type { Options as LabelOptions } from './label/index.vue'
 
+import _switch from './switch/index.vue'
+import type { Options as SwitchOptions } from './switch/index.vue'
+
 export const components = {
   content,
   buttons,
   url,
   images,
   label,
+  switch: _switch,
 }
 // 导出组件的 Options 类型
 export interface ComponentOptions {
@@ -28,5 +32,6 @@ export interface ComponentOptions {
   url: UrlOptions
   images: ImagesOptions
   label: LabelOptions
+  switch: SwitchOptions
 }
 export type ComponentName = keyof typeof components

@@ -32,7 +32,7 @@ const options: MaProTableOptions = reactive({
   },
 })
 
-const schema: MaProTableSchema = ref({
+const schema: MaProTableSchema = reactive({
   searchItems: [
     {
       label: '存储类型',
@@ -57,12 +57,22 @@ const schema: MaProTableSchema = ref({
       label: '存储类型',
       prop: 'storage_mode',
       align: 'left',
+      // cellRender: () => {},
       cellRenderTo: useCellRenderTo('label', {
         map: {
           1: <el-tag type="danger">本地</el-tag>,
-          2: '阿里云',
-          3: '腾讯云',
+          2: <el-tag type="success">阿里云</el-tag>,
+          3: ({ row, $index }) => {
+            return (
+              <el-tooltip content={row.url}>
+                <el-tag type="warning">腾讯云</el-tag>
+              </el-tooltip>
+            )
+          },
           4: '七牛云',
+          5: null,
+          6: undefined,
+          7: 7,
         },
       }),
     },
@@ -71,10 +81,15 @@ const schema: MaProTableSchema = ref({
     { label: 'Hash', prop: 'hash' },
     { label: 'Mime Type', prop: 'mime_type' },
     { label: '存储路径', prop: 'storage_path' },
-    { label: '文件后缀', prop: 'suffix' },
+    { label: '文件后缀', prop: 'suffix', cellRenderTo: useCellRenderTo('tag') },
     { label: '文件大小', prop: 'size_byte' },
     { label: '文件大小(友好)', prop: 'size_info' },
-    { label: '文件路径', prop: 'url', cellRenderTo: useCellRenderTo('url') },
+    { label: '文件路径', prop: 'url', cellRenderTo: useCellRenderTo('images') },
+    {
+      label: '状态',
+      prop: 'status',
+      cellRenderTo: useCellRenderTo('switch'),
+    },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },
   ],

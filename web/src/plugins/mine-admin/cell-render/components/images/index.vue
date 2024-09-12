@@ -42,8 +42,8 @@ const style = computed(() => {
 <template>
   <div>
     <el-space>
-      <template v-for="image in imageArr">
-        <el-image :style="style" :src="image" :preview-src-list="imageArr" :fit="options.fit ?? 'cover'" preview-teleported />
+      <template v-for="(image, index) in imageArr" :key="index">
+        <el-image :style="style" :src="image" :preview-src-list="imageArr" :fit="options.fit ?? 'cover'" preview-teleported hide-on-click-modal />
       </template>
     </el-space>
   </div>

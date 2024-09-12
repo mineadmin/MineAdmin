@@ -11,9 +11,23 @@ interface RFV {
   value: ComputedRef<any>
 }
 export function makeRFV(props: Props): RFV {
-  const row = computed(() => props.scope?.row ?? {})
+  const row = computed({
+    get() {
+      return props.scope.row
+    },
+    set(val) {
+      props.scope.row = val
+    },
+  })
   const field = computed(() => props.options?.prop ?? 'buttons')
-  const value = computed(() => row.value[field.value] ?? undefined)
+  const value = computed({
+    get() {
+      return row.value[field.value] ?? undefined
+    },
+    set(val) {
+      row.value[field.value] = val
+    },
+  })
   return { row, field, value }
 }
 

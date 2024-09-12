@@ -23,6 +23,9 @@ const options: MaProTableOptions = reactive({
     stripe: true,
     data: [],
   },
+  searchOptions: {
+    fold: true,
+  },
   requestOptions: {
     api: (params: any) => useHttp().get('/mock/attachment/list', { params }),
     response: {
@@ -81,7 +84,7 @@ const schema: MaProTableSchema = reactive({
     { label: 'Hash', prop: 'hash' },
     { label: 'Mime Type', prop: 'mime_type' },
     { label: '存储路径', prop: 'storage_path' },
-    { label: '文件后缀', prop: 'suffix', cellRenderTo: useCellRenderTo('tag') },
+    { label: '文件后缀', prop: 'suffix', cellRenderTo: { name: 'tag' } },
     { label: '文件大小', prop: 'size_byte' },
     { label: '文件大小(友好)', prop: 'size_info' },
     { label: '文件路径', prop: 'url', cellRenderTo: useCellRenderTo('images') },
@@ -92,6 +95,18 @@ const schema: MaProTableSchema = reactive({
     },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },
+    { type: 'operation',
+      operationConfigure: {
+        type: 'tile',
+        actions: [
+          {
+            name: 'edit', text: '编辑', onClick: (row) => {
+              console.log(row)
+            }, icon: 'i-ri:refresh-line',
+          },
+        ],
+      },
+    },
   ],
 })
 

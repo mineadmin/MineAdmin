@@ -21,11 +21,11 @@ importers:
         specifier: ^1.0.15
         version: 1.0.15(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/pro-table':
-        specifier: ^1.0.1
-        version: 1.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+        specifier: ^1.0.2
+        version: 1.0.2(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/search':
-        specifier: ^1.0.11
-        version: 1.0.11(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
+        specifier: ^1.0.13
+        version: 1.0.13(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
       '@mineadmin/table':
         specifier: ^1.0.17
         version: 1.0.17(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
@@ -1102,13 +1102,13 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/pro-table@1.0.1':
-    resolution: {integrity: sha512-BLW3Yaiie1d1w5kYiRnDZUokJK8BUtPHCty+vi/mcAkx5qGzuYQmxOc+/ynffgWupqJ/BgAXkGLSzpBRRm01Sg==}
+  '@mineadmin/pro-table@1.0.2':
+    resolution: {integrity: sha512-LgUagXh2IqrhpBGUyXOpuUFn0GVjB3JPdRBHLPeGiSuDKLUpAYUiAOGKnyjzYQ5CH9NHYdrF5nWVYMQ4fwAi8A==}
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/search@1.0.11':
-    resolution: {integrity: sha512-sCo4NfDJ52mKmgWUQoUU9xrRCca+2lSLy5V7VMN8vv4vECZTwyHOMmyNsdKxIgmv3eZFGVyJW27QLWPQh5okkw==}
+  '@mineadmin/search@1.0.13':
+    resolution: {integrity: sha512-aMiwpgRBc6UzXhfWl6ZPhm8sQmjX9ugLE8EtJsUe2n9KPD3Z1AOCPZEjhDgAwg+rtyf8UCeC38OmeZAEQ7ikvw==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -6018,14 +6018,14 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/pro-table@1.0.1(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+  '@mineadmin/pro-table@1.0.2(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
       vue: 3.4.38(typescript@5.5.4)
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/search@1.0.11(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
+  '@mineadmin/search@1.0.13(element-plus@2.8.1(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       element-plus: 2.8.1(vue@3.4.38(typescript@5.5.4))
       vue: 3.4.38(typescript@5.5.4)

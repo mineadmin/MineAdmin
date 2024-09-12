@@ -72,7 +72,6 @@ const provider: ProviderService.Provider = {
       ssr: false,
       provider: {
         app,
-        http: useHttp,
         icon: MaSvgIcon,
         contextMenu: ContextMenu.showContextMenu,
       },

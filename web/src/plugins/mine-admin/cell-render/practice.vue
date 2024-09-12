@@ -2,7 +2,6 @@
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
-import type { MaTableExpose } from '@mineadmin/table'
 import { useCellRenderTo } from '$/mine-admin/cell-render/hooks/useCellRenderTo.ts'
 
 const proTableRef = ref()
@@ -18,17 +17,17 @@ const queryParams = ref({
 })
 
 const options: MaProTableOptions = reactive({
-  adaptionOffsetBottom: 64,
+  adaptionOffsetBottom: 20,
   tableOptions: {
     border: true,
     stripe: true,
     data: [],
   },
-  searchOptions: {
-
-  },
-  searchFormOptions: {
-
+  requestOptions: {
+    api: (params: any) => useHttp().get('/mock/attachment/list', { params }),
+    response: {
+      dataKey: 'items',
+    },
   },
 })
 
@@ -52,6 +51,7 @@ const schema: MaProTableSchema = reactive({
     { label: '更新时间', prop: 'updated_at', render: 'input' },
   ],
   tableColumns: [
+    { type: 'sort', width: '70px' },
     { label: 'ID', prop: 'id' },
     {
       label: '存储类型',
@@ -95,31 +95,31 @@ const schema: MaProTableSchema = reactive({
   ],
 })
 
-async function query(): Promise<void> {
-  const tableRef: MaTableExpose = proTableRef.value.getMaTableRef()
-  if (!tableRef) {
-    // 抛异常
-    throw new Error('tableRef is undefined')
-  }
+// async function query(): Promise<void> {
+//   const tableRef: MaTableExpose = proTableRef.value.getMaTableRef()
+//   if (!tableRef) {
+//     // 抛异常
+//     throw new Error('tableRef is undefined')
+//   }
+//
+//   tableRef.setLoadingState(true)
+//   tableRef.setData([])
+//   return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
+//     setTimeout(() => {
+//       tableRef.setData(data.items)
+//       console.log(data.items, 'setData')
+//       console.log(tableRef)
+//       tableRef.setPagination({
+//         total: data.total,
+//       })
+//       tableRef.setLoadingState(false)
+//     }, Math.floor(Math.random() * 900 + 100))
+//   })
+// }
 
-  tableRef.setLoadingState(true)
-  tableRef.setData([])
-  return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
-    setTimeout(() => {
-      tableRef.setData(data.items)
-      console.log(data.items, 'setData')
-      console.log(tableRef)
-      tableRef.setPagination({
-        total: data.total,
-      })
-      tableRef.setLoadingState(false)
-    }, Math.floor(Math.random() * 900 + 100))
-  })
-}
-
-watch(queryParams, query, { deep: true })
+// watch(queryParams, query, { deep: true })
 onMounted(() => {
-  query()
+  // query()
 })
 
 // 打印所有插件

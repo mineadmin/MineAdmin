@@ -100,8 +100,8 @@ function generateData() {
       url: `https://picsum.photos/300/300?random=${id}`,
       created_by: (id % 10) + 1,
       updated_by: (id % 10) + 1,
-      created_at: `2023-01-01`,
-      updated_at: `2023-01-01`,
+      created_at: `2023-01-01 12:03:40`,
+      updated_at: `2023-01-01 12:03:40`,
       deleted_at: null,
       remark: `This is a remark for id ${id}.`,
     }

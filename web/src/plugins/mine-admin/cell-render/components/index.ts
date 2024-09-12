@@ -17,12 +17,11 @@ export const components = {
   url,
   images,
 }
-
 // 导出组件的 Options 类型
-export type ComponentName = keyof typeof components
 export interface ComponentOptions {
   content: ContentOptions
   buttons: ButtonsOptions
   url: UrlOptions
   images: ImagesOptions
 }
+export type ComponentName = keyof typeof components

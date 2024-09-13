@@ -11,7 +11,7 @@ export interface Emits extends SwitchEmits {
 
 // 定义options类型,与ImageProps类型合并
 export interface Options extends Omit<Partial<SwitchProps>, 'loading'>, WithOnEventListeners<Emits> {
-  api: ((params) => Promise<any>) | string
+  api: ((data) => Promise<any>) | string
 }
 
 export default defineComponent({
@@ -42,7 +42,7 @@ export default defineComponent({
     const nextValue = computed(() => {
       return value.value === activeValue.value ? inactiveValue.value : activeValue.value
     })
-    const api = typeof options.value.api === 'string' ? data => useHttp().get(options.value.api, data) : options.value.api
+    const api = typeof options.value.api === 'string' ? data => useHttp().put(options.value.api, data) : options.value.api
 
     const beforeChange = () => {
       loading.value = true

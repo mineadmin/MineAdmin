@@ -9,9 +9,6 @@ export interface Options {
 export default defineComponent({
   name: cellRenderPluginName('label'),
   props: {
-    field: {
-      type: String,
-    },
     scope: {
       type: Object,
       default: () => ({}),

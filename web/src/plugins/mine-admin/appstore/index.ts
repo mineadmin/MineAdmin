@@ -32,7 +32,7 @@ const pluginConfig: Plugin.PluginConfig = {
         i18n: 'menu.appstore',
         icon: 'vscode-icons:file-type-azure',
         type: 'M',
-        hidden: true,
+        hidden: false,
         breadcrumbEnable: true,
         copyright: true,
         cache: true,

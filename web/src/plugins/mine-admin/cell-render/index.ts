@@ -8,7 +8,6 @@
  * @Link   https://github.com/mineadmin
  */
 import type { App } from 'vue'
-import type { RouteRecordRaw, Router } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { Plugin } from '#/global'
 
@@ -28,16 +27,6 @@ const pluginConfig: Plugin.PluginConfig = {
         })
       })
     },
-    registerRoute: (router: Router, routesRaw): void => {
-      router.addRoute({
-        name: 'cell-render-demo',
-        path: '/cell-render-demo',
-        component: () => import('./views/demo.vue'),
-      })
-    },
-    routerRedirect: (route: RouteRecordRaw) => {
-
-    },
   },
   config: {
     enable: true,
@@ -48,6 +37,13 @@ const pluginConfig: Plugin.PluginConfig = {
       description: '表格渲染组件',
     },
   },
+  views: [
+    {
+      name: 'cell-render-demo',
+      path: '/cell-render-demo',
+      component: () => import('./views/demo.vue'),
+    },
+  ],
 }
 
 export default pluginConfig

@@ -17,7 +17,7 @@ const queryParams = ref({
 })
 
 const options: MaProTableOptions = reactive({
-  adaptionOffsetBottom: 20,
+  adaptionOffsetBottom: 160,
   tableOptions: {
     border: true,
     stripe: true,

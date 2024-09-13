@@ -11,7 +11,6 @@ import type { App } from 'vue'
 import type { RouteRecordRaw, Router } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { Plugin } from '#/global'
-import router from '@/router'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app: App) {
@@ -31,16 +30,13 @@ const pluginConfig: Plugin.PluginConfig = {
     },
     registerRoute: (router: Router, routesRaw): void => {
       router.addRoute({
-        name: 'cell-render',
-        path: '/cell-render',
-        component: () => import('./practice.vue'),
+        name: 'cell-render-demo',
+        path: '/cell-render-demo',
+        component: () => import('./views/demo.vue'),
       })
     },
     routerRedirect: (route: RouteRecordRaw) => {
-      // 劫持welcome路由返回practice.vue
-      if (route.path === '/welcome') {
-        router.push('/as-cell-render')
-      }
+
     },
   },
   config: {

@@ -6,7 +6,6 @@ export default defineFakeRoute([
     url: '/mock/attachment/list',
     method: 'get',
     response: ({ query }) => {
-      console.log(1111)
       const page = Number(query.page) || 1
       const pageSize = Number(query.pageSize) || 15
       const start = (page - 1) * pageSize

@@ -90,14 +90,14 @@ const schema: MaProTableSchema = reactive({
       label: '文件后缀',
       prop: 'suffix',
       // cellRender: useCellRender().tag(),
-      // cellRenderTo: { name: 'tag' },
+      cellRenderTo: { name: 'tag' },
     },
     { label: '文件大小', prop: 'size_byte' },
     { label: '文件大小(友好)', prop: 'size_info' },
     {
       label: '文件路径',
       prop: 'url',
-      // cellRenderTo: useCellRenderTo('images'),
+      cellRender: useCellRender().image(),
     },
     {
       label: '状态',

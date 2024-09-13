@@ -25,7 +25,7 @@ export function createRowFieldValues(props: Props): RFV {
       props.scope.row = val
     },
   })
-  const field = computed(() => props.scope?.column?.property ?? 'buttons')
+  const field = computed(() => props.scope?.column?.property ?? 'id')
   const value = computed({
     get() {
       return row.value[field.value] ?? undefined

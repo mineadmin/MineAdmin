@@ -44,6 +44,9 @@ const pluginConfig: Plugin.PluginConfig = {
       component: () => import('./views/demo.vue'),
       meta: {
         title: '单元格渲染demo',
+        badge: () => 1,
+        hidden: true,
+        copyright: false,
       },
     },
   ],

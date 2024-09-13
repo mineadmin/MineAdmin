@@ -6,7 +6,7 @@ interface Props {
   options: Record<string, any>
 }
 
-interface RFV {
+interface RowFieldValues {
   row: ComputedRef<any>
   field: ComputedRef<string>
   value: ComputedRef<any>
@@ -16,7 +16,7 @@ export type WithOnEventListeners<T> = {
   [K in keyof T as `on${Capitalize<string & K>}`]?: T[K];
 }
 
-export function createRowFieldValues(props: Props): RFV {
+export function createRowFieldValues(props: Props): RowFieldValues {
   const row = computed({
     get() {
       return props.scope.row

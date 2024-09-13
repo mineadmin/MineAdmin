@@ -27,7 +27,14 @@ const options: MaProTableOptions = reactive({
     fold: true,
   },
   requestOptions: {
-    api: (params: any) => useHttp().get('/mock/attachment/list', { params }),
+    api: (params: any) => {
+      return new Promise((resolve) => {
+        // 模拟网络延时
+        setTimeout(() => {
+          useHttp().get('/mock/attachment/list', { params }).then(resolve)
+        }, Math.floor(Math.random() * 900 + 100))
+      })
+    },
     response: {
       dataKey: 'items',
     },
@@ -97,6 +104,8 @@ const schema: MaProTableSchema = reactive({
     {
       label: '文件路径',
       prop: 'url',
+      align: 'left',
+      width: 300,
       cellRender: useCellRender().image(),
     },
     {

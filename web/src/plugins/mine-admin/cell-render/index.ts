@@ -42,7 +42,9 @@ const pluginConfig: Plugin.PluginConfig = {
       name: 'cell-render-demo',
       path: '/cell-render-demo',
       component: () => import('./views/demo.vue'),
-      meta: {},
+      meta: {
+        title: '单元格渲染demo',
+      },
     },
   ],
 }

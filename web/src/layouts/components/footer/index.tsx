@@ -18,7 +18,7 @@ export default defineComponent({
     return () => (
       <footer>
         {
-          ((footerSetting.enable || route.meta?.copyright === true) && route.meta?.type !== 'I')
+          ((footerSetting.enable && route.meta?.copyright === true) && route.meta?.type !== 'I')
           && (
             <div class="mine-footer">
               <span>Copyright</span>

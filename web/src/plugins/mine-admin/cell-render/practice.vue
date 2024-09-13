@@ -61,9 +61,9 @@ const schema: MaProTableSchema = reactive({
       prop: 'storage_mode',
       align: 'left',
       cellRender: useCellRender().label({
-        1: '本地',
-        2: '七牛云',
-        3: <el-tag>腾讯云</el-tag>,
+        1: '七牛云',
+        2: <el-tag type="danger">本地</el-tag>,
+        3: <el-tag type="success">腾讯云</el-tag>,
       }),
       // cellRenderTo: useCellRenderTo().label({
       //   1: '本地',

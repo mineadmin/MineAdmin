@@ -14,4 +14,8 @@ export default {
   label: {
 
   },
+  switch: {
+    activeValue: 1,
+    inactiveValue: 0,
+  },
 } as Config

@@ -1,7 +1,8 @@
-import type { ImageOptions, LabelOptions } from '../type'
+import type { ImageOptions, LabelOptions, SwitchOptions } from '../type'
 import Label from '../components/label/index.vue'
 import Image from '../components/image/index.vue'
 import Amount from '../components/amount/index.vue'
+import Switch from '../components/switch/index.vue'
 
 export default function cellRender(render: (component, options) => any) {
   return {
@@ -10,20 +11,13 @@ export default function cellRender(render: (component, options) => any) {
       const _options = { map, ...options }
       return render(Label, _options)
     },
-    // switch(urlOrOptions: Record<any, any> | string) {
-    //   let options: Record<any, any> = {
-    //     url: '',
-    //   }
-    //   if (typeof urlOrOptions === 'string') {
-    //     options.url = urlOrOptions
-    //   }
-    //   else {
-    //     options = urlOrOptions
-    //   }
-    //   return render(Switch, options)
-    // },
+    // urlOrApi 可以是字符串表示请求地址,也可以是 api函数
+    switch(api: SwitchOptions['api'], options?: Omit<SwitchOptions, 'api'>) {
+      options = options || {}
+      const _options = { api, ...options }
+      return render(Switch, _options)
+    },
     image(options?: ImageOptions) {
-      // 获取Image 的类型定义
       return render(Image, options)
     },
     amount(options?: any) {

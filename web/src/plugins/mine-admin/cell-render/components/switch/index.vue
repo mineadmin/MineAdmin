@@ -4,6 +4,7 @@ import { defineComponent } from 'vue'
 import type { SwitchEmits, SwitchProps } from 'element-plus'
 import type { WithOnEventListeners } from '../../utils/tools.ts'
 import { cellRenderPluginName, createOptions, createRowFieldValues, getConfig } from '../../utils/tools.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 export interface Emits extends SwitchEmits {
 }
@@ -26,6 +27,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const Message = useMessage()
     const { value, row, field } = createRowFieldValues(props)
     const options = createOptions(props, getConfig('switch'))
     const rowKey = props.scope.options?.rowKey ?? 'id'
@@ -40,7 +42,7 @@ export default defineComponent({
     const nextValue = computed(() => {
       return value.value === activeValue.value ? inactiveValue.value : activeValue.value
     })
-    const api = typeof options.value.api === 'string' ? data => useHttp().put(options.value.api, data) : options.value.api
+    const api = typeof options.value.api === 'string' ? data => useHttp().get(options.value.api, data) : options.value.api
 
     const beforeChange = () => {
       loading.value = true
@@ -49,6 +51,7 @@ export default defineComponent({
         field: field.value,
         value: nextValue.value,
       }).then(() => {
+        Message.success('操作成功')
         value.value = nextValue.value
       }).finally(() => {
         loading.value = false
@@ -63,7 +66,7 @@ export default defineComponent({
     })
 
     return () => (
-      <el-switch loading={loading.value} model-value={value.value} before-change={beforeChange} {...bind}></el-switch>
+      <el-switch loading={loading.value} model-value={value.value} before-change={beforeChange} {...bind.value}></el-switch>
     )
   },
 })

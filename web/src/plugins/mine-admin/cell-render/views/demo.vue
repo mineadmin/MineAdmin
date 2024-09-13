@@ -111,7 +111,7 @@ const schema: MaProTableSchema = reactive({
     {
       label: '状态',
       prop: 'status',
-      cellRender: useCellRender().switch('/mock/switch/changeStatus'),
+      cellRender: useCellRender().switch('/mock/attachment/list'),
     },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },

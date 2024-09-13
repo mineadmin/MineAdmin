@@ -16,6 +16,6 @@ export default {
   },
   switch: {
     activeValue: 1,
-    inactiveValue: 0,
+    inactiveValue: 2,
   },
 } as Config

@@ -1,35 +1,42 @@
-<script lang="tsx">
-import type { VNode } from 'vue'
+<script lang="ts">
 import { defineComponent } from 'vue'
-import type { TableColumnRenderer } from '@mineadmin/table/dist/types/table-column'
-import { makeRFV } from '../../utils/tools.ts'
-
-// 定义map的值类型，可以是VNode、一个返回VNode的函数、字符串、null、undefined或数字
-type MapValue = VNode | ((scope: TableColumnRenderer) => VNode) | string | null | undefined | number
+import { cellRenderPluginName, createOptions, createRowFieldValues } from '../../utils/tools.ts'
 
 export interface Options {
-  map: Record<number, MapValue>
+  map: Record<any, any>
 }
 
 export default defineComponent({
-  name: 'ma-label',
+  name: cellRenderPluginName('label'),
   props: {
+    field: {
+      type: String,
+    },
     scope: {
       type: Object,
       default: () => ({}),
     },
     options: {
-      type: Object as () => Options,
+      type: Object,
       default: () => ({
         map: {},
       }),
     },
   },
   setup(props) {
-    const { value } = makeRFV(props)
-    const map = props.options.map
-    const v = map[value.value] ?? null
-    return () => typeof v === 'function' ? v(props.scope) : v
+    const { value, row } = createRowFieldValues(props)
+    const options = createOptions(props, {})
+    const v = computed(() => {
+      return options.value.map[value.value] ?? value.value
+    })
+    return () => typeof v.value === 'function' ? v.value(value.value, row.value, props.scope) : v.value
   },
 })
 </script>
+
+<template>
+</template>
+
+<style scoped lang="scss">
+
+</style>

@@ -1,8 +1,9 @@
 import type { ComputedRef } from 'vue'
+import { get } from 'lodash-es'
 
 interface Props {
   scope: Record<string, any>
-  options: any
+  options: Record<string, any>
 }
 
 interface RFV {
@@ -10,7 +11,12 @@ interface RFV {
   field: ComputedRef<string>
   value: ComputedRef<any>
 }
-export function makeRFV(props: Props): RFV {
+
+export type WithOnEventListeners<T> = {
+  [K in keyof T as `on${Capitalize<string & K>}`]?: T[K];
+}
+
+export function createRowFieldValues(props: Props): RFV {
   const row = computed({
     get() {
       return props.scope.row
@@ -19,7 +25,7 @@ export function makeRFV(props: Props): RFV {
       props.scope.row = val
     },
   })
-  const field = computed(() => props.options?.prop ?? 'buttons')
+  const field = computed(() => props.scope?.column?.property ?? 'buttons')
   const value = computed({
     get() {
       return row.value[field.value] ?? undefined
@@ -28,10 +34,19 @@ export function makeRFV(props: Props): RFV {
       row.value[field.value] = val
     },
   })
-  return { row, field, value }
+  return { value, row, field }
+}
+export function createOptions(props: Props, defaultOptions: Record<any, any>) {
+  return computed(() => {
+    return Object.assign({}, defaultOptions, props.options)
+  })
 }
 
-export function makeName(name: string) {
-  const prefix = 'mz-cell-render-'
-  return `${prefix}${name}`
+export function getConfig(key?: string, defaultValue?: any) {
+  const _config = useGlobal().$pluginsConfig?.['mine-admin/cell-render'] || {}
+  return key ? get(_config, key, defaultValue) : _config
+}
+
+export function cellRenderPluginName(name) {
+  return `ma-${name}`
 }

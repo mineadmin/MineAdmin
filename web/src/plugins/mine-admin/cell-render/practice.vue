@@ -2,7 +2,7 @@
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
-import { useCellRenderTo } from '$/mine-admin/cell-render/hooks/useCellRenderTo.ts'
+import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
 
 const proTableRef = ref()
 /**
@@ -60,38 +60,49 @@ const schema: MaProTableSchema = reactive({
       label: '存储类型',
       prop: 'storage_mode',
       align: 'left',
-      // cellRender: () => {},
-      cellRenderTo: useCellRenderTo('label', {
-        map: {
-          1: <el-tag type="danger">本地</el-tag>,
-          2: <el-tag type="success">阿里云</el-tag>,
-          3: ({ row, $index }) => {
-            return (
-              <el-tooltip content={row.url}>
-                <el-tag type="warning">腾讯云</el-tag>
-              </el-tooltip>
-            )
-          },
-          4: '七牛云',
-          5: null,
-          6: undefined,
-          7: 7,
-        },
+      cellRender: useCellRender().label({
+        1: '本地',
+        2: '七牛云',
+        3: <el-tag>腾讯云</el-tag>,
       }),
+      // cellRenderTo: useCellRenderTo().label({
+      //   1: '本地',
+      //   2: '七牛云',
+      //   3: <el-tag>腾讯云</el-tag>,
+      // }),
+      // cellRenderTo: {
+      //   name: 'ma-label',
+      //   props: {
+      //     map: {
+      //       1: '本地',
+      //       2: '七牛云',
+      //       3: <el-tag>腾讯云</el-tag>,
+      //     },
+      //   },
+      // },
     },
     { label: '原始名称', prop: 'origin_name' },
     { label: '对象名称', prop: 'object_name' },
     { label: 'Hash', prop: 'hash' },
     { label: 'Mime Type', prop: 'mime_type' },
     { label: '存储路径', prop: 'storage_path' },
-    { label: '文件后缀', prop: 'suffix', cellRenderTo: { name: 'tag' } },
+    {
+      label: '文件后缀',
+      prop: 'suffix',
+      // cellRender: useCellRender().tag(),
+      // cellRenderTo: { name: 'tag' },
+    },
     { label: '文件大小', prop: 'size_byte' },
     { label: '文件大小(友好)', prop: 'size_info' },
-    { label: '文件路径', prop: 'url', cellRenderTo: useCellRenderTo('images') },
+    {
+      label: '文件路径',
+      prop: 'url',
+      // cellRenderTo: useCellRenderTo('images'),
+    },
     {
       label: '状态',
       prop: 'status',
-      cellRenderTo: useCellRenderTo('switch'),
+      // cellRenderTo: useCellRenderTo('switch'),
     },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },

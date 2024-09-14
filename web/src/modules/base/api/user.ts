@@ -46,6 +46,16 @@ export function deleteByIds(ids:number):Promise<ResponseStruct<null>>
   return useHttp().delete('/admin/user',ids)
 }
 
+export function resetPassword():Promise<ResponseStruct<null>>
+{
+  return useHttp().post('/admin/user/password')
+}
+
+export function updateInfo(data:User):Promise<ResponseStruct<null>>
+{
+  return useHttp().put('/admin/user/info', data)
+}
+
 export function batchGrantRolesForUser(id:number,role_codes:string[]):Promise<ResponseStruct<null>>
 {
   return useHttp().post(`/admin/user/${id}/roles`, {role_codes: role_codes})

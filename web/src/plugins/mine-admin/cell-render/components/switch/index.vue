@@ -48,10 +48,12 @@ export default defineComponent({
 
     const onBeforeChange = async () => {
       loading.value = true
-      if (!await beforeChange(nextValue.value, row.value, props.scope)) {
-        loading.value = false
-        return false
-      }
+      const re = await beforeChange(nextValue.value, row.value, props.scope)
+      return false
+      // if (!await beforeChange(nextValue.value, row.value, props.scope).catch(() => false)) {
+      //   loading.value = false
+      //   return false
+      // }
 
       return api({
         [rowKey]: row.value[rowKey],

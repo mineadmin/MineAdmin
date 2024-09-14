@@ -127,13 +127,7 @@ const schema: MaProTableSchema = reactive({
       prop: 'status',
       // cellRender: useCellRender().switch('/mock/switch/changeStatus'),
       cellRender: useCellRender().switch(data => useHttp().get('/mock/attachment/list', data), {
-        beforeChange: (newValue, row, scope) => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(true)
-            }, Math.floor(Math.random() * 900 + 100))
-          })
-        },
+        beforeChange: (newValue, row, scope) => message.confirm('确定要删除吗？'),
       }),
     },
     { label: '创建时间', prop: 'created_at' },

@@ -32,8 +32,10 @@ export interface UserInfo {
   backend_setting: any[]
 }
 
+const mode = import.meta.env.MODE
+
 function getInfo(): Promise<ResponseStruct<UserInfo>> {
-  return useHttp().get('/admin/passport/getInfo')
+  return useHttp().get(mode === 'mock' ? '/mock/system/getInfo' : '/admin/passport/getInfo')
 }
 
 function logout(): Promise<ResponseStruct<null>> {
@@ -45,7 +47,7 @@ function logout(): Promise<ResponseStruct<null>> {
  * @param data
  */
 function loginApi(data: LoginParams): Promise<ResponseStruct<LoginResult>> {
-  return useHttp().post('/admin/passport/login', data)
+  return useHttp().post(mode === 'mock' ? '/mock/system/login' : '/admin/passport/login', data)
 }
 
 const useUserStore = defineStore(
@@ -91,35 +93,40 @@ const useUserStore = defineStore(
           cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
+        }).catch((error) => {
+          reject(error)
         })
       })
     }
 
     async function requestUserInfo() {
-      getInfo().then((res) => {
-        setUserInfo(res.data)
-        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
+      if (mode !== 'mock') {
+        getInfo().then((res) => {
+          setUserInfo(res.data)
+          if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
+            setUserSetting(data.user?.backend_setting)
+          }
+          usePluginStore().callHooks('getUserInfo', data.user)
+        }).catch((err) => {
+          logout()
+        })
+      }
+      else {
+        const { data } = await useHttp().get('/mock/system/getInfo')
+        data === null
+          ? await logout()
+          : (
+              setUserInfo(data.user)
+              && setPermissions(data.permissions as string[])
+              && setRoles(data.roles)
+            )
+        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user?.backend_setting) {
           setUserSetting(data.user?.backend_setting)
         }
-        usePluginStore().callHooks('getUserInfo', data.user)
-      }).catch((err) => {
-        logout()
-      })
-      return
-      const { data } = await useHttp().get('/mock/system/getInfo')
-      data === null
-        ? await logout()
-        : (
-            setUserInfo(data.user)
-            && setPermissions(data.permissions as string[])
-            && setRoles(data.roles)
-          )
-      if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user?.backend_setting) {
-        setUserSetting(data.user?.backend_setting)
-      }
 
-      await usePluginStore().callHooks('getUserInfo', data.user)
-      return data.routes
+        await usePluginStore().callHooks('getUserInfo', data.user)
+        return data.routes
+      }
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {

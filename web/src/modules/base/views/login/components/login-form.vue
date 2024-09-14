@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Message from 'vue-m-message'
-import useUserStore from "@/store/modules/useUserStore.ts";
-import useSettingStore from "@/store/modules/useSettingStore.ts";
 import { useI18n } from 'vue-i18n'
+import useUserStore from '@/store/modules/useUserStore.ts'
+import useSettingStore from '@/store/modules/useSettingStore.ts'
 
 const { t } = useI18n()
-const isDevelop: boolean = import.meta.env.MODE === 'development'
+const isProduction: boolean = import.meta.env.MODE === 'production'
 const userStore = useUserStore()
 const settingStore = useSettingStore()
 const router = useRouter()
@@ -17,9 +17,9 @@ const form = reactive<{
   password: string
   code: string
 }>({
-  username: isDevelop ? 'superAdmin' : '',
-  password: isDevelop ? '123456' : '',
-  code: isDevelop ? '1234' : '',
+  username: isProduction ? '' : 'superAdmin',
+  password: isProduction ? '' : '123456',
+  code: isProduction ? '' : '1234',
 })
 
 function easyValidate(event: Event) {
@@ -55,7 +55,7 @@ async function submit() {
   const userData = await userStore.login(form)
   const welcomePath = settingStore.getSettings('welcomePage').path ?? null
   const redirect = router.currentRoute.value.query?.redirect ?? undefined
-  console.log(welcomePath,redirect)
+  console.log(welcomePath, redirect)
   if (userData) {
     await router.push({ path: redirect ?? welcomePath ?? '/' })
   }

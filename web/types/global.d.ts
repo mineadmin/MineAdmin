@@ -9,7 +9,7 @@
  */
 import type { RouteRecordName, RouteRecordRaw, Router } from 'vue-router'
 import type { App, Ref } from 'vue'
-import {ResultCode} from "#/ResultCode.ts";
+import type { ResultCode } from '#/ResultCode.ts'
 
 type RecursiveRequired<T> = {
   [P in keyof T]-?: RecursiveRequired<T[P]>
@@ -18,11 +18,14 @@ type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
 }
 
+<<<<<<< HEAD
 interface PageList<T> {
   total: number,
   list: T[]
 }
 
+=======
+>>>>>>> develop/3.x
 interface ResponseStruct<T> {
   code: ResultCode
   message: string

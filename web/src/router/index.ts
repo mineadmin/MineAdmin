@@ -12,11 +12,9 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import '@/assets/styles/nprogress.scss'
 import routes from './static-routes/rootRoute.ts'
-import useUserStore from "@/store/modules/useUserStore.ts";
-import useSettingStore from "@/store/modules/useSettingStore.ts";
-import useRouteStore from "@/store/modules/useRouteStore.ts";
 
 const { isLoading } = useNProgress()
+const mode = import.meta.env.MODE
 
 const router = createRouter({
   history: import.meta.env.VITE_APP_ROUTE_MODE === 'history' ? createWebHistory() : createWebHashHistory(),

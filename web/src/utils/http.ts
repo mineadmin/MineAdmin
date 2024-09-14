@@ -7,14 +7,14 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type {AxiosInstance, AxiosResponse} from 'axios'
+import type { AxiosInstance, AxiosResponse } from 'axios'
 import axios from 'axios'
 import Message from 'vue-m-message'
-import {useDebounceFn} from '@vueuse/core'
-import {useNProgress} from '@vueuse/integrations/useNProgress'
-import type {ResponseStruct} from '#/global'
+import { useDebounceFn } from '@vueuse/core'
+import { useNProgress } from '@vueuse/integrations/useNProgress'
+import type { ResponseStruct } from '#/global'
 import useCache from '@/hooks/useCache.ts'
-import {ResultCode} from "#/ResultCode.ts";
+import { ResultCode } from '#/ResultCode.ts'
 
 const { isLoading } = useNProgress()
 const cache = useCache()
@@ -28,7 +28,7 @@ function createHttp(baseUrl: string | null = null): AxiosInstance {
   })
 }
 
-const http:AxiosInstance = createHttp()
+const http: AxiosInstance = createHttp()
 
 http.interceptors.request.use(
 
@@ -66,14 +66,15 @@ http.interceptors.response.use(
     const responseRaw: ResponseStruct = response.data
     const mineResponse = { raw: response, data: responseRaw?.data ?? null }
     if (response.status === 200) {
-      if (responseRaw.code !== ResultCode.SUCCESS){
+      if (responseRaw.code !== ResultCode.SUCCESS) {
         Message.error(responseRaw.message, {
           zIndex: 2000,
         })
         return Promise.reject(responseRaw)
       }
       return Promise.resolve(responseRaw)
-    } else {
+    }
+    else {
       Message.error(responseRaw.message, {
         zIndex: 2000,
       })

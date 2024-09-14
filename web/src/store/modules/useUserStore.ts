@@ -19,26 +19,28 @@ export type LoginParams = {
   password: string;
 }
 
-export type LoginResult = {
-  token: string;
-  expire_at: number;
+export interface LoginResult {
+  token: string
+  expire_at: number
 }
 
-export type UserInfo = {
-  username:string,
-  nickname:string,
-  avatar:string,
-  email:string,
-  signed:string,
-  dashboard:string,
-  backend_setting:any[],
+export interface UserInfo {
+  username: string
+  nickname: string
+  avatar: string
+  email: string
+  signed: string
+  dashboard: string
+  backend_setting: any[]
 }
 
-function getInfo():Promise<ResponseStruct<UserInfo>> {
-  return useHttp().get('/admin/passport/getInfo')
+const mode = import.meta.env.MODE
+
+function getInfo(): Promise<ResponseStruct<UserInfo>> {
+  return useHttp().get(mode === 'mock' ? '/mock/system/getInfo' : '/admin/passport/getInfo')
 }
 
-function logout():Promise<ResponseStruct<null>> {
+function logout(): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/passport/logout')
 }
 
@@ -46,8 +48,8 @@ function logout():Promise<ResponseStruct<null>> {
  * Passport login
  * @param data
  */
-function loginApi(data:LoginParams):Promise<ResponseStruct<LoginResult>> {
-  return useHttp().post('/admin/passport/login', data)
+function loginApi(data: LoginParams): Promise<ResponseStruct<LoginResult>> {
+  return useHttp().post(mode === 'mock' ? '/mock/system/login' : '/admin/passport/login', data)
 }
 
 const useUserStore = defineStore(
@@ -106,7 +108,7 @@ const useUserStore = defineStore(
 
     function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
-        loginApi(data).then(async res=>{
+        loginApi(data).then(async (res) => {
           token.value = res.data.token
           cache.set('token', res.data.token)
           cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
@@ -114,10 +116,11 @@ const useUserStore = defineStore(
           await initPermission()
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
+        }).catch((error) => {
+          reject(error)
         })
       })
     }
-
     async function requestUserInfo(): void {
       getInfo().then(res=>{
         setUserInfo(res.data)

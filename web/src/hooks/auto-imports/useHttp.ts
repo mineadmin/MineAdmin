@@ -7,10 +7,9 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
+import type { AxiosInstance } from 'axios'
 import request from '@/utils/http'
-import type {AxiosInstance} from 'axios'
 
-export default function useHttp(): AxiosInstance
-{
+export default function useHttp(): AxiosInstance {
   return request.http
 }

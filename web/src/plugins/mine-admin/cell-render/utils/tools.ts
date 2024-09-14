@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, WritableComputedRef } from 'vue'
 import { get } from 'lodash-es'
 
 interface Props {
@@ -6,17 +6,15 @@ interface Props {
   options: Record<string, any>
 }
 
-interface RowFieldValues {
-  row: ComputedRef<any>
-  field: ComputedRef<string>
-  value: ComputedRef<any>
-}
-
 export type WithOnEventListeners<T> = {
   [K in keyof T as `on${Capitalize<string & K>}`]?: T[K];
 }
 
-export function createRowFieldValues(props: Props): RowFieldValues {
+export function createRowFieldValues(props: Props): {
+  field: ComputedRef<any>
+  row: WritableComputedRef<any>
+  value: WritableComputedRef<any>
+} {
   const row = computed({
     get() {
       return props.scope.row

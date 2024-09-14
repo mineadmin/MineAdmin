@@ -46,7 +46,7 @@ async function submit() {
     return false
   }
 
-  if (!isDevelop && !codeRef.value.checkResult(form.code)) {
+  if (isProduction && !codeRef.value.checkResult(form.code)) {
     form.code = ''
     return false
   }
@@ -90,7 +90,7 @@ async function submit() {
         @blur="easyValidate"
       />
     </div>
-    <div v-if="!isDevelop" class="mine-login-form-item">
+    <div v-if="isProduction" class="mine-login-form-item">
       <div class="mine-login-form-item-title">
         {{ t('loginForm.codeLabel') }}
       </div>

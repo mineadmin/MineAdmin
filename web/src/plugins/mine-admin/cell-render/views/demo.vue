@@ -3,7 +3,9 @@ import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
 import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
+import { useMessage } from '@/hooks/useMessage.ts'
 
+const message = useMessage()
 const proTableRef = ref()
 /**
  * 加载状态
@@ -22,6 +24,18 @@ const options: MaProTableOptions = reactive({
     border: true,
     stripe: true,
     data: [],
+  },
+  // 右键菜单
+  rowContextMenu: {
+    enabled: true,
+    items: [{
+      label: '删除此条数据',
+      icon: 'i-ri:close-line',
+      disabled: false,
+      onMenuClick: (row, column, event) => {
+        message.success(`删除成功：${row.origin_name}`)
+      },
+    }],
   },
   searchOptions: {
     fold: true,

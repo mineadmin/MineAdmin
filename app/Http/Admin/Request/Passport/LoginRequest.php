@@ -22,7 +22,7 @@ use Hyperf\Validation\Request\FormRequest;
 ])]
 class LoginRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }

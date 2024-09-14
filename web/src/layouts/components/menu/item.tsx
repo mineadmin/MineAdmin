@@ -50,7 +50,7 @@ export default defineComponent({
 
     expose({ ref: itemRef })
 
-    return () => (item.meta?.hidden !== true || item.meta?.hidden === undefined) && (
+    return () => ((item.meta?.hidden !== true || item.meta?.hidden === undefined) || item.meta?.subForceShow === true) && (
       <div ref={itemRef} class={{ 'mine-menu-item': true, 'active': isItemActive.value }}>
         <router-link custom to={uniqueKey?.at(-1) ?? ''}>
           {({ href, navigate }) => (

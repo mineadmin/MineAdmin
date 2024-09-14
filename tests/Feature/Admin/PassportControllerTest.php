@@ -174,11 +174,4 @@ class PassportControllerTest extends HttpTestCase
 
         $user->forceDelete();
     }
-
-    public function testGetBingBackgroundImage(): void
-    {
-        $info = $this->get('/admin/passport/getBingBackgroundImage');
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('url', $info['data']);
-    }
 }

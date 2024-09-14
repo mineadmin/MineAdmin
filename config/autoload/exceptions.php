@@ -29,8 +29,6 @@ return [
             ValidationExceptionHandler::class,
             // 处理JWT异常
             JwtExceptionHandler::class,
-            // 处理模型未找到异常
-            ModelNotFoundException::class,
             // 处理应用异常
             AppExceptionHandler::class,
         ],

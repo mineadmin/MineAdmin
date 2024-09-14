@@ -14,6 +14,7 @@ import '@/assets/styles/nprogress.scss'
 import routes from './static-routes/rootRoute.ts'
 
 const { isLoading } = useNProgress()
+const mode = import.meta.env.MODE
 
 const router = createRouter({
   history: import.meta.env.VITE_APP_ROUTE_MODE === 'history' ? createWebHistory() : createWebHashHistory(),
@@ -33,7 +34,13 @@ router.beforeEach(async (to, from, next) => {
       })
     }
     if (userStore.getUserInfo() === null) {
-      await routeStore.initRoutes(router, await userStore.requestUserInfo())
+      if (mode === 'mock') {
+        await routeStore.initRoutes(router, await userStore.requestUserInfo())
+      }
+      else {
+        await userStore.requestUserInfo()
+        await routeStore.initRoutes(router)
+      }
       next({ path: to.fullPath })
     }
     else {

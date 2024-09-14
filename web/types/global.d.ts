@@ -9,6 +9,7 @@
  */
 import type { RouteRecordName, RouteRecordRaw, Router } from 'vue-router'
 import type { App, Ref } from 'vue'
+import {ResultCode} from "#/ResultCode.ts";
 
 type RecursiveRequired<T> = {
   [P in keyof T]-?: RecursiveRequired<T[P]>
@@ -17,13 +18,12 @@ type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
 }
 
-interface ResponseStruct {
-  code?: number
-  success?: boolean
-  message?: string
-  path?: string
-  requestId?: string
-  data?: any
+
+
+interface ResponseStruct<T> {
+  code: ResultCode
+  message: string
+  data: T
 }
 
 declare namespace Plugin {

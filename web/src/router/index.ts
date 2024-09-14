@@ -12,6 +12,9 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import '@/assets/styles/nprogress.scss'
 import routes from './static-routes/rootRoute.ts'
+import useUserStore from "@/store/modules/useUserStore.ts";
+import useSettingStore from "@/store/modules/useSettingStore.ts";
+import useRouteStore from "@/store/modules/useRouteStore.ts";
 
 const { isLoading } = useNProgress()
 
@@ -33,7 +36,8 @@ router.beforeEach(async (to, from, next) => {
       })
     }
     if (userStore.getUserInfo() === null) {
-      await routeStore.initRoutes(router, await userStore.requestUserInfo())
+      await userStore.requestUserInfo()
+      await routeStore.initRoutes(router, )
       next({ path: to.fullPath })
     }
     else {

@@ -56,12 +56,12 @@ const pluginConfig: Plugin.PluginConfig = {
     routerRedirect: (route: RouteRecordRaw) => {
       console.log('demo 插件的路由跳转钩子，此次跳转路由信息：', route)
     },
-    networkRequest: (request) => {
-      console.log('demo 插件的网络请求钩子，此次请求信息：', request)
-    },
-    networkResponse: (response) => {
-      console.log('demo 插件的网络返回钩子，此次返回信息：', response)
-    },
+    // networkRequest: (request) => {
+    //   console.log('demo 插件的网络请求钩子，此次请求信息：', request)
+    // },
+    // networkResponse: (response) => {
+    //   console.log('demo 插件的网络返回钩子，此次返回信息：', response)
+    // },
   },
 }
 

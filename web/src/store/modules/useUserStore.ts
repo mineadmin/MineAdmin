@@ -10,6 +10,44 @@
 import useCache from '@/hooks/useCache.ts'
 import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
+import useHttp from "@/hooks/auto-imports/useHttp.ts";
+
+
+export type LoginParams = {
+  username: string;
+  password: string;
+}
+
+export type LoginResult = {
+  token: string;
+  expire_at: number;
+}
+
+export type UserInfo = {
+  username:string,
+  nickname:string,
+  avatar:string,
+  email:string,
+  signed:string,
+  dashboard:string,
+  backend_setting:any[],
+}
+
+function getInfo():Promise<ResponseStruct<UserInfo>> {
+  return useHttp().get('/admin/passport/getInfo')
+}
+
+function logout():Promise<ResponseStruct<null>> {
+  return useHttp().post('/admin/passport/logout')
+}
+
+/**
+ * Passport login
+ * @param data
+ */
+function loginApi(data:LoginParams):Promise<ResponseStruct<LoginResult>> {
+  return useHttp().post('/admin/passport/login', data)
+}
 
 const useUserStore = defineStore(
   'useUserStore',
@@ -17,7 +55,6 @@ const useUserStore = defineStore(
     const cache = useCache()
     const router = useRouter()
     const setting = useSettingStore()
-
     const token = ref<string | null>(cache.get('token', null))
     const locales = ref<any[]>([])
     const language = ref(cache.get('language', 'zh_CN'))
@@ -25,8 +62,6 @@ const useUserStore = defineStore(
     const userInfo = ref<any | null>(null)
     const permissions = ref<string[]>([])
     const roles = ref<string[]>([])
-    const posts = ref<string[]>([])
-    const depts = ref<string[]>([])
     const dropdownMenuState = ref<{
       shortcuts: boolean
       systemInfo: boolean
@@ -51,20 +86,27 @@ const useUserStore = defineStore(
 
     function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
-        useHttp().post('/mock/system/login', data).then(async (response: ResponseStruct) => {
-          const data: any = response.data
-          cache.set('token', data.token)
-          cache.set('expire', useDayjs().unix() + data.expire, { exp: data.expire })
-          token.value = response.data.token
-          await usePluginStore().callHooks('login', data)
-          resolve(data)
-        }).catch((error) => {
-          reject(error)
+        loginApi(data).then(async res=>{
+          token.value = res.data.token
+          cache.set('token', res.data.token)
+          cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
+          await usePluginStore().callHooks('login', res.data)
+          resolve(res.data)
         })
       })
     }
 
     async function requestUserInfo() {
+      getInfo().then(res=>{
+        setUserInfo(res.data)
+        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
+          setUserSetting(data.user?.backend_setting)
+        }
+         usePluginStore().callHooks('getUserInfo', data.user)
+      }).catch(err=>{
+        logout();
+      })
+      return ;
       const { data } = await useHttp().get('/mock/system/getInfo')
       data === null
         ? await logout()
@@ -138,24 +180,6 @@ const useUserStore = defineStore(
       return true
     }
 
-    function getPosts(): string[] {
-      return posts.value
-    }
-
-    function setPosts(postArray: string[]): boolean {
-      posts.value = postArray
-      return true
-    }
-
-    function getDepts(): string[] {
-      return depts.value
-    }
-
-    function setDepts(deptArray: string[]): boolean {
-      depts.value = deptArray
-      return true
-    }
-
     function setUserSetting(settings: any) {
       setting.setSettings(settings)
       setting.initColorMode()
@@ -193,7 +217,6 @@ const useUserStore = defineStore(
       logout,
       getDropdownMenu,
       setDropdownMenuState,
-      getDropdownMenuState,
       clearCache,
       clearInfo,
       setLanguage,
@@ -205,10 +228,6 @@ const useUserStore = defineStore(
       setPermissions,
       getRoles,
       setRoles,
-      getPosts,
-      setPosts,
-      getDepts,
-      setDepts,
       getLocales,
       setLocales,
       saveSettingToSever,

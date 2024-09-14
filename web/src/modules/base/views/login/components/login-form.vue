@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Message from 'vue-m-message'
+import useUserStore from "@/store/modules/useUserStore.ts";
+import useSettingStore from "@/store/modules/useSettingStore.ts";
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -16,7 +18,7 @@ const form = reactive<{
   code: string
 }>({
   username: isDevelop ? 'superAdmin' : '',
-  password: isDevelop ? 'admin123' : '',
+  password: isDevelop ? '123456' : '',
   code: isDevelop ? '1234' : '',
 })
 
@@ -53,6 +55,7 @@ async function submit() {
   const userData = await userStore.login(form)
   const welcomePath = settingStore.getSettings('welcomePage').path ?? null
   const redirect = router.currentRoute.value.query?.redirect ?? undefined
+  console.log(welcomePath,redirect)
   if (userData) {
     await router.push({ path: redirect ?? welcomePath ?? '/' })
   }

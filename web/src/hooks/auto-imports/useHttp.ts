@@ -8,7 +8,9 @@
  * @Link   https://github.com/mineadmin
  */
 import request from '@/utils/http'
+import type {AxiosInstance} from 'axios'
 
-export default function useHttp() {
+export default function useHttp(): AxiosInstance
+{
   return request.http
 }

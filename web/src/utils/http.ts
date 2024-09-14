@@ -7,13 +7,14 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
+import type {AxiosInstance, AxiosResponse} from 'axios'
 import axios from 'axios'
-import type { AxiosInstance, AxiosResponse } from 'axios'
 import Message from 'vue-m-message'
-import { useDebounceFn } from '@vueuse/core'
-import { useNProgress } from '@vueuse/integrations/useNProgress'
-import type { ResponseStruct } from '#/global'
+import {useDebounceFn} from '@vueuse/core'
+import {useNProgress} from '@vueuse/integrations/useNProgress'
+import type {ResponseStruct} from '#/global'
 import useCache from '@/hooks/useCache.ts'
+import {ResultCode} from "#/ResultCode.ts";
 
 const { isLoading } = useNProgress()
 const cache = useCache()
@@ -27,7 +28,7 @@ function createHttp(baseUrl: string | null = null): AxiosInstance {
   })
 }
 
-const http = createHttp()
+const http:AxiosInstance = createHttp()
 
 http.interceptors.request.use(
 
@@ -45,7 +46,7 @@ http.interceptors.request.use(
     }
 
     // 检查token是否需要刷新
-    if ((Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
+    if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
       console.log('需要刷新token了')
     }
 
@@ -61,17 +62,22 @@ http.interceptors.response.use(
     if ((response.headers['content-disposition'] || !/^application\/json/.test(response.headers['content-type'])) && response.status === 200) {
       return Promise.resolve(response.data)
     }
+
     const responseRaw: ResponseStruct = response.data
     const mineResponse = { raw: response, data: responseRaw?.data ?? null }
-    // 如果 http 的状态为正常，但数据 code 不是200的情况
     if (response.status === 200) {
-      return responseRaw.code === 200 ? Promise.resolve(mineResponse) : Promise.reject(mineResponse)
-    }
-    else {
-      Message.error(response.data.message, {
+      if (responseRaw.code !== ResultCode.SUCCESS){
+        Message.error(responseRaw.message, {
+          zIndex: 2000,
+        })
+        return Promise.reject(responseRaw)
+      }
+      return Promise.resolve(responseRaw)
+    } else {
+      Message.error(responseRaw.message, {
         zIndex: 2000,
       })
-      return Promise.reject(mineResponse)
+      return Promise.reject(responseRaw)
     }
   },
   async (error) => {

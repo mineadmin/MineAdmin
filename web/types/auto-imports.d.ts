@@ -82,7 +82,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useTabStore: typeof import('../src/store/modules/useTabStore')['default']
   const useTrans: typeof import('../src/hooks/auto-imports/useTrans')['useTrans']
-  const useUserStore: typeof import('../src/store/modules/useUserStore')['default']
+  const useUserStore: typeof import('../src/store/modules/useUserStore.ts')['default']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']

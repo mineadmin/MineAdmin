@@ -27,6 +27,7 @@ class CreateMenuTable extends Migration
             $table->bigInteger('parent_id')->unsigned()->comment('父ID');
             $table->string('name', 50)->default('')->comment('菜单名称');
             $table->string('code', 100)->default('')->comment('菜单标识代码');
+            $table->json('meta')->comment('附加属性')->nullable();
             $table->string('icon', 50)->default('')->comment('菜单图标');
             $table->string('route', 200)->default('')->comment('路由地址');
             $table->string('component', 255)->default('')->comment('组件路径');

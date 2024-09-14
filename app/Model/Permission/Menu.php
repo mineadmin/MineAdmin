@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Constants\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
@@ -90,6 +91,10 @@ final class Menu extends MineModel
 
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
+        return $this
+            ->hasMany(Menu::class, 'parent_id', 'id')
+            ->where('status', Status::ENABLE)
+            ->orderBy('sort')
+            ->with('children');
     }
 }

@@ -34,19 +34,17 @@ final class MenuRepository extends IRepository
                 $query->orderBy(key($sortable), current($sortable));
             })
             ->when(Arr::get($params, 'code'), function (Builder $query, array|string $code) {
-                is_array($code) ? $query->whereIn('code', $code) : $query->where('code', $code);
+                $query->whereIn('code', Arr::wrap($code));
             });
     }
 
-    /**
-     * 获取用户菜单.
-     */
-    public function getTreeMenuByUid(int $userId): array
+    public function allTree(): Collection
     {
-        return $this->getQuery(['user_id' => $userId, 'sortable' => ['sort' => 'asc']])
-            ->with(['children'])
-            ->get()
-            ->toArray();
+        return $this->model
+            ->newQuery()
+            ->where('parent_id', 0)
+            ->with('children')
+            ->get();
     }
 
     /**

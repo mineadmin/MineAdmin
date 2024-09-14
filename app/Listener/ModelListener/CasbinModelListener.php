@@ -59,7 +59,10 @@ final class CasbinModelListener
                 break;
         }
         if (isset($message)) {
-            $this->isDebug() ? $this->stdoutLogger->debug($message) : $this->logger->debug($message);
+            $this->log(
+                message: $message,
+                level: 'debug',
+            );
         }
     }
 

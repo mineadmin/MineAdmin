@@ -21,4 +21,9 @@ trait GetDebugTrait
     {
         return (bool) ApplicationContext::getContainer()->get(ConfigInterface::class)->get('debug');
     }
+
+    public function log($message, array $context = [],string $level = 'error'): void
+    {
+        $this->isDebug() ? $this->stdoutLogger->{$level}($message,$context) : $this->logger->{$level}($message,$context);
+    }
 }

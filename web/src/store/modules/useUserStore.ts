@@ -11,7 +11,8 @@ import useCache from '@/hooks/useCache.ts'
 import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from "@/hooks/auto-imports/useHttp.ts";
-
+import * as PermissionApi from "~/base/api/permission.ts";
+import {Menu, Role} from "~/base/api/permission.ts";
 
 export type LoginParams = {
   username: string;
@@ -60,8 +61,9 @@ const useUserStore = defineStore(
     const language = ref(cache.get('language', 'zh_CN'))
     const isLogin = computed(() => !!token.value)
     const userInfo = ref<any | null>(null)
+    const menu = ref<Menu[]>([])
     const permissions = ref<string[]>([])
-    const roles = ref<string[]>([])
+    const roles = ref<Role[]>([])
     const dropdownMenuState = ref<{
       shortcuts: boolean
       systemInfo: boolean
@@ -80,8 +82,26 @@ const useUserStore = defineStore(
       }
     }
 
+    function getMenu() {
+      return menu.value
+    }
+
+    function setMenu(list:Menu[]) {
+      menu.value = list
+    }
+
     function getDropdownMenuState(key: string) {
       return dropdownMenuState.value[key] !== undefined ? dropdownMenuState.value[key] : undefined
+    }
+
+    async function initRole() {
+       const res =  await PermissionApi.getRoles()
+      setRoles(res.data)
+    }
+
+    async function initPermission() {
+      const res = await PermissionApi.getMenus()
+      setMenu(res.data)
     }
 
     function login(data: { username: string, password: string, code: string }) {
@@ -90,13 +110,15 @@ const useUserStore = defineStore(
           token.value = res.data.token
           cache.set('token', res.data.token)
           cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
+          await initRole()
+          await initPermission()
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
         })
       })
     }
 
-    async function requestUserInfo() {
+    async function requestUserInfo(): void {
       getInfo().then(res=>{
         setUserInfo(res.data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
@@ -106,21 +128,6 @@ const useUserStore = defineStore(
       }).catch(err=>{
         logout();
       })
-      return ;
-      const { data } = await useHttp().get('/mock/system/getInfo')
-      data === null
-        ? await logout()
-        : (
-            setUserInfo(data.user)
-            && setPermissions(data.permissions as string[])
-            && setRoles(data.roles)
-          )
-      if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user?.backend_setting) {
-        setUserSetting(data.user?.backend_setting)
-      }
-
-      await usePluginStore().callHooks('getUserInfo', data.user)
-      return data.routes
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
@@ -171,11 +178,11 @@ const useUserStore = defineStore(
       return true
     }
 
-    function getRoles(): string[] {
+    function getRoles(): Role[] {
       return roles.value
     }
 
-    function setRoles(roleArray: string[]): boolean {
+    function setRoles(roleArray: Role[]): boolean {
       roles.value = roleArray
       return true
     }
@@ -215,22 +222,18 @@ const useUserStore = defineStore(
       isLogin,
       login,
       logout,
-      getDropdownMenu,
       setDropdownMenuState,
       clearCache,
-      clearInfo,
       setLanguage,
       getLanguage,
       requestUserInfo,
       getUserInfo,
-      setUserInfo,
       getPermissions,
-      setPermissions,
       getRoles,
-      setRoles,
       getLocales,
       setLocales,
       saveSettingToSever,
+      getMenu
     }
   },
 )

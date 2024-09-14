@@ -119,6 +119,14 @@ abstract class IRepository
     /**
      * @return null|T
      */
+    public function findByField(mixed $id, string $column): mixed
+    {
+        return $this->model::whereKey($id)->value($column);
+    }
+
+    /**
+     * @return null|T
+     */
     public function findByFilter(array $params): mixed
     {
         return $this->getQuery($params)->first();

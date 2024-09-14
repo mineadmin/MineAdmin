@@ -11,6 +11,7 @@ import { useColorMode } from '@vueuse/core'
 import type { Ref } from 'vue'
 import type { SystemSettings } from '#/global'
 import useWatermark from '@/hooks/useWatermark'
+import useThemeColor from '@/hooks/useThemeColor.ts'
 
 const useSettingStore = defineStore(
   'useSettingStore',
@@ -140,6 +141,7 @@ const useSettingStore = defineStore(
       else {
         colorMode.value = defaultSetting.value?.app?.colorMode ?? 'light'
       }
+      // useThemeColor().initThemeColor()
     }
 
     async function toggleColorMode(modeText: 'light' | 'dark' | 'autoMode' | null = null) {
@@ -161,6 +163,7 @@ const useSettingStore = defineStore(
       // await useTabStore().refreshTab()
       defaultSetting.value.app.colorMode = colorMode.value as 'light' | 'dark' | 'autoMode'
       defaultSetting.value.app.enableWatermark && openGlobalWatermark()
+      await nextTick(() => useThemeColor().initThemeColor())
     }
 
     function openGlobalWatermark(str: string | string[] | null = null) {

@@ -88,6 +88,7 @@ const useRouteStore = defineStore(
           const childrenBreadcrumb = [...breadcrumb]
           childrenBreadcrumb.push(route)
           const tmpRoute = { ...route }
+          tmpRoute.meta = tmpRoute?.meta ?? {}
           tmpRoute.meta.breadcrumb = childrenBreadcrumb
           delete tmpRoute.children
           res.push(tmpRoute)
@@ -97,6 +98,7 @@ const useRouteStore = defineStore(
         else {
           const tmpBreadcrumb = [...breadcrumb]
           tmpBreadcrumb.push(tmp)
+          tmp.meta = tmp?.meta ?? {}
           tmp.meta.breadcrumb = tmpBreadcrumb
           res.push(tmp)
         }

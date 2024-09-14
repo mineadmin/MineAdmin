@@ -104,6 +104,7 @@ function generateData() {
       updated_at: `2023-01-01 12:03:40`,
       deleted_at: null,
       remark: `This is a remark for id ${id}.`,
+      status: (id % 2) + 1, // 1：正常，2：已删除
     }
   })
 }

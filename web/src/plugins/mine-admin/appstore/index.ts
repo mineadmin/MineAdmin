@@ -33,6 +33,7 @@ const pluginConfig: Plugin.PluginConfig = {
         icon: 'vscode-icons:file-type-azure',
         type: 'M',
         hidden: true,
+        subForceShow: true,
         breadcrumbEnable: true,
         copyright: true,
         cache: true,

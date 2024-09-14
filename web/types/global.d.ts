@@ -317,6 +317,7 @@ declare namespace MineRoute {
     icon?: string
     affix?: boolean
     hidden?: boolean
+    subForceShow?: boolean
     copyright?: boolean
     link?: string
     breadcrumb?: routeRecord[]

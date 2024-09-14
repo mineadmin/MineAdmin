@@ -7,16 +7,19 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import { useCssVar } from '@vueuse/core'
+import { useColorMode, useCssVar } from '@vueuse/core'
 
 export default function useThemeColor() {
   function setThemeColor(color: string) {
     useCssVar('--ui-primary', document.documentElement).value = hexToRgb(color).join(' ')
     useCssVar('--el-color-primary', document.documentElement).value = color
 
+    const colorMode = useColorMode()
     // 浅色
     for (let i = 1; i <= 9; i++) {
-      useCssVar(`--el-color-primary-light-${i}`, document.documentElement).value = lighten(color, i / 10)
+      useCssVar(`--el-color-primary-light-${i}`, document.documentElement).value = (
+        colorMode.value === 'dark' ? darken(color, i / 10) : lighten(color, i / 10)
+      )
     }
 
     // 暗色
@@ -51,7 +54,7 @@ export default function useThemeColor() {
   function darken(color: string, level: number): string {
     const rgb = hexToRgb(color)
     for (let i = 0; i < 3; i++) {
-      rgb[i] = Math.floor(rgb[i] * (1 - level))
+      rgb[i] = Math.round(20.5 * level + rgb[i] * (1 - level))
     }
     return rgbToHex(rgb[0], rgb[1], rgb[2])
   }
@@ -59,7 +62,7 @@ export default function useThemeColor() {
   function lighten(color: string, level: number): string {
     const rgb = hexToRgb(color)
     for (let i = 0; i < 3; i++) {
-      rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i])
+      rgb[i] = Math.round(255 * level + rgb[i] * (1 - level))
     }
     return rgbToHex(rgb[0], rgb[1], rgb[2])
   }

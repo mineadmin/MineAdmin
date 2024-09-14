@@ -9,38 +9,24 @@
  */
 import type { App } from 'vue'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
-import type { RouteRecordRaw, Router } from 'vue-router'
-import { components } from './components/index.js'
 import type { Plugin } from '#/global'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app: App) {
+
   },
   hooks: {
     setup: () => {
+      // 加载插件
       const { addPlugin } = useProTableRenderPlugin()
-      const prefix = 'ma-'
+      const components = import.meta.glob('./components/**/*.vue')
       Object.keys(components).forEach(async (key) => {
-        const component: any = components[key]
-        const name = `${prefix}${key}`
+        const component: any = await components[key]()
         addPlugin({
-          name,
-          render: (scope, options: any) => h(component, { scope, options }),
+          name: component.default.name,
+          render: (scope, options: any) => h(component.default, { scope, options }),
         })
       })
-    },
-    registerRoute: (router: Router, routesRaw): void => {
-      router.addRoute({
-        name: 'cell-render',
-        path: '/cell-render',
-        component: () => import('./practice.vue'),
-      })
-    },
-    routerRedirect: (route: RouteRecordRaw) => {
-      // 劫持welcome路由返回practice.vue
-      // if (route.path === '/welcome') {
-      //   useRouter().push('/cell-render')
-      // }
     },
   },
   config: {
@@ -48,10 +34,23 @@ const pluginConfig: Plugin.PluginConfig = {
     info: {
       name: 'mine-admin/cell-render',
       version: '1.0.0',
-      author: '陈展杰',
+      author: 'amazes',
       description: '表格渲染组件',
     },
   },
+  views: [
+    {
+      name: 'cell-render-demo',
+      path: '/cell-render-demo',
+      component: () => import('./views/demo.vue'),
+      meta: {
+        title: '单元格渲染demo',
+        badge: () => 1,
+        hidden: true,
+        copyright: false,
+      },
+    },
+  ],
 }
 
 export default pluginConfig

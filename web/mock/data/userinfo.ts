@@ -14,7 +14,7 @@ export default {
     login_time: '2024-07-06 08:52:57',
     backend_setting: {
       app: {
-        colorMode: 'auto',
+        colorMode: 'autoMode',
         useLocale: 'zh_CN',
         whiteRoute: [
           'login',

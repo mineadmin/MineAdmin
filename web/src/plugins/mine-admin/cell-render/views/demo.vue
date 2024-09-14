@@ -126,7 +126,7 @@ const schema: MaProTableSchema = reactive({
       label: '状态',
       prop: 'status',
       // cellRender: useCellRender().switch('/mock/switch/changeStatus'),
-      cellRender: useCellRender().switch(data => useHttp().get('/mock/attachment/list', data), {
+      cellRender: useCellRender().switch('/mock/attachment/list', {
         beforeChange: (newValue, row, scope) => message.confirm(newValue === 1 ? '确定要启用吗？' : '确定要禁用吗？'),
       }),
     },

@@ -48,7 +48,7 @@ final class CurrentUser
 
     public function menus(): Collection
     {
-        return $this->permissionService->getMenuTreeByUserId($this->id());
+        return $this->user()->getMenus();
     }
 
     /**
@@ -56,7 +56,7 @@ final class CurrentUser
      */
     public function roles(): Collection
     {
-        return $this->permissionService->getRolesByUserId($this->id());
+        return $this->user()->getRoles();
     }
 
     public function isSystem(): bool
@@ -64,8 +64,8 @@ final class CurrentUser
         return $this->user()->user_type === Type::SYSTEM;
     }
 
-    public function isAdmin(): bool
+    public function isSuperAdmin(): bool
     {
-        return $this->roles()->map(fn ($role) => $role->code)->contains('SuperAdmin');
+        return $this->user()->isSuperAdmin();
     }
 }

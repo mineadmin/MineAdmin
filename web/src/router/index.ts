@@ -34,13 +34,8 @@ router.beforeEach(async (to, from, next) => {
       })
     }
     if (userStore.getUserInfo() === null) {
-      if (mode === 'mock') {
-        await routeStore.initRoutes(router, await userStore.requestUserInfo())
-      }
-      else {
-        await userStore.requestUserInfo()
-        await routeStore.initRoutes(router)
-      }
+      userStore.requestUserInfo()
+      await routeStore.initRoutes(router,userStore.getMenu() )
       next({ path: to.fullPath })
     }
     else {

@@ -15,7 +15,7 @@ namespace App\Model\Permission;
 use App\Constants\User\Status;
 use App\Constants\User\Type;
 use Carbon\Carbon;
-use Hyperf\Database\Model\Collection;
+use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
@@ -107,5 +107,25 @@ final class User extends Model
     public function resetPassword(): void
     {
         $this->password = 123456;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->roles()->where('code', 'SuperAdmin')->exists();
+    }
+
+    public function getRoles(): Collection
+    {
+        return $this->roles()
+            ->where('status', Status::ENABLE)
+            ->select(['name', 'code', 'remark'])
+            ->get();
+    }
+
+    public function getMenus(): Collection
+    {
+        return $this->roles()->get()->map(function (Role $role) {
+            return $role->menus()->get();
+        })->flatten();
     }
 }

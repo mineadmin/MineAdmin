@@ -16,6 +16,7 @@ use App\Http\Admin\CurrentUser;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Repository\Permission\MenuRepository;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -28,7 +29,8 @@ use Mine\Kernel\Swagger\Attributes\PageResponse;
 final class PermissionController extends AbstractController
 {
     public function __construct(
-        private readonly CurrentUser $user
+        private readonly CurrentUser $user,
+        private readonly MenuRepository $repository
     ) {}
 
     #[Get(
@@ -45,7 +47,7 @@ final class PermissionController extends AbstractController
     public function menus(): Result
     {
         return $this->success(
-            data: $this->user->menus()
+            data: $this->user->isSuperAdmin() ? $this->repository->allTree() : $this->user->menus()
         );
     }
 

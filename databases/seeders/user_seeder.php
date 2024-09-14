@@ -22,9 +22,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::truncate();
-        Role::truncate();
-
-        User::create([
+        $entity = User::create([
             'username' => 'SuperAdmin',
             'password' => password_hash('123456', PASSWORD_DEFAULT),
             'user_type' => '100',
@@ -39,5 +37,7 @@ class UserSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+        $enforce = make(\Casbin\Enforcer::class);
+        $enforce->addRoleForUser($entity->username, 'SuperAdmin');
     }
 }

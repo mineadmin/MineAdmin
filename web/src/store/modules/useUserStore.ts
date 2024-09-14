@@ -10,13 +10,13 @@
 import useCache from '@/hooks/useCache.ts'
 import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
-import useHttp from "@/hooks/auto-imports/useHttp.ts";
-import * as PermissionApi from "~/base/api/permission.ts";
-import {Menu, Role} from "~/base/api/permission.ts";
+import useHttp from '@/hooks/auto-imports/useHttp.ts'
+import * as PermissionApi from '~/base/api/permission.ts'
+import type { Menu, Role } from '~/base/api/permission.ts'
 
-export type LoginParams = {
-  username: string;
-  password: string;
+export interface LoginParams {
+  username: string
+  password: string
 }
 
 export interface LoginResult {
@@ -88,7 +88,7 @@ const useUserStore = defineStore(
       return menu.value
     }
 
-    function setMenu(list:Menu[]) {
+    function setMenu(list: Menu[]) {
       menu.value = list
     }
 
@@ -97,7 +97,7 @@ const useUserStore = defineStore(
     }
 
     async function initRole() {
-       const res =  await PermissionApi.getRoles()
+      const res = await PermissionApi.getRoles()
       setRoles(res.data)
     }
 
@@ -122,14 +122,14 @@ const useUserStore = defineStore(
       })
     }
     async function requestUserInfo(): void {
-      getInfo().then(res=>{
+      getInfo().then((res) => {
         setUserInfo(res.data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
           setUserSetting(data.user?.backend_setting)
         }
-         usePluginStore().callHooks('getUserInfo', data.user)
-      }).catch(err=>{
-        logout();
+        usePluginStore().callHooks('getUserInfo', data.user)
+      }).catch((err) => {
+        logout()
       })
     }
 
@@ -236,7 +236,7 @@ const useUserStore = defineStore(
       getLocales,
       setLocales,
       saveSettingToSever,
-      getMenu
+      getMenu,
     }
   },
 )

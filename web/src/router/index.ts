@@ -35,7 +35,7 @@ router.beforeEach(async (to, from, next) => {
     }
     if (userStore.getUserInfo() === null) {
       userStore.requestUserInfo()
-      await routeStore.initRoutes(router,userStore.getMenu() )
+      await routeStore.initRoutes(router, userStore.getMenu())
       next({ path: to.fullPath })
     }
     else {

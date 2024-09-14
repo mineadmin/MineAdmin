@@ -2,7 +2,6 @@ namespace {{$namespace}};
 
 {{$use}}
 
-
 class {{$className}} extends {{$extends}}
 {
     public function __construct(

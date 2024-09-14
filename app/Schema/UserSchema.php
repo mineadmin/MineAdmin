@@ -57,7 +57,7 @@ final class UserSchema implements \JsonSerializable
     #[Property(property: 'login_time', title: '最后登陆时间', type: 'string')]
     public mixed $loginTime;
 
-    #[Property(property: 'backend_setting', title: '后台设置数据', type: 'string')]
+    #[Property(property: 'backend_setting', title: '后台设置数据', type: 'array')]
     public ?array $backendSetting;
 
     #[Property(property: 'created_by', title: '创建者', type: 'int')]

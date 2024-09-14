@@ -46,17 +46,6 @@ final class Menu extends MineModel
     use SoftDeletes;
 
     /**
-     * 类型.
-     */
-    public const LINK = 'L';
-
-    public const IFRAME = 'I';
-
-    public const MENUS_LIST = 'M';
-
-    public const BUTTON = 'B';
-
-    /**
      * The table associated with the model.
      */
     protected ?string $table = 'menu';

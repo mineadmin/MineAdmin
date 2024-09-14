@@ -18,7 +18,10 @@ type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
 }
 
-
+interface PageList<T> {
+  total: number,
+  list: T[]
+}
 
 interface ResponseStruct<T> {
   code: ResultCode

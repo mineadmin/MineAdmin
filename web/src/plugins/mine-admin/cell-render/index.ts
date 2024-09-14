@@ -13,7 +13,6 @@ import type { Plugin } from '#/global'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app: App) {
-    // // 加载mock
 
   },
   hooks: {
@@ -28,9 +27,6 @@ const pluginConfig: Plugin.PluginConfig = {
           render: (scope, options: any) => h(component.default, { scope, options }),
         })
       })
-
-      // 将./mock目录下的东西加载到mock上
-      // import('./mock')
     },
   },
   config: {

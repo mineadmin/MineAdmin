@@ -11,7 +11,7 @@ export interface Emits extends SwitchEmits {
 // 定义options类型,与ImageProps类型合并
 export interface Options extends Omit<Partial<SwitchProps>, 'loading' | 'beforeChange'>, WithOnEventListeners<Emits> {
   api: ((data) => Promise<any>) | string
-  beforeChange?: (newValue, row, scope) => boolean | Promise<boolean>
+  beforeChange?: (newValue, row, scope) => boolean | Promise<any>
 }
 
 export default defineComponent({

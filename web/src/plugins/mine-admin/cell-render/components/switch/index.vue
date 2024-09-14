@@ -71,3 +71,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped lang="scss">
+:deep(.el-icon) {
+  color: var(--el-text-color-regular);
+}
+</style>

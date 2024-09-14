@@ -10,34 +10,33 @@
 import useCache from '@/hooks/useCache.ts'
 import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
-import useHttp from "@/hooks/auto-imports/useHttp.ts";
+import useHttp from '@/hooks/auto-imports/useHttp.ts'
 
-
-export type LoginParams = {
-  username: string;
-  password: string;
+export interface LoginParams {
+  username: string
+  password: string
 }
 
-export type LoginResult = {
-  token: string;
-  expire_at: number;
+export interface LoginResult {
+  token: string
+  expire_at: number
 }
 
-export type UserInfo = {
-  username:string,
-  nickname:string,
-  avatar:string,
-  email:string,
-  signed:string,
-  dashboard:string,
-  backend_setting:any[],
+export interface UserInfo {
+  username: string
+  nickname: string
+  avatar: string
+  email: string
+  signed: string
+  dashboard: string
+  backend_setting: any[]
 }
 
-function getInfo():Promise<ResponseStruct<UserInfo>> {
+function getInfo(): Promise<ResponseStruct<UserInfo>> {
   return useHttp().get('/admin/passport/getInfo')
 }
 
-function logout():Promise<ResponseStruct<null>> {
+function logout(): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/passport/logout')
 }
 
@@ -45,7 +44,7 @@ function logout():Promise<ResponseStruct<null>> {
  * Passport login
  * @param data
  */
-function loginApi(data:LoginParams):Promise<ResponseStruct<LoginResult>> {
+function loginApi(data: LoginParams): Promise<ResponseStruct<LoginResult>> {
   return useHttp().post('/admin/passport/login', data)
 }
 
@@ -86,7 +85,7 @@ const useUserStore = defineStore(
 
     function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
-        loginApi(data).then(async res=>{
+        loginApi(data).then(async (res) => {
           token.value = res.data.token
           cache.set('token', res.data.token)
           cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
@@ -97,16 +96,16 @@ const useUserStore = defineStore(
     }
 
     async function requestUserInfo() {
-      getInfo().then(res=>{
+      getInfo().then((res) => {
         setUserInfo(res.data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
           setUserSetting(data.user?.backend_setting)
         }
-         usePluginStore().callHooks('getUserInfo', data.user)
-      }).catch(err=>{
-        logout();
+        usePluginStore().callHooks('getUserInfo', data.user)
+      }).catch((err) => {
+        logout()
       })
-      return ;
+      return
       const { data } = await useHttp().get('/mock/system/getInfo')
       data === null
         ? await logout()

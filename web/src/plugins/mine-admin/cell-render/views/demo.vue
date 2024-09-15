@@ -4,6 +4,7 @@ import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
 import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { useResourcePicker } from '@/hooks/useResourcePicker.ts'
 
 const message = useMessage()
 const proTableRef = ref()
@@ -41,14 +42,14 @@ const options: MaProTableOptions = reactive({
     fold: true,
   },
   requestOptions: {
-    api: (params: any) => {
-      return new Promise((resolve) => {
-        // 模拟网络延时
-        setTimeout(() => {
-          useHttp().get('/admin/attachment/list', { params }).then(resolve)
-        }, Math.floor(Math.random() * 900 + 100))
-      })
-    },
+    // api: (params: any) => {
+    //   return new Promise((resolve) => {
+    //     // 模拟网络延时
+    //     setTimeout(() => {
+    //       useHttp().get('/admin/attachment/list', { params }).then(resolve)
+    //     }, Math.floor(Math.random() * 900 + 100))
+    //   })
+    // },
     response: {
       dataKey: 'items',
     },
@@ -176,12 +177,21 @@ onMounted(() => {
 
 // 打印所有插件
 console.log(useProTableRenderPlugin().getPlugins())
+const dialogVisible = ref(false)
+function onClickx() {
+  useResourcePicker({
+    multiple: true,
+    limit: 2,
+  })
+}
 </script>
 
 <template>
   <div class="pt-2.5">
     <!--    <ma-pro-table :options="options" :schema="schema" /> -->
     <MaProTable ref="proTableRef" :options="options" :schema="schema" />
+    <el-button @click="onClickx" />
+    <!--    <MaResourceDialog v-model:visible="dialogVisible" /> -->
   </div>
 </template>
 

@@ -18,12 +18,12 @@ zh_TW:
 
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import { ElMessage } from 'element-plus'
-import { Delete, Search } from '@element-plus/icons-vue'
+import { ElButton, ElEmpty, ElIcon, ElImage, ElInput, ElMessage, ElPagination, ElSegmented, ElSkeleton, ElSkeletonItem, ElSpace, ElTag } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
+import { attachments } from '../../../mock/data/attachment'
 import type { FileType, Resource, ResourcePanelEmits, ResourcePanelProps } from './type.ts'
 
-import { useMessage } from '@/hooks/useMessage.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
@@ -36,12 +36,9 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
   dbClickConfirm: false,
 })
 
-// 事件等后续开发确认
 const emit = defineEmits<ResourcePanelEmits>()
 
 const modelValue = defineModel<Array<string | number> | string | number>()
-
-const message = useMessage()
 
 const fileTypes = ref<FileType[]>([
   { label: '所有', value: '', icon: 'ri:gallery-view-2', suffix: '' },
@@ -112,13 +109,11 @@ const skeletonNum = computed(() => {
 async function query(): Promise<void> {
   loading.value = true
   resources.value = []
-  return useHttp().get('/mock/attachment/list', { params: { ...queryParams.value } }).then(({ data }) => {
-    setTimeout(() => {
-      resources.value = data.items
-      total.value = data.total
-      loading.value = false
-    }, Math.floor(Math.random() * 900 + 100))
-  })
+  setTimeout(() => {
+    resources.value = attachments
+    total.value = attachments.length
+    loading.value = false
+  }, Math.floor(Math.random() * 900 + 100))
 }
 
 watch(queryParams, query, { deep: true, immediate: true })
@@ -212,7 +207,7 @@ function cancel() {
 }
 
 function confirm() {
-  emit('confirm', selectedKeys.value, selected.value)
+  emit('confirm', selected.value)
 }
 
 /**
@@ -278,14 +273,13 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
           useImageViewer([resource.url])
         },
       },
-      {
-        label: '下载',
-        icon: 'i-ri:download-line',
-        onClick: () => {
-          // 下载待接入
-        },
-      },
-
+      // {
+      //   label: '下载',
+      //   icon: 'i-ri:download-line',
+      //   onClick: () => {
+      //     // 下载待接入
+      //   },
+      // },
     ],
   })
 }
@@ -295,7 +289,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="flex justify-between">
       <div class="w-500px">
-        <el-segmented
+        <ElSegmented
           v-model="fileTypeSelected"
           :options="fileTypes"
           size="default"
@@ -308,16 +302,16 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
               <span>{{ item.label }}</span>
             </div>
           </template>
-        </el-segmented>
+        </ElSegmented>
         <!--        <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" /> -->
       </div>
 
       <div class="flex justify-end">
-        <el-input v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-[180px]">
+        <ElInput v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-[180px]">
           <template #suffix>
-            <el-icon><Search /></el-icon>
+            <ElIcon><Search /></ElIcon>
           </template>
-        </el-input>
+        </ElInput>
         <!--        <el-button bg> -->
         <!--          <template #icon> -->
         <!--            <ma-svg-icon name="ant-design:appstore-outlined" /> -->
@@ -328,7 +322,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     <div class="mt-2 min-h-0 flex-1">
       <OverlayScrollbarsComponent v-if="loading || resources.length" class="max-h-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap px-[2px] pt-[2px]">
-          <el-space fill wrap :fill-ratio="9">
+          <ElSpace fill wrap :fill-ratio="9">
             <template v-for="resource in resources" :key="resource.id">
               <div
                 class="resource-item"
@@ -339,7 +333,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
               >
                 <div class="resource-item__cover">
                   <template v-if="getCover(resource)">
-                    <el-image :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
+                    <ElImage :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
                       <template #error>
                         <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
                           <div class="cursor-default overflow-hidden text-ellipsis whitespace-pre-wrap">
@@ -347,7 +341,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                           </div>
                         </div>
                       </template>
-                    </el-image>
+                    </ElImage>
                   </template>
                   <template v-else>
                     <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
@@ -365,52 +359,28 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                 </div>
               </div>
             </template>
-            <el-skeleton v-for="i in skeletonNum" :key="i" class="resource-skeleton relative" animated>
+            <ElSkeleton v-for="i in skeletonNum" :key="i" class="resource-skeleton relative" animated>
               <template #template>
-                <el-skeleton-item class="absolute h-full w-full" variant="rect" />
+                <ElSkeletonItem class="absolute h-full w-full" variant="rect" />
               </template>
-            </el-skeleton>
+            </ElSkeleton>
             <div v-for="i in 10" :key="i" class="resource-placeholder" />
-          </el-space>
+          </ElSpace>
         </div>
       </OverlayScrollbarsComponent>
       <div v-else class="h-full w-full flex flex-1 items-center justify-center">
-        <el-empty />
+        <ElEmpty />
       </div>
     </div>
-    <div class="ma-resource-panel__footer flex justify-between">
+    <div class="ma-resource-panel__footer flex justify-between pt-2">
       <div class="flex items-center">
-        <el-popover placement="top-start" :disabled="!selectedKeys.length" width="auto">
-          <OverlayScrollbarsComponent class="max-h-300px w-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
-            <el-space direction="vertical" fill class="p-3">
-              <template v-for="resource in selected" :key="resource.id">
-                <div class="w-full flex">
-                  <div class="w-[240px] cursor-default overflow-hidden text-ellipsis whitespace-nowrap">
-                    {{ resource.origin_name }}
-                  </div>
-                  <el-button :icon="Delete" circle text type="danger" @click="unSelect(resource)" />
-                </div>
-              </template>
-            </el-space>
-          </OverlayScrollbarsComponent>
-          <template #reference>
-            <el-button class="mr-4" :disabled="!selectedKeys.length" text bg>
-              <span :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
-                {{ selectedKeys.length }}
-                <template v-if="props.multiple && props.limit">
-                  /{{ props.limit }}
-                </template>
-              </span>
-
-              <ma-svg-icon
-                class="ml-2 hover:color-[var(--el-color-danger)]"
-                name="ri:delete-bin-line" :size="16"
-                @click="clearSelected"
-              />
-            </el-button>
+        <ElTag v-if="props.multiple && props.limit" size="large" class="mr-2" :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
+          {{ selectedKeys.length }}
+          <template v-if="props.multiple && props.limit">
+            /{{ props.limit }}
           </template>
-        </el-popover>
-        <el-pagination
+        </ElTag>
+        <ElPagination
           v-model:current-page="queryParams.page"
           :disabled="loading"
           :total="total"
@@ -421,12 +391,12 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         />
       </div>
       <div>
-        <el-button @click="cancel">
+        <ElButton @click="cancel">
           取消
-        </el-button>
-        <el-button type="primary" @click="confirm">
+        </ElButton>
+        <ElButton type="primary" @click="confirm">
           确认
-        </el-button>
+        </ElButton>
       </div>
     </div>
   </div>

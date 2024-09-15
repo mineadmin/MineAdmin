@@ -331,8 +331,6 @@ declare namespace MineRoute {
     auth?: string[]
     role?: string[]
     user?: string[]
-    dept?: string[]
-    post?: string[]
   }
 }
 

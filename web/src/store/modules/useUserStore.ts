@@ -94,24 +94,25 @@ const useUserStore = defineStore(
       return dropdownMenuState.value[key] !== undefined ? dropdownMenuState.value[key] : undefined
     }
 
-    async function initRole() {
+    async function refreshRole() {
       const res = await PermissionApi.getRoles()
       setRoles(res.data)
     }
 
-    async function initPermission() {
+    async function refreshPermission() {
       const res = await PermissionApi.getMenus()
+      console.log(res.data)
       setMenu(res.data)
     }
 
-    function login(data: { username: string, password: string, code: string }) {
+    async function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
         loginApi(data).then(async (res) => {
           token.value = res.data.token
           cache.set('token', res.data.token)
           cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
-          await initRole()
-          await initPermission()
+          await refreshRole()
+          await refreshPermission()
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
         }).catch((error) => {

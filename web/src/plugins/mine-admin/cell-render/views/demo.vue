@@ -127,7 +127,7 @@ const schema: MaProTableSchema = reactive({
       prop: 'status',
       // cellRender: useCellRender().switch('/mock/switch/changeStatus'),
       cellRender: useCellRender().switch('/mock/attachment/list', {
-        beforeChange: (newValue, row, scope) => message.confirm(newValue === 1 ? '确定要启用吗？' : '确定要禁用吗？'),
+        beforeChange: (value, row, scope) => message.confirm(newValue === 2 ? '确定要启用吗？' : '确定要禁用吗？'),
       }),
     },
     { label: '创建时间', prop: 'created_at' },

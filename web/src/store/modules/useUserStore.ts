@@ -121,16 +121,20 @@ const useUserStore = defineStore(
         })
       })
     }
-    async function requestUserInfo(): void {
-      getInfo().then((res) => {
-        setUserInfo(res.data)
-        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
-          setUserSetting(data.user?.backend_setting)
+    async function requestUserInfo(): Promise<void> {
+      try {
+        const result = await getInfo()
+        const userInfo = result.data
+        setUserInfo(userInfo)
+        if ((setting.getSettings('app')?.loadUserSetting ?? true) && userInfo.backend_setting) {
+          setUserSetting(userInfo?.backend_setting)
         }
-        usePluginStore().callHooks('getUserInfo', data.user)
-      }).catch((err) => {
-        logout()
-      })
+        await usePluginStore().callHooks('getUserInfo', userInfo)
+      }
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      catch (e) {
+        await logout()
+      }
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
@@ -225,6 +229,8 @@ const useUserStore = defineStore(
       isLogin,
       login,
       logout,
+      getDropdownMenu,
+      getDropdownMenuState,
       setDropdownMenuState,
       clearCache,
       setLanguage,

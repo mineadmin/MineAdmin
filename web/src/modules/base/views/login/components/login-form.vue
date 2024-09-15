@@ -55,7 +55,6 @@ async function submit() {
   const userData = await userStore.login(form)
   const welcomePath = settingStore.getSettings('welcomePage').path ?? null
   const redirect = router.currentRoute.value.query?.redirect ?? undefined
-  console.log(welcomePath, redirect)
   if (userData) {
     await router.push({ path: redirect ?? welcomePath ?? '/' })
   }

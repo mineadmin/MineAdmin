@@ -67,9 +67,10 @@ final class QueueHandleListener implements ListenerInterface
                 $event instanceof RetryHandle => '[%s] Retried %s.',
                 default => null,
             };
-            if ($format) {
-                $this->isDebug() ? $this->logger->error(sprintf($format, $date, $jobClass)) : $this->stdoutLogger->error(sprintf($format, $date, $jobClass));
-            }
+            $this->log(
+                message: sprintf($format, $date, $jobClass),
+                level: 'debug'
+            );
         }
     }
 }

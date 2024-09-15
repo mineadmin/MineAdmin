@@ -85,7 +85,7 @@ final class UserController extends AbstractController
     #[Put(
         path: '/admin/user/password',
         operationId: 'updatePassword',
-        summary: '修改密码',
+        summary: '重置密码',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]

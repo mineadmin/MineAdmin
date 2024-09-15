@@ -45,7 +45,7 @@ const options: MaProTableOptions = reactive({
       return new Promise((resolve) => {
         // 模拟网络延时
         setTimeout(() => {
-          useHttp().get('/mock/attachment/list', { params }).then(resolve)
+          useHttp().get('/admin/attachment/list', { params }).then(resolve)
         }, Math.floor(Math.random() * 900 + 100))
       })
     },
@@ -126,7 +126,9 @@ const schema: MaProTableSchema = reactive({
       label: '状态',
       prop: 'status',
       // cellRender: useCellRender().switch('/mock/switch/changeStatus'),
-      cellRender: useCellRender().switch(data => useHttp().get('/mock/attachment/list', data)),
+      cellRender: useCellRender().switch('admin/attachment/list', {
+        beforeChange: (value, row, scope) => message.confirm(newValue === 2 ? '确定要启用吗？' : '确定要禁用吗？'),
+      }),
     },
     { label: '创建时间', prop: 'created_at' },
     { label: '更新时间', prop: 'updated_at' },

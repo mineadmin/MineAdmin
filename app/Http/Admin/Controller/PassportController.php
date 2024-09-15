@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Exception\BusinessException;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
@@ -21,7 +20,6 @@ use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Schema\UserSchema;
 use App\Service\PassportService;
-use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -99,7 +97,7 @@ final class PassportController extends AbstractController
     )]
     public function getInfo(): Result
     {
-        return $this->success(Arr::only(user()?->toArray(), ['username','nickname','avatar','signed','dashboard','backend_setting']));
+        return $this->success(Arr::only(user()?->toArray(), ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']));
     }
 
     #[Post(

@@ -38,7 +38,7 @@ class CreateUserTable extends Migration
             $table->json('backend_setting')->nullable()->comment('后台设置数据');
             $table->bigInteger('created_by')->default(0)->comment('创建者');
             $table->bigInteger('updated_by')->default(0)->comment('更新者');
-            $table->timestamps();
+            $table->datetimes();
             $table->softDeletes();
             $table->string('remark', 255)->default('')->comment('备注');
         });

@@ -10,8 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Model\Permission\Menu;
+use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
+use Mine\Kernel\Casbin\Rule\Rule;
 
 class MenuSeeder extends Seeder
 {
@@ -34,7 +36,21 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
+        Rule::truncate();
         Menu::truncate();
+        Role::truncate();
+        Role::create([
+            'name' => '超级管理员（创始人）',
+            'code' => 'SuperAdmin',
+            'data_scope' => 0,
+            'sort' => 0,
+            'created_by' => env('SUPER_ADMIN', 0),
+            'updated_by' => 0,
+            'status' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+            'remark' => '系统内置角色，不可删除',
+        ]);
         if (env('DB_DRIVER') === 'odbc-sql-server') {
             Db::unprepared('SET IDENTITY_INSERT [' . Menu::getModel()->getTable() . '] ON;');
         }
@@ -352,271 +368,6 @@ class MenuSeeder extends Seeder
                 ],
             ],
             [
-                'name' => '数据',
-                'code' => 'dataCenter',
-                'icon' => 'icon-storage',
-                'route' => 'dataCenter',
-                'is_hidden' => '2',
-                'type' => 'M',
-                'children' => [
-                    [
-                        'name' => '数据字典',
-                        'code' => 'dataCenter:dict',
-                        'icon' => 'ma-icon-dict',
-                        'route' => 'dict',
-                        'component' => 'dataCenter/dict/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '数据字典列表',
-                                'code' => 'dataCenter:dict:index',
-                            ],
-                            [
-                                'name' => '数据字典回收站',
-                                'code' => 'dataCenter:dict:recycle',
-                            ],
-                            [
-                                'name' => '数据字典保存',
-                                'code' => 'dataCenter:dict:save',
-                            ],
-                            [
-                                'name' => '数据字典更新',
-                                'code' => 'dataCenter:dict:update',
-                            ],
-                            [
-                                'name' => '数据字典删除',
-                                'code' => 'dataCenter:dict:delete',
-                            ],
-                            [
-                                'name' => '数据字典读取',
-                                'code' => 'dataCenter:dict:read',
-                            ],
-                            [
-                                'name' => '数据字典恢复',
-                                'code' => 'dataCenter:dict:recovery',
-                            ],
-                            [
-                                'name' => '数据字典真实删除',
-                                'code' => 'dataCenter:dict:realDelete',
-                            ],
-                            [
-                                'name' => '数据字典导入',
-                                'code' => 'dataCenter:dict:import',
-                            ],
-                            [
-                                'name' => '数据字典导出',
-                                'code' => 'dataCenter:dict:export',
-                            ],
-                            [
-                                'name' => '字典状态改变',
-                                'code' => 'dataCenter:dict:changeStatus',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '附件管理',
-                        'code' => 'dataCenter:attachment',
-                        'icon' => 'ma-icon-attach',
-                        'route' => 'attachment',
-                        'component' => 'dataCenter/attachment/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '附件列表',
-                                'code' => 'dataCenter:attachment:index',
-                            ],
-                            [
-                                'name' => '附件删除',
-                                'code' => 'dataCenter:attachment:delete',
-                            ],
-                            [
-                                'name' => '附件回收站',
-                                'code' => 'dataCenter:attachment:recycle',
-                            ],
-                            [
-                                'name' => '附件真实删除',
-                                'code' => 'dataCenter:attachment:realDelete',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '数据表维护',
-                        'code' => 'dataCenter:dataMaintain',
-                        'icon' => 'ma-icon-db',
-                        'route' => 'dataMaintain',
-                        'component' => 'dataCenter/dataMaintain/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '数据表列表',
-                                'code' => 'dataCenter:dataMaintain:index',
-                            ],
-                            [
-                                'name' => '数据表详细',
-                                'code' => 'dataCenter:dataMaintain:detailed',
-                            ],
-                            [
-                                'name' => '数据表清理碎片',
-                                'code' => 'dataCenter:dataMaintain:fragment',
-                            ],
-                            [
-                                'name' => '数据表优化',
-                                'code' => 'dataCenter:dataMaintain:optimize',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '系统公告',
-                        'code' => 'dataCenter:notice',
-                        'icon' => 'icon-bulb',
-                        'route' => 'notice',
-                        'component' => 'dataCenter/notice/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '系统公告列表',
-                                'code' => 'dataCenter:notice:index',
-                            ],
-                            [
-                                'name' => '系统公告回收站',
-                                'code' => 'dataCenter:notice:recycle',
-                            ],
-                            [
-                                'name' => '系统公告保存',
-                                'code' => 'dataCenter:notice:save',
-                            ],
-                            [
-                                'name' => '系统公告更新',
-                                'code' => 'dataCenter:notice:update',
-                            ],
-                            [
-                                'name' => '系统公告删除',
-                                'code' => 'dataCenter:notice:delete',
-                            ],
-                            [
-                                'name' => '系统公告读取',
-                                'code' => 'dataCenter:notice:read',
-                            ],
-                            [
-                                'name' => '系统公告恢复',
-                                'code' => 'dataCenter:notice:recovery',
-                            ],
-                            [
-                                'name' => '系统公告真实删除',
-                                'code' => 'dataCenter:notice:realDelete',
-                            ],
-                            [
-                                'name' => '系统公告导入',
-                                'code' => 'dataCenter:notice:import',
-                            ],
-                            [
-                                'name' => '系统公告导出',
-                                'code' => 'dataCenter:notice:export',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'name' => '监控',
-                'code' => 'monitor',
-                'icon' => 'icon-desktop',
-                'route' => 'monitor',
-                'is_hidden' => '2',
-                'type' => 'M',
-                'children' => [
-                    [
-                        'name' => '服务监控',
-                        'code' => 'system:monitor:server',
-                        'icon' => 'icon-thunderbolt',
-                        'route' => 'server',
-                        'component' => 'system/monitor/server/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                    ],
-                    [
-                        'name' => '缓存监控',
-                        'code' => 'system:cache',
-                        'icon' => 'icon-dice',
-                        'route' => 'cache',
-                        'component' => 'system/monitor/cache/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '获取Redis信息',
-                                'code' => 'system:cache:monitor',
-                            ],
-                            [
-                                'name' => '删除一个缓存',
-                                'code' => 'system:cache:delete',
-                            ],
-                            [
-                                'name' => '清空所有缓存',
-                                'code' => 'system:cache:clear',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '日志监控',
-                        'code' => 'logs',
-                        'icon' => 'icon-book',
-                        'route' => 'logs',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '登录日志',
-                                'code' => 'system:loginLog',
-                                'icon' => 'icon-idcard',
-                                'route' => 'loginLog',
-                                'component' => 'system/logs/loginLog',
-                                'is_hidden' => '2',
-                                'type' => 'M',
-                            ],
-                            [
-                                'name' => '登录日志删除',
-                                'code' => 'system:loginLog:delete',
-                            ],
-                            [
-                                'name' => '操作日志',
-                                'code' => 'system:operLog',
-                                'icon' => 'icon-robot',
-                                'route' => 'operLog',
-                                'component' => 'system/logs/operLog',
-                                'is_hidden' => '2',
-                                'type' => 'M',
-                            ],
-                            [
-                                'name' => '操作日志删除',
-                                'code' => 'system:operLog:delete',
-                            ],
-                            [
-                                'name' => '在线用户',
-                                'code' => 'system:onlineUser',
-                                'icon' => 'ma-icon-online',
-                                'route' => 'onlineUser',
-                                'component' => 'system/monitor/onlineUser/index',
-                                'is_hidden' => '2',
-                                'type' => 'M',
-                            ],
-                            [
-                                'name' => '在线用户列表',
-                                'code' => 'system:onlineUser:index',
-                            ],
-                            [
-                                'name' => '强退用户',
-                                'code' => 'system:onlineUser:kick',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
                 'name' => '工具',
                 'code' => 'devTools',
                 'icon' => 'ma-icon-tool',
@@ -702,37 +453,6 @@ class MenuSeeder extends Seeder
                         'component' => 'setting/systemInterface/index',
                         'is_hidden' => '2',
                         'type' => 'M',
-                    ],
-                ],
-            ],
-            [
-                'name' => '系统设置',
-                'code' => 'setting:config',
-                'icon' => 'icon-settings',
-                'route' => 'system',
-                'component' => 'setting/config/index',
-                'is_hidden' => '2',
-                'type' => 'M',
-                'children' => [
-                    [
-                        'name' => '配置列表',
-                        'code' => 'setting:config:index',
-                    ],
-                    [
-                        'name' => '新增配置 ',
-                        'code' => 'setting:config:save',
-                    ],
-                    [
-                        'name' => '更新配置',
-                        'code' => 'setting:config:update',
-                    ],
-                    [
-                        'name' => '删除配置',
-                        'code' => 'setting:config:delete',
-                    ],
-                    [
-                        'name' => '清除配置缓存',
-                        'code' => 'setting:config:clearCache',
                     ],
                 ],
             ],

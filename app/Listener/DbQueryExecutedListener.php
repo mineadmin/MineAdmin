@@ -61,8 +61,10 @@ final class DbQueryExecutedListener implements ListenerInterface
                     $position += strlen($value);
                 }
             }
-            $format = sprintf('[%s:%s] %s', $event->connectionName, $event->time, $sql);
-            $this->isDebug() ? $this->logger->info($format) : $this->stdoutLogger->info($format);
+            $this->log(
+                message: sprintf('[%s:%s] %s', $event->connectionName, $event->time, $sql),
+                level: 'debug'
+            );
         }
     }
 }

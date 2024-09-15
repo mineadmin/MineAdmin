@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Constants\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
@@ -43,17 +44,6 @@ use Mine\Kernel\Casbin\Rule\Rule;
 final class Menu extends MineModel
 {
     use SoftDeletes;
-
-    /**
-     * 类型.
-     */
-    public const LINK = 'L';
-
-    public const IFRAME = 'I';
-
-    public const MENUS_LIST = 'M';
-
-    public const BUTTON = 'B';
 
     /**
      * The table associated with the model.
@@ -90,6 +80,10 @@ final class Menu extends MineModel
 
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
+        return $this
+            ->hasMany(Menu::class, 'parent_id', 'id')
+            ->where('status', Status::ENABLE)
+            ->orderBy('sort')
+            ->with('children');
     }
 }

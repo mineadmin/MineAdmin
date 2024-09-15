@@ -9,7 +9,5 @@
  */
 export * from './copy'
 export * from './permission/auth'
-export * from './permission/dept'
-export * from './permission/post'
 export * from './permission/role'
 export * from './permission/user'

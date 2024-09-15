@@ -18,7 +18,7 @@ use App\Service\IService;
 use Hyperf\Collection\Arr;
 
 /**
- * @extends IService<UserRepository>
+ * @extends IService<UserRepository<User>>
  */
 final class UserService extends IService
 {
@@ -57,6 +57,5 @@ final class UserService extends IService
         });
         // @phpstan-ignore-next-line
         $entity->roles()->sync($syncData);
-        var_dump($entity->roles()->pluck('role.id'));
     }
 }

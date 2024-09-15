@@ -34,13 +34,11 @@ export interface UserInfo {
   backend_setting: any[]
 }
 
-const mode = import.meta.env.MODE
-
 function getInfo(): Promise<ResponseStruct<UserInfo>> {
-  return useHttp().get(mode === 'mock' ? '/mock/system/getInfo' : '/admin/passport/getInfo')
+  return useHttp().get('/admin/passport/getInfo')
 }
 
-function logout(): Promise<ResponseStruct<null>> {
+function logoutApi(): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/passport/logout')
 }
 
@@ -49,7 +47,7 @@ function logout(): Promise<ResponseStruct<null>> {
  * @param data
  */
 function loginApi(data: LoginParams): Promise<ResponseStruct<LoginResult>> {
-  return useHttp().post(mode === 'mock' ? '/mock/system/login' : '/admin/passport/login', data)
+  return useHttp().post('/admin/passport/login', data)
 }
 
 const useUserStore = defineStore(
@@ -111,7 +109,7 @@ const useUserStore = defineStore(
         loginApi(data).then(async (res) => {
           token.value = res.data.token
           cache.set('token', res.data.token)
-          cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
+          cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
           await initRole()
           await initPermission()
           await usePluginStore().callHooks('login', res.data)
@@ -123,22 +121,22 @@ const useUserStore = defineStore(
     }
     async function requestUserInfo(): Promise<void> {
       try {
-        const result = await getInfo()
-        const userInfo = result.data
-        setUserInfo(userInfo)
-        if ((setting.getSettings('app')?.loadUserSetting ?? true) && userInfo.backend_setting) {
-          setUserSetting(userInfo?.backend_setting)
+        const { data } = await getInfo()
+        setUserInfo(data)
+        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
+          setUserSetting(data?.backend_setting)
         }
-        await usePluginStore().callHooks('getUserInfo', userInfo)
+        await usePluginStore().callHooks('getUserInfo', data)
       }
       // eslint-disable-next-line unused-imports/no-unused-vars
       catch (e) {
-        await logout()
+        await logoutApi()
       }
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
       await usePluginStore().callHooks('logout')
+      await logoutApi()
       clearInfo()
       await router.push({
         name: 'login',
@@ -202,7 +200,7 @@ const useUserStore = defineStore(
 
     function saveSettingToSever() {
       const settings = setting.getSettings()
-      useHttp().post('/mock/system/saveSetting', settings).then((response: ResponseStruct) => {
+      useHttp().post('/mock/system/saveSetting', settings).then(() => {
         cache.set('sys_settings', settings)
       }).catch((error) => {
         console.log(error)
@@ -237,6 +235,7 @@ const useUserStore = defineStore(
       getLanguage,
       requestUserInfo,
       getUserInfo,
+      setPermissions,
       getPermissions,
       getRoles,
       getLocales,

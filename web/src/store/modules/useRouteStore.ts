@@ -20,7 +20,7 @@ const useRouteStore = defineStore(
     // 原始路由
     const routesRaw = ref<RouteRecordRaw[]>([])
     const flatteningRoutesList = ref<RouteRecordRaw[]>([])
-    async function initRoutes(router: Router, routes: RouteRecordRaw[]) {
+    async function initRoutes(router: Router, routes: any[]) {
       const MineRootLayoutRoute = getMineRootLayoutRoute()
 
       router.hasRoute('MineRootLayoutRoute') && router.removeRoute('MineRootLayoutRoute')

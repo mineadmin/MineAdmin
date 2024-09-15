@@ -27,7 +27,6 @@ router.beforeEach(async (to, from, next) => {
   const routeStore = useRouteStore()
   isLoading.value = true
   if (userStore.isLogin) {
-    console.log(to.name, 11111)
     if (to.name === 'login') {
       next({
         path: settingStore.getSettings('welcomePage').path,
@@ -40,7 +39,6 @@ router.beforeEach(async (to, from, next) => {
       next({ path: to.fullPath })
     }
     else {
-      console.log()
       next()
     }
   }

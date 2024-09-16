@@ -79,7 +79,15 @@ const pluginConfig: Plugin.PluginConfig = {
           path: '/demo/pro-table',
           component: () => import('./views/pro-table/index.vue'),
           meta: {
-            title: '完整表格示例',
+            title: '表格示例',
+          },
+        },
+        {
+          name: 'demo-form',
+          path: '/demo/form',
+          component: () => import('./views/form/index.vue'),
+          meta: {
+            title: '表单示例',
           },
         },
       ],

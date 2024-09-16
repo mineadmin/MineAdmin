@@ -20,7 +20,7 @@ class CreateMenuTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('menu', function (Blueprint $table) {
+        Schema::create('menu', static function (Blueprint $table) {
             $table->comment('菜单信息表');
             $table->bigIncrements('id')->comment('主键');
             $table->bigInteger('parent_id')->unsigned()->comment('父ID');
@@ -28,12 +28,12 @@ class CreateMenuTable extends Migration
             $table->json('meta')->comment('附加属性')->nullable();
             $table->char('path', 60)->default('')->comment('路径');
             $table->string('component', 150)->default('')->comment('组件路径');
-            $table->char('redirect',100)->comment('重定向地址')->default('');
+            $table->char('redirect', 100)->comment('重定向地址')->default('');
             $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();
             $table->datetimes();
-            $table->char('remark',60)->comment('备注')->default('');
+            $table->char('remark', 60)->comment('备注')->default('');
         });
     }
 

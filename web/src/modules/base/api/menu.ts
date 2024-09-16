@@ -25,7 +25,7 @@ export function create(data: Menu): Promise<ResponseStruct<null>> {
 }
 
 export function save(id: number, data: Menu): Promise<ResponseStruct<null>> {
-  return useHttp().put(`/admin/menu/${id}`, data)
+    return useHttp().put(`/admin/menu/${id}`, data)
 }
 
 export function deleteByIds(ids: number): Promise<ResponseStruct<null>> {

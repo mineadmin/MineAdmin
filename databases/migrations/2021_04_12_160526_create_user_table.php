@@ -20,7 +20,7 @@ class CreateUserTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('user', static function (Blueprint $table) {
             $table->comment('用户信息表');
             $table->bigIncrements('id')->comment('用户ID，主键');
             $table->string('username', 20)->unique()->comment('用户名');
@@ -38,7 +38,7 @@ class CreateUserTable extends Migration
             $table->json('backend_setting')->nullable()->comment('后台设置数据');
             $table->authorBy();
             $table->datetimes();
-            
+
             $table->string('remark', 255)->default('')->comment('备注');
         });
     }

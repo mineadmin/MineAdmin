@@ -20,8 +20,7 @@ class CreateRoleTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('role', function (Blueprint $table) {
-            
+        Schema::create('role', static function (Blueprint $table) {
             $table->comment('角色信息表');
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'name', ['length' => 30, 'comment' => '角色名称']);
@@ -39,7 +38,7 @@ class CreateRoleTable extends Migration
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();
             $table->datetimes();
-            
+
             $table->string('remark')->comment('备注')->default('');
         });
     }

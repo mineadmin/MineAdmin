@@ -20,11 +20,10 @@ class CreateAttachmentTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('attachment', function (Blueprint $table) {
-            
+        Schema::create('attachment', static function (Blueprint $table) {
             $table->comment('上传文件信息表');
             $table->bigIncrements('id')->comment('主键');
-            $table->addColumn('string', 'storage_mode', ['length'=>20,'comment' => '存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)'])->default('local');
+            $table->addColumn('string', 'storage_mode', ['length' => 20, 'comment' => '存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)'])->default('local');
             $table->addColumn('string', 'origin_name', ['length' => 255, 'comment' => '原文件名'])->nullable();
             $table->addColumn('string', 'object_name', ['length' => 50, 'comment' => '新文件名'])->nullable();
             $table->addColumn('string', 'hash', ['length' => 64, 'comment' => '文件hash'])->nullable();

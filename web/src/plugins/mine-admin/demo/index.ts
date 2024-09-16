@@ -63,6 +63,28 @@ const pluginConfig: Plugin.PluginConfig = {
     //   console.log('demo 插件的网络返回钩子，此次返回信息：', response)
     // },
   },
+  views: [
+    {
+      name: 'demo',
+      path: '/demo',
+      meta: {
+        title: '开发示例',
+        // badge: () => 1,
+        hidden: false,
+        copyright: false,
+      },
+      children: [
+        {
+          name: 'demo-pro-table',
+          path: '/demo/pro-table',
+          component: () => import('./views/pro-table/index.vue'),
+          meta: {
+            title: '完整表格示例',
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export default pluginConfig

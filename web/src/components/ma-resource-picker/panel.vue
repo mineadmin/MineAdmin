@@ -52,6 +52,8 @@ const modelValue = defineModel<Array<string | number> | string | number>()
 const fileTypeSelected = ref(props.defaultFileType ?? '')
 const returnType = 'url'
 
+const fileTypes: FileTypes = computed(() => props.fileTypes)
+
 /**
  * 加载状态
  */
@@ -107,7 +109,7 @@ const skeletonNum = computed(() => {
 
 function onfileTypesChange(value) {
   fileTypeSelected.value = value
-  queryParams.value.suffix = props.fileTypes.value?.find(i => i.value === value)?.suffix || []
+  queryParams.value.suffix = fileTypes.value?.find(i => i.value === value)?.suffix || []
 }
 
 /**
@@ -136,11 +138,11 @@ function getLabel(key) {
  * 获取封面
  * @param resource
  */
-function getCover(resource: Resource) {
+function getCover(resource: Resource): string | undefined {
   if (resource.mime_type.startsWith('image')) {
     return resource.url
   }
-  return null
+  return undefined
 }
 
 /**

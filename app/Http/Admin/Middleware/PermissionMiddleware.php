@@ -71,16 +71,16 @@ final class PermissionMiddleware implements MiddlewareInterface
         $allPermissionCode = $enforce->getImplicitPermissionsForUser($username);
         if (Arr::isList($allPermissionCode)) {
             $result = [];
-            array_walk_recursive($allPermissionCode, function ($value) use (&$result) {
+            array_walk_recursive($allPermissionCode, static function ($value) use (&$result) {
                 $result[] = $value;
             });
             $allPermissionCode = $result;
         }
         foreach ($codes as $code) {
-            if ($operation === Permission::OPERATION_AND && ! in_array($code, $allPermissionCode, true)) {
+            if ($operation === Permission::OPERATION_AND && ! \in_array($code, $allPermissionCode, true)) {
                 throw new BusinessException(code: ResultCode::FORBIDDEN);
             }
-            if ($operation === Permission::OPERATION_OR && in_array($code, $allPermissionCode, true)) {
+            if ($operation === Permission::OPERATION_OR && \in_array($code, $allPermissionCode, true)) {
                 return;
             }
         }

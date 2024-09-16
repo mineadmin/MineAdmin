@@ -28,7 +28,7 @@ final class Permission extends AbstractAnnotation
 
     public function getCode(): array
     {
-        return is_array($this->code) ? $this->code : [$this->code];
+        return \is_array($this->code) ? $this->code : [$this->code];
     }
 
     public function getOperation(): string

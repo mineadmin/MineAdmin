@@ -92,7 +92,7 @@ abstract class IRepository
      */
     public function saveById(mixed $id, array $data): mixed
     {
-        return value(function (Model $model, mixed $id, array $data) {
+        return value(static function (Model $model, mixed $id, array $data) {
             return $model->newModelQuery()->whereKey($id)->first()?->fill($data)->save();
         }, $this->model, $id, $data);
     }

@@ -34,10 +34,8 @@ class CreateAttachmentTable extends Migration
             $table->addColumn('bigInteger', 'size_byte', ['length' => 20, 'comment' => '字节数'])->nullable();
             $table->addColumn('string', 'size_info', ['length' => 50, 'comment' => '文件大小'])->nullable();
             $table->addColumn('string', 'url', ['length' => 255, 'comment' => 'url地址'])->nullable();
-            $table->bigInteger('created_by')->comment('创建者')->default(0);
-            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->authorBy();
             $table->datetimes();
-            $table->softDeletes();
             $table->string('remark')->comment('备注')->default('');
             $table->index('storage_path');
             $table->unique('hash');

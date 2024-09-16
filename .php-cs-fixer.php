@@ -14,9 +14,14 @@ return (new PhpCsFixer\Config())
     ->setParallelConfig(new PhpCsFixer\Runner\Parallel\ParallelConfig(8, 24))
     ->setRules([
         '@PSR2' => true,
+        '@PhpCsFixer:risky' => true,
+        '@PSR12' => true,
+        '@PER-CS2.0' => true,
         '@Symfony' => true,
         '@DoctrineAnnotation' => true,
+        '@Symfony:risky' => true,
         '@PhpCsFixer' => true,
+        '@PHP81Migration' => true,
         'header_comment' => [
             'comment_type' => 'PHPDoc',
             'header' => $header,
@@ -81,6 +86,12 @@ return (new PhpCsFixer\Config())
         'single_quote' => true,
         'standardize_not_equals' => true,
         'multiline_comment_opening_closing' => true,
+        'mb_str_functions' => true,
+        'set_type_to_cast' => true,
+        'no_multiline_whitespace_around_double_arrow' => true,
+        'normalize_index_brace'    => true,
+        'return_to_yield_from'  =>  true,
+        'class_keyword' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

@@ -78,25 +78,29 @@ final class MenuSchema implements \JsonSerializable
         $this->id = $model->id;
         $this->parentId = $model->parent_id;
         $this->name = $model->name;
-        $this->code = $model->code;
-        $this->icon = $model->icon;
-        $this->route = $model->route;
         $this->component = $model->component;
         $this->redirect = $model->redirect;
-        $this->isHidden = $model->is_hidden;
-        $this->type = $model->type;
         $this->status = $model->status;
         $this->sort = $model->sort;
         $this->createdBy = $model->created_by;
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
-        $this->deletedAt = $model->deleted_at;
         $this->remark = $model->remark;
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'parent_id' => $this->parentId, 'name' => $this->name, 'code' => $this->code, 'icon' => $this->icon, 'route' => $this->route, 'component' => $this->component, 'redirect' => $this->redirect, 'is_hidden' => $this->isHidden, 'type' => $this->type, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return [
+            'id' => $this->id,
+            'parent_id' => $this->parentId,
+            'name' => $this->name,
+            'code' => $this->code,
+            'icon' => $this->icon,
+            'route' => $this->route,
+            'component' => $this->component,
+            'redirect' => $this->redirect,
+            'is_hidden' => $this->isHidden,
+            'type' => $this->type, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
     }
 }

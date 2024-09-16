@@ -49,7 +49,7 @@ final class FailToHandleListener implements ListenerInterface
     public function process(object $event): void
     {
         $this->log(
-            message: sprintf('%s Command failed to handle, %s', $event->getCommand()->getName(), $this->formatter->format($event->getThrowable())),
+            message: \sprintf('%s Command failed to handle, %s', $event->getCommand()->getName(), $this->formatter->format($event->getThrowable())),
             level: 'debug'
         );
     }

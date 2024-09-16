@@ -37,10 +37,9 @@ class CreateRoleTable extends Migration
             )->nullable();
             $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
-            $table->bigInteger('created_by')->comment('创建者')->default(0);
-            $table->bigInteger('updated_by')->comment('更新者')->default(0);
+            $table->authorBy();
             $table->datetimes();
-            $table->softDeletes();
+            
             $table->string('remark')->comment('备注')->default('');
         });
     }

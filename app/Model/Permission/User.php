@@ -91,7 +91,7 @@ final class User extends Model
 
     public function setPasswordAttribute($value): void
     {
-        $this->attributes['password'] = password_hash((string) $value, PASSWORD_DEFAULT);
+        $this->attributes['password'] = password_hash((string) $value, \PASSWORD_DEFAULT);
     }
 
     public function verifyPassword(string $password): bool
@@ -124,7 +124,7 @@ final class User extends Model
 
     public function getMenus(): Collection
     {
-        return $this->roles()->get()->map(function (Role $role) {
+        return $this->roles()->get()->map(static function (Role $role) {
             return $role->menus()->get();
         })->flatten();
     }

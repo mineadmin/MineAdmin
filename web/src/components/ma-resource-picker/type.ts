@@ -15,7 +15,6 @@ export interface Resource {
   url: string
 }
 
-// Define the interface for FileType
 export interface FileType extends MTabsOptionItems<string> {
   value: string
   label: string
@@ -27,20 +26,19 @@ export interface ResourcePanelProps {
   multiple?: boolean
   limit?: number
   pageSize?: number
-  returnType?: 'id' | 'url' | 'hash'
   dbClickConfirm?: boolean
+  defaultFileType?: string
+  fileTypes?: FileType[]
 }
 
-// 定义 Emit 事件的类型
-interface ResourcePanelEmitEvents {
-  cancel: void
-  confirm: [selectedResources: Resource[]] // 使用数组包裹参数，表示参数列表
+export interface ResourcePanelEmits {
+  cancel: () => void
+  confirm: (value: Resource[]) => void
 }
-
-export type ResourcePanelEmits = ResourcePanelEmitEvents
-
-export type ResourcePickerEmits = ResourcePanelEmitEvents & DialogEmits
 
 export interface ResourcePickerProps extends ResourcePanelProps {
-  visible?: boolean
+  visible: boolean
+}
+export interface ResourcePickerEmits extends ResourcePanelEmits, DialogEmits {
+
 }

@@ -12,22 +12,23 @@
 import { ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
 import MaResourcePanel from './panel.vue'
-import type { ResourcePickerEmits } from '@/components/ma-resource-picker/type.ts'
+import type { Resource } from './type.ts'
 
 defineOptions({ name: 'MaResourcePicker' })
 
-const emit = defineEmits<ResourcePickerEmits>()
-
+const emit = defineEmits<{
+  cancel: []
+  confirm: [selected: Resource[]]
+}>()
 const dialogVisible = defineModel<boolean>('visible')
-
 function onCancel() {
   dialogVisible.value = false
   emit('cancel')
 }
 
-function onConfirm(data: any[]) {
+function onConfirm(selected: any[]) {
   dialogVisible.value = false
-  emit('confirm', data)
+  emit('confirm', selected)
 }
 
 // 获得所有attrs
@@ -45,7 +46,7 @@ const attrs = omit(useAttrs(), ['onConfirm', 'onCancel'])
     align-center
   >
     <div class="h-[595px]">
-      <MaResourcePanel v-bind="attrs" @cancel.stop="onCancel" @confirm.stop="onConfirm" />
+      <MaResourcePanel v-bind="attrs" @cancel="onCancel" @confirm="onConfirm" />
     </div>
   </ElDialog>
 </template>

@@ -22,7 +22,7 @@ import { ElButton, ElEmpty, ElIcon, ElImage, ElInput, ElMessage, ElPagination, E
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import { attachments } from '../../../mock/data/attachment'
-import type { FileType, Resource, ResourcePanelEmits, ResourcePanelProps } from './type.ts'
+import type { Resource, ResourcePanelProps } from './type.ts'
 
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 
@@ -32,23 +32,25 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
   pageSize: 40,
-  returnType: 'url',
   dbClickConfirm: false,
+  fileTypes: () => [
+    { label: '所有', value: '', icon: 'ri:gallery-view-2', suffix: '' },
+    { label: '图片', value: 'image', icon: 'ri:image-line', suffix: 'png,jpg,jpeg,gif,bmp' },
+    { label: '视频', value: 'video', icon: 'ri:folder-video-line', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
+    { label: '音频', value: 'audio', icon: 'ri:file-music-line', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
+    { label: '文档', value: 'document', icon: 'ri:file-text-line', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
+    // { label: '压缩包', value: 'package', icon: 'ri:folder-zip-line', suffix: 'zip,rar,7z,tar,gz' },
+  ],
 })
 
-const emit = defineEmits<ResourcePanelEmits>()
-
+const emit = defineEmits<{
+  cancel: []
+  confirm: [selected: Resource[]]
+}>()
 const modelValue = defineModel<Array<string | number> | string | number>()
 
-const fileTypes = ref<FileType[]>([
-  { label: '所有', value: '', icon: 'ri:gallery-view-2', suffix: '' },
-  { label: '图片', value: 'image', icon: 'ri:image-line', suffix: 'png,jpg,jpeg,gif,bmp' },
-  { label: '视频', value: 'video', icon: 'ri:folder-video-line', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
-  { label: '音频', value: 'audio', icon: 'ri:file-music-line', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
-  { label: '文档', value: 'document', icon: 'ri:file-text-line', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
-  { label: '压缩包', value: 'package', icon: 'ri:folder-zip-line', suffix: 'zip,rar,7z,tar,gz' },
-])
-const fileTypeSelected = ref('')
+const fileTypeSelected = ref(props.defaultFileType ?? '')
+const returnType = 'url'
 
 /**
  * 加载状态
@@ -93,7 +95,7 @@ const queryParams = ref({
   page: 1,
   pageSize: props.pageSize,
   origin_name: '',
-  suffix: '',
+  suffix: [],
 })
 
 /**
@@ -102,6 +104,11 @@ const queryParams = ref({
 const skeletonNum = computed(() => {
   return loading.value ? queryParams.value.pageSize : 0
 })
+
+function onfileTypesChange(value) {
+  fileTypeSelected.value = value
+  queryParams.value.suffix = props.fileTypes.value?.find(i => i.value === value)?.suffix || []
+}
 
 /**
  * 资源查询方法
@@ -151,7 +158,7 @@ function getIcon(resource: Resource) {
  * @param resource
  */
 function isSelected(resource: Resource) {
-  const key: string | number = resource[props.returnType]
+  const key: string | number = resource[returnType]
   return selectedKeys.value.includes(key)
 }
 
@@ -167,7 +174,7 @@ function canPreview(resource: Resource) {
  * 选中资源
  */
 function select(resource: Resource) {
-  const key: string | number = resource[props.returnType]
+  const key: string | number = resource[returnType]
   // 单选
   if (props.multiple) {
     // 判断是否上限
@@ -175,7 +182,7 @@ function select(resource: Resource) {
       return ElMessage.warning(`最多选择${props.limit}个`)
     }
     selectedKeys.value.push(key)
-    if (!selected.value.find(i => i[props.returnType] === key)) {
+    if (!selected.value.find(i => i[returnType] === key)) {
       selected.value.push(resource)
     }
   }
@@ -189,9 +196,9 @@ function select(resource: Resource) {
  * 取消选中
  */
 function unSelect(resource: Resource) {
-  const key: string | number = resource[props.returnType]
+  const key: string | number = resource[returnType]
   selectedKeys.value = selectedKeys.value.filter(i => i !== key)
-  selected.value = selected.value.filter(i => i[props.returnType] !== key)
+  selected.value = selected.value.filter(i => i[returnType] !== key)
 }
 
 /**
@@ -288,13 +295,13 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="flex justify-between">
-      <div class="w-500px">
+      <div>
         <ElSegmented
           v-model="fileTypeSelected"
           :options="fileTypes"
           size="default"
           block
-          @change="(value:string) => queryParams.suffix = fileTypes.find(i => i.value === value)?.suffix || ''"
+          @change="onfileTypesChange"
         >
           <template #default="{ item }">
             <div class="flex items-center justify-center">

@@ -37,7 +37,6 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  */
 final class Attachment extends MineModel
 {
-    use SoftDeletes;
 
     /**
      * The table associated with the model.

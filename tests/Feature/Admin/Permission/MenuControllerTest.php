@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin\Permission;
 
 use App\Model\Permission\Menu;
+use App\Model\Permission\Meta;
 use Hyperf\Stringable\Str;
 use HyperfTests\Feature\Admin\CrudControllerCase;
 
@@ -27,22 +28,36 @@ class MenuControllerTest extends CrudControllerCase
         $this->casePageList('/admin/menu/list', 'menu:list');
     }
 
+    protected function generatorMeta()
+    {
+        return new Meta([
+            'title' => Str::random(10),
+            'i18n' => Str::random(10),
+            'badge' => Str::random(10),
+            'icon' => Str::random(10),
+            'affix' => rand(0, 1),
+            'hidden' => rand(0, 1),
+            'type' => Str::random(10),
+            'cache' => rand(0, 1),
+            'link' => Str::random(10),
+        ]);
+    }
+
     public function testCreate(): void
     {
         $this->caseCreate('/admin/menu', 'menu:create', [
             'parent_id' => 0,
             'name' => Str::random(10),
-            'code' => Str::random(10),
-            'icon' => Str::random(10),
-            'route' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),
-            'is_hidden' => rand(0, 1),
-            'type' => Str::random(1),
             'status' => rand(0, 1),
             'sort' => rand(1, 100),
             'remark' => Str::random(10),
-        ], Menu::class);
+            'path'  => Str::random(10),
+            'meta'  =>  $this->generatorMeta(),
+        ], Menu::class,[
+            'parent_id', 'name', 'component', 'redirect', 'status', 'sort', 'path'
+        ]);
     }
 
     public function testSave(): void
@@ -50,29 +65,24 @@ class MenuControllerTest extends CrudControllerCase
         $entity = Menu::create([
             'parent_id' => 0,
             'name' => Str::random(10),
-            'code' => Str::random(10),
-            'icon' => Str::random(10),
-            'route' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),
             'is_hidden' => rand(0, 1),
-            'type' => Str::random(1),
             'status' => rand(0, 1),
             'sort' => rand(1, 100),
             'remark' => Str::random(10),
+            'meta'  =>  $this->generatorMeta(),
+            'path'  => Str::random(10),
         ]);
         $this->caseSave('/admin/menu/', $entity, 'menu:save', [
             'name' => Str::random(10),
-            'code' => Str::random(10),
-            'icon' => Str::random(10),
-            'route' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),
-            'is_hidden' => rand(0, 1),
-            'type' => Str::random(1),
             'status' => rand(0, 1),
             'sort' => rand(1, 100),
             'remark' => Str::random(10),
+            'meta'  =>  $this->generatorMeta(),
+            'path'  => Str::random(10),
         ]);
     }
 
@@ -81,17 +91,13 @@ class MenuControllerTest extends CrudControllerCase
         $entity = Menu::create([
             'parent_id' => 0,
             'name' => Str::random(10),
-            'code' => Str::random(10),
-            'icon' => Str::random(10),
-            'route' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),
-            'is_hidden' => rand(0, 1),
-            'type' => Str::random(1),
             'status' => rand(0, 1),
             'sort' => rand(1, 100),
             'remark' => Str::random(10),
+            'meta'  =>  $this->generatorMeta(),
         ]);
-        $this->caseDelete('/admin/menu', $entity, 'menu:delete');
+        $this->caseDelete('/admin/menu', $entity, 'menu:delete',true);
     }
 }

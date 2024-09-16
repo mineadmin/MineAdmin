@@ -27,6 +27,7 @@ use Mine\Kernel\Casbin\Rule\Rule;
  * @property string $name 菜单名称
  * @property string $component 组件路径
  * @property string $redirect 跳转地址
+ * @property string $path 地址
  * @property int $status 状态 (1正常 2停用)
  * @property Meta $meta 附加属性
  * @property int $sort 排序
@@ -39,7 +40,6 @@ use Mine\Kernel\Casbin\Rule\Rule;
  */
 final class Menu extends MineModel
 {
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -49,7 +49,14 @@ final class Menu extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'parent_id', 'name', 'component', 'redirect', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = [
+        'id', 'parent_id', 'name',
+        'component', 'redirect',
+        'status', 'sort',
+        'created_by', 'updated_by',
+        'created_at', 'updated_at',
+        'remark', 'meta','path'
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -58,6 +65,7 @@ final class Menu extends MineModel
         'id' => 'integer', 'parent_id' => 'integer', 'status' => 'integer',
         'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer',
         'created_at' => 'datetime', 'updated_at' => 'datetime', 'meta' => MetaCast::class,
+        'path'=>'string'
     ];
 
     /**
@@ -73,7 +81,7 @@ final class Menu extends MineModel
             'v1',
             'v0',
             'code',
-            'code'
+            'name'
             // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'p');
     }

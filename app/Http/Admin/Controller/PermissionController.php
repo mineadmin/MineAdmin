@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Constants\User\Status;
 use App\Http\Admin\CurrentUser;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
 use App\Repository\Permission\MenuRepository;
+use App\Repository\Permission\RoleRepository;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -30,7 +32,8 @@ final class PermissionController extends AbstractController
 {
     public function __construct(
         private readonly CurrentUser $user,
-        private readonly MenuRepository $repository
+        private readonly MenuRepository $repository,
+        private readonly RoleRepository $roleRepository
     ) {}
 
     #[Get(
@@ -47,7 +50,11 @@ final class PermissionController extends AbstractController
     public function menus(): Result
     {
         return $this->success(
-            data: $this->user->isSuperAdmin() ? $this->repository->allTree() : $this->user->menus()
+            data: $this->user->isSuperAdmin() ? $this->repository->list([
+                'status' => Status::ENABLE,
+                'children' => true,
+                'parent_id' => 0
+            ]) : $this->user->menus()
         );
     }
 
@@ -65,7 +72,9 @@ final class PermissionController extends AbstractController
     public function roles(): Result
     {
         return $this->success(
-            data: $this->user->roles()
+            data: $this->user->isSuperAdmin()
+                ? $this->roleRepository->list([ 'status' => Status::ENABLE ])
+                :$this->user->roles()
         );
     }
 }

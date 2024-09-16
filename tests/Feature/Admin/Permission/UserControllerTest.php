@@ -18,6 +18,7 @@ use App\Http\Common\ResultCode;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
+use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Stringable\Str;
 use HyperfTests\Feature\Admin\ControllerCase;
 
@@ -42,7 +43,7 @@ class UserControllerTest extends ControllerCase
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:list'));
         $result = $this->get('/admin/user/list', ['token' => $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertSame(Arr::get($result, 'data.total'), User::withTrashed()->count());
+        $this->assertSame(Arr::get($result, 'data.total'), User::count());
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, 'user:list'));
         $result = $this->get('/admin/user/list', ['token' => $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
@@ -112,9 +113,8 @@ class UserControllerTest extends ControllerCase
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:delete'));
         $result = $this->delete('/admin/user', [$user->getKey()], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $this->expectException(ModelNotFoundException::class);
         $user->refresh();
-        $this->assertTrue($user->trashed());
-        $user->forceDelete();
     }
 
     public function testSave(): void

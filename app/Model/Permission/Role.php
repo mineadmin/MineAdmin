@@ -37,7 +37,6 @@ use Mine\Kernel\Casbin\Rule\Rule;
  */
 final class Role extends MineModel
 {
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -47,7 +46,7 @@ final class Role extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'name', 'code', 'data_scope', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'name', 'code', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.
@@ -73,7 +72,7 @@ final class Role extends MineModel
             'v0',
             'v1',
             'code',
-            'code'
+            'name'
             // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'p');
     }

@@ -15,6 +15,7 @@ namespace HyperfTests\Feature\Admin\Permission;
 use App\Http\Common\ResultCode;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
+use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Stringable\Str;
 use HyperfTests\Feature\Admin\ControllerCase;
 
@@ -146,9 +147,8 @@ class RoleControllerTest extends ControllerCase
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:delete'));
         $result = $this->delete('/admin/role', [$entity->id], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
+        $this->expectException(ModelNotFoundException::class);
         $entity->refresh();
-        $this->assertTrue($entity->trashed());
-        $entity->forceDelete();
     }
 
     public function testBatchGrantPermissionsForRole(): void

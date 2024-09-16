@@ -28,23 +28,11 @@ final class MenuSchema implements \JsonSerializable
     #[Property(property: 'name', title: '菜单名称', type: 'string')]
     public ?string $name;
 
-    #[Property(property: 'code', title: '菜单标识代码', type: 'string')]
-    public ?string $code;
-
-    #[Property(property: 'icon', title: '菜单图标', type: 'string')]
-    public ?string $icon;
-
-    #[Property(property: 'route', title: '路由地址', type: 'string')]
-    public ?string $route;
-
     #[Property(property: 'component', title: '组件路径', type: 'string')]
     public ?string $component;
 
     #[Property(property: 'redirect', title: '重定向地址', type: 'string')]
     public ?string $redirect;
-
-    #[Property(property: 'is_hidden', title: '是否隐藏 (1是 2否)', type: 'int')]
-    public ?int $isHidden;
 
     #[Property(property: 'type', title: '菜单类型, (M菜单 B按钮 L链接 I iframe)', type: 'string')]
     public ?string $type;
@@ -67,11 +55,11 @@ final class MenuSchema implements \JsonSerializable
     #[Property(property: 'updated_at', title: '', type: 'string')]
     public mixed $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '', type: 'string')]
-    public mixed $deletedAt;
-
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
+
+    #[Property(property: 'meta', title: '附加属性', type: 'object')]
+    public ?MenuMetaSchema $meta;
 
     public function __construct(Menu $model)
     {
@@ -87,6 +75,7 @@ final class MenuSchema implements \JsonSerializable
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
         $this->remark = $model->remark;
+        $this->meta = new MenuMetaSchema(...array_values($model->meta->toArray()));
     }
 
     public function jsonSerialize(): mixed

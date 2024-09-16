@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class ApiTest extends TestCase
+final class ApiTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -37,31 +37,31 @@ class ApiTest extends TestCase
     public function testAddPolicy()
     {
         $enforce = $this->getEnforce();
-        $this->assertTrue($enforce->addRoleForUser('alice', 'admin'));
-        $this->assertTrue($enforce->addRoleForUser('admin', 'data1'));
-        $this->assertTrue($enforce->hasRoleForUser('alice', 'admin'));
-        $this->assertTrue($enforce->hasRoleForUser('admin', 'data1'));
-        $this->assertFalse($enforce->hasRoleForUser('alice', 'data1'));
-        $this->assertSame(['admin'], $enforce->getRoleManager()->getRoles('alice'));
-        $this->assertSame(['data1'], $enforce->getRoleManager()->getRoles('admin'));
-        $this->assertSame(['alice'], $enforce->getRoleManager()->getUsers('admin'));
-        $this->assertSame(['admin'], $enforce->getRoleManager()->getUsers('data1'));
+        self::assertTrue($enforce->addRoleForUser('alice', 'admin'));
+        self::assertTrue($enforce->addRoleForUser('admin', 'data1'));
+        self::assertTrue($enforce->hasRoleForUser('alice', 'admin'));
+        self::assertTrue($enforce->hasRoleForUser('admin', 'data1'));
+        self::assertFalse($enforce->hasRoleForUser('alice', 'data1'));
+        self::assertSame(['admin'], $enforce->getRoleManager()->getRoles('alice'));
+        self::assertSame(['data1'], $enforce->getRoleManager()->getRoles('admin'));
+        self::assertSame(['alice'], $enforce->getRoleManager()->getUsers('admin'));
+        self::assertSame(['admin'], $enforce->getRoleManager()->getUsers('data1'));
 
         // add multiple policies
-        $this->assertTrue($enforce->addPolicies([
+        self::assertTrue($enforce->addPolicies([
             ['alice', 'data2', 'read'],
             ['bob', 'data1', 'write'],
         ]));
-        $this->assertTrue($enforce->hasPolicy('alice', 'data2', 'read'));
-        $this->assertTrue($enforce->hasPolicy('bob', 'data1', 'write'));
-        $this->assertFalse($enforce->hasPolicy('alice', 'data1', 'read'));
-        $this->assertFalse($enforce->hasPolicy('bob', 'data2', 'write'));
+        self::assertTrue($enforce->hasPolicy('alice', 'data2', 'read'));
+        self::assertTrue($enforce->hasPolicy('bob', 'data1', 'write'));
+        self::assertFalse($enforce->hasPolicy('alice', 'data1', 'read'));
+        self::assertFalse($enforce->hasPolicy('bob', 'data2', 'write'));
 
         // add policy
-        $this->assertTrue($enforce->addPolicy('alice', 'data3', 'read'));
-        $this->assertTrue($enforce->hasPolicy('alice', 'data3', 'read'));
-        $this->assertFalse($enforce->hasPolicy('alice', 'data3', 'write'));
-        $this->assertTrue($enforce->addPolicy('alice', 'data3', 'write'));
+        self::assertTrue($enforce->addPolicy('alice', 'data3', 'read'));
+        self::assertTrue($enforce->hasPolicy('alice', 'data3', 'read'));
+        self::assertFalse($enforce->hasPolicy('alice', 'data3', 'write'));
+        self::assertTrue($enforce->addPolicy('alice', 'data3', 'write'));
 
         // clear
         Rule::whereRaw('1=1')->delete();
@@ -72,11 +72,11 @@ class ApiTest extends TestCase
             $enforce->addRoleForUser($user, $role);
         }
 
-        $this->assertSame(10, count($enforce->getRoleManager()->getRoles($user)));
-        $this->assertSame(1, count($enforce->getRoleManager()->getUsers('role1')));
-        $this->assertSame(1, count($enforce->getRoleManager()->getUsers('role2')));
-        $this->assertSame(['test1'], $enforce->getRoleManager()->getUsers('role1'));
-        $this->assertSame(['test1'], $enforce->getRoleManager()->getUsers('role2'));
+        self::assertSame(10, \count($enforce->getRoleManager()->getRoles($user)));
+        self::assertSame(1, \count($enforce->getRoleManager()->getUsers('role1')));
+        self::assertSame(1, \count($enforce->getRoleManager()->getUsers('role2')));
+        self::assertSame(['test1'], $enforce->getRoleManager()->getUsers('role1'));
+        self::assertSame(['test1'], $enforce->getRoleManager()->getUsers('role2'));
     }
 
     private function getEnforce()

@@ -21,11 +21,11 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversNothing
  */
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
     public function testFactory()
     {
         $factory = ApplicationContext::getContainer()->get(Factory::class);
-        $this->assertInstanceOf(Enforcer::class, $factory->enforcer());
+        self::assertInstanceOf(Enforcer::class, $factory->enforcer());
     }
 }

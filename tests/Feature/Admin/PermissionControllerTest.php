@@ -17,7 +17,6 @@ use App\Http\Common\ResultCode;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
-use Casbin\Enforcer;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 use Mine\Kernel\Casbin\Rule\Rule;
@@ -26,7 +25,7 @@ use Mine\Kernel\Casbin\Rule\Rule;
  * @internal
  * @coversNothing
  */
-class PermissionControllerTest extends ControllerCase
+final class PermissionControllerTest extends ControllerCase
 {
     public function testMenus(): void
     {
@@ -36,9 +35,9 @@ class PermissionControllerTest extends ControllerCase
         $user = $this->generatorUser();
         $token = $this->getToken($user);
         $noTokenResult = $this->get('/admin/permission/menus');
-        $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $menus = [
             Menu::create([
                 'parent_id' => 0,
@@ -112,8 +111,8 @@ class PermissionControllerTest extends ControllerCase
             'remark' => Str::random(),
         ]);
         $menuIds = [];
-        Arr::map($menus, function (Menu $menu) use (&$menuIds) {
-            if (count($menuIds) > 2) {
+        Arr::map($menus, static function (Menu $menu) use (&$menuIds) {
+            if (\count($menuIds) > 2) {
                 return;
             }
             $menuIds[$menu->name] = [
@@ -122,39 +121,39 @@ class PermissionControllerTest extends ControllerCase
         });
         $role->menus()->sync($menuIds);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 0);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 0);
         $user->roles()->sync([
             $superAdminRole->code => [
                 'ptype' => 'g',
-            ]
+            ],
         ]);
 
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), count($menus));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), \count($menus));
         $user->roles()->detach();
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 0);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 0);
 
         $user->roles()->sync([
             $role->code => [
                 'ptype' => 'g',
-            ]
+            ],
         ]);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 3);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 3);
         $role->menus()->detach();
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 0);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 0);
         $role->forceDelete();
     }
 
@@ -196,27 +195,27 @@ class PermissionControllerTest extends ControllerCase
             ]),
         ];
         $noTokenResult = $this->get('/admin/permission/roles');
-        $this->assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
         User::query()->where('username', 'SuperAdmin')->forceDelete();
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 0);
-        $role = Role::where('code','SuperAdmin')->value('code');
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 0);
+        $role = Role::where('code', 'SuperAdmin')->value('code');
         $user->roles()->sync([
             $role => [
                 'ptype' => 'g',
-            ]
+            ],
         ]);
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 4);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 4);
 
         $user->roles()->detach();
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertSame(count(Arr::get($result, 'data')), 0);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertSame(\count(Arr::get($result, 'data')), 0);
     }
 }

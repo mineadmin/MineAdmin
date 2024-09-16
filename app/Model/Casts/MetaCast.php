@@ -21,7 +21,7 @@ class MetaCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): Meta
     {
-        return  new Meta(empty($value) ? [] : Json::decode($value));
+        return new Meta(empty($value) ? [] : Json::decode($value));
     }
 
     /**
@@ -30,6 +30,6 @@ class MetaCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return new Meta((array)$value);
+        return new Meta((array) $value);
     }
 }

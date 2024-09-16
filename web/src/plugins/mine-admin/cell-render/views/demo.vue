@@ -209,7 +209,9 @@ function onClickx() {
   <div class="pt-2.5">
     <!--    <ma-pro-table :options="options" :schema="schema" /> -->
     <MaProTable ref="proTableRef" :options="options" :schema="schema" />
-    <el-button @click="onClickx" />
+    <el-button @click="onClickx">
+      资源选择
+    </el-button>
     <!--    <MaResourceDialog v-model:visible="dialogVisible" /> -->
   </div>
 </template>

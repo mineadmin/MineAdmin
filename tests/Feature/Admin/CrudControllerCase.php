@@ -59,24 +59,23 @@ class CrudControllerCase extends ControllerCase
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity = $model::query()->where($fillable)->first();
-        if ($required){
-            $entity = $model::query()->where(Arr::only($fillable,$required))->first();
+        if ($required) {
+            $entity = $model::query()->where(Arr::only($fillable, $required))->first();
         }
         if (empty($entity)) {
             $this->fail('Create failed');
         }
         foreach (array_keys($fillable) as $key) {
-            if (is_string($entity->{$key})) {
+            if (\is_string($entity->{$key})) {
                 $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
-            }else if(is_object($entity->{$key})){
+            } elseif (\is_object($entity->{$key})) {
                 $v = $entity->{$key};
-                if ($v instanceof Model){
-                    foreach ($v->getFillable() as $vKey){
+                if ($v instanceof Model) {
+                    foreach ($v->getFillable() as $vKey) {
                         $this->assertSame($v->{$vKey}, $fillable[$key][$vKey]);
                     }
                 }
-            }
-            else {
+            } else {
                 $this->assertSame($entity->{$key}, $fillable[$key]);
             }
         }
@@ -103,18 +102,16 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
         foreach (array_keys($fillable) as $key) {
-            if (is_string($entity->{$key})) {
+            if (\is_string($entity->{$key})) {
                 $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
-            }
-            else if (is_object($entity->{$key})){
+            } elseif (\is_object($entity->{$key})) {
                 $v = $entity->{$key};
-                if ($v instanceof Model){
-                    foreach ($v->getFillable() as $vKey){
+                if ($v instanceof Model) {
+                    foreach ($v->getFillable() as $vKey) {
                         $this->assertSame($v->{$vKey}, $fillable[$key][$vKey]);
                     }
                 }
-            }
-            else {
+            } else {
                 $this->assertSame($entity->{$key}, $fillable[$key]);
             }
         }

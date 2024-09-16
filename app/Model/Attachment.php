@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
@@ -37,7 +36,6 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  */
 final class Attachment extends MineModel
 {
-
     /**
      * The table associated with the model.
      */

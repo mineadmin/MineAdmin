@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
-use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 use Mine\Kernel\Casbin\Rule\Rule;
 
@@ -46,7 +45,6 @@ use Mine\Kernel\Casbin\Rule\Rule;
  */
 final class User extends Model
 {
-
     /**
      * The table associated with the model.
      */

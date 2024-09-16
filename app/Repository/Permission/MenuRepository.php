@@ -16,11 +16,8 @@ use App\Constants\User\Status;
 use App\Model\Permission\Menu;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
-use Hyperf\Collection\Collection as BaseCollection;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Collection;
-
-use function App\Http\Admin\Support\data_to_tree;
 
 final class MenuRepository extends IRepository
 {
@@ -37,12 +34,12 @@ final class MenuRepository extends IRepository
             ->when(Arr::get($params, 'code'), static function (Builder $query, array|string $code) {
                 $query->whereIn('code', Arr::wrap($code));
             })
-            ->when(Arr::has($params,'children'), static function (Builder $query) {
+            ->when(Arr::has($params, 'children'), static function (Builder $query) {
                 $query->with('children');
             })->when(Arr::get($params, 'status'), static function (Builder $query, Status $status) {
                 $query->where('status', $status);
             })
-            ->when(Arr::get($params,'parent_id'), static function (Builder $query, int $parent_id) {
+            ->when(Arr::get($params, 'parent_id'), static function (Builder $query, int $parent_id) {
                 $query->where('parent_id', $parent_id);
             });
     }
@@ -55,5 +52,4 @@ final class MenuRepository extends IRepository
             ->with('children')
             ->get();
     }
-
 }

@@ -21,11 +21,69 @@ use HyperfTests\Feature\Admin\CrudControllerCase;
  * @internal
  * @coversNothing
  */
-class MenuControllerTest extends CrudControllerCase
+final class MenuControllerTest extends CrudControllerCase
 {
     public function testPageList(): void
     {
         $this->casePageList('/admin/menu/list', 'menu:list');
+    }
+
+    public function testCreate(): void
+    {
+        $this->caseCreate('/admin/menu', 'menu:create', [
+            'parent_id' => 0,
+            'name' => Str::random(10),
+            'component' => Str::random(10),
+            'redirect' => Str::random(10),
+            'status' => rand(0, 1),
+            'sort' => rand(1, 100),
+            'remark' => Str::random(10),
+            'path' => Str::random(10),
+            'meta' => $this->generatorMeta(),
+        ], Menu::class, [
+            'parent_id', 'name', 'component', 'redirect', 'status', 'sort', 'path',
+        ]);
+    }
+
+    public function testSave(): void
+    {
+        $entity = Menu::create([
+            'parent_id' => 0,
+            'name' => Str::random(10),
+            'component' => Str::random(10),
+            'redirect' => Str::random(10),
+            'is_hidden' => rand(0, 1),
+            'status' => rand(0, 1),
+            'sort' => rand(1, 100),
+            'remark' => Str::random(10),
+            'meta' => $this->generatorMeta(),
+            'path' => Str::random(10),
+        ]);
+        $this->caseSave('/admin/menu/', $entity, 'menu:save', [
+            'name' => Str::random(10),
+            'component' => Str::random(10),
+            'redirect' => Str::random(10),
+            'status' => rand(0, 1),
+            'sort' => rand(1, 100),
+            'remark' => Str::random(10),
+            'meta' => $this->generatorMeta(),
+            'path' => Str::random(10),
+        ]);
+    }
+
+    public function testDelete(): void
+    {
+        $entity = Menu::create([
+            'parent_id' => 0,
+            'name' => Str::random(10),
+            'component' => Str::random(10),
+            'redirect' => Str::random(10),
+            'status' => rand(0, 1),
+            'sort' => rand(1, 100),
+            'remark' => Str::random(10),
+            'meta' => $this->generatorMeta(),
+        ]);
+        $this->caseDelete('/admin/menu', $entity, 'menu:delete', true);
     }
 
     protected function generatorMeta()
@@ -41,63 +99,5 @@ class MenuControllerTest extends CrudControllerCase
             'cache' => rand(0, 1),
             'link' => Str::random(10),
         ]);
-    }
-
-    public function testCreate(): void
-    {
-        $this->caseCreate('/admin/menu', 'menu:create', [
-            'parent_id' => 0,
-            'name' => Str::random(10),
-            'component' => Str::random(10),
-            'redirect' => Str::random(10),
-            'status' => rand(0, 1),
-            'sort' => rand(1, 100),
-            'remark' => Str::random(10),
-            'path'  => Str::random(10),
-            'meta'  =>  $this->generatorMeta(),
-        ], Menu::class,[
-            'parent_id', 'name', 'component', 'redirect', 'status', 'sort', 'path'
-        ]);
-    }
-
-    public function testSave(): void
-    {
-        $entity = Menu::create([
-            'parent_id' => 0,
-            'name' => Str::random(10),
-            'component' => Str::random(10),
-            'redirect' => Str::random(10),
-            'is_hidden' => rand(0, 1),
-            'status' => rand(0, 1),
-            'sort' => rand(1, 100),
-            'remark' => Str::random(10),
-            'meta'  =>  $this->generatorMeta(),
-            'path'  => Str::random(10),
-        ]);
-        $this->caseSave('/admin/menu/', $entity, 'menu:save', [
-            'name' => Str::random(10),
-            'component' => Str::random(10),
-            'redirect' => Str::random(10),
-            'status' => rand(0, 1),
-            'sort' => rand(1, 100),
-            'remark' => Str::random(10),
-            'meta'  =>  $this->generatorMeta(),
-            'path'  => Str::random(10),
-        ]);
-    }
-
-    public function testDelete(): void
-    {
-        $entity = Menu::create([
-            'parent_id' => 0,
-            'name' => Str::random(10),
-            'component' => Str::random(10),
-            'redirect' => Str::random(10),
-            'status' => rand(0, 1),
-            'sort' => rand(1, 100),
-            'remark' => Str::random(10),
-            'meta'  =>  $this->generatorMeta(),
-        ]);
-        $this->caseDelete('/admin/menu', $entity, 'menu:delete',true);
     }
 }

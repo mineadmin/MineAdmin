@@ -17,7 +17,6 @@ use App\Model\Casts\MetaCast;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
-use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model as MineModel;
 use Mine\Kernel\Casbin\Rule\Rule;
 
@@ -40,7 +39,6 @@ use Mine\Kernel\Casbin\Rule\Rule;
  */
 final class Menu extends MineModel
 {
-
     /**
      * The table associated with the model.
      */
@@ -55,7 +53,7 @@ final class Menu extends MineModel
         'status', 'sort',
         'created_by', 'updated_by',
         'created_at', 'updated_at',
-        'remark', 'meta','path'
+        'remark', 'meta', 'path',
     ];
 
     /**
@@ -65,7 +63,7 @@ final class Menu extends MineModel
         'id' => 'integer', 'parent_id' => 'integer', 'status' => 'integer',
         'sort' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer',
         'created_at' => 'datetime', 'updated_at' => 'datetime', 'meta' => MetaCast::class,
-        'path'=>'string'
+        'path' => 'string',
     ];
 
     /**

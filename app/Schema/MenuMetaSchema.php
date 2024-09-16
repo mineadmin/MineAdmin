@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Schema;
 
 use Hyperf\Swagger\Annotation\Property;
@@ -61,7 +71,7 @@ final class MenuMetaSchema
         bool $cache = false,
         bool $copyright = false,
         string $link = ''
-    ){
+    ) {
         $this->title = $title;
         $this->i18n = $i18n;
         $this->badge = $badge;

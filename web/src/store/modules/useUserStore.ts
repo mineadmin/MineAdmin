@@ -111,8 +111,6 @@ const useUserStore = defineStore(
           token.value = res.data.token
           cache.set('token', res.data.token)
           cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
-          await refreshRole()
-          await refreshPermission()
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
         }).catch((error) => {
@@ -127,6 +125,8 @@ const useUserStore = defineStore(
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
           setUserSetting(data?.backend_setting)
         }
+        await refreshRole()
+        await refreshPermission()
         await usePluginStore().callHooks('getUserInfo', data)
       }
       // eslint-disable-next-line unused-imports/no-unused-vars

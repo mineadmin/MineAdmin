@@ -92,7 +92,7 @@ useTable('table').then((table: MaTableExpose) => {
             <div class="flex items-center gap-x-3">
               <ma-svg-icon name="skill-icons:webstorm-light" :size="30" />
               <div>
-                PHP Storm
+                Web Storm
               </div>
             </div>
             <div class="desc">

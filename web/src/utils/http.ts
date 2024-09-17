@@ -64,8 +64,7 @@ http.interceptors.response.use(
     }
 
     const responseRaw: ResponseStruct = response.data
-    const mineResponse = { raw: response, data: responseRaw?.data ?? null }
-    if (response.status === 200) {
+    if (response?.data?.code === 200) {
       if (responseRaw.code !== ResultCode.SUCCESS) {
         Message.error(responseRaw.message, {
           zIndex: 2000,
@@ -83,7 +82,7 @@ http.interceptors.response.use(
   },
   async (error) => {
     isLoading.value = false
-    switch (error.response.status) {
+    switch (error.response?.data?.code) {
       case 401:
         Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
         await (useDebounceFn(

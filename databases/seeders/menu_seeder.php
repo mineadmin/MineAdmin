@@ -69,7 +69,7 @@ class MenuSeeder extends Seeder
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'icon' => 'ma-icon-permission',
-                    'is_hidden' => 2,
+                    'hidden' => 2,
                     'type' => 'M',
                 ]),
                 'children' => [
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
                             'type' => 'M',
                             'title' => '用户管理',
                             'icon' => 'ma-icon-user',
-                            'is_hidden' => 2,
+                            'hidden' => 2,
                         ]),
                         'children' => [
                             [
@@ -129,7 +129,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '菜单管理',
                             'icon' => 'ma-icon-menu',
-                            'is_hidden' => 2,
+                            'hidden' => 2,
                             'type' => 'M',
                         ]),
                         'children' => [
@@ -166,7 +166,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '角色管理',
                             'icon' => 'ma-icon-role',
-                            'is_hidden' => 2,
+                            'hidden' => 2,
                             'type' => 'M',
                         ]),
                         'children' => [
@@ -204,7 +204,7 @@ class MenuSeeder extends Seeder
                 'code' => 'devTools',
                 'icon' => 'ma-icon-tool',
                 'path' => 'devTools',
-                'is_hidden' => '2',
+                'hidden' => '2',
                 'type' => 'M',
                 'children' => [
                     [
@@ -213,7 +213,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'ma-icon-code',
                         'path' => 'code',
                         'component' => 'setting/code/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                         'children' => [
                             [
@@ -244,7 +244,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'icon-storage',
                         'path' => 'setting/datasource',
                         'component' => 'setting/datasource/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                         'children' => [
                             [
@@ -283,7 +283,7 @@ class MenuSeeder extends Seeder
                         'icon' => 'icon-compass',
                         'path' => 'systemInterface',
                         'component' => 'setting/systemInterface/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                     ],
                 ],

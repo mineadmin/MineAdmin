@@ -13,7 +13,7 @@ const options: MaProTableOptions = reactive({
     fold: true,
   },
   requestOptions: {
-    api: 'baidu.com',
+    // api: 'baidu.com',
     response: {
       dataKey: 'items',
     },

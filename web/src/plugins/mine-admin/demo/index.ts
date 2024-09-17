@@ -25,7 +25,7 @@ const pluginConfig: Plugin.PluginConfig = {
     console.log('demo 插件已经启动')
   },
   config: {
-    enable: true,
+    enable: false,
     info: {
       name: 'mine-admin/demo',
       version: '1.0.0',

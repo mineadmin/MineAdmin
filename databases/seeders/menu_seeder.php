@@ -69,7 +69,7 @@ class MenuSeeder extends Seeder
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'icon' => 'ma-icon-permission',
-                    'hidden' => 2,
+                    'hidden' => 1,
                     'type' => 'M',
                 ]),
                 'children' => [
@@ -81,43 +81,49 @@ class MenuSeeder extends Seeder
                             'type' => 'M',
                             'title' => '用户管理',
                             'icon' => 'ma-icon-user',
-                            'hidden' => 2,
+                            'hidden' => 1,
                         ]),
                         'children' => [
                             [
                                 'name' => 'permission:user:index',
                                 'meta' => new Meta([
                                     'title' => '用户列表',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:user:save',
                                 'meta' => new Meta([
                                     'title' => '用户保存',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:user:update',
                                 'meta' => new Meta([
                                     'title' => '用户更新',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:user:delete',
                                 'meta' => new Meta([
                                     'title' => '用户删除',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'user:password',
                                 'meta' => new Meta([
                                     'title' => '用户初始化密码',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'user:role',
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
+                                    'type' => 'B',
                                 ]),
                             ],
                         ],
@@ -129,7 +135,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '菜单管理',
                             'icon' => 'ma-icon-menu',
-                            'hidden' => 2,
+                            'hidden' => 1,
                             'type' => 'M',
                         ]),
                         'children' => [
@@ -137,24 +143,28 @@ class MenuSeeder extends Seeder
                                 'name' => 'permission:menu:index',
                                 'meta' => new Meta([
                                     'title' => '菜单列表',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:menu:save',
                                 'meta' => new Meta([
                                     'title' => '菜单保存',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:menu:update',
                                 'meta' => new Meta([
                                     'title' => '菜单更新',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:menu:delete',
                                 'meta' => new Meta([
                                     'title' => '菜单删除',
+                                    'type' => 'B',
                                 ]),
                             ],
                         ],
@@ -166,7 +176,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '角色管理',
                             'icon' => 'ma-icon-role',
-                            'hidden' => 2,
+                            'hidden' => 1,
                             'type' => 'M',
                         ]),
                         'children' => [
@@ -174,24 +184,28 @@ class MenuSeeder extends Seeder
                                 'name' => 'permission:role:index',
                                 'meta' => new Meta([
                                     'title' => '角色列表',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:role:save',
                                 'meta' => new Meta([
                                     'title' => '角色保存',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:role:update',
                                 'meta' => new Meta([
                                     'title' => '角色更新',
+                                    'type' => 'B',
                                 ]),
                             ],
                             [
                                 'name' => 'permission:role:delete',
                                 'meta' => new Meta([
                                     'title' => '角色删除',
+                                    'type' => 'B',
                                 ]),
                             ],
                         ],
@@ -219,22 +233,27 @@ class MenuSeeder extends Seeder
                             [
                                 'name' => '预览代码',
                                 'code' => 'setting:code:preview',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '装载数据表',
                                 'code' => 'setting:code:loadTable',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '删除业务表',
                                 'code' => 'setting:code:delete',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '同步业务表',
                                 'code' => 'setting:code:sync',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '生成代码',
                                 'code' => 'setting:code:generate',
+                                'type' => 'B',
                             ],
                         ],
                     ],
@@ -250,30 +269,37 @@ class MenuSeeder extends Seeder
                             [
                                 'name' => '数据源管理列表',
                                 'code' => 'setting:datasource:index',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理保存',
                                 'code' => 'setting:datasource:save',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理更新',
                                 'code' => 'setting:datasource:update',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理读取',
                                 'code' => 'setting:datasource:read',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理删除',
                                 'code' => 'setting:datasource:delete',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理导入',
                                 'code' => 'setting:datasource:import',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理导出',
                                 'code' => 'setting:datasource:export',
+                                'type' => 'B',
                             ],
                         ],
                     ],

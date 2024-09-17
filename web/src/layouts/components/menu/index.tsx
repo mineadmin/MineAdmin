@@ -113,7 +113,6 @@ export default defineComponent({
 
     function initMenu() {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
-      console.log(activeItem)
       setSubMenusActive(activeIndex.value)
       if (!activeItem || props.collapse) {
         return

@@ -99,7 +99,7 @@ const useUserStore = defineStore(
       setRoles(res.data)
     }
 
-    async function refreshPermission() {
+    async function refreshMenu() {
       const res = await PermissionApi.getMenus()
       setMenu(res.data)
     }
@@ -125,9 +125,12 @@ const useUserStore = defineStore(
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
           setUserSetting(data?.backend_setting)
         }
+        await refreshMenu()
         await refreshRole()
-        await refreshPermission()
         await routeStore.initRoutes(router, getMenu())
+        const codes: string[] = []
+        router.getRoutes()?.map(item => codes.push(item.name as string))
+        setPermissions(codes)
         await usePluginStore().callHooks('getUserInfo', data)
       }
       // eslint-disable-next-line unused-imports/no-unused-vars

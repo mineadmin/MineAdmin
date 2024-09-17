@@ -125,3 +125,8 @@ menu:
   uc:message: Message
   welcome: Welcome Page
   dashboard: Dashboard
+  permission:
+    index: Permission
+    user: User
+    role: Role
+    menu: Menu

@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Mine\Kernel\Support\Listener;
 
 use Hyperf\Database\Schema\Blueprint;
@@ -13,7 +23,7 @@ final class RegisterBlueprintListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            BootApplication::class
+            BootApplication::class,
         ];
     }
 
@@ -24,5 +34,4 @@ final class RegisterBlueprintListener implements ListenerInterface
             $this->bigInteger($updated_by)->comment('更新者')->default(0);
         });
     }
-
 }

@@ -23,13 +23,13 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Traits\GetDebugTrait;
+use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
 final class QueueHandleListener implements ListenerInterface
 {
-    use GetDebugTrait;
+    use Debugging;
 
     protected LoggerInterface $logger;
 

@@ -51,15 +51,15 @@ class ResultResponse extends Base
     {
         $property = new Property();
         $property->property = $reflectionProperty->getName();
-        // @phpstan-ignore-next-line
+        /** @phpstan-ignore-next-line */
         $typeName = $reflectionProperty->getType()?->getName();
         if ($property->ref === Generator::UNDEFINED && class_exists($typeName)) {
             $property->ref = $typeName;
         }
-        if ($property->ref === Generator::UNDEFINED && is_object($value)) {
-            $property->ref = get_class($value);
+        if ($property->ref === Generator::UNDEFINED && \is_object($value)) {
+            $property->ref = $value::class;
         }
-        if ($property->ref === Generator::UNDEFINED && is_string($value) && class_exists($value)) {
+        if ($property->ref === Generator::UNDEFINED && \is_string($value) && class_exists($value)) {
             $property->ref = $value;
         }
         return $property;

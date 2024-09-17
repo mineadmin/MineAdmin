@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Mine\Kernel\GeneratorCrud\Processor;
 
 use Mine\Kernel\GeneratorCrud\Context;
@@ -13,7 +23,6 @@ use PhpParser\PrettyPrinterAbstract;
 
 abstract class AbstractAstProcessor extends AbstractProcessor
 {
-
     protected ?Lexer $lexer = null;
 
     protected ?Parser $astParser = null;
@@ -22,18 +31,18 @@ abstract class AbstractAstProcessor extends AbstractProcessor
 
     protected function generator(Context $c, string $path, string $namespace, string $className): string
     {
-        if (is_file($path)){
+        if (is_file($path)) {
             $traverser = new NodeTraverser();
             $originStmts = $this->astParser->parse(file_get_contents($path));
             $originTokens = $this->lexer->getTokens();
-            $this->handleAst($c,$traverser,$originStmts,$originTokens,$path,$namespace,$className);
+            $this->handleAst($c, $traverser, $originStmts, $originTokens, $path, $namespace, $className);
             $newStmts = $traverser->traverse($originStmts);
-            return $this->printer->printFormatPreserving($newStmts,$originStmts,$originTokens);
+            return $this->printer->printFormatPreserving($newStmts, $originStmts, $originTokens);
         }
-        return $this->handleCreate($c,$path,$namespace,$className);
+        return $this->handleCreate($c, $path, $namespace, $className);
     }
 
-    abstract protected function handleAst(Context $c,NodeTraverser $traverser,array $originStmts,array $originTokens,string $path,string $namespace,string $className): void;
+    abstract protected function handleAst(Context $c, NodeTraverser $traverser, array $originStmts, array $originTokens, string $path, string $namespace, string $className): void;
 
     abstract protected function handleCreate(Context $c, string $path, string $namespace, string $className): string;
 

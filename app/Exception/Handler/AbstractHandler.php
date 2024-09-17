@@ -21,13 +21,13 @@ use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
 use Mine\Kernel\Support\Logger\UuidRequestIdProcessor;
-use Mine\Kernel\Support\Traits\GetDebugTrait;
+use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
 
 abstract class AbstractHandler extends ExceptionHandler
 {
-    use GetDebugTrait;
+    use Debugging;
 
     public function __construct(
         private readonly ConfigInterface $config,

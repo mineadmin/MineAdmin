@@ -43,7 +43,7 @@ final class DatabaseAdapter implements Adapter
     {
         $col['ptype'] = $ptype;
         foreach ($rule as $key => $value) {
-            $col['v' . strval($key)] = $value;
+            $col['v' . (string) $key] = $value;
         }
 
         $this->eloquent->fill($col)->save();
@@ -57,8 +57,8 @@ final class DatabaseAdapter implements Adapter
         $rows = $this->eloquent::query()->select('ptype', 'v0', 'v1', 'v2', 'v3', 'v4', 'v5')->get()->toArray();
 
         foreach ($rows as $row) {
-            $line = implode(', ', array_filter($row, function ($val) {
-                return $val != '' && ! is_null($val);
+            $line = implode(', ', array_filter($row, static function ($val) {
+                return $val !== '' && $val !== null;
             }));
             $this->loadPolicyLine(trim($line), $model);
         }
@@ -101,7 +101,7 @@ final class DatabaseAdapter implements Adapter
         $instance = $this->eloquent->newQuery()->where('ptype', $ptype);
 
         foreach ($rule as $key => $value) {
-            $instance->where('v' . strval($key), $value);
+            $instance->where('v' . (string) $key, $value);
         }
 
         foreach ($instance->get() as $model) {
@@ -121,8 +121,8 @@ final class DatabaseAdapter implements Adapter
 
         $instance = $this->eloquent->newQuery()->where('ptype', $ptype);
         foreach (range(0, 5) as $value) {
-            if ($fieldIndex <= $value && $value < $fieldIndex + count($fieldValues)) {
-                if ($fieldValues[$value - $fieldIndex] != '') {
+            if ($fieldIndex <= $value && $value < $fieldIndex + \count($fieldValues)) {
+                if ($fieldValues[$value - $fieldIndex] !== '') {
                     $instance->where('v' . $value, $fieldValues[$value - $fieldIndex]);
                 }
             }

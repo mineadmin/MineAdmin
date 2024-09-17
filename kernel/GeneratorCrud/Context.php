@@ -1,10 +1,19 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Mine\Kernel\GeneratorCrud;
 
 use Hyperf\Collection\Collection;
 use Mine\Kernel\GeneratorCrud\Entity\TableEntity;
-use Nette\Utils\ArrayList;
 
 final class Context
 {
@@ -14,7 +23,7 @@ final class Context
         private Collection $extra,
         private TableEntity $table,
         private Collection $entities
-    ){}
+    ) {}
 
     public function getConfig(): Collection
     {

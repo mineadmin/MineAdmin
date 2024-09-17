@@ -69,7 +69,7 @@ class MenuSeeder extends Seeder
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'icon' => 'ma-icon-permission',
-                    'hidden' => 1,
+                    'hidden' => 0,
                     'type' => 'M',
                 ]),
                 'children' => [
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
                             'type' => 'M',
                             'title' => '用户管理',
                             'icon' => 'ma-icon-user',
-                            'hidden' => 1,
+                            'hidden' => 0,
                         ]),
                         'children' => [
                             [
@@ -135,7 +135,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '菜单管理',
                             'icon' => 'ma-icon-menu',
-                            'hidden' => 1,
+                            'hidden' => 0,
                             'type' => 'M',
                         ]),
                         'children' => [
@@ -176,7 +176,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'title' => '角色管理',
                             'icon' => 'ma-icon-role',
-                            'hidden' => 1,
+                            'hidden' => 0,
                             'type' => 'M',
                         ]),
                         'children' => [

@@ -24,7 +24,6 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const settingStore = useSettingStore()
   const userStore = useUserStore()
-  const routeStore = useRouteStore()
   isLoading.value = true
   if (userStore.isLogin) {
     if (to.name === 'login') {
@@ -35,7 +34,6 @@ router.beforeEach(async (to, from, next) => {
     }
     if (userStore.getUserInfo() === null) {
       await userStore.requestUserInfo()
-      await routeStore.initRoutes(router, userStore.getMenu())
       next({ path: to.fullPath })
     }
     else {

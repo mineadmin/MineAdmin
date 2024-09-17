@@ -23,7 +23,7 @@ return [
         // jwt 签名算法 可选 https://lcobucci-jwt.readthedocs.io/en/latest/supported-algorithms/
         'alg' => new Sha256(),
         // token过期时间，单位为秒
-        'ttl' => env('JWT_TTL', 300),
+        'ttl' => env('JWT_TTL', 7200),
         // 黑名单模式
         'blacklist' => [
             // 是否开启黑名单
@@ -33,7 +33,7 @@ return [
             // 黑名单缓存驱动
             'connection' => 'default',
             // 黑名单缓存时间 该时间一定要设置比token过期时间要大一点，最好设置跟过期时间一样
-            'ttl' => env('JWT_BLACKLIST_TTL', 301),
+            'ttl' => env('JWT_BLACKLIST_TTL', 7201),
         ],
         'claims' => [
             // 默认的jwt claims

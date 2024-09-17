@@ -119,30 +119,32 @@ const useRouteStore = defineStore(
     function menuToRoutes(routerMap: any[]) {
       const accessedRouters: any = []
       routerMap.forEach((item: any) => {
-        if (item.meta.type === 'I') {
-          item.meta.url = item.path
-          item.path = `/maIframe/${item.name}`
-          item.component = () => import(('@/layouts/components/iframe/index.tsx'))
-        }
-
-        let component: any | null = null
-        if (item.component && item.meta?.type !== 'I') {
-          if (moduleViews[`../../modules/${item.component}`]) {
-            component = moduleViews[`../../modules/${item.component}`]
+        if (item.meta?.type !== 'B') {
+          if (item.meta.type === 'I') {
+            item.meta.url = item.path
+            item.path = `/maIframe/${item.name}`
+            item.component = () => import(('@/layouts/components/iframe/index.tsx'))
           }
-          else {
-            console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component} 页面`)
-          }
-        }
 
-        const route = {
-          path: item.path,
-          name: item.name,
-          meta: item.meta,
-          children: item.children ? menuToRoutes(item.children) : null,
-          component: item.meta?.type === 'I' ? item.component : component,
+          let component: any | null = null
+          if (item.component && item.meta?.type !== 'I') {
+            if (moduleViews[`../../modules/${item.component}`]) {
+              component = moduleViews[`../../modules/${item.component}`]
+            }
+            else {
+              console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component} 页面`)
+            }
+          }
+
+          const route = {
+            path: item.path,
+            name: item.name,
+            meta: item.meta,
+            children: item.children ? menuToRoutes(item.children) : null,
+            component: item.meta?.type === 'I' ? item.component : component,
+          }
+          accessedRouters.push(route)
         }
-        accessedRouters.push(route)
       })
       return accessedRouters
     }

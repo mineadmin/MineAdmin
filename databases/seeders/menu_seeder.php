@@ -68,9 +68,8 @@ class MenuSeeder extends Seeder
                 'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
-                    'icon' => 'ma-icon-permission',
+                    'icon' => 'simple-icons:authy',
                     'hidden' => 0,
-                    'type' => 'M',
                 ]),
                 'children' => [
                     [
@@ -80,8 +79,9 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'type' => 'M',
                             'title' => '用户管理',
-                            'icon' => 'ma-icon-user',
+                            'icon' => 'material-symbols:account-box',
                             'hidden' => 0,
+                            'cache' => 1,
                         ]),
                         'children' => [
                             [
@@ -134,9 +134,10 @@ class MenuSeeder extends Seeder
                         'component' => 'base/views/permission/menu/index.vue',
                         'meta' => new Meta([
                             'title' => '菜单管理',
-                            'icon' => 'ma-icon-menu',
+                            'icon' => 'material-symbols:list-alt-rounded',
                             'hidden' => 0,
                             'type' => 'M',
+                            'cache' => 1,
                         ]),
                         'children' => [
                             [
@@ -175,9 +176,10 @@ class MenuSeeder extends Seeder
                         'component' => 'base/views/permission/role/index.vue',
                         'meta' => new Meta([
                             'title' => '角色管理',
-                            'icon' => 'ma-icon-role',
+                            'icon' => 'material-symbols:supervisor-account',
                             'hidden' => 0,
                             'type' => 'M',
+                            'cache' => 1,
                         ]),
                         'children' => [
                             [

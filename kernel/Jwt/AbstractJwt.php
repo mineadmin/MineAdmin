@@ -17,6 +17,7 @@ use Hyperf\Cache\CacheManager;
 use Hyperf\Cache\Driver\DriverInterface;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\JwtFacade;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
@@ -28,7 +29,7 @@ use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use Psr\Clock\ClockInterface as Clock;
 
-abstract class AbstractJwt
+abstract class AbstractJwt implements JwtInterface
 {
     public function __construct(
         private readonly array $config,
@@ -41,11 +42,10 @@ abstract class AbstractJwt
             $this->getSigner(),
             $this->getSigningKey(),
             function (Builder $builder, \DateTimeImmutable $immutable) use ($claims) {
-                $builder->issuedAt($immutable);
                 foreach ($claims as $key => $value) {
                     $builder = $builder->withClaim($key, $value);
                 }
-                $builder->expiresAt($this->getExpireAt());
+                $builder->expiresAt($this->getExpireAt($immutable));
                 return $builder;
             }
         );
@@ -53,6 +53,9 @@ abstract class AbstractJwt
 
     public function parser(string $token): UnencryptedToken
     {
+        //        return with(new Token\Parser(new JoseEncoder()))->parse($token);
+        $clock = $this->getClock();
+        //        var_dump($clock->now()->getTimezone()->getName());
         return $this->getJwtFacade()
             ->parse(
                 $token,
@@ -60,7 +63,10 @@ abstract class AbstractJwt
                     $this->getSigner(),
                     $this->getSigningKey()
                 ),
-                new StrictValidAt($this->getClock()),
+                new StrictValidAt(
+                    $clock,
+                    $clock->now()->diff($this->getExpireAt($clock->now()))
+                ),
                 $this->getBlackListConstraint()
             );
     }
@@ -142,8 +148,10 @@ abstract class AbstractJwt
         };
     }
 
-    private function getExpireAt(): \DateTimeImmutable
+    private function getExpireAt(\DateTimeImmutable $immutable): \DateTimeImmutable
     {
-        return Carbon::now()->addSeconds(Arr::get($this->config, 'ttl', 600))->toDateTimeImmutable();
+        return Carbon::create($immutable)
+            ->addSeconds(Arr::get($this->config, 'ttl', 600))
+            ->toDateTimeImmutable();
     }
 }

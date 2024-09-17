@@ -136,9 +136,9 @@ const useUserStore = defineStore(
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
-      await usePluginStore().callHooks('logout')
-      await logoutApi()
       clearInfo()
+      await usePluginStore().callHooks('logout')
+      // await logoutApi()
       await router.push({
         name: 'login',
         query: {

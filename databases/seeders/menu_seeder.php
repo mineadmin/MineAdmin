@@ -65,7 +65,7 @@ class MenuSeeder extends Seeder
         return [
             [
                 'name' => 'permission',
-                'path' => 'permission',
+                'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'icon' => 'ma-icon-permission',
@@ -75,8 +75,8 @@ class MenuSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'permission:user',
-                        'path' => 'user',
-                        'component' => 'permission/user/index',
+                        'path' => '/permission/user',
+                        'component' => 'base/views/permission/user/index.vue',
                         'meta' => new Meta([
                             'type' => 'M',
                             'title' => '用户管理',
@@ -130,8 +130,8 @@ class MenuSeeder extends Seeder
                     ],
                     [
                         'name' => 'permission:menu',
-                        'path' => 'menu',
-                        'component' => 'permission/menu/index',
+                        'path' => '/permission/menu',
+                        'component' => 'base/views/permission/menu/index.vue',
                         'meta' => new Meta([
                             'title' => '菜单管理',
                             'icon' => 'ma-icon-menu',
@@ -171,8 +171,8 @@ class MenuSeeder extends Seeder
                     ],
                     [
                         'name' => 'permission:role',
-                        'path' => 'role',
-                        'component' => 'permission/role/index',
+                        'path' => '/permission/role',
+                        'component' => 'base/views/permission/role/index.vue',
                         'meta' => new Meta([
                             'title' => '角色管理',
                             'icon' => 'ma-icon-role',

@@ -86,7 +86,7 @@ mineAdmin:
     uc: User center
   common:
     saveSuccess: The save was successful
-    clearCache: 緩存已清空
+    clearCache: The cache has been emptied
   plugin:
     disabled: Disabled
     enabled: Enable

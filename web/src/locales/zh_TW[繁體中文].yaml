@@ -86,7 +86,7 @@ mineAdmin:
     uc: 用戶中心
   common:
     saveSuccess: 儲存成功
-    clearCache: The cache has been emptied
+    clearCache: 緩存已清空
   plugin:
     disabled: 已禁用
     enabled: 已啓用

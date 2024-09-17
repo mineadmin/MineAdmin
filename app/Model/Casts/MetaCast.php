@@ -30,6 +30,6 @@ class MetaCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return new Meta((array) $value);
+        return Json::encode($value);
     }
 }

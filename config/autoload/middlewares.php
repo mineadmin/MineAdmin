@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-
 use Hyperf\Validation\Middleware\ValidationMiddleware;
 use Mine\Kernel\Support\Middleware\CorsMiddleware;
 use Mine\Kernel\Support\Middleware\RequestIdMiddleware;

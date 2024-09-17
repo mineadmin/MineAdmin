@@ -20,16 +20,18 @@ export default async ({ mode, command }) => {
       scssResources.push(`@use "src/assets/styles/resources/${dirname}" as *;`)
     }
   })
+
+  const proxyPrefix = env.VITE_PROXY_PREFIX
   return defineConfig({
     // 开发服务器选项 https://cn.vitejs.dev/config/#server-options
     server: {
       open: true,
       port: Number(env.VITE_APP_PORT ?? process.env.port),
       proxy: {
-        '/proxy': {
+        [proxyPrefix]: {
           target: env.VITE_APP_API_BASEURL,
           changeOrigin: command === 'serve' && env.VITE_OPEN_PROXY === 'true',
-          rewrite: path => path.replace(/\/proxy/, ''),
+          rewrite: path => path.replace(new RegExp(`^${proxyPrefix}`), ''),
         },
       },
     },

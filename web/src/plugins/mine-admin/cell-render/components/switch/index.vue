@@ -28,7 +28,6 @@ export default defineComponent({
   },
   setup(props) {
     const Message = useMessage()
-    // 调试
     const { value, row, field } = createRowFieldValues(props)
     const options = createOptions(props, getConfig('switch'))
     const rowKey = props.scope.options?.rowKey ?? 'id'

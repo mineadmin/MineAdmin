@@ -50,7 +50,7 @@ final class UserService extends IService
     {
         $entity = $this->repository->findById($id);
         $syncData = [];
-        Arr::map($roleCodes, function ($roleCode) use (&$syncData) {
+        Arr::map($roleCodes, static function ($roleCode) use (&$syncData) {
             $syncData[$roleCode] = [
                 'ptype' => 'g',
             ];

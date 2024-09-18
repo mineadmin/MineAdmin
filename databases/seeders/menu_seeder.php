@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Model\Permission\Menu;
+use App\Model\Permission\Meta;
 use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
@@ -19,13 +20,9 @@ class MenuSeeder extends Seeder
 {
     public const BASE_DATA = [
         'name' => '',
-        'code' => '',
-        'icon' => '',
-        'route' => '',
+        'path' => '',
         'component' => '',
         'redirect' => '',
-        'is_hidden' => '1',
-        'type' => 'B',
         'created_by' => 0,
         'updated_by' => 0,
         'remark' => '',
@@ -67,342 +64,202 @@ class MenuSeeder extends Seeder
     {
         return [
             [
-                'name' => '权限',
-                'code' => 'permission',
-                'icon' => 'ma-icon-permission',
-                'route' => 'permission',
-                'is_hidden' => '2',
-                'type' => 'M',
+                'name' => 'permission',
+                'path' => '/permission',
+                'meta' => new Meta([
+                    'title' => '权限管理',
+                    'i18n' => 'menu.permission.index',
+                    'icon' => 'simple-icons:authy',
+                    'hidden' => 0,
+                ]),
                 'children' => [
                     [
-                        'name' => '用户管理',
-                        'code' => 'permission:user',
-                        'icon' => 'ma-icon-user',
-                        'route' => 'user',
-                        'component' => 'permission/user/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
+                        'name' => 'permission:user',
+                        'path' => '/permission/user',
+                        'component' => 'base/views/permission/user/index.vue',
+                        'meta' => new Meta([
+                            'type' => 'M',
+                            'title' => '用户管理',
+                            'i18n' => 'menu.permission.user',
+                            'icon' => 'material-symbols:account-box',
+                            'hidden' => 0,
+                            'cache' => 1,
+                        ]),
                         'children' => [
                             [
-                                'name' => '用户列表',
-                                'code' => 'permission:user:index',
+                                'name' => 'permission:user:index',
+                                'meta' => new Meta([
+                                    'title' => '用户列表',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '用户回收站列表',
-                                'code' => 'permission:user:recycle',
+                                'name' => 'permission:user:save',
+                                'meta' => new Meta([
+                                    'title' => '用户保存',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '用户保存',
-                                'code' => 'permission:user:save',
+                                'name' => 'permission:user:update',
+                                'meta' => new Meta([
+                                    'title' => '用户更新',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '用户更新',
-                                'code' => 'permission:user:update',
+                                'name' => 'permission:user:delete',
+                                'meta' => new Meta([
+                                    'title' => '用户删除',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '用户删除',
-                                'code' => 'permission:user:delete',
+                                'name' => 'user:password',
+                                'meta' => new Meta([
+                                    'title' => '用户初始化密码',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '用户读取',
-                                'code' => 'permission:user:read',
-                            ],
-                            [
-                                'name' => '用户恢复',
-                                'code' => 'permission:user:recovery',
-                            ],
-                            [
-                                'name' => '用户真实删除',
-                                'code' => 'permission:user:realDelete',
-                            ],
-                            [
-                                'name' => '用户导入',
-                                'code' => 'permission:user:import',
-                            ],
-                            [
-                                'name' => '用户导出',
-                                'code' => 'permission:user:export',
-                            ],
-                            [
-                                'name' => '用户状态改变',
-                                'code' => 'permission:user:changeStatus',
-                            ],
-                            [
-                                'name' => '用户初始化密码',
-                                'code' => 'permission:user:initUserPassword',
-                            ],
-                            [
-                                'name' => '更新用户缓存',
-                                'code' => 'permission:user:cache',
-                            ],
-                            [
-                                'name' => '设置用户首页',
-                                'code' => 'permission:user:homePage',
+                                'name' => 'user:role',
+                                'meta' => new Meta([
+                                    'title' => '用户角色赋予',
+                                    'type' => 'B',
+                                ]),
                             ],
                         ],
                     ],
                     [
-                        'name' => '菜单管理',
-                        'code' => 'permission:menu',
-                        'icon' => 'icon-menu',
-                        'route' => 'menu',
-                        'component' => 'permission/menu/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
+                        'name' => 'permission:menu',
+                        'path' => '/permission/menu',
+                        'component' => 'base/views/permission/menu/index.vue',
+                        'meta' => new Meta([
+                            'title' => '菜单管理',
+                            'i18n' => 'menu.permission.menu',
+                            'icon' => 'material-symbols:list-alt-rounded',
+                            'hidden' => 0,
+                            'type' => 'M',
+                            'cache' => 1,
+                        ]),
                         'children' => [
                             [
-                                'name' => '菜单列表',
-                                'code' => 'permission:menu:index',
+                                'name' => 'permission:menu:index',
+                                'meta' => new Meta([
+                                    'title' => '菜单列表',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '菜单回收站',
-                                'code' => 'permission:menu:recycle',
+                                'name' => 'permission:menu:save',
+                                'meta' => new Meta([
+                                    'title' => '菜单保存',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '菜单保存',
-                                'code' => 'permission:menu:save',
+                                'name' => 'permission:menu:update',
+                                'meta' => new Meta([
+                                    'title' => '菜单更新',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '菜单更新',
-                                'code' => 'permission:menu:update',
-                            ],
-                            [
-                                'name' => '菜单删除',
-                                'code' => 'permission:menu:delete',
-                            ],
-                            [
-                                'name' => '菜单读取',
-                                'code' => 'permission:menu:read',
-                            ],
-                            [
-                                'name' => '菜单恢复',
-                                'code' => 'permission:menu:recovery',
-                            ],
-                            [
-                                'name' => '菜单真实删除',
-                                'code' => 'permission:menu:realDelete',
-                            ],
-                            [
-                                'name' => '菜单导入',
-                                'code' => 'permission:menu:import',
-                            ],
-                            [
-                                'name' => '菜单导出',
-                                'code' => 'permission:menu:export',
+                                'name' => 'permission:menu:delete',
+                                'meta' => new Meta([
+                                    'title' => '菜单删除',
+                                    'type' => 'B',
+                                ]),
                             ],
                         ],
                     ],
                     [
-                        'name' => '部门管理',
-                        'code' => 'permission:dept',
-                        'icon' => 'ma-icon-dept',
-                        'route' => 'dept',
-                        'component' => 'permission/dept/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
+                        'name' => 'permission:role',
+                        'path' => '/permission/role',
+                        'component' => 'base/views/permission/role/index.vue',
+                        'meta' => new Meta([
+                            'title' => '角色管理',
+                            'i18n' => 'menu.permission.role',
+                            'icon' => 'material-symbols:supervisor-account',
+                            'hidden' => 0,
+                            'type' => 'M',
+                            'cache' => 1,
+                        ]),
                         'children' => [
                             [
-                                'name' => '部门列表',
-                                'code' => 'permission:dept:index',
+                                'name' => 'permission:role:index',
+                                'meta' => new Meta([
+                                    'title' => '角色列表',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '部门回收站',
-                                'code' => 'permission:dept:recycle',
+                                'name' => 'permission:role:save',
+                                'meta' => new Meta([
+                                    'title' => '角色保存',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '部门保存',
-                                'code' => 'permission:dept:save',
+                                'name' => 'permission:role:update',
+                                'meta' => new Meta([
+                                    'title' => '角色更新',
+                                    'type' => 'B',
+                                ]),
                             ],
                             [
-                                'name' => '部门更新',
-                                'code' => 'permission:dept:update',
-                            ],
-                            [
-                                'name' => '部门删除',
-                                'code' => 'permission:dept:delete',
-                            ],
-                            [
-                                'name' => '部门读取',
-                                'code' => 'permission:dept:read',
-                            ],
-                            [
-                                'name' => '部门恢复',
-                                'code' => 'permission:dept:recovery',
-                            ],
-                            [
-                                'name' => '部门真实删除',
-                                'code' => 'permission:dept:realDelete',
-                            ],
-                            [
-                                'name' => '部门导入',
-                                'code' => 'permission:dept:import',
-                            ],
-                            [
-                                'name' => '部门导出',
-                                'code' => 'permission:dept:export',
-                            ],
-                            [
-                                'name' => '部门状态改变',
-                                'code' => 'permission:dept:changeStatus',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '角色管理',
-                        'code' => 'permission:role',
-                        'icon' => 'ma-icon-role',
-                        'route' => 'role',
-                        'component' => 'permission/role/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            [
-                                'name' => '角色列表',
-                                'code' => 'permission:role:index',
-                            ],
-                            [
-                                'name' => '角色回收站',
-                                'code' => 'permission:role:recycle',
-                            ],
-                            [
-                                'name' => '角色保存',
-                                'code' => 'permission:role:save',
-                            ],
-                            [
-                                'name' => '角色更新',
-                                'code' => 'permission:role:update',
-                            ],
-                            [
-                                'name' => '角色删除',
-                                'code' => 'permission:role:delete',
-                            ],
-                            [
-                                'name' => '角色读取',
-                                'code' => 'permission:role:read',
-                            ],
-                            [
-                                'name' => '角色恢复',
-                                'code' => 'permission:role:recovery',
-                            ],
-                            [
-                                'name' => '角色真实删除',
-                                'code' => 'permission:role:realDelete',
-                            ],
-                            [
-                                'name' => '角色导入',
-                                'code' => 'permission:role:import',
-                            ],
-                            [
-                                'name' => '角色导出',
-                                'code' => 'permission:role:export',
-                            ],
-                            [
-                                'name' => '角色状态改变',
-                                'code' => 'permission:role:changeStatus',
-                            ],
-                            [
-                                'name' => '更新菜单权限',
-                                'code' => 'permission:role:menuPermission',
-                            ],
-                            [
-                                'name' => '更新数据权限',
-                                'code' => 'permission:role:dataPermission',
-                            ],
-                        ],
-                    ],
-                    [
-                        'name' => '岗位管理',
-                        'code' => 'permission:post',
-                        'icon' => 'ma-icon-post',
-                        'route' => 'post',
-                        'component' => 'permission/post/index',
-                        'is_hidden' => '2',
-                        'type' => 'M',
-                        'children' => [
-                            53 => [
-                                'name' => '岗位列表',
-                                'code' => 'permission:post:index',
-                            ],
-                            [
-                                'name' => '岗位回收站',
-                                'code' => 'permission:post:recycle',
-                            ],
-                            [
-                                'name' => '岗位保存',
-                                'code' => 'permission:post:save',
-                            ],
-                            [
-                                'name' => '岗位更新',
-                                'code' => 'permission:post:update',
-                            ],
-                            [
-                                'name' => '岗位删除',
-                                'code' => 'permission:post:delete',
-                            ],
-                            [
-                                'name' => '岗位读取',
-                                'code' => 'permission:post:read',
-                            ],
-                            [
-                                'name' => '岗位恢复',
-                                'code' => 'permission:post:recovery',
-                            ],
-                            [
-                                'name' => '岗位真实删除',
-                                'code' => 'permission:post:realDelete',
-                            ],
-                            [
-                                'name' => '岗位导入',
-                                'code' => 'permission:post:import',
-                            ],
-                            [
-                                'name' => '岗位导出',
-                                'code' => 'permission:post:export',
-                            ],
-                            [
-                                'name' => '岗位状态改变',
-                                'code' => 'permission:post:changeStatus',
+                                'name' => 'permission:role:delete',
+                                'meta' => new Meta([
+                                    'title' => '角色删除',
+                                    'type' => 'B',
+                                ]),
                             ],
                         ],
                     ],
                 ],
             ],
-            [
+            // todo 代码生成器还没定下来，所以先注释掉
+            /* [
                 'name' => '工具',
                 'code' => 'devTools',
                 'icon' => 'ma-icon-tool',
-                'route' => 'devTools',
-                'is_hidden' => '2',
+                'path' => 'devTools',
+                'hidden' => '2',
                 'type' => 'M',
                 'children' => [
                     [
                         'name' => '代码生成器',
                         'code' => 'setting:code',
                         'icon' => 'ma-icon-code',
-                        'route' => 'code',
+                        'path' => 'code',
                         'component' => 'setting/code/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                         'children' => [
                             [
                                 'name' => '预览代码',
                                 'code' => 'setting:code:preview',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '装载数据表',
                                 'code' => 'setting:code:loadTable',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '删除业务表',
                                 'code' => 'setting:code:delete',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '同步业务表',
                                 'code' => 'setting:code:sync',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '生成代码',
                                 'code' => 'setting:code:generate',
+                                'type' => 'B',
                             ],
                         ],
                     ],
@@ -410,38 +267,45 @@ class MenuSeeder extends Seeder
                         'name' => '数据源管理',
                         'code' => 'setting:datasource',
                         'icon' => 'icon-storage',
-                        'route' => 'setting/datasource',
+                        'path' => 'setting/datasource',
                         'component' => 'setting/datasource/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                         'children' => [
                             [
                                 'name' => '数据源管理列表',
                                 'code' => 'setting:datasource:index',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理保存',
                                 'code' => 'setting:datasource:save',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理更新',
                                 'code' => 'setting:datasource:update',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理读取',
                                 'code' => 'setting:datasource:read',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理删除',
                                 'code' => 'setting:datasource:delete',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理导入',
                                 'code' => 'setting:datasource:import',
+                                'type' => 'B',
                             ],
                             [
                                 'name' => '数据源管理导出',
                                 'code' => 'setting:datasource:export',
+                                'type' => 'B',
                             ],
                         ],
                     ],
@@ -449,13 +313,13 @@ class MenuSeeder extends Seeder
                         'name' => '系统接口',
                         'code' => 'systemInterface',
                         'icon' => 'icon-compass',
-                        'route' => 'systemInterface',
+                        'path' => 'systemInterface',
                         'component' => 'setting/systemInterface/index',
-                        'is_hidden' => '2',
+                        'hidden' => '2',
                         'type' => 'M',
                     ],
                 ],
-            ],
+            ],*/
         ];
     }
 

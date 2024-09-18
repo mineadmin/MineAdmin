@@ -21,11 +21,14 @@ use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
 use Mine\Kernel\Support\Logger\UuidRequestIdProcessor;
+use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
 
 abstract class AbstractHandler extends ExceptionHandler
 {
+    use Debugging;
+
     public function __construct(
         private readonly ConfigInterface $config,
         private readonly ContainerInterface $container,
@@ -79,11 +82,6 @@ abstract class AbstractHandler extends ExceptionHandler
         return $responsePlus
             ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->setBody(new SwooleStream(Json::encode($result)));
-    }
-
-    protected function isDebug(): bool
-    {
-        return (bool) $this->config->get('debug');
     }
 
     /**

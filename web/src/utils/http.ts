@@ -64,8 +64,7 @@ http.interceptors.response.use(
     }
 
     const responseRaw: ResponseStruct = response.data
-    const mineResponse = { raw: response, data: responseRaw?.data ?? null }
-    if (response.status === 200) {
+    if (response?.data?.code === 200) {
       if (responseRaw.code !== ResultCode.SUCCESS) {
         Message.error(responseRaw.message, {
           zIndex: 2000,
@@ -78,33 +77,55 @@ http.interceptors.response.use(
       Message.error(responseRaw.message, {
         zIndex: 2000,
       })
-      return Promise.reject(responseRaw)
-    }
-  },
-  async (error) => {
-    isLoading.value = false
-    switch (error.response.status) {
-      case 401:
-        Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
-        await (useDebounceFn(
-          () => useUserStore().logout(),
-          1000,
-          { maxWait: 5000 },
-        ))()
-        break
-      case 404:
-        Message.error('服务器资源不存在', { zIndex: 2000 })
-        break
-      case 500:
-        Message.error('服务器内部错误', { zIndex: 2000 })
-        break
-      default:
-        Message.error(error.message ?? '未知错误', { zIndex: 2000 })
-        break
-    }
+      // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
+      switch (response?.data?.code) {
+        case 401:
+          Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
+          await (useDebounceFn(
+            async () => await useUserStore().logout(),
+            1000,
+            { maxWait: 5000 },
+          ))()
+          break
+        case 404:
+          Message.error('服务器资源不存在', { zIndex: 2000 })
+          break
+        case 500:
+          Message.error('服务器内部错误', { zIndex: 2000 })
+          break
+        default:
+          Message.error(responseRaw.message ?? '未知错误', { zIndex: 2000 })
+          break
+      }
 
-    return Promise.reject(error.response && error.response.data ? error.response.data : null)
+      return Promise.reject(response.data ? response.data : null)
+    }
   },
+  // axios 错误拦截器
+  // async (error) => {
+  //   isLoading.value = false
+  //   switch (error.response?.data?.code) {
+  //     case 401:
+  //       Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
+  //       await (useDebounceFn(
+  //         () => useUserStore().logout(),
+  //         1000,
+  //         { maxWait: 5000 },
+  //       ))()
+  //       break
+  //     case 404:
+  //       Message.error('服务器资源不存在', { zIndex: 2000 })
+  //       break
+  //     case 500:
+  //       Message.error('服务器内部错误', { zIndex: 2000 })
+  //       break
+  //     default:
+  //       Message.error(error.message ?? '未知错误', { zIndex: 2000 })
+  //       break
+  //   }
+  //
+  //   return Promise.reject(error.response && error.response.data ? error.response.data : null)
+  // },
 )
 
 export default {

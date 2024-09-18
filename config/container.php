@@ -17,7 +17,6 @@ use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSourceFactory;
 use Psr\Container\ContainerInterface;
 
-
 $container = new Container((new DefinitionSourceFactory())());
 
 if (! $container instanceof ContainerInterface) {

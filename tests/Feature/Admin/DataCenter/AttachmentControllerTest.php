@@ -23,7 +23,7 @@ use HyperfTests\Feature\Admin\ControllerCase;
  * @internal
  * @coversNothing
  */
-class AttachmentControllerTest extends ControllerCase
+final class AttachmentControllerTest extends ControllerCase
 {
     public function testPageList(): void
     {
@@ -32,19 +32,19 @@ class AttachmentControllerTest extends ControllerCase
         $code = 'attachment:list';
         $result = $this->get($url);
         $enforce = $this->getEnforce();
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertArrayHasKey('list', Arr::get($result, 'data'));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertArrayHasKey('list', Arr::get($result, 'data'));
     }
 
     public function testDelete(): void
@@ -72,17 +72,17 @@ class AttachmentControllerTest extends ControllerCase
         $code = 'attachment:delete';
         $enforce = $this->getEnforce();
         $result = $this->delete($url . '/' . $entity->id);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->expectException(ModelNotFoundException::class);
         $entity->refresh();
     }

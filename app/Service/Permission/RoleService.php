@@ -30,7 +30,7 @@ final class RoleService extends IService
     {
         $entity = $this->repository->findById($id);
         $syncData = [];
-        Arr::map($menuIds, function ($menuId) use (&$syncData) {
+        Arr::map($menuIds, static function ($menuId) use (&$syncData) {
             $syncData[$menuId] = [
                 'ptype' => 'p',
             ];

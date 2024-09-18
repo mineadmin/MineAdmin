@@ -20,7 +20,7 @@ class CreateUserTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('user', static function (Blueprint $table) {
             $table->comment('用户信息表');
             $table->bigIncrements('id')->comment('用户ID，主键');
             $table->string('username', 20)->unique()->comment('用户名');
@@ -36,10 +36,9 @@ class CreateUserTable extends Migration
             $table->ipAddress('login_ip')->default('127.0.0.1')->comment('最后登陆IP');
             $table->timestamp('login_time')->useCurrent()->comment('最后登陆时间');
             $table->json('backend_setting')->nullable()->comment('后台设置数据');
-            $table->bigInteger('created_by')->default(0)->comment('创建者');
-            $table->bigInteger('updated_by')->default(0)->comment('更新者');
+            $table->authorBy();
             $table->datetimes();
-            $table->softDeletes();
+
             $table->string('remark', 255)->default('')->comment('备注');
         });
     }

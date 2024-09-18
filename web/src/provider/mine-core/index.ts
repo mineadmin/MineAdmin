@@ -72,7 +72,7 @@ const provider: ProviderService.Provider = {
       ssr: false,
       provider: {
         app,
-        icon: MaSvgIcon,
+        icon: markRaw(MaSvgIcon),
         contextMenu: ContextMenu.showContextMenu,
       },
     })

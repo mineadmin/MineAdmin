@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
-use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 use Mine\Kernel\Casbin\Rule\Rule;
 
@@ -40,15 +39,12 @@ use Mine\Kernel\Casbin\Rule\Rule;
  * @property int $updated_by 更新者
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
- * @property string $deleted_at 删除时间
  * @property string $remark 备注
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
  */
 final class User extends Model
 {
-    use SoftDeletes;
-
     /**
      * The table associated with the model.
      */
@@ -91,7 +87,7 @@ final class User extends Model
 
     public function setPasswordAttribute($value): void
     {
-        $this->attributes['password'] = password_hash((string) $value, PASSWORD_DEFAULT);
+        $this->attributes['password'] = password_hash((string) $value, \PASSWORD_DEFAULT);
     }
 
     public function verifyPassword(string $password): bool
@@ -124,7 +120,7 @@ final class User extends Model
 
     public function getMenus(): Collection
     {
-        return $this->roles()->get()->map(function (Role $role) {
+        return $this->roles()->get()->map(static function (Role $role) {
             return $role->menus()->get();
         })->flatten();
     }

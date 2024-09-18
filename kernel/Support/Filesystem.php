@@ -18,7 +18,7 @@ final class Filesystem
     {
         $files = scandir($source);
         foreach ($files as $file) {
-            if ($file == '.' || $file == '..') {
+            if ($file === '.' || $file === '..') {
                 continue;
             }
             \Nette\Utils\FileSystem::copy($source . '/' . $file, $target . '/' . $file);

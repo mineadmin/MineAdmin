@@ -125,3 +125,8 @@ menu:
   uc:message: 消息
   welcome: 欢迎页
   dashboard: 仪表盘
+  permission:
+    index: 权限管理
+    user: 用户管理
+    role: 角色管理
+    menu: 菜单管理

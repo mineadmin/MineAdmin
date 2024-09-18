@@ -34,16 +34,21 @@ class MenuRequest extends FormRequest
         return [
             'parent_id' => 'sometimes|integer',
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:255',
-            'icon' => 'sometimes|string|max:255',
-            'route' => 'sometimes|string|max:255',
+            'path' => 'required|string|max:255',
             'component' => 'sometimes|string|max:255',
             'redirect' => 'sometimes|string|max:255',
-            'is_hidden' => 'sometimes|integer',
-            'type' => 'sometimes|string|max:255',
             'status' => 'sometimes|integer',
             'sort' => 'sometimes|integer',
             'remark' => 'sometimes|string|max:255',
+            'meta.title' => 'required|string|max:255',
+            'meta.i18n' => 'required|string|max:255',
+            'meta.badge' => 'sometimes|string|max:255',
+            'meta.icon' => 'sometimes|string|max:255',
+            'meta.affix' => 'sometimes|boolean',
+            'meta.hidden' => 'sometimes|boolean',
+            'meta.type' => 'sometimes|string|max:255',
+            'meta.cache' => 'sometimes|boolean',
+            'meta.link' => 'sometimes|string|max:255',
         ];
     }
 
@@ -52,16 +57,22 @@ class MenuRequest extends FormRequest
         return [
             'parent_id' => trans('menu.parent_id'),
             'name' => trans('menu.name'),
-            'code' => trans('menu.code'),
-            'icon' => trans('menu.icon'),
-            'route' => trans('menu.route'),
             'component' => trans('menu.component'),
             'redirect' => trans('menu.redirect'),
+            'path' => trans('menu.path'),
             'is_hidden' => trans('menu.is_hidden'),
-            'type' => trans('menu.type'),
             'status' => trans('menu.status'),
             'sort' => trans('menu.sort'),
             'remark' => trans('menu.remark'),
+            'meta.title' => trans('menu.meta.title'),
+            'meta.i18n' => trans('menu.meta.i18n'),
+            'meta.badge' => trans('menu.meta.badge'),
+            'meta.icon' => trans('menu.meta.icon'),
+            'meta.affix' => trans('menu.meta.affix'),
+            'meta.hidden' => trans('menu.meta.hidden'),
+            'meta.type' => trans('menu.meta.type'),
+            'meta.cache' => trans('menu.meta.cache'),
+            'meta.link' => trans('menu.meta.link'),
         ];
     }
 }

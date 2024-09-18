@@ -48,7 +48,7 @@ class AmqpQueueVo
         return $this->producer;
     }
 
-    public function setProducer(string $producer): AmqpQueueVo
+    public function setProducer(string $producer): self
     {
         $this->producer = $producer;
         return $this;
@@ -59,7 +59,7 @@ class AmqpQueueVo
         return $this->data;
     }
 
-    public function setData(array $data): AmqpQueueVo
+    public function setData(array $data): self
     {
         $this->data = $data;
         return $this;
@@ -70,7 +70,7 @@ class AmqpQueueVo
         return $this->isConfirm;
     }
 
-    public function setIsConfirm(bool $isConfirm): AmqpQueueVo
+    public function setIsConfirm(bool $isConfirm): self
     {
         $this->isConfirm = $isConfirm;
         return $this;
@@ -81,7 +81,7 @@ class AmqpQueueVo
         return $this->timeout;
     }
 
-    public function setTimeout(int $timeout): AmqpQueueVo
+    public function setTimeout(int $timeout): self
     {
         $this->timeout = $timeout;
         return $this;
@@ -92,7 +92,7 @@ class AmqpQueueVo
         return $this->delayTime;
     }
 
-    public function setDelayTime(int $delayTime): AmqpQueueVo
+    public function setDelayTime(int $delayTime): self
     {
         $this->delayTime = $delayTime;
         return $this;

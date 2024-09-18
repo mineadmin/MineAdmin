@@ -15,15 +15,15 @@ namespace Mine\Kernel\Support\Traits;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Contract\ConfigInterface;
 
-trait GetDebugTrait
+trait Debugging
 {
     public function isDebug(): bool
     {
         return (bool) ApplicationContext::getContainer()->get(ConfigInterface::class)->get('debug');
     }
 
-    public function log($message, array $context = [],string $level = 'error'): void
+    public function log($message, array $context = [], string $level = 'error'): void
     {
-        $this->isDebug() ? $this->stdoutLogger->{$level}($message,$context) : $this->logger->{$level}($message,$context);
+        $this->isDebug() ? $this->stdoutLogger->{$level}($message, $context) : $this->logger->{$level}($message, $context);
     }
 }

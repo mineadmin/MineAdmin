@@ -40,8 +40,8 @@ export default defineComponent({
     function initItems(menu: MenuProps['menu'], parentPaths: string[] = []) {
       menu.forEach((item) => {
         const index = item.path ?? JSON.stringify(item)
-        if (item.children) {
-          const indexPath = [...parentPaths, index]
+        if (item?.children && item?.children?.length > 0) {
+          const indexPath = [index]
           subMenus.value[index] = {
             index,
             indexPath,

@@ -22,7 +22,7 @@ class CorsMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getMethod() == 'OPTIONS') {
+        if ($request->getMethod() === 'OPTIONS') {
             return $this->setHeader(ResponseContext::get());
         }
 

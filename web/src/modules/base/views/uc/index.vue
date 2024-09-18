@@ -95,6 +95,18 @@ const showFields = reactive({
   login_ip: useLocalTrans('userinfo.loginIp'),
   login_time: useLocalTrans('userinfo.loginTime'),
 })
+
+const updateImage = () => {
+  // Select image
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = 'image/*'
+  input.onchange = (e) => {
+    const file:File = e.target.files[0]
+  }
+  input.click()
+}
+
 </script>
 
 <template>
@@ -126,8 +138,8 @@ const showFields = reactive({
               </div>
               <div class="desc-value">
                 <div class="flex flex-col gap-x-5 gap-y-2 lg:flex-row">
-                  <a class="cursor-pointer text-gray-7 dark-text-gray-3">{{ useLocalTrans('changeAvatar') }}</a>
-                  <a class="cursor-pointer text-red-6">{{ useLocalTrans('removeAvatar') }}</a>
+                  <a class="cursor-pointer text-gray-7 dark-text-gray-3" @click="updateImage">{{ useLocalTrans('changeAvatar') }}</a>
+                  <a class="cursor-pointer text-red-6" v-if="userStore.getUserInfo()?.avatar">{{ useLocalTrans('removeAvatar') }}</a>
                 </div>
               </div>
             </div>

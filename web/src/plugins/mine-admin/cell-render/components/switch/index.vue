@@ -3,16 +3,15 @@ import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { SwitchEmits, SwitchProps } from 'element-plus'
 import type { WithOnEventListeners } from '../../utils/tools.ts'
-import { cellRenderPluginName, createOptions, createRowFieldValues, getConfig } from '../../utils/tools.ts'
+import { cellRenderPluginName, createOptions, createRowFieldValues, exec, getConfig } from '../../utils/tools.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 
 export interface Emits extends SwitchEmits {
 }
-
 // 定义options类型,与ImageProps类型合并
 export interface Options extends Omit<Partial<SwitchProps>, 'loading' | 'beforeChange'>, WithOnEventListeners<Emits> {
   api: ((data) => Promise<any>) | string
-  beforeChange?: (newValue) => boolean | Promise<boolean>
+  beforeChange?: (value, row, scope) => boolean | Promise<any>
 }
 
 export default defineComponent({
@@ -49,12 +48,11 @@ export default defineComponent({
 
     const onBeforeChange = async () => {
       loading.value = true
-      const re = await beforeChange(nextValue.value, row.value, props.scope)
-      return false
-      // if (!await beforeChange(nextValue.value, row.value, props.scope).catch(() => false)) {
-      //   loading.value = false
-      //   return false
-      // }
+
+      if (!await exec(beforeChange, value.value, row.value, props.scope)) {
+        loading.value = false
+        return false
+      }
 
       return api({
         [rowKey]: row.value[rowKey],

@@ -25,7 +25,7 @@ const pluginConfig: Plugin.PluginConfig = {
     console.log('demo 插件已经启动')
   },
   config: {
-    enable: true,
+    enable: false,
     info: {
       name: 'mine-admin/demo',
       version: '1.0.0',
@@ -63,6 +63,36 @@ const pluginConfig: Plugin.PluginConfig = {
     //   console.log('demo 插件的网络返回钩子，此次返回信息：', response)
     // },
   },
+  views: [
+    {
+      name: 'demo',
+      path: '/demo',
+      meta: {
+        title: '开发示例',
+        // badge: () => 1,
+        hidden: false,
+        copyright: false,
+      },
+      children: [
+        {
+          name: 'demo-pro-table',
+          path: '/demo/pro-table',
+          component: () => import('./views/pro-table/index.vue'),
+          meta: {
+            title: '表格示例',
+          },
+        },
+        {
+          name: 'demo-form',
+          path: '/demo/form',
+          component: () => import('./views/form/index.vue'),
+          meta: {
+            title: '表单示例',
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export default pluginConfig

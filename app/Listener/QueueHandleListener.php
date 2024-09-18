@@ -23,13 +23,13 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Traits\GetDebugTrait;
+use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
 final class QueueHandleListener implements ListenerInterface
 {
-    use GetDebugTrait;
+    use Debugging;
 
     protected LoggerInterface $logger;
 
@@ -55,20 +55,20 @@ final class QueueHandleListener implements ListenerInterface
     {
         if ($event instanceof Event) {
             $job = $event->getMessage()->job();
-            $jobClass = get_class($job);
+            $jobClass = $job::class;
             if ($job instanceof AnnotationJob) {
-                $jobClass = sprintf('Job[%s@%s]', $job->class, $job->method);
+                $jobClass = \sprintf('Job[%s@%s]', $job->class, $job->method);
             }
             $date = date('Y-m-d H:i:s');
             $format = match (true) {
                 $event instanceof BeforeHandle => '[%s] Processing %s.',
                 $event instanceof AfterHandle => '[%s] Processed %s.',
-                $event instanceof FailedHandle => '[%s] Failed %s.' . PHP_EOL . $this->formatter->format($event->getThrowable()),
+                $event instanceof FailedHandle => '[%s] Failed %s.' . \PHP_EOL . $this->formatter->format($event->getThrowable()),
                 $event instanceof RetryHandle => '[%s] Retried %s.',
                 default => null,
             };
             $this->log(
-                message: sprintf($format, $date, $jobClass),
+                message: \sprintf($format, $date, $jobClass),
                 level: 'debug'
             );
         }

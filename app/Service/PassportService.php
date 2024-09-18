@@ -56,7 +56,7 @@ final class PassportService extends IService
 
     public function checkJwt(UnencryptedToken $token): bool
     {
-        return value(function (JwtInterface $jwt) use ($token) {
+        return value(static function (JwtInterface $jwt) use ($token) {
             if ($jwt->hasBlackList($token)) {
                 throw new JwtInBlackException();
             }
@@ -79,7 +79,7 @@ final class PassportService extends IService
      */
     public function refreshToken(UnencryptedToken $token): array
     {
-        return value(function (JwtInterface $jwt) use ($token) {
+        return value(static function (JwtInterface $jwt) use ($token) {
             $jwt->addBlackList($token);
             return [
                 'token' => $jwt->builder(Arr::only($token->claims()->all(), 'id'))->toString(),

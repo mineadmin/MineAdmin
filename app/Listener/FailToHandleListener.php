@@ -18,13 +18,13 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Traits\GetDebugTrait;
+use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
 final class FailToHandleListener implements ListenerInterface
 {
-    use GetDebugTrait;
+    use Debugging;
 
     private LoggerInterface $logger;
 
@@ -49,7 +49,7 @@ final class FailToHandleListener implements ListenerInterface
     public function process(object $event): void
     {
         $this->log(
-            message: sprintf('%s Command failed to handle, %s', $event->getCommand()->getName(), $this->formatter->format($event->getThrowable())),
+            message: \sprintf('%s Command failed to handle, %s', $event->getCommand()->getName(), $this->formatter->format($event->getThrowable())),
             level: 'debug'
         );
     }

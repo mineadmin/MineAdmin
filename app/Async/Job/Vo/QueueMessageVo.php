@@ -63,7 +63,7 @@ class QueueMessageVo
         return $this->title;
     }
 
-    public function setTitle(string $title): QueueMessageVo
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -74,7 +74,7 @@ class QueueMessageVo
         return $this->contentType;
     }
 
-    public function setContentType(string $contentType): QueueMessageVo
+    public function setContentType(string $contentType): self
     {
         $this->contentType = $contentType;
         return $this;
@@ -85,7 +85,7 @@ class QueueMessageVo
         return $this->content;
     }
 
-    public function setContent(string $content): QueueMessageVo
+    public function setContent(string $content): self
     {
         $this->content = $content;
         return $this;
@@ -96,7 +96,7 @@ class QueueMessageVo
         return $this->sendBy;
     }
 
-    public function setSendBy(int $sendBy): QueueMessageVo
+    public function setSendBy(int $sendBy): self
     {
         $this->sendBy = $sendBy;
         return $this;
@@ -107,7 +107,7 @@ class QueueMessageVo
         return $this->remark;
     }
 
-    public function setRemark(string $remark): QueueMessageVo
+    public function setRemark(string $remark): self
     {
         $this->remark = $remark;
         return $this;
@@ -118,7 +118,7 @@ class QueueMessageVo
         return $this->isConfirm;
     }
 
-    public function setIsConfirm(bool $isConfirm): QueueMessageVo
+    public function setIsConfirm(bool $isConfirm): self
     {
         $this->isConfirm = $isConfirm;
         return $this;
@@ -129,7 +129,7 @@ class QueueMessageVo
         return $this->timeout;
     }
 
-    public function setTimeout(int $timeout): QueueMessageVo
+    public function setTimeout(int $timeout): self
     {
         $this->timeout = $timeout;
         return $this;
@@ -140,7 +140,7 @@ class QueueMessageVo
         return $this->delayTime;
     }
 
-    public function setDelayTime(int $delayTime): QueueMessageVo
+    public function setDelayTime(int $delayTime): self
     {
         $this->delayTime = $delayTime;
         return $this;

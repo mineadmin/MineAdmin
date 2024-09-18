@@ -29,8 +29,8 @@ class FormRequest extends Schema
     ) {
         $properties = $this->parserProperties($properties, $schema);
         if ($only) {
-            $properties = Arr::where($properties, function (Property $item) use ($only) {
-                return in_array($item->property, $only, true);
+            $properties = Arr::where($properties, static function (Property $item) use ($only) {
+                return \in_array($item->property, $only, true);
             });
         }
         parent::__construct(

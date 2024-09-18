@@ -7,88 +7,48 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
-<i18n lang="yaml">
-en:
-  showInputPlaceholder: Click the back button to select the icon
-  selectedIcon: Select icon
-  clear: Clear
-zh_CN:
-  showInputPlaceholder: 点击后面按钮选择资源
-  selectedIcon: 选择资源
-  clear: 清除
-zh_TW:
-  showInputPlaceholder: 點擊後面按鈕選擇圖示
-  selectedIcon: 選擇圖示
-  clear: 清除
-</i18n>
 
 <script setup lang="ts">
+import { ElDialog } from 'element-plus'
+import { omit } from 'lodash-es'
 import MaResourcePanel from './panel.vue'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+import type { Resource } from './type.ts'
 
 defineOptions({ name: 'MaResourcePicker' })
 
-const model = defineModel<string>()
-const iconPanelRef = ref()
-
-const dialogVisible = ref<boolean>(false)
-const resource = ref()
-
-watch(resource, (value) => {
-  console.log(value)
-}, { deep: true })
-
-function onConfirm(keys, resources) {
-  console.log(keys, resources)
+const emit = defineEmits<{
+  cancel: []
+  confirm: [selected: Resource[]]
+}>()
+const dialogVisible = defineModel<boolean>('visible')
+function onCancel() {
   dialogVisible.value = false
+  emit('cancel')
 }
+
+function onConfirm(selected: any[]) {
+  dialogVisible.value = false
+  emit('confirm', selected)
+}
+
+// 获得所有attrs
+const attrs = omit(useAttrs(), ['onConfirm', 'onCancel'])
 </script>
 
 <template>
-  <div>
-    <div>
-      <el-input
-        v-model="model"
-        class="relative w-full"
-        readonly
-        :placeholder="useLocalTrans('showInputPlaceholder')"
-      >
-        <template v-if="model" #prefix>
-          <ma-svg-icon :name="model" :size="20" />
-        </template>
-        <template #suffix>
-          <el-button type="primary" class="absolute right-0 rounded-none" @click.prevent="dialogVisible = true">
-            {{ useLocalTrans('selectedIcon') }}
-          </el-button>
-        </template>
-        <template #append>
-          <el-button
-            @click="() => {
-              model = ''
-              iconPanelRef?.clear()
-            }"
-          >
-            {{ useLocalTrans('clear') }}
-          </el-button>
-        </template>
-      </el-input>
+  <ElDialog
+    v-model="dialogVisible"
+    title="资源选择器"
+    width="800"
+    append-to-body
+    draggable
+    destroy-on-close
+    align-center
+  >
+    <div class="h-[595px]">
+      <MaResourcePanel v-bind="attrs" @cancel="onCancel" @confirm="onConfirm" />
     </div>
-
-    <el-dialog v-model="dialogVisible" :title="useLocalTrans('selectedIcon')" width="800" append-to-body draggable destroy-on-close align-center>
-      <div class="h-[600px]">
-        <MaResourcePanel
-          ref="iconPanelRef"
-          v-model="resource"
-          return-type="hash"
-          :page-size="24"
-          :limit="12"
-          multiple
-          @cancel="dialogVisible = false"
-          @confirm="onConfirm"
-        />
-      </div>
-    </el-dialog>
-  </div>
+  </ElDialog>
 </template>
 
 <style scoped lang="scss">

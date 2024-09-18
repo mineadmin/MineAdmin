@@ -10,13 +10,13 @@
 import useCache from '@/hooks/useCache.ts'
 import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
-import useHttp from "@/hooks/auto-imports/useHttp.ts";
-import * as PermissionApi from "~/base/api/permission.ts";
-import {Menu, Role} from "~/base/api/permission.ts";
+import useHttp from '@/hooks/auto-imports/useHttp.ts'
+import * as PermissionApi from '~/base/api/permission.ts'
+import type { Menu, Role } from '~/base/api/permission.ts'
 
-export type LoginParams = {
-  username: string;
-  password: string;
+export interface LoginParams {
+  username: string
+  password: string
 }
 
 export interface LoginResult {
@@ -34,13 +34,11 @@ export interface UserInfo {
   backend_setting: any[]
 }
 
-const mode = import.meta.env.MODE
-
 function getInfo(): Promise<ResponseStruct<UserInfo>> {
-  return useHttp().get(mode === 'mock' ? '/mock/system/getInfo' : '/admin/passport/getInfo')
+  return useHttp().get('/admin/passport/getInfo')
 }
 
-function logout(): Promise<ResponseStruct<null>> {
+function logoutApi(): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/passport/logout')
 }
 
@@ -49,7 +47,7 @@ function logout(): Promise<ResponseStruct<null>> {
  * @param data
  */
 function loginApi(data: LoginParams): Promise<ResponseStruct<LoginResult>> {
-  return useHttp().post(mode === 'mock' ? '/mock/system/login' : '/admin/passport/login', data)
+  return useHttp().post('/admin/passport/login', data)
 }
 
 const useUserStore = defineStore(
@@ -88,7 +86,7 @@ const useUserStore = defineStore(
       return menu.value
     }
 
-    function setMenu(list:Menu[]) {
+    function setMenu(list: Menu[]) {
       menu.value = list
     }
 
@@ -96,24 +94,22 @@ const useUserStore = defineStore(
       return dropdownMenuState.value[key] !== undefined ? dropdownMenuState.value[key] : undefined
     }
 
-    async function initRole() {
-       const res =  await PermissionApi.getRoles()
+    async function refreshRole() {
+      const res = await PermissionApi.getRoles()
       setRoles(res.data)
     }
 
-    async function initPermission() {
+    async function refreshMenu() {
       const res = await PermissionApi.getMenus()
       setMenu(res.data)
     }
 
-    function login(data: { username: string, password: string, code: string }) {
+    async function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
         loginApi(data).then(async (res) => {
           token.value = res.data.token
           cache.set('token', res.data.token)
-          cache.set('expire', useDayjs().unix() + res.data.expire, { exp: res.data.expire })
-          await initRole()
-          await initPermission()
+          cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
         }).catch((error) => {
@@ -121,21 +117,32 @@ const useUserStore = defineStore(
         })
       })
     }
-    async function requestUserInfo(): void {
-      getInfo().then(res=>{
-        setUserInfo(res.data)
-        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.user.backend_setting) {
-          setUserSetting(data.user?.backend_setting)
+    async function requestUserInfo(): Promise<void> {
+      try {
+        const routeStore = useRouteStore()
+        const { data } = await getInfo()
+        setUserInfo(data)
+        if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
+          setUserSetting(data?.backend_setting)
         }
-         usePluginStore().callHooks('getUserInfo', data.user)
-      }).catch(err=>{
-        logout();
-      })
+        await refreshMenu()
+        await refreshRole()
+        await routeStore.initRoutes(router, getMenu())
+        const codes: string[] = []
+        router.getRoutes()?.map(item => codes.push(item.name as string))
+        setPermissions(codes)
+        await usePluginStore().callHooks('getUserInfo', data)
+      }
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      catch (e) {
+        await logoutApi()
+      }
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
-      await usePluginStore().callHooks('logout')
       clearInfo()
+      await usePluginStore().callHooks('logout')
+      // await logoutApi()
       await router.push({
         name: 'login',
         query: {
@@ -198,7 +205,7 @@ const useUserStore = defineStore(
 
     function saveSettingToSever() {
       const settings = setting.getSettings()
-      useHttp().post('/mock/system/saveSetting', settings).then((response: ResponseStruct) => {
+      useHttp().post('/mock/system/saveSetting', settings).then(() => {
         cache.set('sys_settings', settings)
       }).catch((error) => {
         console.log(error)
@@ -225,18 +232,21 @@ const useUserStore = defineStore(
       isLogin,
       login,
       logout,
+      getDropdownMenu,
+      getDropdownMenuState,
       setDropdownMenuState,
       clearCache,
       setLanguage,
       getLanguage,
       requestUserInfo,
       getUserInfo,
+      setPermissions,
       getPermissions,
       getRoles,
       getLocales,
       setLocales,
       saveSettingToSever,
-      getMenu
+      getMenu,
     }
   },
 )

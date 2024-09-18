@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Mine\Kernel\GeneratorCrud\Entity;
 
 use Mine\Kernel\GeneratorCrud\Enums\TableColumnType;
@@ -14,7 +24,7 @@ final class ColumnEntity
         private bool $isPrimary,
         private bool $isUnique,
         private bool $isAutoIncrement,
-    ){}
+    ) {}
 
     public function getColumnName(): string
     {
@@ -76,7 +86,6 @@ final class ColumnEntity
         $this->isUnique = $isUnique;
     }
 
-
     public function isAutoIncrement(): bool
     {
         return $this->isAutoIncrement;
@@ -86,5 +95,4 @@ final class ColumnEntity
     {
         $this->isAutoIncrement = $isAutoIncrement;
     }
-
 }

@@ -1,9 +1,10 @@
 <script setup lang="tsx">
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
-import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
 import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { useResourcePicker } from '@/hooks/useResourcePicker.ts'
 
 const message = useMessage()
 const proTableRef = ref()
@@ -41,14 +42,14 @@ const options: MaProTableOptions = reactive({
     fold: true,
   },
   requestOptions: {
-    api: (params: any) => {
-      return new Promise((resolve) => {
-        // 模拟网络延时
-        setTimeout(() => {
-          useHttp().get('/mock/attachment/list', { params }).then(resolve)
-        }, Math.floor(Math.random() * 900 + 100))
-      })
-    },
+    // api: (params: any) => {
+    //   return new Promise((resolve) => {
+    //     // 模拟网络延时
+    //     setTimeout(() => {
+    //       useHttp().get('/admin/attachment/list', { params }).then(resolve)
+    //     }, Math.floor(Math.random() * 900 + 100))
+    //   })
+    // },
     response: {
       dataKey: 'items',
     },
@@ -126,8 +127,8 @@ const schema: MaProTableSchema = reactive({
       label: '状态',
       prop: 'status',
       // cellRender: useCellRender().switch('/mock/switch/changeStatus'),
-      cellRender: useCellRender().switch(data => useHttp().get('/mock/attachment/list', data), {
-        beforeChange: (newValue, row, scope) => message.confirm('确定要删除吗？'),
+      cellRender: useCellRender().switch('admin/attachment/list', {
+        beforeChange: (value, row, scope) => message.confirm(value === 2 ? '确定要启用吗？' : '确定要禁用吗？'),
       }),
     },
     { label: '创建时间', prop: 'created_at' },
@@ -175,13 +176,43 @@ onMounted(() => {
 })
 
 // 打印所有插件
-console.log(useProTableRenderPlugin().getPlugins())
+const dialogVisible = ref(false)
+function onClickx() {
+  useResourcePicker({
+    multiple: true,
+    limit: 2,
+    defaultFileType: 'image',
+    // fileTypes: [
+    //   {
+    //     label: '图片',
+    //     value: 'image',
+    //     suffix: 'jpg,png,gif,jpeg',
+    //   },
+    //   {
+    //     label: '视频',
+    //     value: 'video',
+    //     suffix: 'mp4,avi,wmv,mov,flv,mkv webm',
+    //   },
+    // ],
+    onConfirm: (value) => {
+      ElMessage.warning('您选择了资源,请控制台查看')
+      console.log(value)
+    },
+    onCancel: () => {
+      ElMessage.warning('您取消资源选择')
+    },
+  })
+}
 </script>
 
 <template>
   <div class="pt-2.5">
     <!--    <ma-pro-table :options="options" :schema="schema" /> -->
     <MaProTable ref="proTableRef" :options="options" :schema="schema" />
+    <el-button @click="onClickx">
+      资源选择
+    </el-button>
+    <!--    <MaResourceDialog v-model:visible="dialogVisible" /> -->
   </div>
 </template>
 

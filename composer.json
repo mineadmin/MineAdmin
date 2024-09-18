@@ -26,6 +26,7 @@
     "casbin/casbin": "^3.23",
     "hyperf/async-queue": "3.1.*",
     "hyperf/cache": "3.1.*",
+    "hyperf/carbon": "^3.1",
     "hyperf/command": "3.1.*",
     "hyperf/config": "3.1.*",
     "hyperf/constants": "3.1.*",

@@ -1,7 +1,10 @@
 import useEcharts from '@mineadmin/echarts'
+import { useColorMode } from '@vueuse/core'
+
+const colorMode = useColorMode()
 
 function themeMode() {
-  return useSettingStore().getSettings('app').colorMode === 'dark' ? 'mineDark' : 'default'
+  return colorMode.value === 'dark' ? 'mineDark' : 'default'
 }
 
 export {

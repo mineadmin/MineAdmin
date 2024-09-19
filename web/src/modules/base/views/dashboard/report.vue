@@ -18,7 +18,7 @@ defineOptions({ name: 'dashboard:report' })
       </div>
     </div>
 
-    <div class="mine-layout grid grid-cols-4">
+    <div class="mine-layout grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
       <ReportItems title="用户留存趋势" quota="retentionTrends" chart-type="line" />
       <ReportItems title="用户留存量" quota="userRetention" chart-type="bar" class="!ml-3 !lg:ml-0" />
       <ReportItems title="内容消费趋势" quota="contentConsumptionTrends" chart-type="line" class="!ml-3 !lg:ml-0" />

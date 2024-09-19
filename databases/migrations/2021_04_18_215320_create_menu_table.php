@@ -29,7 +29,7 @@ class CreateMenuTable extends Migration
             $table->char('path', 60)->default('')->comment('路径');
             $table->string('component', 150)->default('')->comment('组件路径');
             $table->char('redirect', 100)->comment('重定向地址')->default('');
-            $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
+            $table->tinyInteger('status')->comment('状态:1=正常,2=停用')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();
             $table->datetimes();

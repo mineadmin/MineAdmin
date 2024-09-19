@@ -23,18 +23,9 @@ class CreateRoleTable extends Migration
         Schema::create('role', static function (Blueprint $table) {
             $table->comment('角色信息表');
             $table->bigIncrements('id')->comment('主键');
-            $table->addColumn('string', 'name', ['length' => 30, 'comment' => '角色名称']);
-            $table->addColumn('string', 'code', ['length' => 100, 'comment' => '角色代码']);
-            $table->addColumn(
-                'smallInteger',
-                'data_scope',
-                [
-                    'length' => 1,
-                    'default' => 1,
-                    'comment' => '数据范围:1=全部数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限,5=本人数据权限',
-                ]
-            )->nullable();
-            $table->tinyInteger('status')->comment('状态 (1正常 2停用)')->default(1);
+            $table->string('name',30)->comment('角色名称');
+            $table->string('code',100)->comment('角色代码');
+            $table->tinyInteger('status')->comment('状态:1=正常,2=停用')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();
             $table->datetimes();

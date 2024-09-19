@@ -1,8 +1,8 @@
 <script setup lang="tsx">
-import AnalysisItem from './components/analysis-item.vue'
-import AnalysisContentPublish from './components/analysis-content-publish.vue'
-import AnalysisHotAuthor from './components/analysis-hot-author.vue'
-import AnalysisContentTimer from './components/analysis-content-timer.vue'
+import AnalysisItem from './components/analysis/analysis-item.vue'
+import AnalysisContentPublish from './components/analysis/analysis-content-publish.vue'
+import AnalysisHotAuthor from './components/analysis/analysis-hot-author.vue'
+import AnalysisContentTimer from './components/analysis/analysis-content-timer.vue'
 
 defineOptions({ name: 'dashboard:analysis' })
 </script>

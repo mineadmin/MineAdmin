@@ -8,7 +8,7 @@
  - @Link   https://github.com/mineadmin
 -->
 <script lang="ts" setup>
-import getAnalysisData from '../datas/analysis.ts'
+import getAnalysisData from '../../datas/analysis.ts'
 import { useEcharts } from '@/hooks/useEcharts.ts'
 
 const props = withDefaults(defineProps<{

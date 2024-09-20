@@ -14,7 +14,6 @@ import { useDebounceFn } from '@vueuse/core'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import type { ResponseStruct } from '#/global'
 import useCache from '@/hooks/useCache.ts'
-import { ResultCode } from '#/ResultCode.ts'
 
 const { isLoading } = useNProgress()
 const cache = useCache()
@@ -65,18 +64,9 @@ http.interceptors.response.use(
 
     const responseRaw: ResponseStruct = response.data
     if (response?.data?.code === 200) {
-      if (responseRaw.code !== ResultCode.SUCCESS) {
-        Message.error(responseRaw.message, {
-          zIndex: 2000,
-        })
-        return Promise.reject(responseRaw)
-      }
       return Promise.resolve(responseRaw)
     }
     else {
-      Message.error(responseRaw.message, {
-        zIndex: 2000,
-      })
       // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
       switch (response?.data?.code) {
         case 401: {

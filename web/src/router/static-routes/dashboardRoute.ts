@@ -31,7 +31,7 @@ const dashboardRoute: RouteRecordRaw = {
         copyright: true,
         cache: true,
       },
-      component: () => import(('~/base/views/dashboard/workplace.vue')),
+      component: () => import(('~/base/views/dashboard/workbench.vue')),
     },
     {
       name: 'dashboard:analysis',

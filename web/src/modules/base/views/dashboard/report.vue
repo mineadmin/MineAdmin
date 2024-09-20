@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import ReportOverview from './components/report/report-overview.vue'
-import ReportPublishSource from '~/base/views/dashboard/components/report/report-publish-source.vue'
-import ReportUserAction from '~/base/views/dashboard/components/report/report-user-action.vue'
-import ReportContentClassify from '~/base/views/dashboard/components/report/report-content-classify.vue'
-import ReportItems from '~/base/views/dashboard/components/report/report-items.vue'
+import ReportPublishSource from './components/report/report-publish-source.vue'
+import ReportUserAction from './components/report/report-user-action.vue'
+import ReportContentClassify from './components/report/report-content-classify.vue'
+import ReportItems from './components/report/report-items.vue'
 
 defineOptions({ name: 'dashboard:report' })
 </script>

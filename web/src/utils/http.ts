@@ -79,14 +79,18 @@ http.interceptors.response.use(
       })
       // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
       switch (response?.data?.code) {
-        case 401:
-          Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
-          await (useDebounceFn(
-            async () => await useUserStore().logout(),
+        case 401: {
+          const logout = useDebounceFn(
+            async () => {
+              Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
+              await useUserStore().logout()
+            },
             1000,
             { maxWait: 5000 },
-          ))()
+          )
+          await logout()
           break
+        }
         case 404:
           Message.error('服务器资源不存在', { zIndex: 2000 })
           break

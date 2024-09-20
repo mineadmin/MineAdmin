@@ -53,11 +53,10 @@ final class MenuController extends AbstractController
     #[ResultResponse(instance: new Result())]
     public function pageList(RequestInterface $request): Result
     {
-        return $this->success($this->service->page(
-            $request->all(),
-            $this->getCurrentPage(),
-            $this->getPageSize()
-        ));
+        return $this->success(data: $this->service->getRepository()->list([
+            'children' => true,
+            'parent_id' => 0,
+        ]));
     }
 
     #[Post(

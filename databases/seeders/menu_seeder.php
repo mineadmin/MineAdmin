@@ -70,6 +70,7 @@ class MenuSeeder extends Seeder
                     'title' => '权限管理',
                     'i18n' => 'menu.permission.index',
                     'icon' => 'simple-icons:authy',
+                    'type' => 'M',
                     'hidden' => 0,
                 ]),
                 'children' => [

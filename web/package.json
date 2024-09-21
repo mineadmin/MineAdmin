@@ -23,7 +23,7 @@
     "@headlessui/vue": "^1.7.22",
     "@imengyu/vue3-context-menu": "^1.4.2",
     "@mineadmin/echarts": "^1.0.1",
-    "@mineadmin/form": "^1.0.15",
+    "@mineadmin/form": "^1.0.17",
     "@mineadmin/pro-table": "^1.0.6",
     "@mineadmin/search": "^1.0.17",
     "@mineadmin/table": "^1.0.19",
@@ -50,6 +50,7 @@
     "vue-i18n": "^9.13.1",
     "vue-m-message": "^4.0.2",
     "vue-router": "^4.4.2",
+    "vue-splitpane": "^1.0.6",
     "web-storage-cache": "^1.1.1"
   },
   "devDependencies": {

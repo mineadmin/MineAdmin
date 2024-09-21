@@ -1,8 +1,8 @@
 .el-menu {
   .el-menu-item:hover {
     @apply
-      dark-bg-[var(--el-color-primary-light-1)]
-      dark-text-[var(--el-color-primary-light-9)]
+    dark-bg-[var(--el-color-primary-light-1)]
+    dark-text-[var(--el-color-primary-light-9)]
     ;
   }
 }
@@ -15,3 +15,31 @@
   @apply bg-gray-100 font-500 text-dark-9 dark-text-gray-1
   !dark:bg-dark-5;
 }
+
+.el-tree-node__label {
+  @apply flex flex-1 h-full;
+}
+
+.el-tree {
+
+  .el-tree-node__content {
+    @apply rounded mt-0.5 h-35px;
+  }
+
+  .mine-tree-node {
+    @apply flex items-center justify-between h-full pr-2 w-full;
+
+    .label {
+      @apply flex items-center h-full gap-x-1.5;
+    }
+    .do {
+      @apply hidden;
+    }
+  }
+
+  .mine-tree-node:hover .do {
+    @apply inline-block;
+  }
+}
+
+

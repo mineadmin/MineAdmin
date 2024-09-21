@@ -1,4 +1,4 @@
-import type { PageList, ResponseStruct } from '#/global'
+import type { ResponseStruct } from '#/global'
 
 export interface MenuVo {
   id?: number
@@ -16,7 +16,7 @@ export interface MenuVo {
   remark: string
 }
 
-export function page(): Promise<ResponseStruct<PageList<MenuVo>>> {
+export function page(): Promise<ResponseStruct<MenuVo[]>> {
   return useHttp().get('/admin/menu/list')
 }
 

@@ -30,11 +30,7 @@ const form = ref<Record<string, any>>({
   },
   sort: 0,
   status: true,
-  btnPermission: [
-    { title: '新增', i18n: 'add', code: 'add' },
-    { title: '编辑', i18n: 'edit', code: 'edit' },
-    { title: '删除', i18n: 'delete', code: 'delete' },
-  ],
+  btnPermission: [],
 })
 
 const formOptions = ref<MaFormOptions>({

@@ -13,15 +13,39 @@ import useTable from '@/hooks/useTable.ts'
 
 const { model = {} } = defineProps<{ model: Record<string, any> }>()
 
+function addItme() {
+  model!.btnPermission.push({ title: '', code: '', i18n: '' })
+}
+
 useTable('buttonFormTable').then((table: MaTableExpose) => {
   table.setData(model?.btnPermission ?? [{}])
   table.setColumns([
     {
       label: '#',
+      showOverflowTooltip: false,
+      width: '120px',
       cellRender: ({ $index }): any => (
         <>
-          <el-button size="small">+</el-button>
-          <el-button size="small">-</el-button>
+          <el-button
+            size="small"
+            circle
+            type="primary"
+            onClick={addItme}
+          >
+            <ma-svg-icon name="ic:round-plus" size={20} />
+          </el-button>
+          <el-button
+            size="small"
+            circle
+            type="danger"
+            onClick={() => {
+              if (model!.btnPermission?.length > 0) {
+                model!.btnPermission.splice($index, 1)
+              }
+            }}
+          >
+            <ma-svg-icon name="ic:round-minus" size={20} />
+          </el-button>
         </>
       ),
     },
@@ -51,7 +75,12 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
   <el-card class="w-full">
     <ma-table ref="buttonFormTable">
       <template #empty>
-        还没有按钮菜单
+        <div>
+          没有按钮菜单？
+          <el-button type="primary" plain @click="addItme">
+            新增一个
+          </el-button>
+        </div>
       </template>
     </ma-table>
   </el-card>

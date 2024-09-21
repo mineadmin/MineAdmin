@@ -115,14 +115,14 @@ class MenuSeeder extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'user:password',
+                                'name' => 'permission:user:password',
                                 'meta' => new Meta([
                                     'title' => '用户初始化密码',
                                     'type' => 'B',
                                 ]),
                             ],
                             [
-                                'name' => 'user:role',
+                                'name' => 'permission:user:role',
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
                                     'type' => 'B',

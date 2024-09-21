@@ -8,7 +8,7 @@
  * @Link   https://github.com/mineadmin
  */
 import * as echarts from 'echarts/core'
-import { BarChart, LineChart, PieChart } from 'echarts/charts'
+import { BarChart, LineChart, PieChart, RadarChart } from 'echarts/charts'
 import { CanvasRenderer, SVGRenderer } from 'echarts/renderers'
 import {
   DataZoomComponent,
@@ -31,6 +31,7 @@ use([
   PieChart,
   BarChart,
   LineChart,
+  RadarChart,
   CanvasRenderer,
   SVGRenderer,
   GridComponent,

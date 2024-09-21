@@ -30,7 +30,7 @@ class CreateAttachmentTable extends Migration
             $table->string('mime_type',255)->comment('资源类型')->nullable();
             $table->string('storage_path',100)->comment('存储目录')->nullable();
             $table->string('suffix',20)->comment('文件后缀')->nullable();
-            $table->bigInteger('size_byte',20)->comment('字节数')->nullable();
+            $table->bigInteger('size_byte')->comment('字节数')->nullable();
             $table->string('size_info',50)->comment('文件大小')->nullable();
             $table->string('url',255)->comment('url地址')->nullable();
             $table->authorBy();

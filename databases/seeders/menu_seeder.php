@@ -39,7 +39,6 @@ class MenuSeeder extends Seeder
         Role::create([
             'name' => '超级管理员（创始人）',
             'code' => 'SuperAdmin',
-            'data_scope' => 0,
             'sort' => 0,
             'created_by' => env('SUPER_ADMIN', 0),
             'updated_by' => 0,

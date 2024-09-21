@@ -21,9 +21,9 @@ enum Status: int
 {
     use EnumConstantsTrait;
 
-    #[Message('user.enums.status.0')]
+    #[Message('user.enums.status.1')]
     case ENABLE = 1;
 
-    #[Message('user.enums.status.1')]
-    case DISABLE = 0;
+    #[Message('user.enums.status.2')]
+    case DISABLE = 2;
 }

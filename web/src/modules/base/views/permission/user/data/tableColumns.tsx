@@ -11,7 +11,7 @@ import type { MaProTableColumns } from '@mineadmin/pro-table'
 
 const cols: MaProTableColumns[] = [
   // 多选列
-  { type: 'selection' },
+  { type: 'selection', showOverflowTooltip: false },
   // 索引序号列
   { type: 'index' },
   // 普通列

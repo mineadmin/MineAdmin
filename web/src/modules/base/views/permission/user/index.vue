@@ -21,7 +21,6 @@ const options = ref<MaProTableOptions>({
   adaptionOffsetBottom: 161,
   // 头部配置
   header: {
-    show: true,
     mainTitle: '用户管理',
     secondaryTitle: '提供用户添加、编辑、删除功能，超管不可修改。',
   },
@@ -48,7 +47,7 @@ const schema = ref<MaProTableSchema>({
 
 <template>
   <div class="mine-layout pt-3">
-    <MaProTable ref="proTableRef" :options="options" :schema="schema">
+    <ma-pro-table ref="proTableRef" :options="options" :schema="schema">
       <template #actions>
         <el-button type="primary">
           新增
@@ -60,7 +59,7 @@ const schema = ref<MaProTableSchema>({
           删除
         </el-button>
       </template>
-    </MaProTable>
+    </ma-pro-table>
   </div>
 </template>
 

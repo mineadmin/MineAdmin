@@ -4,13 +4,9 @@ export interface MenuVo {
   id?: number
   parent_id?: number
   name: string
-  code: string
-  icon: string
-  route: string
+  meta?: Record<string, any>
   component: string
   redirect: string
-  meta?: Record<string, any>
-  type: string
   status: number
   sort: number
   remark: string

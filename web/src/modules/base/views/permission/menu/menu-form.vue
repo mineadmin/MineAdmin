@@ -22,16 +22,42 @@ const form = ref<Record<string, any>>({
   meta: {
     type: 'M',
     componentSuffix: '.vue',
+    componentPath: 'modules/',
     breadcrumbEnable: true,
     copyright: true,
     hidden: false,
     affix: false,
     cache: true,
   },
+  component: '',
   sort: 0,
-  status: true,
+  status: 1,
   btnPermission: [],
 })
+
+function setData(data: Record<string, any>) {
+  Object.keys(data).map((name: string) => {
+    if (name === 'parent_id' && data[name] === 0) {
+      form.value[name] = undefined
+    }
+    else if (name === 'children' && data[name]?.length > 0) {
+      form.value.btnPermission = []
+      data[name].map((item: any) => {
+        form.value.btnPermission.push({
+          code: item.name,
+          title: item.meta?.title ?? '',
+          i18n: item.meta?.i18n ?? '',
+        })
+      })
+      console.log(form.value.btnPermission)
+    }
+    else {
+      form.value[name] = data[name]
+    }
+  })
+}
+
+defineExpose({ setData })
 
 const formOptions = ref<MaFormOptions>({
   labelWidth: '85px',
@@ -53,9 +79,9 @@ const formItems = ref<MaFormItem[]>([
     cols: { lg: 12, md: 24 },
   },
   {
-    label: '菜单标识', prop: 'code', render: 'input',
+    label: '菜单标识', prop: 'name', render: 'input',
     renderProps: {
-      placeholder: '请输入菜单标识',
+      placeholder: '请输入菜单标识，此项全局唯一',
     },
     itemProps: {
       rules: [{ required: true, message: '请输入菜单标识' }],
@@ -106,14 +132,26 @@ const formItems = ref<MaFormItem[]>([
     },
   },
   {
+    label: '路由地址', prop: 'path', render: 'input',
+    show: (_, model) => model.meta.type === 'M',
+    renderProps: {
+      placeholder: '页面访问地址，以 "/" 开头，如果下面存在子菜单（非按钮），可以不写此项。',
+    },
+  },
+  {
     label: '视图地址', prop: 'component', render: 'input',
     show: (_, model) => model.meta.type === 'M',
     renderProps: {
       class: 'w-full',
-      placeholder: '视图地址',
+      placeholder: '视图地址，请指向模块或插件下的views目录文件',
     },
     renderSlots: {
-      prepend: () => 'modules/',
+      prepend: () => (
+        <ElSelect v-model={form.value.meta.componentPath} placeholder="视图前缀地址" class="w-220px">
+          <ElOption label="模块目录：src/modules/" value="modules/" />
+          <ElOption label="插件目录：src/plugins/" value="plugins/" />
+        </ElSelect>
+      ),
       append: () => (
         <ElSelect v-model={form.value.meta.componentSuffix} placeholder="视图后缀" class="w-120px">
           <ElOption label=".vue" value=".vue" />
@@ -122,15 +160,12 @@ const formItems = ref<MaFormItem[]>([
         </ElSelect>
       ),
     },
-    itemProps: {
-      rules: [{ required: true, message: '请输入视图地址' }],
-    },
   },
   {
-    label: '路由跳转', prop: 'redirect', render: 'input',
+    label: '路由重定向', prop: 'redirect', render: 'input',
     show: (_, model) => model.meta.type === 'M',
     renderProps: {
-      placeholder: '跳转其他路由地址，以 "/" 开头',
+      placeholder: '利用 vue-router 跳转其他路由地址，以 "/" 开头',
     },
   },
   {
@@ -160,14 +195,20 @@ const formItems = ref<MaFormItem[]>([
   },
   {
     label: '是否启用', prop: 'status', render: 'switch',
+    renderProps: {
+      activeValue: 1,
+      inactiveValue: 2,
+    },
     cols: { lg: 8, md: 8, sm: 8, xs: 12 },
   },
   {
     label: '是否隐藏', prop: 'meta.hidden', render: 'switch',
+    show: (_, model) => model.meta.type === 'M',
     cols: { lg: 8, md: 8, sm: 8, xs: 12 },
   },
   {
     label: '是否缓存', prop: 'meta.cache', render: 'switch',
+    show: (_, model) => model.meta.type === 'M',
     cols: { lg: 8, md: 8, sm: 8, xs: 12 },
   },
   {
@@ -201,7 +242,7 @@ const formItems = ref<MaFormItem[]>([
 
 watch(
   () => menuList.value,
-  val => treeSelectRef.value!.filter(val),
+  val => treeSelectRef.value.filter(val),
   { deep: true },
 )
 </script>
@@ -213,6 +254,9 @@ watch(
     class="mt-5"
     :options="formOptions"
     :items="formItems"
+    @submit="(form) => {
+      console.log(form)
+    }"
   />
 </template>
 

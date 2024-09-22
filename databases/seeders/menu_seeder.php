@@ -64,13 +64,18 @@ class MenuSeeder extends Seeder
         return [
             [
                 'name' => 'permission',
-                'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'i18n' => 'menu.permission.index',
                     'icon' => 'simple-icons:authy',
                     'type' => 'M',
                     'hidden' => 0,
+                    'componentPath' => 'modules/',
+                    'componentSuffix' => '.vue',
+                    'breadcrumbEnable' => 1,
+                    'copyright' => 1,
+                    'cache' => 1,
+                    'affix' => 0,
                 ]),
                 'children' => [
                     [
@@ -83,7 +88,12 @@ class MenuSeeder extends Seeder
                             'i18n' => 'menu.permission.user',
                             'icon' => 'material-symbols:account-box',
                             'hidden' => 0,
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => true,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [
@@ -140,7 +150,12 @@ class MenuSeeder extends Seeder
                             'icon' => 'material-symbols:list-alt-rounded',
                             'hidden' => 0,
                             'type' => 'M',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [
@@ -183,7 +198,12 @@ class MenuSeeder extends Seeder
                             'icon' => 'material-symbols:supervisor-account',
                             'hidden' => 0,
                             'type' => 'M',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [

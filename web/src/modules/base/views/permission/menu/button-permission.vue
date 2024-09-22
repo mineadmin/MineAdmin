@@ -18,53 +18,53 @@ function addItme() {
 }
 
 useTable('buttonFormTable').then((table: MaTableExpose) => {
-  table.setData(model?.btnPermission ?? [{}])
+  table.setData(model?.btnPermission)
   table.setColumns([
     {
       label: '#',
       showOverflowTooltip: false,
-      width: '120px',
+      width: '80px',
+      headerRender: () => (
+        <el-button
+          size="small"
+          circle
+          type="primary"
+          onClick={addItme}
+        >
+          <ma-svg-icon name="ic:round-plus" size={20} />
+        </el-button>
+      ),
       cellRender: ({ $index }): any => (
-        <>
-          <el-button
-            size="small"
-            circle
-            type="primary"
-            onClick={addItme}
-          >
-            <ma-svg-icon name="ic:round-plus" size={20} />
-          </el-button>
-          <el-button
-            size="small"
-            circle
-            type="danger"
-            onClick={() => {
-              if (model!.btnPermission?.length > 0) {
-                model!.btnPermission.splice($index, 1)
-              }
-            }}
-          >
-            <ma-svg-icon name="ic:round-minus" size={20} />
-          </el-button>
-        </>
+        <el-button
+          size="small"
+          circle
+          type="danger"
+          onClick={() => {
+            if (model!.btnPermission?.length > 0) {
+              model!.btnPermission.splice($index, 1)
+            }
+          }}
+        >
+          <ma-svg-icon name="ic:round-minus" size={20} />
+        </el-button>
       ),
     },
     {
       label: '按钮名称',
       cellRender: ({ row }): any => (
-        <el-input v-model={row.title} />
+        <el-input v-model={row.title} placeholder="请输入按钮名称" />
       ),
     },
     {
-      label: '按钮权限',
+      label: '按钮标识',
       cellRender: ({ row }): any => (
-        <el-input v-model={row.code} />
+        <el-input v-model={row.code} placeholder="请输入按钮标识" />
       ),
     },
     {
       label: '按钮国际化',
       cellRender: ({ row }): any => (
-        <el-input v-model={row.i18n} />
+        <el-input v-model={row.i18n} placeholder="请输入按钮国际化" />
       ),
     },
   ])
@@ -72,7 +72,8 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
 </script>
 
 <template>
-  <el-card class="w-full">
+  <el-card class="w-full" shadow="never">
+    {{ model }}
     <ma-table ref="buttonFormTable">
       <template #empty>
         <div>

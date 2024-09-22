@@ -10,7 +10,11 @@
 <script setup lang="ts">
 import { useResizeObserver } from '@vueuse/core'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
+import type { MenuVo } from '~/base/api/menu.ts'
 
+const emit = defineEmits<{
+  (event: 'menu-select', value: MenuVo): void
+}>()
 const t = useTrans()
 
 onMounted(async () => {
@@ -34,6 +38,7 @@ onMounted(async () => {
     :indent="26"
     auto-expand-parent
     class="mt-1 h-[200px] lg:h-full"
+    @node-click="(node: MenuVo) => emit('menu-select', node)"
   >
     <template #default="{ data }">
       <div class="mine-tree-node">

@@ -47,9 +47,9 @@ function setData(data: Record<string, any>) {
           code: item.name,
           title: item.meta?.title ?? '',
           i18n: item.meta?.i18n ?? '',
+          type: item.meta?.type ?? '',
         })
       })
-      console.log(form.value.btnPermission)
     }
     else {
       form.value[name] = data[name]

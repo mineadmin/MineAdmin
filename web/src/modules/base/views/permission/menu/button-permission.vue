@@ -13,12 +13,13 @@ import useTable from '@/hooks/useTable.ts'
 
 const { model = {} } = defineProps<{ model: Record<string, any> }>()
 
+const data = ref<any[]>([])
+
 function addItme() {
-  model!.btnPermission.push({ title: '', code: '', i18n: '' })
+  data.value.push({ title: '', code: '', i18n: '' })
 }
 
 useTable('buttonFormTable').then((table: MaTableExpose) => {
-  table.setData(model?.btnPermission)
   table.setColumns([
     {
       label: '#',
@@ -40,8 +41,8 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
           circle
           type="danger"
           onClick={() => {
-            if (model!.btnPermission?.length > 0) {
-              model!.btnPermission.splice($index, 1)
+            if (data.value.length > 0) {
+              data.value.splice($index, 1)
             }
           }}
         >
@@ -68,12 +69,20 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
       ),
     },
   ])
+
+  watch(() => model?.btnPermission, () => {
+    data.value = []
+    model?.btnPermission?.map((item: any) => {
+      item.type === 'B' && data.value.push(item)
+    })
+
+    table.setData(data.value)
+  }, { immediate: true, deep: true })
 })
 </script>
 
 <template>
   <el-card class="w-full" shadow="never">
-    {{ model }}
     <ma-table ref="buttonFormTable">
       <template #empty>
         <div>

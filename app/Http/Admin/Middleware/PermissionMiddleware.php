@@ -62,10 +62,10 @@ final class PermissionMiddleware implements MiddlewareInterface
         return true;
     }
 
-    private function handlePermission(Permission $permission): ?bool
+    private function handlePermission(Permission $permission): void
     {
         if ($this->currentUser->isSuperAdmin()) {
-            return true;
+            return;
         }
         $operation = $permission->getOperation();
         $codes = $permission->getCode();
@@ -84,7 +84,7 @@ final class PermissionMiddleware implements MiddlewareInterface
                 throw new BusinessException(code: ResultCode::FORBIDDEN);
             }
             if ($operation === Permission::OPERATION_OR && \in_array($code, $allPermissionCode, true)) {
-                return true;
+                return;
             }
         }
         if ($operation === Permission::OPERATION_OR) {

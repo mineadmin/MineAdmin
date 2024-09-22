@@ -23,8 +23,8 @@ class CreateRoleTable extends Migration
         Schema::create('role', static function (Blueprint $table) {
             $table->comment('角色信息表');
             $table->bigIncrements('id')->comment('主键');
-            $table->string('name',30)->comment('角色名称');
-            $table->string('code',100)->comment('角色代码');
+            $table->string('name', 30)->comment('角色名称');
+            $table->string('code', 100)->comment('角色代码');
             $table->tinyInteger('status')->comment('状态:1=正常,2=停用')->default(1);
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();

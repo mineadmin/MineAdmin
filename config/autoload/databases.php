@@ -48,8 +48,6 @@ return [
             'gen:model' => [
                 'path' => 'app/Model',
                 'force_casts' => true,
-                'inheritance' => 'MineModel',
-                'uses' => 'Mine\MineModel',
                 'with_comments' => true,
                 'refresh_fillable' => true,
                 'visitors' => [

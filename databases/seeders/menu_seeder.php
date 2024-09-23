@@ -16,7 +16,7 @@ use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 use Mine\Kernel\Casbin\Rule\Rule;
 
-class menu_seeder extends Seeder
+class MenuSeeder extends Seeder
 {
     public const BASE_DATA = [
         'name' => '',

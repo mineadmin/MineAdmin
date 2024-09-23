@@ -1,4 +1,14 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 return [
     'id' => '用户ID，主键',
     'username' => '用户名',
@@ -19,14 +29,14 @@ return [
     'updated_at' => '更新时间',
     'deleted_at' => '删除时间',
     'remark' => '备注',
-    'enums' =>  [
-        'type'  =>  [
+    'enums' => [
+        'type' => [
             100 => '系统用户',
-            200 => '普通用户'
+            200 => '普通用户',
         ],
-        'status'    =>  [
-            1   =>  '正常',
-            2   =>  '停用'
-        ]
-    ]
+        'status' => [
+            1 => '正常',
+            2 => '停用',
+        ],
+    ],
 ];

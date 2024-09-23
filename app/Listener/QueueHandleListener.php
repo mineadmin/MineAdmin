@@ -34,6 +34,7 @@ final class QueueHandleListener implements ListenerInterface
     protected LoggerInterface $logger;
 
     public function __construct(
+        /** @phpstan-ignore-next-line */
         private readonly StdoutLoggerInterface $stdoutLogger,
         private readonly FormatterInterface $formatter,
         LoggerFactory $loggerFactory,

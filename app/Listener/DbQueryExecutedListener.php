@@ -26,10 +26,12 @@ final class DbQueryExecutedListener implements ListenerInterface
 {
     use Debugging;
 
+    /** @phpstan-ignore-next-line */
     private LoggerInterface $logger;
 
     public function __construct(
         LoggerFactory $loggerFactory,
+        /** @phpstan-ignore-next-line */
         private readonly StdoutLoggerInterface $stdoutLogger
     ) {
         $this->logger = $loggerFactory->get('sql');

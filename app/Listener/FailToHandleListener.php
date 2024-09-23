@@ -26,9 +26,11 @@ final class FailToHandleListener implements ListenerInterface
 {
     use Debugging;
 
+    /** @phpstan-ignore-next-line */
     private LoggerInterface $logger;
 
     public function __construct(
+        /** @phpstan-ignore-next-line */
         private readonly StdoutLoggerInterface $stdoutLogger,
         private readonly FormatterInterface $formatter,
         LoggerFactory $loggerFactory,

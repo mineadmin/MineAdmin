@@ -30,6 +30,7 @@ abstract class AbstractHandler extends ExceptionHandler
     use Debugging;
 
     public function __construct(
+        /** @phpstan-ignore-next-line */
         private readonly ConfigInterface $config,
         private readonly ContainerInterface $container,
         private readonly LoggerFactory $loggerFactory

@@ -24,7 +24,7 @@
     "@imengyu/vue3-context-menu": "^1.4.2",
     "@mineadmin/echarts": "^1.0.1",
     "@mineadmin/form": "^1.0.17",
-    "@mineadmin/pro-table": "^1.0.10",
+    "@mineadmin/pro-table": "^1.0.11",
     "@mineadmin/search": "^1.0.19",
     "@mineadmin/table": "^1.0.19",
     "@vueuse/core": "^10.11.0",

@@ -8,13 +8,17 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="tsx">
-import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
+import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
+import type { Ref } from 'vue'
 import searchItems from './data/searchItems.tsx'
-import tableColumns from './data/tableColumns.tsx'
+import getUserColumns from './data/tableColumns.tsx'
+import UserForm from './form.vue'
 import { page } from '~/base/api/user'
 
 defineOptions({ name: 'permission:user' })
 
+const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
+const formRef = ref()
 const selections = ref<any[]>([])
 
 // 参数配置
@@ -51,7 +55,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems,
   // 表格列
-  tableColumns,
+  tableColumns: getUserColumns(proTableRef, formRef),
 })
 </script>
 
@@ -59,7 +63,7 @@ const schema = ref<MaProTableSchema>({
   <div class="mine-layout pt-3">
     <ma-pro-table ref="proTableRef" :options="options" :schema="schema">
       <template #actions>
-        <el-button type="primary">
+        <el-button type="primary" @click="() => formRef.open(null)">
           新增
         </el-button>
       </template>
@@ -70,6 +74,8 @@ const schema = ref<MaProTableSchema>({
         </el-button>
       </template>
     </ma-pro-table>
+
+    <UserForm ref="formRef" />
   </div>
 </template>
 

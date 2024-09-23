@@ -15,6 +15,8 @@ import { page } from '~/base/api/user'
 
 defineOptions({ name: 'permission:user' })
 
+const selections = ref<any[]>([])
+
 // 参数配置
 const options = ref<MaProTableOptions>({
   // 表格距离底部的像素偏移适配
@@ -24,6 +26,13 @@ const options = ref<MaProTableOptions>({
     mainTitle: '用户管理',
     secondaryTitle: '提供用户添加、编辑、删除功能，超管不可修改。',
   },
+  // 表格参数
+  tableOptions: {
+    on: {
+      // 表格选择事件
+      onSelectionChange: (selection: any[]) => selections.value = selection,
+    },
+  },
   // 搜索参数
   searchOptions: {
     fold: true,
@@ -31,6 +40,7 @@ const options = ref<MaProTableOptions>({
   },
   // 搜索表单参数
   searchFormOptions: { labelWidth: '70px' },
+  // 请求配置
   requestOptions: {
     api: page,
   },
@@ -55,7 +65,7 @@ const schema = ref<MaProTableSchema>({
       </template>
 
       <template #toolbarLeft>
-        <el-button type="danger" plain disabled>
+        <el-button type="danger" plain :disabled="selections.length < 1">
           删除
         </el-button>
       </template>

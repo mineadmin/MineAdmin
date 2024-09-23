@@ -8,6 +8,8 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaProTableColumns } from '@mineadmin/pro-table'
+import { ElMessage as msg } from 'element-plus'
+import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 
 const cols: MaProTableColumns[] = [
   // 多选列
@@ -15,10 +17,24 @@ const cols: MaProTableColumns[] = [
   // 索引序号列
   { type: 'index' },
   // 普通列
-  { label: '头像', prop: 'avatar' },
+  { label: '头像', prop: 'avatar', width: '120px',
+    cellRender: ({ row }) => (
+      <div class="flex-center">
+        <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : row.avatar} alt={row.username} />
+      </div>
+    ),
+  },
   { label: '用户名', prop: 'username' },
   { label: '昵称', prop: 'nickname' },
-  { label: '状态', prop: 'status' },
+  { label: '手机', prop: 'phone' },
+  { label: '邮箱', prop: 'email' },
+  { label: '状态', prop: 'status',
+    cellRender: ({ row }) => (
+      <el-tag type={row.status === 1 ? 'primary' : 'danger'}>
+        { row.status === 1 ? '正常' : '禁用' }
+      </el-tag>
+    ),
+  },
   // 操作列
   {
     type: 'operation',
@@ -28,6 +44,9 @@ const cols: MaProTableColumns[] = [
           name: 'edit',
           icon: 'material-symbols:person-edit',
           text: '编辑',
+          onClick: ({ row }) => {
+            msg.success(`打开编辑${row.id}`)
+          },
         },
         {
           name: 'del',

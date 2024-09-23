@@ -1,30 +1,30 @@
 import type { PageList, ResponseStruct } from '#/global'
 
-interface Role {
+export interface RoleVo {
   id?: number
-  name: string
-  code: string
-  data_scope: number
-  status: number
-  sort: number
-  remark: string
+  name?: string
+  code?: string
+  data_scope?: number
+  status?: number
+  sort?: number
+  remark?: string
 }
 
-export interface RoleSearch {
+export interface RoleSearchVo {
   name?: string
   code?: string
   status?: number
 }
 
-export function page(data: RoleSearch): Promise<ResponseStruct<PageList<Role>>> {
+export function page(data: RoleSearchVo): Promise<ResponseStruct<PageList<RoleVo>>> {
   return useHttp().get('/admin/role/list', { params: data })
 }
 
-export function create(data: Role): Promise<ResponseStruct<null>> {
+export function create(data: RoleVo): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/role', data)
 }
 
-export function save(id: number, data: Role): Promise<ResponseStruct<null>> {
+export function save(id: number, data: RoleVo): Promise<ResponseStruct<null>> {
   return useHttp().put(`/admin/role/${id}`, data)
 }
 

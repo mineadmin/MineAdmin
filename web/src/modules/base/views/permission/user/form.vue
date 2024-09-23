@@ -15,7 +15,6 @@ defineOptions({ name: 'permission:user:form' })
 const isOpen = ref<boolean>(false)
 const componentInfo = reactive({
   title: '',
-  width: '50%',
 })
 
 function open(data: UserVo | null = null) {
@@ -32,7 +31,6 @@ defineExpose({ open })
   <ma-dialog
     v-model="isOpen"
     :title="componentInfo.title"
-    :width="componentInfo.width"
     :close-on-click-modal="false"
     append-to-body
   >

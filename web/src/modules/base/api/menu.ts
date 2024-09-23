@@ -5,11 +5,11 @@ export interface MenuVo {
   parent_id?: number
   name: string
   meta?: Record<string, any>
-  component: string
-  redirect: string
-  status: number
-  sort: number
-  remark: string
+  component?: string
+  redirect?: string
+  status?: number
+  sort?: number
+  remark?: string
 }
 
 export function page(): Promise<ResponseStruct<MenuVo[]>> {

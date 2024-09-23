@@ -8,22 +8,53 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="ts">
+import { useResizeObserver } from '@vueuse/core'
+import { ElDialog } from 'element-plus'
+import type { Ref } from 'vue'
+
 defineOptions({ name: 'MaDialog' })
 
+const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
+const dialogWidth = ref<string>('55%')
 const fullscreen = ref<boolean>(false)
 const fsIcon = reactive({
   todo: 'mingcute:fullscreen-line',
   exit: 'mingcute:fullscreen-exit-line',
 })
+
+onMounted(() => {
+  useResizeObserver(document.body, (entries) => {
+    const [entry] = entries
+    const { width } = entry.contentRect
+    // xs
+    if (width < 768) {
+      dialogWidth.value = '90%'
+    }
+    // sm
+    if (width >= 768 && width < 992) {
+      dialogWidth.value = '75%'
+    }
+    // md
+    if (width >= 992 && width < 1200) {
+      dialogWidth.value = '65%'
+    }
+    // md
+    if (width >= 1200 && width < 1920) {
+      dialogWidth.value = '55%'
+    }
+  })
+})
 </script>
 
 <template>
-  <el-dialog
-    v-bind="$attrs"
-    :close-on-click-modal="false"
+  <ElDialog
+    ref="dialogRef"
     :fullscreen="fullscreen"
+    :width="dialogWidth"
+    :close-on-click-modal="false"
     draggable
     append-to-body
+    v-bind="$attrs"
   >
     <template #default>
       <slot name="default" />
@@ -47,7 +78,7 @@ const fsIcon = reactive({
     <template #footer>
       <slot name="footer" />
     </template>
-  </el-dialog>
+  </ElDialog>
 </template>
 
 <style scoped lang="scss">

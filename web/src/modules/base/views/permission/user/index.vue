@@ -10,9 +10,9 @@
 <script setup lang="tsx">
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
-import searchItems from './data/searchItems.tsx'
-import getUserColumns from './data/tableColumns.tsx'
 import UserForm from './form.vue'
+import getUserColumns from './data/getUserColumns.tsx'
+import getSearchItems from './data/getSearchItems.tsx'
 import { page } from '~/base/api/user'
 
 defineOptions({ name: 'permission:user' })
@@ -53,7 +53,7 @@ const options = ref<MaProTableOptions>({
 // 架构配置
 const schema = ref<MaProTableSchema>({
   // 搜索项
-  searchItems,
+  searchItems: getSearchItems(),
   // 表格列
   tableColumns: getUserColumns(proTableRef, formRef),
 })

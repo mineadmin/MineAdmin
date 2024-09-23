@@ -54,8 +54,17 @@ final class MenuMetaSchema
     #[Property(property: 'cache', title: '是否缓存', type: 'bool')]
     public bool $cache;
 
-    #[Property(property: 'copyright', title: '是否', type: 'bool')]
+    #[Property(property: 'copyright', title: '是否显示版权', type: 'bool')]
     public bool $copyright;
+
+    #[Property(property: 'breadcrumbEnable', title: '是否显示面包屑', type: 'bool')]
+    public bool $breadcrumbEnable;
+
+    #[Property(property: 'componentPath', title: '视图前缀路径', type: 'string')]
+    public string $componentPath;
+
+    #[Property(property: 'componentSuffix', title: '视图文件类型', type: 'string')]
+    public string $componentSuffix;
 
     #[Property(property: 'link', title: '链接', type: 'string')]
     public string $link;
@@ -68,8 +77,11 @@ final class MenuMetaSchema
         bool $affix = false,
         bool $hidden = false,
         string $type = '',
-        bool $cache = false,
-        bool $copyright = false,
+        bool $cache = true,
+        bool $copyright = true,
+        bool $breadcrumbEnable = true,
+        string $componentPath = '',
+        string $componentSuffix = '',
         string $link = ''
     ) {
         $this->title = $title;
@@ -81,6 +93,9 @@ final class MenuMetaSchema
         $this->type = $type;
         $this->cache = $cache;
         $this->copyright = $copyright;
+        $this->componentPath = $componentPath;
+        $this->componentSuffix = $componentSuffix;
+        $this->breadcrumbEnable = $breadcrumbEnable;
         $this->link = $link;
     }
 }

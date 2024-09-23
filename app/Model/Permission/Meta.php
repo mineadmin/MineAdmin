@@ -30,14 +30,17 @@ final class Meta extends Model
 {
     public bool $incrementing = false;
 
-    protected array $fillable = ['title', 'i18n', 'badge', 'icon', 'affix', 'hidden', 'type', 'cache', 'copyright', 'link'];
+    protected array $fillable = ['title', 'i18n', 'badge', 'icon', 'affix', 'hidden', 'type', 'cache', 'copyright', 'breadcrumbEnable', 'componentPath', 'componentSuffix', 'link'];
 
     protected array $casts = [
         'affix' => 'boolean',
         'hidden' => 'boolean',
         'cache' => 'boolean',
         'copyright' => 'boolean',
+        'breadcrumbEnable' => 'boolean',
         'title' => 'string',
+        'componentPath' => 'string',
+        'componentSuffix' => 'string',
         'i18n' => 'string',
         'badge' => 'string',
         'icon' => 'string',

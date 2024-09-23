@@ -12,7 +12,6 @@ import axios from 'axios'
 import Message from 'vue-m-message'
 import { useDebounceFn } from '@vueuse/core'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
-import type { ResponseStruct } from '#/global'
 import useCache from '@/hooks/useCache.ts'
 
 const { isLoading } = useNProgress()
@@ -62,9 +61,8 @@ http.interceptors.response.use(
       return Promise.resolve(response.data)
     }
 
-    const responseRaw: ResponseStruct = response.data
     if (response?.data?.code === 200) {
-      return Promise.resolve(responseRaw)
+      return Promise.resolve(response.data)
     }
     else {
       // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
@@ -88,38 +86,13 @@ http.interceptors.response.use(
           Message.error('服务器内部错误', { zIndex: 2000 })
           break
         default:
-          Message.error(responseRaw.message ?? '未知错误', { zIndex: 2000 })
+          Message.error(response?.data?.message ?? '未知错误', { zIndex: 2000 })
           break
       }
 
       return Promise.reject(response.data ? response.data : null)
     }
   },
-  // axios 错误拦截器
-  // async (error) => {
-  //   isLoading.value = false
-  //   switch (error.response?.data?.code) {
-  //     case 401:
-  //       Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
-  //       await (useDebounceFn(
-  //         () => useUserStore().logout(),
-  //         1000,
-  //         { maxWait: 5000 },
-  //       ))()
-  //       break
-  //     case 404:
-  //       Message.error('服务器资源不存在', { zIndex: 2000 })
-  //       break
-  //     case 500:
-  //       Message.error('服务器内部错误', { zIndex: 2000 })
-  //       break
-  //     default:
-  //       Message.error(error.message ?? '未知错误', { zIndex: 2000 })
-  //       break
-  //   }
-  //
-  //   return Promise.reject(error.response && error.response.data ? error.response.data : null)
-  // },
 )
 
 export default {

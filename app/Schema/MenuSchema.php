@@ -28,6 +28,9 @@ final class MenuSchema implements \JsonSerializable
     #[Property(property: 'name', title: '菜单名称', type: 'string')]
     public ?string $name;
 
+    #[Property(property: 'path', title: '路由地址', type: 'string')]
+    public ?string $path;
+
     #[Property(property: 'component', title: '组件路径', type: 'string')]
     public ?string $component;
 
@@ -66,6 +69,7 @@ final class MenuSchema implements \JsonSerializable
         $this->id = $model->id;
         $this->parentId = $model->parent_id;
         $this->name = $model->name;
+        $this->path = $model->path;
         $this->component = $model->component;
         $this->redirect = $model->redirect;
         $this->status = $model->status;
@@ -84,12 +88,17 @@ final class MenuSchema implements \JsonSerializable
             'id' => $this->id,
             'parent_id' => $this->parentId,
             'name' => $this->name,
-            'code' => $this->code,
-            'icon' => $this->icon,
-            'route' => $this->route,
+            'path' => $this->path,
             'component' => $this->component,
             'redirect' => $this->redirect,
-            'is_hidden' => $this->isHidden,
-            'type' => $this->type, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+            'type' => $this->type,
+            'status' => $this->status,
+            'sort' => $this->sort,
+            'created_by' => $this->createdBy,
+            'updated_by' => $this->updatedBy,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+            'remark' => $this->remark,
+        ];
     }
 }

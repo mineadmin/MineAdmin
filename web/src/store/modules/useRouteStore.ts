@@ -111,6 +111,7 @@ const useRouteStore = defineStore(
     }
 
     const moduleViews = import.meta.glob('../../modules/**/views/**/**.{vue,jsx,tsx}')
+    const pluginViews = import.meta.glob('../../plugins/*/**/views/**/**.{vue,jsx,tsx}')
 
     /**
      * 菜单转路由
@@ -130,6 +131,9 @@ const useRouteStore = defineStore(
           if (item.component && item.meta?.type !== 'I') {
             if (moduleViews[`../../modules/${item.component}`]) {
               component = moduleViews[`../../modules/${item.component}`]
+            }
+            else if (pluginViews[`../../plugins/${item.component}`]) {
+              component = pluginViews[`../../plugins/${item.component}`]
             }
             else {
               console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component} 页面`)

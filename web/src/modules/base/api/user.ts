@@ -38,8 +38,8 @@ export function save(id: number, data: User): Promise<ResponseStruct<null>> {
   return useHttp().put(`/admin/user/${id}`, data)
 }
 
-export function deleteByIds(ids: number): Promise<ResponseStruct<null>> {
-  return useHttp().delete('/admin/user', ids)
+export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {
+  return useHttp().delete('/admin/user', { data: ids })
 }
 
 export function resetPassword(): Promise<ResponseStruct<null>> {

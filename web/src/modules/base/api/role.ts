@@ -29,7 +29,7 @@ export function save(id: number, data: Role): Promise<ResponseStruct<null>> {
 }
 
 export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {
-  return useHttp().delete('/admin/role', ids)
+  return useHttp().delete('/admin/role', { data: ids })
 }
 
 export function batchGrantPermissionsForRole(id: number, permission_ids: number[]): Promise<ResponseStruct<null>> {

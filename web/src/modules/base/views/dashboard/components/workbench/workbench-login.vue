@@ -180,6 +180,6 @@ useEcharts(echartsLogin).setOption(loginChartOptions.value)
     <div class="text-base">
       最近登录次数
     </div>
-    <div ref="echartsLogin" class="mt-5 h-400px" />
+    <div ref="echartsLogin" class="mt-5 h-380px" />
   </div>
 </template>

@@ -64,12 +64,18 @@ class MenuSeeder extends Seeder
         return [
             [
                 'name' => 'permission',
-                'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'i18n' => 'menu.permission.index',
                     'icon' => 'simple-icons:authy',
+                    'type' => 'M',
                     'hidden' => 0,
+                    'componentPath' => 'modules/',
+                    'componentSuffix' => '.vue',
+                    'breadcrumbEnable' => 1,
+                    'copyright' => 1,
+                    'cache' => 1,
+                    'affix' => 0,
                 ]),
                 'children' => [
                     [
@@ -82,7 +88,12 @@ class MenuSeeder extends Seeder
                             'i18n' => 'menu.permission.user',
                             'icon' => 'material-symbols:account-box',
                             'hidden' => 0,
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => true,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [
@@ -114,14 +125,14 @@ class MenuSeeder extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'user:password',
+                                'name' => 'permission:user:password',
                                 'meta' => new Meta([
                                     'title' => '用户初始化密码',
                                     'type' => 'B',
                                 ]),
                             ],
                             [
-                                'name' => 'user:role',
+                                'name' => 'permission:user:role',
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
                                     'type' => 'B',
@@ -139,7 +150,12 @@ class MenuSeeder extends Seeder
                             'icon' => 'material-symbols:list-alt-rounded',
                             'hidden' => 0,
                             'type' => 'M',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [
@@ -182,7 +198,12 @@ class MenuSeeder extends Seeder
                             'icon' => 'material-symbols:supervisor-account',
                             'hidden' => 0,
                             'type' => 'M',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
                             'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [

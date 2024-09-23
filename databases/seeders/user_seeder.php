@@ -13,7 +13,7 @@ use App\Model\Permission\User;
 use Casbin\Enforcer;
 use Hyperf\Database\Seeders\Seeder;
 
-class user_seeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

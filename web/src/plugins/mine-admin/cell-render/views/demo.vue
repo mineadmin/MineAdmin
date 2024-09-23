@@ -2,7 +2,7 @@
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import { onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
+import { useCellRender } from '$/mine-admin/cell-render/hooks/useCellRender.tsx'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { useResourcePicker } from '@/hooks/useResourcePicker.ts'
 

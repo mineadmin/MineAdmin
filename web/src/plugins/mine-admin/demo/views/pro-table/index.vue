@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
-import { useCellRender } from '$/mine-admin/cell-render/hooks/useAsCellRender.tsx'
+import { useCellRender } from '$/mine-admin/cell-render/hooks/useCellRender.tsx'
 
 const options: MaProTableOptions = reactive({
   adaptionOffsetBottom: 160,

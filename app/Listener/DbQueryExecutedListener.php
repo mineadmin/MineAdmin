@@ -51,9 +51,10 @@ final class DbQueryExecutedListener implements ListenerInterface
             $sql = $event->sql;
             if (! Arr::isAssoc($event->bindings)) {
                 $position = 0;
+                $maxPosition = mb_strlen($sql);
                 foreach ($event->bindings as $value) {
                     $position = mb_strpos($sql, '?', $position);
-                    if ($position === false) {
+                    if ($position === false || $position >= $maxPosition) {
                         break;
                     }
                     $value = "'{$value}'";

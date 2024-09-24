@@ -45,7 +45,7 @@ class ResultResponse extends Base
         }
         $reflectionClass = new \ReflectionClass($instance);
         foreach ($reflectionClass->getProperties() as $property) {
-            $result[] = $this->parserProperty($property, $instance->{$property->getName()});
+            $result[] = $this->parserProperty($property, is_string($instance) ? $instance : $instance->{$property->getName()});
         }
         return $result;
     }

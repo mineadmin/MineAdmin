@@ -7,11 +7,10 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-
-import { defaultsDeep } from 'lodash-es'
-import type { App } from 'vue'
 import type { ProviderService, RecursiveRequired, SystemSettings } from '#/global'
+import type { App } from 'vue'
 import globalConfigSettings from '@/provider/settings/settings.config.ts'
+import { defaultsDeep } from 'lodash-es'
 
 const defaultGlobalConfigSettings: RecursiveRequired<SystemSettings.all> = {
   app: {

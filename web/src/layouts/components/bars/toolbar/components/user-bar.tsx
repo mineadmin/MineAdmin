@@ -7,10 +7,10 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import Message from 'vue-m-message'
 import { useI18n } from 'vue-i18n'
-import MineSystemInfo from './dropdownMenuComponents/system-info.tsx'
+import Message from 'vue-m-message'
 import MineShortcutsDesc from './dropdownMenuComponents/shortcuts-desc.tsx'
+import MineSystemInfo from './dropdownMenuComponents/system-info.tsx'
 
 export default defineComponent({
   name: 'UserBar',

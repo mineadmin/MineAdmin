@@ -11,7 +11,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import routes from './static-routes/rootRoute.ts'
-import '@/assets/styles/nprogress.css'
+import '@/assets/styles/nprogress.scss'
 
 const { isLoading } = useNProgress()
 

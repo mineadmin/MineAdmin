@@ -7,7 +7,7 @@ export default defineComponent({
     return () => (
       <>
         <m-modal
-          class="max-w-[450px] justify-start"
+          contentClass="w-[450px] justify-start"
           v-model={dropdownMenuState.shortcuts}
           title={useTrans('mineAdmin.userBar.shortcuts')}
         >

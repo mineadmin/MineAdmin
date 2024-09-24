@@ -7,17 +7,16 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
+import type { MineTabbar } from '#/global'
+import useTabCollection from '@/hooks/useTabCollection.ts'
+import Logo from '@/layouts/components/logo'
 import MineBreadcrumb from '../breadcrumb'
 import MineRightBar from './components/right-bar.tsx'
 import '@/layouts/style/toolbar.scss'
-import useTabCollection from '@/hooks/useTabCollection.ts'
-import type { MineTabbar } from '#/global'
-import Logo from '@/layouts/components/logo'
 
 export default defineComponent({
   name: 'Toolbar',
   setup() {
-    // const showMineHeader = inject('showMineHeader')
     const settingStore = useSettingStore()
     const { tabCollection, addToCollection, removeCollection } = useTabCollection()
     const appSetting = settingStore.getSettings('app')

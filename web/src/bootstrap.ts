@@ -32,7 +32,7 @@ import 'virtual:uno.css'
 import 'virtual:svg-icons-register'
 
 // 全局样式
-import '@/assets/styles/globals.css'
+import '@/assets/styles/globals.scss'
 // vue-m-message样式
 import 'vue-m-message/dist/style.css'
 // 引入resources scss

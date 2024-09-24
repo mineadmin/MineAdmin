@@ -1,22 +1,26 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace Plugin\MineAdmin\AppStore\Service;
 
-use Hyperf\Contract\ApplicationInterface;
+use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\AppStore\Plugin;
-use Mine\Exception\MineException;
 use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
-
+use Mine\Exception\MineException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class Service
 {
-
-    /**
-     * @param array $params
-     * @return bool
-     */
     public function download(array $params): bool
     {
         if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
@@ -36,10 +40,8 @@ class Service
     }
 
     /**
-     * @param array $params
-     * @return bool
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function install(array $params): bool
     {
@@ -49,11 +51,11 @@ class Service
 
         $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
 
-        if ( file_exists($path . '/install.lock') ) {
+        if (file_exists($path . '/install.lock')) {
             throw new MineException('应用已经安装过');
         }
 
-        $pluginName =  $params['space'] . "/" . $params['identifier'];
+        $pluginName = $params['space'] . '/' . $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
             Plugin::install($pluginName);
@@ -72,11 +74,11 @@ class Service
 
         $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
 
-        if (! file_exists($path . '/install.lock') ) {
+        if (! file_exists($path . '/install.lock')) {
             throw new MineException('应用并未安装');
         }
 
-        $pluginName =  $params['space'] . "/" . $params['identifier'];
+        $pluginName = $params['space'] . '/' . $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
             Plugin::uninstall($pluginName);
@@ -103,7 +105,7 @@ class Service
         return $items;
     }
 
-    public function uploadLocalApp(\Hyperf\HttpMessage\Upload\UploadedFile $file): bool
+    public function uploadLocalApp(UploadedFile $file): bool
     {
         try {
             $runtimePath = BASE_PATH . '/runtime/' . uniqid('mineApp', true) . '.zip';
@@ -117,7 +119,7 @@ class Service
                 $zip->getFromName('mine.json'),
                 true,
                 512,
-                JSON_THROW_ON_ERROR
+                \JSON_THROW_ON_ERROR
             );
             $zip->extractTo(Plugin::PLUGIN_PATH . '/' . $json['name']);
             $zip->close();

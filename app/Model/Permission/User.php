@@ -120,6 +120,7 @@ final class User extends Model
 
     public function getMenus(): Collection
     {
+        // @phpstan-ignore-next-line
         return $this->roles()->get()->map(static function (Role $role) {
             return $role->menus()->get();
         })->flatten();

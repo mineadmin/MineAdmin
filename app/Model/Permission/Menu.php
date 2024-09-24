@@ -86,6 +86,7 @@ final class Menu extends MineModel
 
     public function children()
     {
+        // @phpstan-ignore-next-line
         return $this
             ->hasMany(self::class, 'parent_id', 'id')
             ->where('status', Status::ENABLE)

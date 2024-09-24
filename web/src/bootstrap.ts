@@ -41,21 +41,6 @@ async function createI18nService(app: App) {
     const [, value, label] = key.match(/^.\/locales\/(\w+)\[([^[\]]+)\]\.yaml$/)
     return { label, value }
   })
-  // // 获得插件目录的所有语言,通过value合并
-  // const pluginLocales: any[] = Object.entries(import.meta.glob('./plugins/*/**/locales/*.y(a)?ml'))?.map(([key]: any) => {
-  //   const [, value, label] = key.match(/\/locales\/(\w+)\[([^[\]]+)\]\.yaml$/)
-  //   return { label, value }
-  // })
-  //
-  // // 将 pluginLocales 通过value合并到locales 相同的value覆盖
-  // pluginLocales.forEach((item: any) => {
-  //   const index = locales.findIndex((value: any) => value.value === item.value)
-  //   if (index !== -1) {
-  //     locales[index] = item
-  //   } else {
-  //     locales.push(item)
-  //   }
-  // })
   useUserStore().setLocales(locales)
   Object.keys(messages as any).map((name: string) => {
     const matchValue = name.match(/(\w+)/) as RegExpMatchArray | null
@@ -94,7 +79,7 @@ function otherWorker(app: App) {
   app.config.globalProperties.$toolbars = toolbars()
 
   if (import.meta.env?.VITE_OPEN_vCONSOLE === 'true') {
-    new VConsole()
+    app.config.globalProperties.$vconsole = new VConsole()
   }
 }
 

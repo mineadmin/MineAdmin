@@ -16,10 +16,10 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
+use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
 use Mine\MineController;
 use Plugin\MineAdmin\AppStore\Service\Service;
 use Psr\Http\Message\ResponseInterface;
-use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
 
 #[Controller(prefix: 'plugin/store')]
 class IndexController extends MineController
@@ -57,19 +57,19 @@ class IndexController extends MineController
     #[PostMapping('download')]
     public function download(): ResponseInterface
     {
-        return $this->success( ['result' => $this->service->download($this->request->all())] );
+        return $this->success(['result' => $this->service->download($this->request->all())]);
     }
 
     #[PostMapping('install')]
     public function install(): ResponseInterface
     {
-        return $this->success( ['result' => $this->service->install($this->request->all())] );
+        return $this->success(['result' => $this->service->install($this->request->all())]);
     }
 
     #[PostMapping('unInstall')]
     public function unInstall(): ResponseInterface
     {
-        return $this->success( ['result' => $this->service->unInstall($this->request->all())] );
+        return $this->success(['result' => $this->service->unInstall($this->request->all())]);
     }
 
     #[PostMapping('uploadLocalApp')]
@@ -82,6 +82,6 @@ class IndexController extends MineController
     #[GetMapping('hasAccessToken')]
     public function hasAccessToken(): ResponseInterface
     {
-        return $this->success(['isHas' => ! is_null(env('MINE_ACCESS_TOKEN'))]);
+        return $this->success(['isHas' => env('MINE_ACCESS_TOKEN') !== null]);
     }
 }

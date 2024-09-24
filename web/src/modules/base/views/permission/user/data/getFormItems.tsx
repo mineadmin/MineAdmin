@@ -7,14 +7,14 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import type { MaFormItem } from '@mineadmin/form'
 
-export default function createI18nMessage() {
-  return VueI18nPlugin({
-    include: [
-      './src/locales/**',
-      './src/plugins/*/**/locales/**',
-      './src/modules/*/**/locales/**',
-    ],
-  })
+export default function getFormItems(formType: 'add' | 'edit'): MaFormItem[] {
+  if (formType === 'add') {
+    // todo...
+  }
+
+  return [
+
+  ]
 }

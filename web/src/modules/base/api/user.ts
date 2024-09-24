@@ -1,24 +1,24 @@
 import type { PageList, ResponseStruct } from '#/global'
 
-interface User {
-  id: number
-  username: string
-  user_type: number
-  nickname: string
-  phone: string
-  email: string
-  avatar: string
-  signed: string
-  dashboard: string
-  status: 1 | 2
-  login_ip: string
-  login_time: string
-  backend_setting: any[]
-  remark: string
-  password: string
+export interface UserVo {
+  id?: number
+  username?: string
+  user_type?: number
+  nickname?: string
+  phone?: string
+  email?: string
+  avatar?: string
+  signed?: string
+  dashboard?: string
+  status?: 1 | 2
+  login_ip?: string
+  login_time?: string
+  backend_setting?: Record<string, any>
+  remark?: string
+  password?: string
 }
 
-export interface UserSearch {
+export interface UserSearchVo {
   username?: string
   nickname?: string
   phone?: string
@@ -26,15 +26,15 @@ export interface UserSearch {
   status?: number
 }
 
-export function page(data: UserSearch): Promise<ResponseStruct<PageList<User>>> {
+export function page(data: UserSearchVo): Promise<ResponseStruct<PageList<UserVo>>> {
   return useHttp().get('/admin/user/list', { params: data })
 }
 
-export function create(data: User): Promise<ResponseStruct<null>> {
+export function create(data: UserVo): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/user', data)
 }
 
-export function save(id: number, data: User): Promise<ResponseStruct<null>> {
+export function save(id: number, data: UserVo): Promise<ResponseStruct<null>> {
   return useHttp().put(`/admin/user/${id}`, data)
 }
 
@@ -46,7 +46,7 @@ export function resetPassword(): Promise<ResponseStruct<null>> {
   return useHttp().post('/admin/user/password')
 }
 
-export function updateInfo(data: User): Promise<ResponseStruct<null>> {
+export function updateInfo(data: UserVo): Promise<ResponseStruct<null>> {
   return useHttp().put('/admin/user/info', data)
 }
 

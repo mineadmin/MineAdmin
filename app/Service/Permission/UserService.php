@@ -18,7 +18,7 @@ use App\Service\IService;
 use Hyperf\Collection\Arr;
 
 /**
- * @extends IService<UserRepository<User>>
+ * @extends IService<UserRepository>
  */
 final class UserService extends IService
 {

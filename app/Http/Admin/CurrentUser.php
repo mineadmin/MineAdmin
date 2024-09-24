@@ -17,7 +17,6 @@ use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use App\Service\PassportService;
 use App\Service\Permission\UserService;
-use App\Service\PermissionService;
 use Hyperf\Collection\Collection;
 use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
 
@@ -27,8 +26,7 @@ final class CurrentUser
 
     public function __construct(
         private readonly PassportService $service,
-        private readonly UserService $userService,
-        private readonly PermissionService $permissionService
+        private readonly UserService $userService
     ) {}
 
     public function user(): ?User

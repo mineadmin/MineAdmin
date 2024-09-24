@@ -1,3 +1,15 @@
+import type { ProviderService } from '#/global'
+import type { App, Directive } from 'vue'
+import * as directives from '@/directives'
+import useThemeColor from '@/hooks/useThemeColor'
+import useTabStore from '@/store/modules/useTabStore.ts'
+import toolbars from '@/utils/toolbars.ts'
+import messages from '@intlify/unplugin-vue-i18n/messages'
+import ElementPlus from 'element-plus'
+import VConsole from 'vconsole'
+import { createI18n } from 'vue-i18n'
+import router from './router'
+import pinia from './store'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -8,18 +20,6 @@
  * @Link   https://github.com/mineadmin
  */
 import './utils/copyright.ts'
-import type { App, Directive } from 'vue'
-import ElementPlus from 'element-plus'
-import { createI18n } from 'vue-i18n'
-import messages from '@intlify/unplugin-vue-i18n/messages'
-import VConsole from 'vconsole'
-import pinia from './store'
-import router from './router'
-import * as directives from '@/directives'
-import type { ProviderService } from '#/global'
-import useThemeColor from '@/hooks/useThemeColor'
-import useTabStore from '@/store/modules/useTabStore.ts'
-import toolbars from '@/utils/toolbars.ts'
 
 // 加载 Element-plus 样式
 import 'element-plus/dist/index.css'
@@ -32,9 +32,13 @@ import 'virtual:uno.css'
 import 'virtual:svg-icons-register'
 
 // 全局样式
-import '@/assets/styles/globals.scss'
+import '@/assets/styles/globals.css'
 // vue-m-message样式
 import 'vue-m-message/dist/style.css'
+// 引入resources scss
+import '@/assets/styles/resources/variables.scss'
+import '@/assets/styles/resources/utils.scss'
+import '@/assets/styles/resources/element.scss'
 
 async function createI18nService(app: App) {
   const locales: any[] = Object.entries(import.meta.glob('./locales/*.y(a)?ml')).map(([key]: any) => {

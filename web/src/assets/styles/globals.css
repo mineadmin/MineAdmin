@@ -1,22 +1,22 @@
-// 变量定义
+/* 变量定义 */
 :root {
-  // 头部高度
+  /* 头部高度 */
   --mine-g-header-height: 55px;
-  // 脚部高度
+  /* 脚部高度 */
   --mine-g-footer-height: 50px;
-  // 侧边栏主菜单宽度
+  /* 侧边栏主菜单宽度 */
   --mine-g-main-aside-width: 80px;
-  // 侧边栏子菜单展开宽度
+  /* 侧边栏子菜单展开宽度 */
   --mine-g-sub-aside-width: 200px;
-  // 侧边栏子菜单折叠后宽度
+  /* 侧边栏子菜单折叠后宽度 */
   --mine-g-sub-aside-collapse-width: 65px;
-  // 菜单缩进宽度
+  /* 菜单缩进宽度 */
   --mine-g-menu-retract-width: 15px;
-  // 工具栏高度
+  /* 工具栏高度 */
   --mine-g-toolbar-height: 55px;
-  // 标签栏高度
+  /* 标签栏高度 */
   --mine-g-tabbar-height: 40px;
-  // 盒子阴影
+  /* 盒子阴影 */
   --mine-g-box-shadow-color: rgb(0 0 0 / 18%);
   --el-color-primary: --ui-primery;
 }
@@ -70,7 +70,7 @@ body {
   }
 }
 
-// 右键菜单
+/* 右键菜单 */
 .mine-contextmenu {
   @apply z-1000 !rounded-md !ring-1 !ring-gray-2 !dark-ring-dark-3
   dark-bg-dark-8
@@ -123,7 +123,7 @@ body {
   }
 }
 
-// textarea 字体跟随系统
+/* textarea 字体跟随系统 */
 textarea {
   font-family: inherit;
 }
@@ -152,13 +152,13 @@ textarea {
   @apply hidden;
 }
 
-// 全局样式
+/* 全局样式 */
 * {
   padding: 0;
   margin: 0;
 }
 
-// 页面过场动画
+/* 页面过场动画 */
 .ma-fade-enter-active,
 .ma-fade-leave-active {
   transition: opacity 0.15s ease;
@@ -176,25 +176,19 @@ textarea {
   transition: all 0.2s ease;
   will-change: transform;
 }
-// ma-slide-right
+/* ma-slide-right */
 .ma-slide-right-enter-from,
-%ma-slide-right-enter-from {
+.ma-slide-left-enter-from
+{
   opacity: 0;
   transform: translateX(-10px);
 }
 
 .ma-slide-right-leave-to,
-%ma-slide-right-leave-to {
+.ma-slide-left-leave-to
+{
   opacity: 0;
   transform: translateX(10px);
-}
-// ma-slide-left
-.ma-slide-left-enter-from {
-  @extend %ma-slide-right-leave-to;
-}
-
-.ma-slide-left-leave-to {
-  @extend %ma-slide-right-enter-from;
 }
 
 .ma-slide-down-enter-active,
@@ -204,23 +198,17 @@ textarea {
   transition: all 0.2s ease;
   will-change: transform;
 }
-// ma-slide-down
+/* ma-slide-down */
 .ma-slide-down-enter-from,
-%ma-slide-down-enter-from {
+.ma-slide-up-leave-to
+{
   opacity: 0;
   transform: translateY(-10px);
 }
 
 .ma-slide-down-leave-to,
-%ma-slide-down-leave-to {
+.ma-slide-up-enter-from
+ {
   opacity: 0;
   transform: translateY(10px);
-}
-// ma-slide-up
-.ma-slide-up-enter-from {
-  @extend %ma-slide-down-leave-to;
-}
-
-.ma-slide-up-leave-to {
-  @extend %ma-slide-down-enter-from;
 }

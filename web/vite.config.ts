@@ -1,8 +1,7 @@
-import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
-import { defineConfig, loadEnv } from 'vite'
 import dayjs from 'dayjs'
+import { defineConfig, loadEnv } from 'vite'
 import pkg from './package.json'
 import createVitePlugins from './vite'
 import { exclude, include } from './vite/optimize'
@@ -10,16 +9,17 @@ import { exclude, include } from './vite/optimize'
 // https://vitejs.dev/config/
 export default async ({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
-  // 全局 scss 资源
-  const scssResources = []
   function isProduction(): boolean {
     return mode === 'production'
   }
-  fs.readdirSync('src/assets/styles/resources').forEach((dirname) => {
-    if (fs.statSync(`src/assets/styles/resources/${dirname}`).isFile()) {
-      scssResources.push(`@use "src/assets/styles/resources/${dirname}" as *;`)
-    }
-  })
+
+  // 全局 scss 资源
+  // const scssFiles: string[] = []
+  // fs.readdirSync('src/assets/styles/resources').forEach((dirname) => {
+  //   if (fs.statSync(`src/assets/styles/resources/${dirname}`).isFile()) {
+  //     scssFiles.push(`@use "src/assets/styles/resources/${dirname}" as *;`)
+  //   }
+  // })
 
   const proxyPrefix = env.VITE_PROXY_PREFIX
   return defineConfig({
@@ -76,7 +76,8 @@ export default async ({ mode, command }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: scssResources.join(''),
+          api: 'modern-compiler',
+          // additionalData: scssFiles.join(''),
           javascriptEnabled: true,
         },
       },

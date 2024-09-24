@@ -66,6 +66,7 @@
     "@unocss/eslint-plugin": "^0.62.4",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "@vitejs/plugin-legacy": "^5.4.2",
     "archiver": "^7.0.1",
     "autoprefixer": "^10.4.20",
     "boxen": "^7.1.1",

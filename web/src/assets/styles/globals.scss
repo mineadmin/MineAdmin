@@ -39,7 +39,7 @@ ul li { list-style: none; }
 }
 
 body {
-  @apply bg-[#f3f4f8] dark-bg-[#0a0a0a];
+  @apply bg-[#f3f4f8] dark-bg-[#0a0a0a] overflow-x-hidden;
 }
 
 .mine-ui-scrollbars {

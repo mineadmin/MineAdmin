@@ -8,26 +8,33 @@
  * @Link   https://github.com/mineadmin
  */
 import type { PluginOption } from 'vite'
+import vueLegacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import startInfo from './start-info'
-
-import createDevtools from './devtools'
-import createAutoImport from './auto-import'
-import createComponents from './components'
-import createUnocss from './unocss'
-import createSvgIcon from './svg-icon'
-import createMock from './mock'
-import createCompression from './compression'
 import createArchiver from './archiver'
-import createI18nMessage from './i18n-message'
+import createAutoImport from './auto-import'
 import createChunkSplit from './chunk'
+import createComponents from './components'
+import createCompression from './compression'
+import createDevtools from './devtools'
+import createI18nMessage from './i18n-message'
+import createMock from './mock'
+import startInfo from './start-info'
+import createSvgIcon from './svg-icon'
+import createUnocss from './unocss'
 
 export default function createVitePlugins(viteEnv: any, isBuild = false) {
   const vitePlugins: (PluginOption | PluginOption[])[] = [
     vue(),
     vueJsx(),
     startInfo(),
+    vueLegacy({
+      renderLegacyChunks: false,
+      modernPolyfills: [
+        'es.array.at',
+        'es.array.find-last',
+      ],
+    }),
   ]
   vitePlugins.push(createDevtools(viteEnv))
   vitePlugins.push(createAutoImport())

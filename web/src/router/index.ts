@@ -8,13 +8,12 @@
  * @Link   https://github.com/mineadmin
  */
 import type { RouteRecordRaw } from 'vue-router'
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
-import '@/assets/styles/nprogress.scss'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import routes from './static-routes/rootRoute.ts'
+import '@/assets/styles/nprogress.css'
 
 const { isLoading } = useNProgress()
-const mode = import.meta.env.MODE
 
 const router = createRouter({
   history: import.meta.env.VITE_APP_ROUTE_MODE === 'history' ? createWebHistory() : createWebHashHistory(),

@@ -11,7 +11,7 @@ export default defineComponent({
     return () => (
       <>
         <m-drawer
-          contentClass="w-[450px] overflow-hidden"
+          contentClass="w-380px lg:w-[450px] overflow-hidden"
           v-model={dropdownMenuState.systemInfo}
           title={useTrans('mineAdmin.userBar.systemInfo')}
         >

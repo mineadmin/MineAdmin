@@ -42,7 +42,7 @@
       }
 
       .mine-uc-text-avatar {
-        @apply h-12 w-12 rounded-full text-2xl bg-gray-2 dark:bg-gray-7
+        @apply h-12 w-12 rounded-full text-2xl bg-gray-2 dark:bg-dark-3
           flex items-center justify-center
         ;
       }
@@ -58,7 +58,7 @@
   }
 
   .mine-uc-content {
-    @apply bg-white dark-bg-[#001120] w-full h-full overflow-y-auto overflow-x-hidden;
+    @apply bg-white dark-bg-dark-9 w-full h-full overflow-y-auto overflow-x-hidden;
   }
 
   .mine-uc-bottom-menu {

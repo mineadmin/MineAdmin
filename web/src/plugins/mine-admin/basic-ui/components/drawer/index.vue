@@ -102,7 +102,7 @@ const isOpen = defineModel<boolean>()
               <slot />
             </OverlayScrollbarsComponent>
           </DrawerDescription>
-          <DrawerClose v-show="$slots.footer" class="h-50px w-full b-0 b-t-1 b-t-gray-3 rounded-l-xl rounded-t-none b-t-solid bg-white dark-bg-dark-5">
+          <DrawerClose v-show="$slots.footer" class="h-50px w-full b-0 b-t-1 b-t-gray-3 rounded-l-xl rounded-t-none b-t-solid bg-white dark-b-t-dark-3 dark-bg-dark-5">
             <div class="px-2">
               <slot name="footer" />
             </div>

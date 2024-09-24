@@ -50,7 +50,7 @@ const isOpen = defineModel<boolean>({ default: false })
 
 <template>
   <DialogRoot v-bind="forwarded" :open="isOpen">
-    <DialogTrigger>
+    <DialogTrigger v-show="$slots.trigger">
       <slot name="trigger" />
     </DialogTrigger>
     <DialogPortal>

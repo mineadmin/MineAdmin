@@ -40,6 +40,9 @@ class ResultResponse extends Base
     protected function parserInstance(object|string $instance): array
     {
         $result = [];
+        if (is_string($instance)){
+            $instance = new $instance();
+        }
         $reflectionClass = new \ReflectionClass($instance);
         foreach ($reflectionClass->getProperties() as $property) {
             $result[] = $this->parserProperty($property, $instance->{$property->getName()});

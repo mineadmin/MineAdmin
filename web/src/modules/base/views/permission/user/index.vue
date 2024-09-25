@@ -41,7 +41,6 @@ const options = ref<MaProTableOptions>({
   // 搜索参数
   searchOptions: {
     fold: true,
-    show: false,
     defaultValue: { status: 1 },
     text: {
       searchBtn: () => t('crud.search'),
@@ -79,6 +78,14 @@ const schema = ref<MaProTableSchema>({
         <el-button type="danger" plain :disabled="selections.length < 1">
           {{ t('crud.delete') }}
         </el-button>
+      </template>
+      <!-- 数据为空时 -->
+      <template #empty>
+        <el-empty>
+          <el-button type="primary" @click="() => formRef.open(null)">
+            {{ t('crud.add') }}
+          </el-button>
+        </el-empty>
       </template>
     </MaProTable>
 

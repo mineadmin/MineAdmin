@@ -19,7 +19,6 @@ const dictionaryData = computed<Dictionary[]>(() => {
 })
 
 const t = (transScope === 'global' ? useTrans() : useLocalTrans())
-console.log(dictStore.find(dictName))
 const model = defineModel()
 </script>
 

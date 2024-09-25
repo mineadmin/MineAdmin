@@ -22,7 +22,7 @@ interface Dictionary {
   label?: string
   value?: any
   i18n?: string
-  tagColor?: string
+  color?: string
   disabled?: boolean
 }
 

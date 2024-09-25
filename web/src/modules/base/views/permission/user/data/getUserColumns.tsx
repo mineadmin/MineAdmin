@@ -11,9 +11,11 @@ import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { ElTag } from 'element-plus'
 
 export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
   const message = useMessage()
+  const dictStore = useDictStore()
 
   return [
     // 多选列
@@ -34,9 +36,9 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
     { label: () => t('baseUser.email'), prop: 'email' },
     { label: () => t('baseUser.status'), prop: 'status',
       cellRender: ({ row }) => (
-        <el-tag type={row.status === 1 ? 'primary' : 'danger'}>
-          { row.status === 1 ? '正常' : '禁用' }
-        </el-tag>
+        <ElTag type={dictStore.t('system-status', row.status, 'color')}>
+          {t(dictStore.t('system-status', row.status, 'i18n'))}
+        </ElTag>
       ),
     },
     // 操作列
@@ -47,7 +49,7 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            text: '编辑',
+            text: () => '编辑',
             onClick: ({ row }) => {
               formRef.value.open(row)
             },

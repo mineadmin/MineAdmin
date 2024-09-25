@@ -14,6 +14,7 @@ namespace App\Http\Admin\Subscriber;
 
 use App\Events\User\UserLoginEvent;
 use App\Service\UserLoginLogService;
+use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
@@ -35,13 +36,13 @@ class UserLoginSubscriber implements ListenerInterface
     {
         if ($event instanceof UserLoginEvent) {
             $user = $event->getUser();
-            $this->userService->save([
+            Coroutine::defer(fn()=>$this->userService->save([
                 'username' => $user->username,
                 'ip' => $event->getIp(),
                 'os' => $event->getOs(),
                 'browser' => $event->getBrowser(),
                 'status' => $event->isLogin() ? 1 : 2,
-            ]);
+            ]));
         }
     }
 }

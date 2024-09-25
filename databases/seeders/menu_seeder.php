@@ -64,6 +64,7 @@ class MenuSeeder extends Seeder
         return [
             [
                 'name' => 'permission',
+                'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'i18n' => 'menu.permission.index',

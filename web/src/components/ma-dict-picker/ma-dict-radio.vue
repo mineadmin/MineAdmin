@@ -5,7 +5,7 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 defineOptions({ name: 'MaDictRadio' })
 
 const {
-  dictName = undefined,
+  dictName = '',
   renderMode = 'normal',
   transScope = 'global',
 } = defineProps<{
@@ -17,24 +17,26 @@ const {
   transScope?: 'global' | 'local'
 }>()
 const dictStore = useDictStore()
-const dictionaryData = computed<Dictionary[]>(() => {
+const dictionaryData = computed<Dictionary[] | null>(() => {
   return dictStore.find(dictName)
 })
 
 const t = (transScope === 'global' ? useTrans() : useLocalTrans())
 
-const model = defineModel()
+const model = defineModel<any>()
 </script>
 
 <template>
   <el-radio-group v-model="model" v-bind="$attrs">
     <slot name="default">
-      <template v-for="item in dictionaryData as Dictionary[]" :key="item">
-        <component :is="renderMode === 'normal' ? 'el-radio' : 'el-radio-button'" :value="item.value">
-          <slot name="optionDefault">
-            {{ item?.i18n ? t(item.i18n) : item.label }}
-          </slot>
-        </component>
+      <template v-if="dictionaryData">
+        <template v-for="item in dictionaryData as Dictionary[]" :key="item">
+          <component :is="renderMode === 'normal' ? 'el-radio' : 'el-radio-button'" :value="item.value">
+            <slot name="optionDefault">
+              {{ item?.i18n ? t(item.i18n) : item.label }}
+            </slot>
+          </component>
+        </template>
       </template>
     </slot>
   </el-radio-group>

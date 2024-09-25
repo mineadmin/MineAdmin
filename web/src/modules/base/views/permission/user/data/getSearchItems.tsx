@@ -10,13 +10,17 @@
 
 import type { MaSearchItem } from '@mineadmin/search'
 import MaDictSelect from '@/components/ma-dict-picker/ma-dict-select.vue'
+import MaRemoteSelect from '@/components/ma-remote-select/index.vue'
 
 export default function getSearchItems(t: any): MaSearchItem[] {
   return [
     {
       label: () => t('baseUser.username'),
       prop: 'username',
-      render: 'input',
+      render: () => MaRemoteSelect,
+      renderProps: {
+        placeholder: '请选择用户',
+      },
     },
     {
       label: () => t('baseUser.nickname'),

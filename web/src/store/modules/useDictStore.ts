@@ -13,10 +13,6 @@ const useDictStore = defineStore(
   'useDictStore',
   () => {
     const dictMap = ref(new Map<string, Dictionary[]>())
-    Object.entries(useGlobal().$dictionary).map((item: any) => {
-      const [name, data] = item
-      dictMap.value.set(name, data)
-    })
 
     const find = (name: string): Dictionary[] | null => {
       return dictMap.value.get(name) ?? null

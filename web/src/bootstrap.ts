@@ -85,6 +85,13 @@ function otherWorker(app: App) {
   if (import.meta.env?.VITE_OPEN_vCONSOLE === 'true') {
     app.config.globalProperties.$vconsole = new VConsole()
   }
+
+  const dictStore = useDictStore()
+
+  Object.entries(app.config.globalProperties.$dictionary).map((item: any) => {
+    const [name, data] = item
+    dictStore.push(name, data)
+  })
 }
 
 function registerDirectives(app: App) {

@@ -125,8 +125,18 @@ menu:
   uc:message: 消息
   welcome: 欢迎页
   dashboard: 仪表盘
-  permission:
-    index: 权限管理
-    user: 用户管理
-    role: 角色管理
-    menu: 菜单管理
+crud:
+  cancel: 取消
+  ok: 确定
+  add: 新增
+  edit: 编辑
+  delete: 删除
+  search: 搜索
+  reset: 重置
+  submit: 提交
+  searchFold: 收起
+  searchUnFold: 展开
+dictionary:
+  system:
+    statusEnabled: 启用
+    statusDisabled: 禁用

@@ -1,0 +1,27 @@
+baseUser:
+  avatar: Avatar
+  username: Username
+  nickname: Nickname
+  phone: Phone
+  email: Email
+  status: Status
+baseMenu:
+  permission:
+    index: Permission
+    user: User
+    userList: User list
+    userSave: User save
+    userUpdate: User updated
+    userDelete: User delete
+    userPassword: Init user password
+    userRole: Set role for user
+    role: Role
+    roleList: Role list
+    roleSave: Role save
+    roleUpdate: Role updated
+    roleDelete: Role delete
+    menu: Menu
+    menuList: Menu list
+    menuSave: Menu save
+    menuUpdate: Menu updated
+    menuDelete: Menu delete

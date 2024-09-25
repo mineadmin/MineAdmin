@@ -12,7 +12,7 @@ import type { Ref } from 'vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { useMessage } from '@/hooks/useMessage.ts'
 
-export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>): MaProTableColumns[] {
+export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
   const message = useMessage()
 
   return [
@@ -21,18 +21,18 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
     // 索引序号列
     { type: 'index' },
     // 普通列
-    { label: '头像', prop: 'avatar', width: '120px',
+    { label: () => t('baseUser.avatar'), prop: 'avatar', width: '120px',
       cellRender: ({ row }) => (
         <div class="flex-center">
           <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : row.avatar} alt={row.username} />
         </div>
       ),
     },
-    { label: '用户名', prop: 'username' },
-    { label: '昵称', prop: 'nickname' },
-    { label: '手机', prop: 'phone' },
-    { label: '邮箱', prop: 'email' },
-    { label: '状态', prop: 'status',
+    { label: () => t('baseUser.username'), prop: 'username' },
+    { label: () => t('baseUser.nickname'), prop: 'nickname' },
+    { label: () => t('baseUser.phone'), prop: 'phone' },
+    { label: () => t('baseUser.email'), prop: 'email' },
+    { label: () => t('baseUser.status'), prop: 'status',
       cellRender: ({ row }) => (
         <el-tag type={row.status === 1 ? 'primary' : 'danger'}>
           { row.status === 1 ? '正常' : '禁用' }

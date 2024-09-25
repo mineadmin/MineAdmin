@@ -125,8 +125,18 @@ menu:
   uc:message: Message
   welcome: Welcome Page
   dashboard: Dashboard
-  permission:
-    index: Permission
-    user: User
-    role: Role
-    menu: Menu
+crud:
+  cancel: Cancel
+  ok: OK
+  add: Add
+  edit: Edit
+  delete: Delete
+  search: Search
+  reset: Reset
+  submit: Submit
+  searchFold: Fold
+  searchUnFold: Unfold
+dictionary:
+  system:
+    statusEnabled: Enabled
+    statusDisabled: Disabled

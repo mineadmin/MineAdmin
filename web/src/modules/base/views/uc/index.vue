@@ -68,10 +68,10 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import UcTitle from './components/title.vue'
+import { useLocalTrans } from '@/hooks/useLocalTrans'
 import UcContainer from './components/container.vue'
 import UcModifyInfo from './components/modify-info.vue'
-import { useLocalTrans } from '@/hooks/useLocalTrans'
+import UcTitle from './components/title.vue'
 
 const modalRef = ref()
 const selected = ref('profile')
@@ -96,17 +96,16 @@ const showFields = reactive({
   login_time: useLocalTrans('userinfo.loginTime'),
 })
 
-const updateImage = () => {
+function updateImage() {
   // Select image
   const input = document.createElement('input')
   input.type = 'file'
   input.accept = 'image/*'
   input.onchange = (e) => {
-    const file:File = e.target.files[0]
+    const file: File = e.target.files[0]
   }
   input.click()
 }
-
 </script>
 
 <template>
@@ -139,7 +138,7 @@ const updateImage = () => {
               <div class="desc-value">
                 <div class="flex flex-col gap-x-5 gap-y-2 lg:flex-row">
                   <a class="cursor-pointer text-gray-7 dark-text-gray-3" @click="updateImage">{{ useLocalTrans('changeAvatar') }}</a>
-                  <a class="cursor-pointer text-red-6" v-if="userStore.getUserInfo()?.avatar">{{ useLocalTrans('removeAvatar') }}</a>
+                  <a v-if="userStore.getUserInfo()?.avatar" class="cursor-pointer text-red-6">{{ useLocalTrans('removeAvatar') }}</a>
                 </div>
               </div>
             </div>

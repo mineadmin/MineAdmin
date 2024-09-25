@@ -16,6 +16,7 @@ use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\UploadRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
 use App\Schema\AttachmentSchema;
@@ -32,6 +33,7 @@ use Symfony\Component\Finder\SplFileInfo;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class AttachmentController extends AbstractController
 {
     public function __construct(

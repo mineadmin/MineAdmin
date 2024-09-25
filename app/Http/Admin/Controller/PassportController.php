@@ -61,10 +61,21 @@ final class PassportController extends AbstractController
     {
         $username = (string) $request->input('username');
         $password = (string) $request->input('password');
+        // os         private readonly string $ip,
+        //        private readonly string $os,
+        //        private readonly string $browser,
+        $ip = Arr::first(array: $request->getClientIps(), default: '0.0.0.0');
+        $browser = $request->header('User-Agent') ?: 'unknown';
+        // todo 用户系统的获取
+        $os = $request->header('User-Agent') ?: 'unknown';
+
         return $this->success(
             $this->passportService->login(
                 $username,
-                $password
+                $password,
+                $ip,
+                $browser,
+                $os
             )
         );
     }

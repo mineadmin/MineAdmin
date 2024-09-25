@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Events\User\LoginSuccessEvent;
+use App\Events\User\UserLoginEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
@@ -39,13 +39,14 @@ final class PassportService extends IService
     /**
      * @return array<string,int|string>
      */
-    public function login(string $username, string $password, int $userType = 100): array
+    public function login(string $username, string $password, int $userType = 100, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
     {
         $user = $this->repository->findByUnameType($username, $userType);
         if (! $user->verifyPassword($password)) {
+            $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser, false));
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
-        $this->dispatcher->dispatch(new LoginSuccessEvent($user));
+        $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
         $jwt = $this->getJwt();
         $token = $jwt->builder($user->only(['id']));
         return [

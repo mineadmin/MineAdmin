@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
+namespace App\Http\Admin\Subscriber;
+
+use App\Events\User\UserLoginEvent;
+use App\Service\UserLoginLogService;
+use Hyperf\Event\Annotation\Listener;
+use Hyperf\Event\Contract\ListenerInterface;
+
+#[Listener]
+class UserLoginSubscriber implements ListenerInterface
+{
+    public function __construct(
+        private readonly UserLoginLogService $userService
+    ) {}
+
+    public function listen(): array
+    {
+        return [
+            UserLoginEvent::class,
+        ];
+    }
+
+    public function process(object $event): void
+    {
+        if ($event instanceof UserLoginEvent) {
+            $user = $event->getUser();
+            $this->userService->save([
+                'username' => $user->username,
+                'ip' => $event->getIp(),
+                'os' => $event->getOs(),
+                'browser' => $event->getBrowser(),
+                'status' => $event->isLogin() ? 1 : 2,
+            ]);
+        }
+    }
+}

@@ -19,6 +19,7 @@ use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\Permission\BatchGrantPermissionsForRoleRequest;
 use App\Http\Admin\Request\Permission\RoleRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use App\Kernel\Annotation\Permission;
@@ -40,6 +41,7 @@ use Mine\Kernel\Swagger\Attributes\ResultResponse;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class RoleController extends AbstractController
 {
     public function __construct(

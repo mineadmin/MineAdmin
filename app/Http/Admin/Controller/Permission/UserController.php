@@ -18,6 +18,7 @@ use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\Permission\BatchGrantRolesForUserRequest;
 use App\Http\Admin\Request\Permission\UserRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Kernel\Annotation\Permission;
 use App\Schema\UserSchema;
@@ -38,6 +39,7 @@ use OpenApi\Attributes\RequestBody;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class UserController extends AbstractController
 {
     public function __construct(

@@ -67,7 +67,7 @@ class MenuSeeder extends Seeder
                 'path' => '/permission',
                 'meta' => new Meta([
                     'title' => '权限管理',
-                    'i18n' => 'menu.permission.index',
+                    'i18n' => 'baseMenu.permission.index',
                     'icon' => 'simple-icons:authy',
                     'type' => 'M',
                     'hidden' => 0,
@@ -86,7 +86,7 @@ class MenuSeeder extends Seeder
                         'meta' => new Meta([
                             'type' => 'M',
                             'title' => '用户管理',
-                            'i18n' => 'menu.permission.user',
+                            'i18n' => 'baseMenu.permission.user',
                             'icon' => 'material-symbols:account-box',
                             'hidden' => 0,
                             'componentPath' => 'modules/',
@@ -102,6 +102,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户列表',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userList',
                                 ]),
                             ],
                             [
@@ -109,6 +110,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户保存',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userSave',
                                 ]),
                             ],
                             [
@@ -116,6 +118,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户更新',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userUpdate',
                                 ]),
                             ],
                             [
@@ -123,6 +126,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户删除',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userDelete',
                                 ]),
                             ],
                             [
@@ -130,6 +134,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户初始化密码',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userPassword',
                                 ]),
                             ],
                             [
@@ -137,6 +142,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.userRole',
                                 ]),
                             ],
                         ],
@@ -147,7 +153,7 @@ class MenuSeeder extends Seeder
                         'component' => 'base/views/permission/menu/index',
                         'meta' => new Meta([
                             'title' => '菜单管理',
-                            'i18n' => 'menu.permission.menu',
+                            'i18n' => 'baseMenu.permission.menu',
                             'icon' => 'material-symbols:list-alt-rounded',
                             'hidden' => 0,
                             'type' => 'M',
@@ -164,6 +170,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '菜单列表',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.menuList',
                                 ]),
                             ],
                             [
@@ -171,6 +178,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '菜单保存',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.menuSave',
                                 ]),
                             ],
                             [
@@ -178,6 +186,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '菜单更新',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.menuUpdate',
                                 ]),
                             ],
                             [
@@ -185,6 +194,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '菜单删除',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.menuDelete',
                                 ]),
                             ],
                         ],
@@ -195,7 +205,7 @@ class MenuSeeder extends Seeder
                         'component' => 'base/views/permission/role/index',
                         'meta' => new Meta([
                             'title' => '角色管理',
-                            'i18n' => 'menu.permission.role',
+                            'i18n' => 'baseMenu.permission.role',
                             'icon' => 'material-symbols:supervisor-account',
                             'hidden' => 0,
                             'type' => 'M',
@@ -212,6 +222,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '角色列表',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.roleList',
                                 ]),
                             ],
                             [
@@ -219,6 +230,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '角色保存',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.roleSave',
                                 ]),
                             ],
                             [
@@ -226,6 +238,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '角色更新',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.roleUpdate',
                                 ]),
                             ],
                             [
@@ -233,6 +246,7 @@ class MenuSeeder extends Seeder
                                 'meta' => new Meta([
                                     'title' => '角色删除',
                                     'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.roleDelete',
                                 ]),
                             ],
                         ],

@@ -260,7 +260,7 @@ class MenuSeeder20240926 extends Seeder
                 'meta' => new Meta([
                     'title' => '日志管理',
                     'i18n' => 'baseMenu.log.index',
-                    'icon' => 'simple-icons:logstash',
+                    'icon' => 'ph:instagram-logo',
                     'type' => 'M',
                     'hidden' => 0,
                     'componentPath' => 'modules/',
@@ -278,7 +278,7 @@ class MenuSeeder20240926 extends Seeder
                             'title' => '用户登录日志管理',
                             'type' => 'M',
                             'hidden' => 0,
-                            'icon' => 'simple-icons:logstash',
+                            'icon' => 'ph:user-list',
                             'i18n' => 'baseMenu.log.userLoginLog',
                         ]),
                         'children' => [
@@ -310,7 +310,7 @@ class MenuSeeder20240926 extends Seeder
                             'title' => '操作日志管理',
                             'type' => 'M',
                             'hidden' => 0,
-                            'icon' => 'simple-icons:logstash',
+                            'icon' => 'ph:list-magnifying-glass',
                             'i18n' => 'baseMenu.log.operationLog',
                         ]),
                         'children' => [

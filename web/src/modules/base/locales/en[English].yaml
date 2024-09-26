@@ -30,6 +30,6 @@ baseMenu:
     userLoginLog: Login Log
     operationLog: Operation Log
     userLoginLogList: User Login Log List
-    userOperationLogList: User Operation Log List
+    userOperationLog: User Operation Log List
     userLoginLogDelete: User Login Log Delete
     userOperationLogDelete: User Operation Log Delete

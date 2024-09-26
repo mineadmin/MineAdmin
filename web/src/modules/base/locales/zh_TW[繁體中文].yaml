@@ -30,6 +30,6 @@ baseMenu:
     userLoginLog: 登錄日志
     operationLog: 操作日志
     userLoginLogList: 用戶登錄日志
-    userOperationLogList: 用戶操作日志
+    userOperationLog: 用戶操作日志
     userLoginLogDelete: 用戶登錄日志刪除
     userOperationLogDelete: 用戶操作日志刪除

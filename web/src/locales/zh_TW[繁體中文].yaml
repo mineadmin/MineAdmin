@@ -136,6 +136,8 @@ crud:
   submit: 提交
   searchFold: 摺疊
   searchUnFold: 展開
+  selection: 多選
+  operation: 操作
 dictionary:
   system:
     statusEnabled: 啓用

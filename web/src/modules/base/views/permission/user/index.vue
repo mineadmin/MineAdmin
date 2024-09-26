@@ -26,10 +26,9 @@ const t = useTrans()
 const options = ref<MaProTableOptions>({
   // 表格距离底部的像素偏移适配
   adaptionOffsetBottom: 161,
-  // 头部配置
   header: {
-    mainTitle: '用户管理',
-    secondaryTitle: '提供用户添加、编辑、删除功能，超管不可修改。',
+    mainTitle: () => t('baseUser.mainTitle'),
+    subTitle: () => t('baseUser.subTitle'),
   },
   // 表格参数
   tableOptions: {

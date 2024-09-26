@@ -5,6 +5,8 @@ baseUser:
   phone: 手机
   email: 邮箱
   status: 状态
+  mainTitle: 用户管理
+  subTitle: 提供用户添加、编辑、删除功能，超管不可修改。
 baseMenu:
   permission:
     index: 权限管理

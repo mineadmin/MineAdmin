@@ -19,7 +19,7 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
 
   return [
     // 多选列
-    { type: 'selection', showOverflowTooltip: false },
+    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 索引序号列
     { type: 'index' },
     // 普通列
@@ -44,6 +44,7 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
     // 操作列
     {
       type: 'operation',
+      label: () => t('crud.operation'),
       operationConfigure: {
         actions: [
           {

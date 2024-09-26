@@ -136,6 +136,8 @@ crud:
   submit: Submit
   searchFold: Fold
   searchUnFold: Unfold
+  selection: Selection
+  operation: Operation
 dictionary:
   system:
     statusEnabled: Enabled

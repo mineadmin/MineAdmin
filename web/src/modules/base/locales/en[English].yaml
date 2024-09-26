@@ -5,6 +5,8 @@ baseUser:
   phone: Phone
   email: Email
   status: Status
+  mainTitle: User Manager
+  subTitle: Provide users with the functions of adding, editing, and deleting
 baseMenu:
   permission:
     index: Permission

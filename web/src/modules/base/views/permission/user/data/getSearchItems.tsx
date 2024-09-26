@@ -20,6 +20,13 @@ export default function getSearchItems(t: any): MaSearchItem[] {
       render: () => MaRemoteSelect,
       renderProps: {
         placeholder: '请选择用户',
+        url: '/admin/role/list',
+        props: {
+          label: 'name', value: 'id',
+        },
+        dataHandle: (response: any) => {
+          return response.data.list
+        },
       },
     },
     {

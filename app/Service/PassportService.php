@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Events\User\UserLoginEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
@@ -22,6 +21,7 @@ use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Kernel\Jwt\Factory;
 use Mine\Kernel\Jwt\JwtInterface;
+use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class PassportService extends IService

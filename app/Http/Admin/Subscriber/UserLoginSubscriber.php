@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Subscriber;
 
-use App\Event\User\UserLoginEvent;
 use App\Service\UserLoginLogService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
+use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
 
 #[Listener]
 class UserLoginSubscriber implements ListenerInterface

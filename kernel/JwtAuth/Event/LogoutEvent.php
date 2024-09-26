@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Event\User;
+namespace Mine\Kernel\JwtAuth\Event;
 
 use App\Model\Permission\User;
 

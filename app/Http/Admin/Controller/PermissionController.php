@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Constants\User\Status;
-use App\Http\Admin\CurrentUser;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Model\Enums\User\Status;
 use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Schema\MenuSchema;
@@ -24,6 +23,7 @@ use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]

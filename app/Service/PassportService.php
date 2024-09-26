@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Constants\User\Type;
 use App\Events\User\UserLoginEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Type;
 use App\Repository\Permission\UserRepository;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
-use App\Http\Admin\CurrentUser;
 use App\Http\Common\Event\RequestOperationEvent;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
@@ -22,6 +21,7 @@ use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\Patch;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Support\Request;
 use Mine\Kernel\Support\Traits\ParserRouterTrait;
 use OpenApi\Annotations\Operation;

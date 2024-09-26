@@ -10,19 +10,17 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Listener;
+namespace Mine\Kernel\Core\Subscriber;
 
 use Hyperf\Collection\Arr;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Database\Events\QueryExecuted;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Logger\LoggerFactory;
 use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
-#[Listener]
-final class DbQueryExecutedListener implements ListenerInterface
+final class DbQueryExecutedSubscriber implements ListenerInterface
 {
     use Debugging;
 

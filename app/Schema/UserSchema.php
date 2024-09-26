@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Constants\User\Status;
-use App\Constants\User\Type;
+use App\Model\Enums\User\Status;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;

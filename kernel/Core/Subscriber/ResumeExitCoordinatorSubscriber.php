@@ -10,16 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Listener;
+namespace Mine\Kernel\Core\Subscriber;
 
 use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Coordinator\Constants;
 use Hyperf\Coordinator\CoordinatorManager;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
-#[Listener]
-final class ResumeExitCoordinatorListener implements ListenerInterface
+final class ResumeExitCoordinatorSubscriber implements ListenerInterface
 {
     public function listen(): array
     {

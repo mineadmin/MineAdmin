@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace App\Http\Admin\Middleware;
 
 use App\Exception\BusinessException;
-use App\Http\Admin\CurrentUser;
 use App\Http\Common\ResultCode;
-use App\Kernel\Annotation\Permission;
 use App\Service\PermissionService;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpServer\Router\Dispatched;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Support\Traits\ParserRouterTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -51,7 +51,7 @@ final class PermissionMiddleware implements MiddlewareInterface
         $annotations = AnnotationCollector::getClassMethodAnnotation($controller, $method);
         $classAnnotation = AnnotationCollector::getClassAnnotation($controller, Permission::class);
         /**
-         * @var Permission[] $permissions
+         * @var \Mine\Kernel\Access\Attribute\Permission[] $permissions
          */
         $permissions = [];
         $classAnnotation && $permissions[] = $classAnnotation;

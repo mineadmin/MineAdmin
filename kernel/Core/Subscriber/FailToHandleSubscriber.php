@@ -10,19 +10,17 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Listener;
+namespace Mine\Kernel\Core\Subscriber;
 
 use Hyperf\Command\Event\FailToHandle;
 use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
 use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
-#[Listener]
-final class FailToHandleListener implements ListenerInterface
+final class FailToHandleSubscriber implements ListenerInterface
 {
     use Debugging;
 

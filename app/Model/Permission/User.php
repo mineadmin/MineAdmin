@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
-use App\Constants\User\Status;
-use App\Constants\User\Type;
+use App\Model\Enums\User\Status;
+use App\Model\Enums\User\Type;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;

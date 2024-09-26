@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Listener;
+namespace Mine\Kernel\Core\Subscriber;
 
 use Hyperf\AsyncQueue\AnnotationJob;
 use Hyperf\AsyncQueue\Event\AfterHandle;
@@ -19,15 +19,13 @@ use Hyperf\AsyncQueue\Event\Event;
 use Hyperf\AsyncQueue\Event\FailedHandle;
 use Hyperf\AsyncQueue\Event\RetryHandle;
 use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
 use Mine\Kernel\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
-#[Listener]
-final class QueueHandleListener implements ListenerInterface
+final class QueueHandleSubscriber implements ListenerInterface
 {
     use Debugging;
 

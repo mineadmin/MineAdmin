@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Constants\User;
+namespace App\Model\Enums\User;
 
 use Hyperf\Constants\Annotation\Constants;
 use Hyperf\Constants\Annotation\Message;

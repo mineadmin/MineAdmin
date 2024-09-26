@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
-use App\Constants\User\Type;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;

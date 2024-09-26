@@ -10,13 +10,11 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Listener\Upload;
+namespace Mine\Kernel\Core\Subscriber\Upload;
 
-use Hyperf\Event\Annotation\Listener;
 use Mine\Kernel\Upload\Listener\UploadListener as AbstractUploadListener;
 
-#[Listener]
-class UploadListener extends AbstractUploadListener
+final class UploadSubscriber extends AbstractUploadListener
 {
     public const ADAPTER_NAME = 'local';
 }

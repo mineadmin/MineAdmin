@@ -10,20 +10,18 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Kernel;
+namespace Mine\Kernel\Core\Subscriber;
 
 use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Database\Commands\Migrations\GenMigrateCommand;
 use Hyperf\Database\Commands\Seeders\GenSeederCommand;
 use Hyperf\Database\Migrations\Migrator;
 use Hyperf\Database\Seeders\Seed;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
 use Mine\Kernel\Support\Filesystem;
 
-#[Listener]
-class RegisterListener implements ListenerInterface
+final class BootApplicationSubscriber implements ListenerInterface
 {
     public function __construct(
         private readonly Migrator $migrator,

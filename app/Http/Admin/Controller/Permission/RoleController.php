@@ -14,7 +14,6 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\Permission\BatchGrantPermissionsForRoleRequest;
 use App\Http\Admin\Request\Permission\RoleRequest;
@@ -22,7 +21,6 @@ use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
-use App\Kernel\Annotation\Permission;
 use App\Schema\RoleSchema;
 use App\Service\Permission\RoleService;
 use Hyperf\Collection\Arr;
@@ -35,6 +33,8 @@ use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 use Mine\Kernel\Swagger\Attributes\ResultResponse;
 

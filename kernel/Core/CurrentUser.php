@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin;
+namespace Mine\Kernel\Core;
 
-use App\Constants\User\Type;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use App\Service\PassportService;

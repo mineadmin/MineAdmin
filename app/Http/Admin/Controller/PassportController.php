@@ -12,13 +12,12 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Constants\User\Type;
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
+use App\Model\Enums\User\Type;
 use App\Schema\UserSchema;
 use App\Service\PassportService;
 use Hyperf\Collection\Arr;
@@ -26,10 +25,9 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
 use Mine\Kernel\Swagger\Attributes\ResultResponse;
-
-use function App\Http\Admin\Support\user;
 
 #[OA\HyperfServer(name: 'http')]
 final class PassportController extends AbstractController
@@ -37,7 +35,8 @@ final class PassportController extends AbstractController
     use RequestScopedTokenTrait;
 
     public function __construct(
-        private readonly PassportService $passportService
+        private readonly PassportService $passportService,
+        private readonly CurrentUser $currentUser
     ) {}
 
     #[Post(
@@ -107,7 +106,7 @@ final class PassportController extends AbstractController
     )]
     public function getInfo(): Result
     {
-        return $this->success(Arr::only(user()?->toArray(), ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']));
+        return $this->success(Arr::only($this->currentUser->user()?->toArray(), ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']));
     }
 
     #[Post(

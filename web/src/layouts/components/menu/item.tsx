@@ -31,6 +31,14 @@ export default defineComponent({
       return isActive.value && (!subMenu || rootMenu.isMenuPopup)
     })
 
+    const displayI18n = (key,title) => {
+      const result = t(key)
+      if(result !== key){
+        return result
+      }
+      return title
+    }
+
     // 缩进样式
     const indentStyle = computed(() => {
       return !rootMenu.isMenuPopup
@@ -57,7 +65,7 @@ export default defineComponent({
             <>
               <m-tooltip
                 enable={rootMenu.isMenuPopup && level === 0 && !subMenu}
-                text={item?.meta?.i18n ? t(item?.meta?.i18n as string) : item?.meta?.title}
+                text={displayI18n(item?.meta?.i18n,item.meta?.title)}
                 placement="right"
                 class="h-full w-full"
               >
@@ -70,7 +78,7 @@ export default defineComponent({
                       'px-3!': rootMenu.isMenuPopup && level === 0,
                       'no-underline': !subMenu,
                     },
-                    title: item?.meta?.i18n ? t(item.meta?.i18n as string) : item?.meta?.title,
+                    title: displayI18n(item?.meta?.i18n,item.meta?.title),
                     ...(!subMenu && {
                       href: item?.meta?.type === 'L' ? item.meta.link : href,
                       target: item?.meta?.type === 'L' ? '_blank' : '_self',
@@ -91,7 +99,7 @@ export default defineComponent({
                                 'w-full text-center': rootMenu.isMenuPopup && level === 0 && rootMenu.props.showCollapseName,
                               }}
                             >
-                              {item?.meta?.i18n ? t(item.meta?.i18n as string) : item?.meta?.title ?? 'unknown'}
+                              {displayI18n(item?.meta?.i18n,item.meta?.title)}
                             </span>
                           )
                         }

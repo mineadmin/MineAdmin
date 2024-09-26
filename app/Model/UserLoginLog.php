@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Events\Created;
+use Hyperf\Database\Model\Events\Creating;
 use Hyperf\DbConnection\Model\Model;
 
 /**
@@ -46,7 +46,7 @@ class UserLoginLog extends Model
      */
     protected array $casts = ['id' => 'integer', 'status' => 'integer', 'login_time' => 'datetime'];
 
-    public function created(Created $event)
+    public function creating(Creating $event)
     {
         if ($event->getModel()->login_time === null) {
             $event->getModel()->login_time = Carbon::now();

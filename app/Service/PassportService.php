@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Constants\User\Type;
 use App\Events\User\UserLoginEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
@@ -39,7 +40,7 @@ final class PassportService extends IService
     /**
      * @return array<string,int|string>
      */
-    public function login(string $username, string $password, int $userType = 100, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
+    public function login(string $username, string $password, Type $userType = Type::SYSTEM, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
     {
         $user = $this->repository->findByUnameType($username, $userType);
         if (! $user->verifyPassword($password)) {

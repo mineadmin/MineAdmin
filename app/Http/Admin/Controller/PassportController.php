@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Constants\User\Type;
 use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
@@ -64,7 +65,7 @@ final class PassportController extends AbstractController
         // os         private readonly string $ip,
         //        private readonly string $os,
         //        private readonly string $browser,
-        $ip = Arr::first(array: $request->getClientIps(), default: '0.0.0.0');
+        $ip = Arr::first(array: $request->getClientIps(), callback: static fn ($val) => $val ?: null, default: '0.0.0.0');
         $browser = $request->header('User-Agent') ?: 'unknown';
         // todo 用户系统的获取
         $os = $request->header('User-Agent') ?: 'unknown';
@@ -73,6 +74,7 @@ final class PassportController extends AbstractController
             $this->passportService->login(
                 $username,
                 $password,
+                Type::SYSTEM,
                 $ip,
                 $browser,
                 $os

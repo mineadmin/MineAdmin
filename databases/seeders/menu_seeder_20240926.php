@@ -254,6 +254,86 @@ class MenuSeeder20240926 extends Seeder
                 ],
             ],
             // todo 代码生成器还没定下来，所以先注释掉
+            [
+                'name' => 'log',
+                'path' => '/log',
+                'meta' => new Meta([
+                    'title' => '日志管理',
+                    'i18n' => 'baseMenu.log.index',
+                    'icon' => 'simple-icons:logstash',
+                    'type' => 'M',
+                    'hidden' => 0,
+                    'componentPath' => 'modules/',
+                    'componentSuffix' => '.vue',
+                    'breadcrumbEnable' => 1,
+                    'copyright' => 1,
+                    'cache' => 1,
+                    'affix' => 0,
+                ]),
+                'children' => [
+                    [
+                        'name' => 'user-login',
+                        'path' => '/log/userLoginLog',
+                        'meta' => new Meta([
+                            'title' => '用户登录日志管理',
+                            'type' => 'M',
+                            'hidden' => 0,
+                            'icon' => 'simple-icons:logstash',
+                            'i18n' => 'baseMenu.log.userLoginLog',
+                        ]),
+                        'children' => [
+                            [
+                                'name' => 'user-login-log:list',
+                                'path' => '/log/userLoginLog',
+                                'meta' => new Meta([
+                                    'title' => '用户登录日志列表',
+                                    'i18n' => 'baseMenu.log.userLoginLogList',
+                                    'icon' => 'simple-icons:logstash',
+                                    'type' => 'B',
+                                    'hidden' => 0,
+                                ]),
+                            ],
+                            [
+                                'name' => 'user-login-log:delete',
+                                'meta' => new Meta([
+                                    'title' => '删除用户登录日志',
+                                    'i18n' => 'baseMenu.log.userLoginLogDelete',
+                                    'type' => 'B',
+                                ]),
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'operation',
+                        'path' => '/log/operationLog',
+                        'meta' => new Meta([
+                            'title' => '操作日志管理',
+                            'type' => 'M',
+                            'hidden' => 0,
+                            'icon' => 'simple-icons:logstash',
+                            'i18n' => 'baseMenu.log.operationLog',
+                        ]),
+                        'children' => [
+                            [
+                                'name' => 'user-operation-log:list',
+                                'meta' => new Meta([
+                                    'title' => '用户操作日志列表',
+                                    'i18n' => 'baseMenu.log.userOperationLog',
+                                    'type' => 'B',
+                                ]),
+                            ],
+                            [
+                                'name' => 'user-operation-log:delete',
+                                'meta' => new Meta([
+                                    'title' => '删除用户操作日志',
+                                    'i18n' => 'baseMenu.log.userOperationLogDelete',
+                                    'type' => 'B',
+                                ]),
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             /* [
                 'name' => '工具',
                 'code' => 'devTools',

@@ -25,3 +25,11 @@ baseMenu:
     menuSave: 菜單管保存
     menuUpdate: 菜單管更新
     menuDelete: 菜單管刪除
+  log:
+    index: 日志管理
+    userLoginLog: 登錄日志
+    operationLog: 操作日志
+    userLoginLogList: 用戶登錄日志
+    userOperationLogList: 用戶操作日志
+    userLoginLogDelete: 用戶登錄日志刪除
+    userOperationLogDelete: 用戶操作日志刪除

@@ -25,3 +25,11 @@ baseMenu:
     menuSave: Menu save
     menuUpdate: Menu updated
     menuDelete: Menu delete
+  log:
+    index: Log Management
+    userLoginLog: Login Log
+    operationLog: Operation Log
+    userLoginLogList: User Login Log List
+    userOperationLogList: User Operation Log List
+    userLoginLogDelete: User Login Log Delete
+    userOperationLogDelete: User Operation Log Delete

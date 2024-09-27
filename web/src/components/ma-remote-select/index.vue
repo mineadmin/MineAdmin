@@ -50,7 +50,7 @@ else {
 </script>
 
 <template>
-  <ElSelectV2 v-bind="$attrs" v-model="model" :options="options">
+  <ElSelectV2 v-bind="$attrs" v-model="model" :options="options" clearable>
     <template v-for="slot in Object.keys($slots)" #[slot]>
       <slot :name="slot" />
     </template>

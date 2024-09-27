@@ -18,6 +18,8 @@ declare module 'vue' {
     MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']
     MaSvgIcon: typeof import('./../src/components/ma-svg-icon/index.vue')['default']
     MaTree: typeof import('./../src/components/ma-tree/index.vue')['default']
+    MaUploadFile: typeof import('./../src/components/ma-upload-file/index.vue')['default']
+    MaUploadImage: typeof import('./../src/components/ma-upload-image/index.vue')['default']
     MaVerifyCode: typeof import('./../src/components/ma-verify-code/index.vue')['default']
     Panel: typeof import('./../src/components/ma-resource-picker/panel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

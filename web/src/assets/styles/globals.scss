@@ -22,10 +22,14 @@
   --el-color-primary: --ui-primery;
 }
 
-* {
-  font-family: "阿里巴巴普惠体 2.0 65 Medium" !important;
-  src: url("//at.alicdn.com/wf/webfont/RAjeI6lDCA89/mvbE7EJzp4NQ.woff2") format("woff2"), url("//at.alicdn.com/wf/webfont/RAjeI6lDCA89/oLN9EN3PXOck.woff") format("woff");
-  font-display: swap !important;
+@font-face {
+  font-family: 'alibaba-pu-hui-ti-3-regular';
+  src:url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: 'alibaba-pu-hui-ti-3-regular', Arial, Helvetica, sans-serif;
 }
 
 ul li { list-style: none; }

@@ -66,7 +66,7 @@ final class DbQueryExecutedListener implements ListenerInterface
             }
             $this->log(
                 message: \sprintf('[%s:%s] %s', $event->connectionName, $event->time, $sql),
-                level: 'debug'
+                level: 'info'
             );
         }
     }

@@ -8,9 +8,9 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { ElDialog } from 'element-plus'
-import type { Ref } from 'vue'
 
 defineOptions({ name: 'MaDialog' })
 
@@ -21,6 +21,10 @@ const fsIcon = reactive({
   todo: 'mingcute:fullscreen-line',
   exit: 'mingcute:fullscreen-exit-line',
 })
+
+const t = useTrans()
+
+const isOpen = defineModel<boolean>({ default: false })
 
 onMounted(() => {
   useResizeObserver(document.body, (entries) => {
@@ -49,12 +53,13 @@ onMounted(() => {
 <template>
   <ElDialog
     ref="dialogRef"
+    v-bind="$attrs"
+    v-model="isOpen"
     :fullscreen="fullscreen"
     :width="dialogWidth"
     :close-on-click-modal="false"
     draggable
     append-to-body
-    v-bind="$attrs"
   >
     <template #default>
       <slot name="default" />
@@ -66,7 +71,7 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link class="relative -top-4px" :underline="false">
+        <el-link class="relative text-gray-4 transition-all -top-3px" :underline="false">
           <ma-svg-icon
             :name="fullscreen ? fsIcon.exit : fsIcon.todo"
             :size="15"
@@ -76,7 +81,14 @@ onMounted(() => {
       </div>
     </template>
     <template #footer>
-      <slot name="footer" />
+      <slot name="footer">
+        <el-button @click="() => isOpen = false">
+          {{ t('crud.cancel') }}
+        </el-button>
+        <el-button type="primary">
+          {{ t('crud.ok') }}
+        </el-button>
+      </slot>
     </template>
   </ElDialog>
 </template>

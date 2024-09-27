@@ -1,96 +1,130 @@
 <script setup lang="ts">
-import { Dialog, DialogDescription, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import type { DialogRootEmits } from 'radix-vue'
+import type { DrawerRootProps } from 'vaul-vue'
+
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import mergeClassName from '../../utils/mergeClassName.ts'
+import {
+  useForwardPropsEmits,
+} from 'radix-vue'
+
+import {
+  DrawerClose, DrawerContent,
+  DrawerDescription,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from 'vaul-vue'
 
 defineOptions({ name: 'MDrawer' })
 
 const props = withDefaults(
-  defineProps<{
-    title?: string
-    position?: 'left' | 'right'
-    class?: string | string[] | object
-  }>(),
+  defineProps<MDrawerProps>(),
   {
-    title: '',
-    position: 'right',
-    class: '',
+    clickModalClose: true,
+    side: 'right',
+    modal: true,
+    direction: 'right',
+    nested: true,
   },
 )
+const emits = defineEmits<DialogRootEmits>()
 
-const emit = defineEmits<{
-  close: []
-}>()
-
-const isOpen = defineModel<boolean>({ default: false })
-
-const slots = useSlots()
-
-const panelClass = computed(() => {
-  return mergeClassName([
-    'relative flex flex-1 flex-col bg-white dark-bg-dark-5 focus-outline-none rounded-l-lg',
-  ], props.class)
-})
-
-const overlayTransitionClass = ref({
-  enter: 'ease-in-out duration-300',
-  enterFrom: 'opacity-0',
-  enterTo: 'opacity-100',
-  leave: 'ease-in-out duration-300',
-  leaveFrom: 'opacity-100',
-  leaveTo: 'opacity-0',
-})
-
-const transitionClass = computed(() => {
-  return {
-    enter: 'transform transition ease-in-out duration-300',
-    leave: 'transform transition ease-in-out duration-200',
-    enterFrom: props.position === 'left' ? '-translate-x-full' : 'translate-x-full',
-    enterTo: 'translate-x-0',
-    leaveFrom: 'translate-x-0',
-    leaveTo: props.position === 'left' ? '-translate-x-full' : 'translate-x-full',
-  }
-})
-
-function close() {
-  isOpen.value = false
-  emit('close')
+interface MDrawerProps extends DrawerRootProps {
+  clickModalClose?: boolean
+  contentClass?: string
+  title?: string
 }
+
+const forwarded = useForwardPropsEmits({
+  activeSnapPoint: props?.activeSnapPoint,
+  closeThreshold: props?.closeThreshold,
+  shouldScaleBackground: props?.shouldScaleBackground,
+  scrollLockTimeout: props?.scrollLockTimeout,
+  fixed: props?.fixed,
+  dismissible: props?.dismissible,
+  modal: props?.modal,
+  open: props?.open,
+  defaultOpen: props?.defaultOpen,
+  nested: props?.nested,
+  direction: props?.direction,
+}, emits)
+
+const isOpen = defineModel<boolean>()
 </script>
 
 <template>
-  <TransitionRoot as="template" :appear="false" :show="isOpen">
-    <Dialog class="fixed inset-0 z-2000 flex" :class="{ 'justify-end': position === 'right' }" @close="close()">
-      <TransitionChild as="template" :appear="false" v-bind="overlayTransitionClass">
-        <div class="drawer-mask" />
-      </TransitionChild>
-      <TransitionChild as="template" :appear="false" v-bind="transitionClass">
-        <DialogPanel :class="panelClass">
-          <div flex="~ items-center justify-between" p-3 border-b="~ solid stone/15" text-4>
-            <DialogTitle class="m-0 text-lg text-dark dark-text-white">
-              {{ title }}
-            </DialogTitle>
-            <button class="close-btn">
-              <ma-svg-icon name="i-carbon:close" :size="24" @click="close" />
-            </button>
-          </div>
-          <DialogDescription class="m-0 flex-1 of-y-hidden" :class="{ '!pb-6': !slots.footer }">
-            <OverlayScrollbarsComponent :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 300 } }" defer class="h-full p-3">
+  <div>
+    <DrawerRoot
+      v-bind="forwarded" :open="isOpen" @release="(e) => {
+        isOpen = e
+      }"
+    >
+      <DrawerTrigger class="drawer-trigger-button">
+        <slot name="trigger" />
+      </DrawerTrigger>
+      <DrawerPortal>
+        <Transition name="fade">
+          <DrawerOverlay
+            v-if="isOpen"
+            class="drawer-mask w-full"
+            data-dismissable-modal="true"
+            @click="() => {
+              if (props?.clickModalClose) {
+                isOpen = false
+              }
+            }"
+          />
+        </Transition>
+        <DrawerContent
+          class="drawer-content" :class="{
+            [props?.contentClass]: true,
+          }"
+        >
+          <DrawerTitle as="div">
+            <div class="h-50px flex items-center justify-between px-3">
+              <div class="font-bold">
+                {{ props?.title }}
+              </div>
+              <button class="close-btn" @click="() => isOpen = false">
+                <ma-svg-icon name="i-carbon:close" :size="24" />
+              </button>
+            </div>
+          </DrawerTitle>
+          <DrawerDescription
+            :class="{
+              'h-[calc(100%-100px)]': $slots.footer,
+              'h-[calc(100%-50px)]': !$slots.footer,
+            }"
+          >
+            <OverlayScrollbarsComponent :options="{ scrollbars: { visibility: 'hidden' } }" defer class="h-[calc(100%-30px)] p-3">
               <slot />
             </OverlayScrollbarsComponent>
-          </DialogDescription>
-          <div v-if="!!slots.footer" flex="~ items-center justify-end" px-3 py-2 border-t="~ solid stone/15">
-            <slot name="footer" />
-          </div>
-        </DialogPanel>
-      </TransitionChild>
-    </Dialog>
-  </TransitionRoot>
+          </DrawerDescription>
+          <DrawerClose v-show="$slots.footer" class="h-50px w-full b-0 b-t-1 b-t-gray-3 rounded-l-xl rounded-t-none b-t-solid bg-white dark-b-t-dark-3 dark-bg-dark-5">
+            <div class="px-2">
+              <slot name="footer" />
+            </div>
+          </DrawerClose>
+        </DrawerContent>
+      </drawerportal>
+    </DrawerRoot>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .drawer-mask {
-  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15;
+  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15 z-2999 h-full;
+}
+.drawer-trigger-button {
+  @apply b-0 bg-blue/0 relative top-2px outline-none ring-none
+}
+
+.drawer-content {
+  @apply absolute transition-all ease-in-out top-0 right-0
+  z-3000 h-full bg-white dark-bg-dark-5 rounded-l-xl
+  ;
 }
 
 .close-btn {

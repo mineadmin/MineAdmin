@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Events\User\LoginSuccessEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Type;
 use App\Repository\Permission\UserRepository;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Kernel\Jwt\Factory;
 use Mine\Kernel\Jwt\JwtInterface;
+use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class PassportService extends IService
@@ -39,13 +40,14 @@ final class PassportService extends IService
     /**
      * @return array<string,int|string>
      */
-    public function login(string $username, string $password, int $userType = 100): array
+    public function login(string $username, string $password, Type $userType = Type::SYSTEM, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
     {
         $user = $this->repository->findByUnameType($username, $userType);
         if (! $user->verifyPassword($password)) {
+            $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser, false));
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
-        $this->dispatcher->dispatch(new LoginSuccessEvent($user));
+        $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
         $jwt = $this->getJwt();
         $token = $jwt->builder($user->only(['id']));
         return [

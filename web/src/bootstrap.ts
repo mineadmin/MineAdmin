@@ -32,7 +32,7 @@ import 'virtual:uno.css'
 import 'virtual:svg-icons-register'
 
 // 全局样式
-import '@/assets/styles/globals.css'
+import '@/assets/styles/globals.scss'
 // vue-m-message样式
 import 'vue-m-message/dist/style.css'
 // 引入resources scss
@@ -85,6 +85,13 @@ function otherWorker(app: App) {
   if (import.meta.env?.VITE_OPEN_vCONSOLE === 'true') {
     app.config.globalProperties.$vconsole = new VConsole()
   }
+
+  const dictStore = useDictStore()
+
+  Object.entries(app.config.globalProperties.$dictionary).map((item: any) => {
+    const [name, data] = item
+    dictStore.push(name, data)
+  })
 }
 
 function registerDirectives(app: App) {

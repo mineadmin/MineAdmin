@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
+use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
@@ -25,7 +26,7 @@ final class UserRepository extends IRepository
 {
     public function __construct(protected readonly User $model) {}
 
-    public function findByUnameType(string $username, int $userType = 100): User
+    public function findByUnameType(string $username, Type $userType = Type::SYSTEM): User
     {
         // @phpstan-ignore-next-line
         return $this->model->newQuery()

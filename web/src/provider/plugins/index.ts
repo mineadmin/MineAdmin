@@ -7,8 +7,8 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { App } from 'vue'
 import type { ProviderService } from '#/global'
+import type { App } from 'vue'
 import useGlobal from '@/hooks/auto-imports/useGlobal.ts'
 
 const pluginList = {}

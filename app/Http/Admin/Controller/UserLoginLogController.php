@@ -12,11 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Common\Middleware\AuthMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Annotation\Permission;
 use App\Schema\UserLoginLogSchema;
 use App\Service\UserLoginLogService;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -24,6 +22,8 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]

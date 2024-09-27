@@ -1,3 +1,4 @@
+import type { Plugin, SystemSettings } from '#/global'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -7,10 +8,9 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { RouteRecordRaw, Router } from 'vue-router'
-import type { Plugin, SystemSettings } from '#/global'
-import welcomeRoute from '@/router/static-routes/welcomeRoute'
+import type { Router, RouteRecordRaw } from 'vue-router'
 import dashboardRoute from '@/router/static-routes/dashboardRoute'
+import welcomeRoute from '@/router/static-routes/welcomeRoute'
 import usePluginStore from '@/store/modules/usePluginStore.ts'
 
 const useRouteStore = defineStore(
@@ -127,16 +127,18 @@ const useRouteStore = defineStore(
             item.component = () => import(('@/layouts/components/iframe/index.tsx'))
           }
 
+          const suffix: string = item.meta?.componentSuffix ?? '.vue'
+
           let component: any | null = null
           if (item.component && item.meta?.type !== 'I') {
-            if (moduleViews[`../../modules/${item.component}`]) {
-              component = moduleViews[`../../modules/${item.component}`]
+            if (moduleViews[`../../modules/${item.component}${suffix}`]) {
+              component = moduleViews[`../../modules/${item.component}${suffix}`]
             }
-            else if (pluginViews[`../../plugins/${item.component}`]) {
-              component = pluginViews[`../../plugins/${item.component}`]
+            else if (pluginViews[`../../plugins/${item.component}${suffix}`]) {
+              component = pluginViews[`../../plugins/${item.component}${suffix}`]
             }
             else {
-              console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component} 页面`)
+              console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component}${suffix} 页面`)
             }
           }
 

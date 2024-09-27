@@ -23,7 +23,7 @@ const buttonClass = computed(() => {
     'text-gray-1',
     'dark-text-gray-2',
     'hover-shadow-inner',
-    'border-0 rounded py-2.5 px-5',
+    'outline-none border-0 rounded py-2.5 px-5',
     'cursor-pointer inline-flex',
     'text-[.85rem] text-center',
     'items-center justify-center',

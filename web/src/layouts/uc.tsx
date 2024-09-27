@@ -1,3 +1,5 @@
+import Logo from '@/layouts/components/logo'
+import ucChildren from '@/router/static-routes/ucChildren'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -8,8 +10,6 @@
  * @Link   https://github.com/mineadmin
  */
 import './style/uc.scss'
-import Logo from '@/layouts/components/logo'
-import ucChildren from '@/router/static-routes/ucChildren'
 
 export default defineComponent({
   name: 'MineUc',
@@ -17,6 +17,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const userInfo = userStore.getUserInfo()
     const route = useRoute()
+    const welcomeRoute = ref<string>(useSettingStore().getSettings('app')?.welcomePage?.path ?? '/welcome')
     const menuRender = () => (
       <>
         {ucChildren.map((item: any) => (
@@ -41,7 +42,7 @@ export default defineComponent({
           </a>
         </div>
         <m-tooltip text={useTrans('mineAdmin.uc.backControl')}>
-          <router-link className="mine-back-control" to="/">
+          <router-link className="mine-back-control" to={welcomeRoute.value}>
             <ma-svg-icon name="ri:arrow-go-back-line" size={14} />
           </router-link>
         </m-tooltip>
@@ -76,7 +77,7 @@ export default defineComponent({
         <ul class="mine-uc-bottom-menu">
           {menuRender()}
           <li>
-            <router-link to="/">
+            <router-link to={welcomeRoute.value}>
               <ma-svg-icon name="ri:arrow-go-back-line" size={20} />
               <span>{useTrans('mineAdmin.uc.shortBackControl')}</span>
             </router-link>

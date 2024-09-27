@@ -7,19 +7,18 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { App } from 'vue'
-import MaTable from '@mineadmin/table'
-import MaForm from '@mineadmin/form'
-import MaSearch from '@mineadmin/search'
-import MaProTable from '@mineadmin/pro-table'
-
-import type { MaTableColumns, MaTableOptions, PaginationProps } from '@mineadmin/table'
+import type { ProviderService } from '#/global'
 import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
 import type { MaSearchItem, MaSearchOptions } from '@mineadmin/search'
-import ContextMenu from '@imengyu/vue3-context-menu'
+import type { MaTableColumns, MaTableOptions, PaginationProps } from '@mineadmin/table'
+import type { App } from 'vue'
 import MaSvgIcon from '@/components/ma-svg-icon/index.vue'
+import ContextMenu from '@imengyu/vue3-context-menu'
+import MaForm from '@mineadmin/form'
+import MaProTable from '@mineadmin/pro-table'
+import MaSearch from '@mineadmin/search'
 
-import type { ProviderService } from '#/global'
+import MaTable from '@mineadmin/table'
 
 // maTable样式
 import '@mineadmin/table/dist/style.css'

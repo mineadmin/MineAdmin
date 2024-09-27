@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace HyperfTests\Feature\Admin;
 
-use App\Constants\User\Status;
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Status;
 use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;

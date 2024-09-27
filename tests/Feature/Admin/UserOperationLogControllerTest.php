@@ -69,12 +69,6 @@ final class UserOperationLogControllerTest extends ControllerCase
             'router' => '/admin/user-operation-log/list',
             'service_name' => 'UserOperationLogList',
             'ip' => '0.0.0.0',
-            'ip_location' => 'localhost',
-            'request_data' => '[]',
-            'response_code' => '200',
-            'response_data' => '[]',
-            'created_by' => 1,
-            'updated_by' => 1,
         ]);
         $uri = '/admin/user-operation-log';
         $result = $this->delete($uri);

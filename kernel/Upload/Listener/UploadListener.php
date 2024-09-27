@@ -54,7 +54,7 @@ abstract class UploadListener implements ListenerInterface
                 md5_file($fileInfo->getRealPath()),
                 Str::lower($fileInfo->getExtension()),
                 $fileInfo->getSize(),
-                $this->formatSize($fileInfo->getSize() * 1024),
+                $fileInfo->getSize(),
                 $this->filesystem->publicUrl($path . '/' . $filename)
             ));
         }

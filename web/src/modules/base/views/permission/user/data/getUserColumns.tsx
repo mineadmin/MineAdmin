@@ -11,43 +11,46 @@ import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { ElTag } from 'element-plus'
 
-export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>): MaProTableColumns[] {
+export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
   const message = useMessage()
+  const dictStore = useDictStore()
 
   return [
     // 多选列
-    { type: 'selection', showOverflowTooltip: false },
+    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 索引序号列
     { type: 'index' },
     // 普通列
-    { label: '头像', prop: 'avatar', width: '120px',
+    { label: () => t('baseUser.avatar'), prop: 'avatar', width: '120px',
       cellRender: ({ row }) => (
         <div class="flex-center">
           <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : row.avatar} alt={row.username} />
         </div>
       ),
     },
-    { label: '用户名', prop: 'username' },
-    { label: '昵称', prop: 'nickname' },
-    { label: '手机', prop: 'phone' },
-    { label: '邮箱', prop: 'email' },
-    { label: '状态', prop: 'status',
+    { label: () => t('baseUser.username'), prop: 'username' },
+    { label: () => t('baseUser.nickname'), prop: 'nickname' },
+    { label: () => t('baseUser.phone'), prop: 'phone' },
+    { label: () => t('baseUser.email'), prop: 'email' },
+    { label: () => t('baseUser.status'), prop: 'status',
       cellRender: ({ row }) => (
-        <el-tag type={row.status === 1 ? 'primary' : 'danger'}>
-          { row.status === 1 ? '正常' : '禁用' }
-        </el-tag>
+        <ElTag type={dictStore.t('system-status', row.status, 'color')}>
+          {t(dictStore.t('system-status', row.status, 'i18n'))}
+        </ElTag>
       ),
     },
     // 操作列
     {
       type: 'operation',
+      label: () => t('crud.operation'),
       operationConfigure: {
         actions: [
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            text: '编辑',
+            text: () => '编辑',
             onClick: ({ row }) => {
               formRef.value.open(row)
             },

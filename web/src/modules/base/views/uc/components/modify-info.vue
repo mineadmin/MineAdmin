@@ -17,9 +17,9 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import userinfoForm from './userinfo-form.vue'
-import passwordForm from './password-form.vue'
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+import passwordForm from './password-form.vue'
+import userinfoForm from './userinfo-form.vue'
 
 defineOptions({ name: 'UcModifyInfo' })
 
@@ -47,7 +47,7 @@ defineExpose({ openModal })
   <m-modal
     v-model="state.isOpen"
     :title="useLocalTrans(selected === 'info' ? 'change.info' : 'change.password')"
-    class="max-w-[450px]"
+    content-class="w-[450px] h-[470px]"
   >
     <m-tabs v-model="selected" :options="tabOptions" class="text-sm" />
 

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
-use App\Constants\User\Status;
 use App\Model\Casts\MetaCast;
+use App\Model\Enums\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;

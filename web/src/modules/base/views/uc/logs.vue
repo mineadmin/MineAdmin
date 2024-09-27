@@ -18,9 +18,9 @@ en:
 </i18n>
 
 <script setup lang="ts">
+import { useLocalTrans } from '@/hooks/useLocalTrans'
 import UcContainer from './components/container.vue'
 import UcTitle from './components/title.vue'
-import { useLocalTrans } from '@/hooks/useLocalTrans'
 </script>
 
 <template>

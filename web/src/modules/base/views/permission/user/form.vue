@@ -17,8 +17,10 @@ const componentInfo = reactive({
   title: '',
 })
 
+const t = useTrans()
+
 function open(data: UserVo | null = null) {
-  componentInfo.title = data ? '编辑' : '新增'
+  componentInfo.title = data ? t('crud.edit') : t('crud.add')
   isOpen.value = true
 }
 

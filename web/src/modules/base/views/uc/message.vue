@@ -8,11 +8,11 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="ts">
+import useDayjs from '@/hooks/auto-imports/useDayjs.ts'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { useI18n } from 'vue-i18n'
-import UcTitle from './components/title.vue'
 import UcContainer from './components/container.vue'
-import useDayjs from '@/hooks/auto-imports/useDayjs.ts'
+import UcTitle from './components/title.vue'
 
 const { t } = useI18n()
 const selected = ref('message')

@@ -7,11 +7,11 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import { useSortable } from '@vueuse/integrations/useSortable'
-import Message from 'vue-m-message'
-import { useI18n } from 'vue-i18n'
-import useThemeColor from '@/hooks/useThemeColor.ts'
 import type { MineToolbar, SystemSettings } from '#/global'
+import useThemeColor from '@/hooks/useThemeColor.ts'
+import { useSortable } from '@vueuse/integrations/useSortable'
+import { useI18n } from 'vue-i18n'
+import Message from 'vue-m-message'
 
 export default defineComponent({
   name: 'settings',
@@ -234,21 +234,23 @@ export default defineComponent({
 
     return () => (
       <div class="flex items-center">
-        <ma-svg-icon
-          class="tool-icon animate-spin animate-duration-[5s]"
-          name="heroicons:cog-solid"
-          size={20}
-          onClick={async () => {
-            display.value = true
-            await nextTick()
-            useSortable(el, toolbarHook.toolbars, { animation: 300 })
-          }}
-        />
         <m-drawer
           v-model={display.value}
-          class="max-w-[380px]"
+          contentClass="w-380px"
           title={useTrans('mineAdmin.settings.title')}
           v-slots={{
+            trigger: () => (
+              <ma-svg-icon
+                className="tool-icon animate-spin animate-duration-[5s]"
+                name="heroicons:cog-solid"
+                size={20}
+                onClick={async () => {
+                  display.value = true
+                  await nextTick()
+                  useSortable(el, toolbarHook.toolbars, { animation: 300 })
+                }}
+              />
+            ),
             default: () => (
               <div class="pb-10">
                 {divider(useTrans('mineAdmin.settings.colorMode') as string)}

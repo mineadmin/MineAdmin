@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Permission;
 
-use App\Constants\User\Status;
+use App\Model\Enums\User\Status;
 use App\Model\Permission\Menu;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;

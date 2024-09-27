@@ -1,3 +1,5 @@
+import type { ResultCode } from '#/ResultCode.ts'
+import type { App, Ref } from 'vue'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -7,15 +9,21 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { RouteRecordName, RouteRecordRaw, Router } from 'vue-router'
-import type { App, Ref } from 'vue'
-import type { ResultCode } from '#/ResultCode.ts'
+import type { Router, RouteRecordName, RouteRecordRaw } from 'vue-router'
 
 type RecursiveRequired<T> = {
   [P in keyof T]-?: RecursiveRequired<T[P]>
 }
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
+}
+
+interface Dictionary {
+  label?: string
+  value?: any
+  i18n?: string
+  color?: string
+  disabled?: boolean
 }
 
 interface PageList<T> {

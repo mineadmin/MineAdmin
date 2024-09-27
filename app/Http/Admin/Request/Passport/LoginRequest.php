@@ -15,6 +15,7 @@ namespace App\Http\Admin\Request\Passport;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 use Hyperf\Validation\Request\FormRequest;
+use Mine\Kernel\Support\Request\ClientIpRequestTrait;
 
 #[Schema(title: '登录请求', description: '登录请求参数', properties: [
     new Property('username', description: '用户名', type: 'string'),
@@ -22,6 +23,8 @@ use Hyperf\Validation\Request\FormRequest;
 ])]
 class LoginRequest extends FormRequest
 {
+    use ClientIpRequestTrait;
+
     public function authorize(): bool
     {
         return true;
@@ -41,5 +44,10 @@ class LoginRequest extends FormRequest
             'username' => trans('user.username'),
             'password' => trans('user.password'),
         ];
+    }
+
+    public function ip(): string
+    {
+        return $this->getRealIp();
     }
 }

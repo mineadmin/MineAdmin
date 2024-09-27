@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace HyperfTests\Feature\Admin\Permission;
 
-use App\Constants\User\Status;
-use App\Constants\User\Type;
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Status;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;

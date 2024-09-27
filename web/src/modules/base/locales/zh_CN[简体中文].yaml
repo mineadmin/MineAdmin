@@ -1,0 +1,37 @@
+baseUser:
+  avatar: 头像
+  username: 用户名
+  nickname: 昵称
+  phone: 手机
+  email: 邮箱
+  status: 状态
+  mainTitle: 用户管理
+  subTitle: 提供用户添加、编辑、删除功能，超管不可修改。
+baseMenu:
+  permission:
+    index: 权限管理
+    user: 用户管理
+    userList: 用户列表
+    userSave: 用户保存
+    userUpdate: 用户更新
+    userDelete: 用户删除
+    userPassword: 初始用户密码
+    userRole: 用户赋予角色
+    role: 角色管理
+    roleList: 角色列表
+    roleSave: 角色保存
+    roleUpdate: 角色更新
+    roleDelete: 角色删除
+    menu: 菜单管理
+    menuList: 菜单列表
+    menuSave: 菜单保存
+    menuUpdate: 菜单更新
+    menuDelete: 菜单删除
+  log:
+    index: 日志管理
+    userLoginLog: 登录日志
+    operationLog: 操作日志
+    userLoginLogList: 用户登录日志
+    userOperationLog: 用户操作日志
+    userLoginLogDelete: 用户登录日志删除
+    userOperationLogDelete: 用户操作日志删除

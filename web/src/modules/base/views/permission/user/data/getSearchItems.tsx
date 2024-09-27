@@ -9,38 +9,48 @@
  */
 
 import type { MaSearchItem } from '@mineadmin/search'
+import MaDictSelect from '@/components/ma-dict-picker/ma-dict-select.vue'
+import MaRemoteSelect from '@/components/ma-remote-select/index.vue'
 
-export default function getSearchItems(): MaSearchItem[] {
+export default function getSearchItems(t: any): MaSearchItem[] {
   return [
     {
-      label: '用户名',
+      label: () => t('baseUser.username'),
       prop: 'username',
-      render: 'input',
+      render: () => MaRemoteSelect,
+      renderProps: {
+        placeholder: '请选择用户',
+        url: '/admin/role/list',
+        props: {
+          label: 'name', value: 'id',
+        },
+        dataHandle: (response: any) => {
+          return response.data.list
+        },
+      },
     },
     {
-      label: '用户昵称',
+      label: () => t('baseUser.nickname'),
       prop: 'nickname',
       render: 'input',
     },
     {
-      label: '手机号',
+      label: () => t('baseUser.phone'),
       prop: 'phone',
       render: 'input',
     },
     {
-      label: '邮箱',
-      prop: 'phone',
+      label: () => t('baseUser.email'),
+      prop: 'email',
       render: 'input',
     },
     {
-      label: '状态',
+      label: () => t('baseUser.status'),
       prop: 'status',
-      render: () => (
-        <el-radio-group>
-          <el-radio value={1}>启用</el-radio>
-          <el-radio value={2}>禁用</el-radio>
-        </el-radio-group>
-      ),
+      render: () => MaDictSelect,
+      renderProps: {
+        dictName: 'system-status',
+      },
     },
   ]
 }

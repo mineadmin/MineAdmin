@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\UploadRequest;
 use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Annotation\Permission;
 use App\Schema\AttachmentSchema;
 use App\Service\AttachmentService;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -25,6 +24,8 @@ use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\Post;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 use Mine\Kernel\Swagger\Attributes\ResultResponse;
 use Symfony\Component\Finder\SplFileInfo;
@@ -32,6 +33,7 @@ use Symfony\Component\Finder\SplFileInfo;
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AuthMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class AttachmentController extends AbstractController
 {
     public function __construct(

@@ -10,7 +10,6 @@
 const include = [
   '@mineadmin/table',
   '@mineadmin/form',
-  '@headlessui/vue',
   '@imengyu/vue3-context-menu',
   '@vueuse/core',
   '@vueuse/integrations',
@@ -26,6 +25,9 @@ const include = [
   'path-browserify',
   'path-to-regexp',
   'pinia',
+  'radash',
+  'radix-vue',
+  'vaul-vue',
   'qs',
   'web-storage-cache',
   'sortablejs',
@@ -118,4 +120,4 @@ const include = [
 
 const exclude = ['@iconify/json']
 
-export { include, exclude }
+export { exclude, include }

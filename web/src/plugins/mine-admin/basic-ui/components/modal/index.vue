@@ -8,101 +8,99 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="ts">
-import { Dialog, DialogDescription, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import mergeClassName from '../../utils/mergeClassName.ts'
+import type { DialogRootEmits, DialogRootProps } from 'radix-vue'
+
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  useForwardPropsEmits,
+} from 'radix-vue'
 
 defineOptions({ name: 'MModal' })
 
 const props = withDefaults(
-  defineProps<{
-    title?: string
-    preventClose?: boolean
-    class?: string | string[] | object
-  }>(),
+  defineProps<MDialogProps>(),
   {
-    title: '',
-    preventClose: false,
-    class: '',
+    clickModalClose: true,
+    modal: true,
   },
 )
+const emits = defineEmits<DialogRootEmits>()
 
-const emit = defineEmits<{
-  close: []
-}>()
-
-const isOpen = defineModel<boolean>({
-  default: false,
-})
-
-const panelClass = computed(() => {
-  return mergeClassName([
-    'relative flex flex-1 flex-col bg-white dark-bg-dark-5 focus-outline-none rounded-lg',
-  ], props.class)
-})
-
-const slots = useSlots()
-
-const overlayTransitionClass = ref({
-  enter: 'ease-in-out duration-500',
-  enterFrom: 'opacity-0',
-  enterTo: 'opacity-100',
-  leave: 'ease-in-out duration-500',
-  leaveFrom: 'opacity-100',
-  leaveTo: 'opacity-0',
-})
-
-const transitionClass = computed(() => {
-  return {
-    enter: 'ease-out duration-300',
-    enterFrom: 'opacity-0 translate-y-4 lg-translate-y-0 lg-scale-95',
-    enterTo: 'opacity-100 translate-y-0 lg-scale-100',
-    leave: 'ease-in duration-200',
-    leaveFrom: 'opacity-100 translate-y-0 lg-scale-100',
-    leaveTo: 'opacity-0 translate-y-4 lg-translate-y-0 lg-scale-95',
-  }
-})
-
-function close() {
-  isOpen.value = false
-  emit('close')
+interface MDialogProps extends DialogRootProps {
+  clickModalClose?: boolean
+  contentClass?: string
+  title?: string
 }
+
+const forwarded = useForwardPropsEmits({
+  modal: props?.modal,
+  open: props?.open,
+  defaultOpen: props?.defaultOpen,
+}, emits)
+
+const isOpen = defineModel<boolean>({ default: false })
 </script>
 
 <template>
-  <TransitionRoot as="template" :appear="false" :show="isOpen">
-    <Dialog class="fixed inset-0 z-2000 flex" @close="!preventClose && close()">
-      <TransitionChild as="template" :appear="false" v-bind="overlayTransitionClass">
-        <div class="modal-mask" />
-      </TransitionChild>
-      <div class="fixed inset-0 overflow-y-auto">
-        <div class="min-h-[60%] flex items-end justify-center p-4 text-center lg:min-h-[80%] lg-items-center">
-          <TransitionChild as="template" :appear="false" v-bind="transitionClass">
-            <DialogPanel :class="panelClass">
-              <div flex="~ items-center justify-between" p-3 border-b="~ solid stone/15" text-6>
-                <DialogTitle m-0 text-lg text-dark dark-text-white>
-                  {{ title }}
-                </DialogTitle>
-                <button class="close-btn">
-                  <ma-svg-icon name="i-carbon:close" :size="24" @click="close" />
-                </button>
-              </div>
-              <DialogDescription m-0 overflow-y-auto p-4>
-                <slot />
-              </DialogDescription>
-              <div v-if="!!slots.footer" flex="~ items-center justify-end" px-3 py-2 border-t="~ solid stone/15">
-                <slot name="footer" />
-              </div>
-            </DialogPanel>
-          </TransitionChild>
+  <DialogRoot v-bind="forwarded" :open="isOpen">
+    <DialogTrigger v-show="$slots.trigger">
+      <slot name="trigger" />
+    </DialogTrigger>
+    <DialogPortal>
+      <DialogOverlay class="modal-mask" @click="isOpen = false" />
+      <DialogContent class="modal-content" :class="contentClass">
+        <div class="relative h-[calc(100%-35px)]">
+          <DialogTitle v-show="props?.title" as="div" class="h-50px flex items-center justify-between">
+            <div class="font-bold">
+              {{ props?.title }}
+            </div>
+            <button class="close-btn" @click="() => isOpen = false">
+              <ma-svg-icon name="i-carbon:close" :size="24" />
+            </button>
+          </DialogTitle>
+          <DialogDescription>
+            <slot />
+          </DialogDescription>
         </div>
-      </div>
-    </Dialog>
-  </TransitionRoot>
+        <DialogClose v-show="$slots.footer" class="relative bottom-0 w-full b-0 bg-white dark-bg-dark-5">
+          <div class="flex items-center justify-end">
+            <slot name="footer" />
+          </div>
+        </DialogClose>
+      </DialogContent>
+    </DialogPortal>
+  </DialogRoot>
 </template>
 
 <style scoped lang="scss">
 .modal-mask {
-  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15;
+  @apply fixed inset-0 bg-gray-9/30 backdrop-blur-sm transition-opacity dark-bg-black/15 z-2999;
+}
+
+.modal-content {
+  @apply transition-all ease-in-out top-0 right-0 z-3000 bg-white dark-bg-dark-5 rounded-xl
+  fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] focus:outline-none z-3000
+    overflow-hidden px-5 pb-5
+  ;
+  animation: contentShow 300ms cubic-bezier(0.16, 2, 0.5, 2);
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .close-btn {

@@ -125,8 +125,20 @@ menu:
   uc:message: 消息
   welcome: 歡迎頁
   dashboard: 儀表盤
-  permission:
-    index: 權限管理
-    user: 用戶管理
-    role: 角色管理
-    menu: 菜單管理
+crud:
+  cancel: 放棄
+  ok: 確定
+  add: 新增
+  edit: 編輯
+  delete: 删除
+  search: 檢索
+  reset: 重設
+  submit: 提交
+  searchFold: 摺疊
+  searchUnFold: 展開
+  selection: 多選
+  operation: 操作
+dictionary:
+  system:
+    statusEnabled: 啓用
+    statusDisabled: 禁用

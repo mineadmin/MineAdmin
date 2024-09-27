@@ -21,29 +21,15 @@
   /* 主颜色 */
   --el-color-primary: --ui-primery;
 }
-@font-face {
-  font-family: 'alibaba-pu-hui-ti-3-medium';
-  src: url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-65-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-65-Medium.woff2') format('woff2'), /* 超级现代浏览器 */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-65-Medium.woff') format('woff'), /* 现代浏览器 */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-65-Medium.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-65-Medium.otf') format('opentype'); /* 较老的浏览器 */
-  font-weight: normal;
-  font-style: normal;
-}
+
 @font-face {
   font-family: 'alibaba-pu-hui-ti-3-regular';
-  src: url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2'), /* 超级现代浏览器 */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.woff') format('woff'), /* 现代浏览器 */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.otf') format('opentype'); /* 较老的浏览器 */
   font-weight: normal;
   font-style: normal;
 }
 body {
-  font-family: 'alibaba-pu-hui-ti-3-medium', Arial, Helvetica, sans-serif;
-  //font-family: 'alibaba-pu-hui-ti-3-regular', Arial, Helvetica, sans-serif;
+  font-family: 'alibaba-pu-hui-ti-3-regular', Arial, Helvetica, sans-serif;
 }
 
 ul li { list-style: none; }

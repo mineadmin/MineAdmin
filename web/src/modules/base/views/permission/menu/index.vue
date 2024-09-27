@@ -35,7 +35,7 @@ provide('defaultExpandNodes', defaultExpandNodes)
 <template>
   <div
     class="mine-card menu-container h-full gap-x-4.5 lg:flex"
-    :style="{ height: `${getOnlyWorkAreaHeight()}px` }"
+    :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }"
   >
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
       <MenuTree

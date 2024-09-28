@@ -20,7 +20,7 @@ export default defineComponent ({
     const route = useRoute()
     const router = useRouter()
     const menuStore = useMenuStore()
-    const { getSettings, showMineHeader, isBannerLayout } = useSettingStore()
+    const { getSettings, showMineHeader, isBannerLayout, isMixedLayout, getUserBarState, setUserBarState } = useSettingStore()
     const mainAsideSetting = getSettings('mainAside')
 
     const mainAsideRef = ref()
@@ -68,7 +68,7 @@ export default defineComponent ({
               ref={mainAsideRef}
               class={asideListClass.value}
               onScroll={onAsideScroll}
-              style={`${showMineHeader() ? 'width: calc(100% - 70px) !important;' : ''}`}
+              style={`${showMineHeader() ? 'width: calc(100% - 110px) !important;' : ''}`}
             >
               {menuStore.topMenu.map((menu: MineRoute.routeRecord, _: number) => (
                 <a
@@ -104,20 +104,42 @@ export default defineComponent ({
                 </a>
               ))}
             </div>
-            {
-              router.hasRoute('MineAppStoreRoute')
-              && (
-                <m-tooltip text={useTrans('menu.appstore')} placement="right">
-                  <a
-                    class="h-14 flex cursor-pointer items-center justify-center"
-                    onClick={() => router.push({ path: '/appstore' })}
-                    title={useTrans('menu.appstore')}
+            <div class="flex items-center gap-x-3">
+              { isMixedLayout() && (
+                <m-tooltip text={useTrans(getUserBarState() ? 'mineAdmin.userBar.hideState' : 'mineAdmin.userBar.showState')}>
+                  <div
+                    class={{
+                      'mine-toolbar-btn': true,
+                      'hidden': !isMixedLayout(),
+                    }}
+                    onClick={() => {
+                      setUserBarState(!getUserBarState())
+                    }}
                   >
-                    <ma-svg-icon name="vscode-icons:file-type-azure" size={30} />
-                  </a>
+                    <ma-svg-icon
+                      class="transition-all duration-300"
+                      name="heroicons:chevron-up-16-solid"
+                      size={16}
+                      rotate={getUserBarState() ? 0 : -180}
+                    />
+                  </div>
                 </m-tooltip>
-              )
-            }
+              )}
+              {
+                router.hasRoute('MineAppStoreRoute')
+                && (
+                  <m-tooltip text={useTrans('menu.appstore')} placement="right">
+                    <a
+                      class="h-14 flex cursor-pointer items-center justify-center"
+                      onClick={() => router.push({ path: '/appstore' })}
+                      title={useTrans('menu.appstore')}
+                    >
+                      <ma-svg-icon name="vscode-icons:file-type-azure" size={30} />
+                    </a>
+                  </m-tooltip>
+                )
+              }
+            </div>
           </div>
         </Transition>
       )

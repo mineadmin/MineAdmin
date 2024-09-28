@@ -12,8 +12,8 @@
 }
 
 .mine-toolbar-btn {
-  @apply absolute left-[50%] top-[calc(var(--mine-g-header-height)-15px)] z-100 h-5 w-5 translate-y-[-50%] cursor-pointer
-  b-1 b-gray-3 rounded b-solid bg-gray-1 text-center
+  @apply z-100 h-5 w-5 cursor-pointer
+  b-1 b-gray-3 rounded b-solid bg-gray-2 text-center dark-bg-dark-5 dark-b-dark-3
   ;
 }
 

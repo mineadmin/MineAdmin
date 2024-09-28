@@ -25,6 +25,7 @@ const useSettingStore = defineStore(
     const { setWatermark, clear } = useWatermark()
     const isMobile = ref<boolean>(false)
     const mobileMenuState = ref<boolean>(false)
+    const userBarState = ref<boolean>(false)
 
     function showMineHeader() {
       return ['mixed', 'banner'].includes(defaultSetting.value.app?.layout as string)
@@ -32,6 +33,14 @@ const useSettingStore = defineStore(
 
     function showMineSubAside() {
       return ['classic', 'mixed'].includes(defaultSetting.value.app?.layout as string)
+    }
+
+    function setUserBarState(state: boolean) {
+      userBarState.value = state
+    }
+
+    function getUserBarState() {
+      return userBarState.value
     }
 
     function setMobileState(state: boolean) {
@@ -193,6 +202,8 @@ const useSettingStore = defineStore(
       title,
       colorMode,
       initColorMode,
+      setUserBarState,
+      getUserBarState,
       setMobileState,
       getMobileState,
       setMobileSubmenuState,

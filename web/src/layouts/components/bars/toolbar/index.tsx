@@ -24,7 +24,7 @@ export default defineComponent({
       <div
         class={{
           'mine-toolbar overflow-hidden': true,
-          '!h-0 !b-b-0': settingStore.isMixedLayout(),
+          '!h-0 !b-b-0': settingStore.isMixedLayout() && !settingStore.getUserBarState() && !settingStore.getMobileState(),
         }}
       >
         <div class="hidden gap-x-4 lg:flex">

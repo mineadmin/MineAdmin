@@ -79,6 +79,8 @@ mineAdmin:
     noNameMenu: 未命名菜单
     notResult: 没有搜索到页面
   userBar:
+    showState: 显示用户栏
+    hideState: 隐藏用户栏
     systemInfo: 系统信息
     logout: 退出系统
     shortcuts: 快捷键介绍

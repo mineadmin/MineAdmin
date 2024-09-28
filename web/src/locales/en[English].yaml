@@ -79,6 +79,8 @@ mineAdmin:
     noNameMenu: Unnamed menu
     notResult: Not search result
   userBar:
+    showState: Show User bar
+    hideState: Hidden User bar
     systemInfo: System information
     logout: Logout
     shortcuts: Introduction to shortcuts

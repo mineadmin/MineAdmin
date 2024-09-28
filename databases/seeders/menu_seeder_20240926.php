@@ -68,7 +68,7 @@ class MenuSeeder20240926 extends Seeder
                 'meta' => new Meta([
                     'title' => '权限管理',
                     'i18n' => 'baseMenu.permission.index',
-                    'icon' => 'simple-icons:authy',
+                    'icon' => 'ri:git-repository-private-line',
                     'type' => 'M',
                     'hidden' => 0,
                     'componentPath' => 'modules/',
@@ -87,7 +87,7 @@ class MenuSeeder20240926 extends Seeder
                             'type' => 'M',
                             'title' => '用户管理',
                             'i18n' => 'baseMenu.permission.user',
-                            'icon' => 'material-symbols:account-box',
+                            'icon' => 'material-symbols:manage-accounts-outline',
                             'hidden' => 0,
                             'componentPath' => 'modules/',
                             'componentSuffix' => '.vue',
@@ -154,7 +154,7 @@ class MenuSeeder20240926 extends Seeder
                         'meta' => new Meta([
                             'title' => '菜单管理',
                             'i18n' => 'baseMenu.permission.menu',
-                            'icon' => 'material-symbols:list-alt-rounded',
+                            'icon' => 'ph:list-bold',
                             'hidden' => 0,
                             'type' => 'M',
                             'componentPath' => 'modules/',
@@ -206,7 +206,7 @@ class MenuSeeder20240926 extends Seeder
                         'meta' => new Meta([
                             'title' => '角色管理',
                             'i18n' => 'baseMenu.permission.role',
-                            'icon' => 'material-symbols:supervisor-account',
+                            'icon' => 'material-symbols:supervisor-account-outline-rounded',
                             'hidden' => 0,
                             'type' => 'M',
                             'componentPath' => 'modules/',

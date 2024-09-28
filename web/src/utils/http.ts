@@ -21,7 +21,7 @@ function createHttp(baseUrl: string | null = null): AxiosInstance {
   const env = import.meta.env
   return axios.create({
     baseURL: baseUrl ?? (env.VITE_OPEN_PROXY === 'true' ? env.VITE_PROXY_PREFIX : env.VITE_APP_API_BASEURL),
-    timeout: 1000 * 60,
+    timeout: 1000 * 5,
     responseType: 'json',
   })
 }
@@ -73,7 +73,7 @@ http.interceptors.response.use(
               Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
               await useUserStore().logout()
             },
-            1000,
+            3000,
             { maxWait: 5000 },
           )
           await logout()
@@ -92,6 +92,16 @@ http.interceptors.response.use(
 
       return Promise.reject(response.data ? response.data : null)
     }
+  },
+  async (error: any) => {
+    isLoading.value = false
+    const serverError = useDebounceFn(async () => {
+      if (error.response.status === 500) {
+        Message.error(error.message ?? '服务器内部错误', { zIndex: 2000 })
+      }
+    }, 3000, { maxWait: 5000 })
+    await serverError()
+    return Promise.reject(error)
   },
 )
 

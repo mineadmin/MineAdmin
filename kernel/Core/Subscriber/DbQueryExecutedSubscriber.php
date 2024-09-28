@@ -51,14 +51,15 @@ final class DbQueryExecutedSubscriber implements ListenerInterface
             $sql = $event->sql;
             if (! Arr::isAssoc($event->bindings)) {
                 $position = 0;
-                $maxPosition = mb_strlen($sql);
                 foreach ($event->bindings as $value) {
                     $position = mb_strpos($sql, '?', $position);
-                    if ($position === false || $position >= $maxPosition) {
+                    if ($position === false) {
                         break;
                     }
                     $value = "'{$value}'";
-                    $sql = substr_replace($sql, $value, $position, 1);
+                    $before = mb_substr($sql, 0, $position);
+                    $after = mb_substr($sql, $position + 1, mb_strlen($sql) - $position);
+                    $sql = $before . $value . $after;
                     $position += mb_strlen($value);
                 }
             }

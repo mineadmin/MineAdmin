@@ -21,7 +21,12 @@ export default defineComponent({
     const { tabCollection, addToCollection, removeCollection } = useTabCollection()
     const appSetting = settingStore.getSettings('app')
     return () => (
-      <div class="mine-toolbar">
+      <div
+        class={{
+          'mine-toolbar overflow-hidden': true,
+          '!h-0 !b-b-0': settingStore.isMixedLayout(),
+        }}
+      >
         <div class="hidden gap-x-4 lg:flex">
           <m-dropdown
             class="min-w-[18rem] p-3"

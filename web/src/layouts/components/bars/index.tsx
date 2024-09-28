@@ -16,8 +16,24 @@ export default defineComponent({
     const settingStore = useSettingStore()
     return () => (
       <div class="mine-bars">
-        <MineToolbar />
-        {settingStore.getSettings('tabbar').enable && <MineTabbar />}
+        <div class="relative">
+          <m-tooltip text="显示工具栏" placements="auto">
+            <div
+              class={{
+                'mine-toolbar-btn': true,
+                'hidden': !settingStore.isMixedLayout(),
+              }}
+            >
+              <ma-svg-icon
+                name="heroicons:chevron-up-16-solid"
+                size={16}
+                rotate={180}
+              />
+            </div>
+          </m-tooltip>
+          <MineToolbar />
+          {settingStore.getSettings('tabbar').enable && <MineTabbar />}
+        </div>
       </div>
     )
   },

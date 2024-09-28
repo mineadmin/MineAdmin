@@ -5,9 +5,16 @@
     dark-bg-dark-8
     text-sm
     b-b-1 b-b-solid b-[#e8e9ec] dark-b-dark-5
+    transition-all duration-300
   ;
 
   height: var(--mine-g-toolbar-height);
+}
+
+.mine-toolbar-btn {
+  @apply absolute left-[50%] top-[calc(var(--mine-g-header-height)-15px)] z-100 h-5 w-5 translate-y-[-50%] cursor-pointer
+  b-1 b-gray-3 rounded b-solid bg-gray-1 text-center
+  ;
 }
 
 .collection-wrapper {

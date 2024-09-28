@@ -10,9 +10,7 @@
   }
 
   & .mine-bars {
-    @apply sticky z-20 top-0;
-
-    transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, opacity 0.3s, display 0.3s, transform 0.3s;
+    @apply sticky z-20 top-0 transition-all duration-300;
   }
 
   & .mine-worker-area {

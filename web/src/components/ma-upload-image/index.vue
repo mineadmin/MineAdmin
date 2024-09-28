@@ -7,13 +7,28 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
+<i18n lang="yaml">
+en:
+  openResource: Open resource
+  uploadImage: Upload image
+zh_CN:
+  openResource: 打开资源选择器
+  uploadImage: 上传图片
+zh_TW:
+  openResource: 打開資源選擇器
+  uploadImage: 上載圖片
+</i18n>
+
 <script setup lang="tsx">
+import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+
 defineOptions({ name: 'MaUploadImage' })
 
 const props = defineProps<{
+  title?: string
   size?: number
 }>()
-
+const t = useLocalTrans()
 const size = computed(() => {
   return {
     width: `${props?.size ?? 120}px`,
@@ -24,16 +39,20 @@ const size = computed(() => {
 function btnRender() {
   return (
     <a class="ma-upload-btn" style={size.value}>
-      <a
-        class="ma-resource-btn"
-        onClick={(e: MouseEvent) => {
-          e.stopPropagation()
-          console.log(111111111)
-        }}
-      >
-        <ma-svg-icon name="ep:folder-opened" size={16} />
-      </a>
-      <ma-svg-icon name="ep:plus" size={26} class="mt-20%" />
+      <el-tooltip content={t('openResource')}>
+        <a
+          class="ma-resource-btn"
+          onClick={(e: MouseEvent) => {
+            e.stopPropagation()
+          }}
+        >
+          <ma-svg-icon name="material-symbols:folder-open-outline-rounded" size={18} />
+        </a>
+      </el-tooltip>
+      <div class="mt-18% flex flex-col items-center">
+        <ma-svg-icon name="ep:plus" size={20} />
+        <span class="mt-1 text-[14px]">{ props?.title ?? t('uploadImage') }</span>
+      </div>
     </a>
   )
 }

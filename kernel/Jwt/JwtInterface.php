@@ -16,9 +16,13 @@ use Lcobucci\JWT\UnencryptedToken;
 
 interface JwtInterface
 {
-    public function builder(array $claims): UnencryptedToken;
+    public function builderAccessToken(string $sub): UnencryptedToken;
 
-    public function parser(string $token): UnencryptedToken;
+    public function builderRefreshToken(string $sub): UnencryptedToken;
+
+    public function parserAccessToken(string $accessToken): UnencryptedToken;
+
+    public function parserRefreshToken(string $refreshToken): UnencryptedToken;
 
     public function addBlackList(UnencryptedToken $token): bool;
 

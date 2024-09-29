@@ -10,15 +10,15 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Api\Middleware;
+namespace App\Http\Common\Middleware;
 
 use Mine\Kernel\Jwt\JwtInterface;
-use Mine\Kernel\JwtAuth\Middleware\AbstractAuthMiddleware;
+use Mine\Kernel\JwtAuth\Middleware\AbstractTokenMiddleware;
 
-final class AuthMiddleware extends AbstractAuthMiddleware
+final class AccessTokenMiddleware extends AbstractTokenMiddleware
 {
     public function getJwt(): JwtInterface
     {
-        return $this->jwtFactory->get('api');
+        return $this->jwtFactory->get();
     }
 }

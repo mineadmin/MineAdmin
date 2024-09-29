@@ -44,7 +44,7 @@ final class AuthAspect extends AbstractAspect
             throw new BusinessException(ResultCode::UNAUTHORIZED);
         }
         $jwt = $this->jwtFactory->get($name);
-        $token = $jwt->parser($this->getToken());
+        $token = $jwt->parserAccessToken($this->getToken());
 
         RequestContext::set(RequestContext::get()->setAttribute('token', $token));
 

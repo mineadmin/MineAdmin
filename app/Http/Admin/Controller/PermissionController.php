@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Common\Controller\AbstractController;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
 use App\Model\Enums\User\Status;
 use App\Repository\Permission\MenuRepository;
@@ -27,7 +27,7 @@ use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(AuthMiddleware::class)]
+#[Middleware(AccessTokenMiddleware::class)]
 final class PermissionController extends AbstractController
 {
     public function __construct(

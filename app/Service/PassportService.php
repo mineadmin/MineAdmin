@@ -17,7 +17,7 @@ use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
 use App\Model\Enums\User\Type;
 use App\Repository\Permission\UserRepository;
-use Hyperf\Collection\Arr;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Kernel\Jwt\Factory;
 use Mine\Kernel\Jwt\JwtInterface;
@@ -49,9 +49,9 @@ final class PassportService extends IService
         }
         $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
         $jwt = $this->getJwt();
-        $token = $jwt->builder($user->only(['id']));
         return [
-            'token' => $token->toString(),
+            'access_token' => $jwt->builderAccessToken((string) $user->id)->toString(),
+            'refresh_token' => $jwt->builderRefreshToken((string) $user->id)->toString(),
             'expire_at' => (int) $jwt->getConfig('ttl', 0),
         ];
     }
@@ -84,7 +84,8 @@ final class PassportService extends IService
         return value(static function (JwtInterface $jwt) use ($token) {
             $jwt->addBlackList($token);
             return [
-                'token' => $jwt->builder(Arr::only($token->claims()->all(), 'id'))->toString(),
+                'access_token' => $jwt->builderAccessToken($token->claims()->get(RegisteredClaims::ID))->toString(),
+                'refresh_token' => $jwt->builderRefreshToken($token->claims()->get(RegisteredClaims::ID))->toString(),
                 'expire_at' => (int) $jwt->getConfig('ttl', 0),
             ];
         }, $this->getJwt());

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller;
 
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
 use App\Schema\UserLoginLogSchema;
 use App\Service\UserLoginLogService;
@@ -27,7 +27,7 @@ use Mine\Kernel\Core\CurrentUser;
 use Mine\Kernel\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(middleware: AuthMiddleware::class, priority: 100)]
+#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
 final class UserLoginLogController extends AbstractController
 {

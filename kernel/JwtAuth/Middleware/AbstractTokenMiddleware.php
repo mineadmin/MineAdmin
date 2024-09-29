@@ -15,6 +15,7 @@ namespace Mine\Kernel\JwtAuth\Middleware;
 use App\Service\PassportService;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
+use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Kernel\Jwt\Factory;
 use Mine\Kernel\Jwt\JwtInterface;
@@ -23,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Swow\Psr7\Message\ServerRequestPlusInterface;
 
-abstract class AbstractAuthMiddleware
+abstract class AbstractTokenMiddleware
 {
     public function __construct(
         protected readonly Factory $jwtFactory,
@@ -32,9 +33,7 @@ abstract class AbstractAuthMiddleware
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $token = $this->getJwt()->parser($this->getToken($request));
-        $this->userService->checkJwt($token);
-
+        $this->userService->checkJwt($this->parserToken($request));
         return $handler->handle(
             value(
                 function (ServerRequestPlusInterface $request, UnencryptedToken $token) {
@@ -42,7 +41,7 @@ abstract class AbstractAuthMiddleware
                     return $request->setAttribute('token', $token);
                 },
                 $request,
-                $this->getJwt()->parser(
+                $this->getJwt()->parserAccessToken(
                     $this->getToken($request)
                 )
             )
@@ -51,7 +50,12 @@ abstract class AbstractAuthMiddleware
 
     abstract public function getJwt(): JwtInterface;
 
-    private function getToken(ServerRequestInterface $request): string
+    protected function parserToken(ServerRequestInterface $request): Token
+    {
+        return $this->getJwt()->parserAccessToken($this->getToken($request));
+    }
+
+    protected function getToken(ServerRequestInterface $request): string
     {
         if ($request->hasHeader('Authorization')) {
             return Str::replace('Bearer ', '', $request->getHeaderLine('Authorization'));

@@ -15,7 +15,8 @@ namespace App\Http\Admin\Controller;
 use App\Http\Admin\Request\Passport\LoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
+use App\Http\Common\Middleware\RefreshTokenMiddleware;
 use App\Http\Common\Result;
 use App\Model\Enums\User\Type;
 use App\Schema\UserSchema;
@@ -49,7 +50,7 @@ final class PassportController extends AbstractController
         instance: new Result(data: new PassportLoginVo()),
         title: '登录成功',
         description: '登录成功返回对象',
-        example: '{"code":200,"message":"成功","data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}'
+        example: '{"code":200,"message":"成功","data":{"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","refresh_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}'
     )]
     #[OA\RequestBody(content: new OA\JsonContent(
         ref: LoginRequest::class,
@@ -86,7 +87,7 @@ final class PassportController extends AbstractController
         tags: ['admin:passport']
     )]
     #[ResultResponse(instance: new Result(), example: '{"code":200,"message":"成功","data":[]}')]
-    #[Middleware(AuthMiddleware::class)]
+    #[Middleware(AccessTokenMiddleware::class)]
     public function logout(RequestInterface $request): Result
     {
         $this->passportService->logout($this->getToken());
@@ -100,7 +101,7 @@ final class PassportController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['admin:passport']
     )]
-    #[Middleware(AuthMiddleware::class)]
+    #[Middleware(AccessTokenMiddleware::class)]
     #[ResultResponse(
         instance: new Result(data: UserSchema::class),
     )]
@@ -116,7 +117,7 @@ final class PassportController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['admin:passport']
     )]
-    #[Middleware(AuthMiddleware::class)]
+    #[Middleware(RefreshTokenMiddleware::class)]
     #[ResultResponse(
         instance: new Result(data: new PassportLoginVo())
     )]

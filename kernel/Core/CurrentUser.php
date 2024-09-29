@@ -18,6 +18,7 @@ use App\Model\Permission\User;
 use App\Service\PassportService;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Collection;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
 
 final class CurrentUser
@@ -41,7 +42,7 @@ final class CurrentUser
 
     public function id(): int
     {
-        return (int) $this->getToken()->claims()->get('id');
+        return (int) $this->getToken()->claims()->get(RegisteredClaims::ID);
     }
 
     public function menus(): Collection

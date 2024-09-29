@@ -17,57 +17,80 @@ use Hyperf\Cache\CacheManager;
 use Hyperf\Cache\Driver\DriverInterface;
 use Hyperf\Collection\Arr;
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\JwtFacade;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
-use Lcobucci\JWT\Validation\ConstraintViolation;
-use Psr\Clock\ClockInterface as Clock;
 
 abstract class AbstractJwt implements JwtInterface
 {
     public function __construct(
         private readonly array $config,
-        private readonly CacheManager $cacheManager
+        private readonly CacheManager $cacheManager,
+        private readonly Clock $clock,
+        private readonly RefreshTokenConstraint $refreshTokenConstraint
     ) {}
 
-    public function builder(array $claims): UnencryptedToken
+    public function builderRefreshToken(string $sub): UnencryptedToken
     {
         return $this->getJwtFacade()->issue(
             $this->getSigner(),
             $this->getSigningKey(),
-            function (Builder $builder, \DateTimeImmutable $immutable) use ($claims) {
-                foreach ($claims as $key => $value) {
-                    $builder = $builder->withClaim($key, $value);
-                }
-                $builder->expiresAt($this->getExpireAt($immutable));
-                return $builder;
+            function (Builder $builder, \DateTimeImmutable $immutable) use ($sub) {
+                $builder = $builder->identifiedBy($sub);
+                $builder = $builder->expiresAt($this->getRefreshExpireAt($immutable));
+                return $builder->relatedTo('refresh');
             }
         );
     }
 
-    public function parser(string $token): UnencryptedToken
+    public function builderAccessToken(string $sub): UnencryptedToken
     {
-        //        return with(new Token\Parser(new JoseEncoder()))->parse($token);
-        $clock = $this->getClock();
-        //        var_dump($clock->now()->getTimezone()->getName());
+        return $this->getJwtFacade()->issue(
+            $this->getSigner(),
+            $this->getSigningKey(),
+            function (Builder $builder, \DateTimeImmutable $immutable) use ($sub) {
+                $builder = $builder->identifiedBy($sub);
+                return $builder->expiresAt($this->getExpireAt($immutable));
+            }
+        );
+    }
+
+    public function parserRefreshToken(string $refreshToken): UnencryptedToken
+    {
         return $this->getJwtFacade()
             ->parse(
-                $token,
+                $refreshToken,
                 new SignedWith(
                     $this->getSigner(),
                     $this->getSigningKey()
                 ),
                 new StrictValidAt(
-                    $clock,
-                    $clock->now()->diff($this->getExpireAt($clock->now()))
+                    $this->clock,
+                    $this->clock->now()->diff($this->getRefreshExpireAt($this->clock->now()))
                 ),
                 $this->getBlackListConstraint()
+            );
+    }
+
+    public function parserAccessToken(string $accessToken): UnencryptedToken
+    {
+        return $this->getJwtFacade()
+            ->parse(
+                $accessToken,
+                new SignedWith(
+                    $this->getSigner(),
+                    $this->getSigningKey()
+                ),
+                new StrictValidAt(
+                    $this->clock,
+                    $this->clock->now()->diff($this->getExpireAt($this->clock->now()))
+                ),
+                $this->getBlackListConstraint(),
+                $this->refreshTokenConstraint
             );
     }
 
@@ -93,17 +116,7 @@ abstract class AbstractJwt implements JwtInterface
 
     private function getJwtFacade(): JwtFacade
     {
-        return new JwtFacade(clock: $this->getClock());
-    }
-
-    private function getClock(): Clock
-    {
-        return new class implements Clock {
-            public function now(): \DateTimeImmutable
-            {
-                return Carbon::now()->toDateTimeImmutable();
-            }
-        };
+        return new JwtFacade(clock: $this->clock);
     }
 
     private function getSigner(): Signer
@@ -128,30 +141,20 @@ abstract class AbstractJwt implements JwtInterface
 
     private function getBlackListConstraint(): Constraint
     {
-        $cache = $this->getCacheDriver();
-        $enable = $this->getBlackConfig('enable', false);
-        return new class($cache, $enable) implements Constraint {
-            public function __construct(
-                private readonly DriverInterface $driver,
-                private readonly bool $enable
-            ) {}
-
-            public function assert(Token $token): void
-            {
-                if (! $this->enable) {
-                    return;
-                }
-                if ($this->driver->has($token->toString())) {
-                    throw new ConstraintViolation('Token is blacklisted');
-                }
-            }
-        };
+        return new BlackListConstraint((bool) $this->getBlackConfig('enable', false), $this->getCacheDriver());
     }
 
     private function getExpireAt(\DateTimeImmutable $immutable): \DateTimeImmutable
     {
         return Carbon::create($immutable)
-            ->addSeconds(Arr::get($this->config, 'ttl', 600))
+            ->addSeconds(Arr::get($this->config, 'ttl', 3600))
+            ->toDateTimeImmutable();
+    }
+
+    private function getRefreshExpireAt(\DateTimeImmutable $immutable): \DateTimeImmutable
+    {
+        return Carbon::create($immutable)
+            ->addSeconds(Arr::get($this->config, 'refresh_ttl', 7200))
             ->toDateTimeImmutable();
     }
 }

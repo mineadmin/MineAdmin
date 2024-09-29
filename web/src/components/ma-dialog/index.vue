@@ -81,7 +81,7 @@ onMounted(() => {
       </div>
     </template>
     <template #footer>
-      <slot name="footer">
+      <slot v-if="$attrs.footer" name="footer">
         <el-button @click="() => isOpen = false">
           {{ t('crud.cancel') }}
         </el-button>

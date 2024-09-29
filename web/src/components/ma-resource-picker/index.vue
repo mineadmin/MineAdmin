@@ -9,7 +9,6 @@
 -->
 
 <script setup lang="ts">
-import { ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
 import MaResourcePanel from './panel.vue'
 import type { Resource } from './type.ts'
@@ -36,19 +35,18 @@ const attrs = omit(useAttrs(), ['onConfirm', 'onCancel'])
 </script>
 
 <template>
-  <ElDialog
+  <MaDialog
     v-model="dialogVisible"
     title="资源选择器"
-    width="800"
     append-to-body
-    draggable
     destroy-on-close
     align-center
+    :footer="false"
   >
     <div class="h-[595px]">
       <MaResourcePanel v-bind="attrs" @cancel="onCancel" @confirm="onConfirm" />
     </div>
-  </ElDialog>
+  </MaDialog>
 </template>
 
 <style scoped lang="scss">

@@ -45,7 +45,7 @@ trait ClientIpRequestTrait
      */
     public function getClientIps(): array
     {
-        $ip = $this->server('REMOTE_ADDR');
+        $ip = $this->server('remote_addr');
 
         if (! $this->isFromTrustedProxy()) {
             return [$ip];

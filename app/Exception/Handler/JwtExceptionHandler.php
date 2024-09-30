@@ -31,7 +31,7 @@ final class JwtExceptionHandler extends AbstractHandler
                 return new Result(
                     code: ResultCode::UNAUTHORIZED,
                     message: trans('jwt.unauthorized'),
-                    data:   [
+                    data: [
                         'error' => $throwable->getMessage(),
                     ]
                 );

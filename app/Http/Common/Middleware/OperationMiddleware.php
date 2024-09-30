@@ -15,6 +15,7 @@ namespace App\Http\Common\Middleware;
 use App\Http\Common\Event\RequestOperationEvent;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
+use Hyperf\Di\Annotation\MultipleAnnotation;
 use Hyperf\HttpServer\Router\Dispatched;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
@@ -53,7 +54,8 @@ class OperationMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $parseResult = $this->parse($request->getAttribute(Dispatched::class));
+        $dispatched = $request->getAttribute(Dispatched::class);
+        $parseResult = $this->parse($dispatched?->handler?->callback);
         if (! $parseResult) {
             return $handler->handle($request);
         }
@@ -64,7 +66,7 @@ class OperationMiddleware implements MiddlewareInterface
                 $this->user->id(),
                 $operator->summary,
                 $request->getUri()->getPath(),
-                Arr::first(array: $this->container->get(Request::class)->getClientIps(), default: '0.0.0.0'),
+                Arr::first(array: $this->container->get(Request::class)->getClientIps(), callback: static fn ($val) => $val, default: '0.0.0.0'),
                 $request->getMethod(),
             ));
         }
@@ -75,8 +77,12 @@ class OperationMiddleware implements MiddlewareInterface
     {
         foreach (static::PATH_ATTRIBUTES as $attribute) {
             $annotations = AnnotationCollector::getClassMethodAnnotation($controller, $method);
-            if (! empty($annotations[$attribute])) {
-                return $annotations[$attribute];
+            if (empty($annotations[$attribute]) || ! ($annotations[$attribute] instanceof MultipleAnnotation)) {
+                continue;
+            }
+            $multiple = $annotations[$attribute];
+            if ($annotation = Arr::first($multiple->toAnnotations())) {
+                return $annotation;
             }
         }
         return null;

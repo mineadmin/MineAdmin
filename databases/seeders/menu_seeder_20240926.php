@@ -253,7 +253,6 @@ class MenuSeeder20240926 extends Seeder
                     ],
                 ],
             ],
-            // todo 代码生成器还没定下来，所以先注释掉
             [
                 'name' => 'log',
                 'path' => '/log',

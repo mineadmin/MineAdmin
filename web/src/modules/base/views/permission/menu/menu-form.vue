@@ -134,6 +134,9 @@ const formItems = ref<MaFormItem[]>([
   {
     label: '路由地址', prop: 'path', render: 'input',
     show: (_, model) => model.meta.type === 'M',
+    itemProps: {
+      rules: [{ required: true, message: '请输入路由地址' }],
+    },
     renderProps: {
       placeholder: '页面访问地址，以 "/" 开头，如果下面存在子菜单（非按钮），可以不写此项。',
     },

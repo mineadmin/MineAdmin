@@ -45,7 +45,7 @@ http.interceptors.request.use(
 
     // 检查token是否需要刷新
     if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
-      console.log('需要刷新token了')
+      console.log('需要刷新token了', `refreshToken:${cache.get('refresh_token')}`)
     }
 
     await usePluginStore().callHooks('networkRequest', config)

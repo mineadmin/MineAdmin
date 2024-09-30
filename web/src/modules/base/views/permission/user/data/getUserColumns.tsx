@@ -51,6 +51,7 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
             name: 'edit',
             icon: 'material-symbols:person-edit',
             text: () => '编辑',
+            linkProps: { underline: false },
             onClick: ({ row }) => {
               formRef.value.open(row)
             },
@@ -58,16 +59,19 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
           {
             name: 'del',
             icon: 'mdi:delete',
+            linkProps: { underline: false },
             text: '删除',
           },
           {
             name: 'setRole',
             icon: 'material-symbols:person-add-rounded',
+            linkProps: { underline: false },
             text: '赋予角色',
           },
           {
             name: 'initPassword',
             icon: 'material-symbols:passkey',
+            linkProps: { underline: false },
             text: '初始化密码',
           },
         ],

@@ -16,3 +16,8 @@ export function getMenus(): Promise<ResponseStruct<MenuVo[]>> {
 export function getRoles(): Promise<ResponseStruct<RoleVo[]>> {
   return useHttp().get('/admin/permission/roles')
 }
+
+export {
+  MenuVo,
+  RoleVo,
+}

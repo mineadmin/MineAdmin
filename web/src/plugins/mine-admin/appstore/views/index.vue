@@ -19,7 +19,7 @@ const t = useLocalTrans() as any
   <div class="mine-card">
     {{ t('appstore') }}
 
-    <ma-upload-image :size="120">
+    <ma-upload-image :size="120" multiple>
       <template #tip>
         请上传2M以内的图片
       </template>

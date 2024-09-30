@@ -18,14 +18,14 @@ importers:
         specifier: ^1.0.18
         version: 1.0.18(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/pro-table':
-        specifier: ^1.0.16
-        version: 1.0.16(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.17
+        version: 1.0.17(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/search':
         specifier: ^1.0.19
         version: 1.0.19(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/table':
-        specifier: ^1.0.21
-        version: 1.0.21(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.22
+        version: 1.0.22(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@vueuse/core':
         specifier: ^11.1.0
         version: 11.1.0(vue@3.5.8(typescript@5.6.2))
@@ -1593,8 +1593,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/pro-table@1.0.16':
-    resolution: {integrity: sha512-shA4YPjBNoBmKhbvUOizj90IC0xfr8emmKr/05NxbbEEAoXkjn83xv24F6yHiuNJM0A9rUtIUPoNMC5vEZYdNA==}
+  '@mineadmin/pro-table@1.0.17':
+    resolution: {integrity: sha512-rn51IZDgXjPSWwTRYhl++iQkUitT+/MJ0F+qV++sHeb7EZIDtICTI+7m5ApEyw9uCXlOR5/IxzDXjXy3MYf/ug==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -1603,8 +1603,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/table@1.0.21':
-    resolution: {integrity: sha512-jp4rsHtgEMvDL4AStqJWcQxjftDwOm6SCqAA3S+9lPlgfP+rD3UIWsxW2UibWqpp5ue9ZZvC/O/qoQwezj5QhA==}
+  '@mineadmin/table@1.0.22':
+    resolution: {integrity: sha512-kfcHRJnHLJXc00TBruLlO86fFlaqL+Q3jqZRcThEOZY2PC3xXxIPYyc+LiQrAU6MBqNGjiL9xBx4WCQxZ8gXpQ==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -7367,7 +7367,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/pro-table@1.0.16(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/pro-table@1.0.17(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.3(vue@3.5.8(typescript@5.6.2))
       vue: 3.5.8(typescript@5.6.2)
@@ -7381,7 +7381,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/table@1.0.21(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/table@1.0.22(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.3(vue@3.5.8(typescript@5.6.2))
       vue: 3.5.8(typescript@5.6.2)

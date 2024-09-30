@@ -12,7 +12,7 @@ import type { ResponseStruct } from '#/global'
 import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from '@/hooks/auto-imports/useHttp.ts'
 import * as PermissionApi from '~/base/api/permission.ts'
-import type { Menu, Role } from '~/base/api/permission.ts'
+import type { MenuVo, RoleVo } from '~/base/api/permission.ts'
 
 export interface LoginParams {
   username: string
@@ -20,8 +20,9 @@ export interface LoginParams {
 }
 
 export interface LoginResult {
-  token: string
+  access_token: string
   expire_at: number
+  refresh_token: string
 }
 
 export interface UserInfo {
@@ -61,9 +62,9 @@ const useUserStore = defineStore(
     const language = ref(cache.get('language', 'zh_CN'))
     const isLogin = computed(() => !!token.value)
     const userInfo = ref<any | null>(null)
-    const menu = ref<Menu[]>([])
+    const menu = ref<MenuVo[]>([])
     const permissions = ref<string[]>([])
-    const roles = ref<Role[]>([])
+    const roles = ref<RoleVo[]>([])
     const dropdownMenuState = ref<{
       shortcuts: boolean
       systemInfo: boolean
@@ -86,7 +87,7 @@ const useUserStore = defineStore(
       return menu.value
     }
 
-    function setMenu(list: Menu[]) {
+    function setMenu(list: MenuVo[]) {
       menu.value = list
     }
 
@@ -107,9 +108,10 @@ const useUserStore = defineStore(
     async function login(data: { username: string, password: string, code: string }) {
       return new Promise((resolve, reject) => {
         loginApi(data).then(async (res) => {
-          token.value = res.data.token
-          cache.set('token', res.data.token)
+          token.value = res.data.access_token
+          cache.set('token', res.data.access_token)
           cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
+          cache.set('refresh_token', res.data.refresh_token)
           await usePluginStore().callHooks('login', res.data)
           resolve(res.data)
         }).catch((error) => {
@@ -140,9 +142,12 @@ const useUserStore = defineStore(
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
-      clearInfo()
       await usePluginStore().callHooks('logout')
-      // await logoutApi()
+      logoutApi().then(() => {
+        clearInfo()
+      }).catch(() => {
+        clearInfo()
+      })
       await router.push({
         name: 'login',
         query: {
@@ -188,11 +193,11 @@ const useUserStore = defineStore(
       return true
     }
 
-    function getRoles(): Role[] {
+    function getRoles(): RoleVo[] {
       return roles.value
     }
 
-    function setRoles(roleArray: Role[]): boolean {
+    function setRoles(roleArray: RoleVo[]): boolean {
       roles.value = roleArray
       return true
     }
@@ -218,6 +223,7 @@ const useUserStore = defineStore(
 
     function clearInfo() {
       cache.remove('token')
+      cache.remove('refresh_token')
       cache.remove('language')
       cache.remove('expire')
       token.value = null

@@ -42,7 +42,7 @@ export default defineComponent({
           {
             label: t('mineAdmin.tab.refresh') as string,
             icon: 'i-ri:refresh-line',
-            onClick: async () => tabStore.refreshTab(item),
+            onClick: async () => await tabStore.refreshTab(item),
           },
           {
             label: t('mineAdmin.tab.close') as string,

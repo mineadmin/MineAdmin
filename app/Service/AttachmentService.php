@@ -14,6 +14,7 @@ namespace App\Service;
 
 use App\Model\Attachment;
 use App\Repository\AttachmentRepository;
+use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\Kernel\Upload\UploadInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -27,7 +28,7 @@ final class AttachmentService extends IService
         protected readonly UploadInterface $upload
     ) {}
 
-    public function upload(SplFileInfo $fileInfo, int $userId): Attachment
+    public function upload(SplFileInfo $fileInfo, UploadedFile $uploadedFile, int $userId): Attachment
     {
         $fileHash = md5_file($fileInfo->getRealPath());
         if ($attachment = $this->repository->findByHash($fileHash)) {
@@ -38,6 +39,7 @@ final class AttachmentService extends IService
         );
         return $this->repository->create([
             'created_by' => $userId,
+            'origin_name' => $uploadedFile->getClientFilename(),
             'storage_mode' => $upload->getStorageMode(),
             'object_name' => $upload->getObjectName(),
             'mime_type' => $upload->getMimeType(),

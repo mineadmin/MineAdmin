@@ -22,9 +22,9 @@
   "dependencies": {
     "@mineadmin/echarts": "^1.0.1",
     "@mineadmin/form": "^1.0.18",
-    "@mineadmin/pro-table": "^1.0.16",
+    "@mineadmin/pro-table": "^1.0.17",
     "@mineadmin/search": "^1.0.19",
-    "@mineadmin/table": "^1.0.21",
+    "@mineadmin/table": "^1.0.22",
     "@vueuse/core": "^11.1.0",
     "@vueuse/integrations": "^11.1.0",
     "@imengyu/vue3-context-menu": "^1.4.2",

@@ -77,7 +77,9 @@ final class AttachmentController extends AbstractController
         $newTmpPath = sys_get_temp_dir() . '/' . uniqid() . '.' . $uploadFile->getExtension();
         $uploadFile->moveTo($newTmpPath);
         $splFileInfo = new SplFileInfo($newTmpPath, '', '');
-        return $this->success($this->service->upload($splFileInfo, $this->currentUser->id()));
+        return $this->success(
+            $this->service->upload($splFileInfo, $uploadFile, $this->currentUser->id())
+        );
     }
 
     #[Delete(

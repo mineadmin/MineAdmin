@@ -1,5 +1,5 @@
 .mine-main-logo {
-  @apply h-[var(--mine-g-header-height)] w-inherit flex-center gap-2 text-inherit no-underline;
+  @apply h-[var(--mine-g-header-height)] w-inherit flex-center gap-2 text-inherit no-underline outline-none;
 }
 
 .mine-logo-img {

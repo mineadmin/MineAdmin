@@ -97,8 +97,8 @@ const useTabStore = defineStore(
         tab = getCurrentTab() as MineTabbar
       }
       isLoading.value = true
-      keepAliveStore.hidden()
       keepAliveStore.remove(tab.name)
+      keepAliveStore.hidden()
       await nextTick(async () => {
         keepAliveStore.add(tab.name)
         keepAliveStore.display()

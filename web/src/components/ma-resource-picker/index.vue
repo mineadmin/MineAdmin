@@ -19,7 +19,7 @@ const emit = defineEmits<{
   cancel: []
   confirm: [selected: Resource[]]
 }>()
-const dialogVisible = defineModel<boolean>('visible')
+const dialogVisible = defineModel<boolean>('visible', { default: false })
 function onCancel() {
   dialogVisible.value = false
   emit('cancel')

@@ -21,7 +21,7 @@ zh_TW:
 
 <script setup lang="tsx">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
-import type { UploadUserFile } from 'element-plus'
+import type { UploadRequestOptions, UploadUserFile } from 'element-plus'
 
 defineOptions({ name: 'MaUploadImage' })
 
@@ -29,6 +29,9 @@ const props = defineProps<{
   title?: string
   size?: number
 }>()
+
+const domain = ref(import.meta.env.VITE_UPLOAD_LOCAL_URL)
+
 const t = useLocalTrans()
 const uploadBtnRef = ref<HTMLElement>()
 const isOpenResource = ref<boolean>(false)
@@ -41,7 +44,7 @@ const size = computed(() => {
 
 function btnRender() {
   return (
-    <a class="ma-upload-container p-0.5" style={size.value}>
+    <a class="ma-upload-container" style={size.value}>
       <el-tooltip content={t('openResource')}>
         <a
           class="ma-resource-btn"
@@ -69,18 +72,41 @@ const fileList = ref<UploadUserFile[]>([
   { name: 'food.jpeg', url: 'https://picsum.photos/120/120?random=4' },
   { name: 'food.jpeg', url: 'https://picsum.photos/120/120?random=5' },
 ])
+
+function upload(formData: FormData) {
+  return useHttp().post('/admin/attachment/upload', formData)
+}
+
+function handleUpload(options: UploadRequestOptions): any {
+  const formData = new FormData()
+  formData.append('file', options.file)
+  upload(formData).then((res: Record<string, any>) => {
+    if (res.code === 200) {
+      const { data } = res
+      const url = domain.value + data.url
+      console.log(url)
+    }
+  })
+  return true
+}
+
+function handleSuccess() {
+
+}
 </script>
 
 <template>
   <el-upload
     v-model:file-list="fileList"
+    :http-request="handleUpload"
+    :on-success="handleSuccess"
     v-bind="$attrs"
   >
     <slot name="default">
-      <component :is="btnRender()" v-show="!fileList" ref="uploadBtnRef" />
+      <component :is="btnRender()" v-show="fileList.length < 1" ref="uploadBtnRef" />
     </slot>
     <template #file="{ file, index }">
-      <div class="ma-upload-container p-0.5" :style="size">
+      <div class="ma-upload-container" :style="size">
         <el-image :src="file?.url" class="rounded-md" />
       </div>
       <component
@@ -91,7 +117,7 @@ const fileList = ref<UploadUserFile[]>([
       />
     </template>
     <template #tip>
-      <div v-if="!fileList" class="pt-1 text-sm text-dark-50 dark-text-gray-3">
+      <div v-if="fileList.length < 1" class="pt-1 text-sm text-dark-50 dark-text-gray-3">
         <slot name="tip" />
       </div>
     </template>
@@ -117,8 +143,8 @@ const fileList = ref<UploadUserFile[]>([
   ;
 
   .ma-resource-btn {
-    @apply absolute top-0 b-1 b-dashed b-gray-3 dark-b-dark-50 transition-all duration-300
-      w-full b-t-0 b-l-0 b-r-0 text-gray-5 dark-bg-dark-8 bg-gray-1 h-[calc(100%-80%)]
+    @apply absolute top-0 b-1 b-dashed b-gray-3 dark-b-dark-50 transition-all duration-300 rounded-t-md
+      w-[calc(100%)] mx-auto b-t-0 b-l-0 b-r-0 text-gray-5 dark-bg-dark-8 bg-gray-1 h-[calc(100%-80%)]
       flex items-center justify-center
     ;
   }

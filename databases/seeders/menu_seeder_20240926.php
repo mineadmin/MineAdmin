@@ -274,6 +274,7 @@ class MenuSeeder20240926 extends Seeder
                     [
                         'name' => 'user-login',
                         'path' => '/log/userLoginLog',
+                        'component' => 'base/views/log/userLogin',
                         'meta' => new Meta([
                             'title' => '用户登录日志管理',
                             'type' => 'M',

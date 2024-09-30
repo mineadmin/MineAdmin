@@ -24,8 +24,8 @@ return new class extends Migration {
             $table->bigIncrements('id')->comment('主键');
             $table->addColumn('string', 'username', ['length' => 20, 'comment' => '用户名']);
             $table->addColumn('ipAddress', 'ip', ['comment' => '登录IP地址'])->nullable();
-            $table->addColumn('string', 'os', ['length' => 50, 'comment' => '操作系统'])->nullable();
-            $table->addColumn('string', 'browser', ['length' => 50, 'comment' => '浏览器'])->nullable();
+            $table->addColumn('string', 'os', ['length' => 255, 'comment' => '操作系统'])->nullable();
+            $table->addColumn('string', 'browser', ['length' => 255, 'comment' => '浏览器'])->nullable();
             $table->addColumn('smallInteger', 'status', ['default' => 1, 'comment' => '登录状态 (1成功 2失败)']);
             $table->addColumn('string', 'message', ['length' => 50, 'comment' => '提示消息'])->nullable();
             $table->dateTime('login_time')->comment('登录时间');

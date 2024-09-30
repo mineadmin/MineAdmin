@@ -10,11 +10,9 @@
 import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
-import { useMessage } from '@/hooks/useMessage.ts'
 import { ElTag } from 'element-plus'
 
 export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
-  const message = useMessage()
   const dictStore = useDictStore()
 
   return [

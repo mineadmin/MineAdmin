@@ -306,6 +306,7 @@ class MenuSeeder20240926 extends Seeder
                     [
                         'name' => 'operation',
                         'path' => '/log/operationLog',
+                        'component' => 'base/views/log/userOperation',
                         'meta' => new Meta([
                             'title' => '操作日志管理',
                             'type' => 'M',

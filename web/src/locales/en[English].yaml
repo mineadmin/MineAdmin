@@ -141,6 +141,8 @@ crud:
   selection: Selection
   operation: Operation
 dictionary:
+  statusEnabled: Success
+  statusDisabled: Failure
   system:
     statusEnabled: Enabled
     statusDisabled: Disabled

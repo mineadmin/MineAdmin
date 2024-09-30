@@ -10,7 +10,7 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 索引序号列
-    { type: 'index' },
+    { label: () => t('id'), prop: 'id' },
     // 普通列
     { label: () => t('username'), prop: 'username' },
     { label: () => t('os'), prop: 'os' },
@@ -18,8 +18,8 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
     { label: () => t('browser'), prop: 'browser' },
     { label: () => t('status'), prop: 'status',
       cellRender: ({ row }) => (
-        <ElTag type={dictStore.t('system-status', row.status, 'color')}>
-          {t(dictStore.t('system-status', row.status, 'i18n'))}
+        <ElTag type={dictStore.t('status', row.status, 'color')}>
+          {t(dictStore.t('status', row.status, 'i18n'))}
         </ElTag>
       ),
     },

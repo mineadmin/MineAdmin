@@ -141,6 +141,8 @@ crud:
   selection: 多選
   operation: 操作
 dictionary:
+  statusEnabled: 成功
+  statusDisabled: 失敗
   system:
     statusEnabled: 啓用
     statusDisabled: 禁用

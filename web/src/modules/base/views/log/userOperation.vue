@@ -1,56 +1,60 @@
 <i18n lang="yaml">
 en:
-  title: User Login log
+  title: "User Operation log"
   id: "ID"
   username: "Username"
-  ip: "Login IP Address"
-  os: "Operating System"
-  browser: "Browser"
-  status: "Login Status"
-  message: "Message"
-  login_time: "Login Time"
+  method: "Request Method"
+  router: "Request Router"
+  service_name: "Service Name"
+  ip: "Request IP Address"
+  created_at: "Creation Time"
+  updated_at: "Update Time"
+  deleted_at: "Deletion Time"
   remark: "Remark"
 zh_CN:
-  title: 用户登录日志
+  title: "用户操作日志"
   id: "ID"
   username: "用户名"
-  ip: "登录IP地址"
-  os: "操作系统"
-  browser: "浏览器"
-  status: "登录状态"
-  message: "提示消息"
-  login_time: "登录时间"
+  method: "请求方式"
+  router: "请求路由"
+  service_name: "业务名称"
+  ip: "请求IP地址"
+  created_at: "创建时间"
+  updated_at: "更新时间"
+  deleted_at: "删除时间"
   remark: "备注"
 zh_TW:
+  title: "用戶操作日誌"
   id: "ID"
   username: "使用者名稱"
-  ip: "登入IP位址"
-  os: "作業系統"
-  browser: "瀏覽器"
-  status: "登入狀態（1為成功，2為失敗）"
-  message: "提示訊息"
-  login_time: "登入時間"
+  method: "請求方式"
+  router: "請求路由"
+  service_name: "業務名稱"
+  ip: "請求IP地址"
+  created_at: "建立時間"
+  updated_at: "更新時間"
+  deleted_at: "刪除時間"
   remark: "備註"
 </i18n>
 
 <script setup lang="ts">
-import type { UserLoginVo } from '~/base/api/log.ts'
-import { UserLoginLog } from '~/base/api/log.ts'
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
-import getColumns from '~/base/views/log/UserLoginLogColumn.tsx'
-import getSearchItems from '~/base/views/log/UserLoginLogSearch.tsx'
+import getSearchItems from '~/base/views/log/UserOperationLogSearch.tsx'
+import getColumns from '~/base/views/log/UserOperationLogColumn.tsx'
+import type { RequestLogInfoVo } from '~/base/api/log.ts'
+import { UserOperatorLog } from '~/base/api/log.ts'
 
 const t = useTrans()
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()
-const selections: Ref<UserLoginVo[]> = ref([])
+const selections: Ref<RequestLogInfoVo[]> = ref([])
 
 async function clickDelete() {
-  const ids = selections.value.map((value: UserLoginVo) => {
+  const ids = selections.value.map((value: RequestLogInfoVo) => {
     return value.id
   })
-  const res = await UserLoginLog.delete(ids)
+  const res = await UserOperatorLog.delete(ids)
   if (res.code === 200) {
     proTableRef.value.refresh()
   }
@@ -84,7 +88,7 @@ const options = ref<MaProTableOptions>({
   searchFormOptions: { labelWidth: '90px' },
   // 请求配置
   requestOptions: {
-    api: UserLoginLog.page,
+    api: UserOperatorLog.page,
   },
 })
 // 架构配置

@@ -13,7 +13,7 @@ export interface UserLoginVo {
   remark: string
 }
 
-interface RequestLogInfoVo {
+export interface RequestLogInfoVo {
   // 主键
   id: number
   // 用户名
@@ -44,11 +44,11 @@ export class UserLoginLog {
 }
 
 export class UserOperatorLog {
-  page(params: RequestLogInfoVo): Promise<ResponseStruct<RequestLogInfoVo[]>> {
+  public static page(params: RequestLogInfoVo): Promise<ResponseStruct<RequestLogInfoVo[]>> {
     return useHttp().get('/admin/user-operation-log/list', { params })
   }
 
-  delete(ids: number[]): Promise<ResponseStruct<null>> {
+  public static delete(ids: number[]): Promise<ResponseStruct<null>> {
     return useHttp().delete('/admin/user-operation-log', { data: { ids } })
   }
 }

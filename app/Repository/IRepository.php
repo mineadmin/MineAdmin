@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Repository\Traits\BootTrait;
+use App\Repository\Traits\RepositoryOrderByTrait;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Model\Model;
@@ -26,7 +28,9 @@ use function Hyperf\Collection\value;
  */
 abstract class IRepository
 {
+    use BootTrait;
     use HasContainer;
+    use RepositoryOrderByTrait;
 
     public const PER_PAGE_PARAM_NAME = 'per_page';
 
@@ -135,6 +139,7 @@ abstract class IRepository
     public function getQuery(array $params = []): Builder
     {
         return value(function (Builder $builder, array $params) {
+            $this->startBoot($builder, $params);
             return $this->handleSearch($builder, $params);
         }, $this->model->newModelQuery(), $params);
     }

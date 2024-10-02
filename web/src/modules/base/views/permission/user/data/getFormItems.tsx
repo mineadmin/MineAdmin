@@ -9,6 +9,7 @@
  */
 import type { MaFormItem } from '@mineadmin/form'
 import MaUploadImage from '@/components/ma-upload-image/index.vue'
+import MaUploadFile from '@/components/ma-upload-file/index.vue'
 
 export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): MaFormItem[] {
   if (formType === 'add') {
@@ -20,9 +21,11 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): 
       label: () => t('baseUser.avatar'),
       prop: 'avatar',
       render: () => MaUploadImage,
-      renderProps: {
-        tip: '上传用户头像',
-      },
+    },
+    {
+      label: () => t('baseUser.username'),
+      prop: 'username',
+      render: () => MaUploadFile,
     },
   ]
 }

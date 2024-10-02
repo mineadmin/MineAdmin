@@ -18,20 +18,19 @@ zh_TW:
 
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import { ElButton, ElEmpty, ElIcon, ElImage, ElInput, ElMessage, ElPagination, ElSegmented, ElSkeleton, ElSkeletonItem, ElSpace, ElTag } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import { attachments } from '../../../mock/data/attachment'
-import type { Resource, ResourcePanelProps } from './type.ts'
+import type { FileType, Resource, ResourcePanelProps } from './type.ts'
 
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
 const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
-  pageSize: 40,
+  pageSize: 15,
   dbClickConfirm: false,
   fileTypes: () => [
     { label: '所有', value: '', icon: 'ri:gallery-view-2', suffix: '' },
@@ -39,20 +38,22 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
     { label: '视频', value: 'video', icon: 'ri:folder-video-line', suffix: 'mp4,avi,wmv,mov,flv,mkv webm' },
     { label: '音频', value: 'audio', icon: 'ri:file-music-line', suffix: 'mp3,wav,ogg,wma,aac,flac,ape,wavpack' },
     { label: '文档', value: 'document', icon: 'ri:file-text-line', suffix: 'doc,docx,xls,xlsx,ppt,pptx,pdf' },
-    // { label: '压缩包', value: 'package', icon: 'ri:folder-zip-line', suffix: 'zip,rar,7z,tar,gz' },
   ],
 })
 
 const emit = defineEmits<{
-  cancel: []
-  confirm: [selected: Resource[]]
+  (e: 'cancel'): void
+  (e: 'confirm', value: any[]): void
 }>()
-const modelValue = defineModel<Array<string | number> | string | number>()
+
+const msg = useMessage()
+
+const modelValue = defineModel<string | string[] | undefined>()
 
 const fileTypeSelected = ref(props.defaultFileType ?? '')
 const returnType = 'url'
 
-const fileTypes: FileTypes = computed(() => props.fileTypes)
+const fileTypes = computed<FileType[]>(() => props.fileTypes)
 
 /**
  * 加载状态
@@ -76,6 +77,17 @@ const selectedKeys = ref<Array<string | number>>([])
 
 const selected = ref<Resource[]>([])
 
+async function getResourceList(params: Resource = {}) {
+  loading.value = true
+  const { data } = await useHttp().get(
+    '/admin/attachment/list',
+    { params: Object.assign({ pageSize: props.pageSize }, params) },
+  )
+  total.value = data.total
+  resources.value = data.list
+  loading.value = false
+}
+
 // 监听v-model变化，更新selectedKeys
 watch(() => modelValue.value, (newValue) => {
   selectedKeys.value = Array.isArray(newValue) ? newValue : newValue ? [newValue] : []
@@ -85,16 +97,16 @@ watch(() => modelValue.value, (newValue) => {
 watch(() => selectedKeys.value, (newKeys) => {
   const newValue = props.multiple ? newKeys : newKeys[0]
   // 同样，只有在modelValue真正改变时才更新
-  if (modelValue.value !== newValue) {
-    modelValue.value = newValue
+  if (modelValue.value && modelValue.value !== newValue) {
+    modelValue.value = newValue as string | string[]
   }
 }, { deep: true })
 
 /**
  * 查询参数
  */
-const queryParams = ref({
-  page: 1,
+const queryParams = ref<Record<string, any>>({
+  pageNo: 1,
   pageSize: props.pageSize,
   origin_name: '',
   suffix: [],
@@ -104,34 +116,13 @@ const queryParams = ref({
  * 加载占位符数量
  */
 const skeletonNum = computed(() => {
-  return loading.value ? queryParams.value.pageSize : 0
+  return loading.value ? queryParams.value.pageSize : 15
 })
 
-function onfileTypesChange(value) {
+function onfileTypesChange(value: any) {
   fileTypeSelected.value = value
-  queryParams.value.suffix = fileTypes.value?.find(i => i.value === value)?.suffix || []
-}
-
-/**
- * 资源查询方法
- */
-async function query(): Promise<void> {
-  loading.value = true
-  resources.value = []
-  setTimeout(() => {
-    resources.value = attachments
-    total.value = attachments.length
-    loading.value = false
-  }, Math.floor(Math.random() * 900 + 100))
-}
-
-watch(queryParams, query, { deep: true, immediate: true })
-
-/**
- * 获取展示名
- */
-function getLabel(key) {
-
+  queryParams.value.suffix = (fileTypes.value?.find(i => i.value === value)?.suffix || []) as string[]
+  getResourceList(queryParams.value)
 }
 
 /**
@@ -139,20 +130,10 @@ function getLabel(key) {
  * @param resource
  */
 function getCover(resource: Resource): string | undefined {
-  if (resource.mime_type.startsWith('image')) {
+  if (resource?.mime_type?.startsWith('image')) {
     return resource.url
   }
   return undefined
-}
-
-/**
- * 获取文件类型图标
- */
-function getIcon(resource: Resource) {
-  return null
-  // const suffix = resource.suffix
-  // 测试 ssh推送
-  // return 'vscode-icons:file-type-commitizen'
 }
 
 /**
@@ -160,7 +141,7 @@ function getIcon(resource: Resource) {
  * @param resource
  */
 function isSelected(resource: Resource) {
-  const key: string | number = resource[returnType]
+  const key = resource[returnType] as string
   return selectedKeys.value.includes(key)
 }
 
@@ -169,19 +150,19 @@ function isSelected(resource: Resource) {
  * @param resource
  */
 function canPreview(resource: Resource) {
-  return resource.mime_type.startsWith('image')
+  return resource?.mime_type?.startsWith('image')
 }
 
 /**
  * 选中资源
  */
 function select(resource: Resource) {
-  const key: string | number = resource[returnType]
+  const key = resource[returnType] as string
   // 单选
   if (props.multiple) {
     // 判断是否上限
     if (props.limit && selectedKeys.value.length >= props.limit) {
-      return ElMessage.warning(`最多选择${props.limit}个`)
+      return msg.warning(`最多选择${props.limit}个`)
     }
     selectedKeys.value.push(key)
     if (!selected.value.find(i => i[returnType] === key)) {
@@ -198,7 +179,7 @@ function select(resource: Resource) {
  * 取消选中
  */
 function unSelect(resource: Resource) {
-  const key: string | number = resource[returnType]
+  const key = resource[returnType] as string
   selectedKeys.value = selectedKeys.value.filter(i => i !== key)
   selected.value = selected.value.filter(i => i[returnType] !== key)
 }
@@ -279,26 +260,23 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         icon: 'i-ri:search-eye-line',
         disabled: !canPreview(resource),
         onClick: () => {
-          useImageViewer([resource.url])
+          useImageViewer([resource?.url ?? ''])
         },
       },
-      // {
-      //   label: '下载',
-      //   icon: 'i-ri:download-line',
-      //   onClick: () => {
-      //     // 下载待接入
-      //   },
-      // },
     ],
   })
 }
+
+onMounted(async () => {
+  await getResourceList()
+})
 </script>
 
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
     <div class="flex justify-between">
       <div>
-        <ElSegmented
+        <el-segmented
           v-model="fileTypeSelected"
           :options="fileTypes"
           size="default"
@@ -307,31 +285,33 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         >
           <template #default="{ item }">
             <div class="flex items-center justify-center">
-              <ma-svg-icon v-if="item.icon" :name="item.icon" :size="17" class="mr-1 flex items-center justify-center" />
-              <span>{{ item.label }}</span>
+              <ma-svg-icon v-if="item?.icon" :name="item!.icon" :size="17" class="mr-1 flex items-center justify-center" />
+              <span>{{ item!.label }}</span>
             </div>
           </template>
-        </ElSegmented>
-        <!--        <MTabs v-model="fileTypeSelected" :options="fileTypes" class="text-sm" @change="(value:string, item:FileType) => queryParams.suffix = item.suffix" /> -->
+        </el-segmented>
       </div>
 
       <div class="flex justify-end">
-        <ElInput v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-[180px]">
+        <el-input
+          v-model="queryParams.origin_name"
+          placeholder="搜索资源名"
+          clearable
+          class="w-[180px]"
+          @input="() => {
+            getResourceList(queryParams)
+          }"
+        >
           <template #suffix>
-            <ElIcon><Search /></ElIcon>
+            <el-icon><Search /></el-icon>
           </template>
-        </ElInput>
-        <!--        <el-button bg> -->
-        <!--          <template #icon> -->
-        <!--            <ma-svg-icon name="ant-design:appstore-outlined" /> -->
-        <!--          </template> -->
-        <!--        </el-button> -->
+        </el-input>
       </div>
     </div>
     <div class="mt-2 min-h-0 flex-1">
       <OverlayScrollbarsComponent v-if="loading || resources.length" class="max-h-full" :options="{ scrollbars: { autoHide: 'leave', autoHideDelay: 100 } }">
         <div class="flex flex-wrap px-[2px] pt-[2px]">
-          <ElSpace fill wrap :fill-ratio="9">
+          <el-space fill wrap :fill-ratio="9">
             <template v-for="resource in resources" :key="resource.id">
               <div
                 class="resource-item"
@@ -342,7 +322,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
               >
                 <div class="resource-item__cover">
                   <template v-if="getCover(resource)">
-                    <ElImage :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
+                    <el-image :src="getCover(resource)" fit="cover" class="h-full w-full" lazy>
                       <template #error>
                         <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
                           <div class="cursor-default overflow-hidden text-ellipsis whitespace-pre-wrap">
@@ -350,7 +330,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                           </div>
                         </div>
                       </template>
-                    </ElImage>
+                    </el-image>
                   </template>
                   <template v-else>
                     <div class="relative m-[8px] h-[calc(100%-16px)] w-[calc(100%-16px)] flex items-center justify-center overflow-hidden">
@@ -368,29 +348,31 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
                 </div>
               </div>
             </template>
-            <ElSkeleton v-for="i in skeletonNum" :key="i" class="resource-skeleton relative" animated>
-              <template #template>
-                <ElSkeletonItem class="absolute h-full w-full" variant="rect" />
-              </template>
-            </ElSkeleton>
+            <template v-if="resources.length === 0">
+              <el-skeleton v-for="i in skeletonNum" :key="i" class="resource-skeleton relative" animated>
+                <template #template>
+                  <el-skeleton-item class="absolute h-full w-full" variant="rect" />
+                </template>
+              </el-skeleton>
+            </template>
             <div v-for="i in 10" :key="i" class="resource-placeholder" />
-          </ElSpace>
+          </el-space>
         </div>
       </OverlayScrollbarsComponent>
       <div v-else class="h-full w-full flex flex-1 items-center justify-center">
-        <ElEmpty />
+        <el-empty />
       </div>
     </div>
     <div class="ma-resource-panel__footer flex justify-between pt-2">
       <div class="flex items-center">
-        <ElTag v-if="props.multiple && props.limit" size="large" class="mr-2" :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
+        <el-tag v-if="props.multiple && props.limit" size="large" class="mr-2" :class="{ 'color-[var(--el-color-danger)]': props.limit && selectedKeys.length >= props.limit }">
           {{ selectedKeys.length }}
           <template v-if="props.multiple && props.limit">
             /{{ props.limit }}
           </template>
-        </ElTag>
-        <ElPagination
-          v-model:current-page="queryParams.page"
+        </el-tag>
+        <el-pagination
+          v-model:current-page="queryParams.pageNo"
           :disabled="loading"
           :total="total"
           :page-size="queryParams.pageSize"
@@ -400,12 +382,12 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         />
       </div>
       <div>
-        <ElButton @click="cancel">
+        <el-button @click="cancel">
           取消
-        </ElButton>
-        <ElButton type="primary" @click="confirm">
+        </el-button>
+        <el-button type="primary" @click="confirm">
           确认
-        </ElButton>
+        </el-button>
       </div>
     </div>
   </div>

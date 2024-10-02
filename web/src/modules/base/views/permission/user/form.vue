@@ -32,7 +32,6 @@ function open(data: UserVo | null = null) {
 }
 
 const userModel = ref<UserVo>({
-  avatar: ['http://127.0.0.1:9501/uploads/2024-10-01/594a88c3-35df-4fc5-ac5b-030a2d4274d1.jpg'],
 })
 
 defineExpose({ open })
@@ -45,7 +44,6 @@ defineExpose({ open })
     :close-on-click-modal="false"
     append-to-body
   >
-    {{ userModel }}
     <ma-form ref="userForm" v-model="userModel" />
   </ma-dialog>
 </template>

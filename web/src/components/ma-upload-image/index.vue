@@ -189,7 +189,7 @@ watch(
       })
     }
     else {
-      fileList.value = [{ name: val.split('/').pop as string, url: val }]
+      fileList.value = [{ name: val?.split('/')?.pop() as string, url: val }]
     }
   },
   { immediate: true, deep: true },
@@ -258,7 +258,16 @@ watch(
         </slot>
       </div>
     </template>
-    <MaResourcePicker v-model:visible="isOpenResource" />
+    <MaResourcePicker
+      v-model:visible="isOpenResource"
+      :multiple="multiple"
+      :limit="limit"
+      @confirm="(selected) => {
+        fileList = selected.map((item: any) => {
+          return { name: item.ogirin_name, url: item.url }
+        })
+      }"
+    />
   </el-upload>
 </template>
 

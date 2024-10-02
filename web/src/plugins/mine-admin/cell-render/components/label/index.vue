@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { cellRenderPluginName, createOptions, createRowFieldValues } from '../../utils/tools.ts'
+import { cellRenderPluginName, cellRenderPluginProps, createOptions, organizeProps } from '../../utils/tools.ts'
 
 export interface Options {
   map: Record<any, any>
@@ -8,20 +8,9 @@ export interface Options {
 
 export default defineComponent({
   name: cellRenderPluginName('label'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object,
-      default: () => ({
-        map: {},
-      }),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
-    const { value, row } = createRowFieldValues(props)
+    const { value, row } = organizeProps(props)
     const options = createOptions(props, {})
     const v = computed(() => {
       return options.value.map[value.value] ?? value.value

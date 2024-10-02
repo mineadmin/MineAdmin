@@ -1,8 +1,14 @@
 <script lang="tsx">
-import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { TableColumnScope } from '@mineadmin/table'
-import { cellRenderPluginName, createOptions, createRowFieldValues, exec, getConfig } from '../../utils/tools.ts'
+import {
+  cellRenderPluginName,
+  cellRenderPluginProps,
+  createOptions,
+  exec,
+  getConfig,
+  organizeProps,
+} from '../../utils/tools.ts'
 
 // 定义options类型,与ImageProps类型合并
 // value.value, row.value, props.scope
@@ -15,24 +21,16 @@ export interface Options {
     hidden?: (value: any, row: any, scope: TableColumnScope) => boolean
     confirm?: (value: any, row: any, scope: TableColumnScope) => string
     onClick?: (value: any, row: any, scope: TableColumnScope) => void
+    refresh?: boolean
   }[]
 
 }
 
 export default defineComponent({
   name: cellRenderPluginName('buttons'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object as PropType<Options>,
-      default: () => ({}),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
-    const { value, row } = createRowFieldValues(props)
+    const { value, row, proxy } = organizeProps(props)
     const options = createOptions(props, getConfig('buttons'))
     const loadingMap = ref({})
     const buttons = computed(() => {
@@ -56,6 +54,9 @@ export default defineComponent({
       loadingMap.value[button.name] = true
       exec(button.onClick, value.value, row.value, props.scope).then(() => {
         loadingMap.value[button.name] = false
+        if (button.refresh) {
+          proxy()?.refresh()
+        }
       })
     }
     const renderButton = (button, bindOnClick = true) => (
@@ -84,9 +85,6 @@ export default defineComponent({
     })
   },
   computed: {
-    defaultAvatar() {
-      return defaultAvatar
-    },
   },
 })
 </script>

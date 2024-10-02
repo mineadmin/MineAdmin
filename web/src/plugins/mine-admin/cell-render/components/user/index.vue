@@ -1,8 +1,13 @@
 <script lang="tsx">
-import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import { ElAvatar, ElLink, ElPopover } from 'element-plus'
-import { cellRenderPluginName, createOptions, createRowFieldValues, getConfig } from '../../utils/tools.ts'
+import {
+  cellRenderPluginName,
+  cellRenderPluginProps,
+  createOptions,
+  getConfig,
+  organizeProps,
+} from '../../utils/tools.ts'
 import UserInfo from './components/userInfo.vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 
@@ -13,18 +18,9 @@ export interface Options {
 
 export default defineComponent({
   name: cellRenderPluginName('user'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object as PropType<Options>,
-      default: () => ({}),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
-    const { value } = createRowFieldValues(props)
+    const { value } = organizeProps(props)
     const options = createOptions(props, getConfig('user'))
 
     const avatar = computed(() => {

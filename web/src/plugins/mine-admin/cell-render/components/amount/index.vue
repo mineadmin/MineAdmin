@@ -1,7 +1,12 @@
 <script lang="tsx">
-import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
-import { cellRenderPluginName, createOptions, createRowFieldValues, getConfig } from '../../utils/tools.ts'
+import {
+  cellRenderPluginName,
+  cellRenderPluginProps,
+  createOptions,
+  getConfig,
+  organizeProps,
+} from '../../utils/tools.ts'
 
 // 定义options类型,与ImageProps类型合并
 export interface Options {
@@ -10,18 +15,9 @@ export interface Options {
 
 export default defineComponent({
   name: cellRenderPluginName('amount'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object as PropType<Options>,
-      default: () => ({}),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
-    const { value } = createRowFieldValues(props)
+    const { value } = organizeProps(props)
     const options = createOptions(props, getConfig('image'))
 
     const bind = computed(() => {

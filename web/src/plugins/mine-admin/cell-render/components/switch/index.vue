@@ -1,9 +1,9 @@
 <script lang="tsx">
-import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { SwitchEmits, SwitchProps } from 'element-plus'
 import type { WithOnEventListeners } from '../../utils/tools.ts'
-import { cellRenderPluginName, createOptions, createRowFieldValues, exec, getConfig } from '../../utils/tools.ts'
+import { cellRenderPluginName, cellRenderPluginProps, createOptions, exec, getConfig, organizeProps } from '../../utils/tools.ts'
+
 import { useMessage } from '@/hooks/useMessage.ts'
 
 export interface Emits extends SwitchEmits {
@@ -16,19 +16,10 @@ export interface Options extends Omit<Partial<SwitchProps>, 'loading' | 'beforeC
 
 export default defineComponent({
   name: cellRenderPluginName('switch'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object as PropType<Options>,
-      default: () => ({}),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
     const Message = useMessage()
-    const { value, row, field } = createRowFieldValues(props)
+    const { value, row, field } = organizeProps(props)
     const options = createOptions(props, getConfig('switch'))
     const rowKey = props.scope.options?.rowKey ?? 'id'
     const loading = ref(false)

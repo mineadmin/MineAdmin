@@ -1,9 +1,8 @@
 <script lang="tsx">
-import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { ImageEmits, ImageProps } from 'element-plus'
 import type { WithOnEventListeners } from '../../utils/tools.ts'
-import { cellRenderPluginName, createOptions, createRowFieldValues, getConfig } from '../../utils/tools.ts'
+import { cellRenderPluginName, cellRenderPluginProps, createOptions, getConfig, organizeProps } from '../../utils/tools.ts'
 
 export interface Emits extends ImageEmits {
 }
@@ -20,18 +19,9 @@ export interface Options extends Omit<Partial<ImageProps>, 'previewSrcList'>, Wi
 
 export default defineComponent({
   name: cellRenderPluginName('image'),
-  props: {
-    scope: {
-      type: Object,
-      default: () => ({}),
-    },
-    options: {
-      type: Object as PropType<Options>,
-      default: () => ({}),
-    },
-  },
+  props: cellRenderPluginProps(),
   setup(props) {
-    const { value } = createRowFieldValues(props)
+    const { value } = organizeProps(props)
     const options = createOptions(props, getConfig('image'))
     const style = computed(() => {
       return {

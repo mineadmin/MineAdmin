@@ -1,19 +1,23 @@
-import type { ComputedRef, WritableComputedRef } from 'vue'
+import type { ComputedRef, isRef, PropType, Ref, WritableComputedRef } from 'vue'
 import { get } from 'lodash-es'
+
+import type { MaProTableExpose } from '@mineadmin/pro-table'
 
 interface Props {
   scope: Record<string, any>
   options: Record<string, any>
+  proxy: Ref<MaProTableExpose | undefined | object>
 }
 
 export type WithOnEventListeners<T> = {
   [K in keyof T as `on${Capitalize<string & K>}`]?: T[K];
 }
 
-export function createRowFieldValues(props: Props): {
+export function organizeProps(props: Props): {
   field: ComputedRef<any>
   row: WritableComputedRef<any>
   value: WritableComputedRef<any>
+  proxy: () => MaProTableExpose | null
 } {
   const row = computed({
     get() {
@@ -32,7 +36,14 @@ export function createRowFieldValues(props: Props): {
       row.value[field.value] = val
     },
   })
-  return { value, row, field }
+
+  // 一个proxy的代理对象
+  const proxy = () => {
+    // 判断 props.proxy 是否是一个Ref
+    return isRef(props.proxy) ? props.proxy.value : props.proxy
+  }
+
+  return { value, row, field, proxy }
 }
 export function createOptions(props: Props, defaultOptions: Record<any, any>) {
   return computed(() => {
@@ -47,6 +58,23 @@ export function getConfig(key?: string, defaultValue?: any) {
 
 export function cellRenderPluginName(name) {
   return `ma-${name}`
+}
+
+export function cellRenderPluginProps() {
+  return {
+    scope: {
+      type: Object as PropType<Record<string, any>>,
+      default: () => ({}),
+    },
+    options: {
+      type: Object as PropType<Record<string, any>>,
+      default: () => ({}),
+    },
+    proxy: {
+      type: Object as PropType<Ref<MaProTableExpose>>,
+      default: null,
+    },
+  }
 }
 
 // 执行函数,传入一个同步函数或者异步函数,以及他的参数 获得返回结果,异步函数抛出来的异常也要捕获成返回false,始终返回一个只会成功的promise

@@ -1,8 +1,8 @@
 <script lang="tsx">
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
-import { cellRenderPluginName, createOptions, createRowFieldValues, exec, getConfig } from '../../utils/tools.ts'
 import type { TableColumnScope } from '@mineadmin/table'
+import { cellRenderPluginName, createOptions, createRowFieldValues, exec, getConfig } from '../../utils/tools.ts'
 
 // 定义options类型,与ImageProps类型合并
 // value.value, row.value, props.scope

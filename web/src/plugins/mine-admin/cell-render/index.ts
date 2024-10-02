@@ -24,7 +24,7 @@ const pluginConfig: Plugin.PluginConfig = {
         const component: any = await components[key]()
         addPlugin({
           name: component.default.name,
-          render: (scope, options: any) => h(component.default, { scope, options }),
+          render: (scope, options: any, proxy) => h(component.default, { scope, options, proxy }),
         })
       })
     },

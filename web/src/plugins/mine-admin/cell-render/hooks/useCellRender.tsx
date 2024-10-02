@@ -1,8 +1,9 @@
 import cellRender from '../utils/cellRender.ts'
+import type { MaProTableExpose } from '@mineadmin/pro-table'
 
-export function useCellRender() {
+export function useCellRender(proxy?: MaProTableExpose) {
   return cellRender((component, options) => {
-    return scope => h(component, { scope, options })
+    return scope => h(component, { scope, options, proxy })
   })
 }
 

@@ -8,13 +8,21 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaFormItem } from '@mineadmin/form'
+import MaUploadImage from '@/components/ma-upload-image/index.vue'
 
-export default function getFormItems(formType: 'add' | 'edit'): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): MaFormItem[] {
   if (formType === 'add') {
     // todo...
   }
 
   return [
-
+    {
+      label: () => t('baseUser.avatar'),
+      prop: 'avatar',
+      render: () => MaUploadImage,
+      renderProps: {
+        tip: '上传用户头像',
+      },
+    },
   ]
 }

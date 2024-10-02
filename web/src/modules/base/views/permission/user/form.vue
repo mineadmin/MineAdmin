@@ -9,22 +9,31 @@
 -->
 <script setup lang="ts">
 import type { UserVo } from '~/base/api/user'
+import getFormItems from './data/getFormItems.tsx'
+import type { MaFormExpose } from '@mineadmin/form'
 
 defineOptions({ name: 'permission:user:form' })
 
+const t = useTrans()
 const isOpen = ref<boolean>(false)
+const userForm = ref<MaFormExpose>()
 const componentInfo = reactive({
   title: '',
+  type: 'add',
 })
-
-const t = useTrans()
 
 function open(data: UserVo | null = null) {
   componentInfo.title = data ? t('crud.edit') : t('crud.add')
+  componentInfo.type = data ? 'edit' : 'add'
   isOpen.value = true
+  nextTick(
+    () => userForm.value?.setItems(getFormItems(componentInfo.type as 'add' | 'edit', t)),
+  )
 }
 
-const userModel = ref<UserVo>({})
+const userModel = ref<UserVo>({
+  avatar: ['http://127.0.0.1:9501/uploads/2024-10-01/594a88c3-35df-4fc5-ac5b-030a2d4274d1.jpg'],
+})
 
 defineExpose({ open })
 </script>
@@ -36,7 +45,8 @@ defineExpose({ open })
     :close-on-click-modal="false"
     append-to-body
   >
-    <ma-form v-model="userModel" />
+    {{ userModel }}
+    <ma-form ref="userForm" v-model="userModel" />
   </ma-dialog>
 </template>
 

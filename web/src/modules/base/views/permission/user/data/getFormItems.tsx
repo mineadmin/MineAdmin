@@ -9,11 +9,14 @@
  */
 import type { MaFormItem } from '@mineadmin/form'
 import MaUploadImage from '@/components/ma-upload-image/index.vue'
-import MaUploadFile from '@/components/ma-upload-file/index.vue'
+import type { UserVo } from '~/base/api/user.ts'
 
-export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo): MaFormItem[] {
   if (formType === 'add') {
-    // todo...
+    model.password = '123456'
+  }
+  if (formType === 'edit') {
+    model.password = ''
   }
 
   return [
@@ -25,7 +28,39 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): 
     {
       label: () => t('baseUser.username'),
       prop: 'username',
-      render: () => MaUploadFile,
+      render: 'input',
+      cols: { span: 12 },
+      renderProps: {
+        placeholder: '请输入用户名',
+      },
+      itemProps: {
+        rules: [{ required: true, message: '用户名必填' }],
+      },
+    },
+    {
+      label: () => t('baseUser.nickname'),
+      prop: 'nickname',
+      render: 'input',
+      cols: { span: 12 },
+      renderProps: {
+        placeholder: '请输入昵称',
+      },
+      itemProps: {
+        rules: [{ required: true, message: '昵称必填' }],
+      },
+    },
+    {
+      label: () => t('baseUser.password'),
+      prop: 'password',
+      hide: formType === 'edit',
+      render: 'input',
+      cols: { span: 12 },
+      renderProps: {
+        placeholder: '请输入密码',
+      },
+      itemProps: {
+        rules: [{ required: true, message: '密码必填' }],
+      },
     },
   ]
 }

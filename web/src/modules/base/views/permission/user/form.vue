@@ -22,17 +22,24 @@ const componentInfo = reactive({
   type: 'add',
 })
 
+const userModel = ref<UserVo>({})
+
 function open(data: UserVo | null = null) {
   componentInfo.title = data ? t('crud.edit') : t('crud.add')
   componentInfo.type = data ? 'edit' : 'add'
   isOpen.value = true
+  if (data) {
+    userModel.value = data
+  }
   nextTick(
-    () => userForm.value?.setItems(getFormItems(componentInfo.type as 'add' | 'edit', t)),
+    () => {
+      userForm.value?.setItems(getFormItems(componentInfo.type as 'add' | 'edit', t, userModel.value))
+      userForm.value?.setOptions({
+        labelWidth: '80px',
+      })
+    },
   )
 }
-
-const userModel = ref<UserVo>({
-})
 
 defineExpose({ open })
 </script>

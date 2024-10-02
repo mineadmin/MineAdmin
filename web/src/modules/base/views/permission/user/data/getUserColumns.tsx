@@ -48,29 +48,35 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
+            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             text: () => '编辑',
-            linkProps: { underline: false },
             onClick: ({ row }) => {
               formRef.value.open(row)
             },
           },
           {
             name: 'del',
+            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'mdi:delete',
-            linkProps: { underline: false },
             text: '删除',
           },
           {
             name: 'setRole',
+            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:person-add-rounded',
-            linkProps: { underline: false },
             text: '赋予角色',
           },
           {
             name: 'initPassword',
+            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:passkey',
-            linkProps: { underline: false },
             text: '初始化密码',
+          },
+          {
+            name: 'noAllowSuperAdmin',
+            show: ({ row }) => row.id === 1 && row.username === 'SuperAdmin',
+            disabled: () => true,
+            text: '超管不可修改',
           },
         ],
       },

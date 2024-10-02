@@ -4,6 +4,9 @@ baseUser:
   nickname: Nickname
   phone: Phone
   email: Email
+  password: Password
+  role: Role
+  signed: Signed
   status: Status
   mainTitle: User Manager
   subTitle: Provide users with the functions of adding, editing, and deleting

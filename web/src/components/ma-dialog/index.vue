@@ -71,7 +71,7 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link class="relative text-gray-4 transition-all -top-3px" :underline="false">
+        <el-link class="relative text-gray-4 transition-all -top-5px" :underline="false">
           <ma-svg-icon
             :name="fullscreen ? fsIcon.exit : fsIcon.todo"
             :size="15"

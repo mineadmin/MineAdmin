@@ -15,7 +15,7 @@ const { model = {} } = defineProps<{ model: Record<string, any> }>()
 
 const data = ref<any[]>([])
 
-function addItme() {
+function addItem() {
   data.value.push({ title: '', code: '', i18n: '' })
 }
 
@@ -30,7 +30,7 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
           size="small"
           circle
           type="primary"
-          onClick={addItme}
+          onClick={addItem}
         >
           <ma-svg-icon name="ic:round-plus" size={20} />
         </el-button>
@@ -87,7 +87,7 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
       <template #empty>
         <div>
           没有按钮菜单？
-          <el-button type="primary" plain @click="addItme">
+          <el-button type="primary" plain @click="addItem">
             新增一个
           </el-button>
         </div>

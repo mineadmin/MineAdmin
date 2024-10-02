@@ -30,8 +30,6 @@ const props = defineProps<{
   size?: number
 }>()
 
-const domain = ref(import.meta.env.VITE_UPLOAD_LOCAL_URL)
-
 const t = useLocalTrans()
 const uploadBtnRef = ref<HTMLElement>()
 const isOpenResource = ref<boolean>(false)
@@ -78,20 +76,34 @@ function upload(formData: FormData) {
 }
 
 function handleUpload(options: UploadRequestOptions): any {
-  const formData = new FormData()
-  formData.append('file', options.file)
-  upload(formData).then((res: Record<string, any>) => {
-    if (res.code === 200) {
-      const { data } = res
-      const url = domain.value + data.url
-      console.log(url)
-    }
+  return new Promise((resolve, reject) => {
+    const formData = new FormData()
+    formData.append('file', options.file)
+    upload(formData).then((res: Record<string, any>) => {
+      if (res.code === 200) {
+        resolve(res)
+      }
+      else {
+        reject(res)
+      }
+    }).catch((err) => {
+      reject(err)
+    })
   })
-  return true
 }
 
-function handleSuccess() {
+function handleSuccess(res: any) {
+  // 删除自身
+  const index = fileList.value.findIndex((item: any) => item.response?.data === res.data)
+  fileList.value.splice(index, 1)
+  fileList.value.push({
+    name: res.data.origin_name,
+    url: res.data.url,
+  })
+}
 
+function handlePreview(res: any) {
+  console.log(res)
 }
 </script>
 
@@ -100,6 +112,7 @@ function handleSuccess() {
     v-model:file-list="fileList"
     :http-request="handleUpload"
     :on-success="handleSuccess"
+    :on-preview="handlePreview"
     v-bind="$attrs"
   >
     <slot name="default">
@@ -107,7 +120,7 @@ function handleSuccess() {
     </slot>
     <template #file="{ file, index }">
       <div class="ma-upload-container" :style="size">
-        <el-image :src="file?.url" class="rounded-md" />
+        <el-image :src="file?.url" class="rounded-md" :style="size" fit="cover" />
       </div>
       <component
         :is="btnRender()"

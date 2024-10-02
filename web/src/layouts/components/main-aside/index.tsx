@@ -104,7 +104,7 @@ export default defineComponent ({
                 </a>
               ))}
             </div>
-            <div class="flex items-center gap-x-3">
+            <div class="flex items-center justify-center gap-x-3">
               { isMixedLayout() && (
                 <m-tooltip text={useTrans(getUserBarState() ? 'mineAdmin.userBar.hideState' : 'mineAdmin.userBar.showState')}>
                   <div

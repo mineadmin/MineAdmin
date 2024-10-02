@@ -52,12 +52,17 @@ export function cellRenderPluginName(name) {
 // 执行函数,传入一个同步函数或者异步函数,以及他的参数 获得返回结果,异步函数抛出来的异常也要捕获成返回false,始终返回一个只会成功的promise
 // eslint-disable-next-line ts/no-unsafe-function-type
 export async function exec(fn: Function, ...args: any[]) {
-  try {
-    const result = await fn(...args)
-    return Promise.resolve(result)
+  if (typeof fn === 'function') {
+    try {
+      const result = await fn(...args)
+      return Promise.resolve(result)
+    }
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    catch (e) {
+      return Promise.resolve(false)
+    }
   }
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  catch (e) {
+  else {
     return Promise.resolve(false)
   }
 }

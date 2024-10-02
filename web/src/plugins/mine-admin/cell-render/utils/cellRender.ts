@@ -1,9 +1,16 @@
-import type { ImageOptions, LabelOptions, SwitchOptions,UserOptions } from '../type'
+import type {
+  ButtonsOptions,
+  ImageOptions,
+  LabelOptions,
+  SwitchOptions,
+  UserOptions,
+} from '../type'
 import Label from '../components/label/index.vue'
 import Image from '../components/image/index.vue'
 import Amount from '../components/amount/index.vue'
 import Switch from '../components/switch/index.vue'
 import User from '../components/user/index.vue'
+import Buttons from '../components/buttons/index.vue'
 
 export default function cellRender(render: (component, options) => any) {
   return {
@@ -24,8 +31,13 @@ export default function cellRender(render: (component, options) => any) {
     amount(options?: any) {
       return render(Amount, options)
     },
-    user(options?:  UserOptions){
+    user(options?: UserOptions) {
       return render(User, options)
-    }
+    },
+    buttons(buttons, options?: Omit<ButtonsOptions, 'buttons'>) {
+      options = options || {}
+      const _options = { buttons, ...options }
+      return render(Buttons, _options)
+    },
   }
 }

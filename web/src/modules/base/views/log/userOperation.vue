@@ -6,6 +6,8 @@ import getColumns from './userOperationLogData/UserOperationLogColumn.tsx'
 import type { RequestLogInfoVo } from '~/base/api/log.ts'
 import { UserOperatorLog } from '~/base/api/log.ts'
 
+defineOptions({ name: 'log:userOperation' })
+
 const t = useTrans()
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()

@@ -15,6 +15,8 @@ import type { Ref } from 'vue'
 import getColumns from './userLoginLogData/UserLoginLogColumn.tsx'
 import getSearchItems from './userLoginLogData/UserLoginLogSearch.tsx'
 
+defineOptions({ name: 'log:userLogin' })
+
 const t = useTrans()
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()

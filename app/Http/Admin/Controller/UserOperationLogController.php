@@ -44,7 +44,7 @@ final class UserOperationLogController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['系统管理'],
     )]
-    #[Permission(code: 'log:userLogin:list')]
+    #[Permission(code: 'log:userOperation:list')]
     #[PageResponse(instance: UserOperationLogSchema::class)]
     public function page(RequestInterface $request): Result
     {
@@ -62,7 +62,7 @@ final class UserOperationLogController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['系统管理'],
     )]
-    #[Permission(code: 'log:userLogin:delete')]
+    #[Permission(code: 'log:userOperation:delete')]
     #[ResultResponse(instance: Result::class)]
     public function delete(RequestInterface $request): Result
     {

@@ -1,0 +1,15 @@
+.mine-footer {
+  @apply text-[13px] flex items-center justify-center text-gray-6 dark:text-gray-3
+    gap-x-1
+  ;
+
+  height: var(--mine-g-footer-height);
+
+  a {
+    @apply text-gray-6 dark:text-gray-3 decoration-none;
+  }
+
+  a:hover {
+    @apply text-gray-8 dark:text-gray-2;
+  }
+}

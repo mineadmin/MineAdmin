@@ -1,0 +1,11 @@
+.mine-main-logo {
+  @apply h-[var(--mine-g-header-height)] w-inherit flex-center gap-2 text-inherit no-underline outline-none;
+}
+
+.mine-logo-img {
+  @apply h-[35px] w-[35px];
+}
+
+.mine-logo-title {
+  @apply block truncate font-bold text-[var(--mine-g-header-color)] text-[16px] font-bold;
+}

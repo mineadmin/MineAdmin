@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Events\User\LoginSuccessEvent;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
-use App\Kernel\Auth\JwtFactory;
-use App\Kernel\Auth\JwtInterface;
+use App\Model\Enums\User\Type;
 use App\Repository\Permission\UserRepository;
-use Hyperf\Collection\Arr;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\UnencryptedToken;
+use Mine\Kernel\Jwt\Factory;
+use Mine\Kernel\Jwt\JwtInterface;
+use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class PassportService extends IService
@@ -32,38 +33,40 @@ final class PassportService extends IService
 
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly JwtFactory $jwtFactory,
+        protected readonly Factory $jwtFactory,
         protected readonly EventDispatcherInterface $dispatcher
     ) {}
 
     /**
      * @return array<string,int|string>
      */
-    public function login(string $username, string $password): array
+    public function login(string $username, string $password, Type $userType = Type::SYSTEM, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
     {
-        $user = $this->repository->checkUserByUsername($username);
-        if (! $this->repository->checkPass($password, $user->password)) {
+        $user = $this->repository->findByUnameType($username, $userType);
+        if (! $user->verifyPassword($password)) {
+            $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser, false));
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
-        $this->dispatcher->dispatch(new LoginSuccessEvent($user));
+        $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
         $jwt = $this->getJwt();
-        $token = $jwt->builder($user->only(['id']));
         return [
-            'token' => $token->toString(),
+            'access_token' => $jwt->builderAccessToken((string) $user->id)->toString(),
+            'refresh_token' => $jwt->builderRefreshToken((string) $user->id)->toString(),
             'expire_at' => (int) $jwt->getConfig('ttl', 0),
         ];
     }
 
     public function checkJwt(UnencryptedToken $token): bool
     {
-        $jwt = $this->getJwt();
-        if ($jwt->hasBlackList($token)) {
-            throw new JwtInBlackException();
-        }
-        return true;
+        return value(static function (JwtInterface $jwt) use ($token) {
+            if ($jwt->hasBlackList($token)) {
+                throw new JwtInBlackException();
+            }
+            return true;
+        }, $this->getJwt());
     }
 
-    public function logout(UnencryptedToken $token)
+    public function logout(UnencryptedToken $token): void
     {
         $this->getJwt()->addBlackList($token);
     }
@@ -78,12 +81,13 @@ final class PassportService extends IService
      */
     public function refreshToken(UnencryptedToken $token): array
     {
-        $jwt = $this->getJwt();
-        $jwt->addBlackList($token);
-        $token = $jwt->builder(Arr::only($token->claims()->all(), 'id'));
-        return [
-            'token' => $token->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
-        ];
+        return value(static function (JwtInterface $jwt) use ($token) {
+            $jwt->addBlackList($token);
+            return [
+                'access_token' => $jwt->builderAccessToken($token->claims()->get(RegisteredClaims::ID))->toString(),
+                'refresh_token' => $jwt->builderRefreshToken($token->claims()->get(RegisteredClaims::ID))->toString(),
+                'expire_at' => (int) $jwt->getConfig('ttl', 0),
+            ];
+        }, $this->getJwt());
     }
 }

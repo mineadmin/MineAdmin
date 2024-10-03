@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "useDefineForClassFields": true,
+    "baseUrl": "./",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["src/*"],
+      "#/*": ["types/*"],
+      "$/*": ["src/plugins/*"],
+      "~/*": ["src/modules/*"]
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "vite/client",
+      "@intlify/unplugin-vue-i18n/messages",
+      "element-plus/global"
+    ],
+    "allowImportingTsExtensions": true,
+    "allowJs": false,
+    "strict": true,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "include": [
+    "mock/*.ts",
+    "types/*.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.mjs"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

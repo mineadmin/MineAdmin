@@ -12,58 +12,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\Permission\MenuRepository;
-use App\Repository\Permission\RoleRepository;
-use App\Service\Permission\UserService;
 use Casbin\Enforcer;
-use Hyperf\Collection\Collection;
 
 final class PermissionService
 {
     public function __construct(
-        protected readonly UserService $userService,
-        private readonly Enforcer $enforcer,
-        private readonly MenuRepository $menuRepository,
-        private readonly RoleRepository $roleRepository,
+        private readonly Enforcer $enforcer
     ) {}
-
-    public function getMenuTreeByUserId(int $userId): Collection
-    {
-        // 用户本身的菜单 codes
-        $userMenuCodes = $this->getEnforce()->getImplicitPermissionsForUser(
-            $this->userService->getFieldByUserId($userId, 'username')
-        );
-        $all = [];
-        array_walk_recursive($userMenuCodes, function ($item) use (&$all) {
-            $all[] = $item;
-        });
-        $all = array_unique($all);
-        if (! $all) {
-            return Collection::make();
-        }
-        return $this->menuRepository->getMenuTreeByCode(
-            $all
-        );
-    }
-
-    public function getRolesByUserId(int $userId): Collection
-    {
-        $roleCodes = $this->getEnforce()->getImplicitRolesForUser(
-            $this->userService->getFieldByUserId($userId, 'username')
-        );
-        $all = [];
-        array_walk_recursive($roleCodes, function ($item) use (&$all) {
-            $all[] = $item;
-        });
-        $all = array_unique($all);
-
-        if (! $all) {
-            return Collection::make();
-        }
-        return $this->roleRepository->getQuery([
-            'code' => $all,
-        ])->get();
-    }
 
     public function getEnforce(): Enforcer
     {

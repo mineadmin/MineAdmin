@@ -1,0 +1,148 @@
+loginForm:
+  loginButton: Login
+  passwordPlaceholder: please input password
+  codeLabel: Captcha
+  usernameLabel: Account
+  codePlaceholder: please input captcha
+  usernamePlaceholder: please input account
+  passwordLabel: Password
+mineAdmin:
+  settings:
+    copyRights:
+      date: Date
+      website: URL
+      enable: Enable copyright
+      putOnRecord: Put on record
+      company: Corporation
+    primaryColorSetting: Primary color settings
+    toolBarSettings: Toolbar settings
+    tabBarSettings: Tab bar settings
+    save: Save settings
+    colorMode: Color mode
+    layoutSetting: Layout settings
+    title: Backend settings
+    layouts:
+      classic: Classic layout
+      columns: Column layout
+      mixed: Mixed layouts
+    watermarkText: Watermark text
+    colorModes:
+      system: System
+      light: Light
+      dark: Dark
+    mainAsideSetting: Main sidebar setting
+    enableWatermark: Enable watermarks
+    otherSettings: Other settings
+    mainAsides:
+      autoToFirstMenu: Auto to first menu
+      mainMenuTitle: Main menu title
+    copyRightSettings: Copyright settings
+    enableBreadcrumb: Enable breadcrumbs
+    tabbars:
+      mode: Tab bar style
+      modeCard: Card
+      enable: Enable the tab bar
+      modeDefault: Default
+  shortcuts:
+    switchN: Switch to N
+    switchLast: Toggle the last
+    searchOpen: Breathe out
+    searchBar: Search bar
+    tabs: Tabs
+    close: Close
+    exitMax: Exit max
+    toMax: Enter max
+  runtime:
+    devDependencies: Development dependencies
+    pluginList: Plugins list
+    pluginCount: Plugins count
+    systemVersion: System version
+    coreInfo: Core information
+    dependencies: Production dependencies
+    lastBuildTime: Last build time
+  sys:
+    notComponent: Page not found, unable to redirect
+    unknown: unknown
+  uc:
+    shortBackControl: Back
+    backControl: Back to control panel
+    setAllRead: Set all to read
+    title: User Center
+  notification:
+    todo: Todo
+    allRead: All read
+    gotoTheList: Go to the list
+    message: Message
+    notice: Notice
+  search:
+    placeholder: Search page, supporting queries for name, identifier, and URL
+    noNameMenu: Unnamed menu
+    notResult: Not search result
+  userBar:
+    showState: Show User bar
+    hideState: Hidden User bar
+    systemInfo: System information
+    logout: Logout
+    shortcuts: Introduction to shortcuts
+    clearCache: Clear cache
+    uc: User center
+  common:
+    saveSuccess: The save was successful
+    clearCache: The cache has been emptied
+  plugin:
+    disabled: Disabled
+    enabled: Enable
+  tab:
+    cannotUnfixed: This label cannot be unfixed
+    favorites: Tab page favorites
+    addFavorite: Add to favorites
+    fullscreen: Fullscreen tab
+    closeLeft: Close left tab
+    closeOther: Close other tab
+    closeRight: Close right tab
+    refresh: Refresh tab
+    fixed: Fixed tab
+    has: This tab has already been bookmarked
+    noFavorite: haven't collected any tab yet
+    close: Close tab
+  slogan: An out of the box backend management system
+  toolbars:
+    notification: Notification
+    settings: Settings
+    search: Search
+    fullscreen: Full screen
+    sorts: Toolbar sorting
+    switchMode: Toggle the color mode
+    translate: International
+  mark: out of the box
+menu:
+  uc:index: Home
+  dashboard:analysis: Analysis Page
+  pageNotFound: Page not found
+  appstore: App store
+  dashboard:workbench: Workbench
+  dashboard:report: Statistics reports
+  uc:logs: Logs
+  login: Login
+  uc:message: Message
+  welcome: Welcome Page
+  dashboard: Dashboard
+crud:
+  cancel: Cancel
+  ok: OK
+  add: Add
+  edit: Edit
+  delete: Delete
+  search: Search
+  reset: Reset
+  submit: Submit
+  searchFold: Fold
+  searchUnFold: Unfold
+  selection: Selection
+  operation: Operation
+dictionary:
+  statusEnabled: Success
+  statusDisabled: Failure
+  system:
+    statusEnabled: Enabled
+    statusDisabled: Disabled

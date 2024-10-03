@@ -3,7 +3,7 @@ services:
   hyperf:
     image: hyperf/hyperf:8.1-alpine-v3.18-swoole
     environment:
-      - "APP_PROJECT=hyperf"
+      - "APP_PROJECT=MineAdmin"
       - "APP_ENV=test"
     ports:
       - 9501:9501

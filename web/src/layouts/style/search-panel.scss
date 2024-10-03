@@ -1,0 +1,49 @@
+.mine-search-panel-mask {
+  @apply z-1999 fixed top-0 left-0 w-full h-full bg-black/15 backdrop-blur-sm;
+}
+
+.mine-search-panel-container {
+  @apply fixed w-[400px] z-2999 bg-white h-[500px] rounded-lg shadow-lg overflow-hidden
+    dark-shadow-dark-950
+    bg-white dark-bg-dark-5
+  ;
+
+  top: calc(100% - 50% - 250px);
+  left: calc(100% - 50% - 200px);
+  transition: top 0.3s;
+
+  .mine-search-input-container {
+    @apply b-b-1 b-b-gray-2 b-b-solid dark-b-b-dark-2
+      flex items-center px-2 text-dark-6 dark-text-dark-3
+    ;
+
+    .mine-search-input {
+      @apply outline-none b-none w-full relative h-10 px-2 text-[14px]
+        bg-white dark-bg-dark-5 dark-placeholder-text-gray-3
+      ;
+    }
+  }
+
+  .mine-search-list-container {
+    @apply overflow-y-auto;
+
+    height: calc(100% - 41px);
+  }
+
+  .mine-search-item-list {
+    @apply flex items-center gap-x-5 py-3 pl-4 text-gray-7 text-sm
+      cursor-pointer hover-bg-gray-1 dark-hover-bg-dark-3 dark-text-gray-3
+    ;
+  }
+
+  .mine-search-text {
+    @apply w-11/12 flex items-center justify-between truncate pr-2;
+
+    .mine-search-route-path {
+      @apply rounded px-1.5 text-[12px] truncate
+        text-gray-5 bg-gray-1
+        dark-text-gray-3 dark-bg-dark-3
+      ;
+    }
+  }
+}

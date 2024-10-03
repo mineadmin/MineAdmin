@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
+use App\Model\Enums\User\Status;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
 #[Schema]
-class UserSchema implements \JsonSerializable
+final class UserSchema implements \JsonSerializable
 {
     #[Property(property: 'id', title: '用户ID，主键', type: 'int')]
     public ?int $id;
@@ -26,7 +28,7 @@ class UserSchema implements \JsonSerializable
     public ?string $username;
 
     #[Property(property: 'user_type', title: '用户类型：(100系统用户)', type: 'string')]
-    public ?int $userType;
+    public ?Type $userType;
 
     #[Property(property: 'nickname', title: '用户昵称', type: 'string')]
     public ?string $nickname;
@@ -47,7 +49,7 @@ class UserSchema implements \JsonSerializable
     public ?string $dashboard;
 
     #[Property(property: 'status', title: '状态 (1正常 2停用)', type: 'int')]
-    public ?int $status;
+    public ?Status $status;
 
     #[Property(property: 'login_ip', title: '最后登陆IP', type: 'string')]
     public ?string $loginIp;
@@ -55,7 +57,7 @@ class UserSchema implements \JsonSerializable
     #[Property(property: 'login_time', title: '最后登陆时间', type: 'string')]
     public mixed $loginTime;
 
-    #[Property(property: 'backend_setting', title: '后台设置数据', type: 'string')]
+    #[Property(property: 'backend_setting', title: '后台设置数据', type: 'array')]
     public ?array $backendSetting;
 
     #[Property(property: 'created_by', title: '创建者', type: 'int')]

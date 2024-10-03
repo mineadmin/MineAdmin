@@ -22,7 +22,7 @@ use HyperfTests\HttpTestCase;
  * @internal
  * @coversNothing
  */
-class PassportControllerTest extends HttpTestCase
+final class PassportControllerTest extends HttpTestCase
 {
     public function testLoginUsernameNotFound()
     {
@@ -31,21 +31,21 @@ class PassportControllerTest extends HttpTestCase
             'username' => 'admin',
             'password' => 'admin',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
     }
 
     public function testLoginUserPasswordFail()
     {
         $user = User::create([
             'username' => Str::random(10),
-            'password' => password_hash('123456', PASSWORD_DEFAULT),
+            'password' => password_hash('123456', \PASSWORD_DEFAULT),
         ]);
 
         $result = $this->post('/admin/passport/login', [
             'username' => $user->username,
             'password' => 'admin',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
         $user->forceDelete();
     }
 
@@ -60,17 +60,17 @@ class PassportControllerTest extends HttpTestCase
             'username' => $user->username,
             'password' => '123456',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('token', $result['data']);
-        $this->assertArrayHasKey('expire_at', $result['data']);
-        $this->assertIsInt($result['data']['expire_at']);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertArrayHasKey('access_token', $result['data']);
+        self::assertArrayHasKey('expire_at', $result['data']);
+        self::assertIsInt($result['data']['expire_at']);
         $user->forceDelete();
     }
 
     public function testLogoutFail()
     {
         $result = $this->post('/admin/passport/logout');
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
     }
 
     public function testLogoutSuccess()
@@ -83,19 +83,19 @@ class PassportControllerTest extends HttpTestCase
             'username' => $user->username,
             'password' => '123456',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('token', $result['data']);
-        $this->assertArrayHasKey('expire_at', $result['data']);
-        $this->assertIsInt($result['data']['expire_at']);
-        $token = $result['data']['token'];
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertArrayHasKey('access_token', $result['data']);
+        self::assertArrayHasKey('expire_at', $result['data']);
+        self::assertIsInt($result['data']['expire_at']);
+        $token = $result['data']['access_token'];
         $result = $this->post('/admin/passport/logout', [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $result = $this->post('/admin/passport/logout', [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $user->forceDelete();
     }
 
@@ -109,23 +109,23 @@ class PassportControllerTest extends HttpTestCase
             'username' => $user->username,
             'password' => '123456',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('token', $result['data']);
-        $this->assertArrayHasKey('expire_at', $result['data']);
-        $this->assertIsInt($result['data']['expire_at']);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertArrayHasKey('access_token', $result['data']);
+        self::assertArrayHasKey('expire_at', $result['data']);
+        self::assertIsInt($result['data']['expire_at']);
 
         $info = $this->get('/admin/passport/getInfo');
 
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
 
         $info = $this->get('/admin/passport/getInfo', [], [
-            'Authorization' => 'Bearer ' . $result['data']['token'],
+            'Authorization' => 'Bearer ' . $result['data']['access_token'],
         ]);
 
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
         $attributes = $user->toArray();
-        foreach (Arr::except($attributes, ['password']) as $key => $value) {
-            $this->assertSame($value, Arr::get($info, 'data.' . $key));
+        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']) as $key => $value) {
+            self::assertSame($value, Arr::get($info, 'data.' . $key));
         }
         $user->forceDelete();
     }
@@ -140,45 +140,38 @@ class PassportControllerTest extends HttpTestCase
             'username' => $user->username,
             'password' => '123456',
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('token', $result['data']);
-        $this->assertArrayHasKey('expire_at', $result['data']);
-        $this->assertIsInt($result['data']['expire_at']);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertArrayHasKey('access_token', $result['data']);
+        self::assertArrayHasKey('expire_at', $result['data']);
+        self::assertIsInt($result['data']['expire_at']);
 
         $info = $this->get('/admin/passport/getInfo');
 
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
-        $orlToken = $result['data']['token'];
+        self::assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
+        $orlToken = $result['data']['access_token'];
         $info = $this->get('/admin/passport/getInfo', [], [
             'Authorization' => 'Bearer ' . $orlToken,
         ]);
 
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
         $attributes = $user->toArray();
-        foreach (Arr::except($attributes, ['password']) as $key => $value) {
-            $this->assertSame($value, Arr::get($info, 'data.' . $key));
+        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']) as $key => $value) {
+            self::assertSame($value, Arr::get($info, 'data.' . $key));
         }
 
         $refresh = $this->post('/admin/passport/refresh', [], [
-            'Authorization' => 'Bearer ' . $result['data']['token'],
+            'Authorization' => 'Bearer ' . $result['data']['access_token'],
         ]);
 
-        $this->assertSame(Arr::get($refresh, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('token', $refresh['data']);
-        $this->assertArrayHasKey('expire_at', $refresh['data']);
+        self::assertSame(Arr::get($refresh, 'code'), ResultCode::SUCCESS->value);
+        self::assertArrayHasKey('access_token', $refresh['data']);
+        self::assertArrayHasKey('expire_at', $refresh['data']);
 
         $info = $this->get('/admin/passport/getInfo', [], [
             'Authorization' => 'Bearer ' . $orlToken,
         ]);
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
 
         $user->forceDelete();
-    }
-
-    public function testGetBingBackgroundImage(): void
-    {
-        $info = $this->get('/admin/passport/getBingBackgroundImage');
-        $this->assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
-        $this->assertArrayHasKey('url', $info['data']);
     }
 }

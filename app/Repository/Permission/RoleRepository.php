@@ -25,13 +25,13 @@ final class RoleRepository extends IRepository
 
     public function handleSearch(Builder $query, array $params): Builder
     {
-        return $query->when(Arr::get($params, 'name'), function (Builder $query, $name) {
+        return $query->when(Arr::get($params, 'name'), static function (Builder $query, $name) {
             $query->where('name', 'like', '%' . $name . '%');
-        })->when(Arr::get($params, 'code'), function (Builder $query, $code) {
-            $query->whereIn('code', is_array($code) ? $code : [$code]);
-        })->when(Arr::has($params, 'status'), function (Builder $query) use ($params) {
+        })->when(Arr::get($params, 'code'), static function (Builder $query, $code) {
+            $query->whereIn('code', \is_array($code) ? $code : [$code]);
+        })->when(Arr::has($params, 'status'), static function (Builder $query) use ($params) {
             $query->where('status', $params['status']);
-        })->when(Arr::get($params, 'created_at'), function (Builder $query, $createdAt) {
+        })->when(Arr::get($params, 'created_at'), static function (Builder $query, $createdAt) {
             $query->whereBetween('created_at', $createdAt);
         });
     }

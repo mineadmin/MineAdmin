@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin;
 
 use App\Http\Common\ResultCode;
+use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\DbConnection\Model\Model;
 
@@ -58,12 +59,22 @@ class CrudControllerCase extends ControllerCase
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity = $model::query()->where($fillable)->first();
+        if ($required) {
+            $entity = $model::query()->where(Arr::only($fillable, $required))->first();
+        }
         if (empty($entity)) {
             $this->fail('Create failed');
         }
         foreach (array_keys($fillable) as $key) {
-            if (is_string($entity->{$key})) {
+            if (\is_string($entity->{$key})) {
                 $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
+            } elseif (\is_object($entity->{$key})) {
+                $v = $entity->{$key};
+                if ($v instanceof Model) {
+                    foreach ($v->getFillable() as $vKey) {
+                        $this->assertSame($v->{$vKey}, $fillable[$key][$vKey]);
+                    }
+                }
             } else {
                 $this->assertSame($entity->{$key}, $fillable[$key]);
             }
@@ -91,8 +102,15 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
         foreach (array_keys($fillable) as $key) {
-            if (is_string($entity->{$key})) {
+            if (\is_string($entity->{$key})) {
                 $this->assertSame(rtrim((string) $entity->{$key}), $fillable[$key]);
+            } elseif (\is_object($entity->{$key})) {
+                $v = $entity->{$key};
+                if ($v instanceof Model) {
+                    foreach ($v->getFillable() as $vKey) {
+                        $this->assertSame($v->{$vKey}, $fillable[$key][$vKey]);
+                    }
+                }
             } else {
                 $this->assertSame($entity->{$key}, $fillable[$key]);
             }
@@ -102,7 +120,7 @@ class CrudControllerCase extends ControllerCase
 
     public function caseDelete(string $uri, Model $entity, string $roleCode, bool $isForceDelete = false): void
     {
-        $requestPath = $uri . $entity->getKey();
+        $requestPath = $uri;
         $token = $this->token;
         $result = $this->delete($requestPath);
         $this->assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
@@ -112,10 +130,14 @@ class CrudControllerCase extends ControllerCase
         $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
         $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
         $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete($requestPath, [
+            $entity->getKey(),
+        ], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
-        $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->delete($requestPath, [
+            $entity->getKey(),
+        ], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         if (! $isForceDelete) {
             $entity->refresh();

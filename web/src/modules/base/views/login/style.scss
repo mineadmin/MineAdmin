@@ -1,0 +1,41 @@
+.slogan {
+  @apply inline-block pb-[2px] mt-3 animate-bounce;
+}
+
+.mine-bg-svg {
+  @apply lg:w-full w-[800px] lg:h-full h-[900px] absolute rotate-y-[180deg] z-5;
+}
+
+.gradient-rainbow {
+  @apply rounded-r-[8px] w-full h-full z-1 relative bg-blue-950;
+}
+
+.login-logo {
+  @apply h-[70px] w-[70px] lg:bg-none bg-white lg:rounded-none rounded-full
+    lg:p-0 p-1 lg:mb-0 mb-3 transition-all
+  ;
+}
+
+.pure-tag {
+  @apply lg:-top-1 top-1 lg:left-[95px] left-[103px] absolute text-base transition-all
+    lg:bg-gradient-to-r lg:from-blue-500 lg:to-violet-500 lg:bg-clip-text lg:text-transparent
+    text-white animate-swing animate-duration-[1.2s] animate-count-infinite;
+}
+
+.login-form-container {
+  @apply top-0 mx-auto h-[80%] lg:h-[50%] flex flex-col items-start lg:bg-none
+    px-[10%] pb-0 absolute lg:static top-[130px] lg:top-0
+  ;
+}
+
+.mine-login-form {
+  @apply flex flex-col gap-y-5 relative z-20 transition-all mt-5 w-full;
+
+  & .mine-login-form-item {
+    @apply flex flex-col gap-y-1.5;
+
+    & .mine-login-form-item-title {
+      @apply lg:text-gray-8 text-gray-1 text-sm;
+    }
+  }
+}

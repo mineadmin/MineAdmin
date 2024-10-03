@@ -9,12 +9,11 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-
-use App\Kernel\Casbin\Factory;
 use Casbin\Enforcer;
-use Psr\Container\ContainerInterface;
+use Mine\Kernel\Casbin\Factory;
+use Mine\Kernel\Upload\UploadInterface;
 
 return [
-//    Enforcer::class => fn(ContainerInterface $container) => $container->get(Factory::class)
-    Enforcer::class => Factory::class
+    Enforcer::class => Factory::class,
+    UploadInterface::class => Mine\Kernel\Upload\Factory::class,
 ];

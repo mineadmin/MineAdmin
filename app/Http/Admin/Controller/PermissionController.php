@@ -12,28 +12,35 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\CurrentUser;
 use App\Http\Common\Controller\AbstractController;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Swagger\Attributes\PageResponse;
+use App\Model\Enums\User\Status;
+use App\Repository\Permission\MenuRepository;
+use App\Repository\Permission\RoleRepository;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
+use Mine\Kernel\Core\CurrentUser;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(AuthMiddleware::class)]
+#[Middleware(AccessTokenMiddleware::class)]
 final class PermissionController extends AbstractController
 {
     public function __construct(
-        private readonly CurrentUser $user
+        private readonly CurrentUser $user,
+        private readonly MenuRepository $repository,
+        private readonly RoleRepository $roleRepository
     ) {}
 
     #[Get(
         path: '/admin/permission/menus',
+        operationId: 'PermissionMenus',
         summary: '获取当前用户菜单',
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['权限']
     )]
     #[PageResponse(
@@ -43,13 +50,19 @@ final class PermissionController extends AbstractController
     public function menus(): Result
     {
         return $this->success(
-            data: $this->user->menus()
+            data: $this->user->isSuperAdmin() ? $this->repository->list([
+                'status' => Status::ENABLE,
+                'children' => true,
+                'parent_id' => 0,
+            ]) : $this->user->menus()
         );
     }
 
     #[Get(
         path: '/admin/permission/roles',
+        operationId: 'PermissionRoles',
         summary: '获取当前用户角色',
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['权限']
     )]
     #[PageResponse(
@@ -59,7 +72,9 @@ final class PermissionController extends AbstractController
     public function roles(): Result
     {
         return $this->success(
-            data: $this->user->roles()
+            data: $this->user->isSuperAdmin()
+                ? $this->roleRepository->list(['status' => Status::ENABLE])
+                : $this->user->roles()
         );
     }
 }

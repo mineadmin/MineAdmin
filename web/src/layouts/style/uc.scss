@@ -1,0 +1,89 @@
+.mine-uc-container {
+  @apply w-full h-full overflow-hidden flex;
+
+  .mine-uc-aside {
+    @apply b-r-1 b-r-solid w-[240px]
+      border-r-[#e8e9ec]
+      dark-border-r-dark-6
+    bg-white
+    dark-bg-dark-9
+    shadow
+    ;
+
+    & .mine-uc-menu {
+      @apply overflow-y-auto px-2 mt-2.5;
+
+      height: calc(100% - 135px);
+
+      li {
+        a {
+          @apply
+            px-4 py-2.5 decoration-none flex items-center text-[15px] gap-x-3 rounded-md
+            text-gray-8 dark-text-gray-2 transform transition-all mt-0.5;
+        }
+
+        a:hover {
+          @apply bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+            dark-bg-[rgb(var(--ui-primary)/30%)] dark-text-gray-2;
+        }
+
+        a.active {
+          @apply bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+            dark-bg-[rgb(var(--ui-primary)/70%)] dark-text-gray-2;
+        }
+      }
+    }
+
+    & .mine-uc-userinfo {
+      @apply h-[70px] flex items-center px-3 justify-between;
+
+      .mine-uc-img-avatar {
+        @apply h-12 w-12 rounded-full object-cover;
+      }
+
+      .mine-uc-text-avatar {
+        @apply h-12 w-12 rounded-full text-2xl bg-gray-2 dark:bg-dark-3
+          flex items-center justify-center
+        ;
+      }
+
+      .mine-uc-username {
+        @apply text-sm flex flex-col gap-y-0.5;
+      }
+    }
+
+    .mine-back-control {
+      @apply dark-text-gray-1 flex items-center ring-1 ring-gray-9 dark-ring-gray-1 rounded-full p-1 text-gray-9 ml-5;
+    }
+  }
+
+  .mine-uc-content {
+    @apply bg-white dark-bg-dark-9 w-full h-full overflow-y-auto overflow-x-hidden;
+  }
+
+  .mine-uc-bottom-menu {
+    @apply fixed grid grid-cols-5 lg:hidden w-full
+      bottom-0 bg-gray-2 dark-bg-dark-8
+    ;
+
+    li {
+      @apply p-1;
+
+      list-style: none;
+
+      & a {
+        @apply flex flex-col block decoration-none text-sm py-1 items-center justify-center
+          text-dark-9 dark-text-gray-1 bg-gray-2 dark-bg-dark-6 gap-y-0.5 rounded-md;
+      }
+
+      & a.active {
+        @apply bg-white dark-bg-dark-2 shadow;
+      }
+    }
+  }
+
+  .mine-uc-layout-content {
+    @apply m-3 h-[calc(100%-105px)] flex flex-col lg:flex-row gap-x-2 b-1 b-gray-2
+      rounded-md b-solid bg-white p-3 dark-b-dark-4 dark-bg-dark-8;
+  }
+}

@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
-use App\Kernel\Casbin\Rule\Rule;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
-use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model as MineModel;
+use Mine\Kernel\Casbin\Rule\Rule;
 
 /**
  * @property int $id 主键
@@ -32,32 +31,11 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property Carbon $updated_at 更新时间
  * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
- * @property Collection|Post[] $posts
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
  */
-class Role extends MineModel
+final class Role extends MineModel
 {
-    use SoftDeletes;
-
-    // 所有
-    public const ALL_SCOPE = 1;
-
-    // 自定义
-    public const CUSTOM_SCOPE = 2;
-
-    // 本部门
-    public const SELF_DEPT_SCOPE = 3;
-
-    // 本部门及子部门
-    public const DEPT_BELOW_SCOPE = 4;
-
-    // 本人
-    public const SELF_SCOPE = 5;
-
-    // 本部门及子部门，通过表的部门id
-    public const DEPT_BELOW_SCOPE_BY_TABLE_DEPTID = 6;
-
     /**
      * The table associated with the model.
      */
@@ -66,7 +44,7 @@ class Role extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'name', 'code', 'data_scope', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'name', 'code', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.
@@ -87,11 +65,13 @@ class Role extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Menu::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v0',
             'v1',
             'code',
-            'code'
+            'name'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'p');
     }
 
@@ -100,11 +80,13 @@ class Role extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             User::class,
+            // @phpstan-ignore-next-line
             Rule::getModel()->getTable(),
             'v1',
             'v0',
             'code',
             'username'
+            // @phpstan-ignore-next-line
         )->where(Rule::getModel()->getTable() . '.ptype', 'g');
     }
 }

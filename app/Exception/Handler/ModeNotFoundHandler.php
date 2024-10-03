@@ -16,7 +16,7 @@ use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Hyperf\Database\Model\ModelNotFoundException;
 
-class ModeNotFoundHandler extends AbstractHandler
+final class ModeNotFoundHandler extends AbstractHandler
 {
     public function handleResponse(\Throwable $throwable): Result
     {

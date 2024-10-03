@@ -17,7 +17,7 @@ use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
 #[Schema(title: 'MenuSchema')]
-class MenuSchema implements \JsonSerializable
+final class MenuSchema implements \JsonSerializable
 {
     #[Property(property: 'id', title: '主键', type: 'int')]
     public ?int $id;
@@ -28,23 +28,14 @@ class MenuSchema implements \JsonSerializable
     #[Property(property: 'name', title: '菜单名称', type: 'string')]
     public ?string $name;
 
-    #[Property(property: 'code', title: '菜单标识代码', type: 'string')]
-    public ?string $code;
-
-    #[Property(property: 'icon', title: '菜单图标', type: 'string')]
-    public ?string $icon;
-
-    #[Property(property: 'route', title: '路由地址', type: 'string')]
-    public ?string $route;
+    #[Property(property: 'path', title: '路由地址', type: 'string')]
+    public ?string $path;
 
     #[Property(property: 'component', title: '组件路径', type: 'string')]
     public ?string $component;
 
     #[Property(property: 'redirect', title: '重定向地址', type: 'string')]
     public ?string $redirect;
-
-    #[Property(property: 'is_hidden', title: '是否隐藏 (1是 2否)', type: 'int')]
-    public ?int $isHidden;
 
     #[Property(property: 'type', title: '菜单类型, (M菜单 B按钮 L链接 I iframe)', type: 'string')]
     public ?string $type;
@@ -67,36 +58,47 @@ class MenuSchema implements \JsonSerializable
     #[Property(property: 'updated_at', title: '', type: 'string')]
     public mixed $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '', type: 'string')]
-    public mixed $deletedAt;
-
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
+
+    #[Property(property: 'meta', title: '附加属性', type: 'object')]
+    public ?MenuMetaSchema $meta;
 
     public function __construct(Menu $model)
     {
         $this->id = $model->id;
         $this->parentId = $model->parent_id;
         $this->name = $model->name;
-        $this->code = $model->code;
-        $this->icon = $model->icon;
-        $this->route = $model->route;
+        $this->path = $model->path;
         $this->component = $model->component;
         $this->redirect = $model->redirect;
-        $this->isHidden = $model->is_hidden;
-        $this->type = $model->type;
         $this->status = $model->status;
         $this->sort = $model->sort;
         $this->createdBy = $model->created_by;
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
-        $this->deletedAt = $model->deleted_at;
         $this->remark = $model->remark;
+        $this->meta = new MenuMetaSchema(...array_values($model->meta->toArray()));
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'parent_id' => $this->parentId, 'name' => $this->name, 'code' => $this->code, 'icon' => $this->icon, 'route' => $this->route, 'component' => $this->component, 'redirect' => $this->redirect, 'is_hidden' => $this->isHidden, 'type' => $this->type, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return [
+            'id' => $this->id,
+            'parent_id' => $this->parentId,
+            'name' => $this->name,
+            'path' => $this->path,
+            'component' => $this->component,
+            'redirect' => $this->redirect,
+            'type' => $this->type,
+            'status' => $this->status,
+            'sort' => $this->sort,
+            'created_by' => $this->createdBy,
+            'updated_by' => $this->updatedBy,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+            'remark' => $this->remark,
+        ];
     }
 }

@@ -9,12 +9,10 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-
 use App\Exception\Handler\AppExceptionHandler;
 use App\Exception\Handler\BusinessExceptionHandler;
 use App\Exception\Handler\JwtExceptionHandler;
 use App\Exception\Handler\ValidationExceptionHandler;
-use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\ExceptionHandler\Listener\ErrorExceptionHandler;
 use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
 
@@ -29,8 +27,6 @@ return [
             ValidationExceptionHandler::class,
             // 处理JWT异常
             JwtExceptionHandler::class,
-            // 处理模型未找到异常
-            ModelNotFoundException::class,
             // 处理应用异常
             AppExceptionHandler::class,
         ],

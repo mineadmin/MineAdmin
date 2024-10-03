@@ -13,8 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin\DataCenter;
 
 use App\Http\Common\ResultCode;
-use App\Model\DataCenter\Attachment;
-use App\Model\Setting\Config;
+use App\Model\Attachment;
 use Carbon\Carbon;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\ModelNotFoundException;
@@ -24,65 +23,8 @@ use HyperfTests\Feature\Admin\ControllerCase;
  * @internal
  * @coversNothing
  */
-class AttachmentControllerTest extends ControllerCase
+final class AttachmentControllerTest extends ControllerCase
 {
-    public function testUpload(): void
-    {
-        $token = $this->token;
-        $faker = $this->fakerGenerator();
-        $url = '/admin/attachment/upload';
-        $code = 'attachment:upload';
-        $file = $faker->image();
-        Config::query()->where('key', 'upload.open')->forceDelete();
-        /**
-         * @var Config $config
-         */
-        $config = Config::query()->where('key', 'upload.open')->firstOrNew([
-            'key' => 'upload.open',
-            'value' => 0,
-            'input_type' => 'select',
-            'group_id' => 0,
-        ]);
-        $config->value = 0;
-        $config->save();
-        $result = $this->file($url, [
-            'name' => 'file',
-            'file' => $file,
-        ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
-
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $code));
-        $result = $this->file($url, [
-            'name' => 'file',
-            'file' => $file,
-        ], [
-            'Authorization' => 'Bearer ' . $token,
-        ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
-
-        $config->value = 1;
-        $config->save();
-        $result = $this->file($url, [
-            'name' => 'file',
-            'file' => $file,
-        ], [
-            'Authorization' => 'Bearer ' . $token,
-        ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertArrayHasKey('storage_mode', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('object_name', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('hash', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('mime_type', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('storage_path', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('suffix', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('size_byte', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('size_info', Arr::get($result, 'data'));
-        $this->assertArrayHasKey('url', Arr::get($result, 'data'));
-    }
-
     public function testPageList(): void
     {
         $token = $this->token;
@@ -90,19 +32,19 @@ class AttachmentControllerTest extends ControllerCase
         $code = 'attachment:list';
         $result = $this->get($url);
         $enforce = $this->getEnforce();
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $this->assertIsArray(Arr::get($result, 'data'));
-        $this->assertArrayHasKey('list', Arr::get($result, 'data'));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertIsArray(Arr::get($result, 'data'));
+        self::assertArrayHasKey('list', Arr::get($result, 'data'));
     }
 
     public function testDelete(): void
@@ -130,17 +72,17 @@ class AttachmentControllerTest extends ControllerCase
         $code = 'attachment:delete';
         $enforce = $this->getEnforce();
         $result = $this->delete($url . '/' . $entity->id);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
-        $this->assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $this->expectException(ModelNotFoundException::class);
         $entity->refresh();
     }

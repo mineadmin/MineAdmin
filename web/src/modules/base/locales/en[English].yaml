@@ -1,0 +1,40 @@
+baseUser:
+  avatar: Avatar
+  username: Username
+  nickname: Nickname
+  phone: Phone
+  email: Email
+  password: Password
+  role: Role
+  signed: Signed
+  status: Status
+  mainTitle: User Manager
+  subTitle: Provide users with the functions of adding, editing, and deleting
+baseMenu:
+  permission:
+    index: Permission
+    user: User
+    userList: User list
+    userSave: User save
+    userUpdate: User updated
+    userDelete: User delete
+    userPassword: Init user password
+    userRole: Set role for user
+    role: Role
+    roleList: Role list
+    roleSave: Role save
+    roleUpdate: Role updated
+    roleDelete: Role delete
+    menu: Menu
+    menuList: Menu list
+    menuSave: Menu save
+    menuUpdate: Menu updated
+    menuDelete: Menu delete
+  log:
+    index: Log Management
+    userLoginLog: Login Log
+    operationLog: Operation Log
+    userLoginLogList: User Login Log List
+    userOperationLog: User Operation Log List
+    userLoginLogDelete: User Login Log Delete
+    userOperationLogDelete: User Operation Log Delete

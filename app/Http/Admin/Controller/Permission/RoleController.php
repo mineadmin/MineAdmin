@@ -14,17 +14,13 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\Role\BatchGrantPermissionsForRoleRequest;
-use App\Http\Admin\Request\Permission\Role\CreateRequest;
-use App\Http\Admin\Request\Permission\Role\SaveRequest;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Admin\Request\Permission\BatchGrantPermissionsForRoleRequest;
+use App\Http\Admin\Request\Permission\RoleRequest;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
-use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Schema\RoleSchema;
 use App\Service\Permission\RoleService;
 use Hyperf\Collection\Arr;
@@ -37,10 +33,15 @@ use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(middleware: AuthMiddleware::class, priority: 100)]
+#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class RoleController extends AbstractController
 {
     public function __construct(
@@ -52,7 +53,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/list',
         operationId: 'roleList',
         summary: '角色列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[PageResponse(instance: RoleSchema::class)]
@@ -72,15 +73,15 @@ final class RoleController extends AbstractController
         path: '/admin/role',
         operationId: 'roleCreate',
         summary: '创建角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: CreateRequest::class)
+        content: new JsonContent(ref: RoleRequest::class)
     )]
     #[Permission(code: 'role:create')]
     #[ResultResponse(instance: new Result())]
-    public function create(CreateRequest $request): Result
+    public function create(RoleRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
             'created_by' => $this->currentUser->id(),
@@ -92,15 +93,15 @@ final class RoleController extends AbstractController
         path: '/admin/role/{id}',
         operationId: 'roleSave',
         summary: '保存角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: SaveRequest::class)
+        content: new JsonContent(ref: RoleRequest::class)
     )]
     #[Permission(code: 'role:save')]
     #[ResultResponse(instance: new Result())]
-    public function save(int $id, SaveRequest $request): Result
+    public function save(int $id, RoleRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [
             'updated_by' => $this->currentUser->id(),
@@ -109,17 +110,17 @@ final class RoleController extends AbstractController
     }
 
     #[Delete(
-        path: '/admin/role/{id}',
+        path: '/admin/role',
         operationId: 'roleDelete',
         summary: '删除角色',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[ResultResponse(instance: new Result())]
     #[Permission(code: 'role:delete')]
-    public function delete(int $id): Result
+    public function delete(RequestInterface $request): Result
     {
-        $this->service->deleteById($id, false);
+        $this->service->deleteById($request->all(), false);
         return $this->success();
     }
 
@@ -127,7 +128,7 @@ final class RoleController extends AbstractController
         path: '/admin/role/{id}/permission',
         operationId: 'roleGrantPermissions',
         summary: '角色授权',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
     #[ResultResponse(instance: new Result())]

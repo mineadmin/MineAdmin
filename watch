@@ -140,7 +140,7 @@ function watch()
 {
     global $hashes;
     foreach ($hashes as $pathName => $currentHash) {
-        if (!file_exists($pathName)) {
+        if (!file_exists($pathName) || is_dir($pathName)) {
             unset($hashes[$pathName]);
             continue;
         }
@@ -181,6 +181,9 @@ function serve(Process $serve)
 
 function fileHash(string $pathname): string
 {
+    if (is_dir($pathname)){
+        return 'dir';
+    }
     $contents = file_get_contents($pathname);
     if (false === $contents) {
         return 'deleted';

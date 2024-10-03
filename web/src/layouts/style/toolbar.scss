@@ -1,0 +1,220 @@
+.mine-toolbar {
+  @apply
+    flex items-center justify-between px-3
+    bg-[#f9fafc]
+    dark-bg-dark-8
+    text-sm
+    b-b-1 b-b-solid b-[#e8e9ec] dark-b-dark-5
+    transition-all duration-300
+  ;
+
+  height: var(--mine-g-toolbar-height);
+}
+
+.mine-toolbar-btn {
+  @apply z-100 h-5 w-5 cursor-pointer
+  b-1 b-gray-3 rounded b-solid bg-gray-2 text-center dark-bg-dark-5 dark-b-dark-3
+  ;
+}
+
+.collection-wrapper {
+  & .title-bar {
+    @apply w-full flex justify-between text-sm font-bold;
+  }
+
+  & .list {
+    @apply grid grid-cols-2 gap-2 mt-2;
+  }
+
+  & .div-button {
+    @apply py-1.5 px-2 cursor-pointer
+      border-1 border-solid border-gray-2 dark-b-dark-2 rounded
+      bg-white dark-bg-dark-6 flex justify-between items-center
+    ;
+
+    & .menu {
+      @apply flex items-center text-sm gap-x-1 w-12/12 overflow-hidden truncate;
+    }
+
+    & .icon {
+      @apply text-gray-4 relative top-[2px];
+    }
+
+    & .icon:hover {
+      @apply text-gray-9 dark-text-gray-1;
+    }
+  }
+
+  & .div-button:hover {
+    @apply bg-gray-1 dark-bg-dark-4;
+  }
+}
+
+.breadcrumb {
+  @apply flex items-center;
+
+  & a {
+    @apply text-gray-7 dark-text-gray-2 decoration-none text-sm flex
+      items-center gap-x-1
+    ;
+  }
+
+  & a:hover {
+    @apply text-gray-9 dark-text-gray-3
+    ;
+  }
+
+  .breadcrumb-list {
+    .icon {
+      @apply duration-300 rotate-0;
+    }
+  }
+
+  .breadcrumb-list:hover {
+    .icon {
+      @apply rotate-90;
+    }
+  }
+}
+
+// 面包屑动画
+.breadcrumb-animate-enter-active {
+  transition: transform 0.3s, opacity 0.5s;
+}
+
+.breadcrumb-animate-enter-from {
+  opacity: 0;
+  transform: translateX(30px) skewX(-50deg);
+}
+
+.right-bar {
+  @apply flex items-center gap-x-3 relative;
+
+  .tool-icon {
+    @apply cursor-pointer text-gray-9 dark:text-white;
+  }
+}
+
+.mine-user-bar {
+  @apply flex items-center gap-x-2;
+
+  & .mine-userinfo {
+    @apply flex items-center gap-x-1 p-1.5;
+
+    .username {
+      @apply text-sm cursor-pointer items-center gap-x-1 relative
+      ;
+
+      .icon {
+        @apply relative duration-300 rotate-0;
+      }
+    }
+  }
+
+  & .mine-userinfo:hover {
+    @apply ring-inset ring-1 ring-gray-2  dark-ring-dark-4 bg-white dark-bg-dark-5 rounded-md;
+
+    .username {
+      .icon {
+        @apply rotate-180;
+      }
+    }
+  }
+
+  .mine-img-avatar {
+    @apply h-8 w-8 rounded-full object-cover cursor-pointer;
+  }
+
+  .mine-text-avatar {
+    @apply h-8 w-8 rounded-full text-2xl bg-gray-2 dark:bg-dark-3
+      flex items-center justify-center cursor-pointer
+    ;
+  }
+}
+
+.notification-box {
+  @apply min-h-[20rem] max-h-[20rem] overflow-x-hidden overflow-y-auto my-1.5;
+
+  .message-box {
+    li {
+      @apply flex gird grid-cols-2 b-b-1 b-b-gray-1 b-b-solid dark-b-b-dark-3 py-2 px-1;
+    }
+  }
+
+  .notice-box {
+    li {
+      @apply b-b-1 b-b-gray-1 b-b-solid dark-b-b-dark-3 py-2 px-1;
+    }
+  }
+
+  .todo-box {
+    li {
+      @apply b-b-1 b-b-gray-1 b-b-solid dark-b-b-dark-3 py-2 px-1;
+    }
+  }
+}
+
+.box-footer {
+  @apply gird grid-cols-2 flex b-t-1 b-t-gray-2 b-t-solid p-2 pt-3 dark-b-t-dark-3;
+
+  .link {
+    @apply w-6/12 flex cursor-pointer justify-center hover-text-[rgb(var(--ui-primary))];
+  }
+}
+
+.mine-setting-color-list {
+  @apply flex items-center gap-x-3;
+
+  & li {
+    @apply w-4 h-4 cursor-pointer flex items-center justify-center rounded-sm;
+
+    .icon {
+      @apply text-white;
+    }
+  }
+}
+
+.mine-layout-setting {
+  @apply flex items-center justify-center gap-x-5;
+
+  & .classic,
+  & .columns,
+  & .mixed, {
+    @apply flex items-center w-16 rounded h-10 p-2 gap-x-0.5
+      cursor-pointer ring-1 ring-gray-2 dark-ring-dark-1
+    ;
+  }
+
+  & .mine-selected-layout {
+    @apply ring-2 ring-[rgb(var(--ui-primary))] dark-ring-[rgb(var(--ui-primary))];
+  }
+}
+
+.mine-setting-description {
+  @apply flex items-center text-sm mt-2;
+
+  & .desc-label { @apply w-8/12; }
+  & .desc-value { @apply w-4/12 text-right; }
+}
+
+
+.mine-shortcuts-block {
+  @apply w-full text-left;
+
+  & .title {
+    @apply text-[15px];
+  }
+  & .short-list {
+    @apply grid grid-cols-2 gap-y-3 mt-3;
+  }
+
+  .short-key {
+    @apply flex items-center gap-x-2 text-sm mr-2;
+  }
+
+  .short-key span {
+    @apply block px-1 py-0.5 dark-bg-dark-3 rounded bg-gray-1 ring-1 ring-gray-2 dark-ring-dark-1
+    min-w-4 flex justify-center items-center
+    ;
+  }
+}

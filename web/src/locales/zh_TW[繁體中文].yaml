@@ -1,0 +1,148 @@
+loginForm:
+  loginButton: 登錄
+  passwordPlaceholder: 請輸入密碼
+  codeLabel: 驗證碼
+  usernameLabel: 賬戶
+  codePlaceholder: 請輸入驗證碼
+  usernamePlaceholder: 請輸入賬戶
+  passwordLabel: 密碼
+mineAdmin:
+  settings:
+    copyRights:
+      date: 時間
+      website: 網址
+      enable: 啟用版權
+      putOnRecord: 備案號
+      company: 公司
+    primaryColorSetting: 主顏色設置
+    toolBarSettings: 工具列設置
+    tabBarSettings: 標籤列設置
+    save: 保存設置
+    colorMode: 顏色模式
+    layoutSetting: 佈局設置
+    title: 後臺設置
+    layouts:
+      classic: 經典佈局
+      columns: 分欄佈局
+      mixed: 混合佈局
+    watermarkText: 水印文字
+    colorModes:
+      system: 系統
+      light: 明亮
+      dark: 黑暗
+    mainAsideSetting: 主側欄設置
+    enableWatermark: 啟用水印
+    otherSettings: 其他設置
+    mainAsides:
+      autoToFirstMenu: 自動進入第一個功能表
+      mainMenuTitle: 主功能表標題
+    copyRightSettings: 版權設置
+    enableBreadcrumb: 啟用麵包屑
+    tabbars:
+      mode: 標籤欄風格
+      modeCard: 卡片
+      enable: 啟用標籤列
+      modeDefault: 預設
+  shortcuts:
+    switchN: 切換到N頁
+    switchLast: 切換最後一個
+    searchOpen: 叫出
+    searchBar: 搜尋欄
+    tabs: 標籤頁
+    close: 關閉
+    exitMax: 退出最大化
+    toMax: 進入最大化
+  runtime:
+    devDependencies: 開發依賴
+    pluginList: 插件列表
+    pluginCount: 插件總數
+    systemVersion: 系統版本
+    coreInfo: 核心信息
+    dependencies: 生產依賴
+    lastBuildTime: 最後構建時間
+  sys:
+    notComponent: 沒有找到頁面，無法跳轉
+    unknown: 未知
+  uc:
+    shortBackControl: 返回
+    backControl: 返回控制面板
+    setAllRead: 全部設爲已讀
+    title: 用戶中心
+  notification:
+    todo: 待辦
+    allRead: 全部已讀
+    gotoTheList: 轉到列表
+    message: 消息
+    notice: 通知
+  search:
+    placeholder: 搜索頁面，支持名稱、標識以及URL的模糊查詢
+    noNameMenu: 未命名菜單
+    notResult: 沒有搜索到頁面
+  userBar:
+    showState: 顯示用戶欄
+    hideState: 隱藏用戶欄
+    systemInfo: 系統信息
+    logout: 退出系統
+    shortcuts: 快捷鍵介紹
+    clearCache: 清除緩存
+    uc: 用戶中心
+  common:
+    saveSuccess: 儲存成功
+    clearCache: 緩存已清空
+  plugin:
+    disabled: 已禁用
+    enabled: 已啓用
+  tab:
+    cannotUnfixed: 此標簽不能取消固定
+    favorites: 標簽頁收藏夾
+    addFavorite: 加入到收藏夾
+    fullscreen: 全屏標籤頁
+    closeLeft: 關閉左側標籤頁
+    closeOther: 關閉其他標籤頁
+    closeRight: 關閉右側標籤頁
+    refresh: 刷新標籤頁
+    fixed: 固定標籤頁
+    has: 此標簽頁已收藏過
+    noFavorite: 還沒有收藏任何標簽頁
+    close: 關閉標籤頁
+  slogan: 一款開箱即用的後臺管理系統
+  toolbars:
+    notification: 通知
+    settings: 設置
+    search: 搜索
+    fullscreen: 全屏
+    sorts: 工具列排序
+    switchMode: 切換顏色模式
+    translate: 國際化
+  mark: 開箱即用
+menu:
+  uc:index: 首頁
+  dashboard:analysis: 分析頁
+  pageNotFound: 找不到頁面
+  appstore: 應用商店
+  dashboard:workbench: 工作臺
+  dashboard:report: 統計報表
+  uc:logs: 日志
+  login: 登錄
+  uc:message: 消息
+  welcome: 歡迎頁
+  dashboard: 儀表盤
+crud:
+  cancel: 放棄
+  ok: 確定
+  add: 新增
+  edit: 編輯
+  delete: 删除
+  search: 檢索
+  reset: 重設
+  submit: 提交
+  searchFold: 摺疊
+  searchUnFold: 展開
+  selection: 多選
+  operation: 操作
+dictionary:
+  statusEnabled: 成功
+  statusDisabled: 失敗
+  system:
+    statusEnabled: 啓用
+    statusDisabled: 禁用

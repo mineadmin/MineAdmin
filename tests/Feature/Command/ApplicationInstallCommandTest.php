@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  * @coversNothing
  */
 #[Group('migrations')]
-class ApplicationInstallCommandTest extends TestCase
+final class ApplicationInstallCommandTest extends TestCase
 {
     public function testRun(): void
     {
@@ -32,6 +32,6 @@ class ApplicationInstallCommandTest extends TestCase
         $app->setAutoExit(false);
         $app->run(new ArrayInput(['migrate']), new ConsoleOutput());
         $app->run(new ArrayInput(['db:seed']), new ConsoleOutput());
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

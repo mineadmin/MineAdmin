@@ -37,9 +37,9 @@ trait GetTokenTrait
             'username' => $user->username,
             'password' => '123456',
         ]);
-        if (! Arr::has($result, 'data.token')) {
-            Assert::fail('获取token失败');
+        if (! Arr::has($result, 'data.access_token')) {
+            Assert::fail('Get token failed.');
         }
-        return Arr::get($result, 'data.token');
+        return Arr::get($result, 'data.access_token');
     }
 }

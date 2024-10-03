@@ -16,16 +16,24 @@ use App\Http\Common\Result;
 use App\Http\Common\ResultCode;
 use Lcobucci\JWT\Exception;
 
-class JwtExceptionHandler extends AbstractHandler
+final class JwtExceptionHandler extends AbstractHandler
 {
     public function handleResponse(\Throwable $throwable): Result
     {
         $this->stopPropagation();
-        switch ($throwable) {
+        switch (true) {
+            case $throwable->getMessage() === 'The token is expired':
+                return new Result(
+                    code: ResultCode::UNAUTHORIZED,
+                    message: trans('jwt.expired'),
+                );
             default:
                 return new Result(
                     code: ResultCode::UNAUTHORIZED,
-                    message: trans('jwt.unauthorized')
+                    message: trans('jwt.unauthorized'),
+                    data: [
+                        'error' => $throwable->getMessage(),
+                    ]
                 );
         }
     }

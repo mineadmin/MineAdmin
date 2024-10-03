@@ -18,7 +18,7 @@ use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
 #[Schema(title: 'RoleSchema')]
-class RoleSchema implements \JsonSerializable
+final class RoleSchema implements \JsonSerializable
 {
     #[Property(property: 'id', title: '主键', type: 'int')]
     public ?int $id;

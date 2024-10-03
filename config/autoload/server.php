@@ -17,16 +17,16 @@ use Hyperf\Server\Server;
 use Swoole\Constant;
 
 return [
-    'mode' => SWOOLE_PROCESS,
+    'mode' => \SWOOLE_PROCESS,
     'servers' => [
         [
             'name' => 'http',
             'type' => Server::SERVER_HTTP,
             'host' => '0.0.0.0',
             'port' => 9501,
-            'sock_type' => SWOOLE_SOCK_TCP,
+            'sock_type' => \SWOOLE_SOCK_TCP,
             'callbacks' => [
-                Event::ON_REQUEST => [\Hyperf\HttpServer\Server::class,'onRequest'],
+                Event::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
             ],
         ],
         [
@@ -34,7 +34,7 @@ return [
             'type' => Server::SERVER_WEBSOCKET,
             'host' => '0.0.0.0',
             'port' => 9502,
-            'sock_type' => SWOOLE_SOCK_TCP,
+            'sock_type' => \SWOOLE_SOCK_TCP,
             'callbacks' => [
                 Event::ON_HAND_SHAKE => [Hyperf\WebSocketServer\Server::class, 'onHandShake'],
                 Event::ON_MESSAGE => [Hyperf\WebSocketServer\Server::class, 'onMessage'],
@@ -48,6 +48,8 @@ return [
         ],
     ],
     'settings' => [
+        // 对外部可以直接访问的目录地址，建议使用nginx反向代理访问
+        Constant::OPTION_DOCUMENT_ROOT => BASE_PATH . '/storage',
         // 开启外部可以访问
         Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         Constant::OPTION_ENABLE_COROUTINE => true,
@@ -57,6 +59,9 @@ return [
         Constant::OPTION_MAX_COROUTINE => 100000,
         Constant::OPTION_OPEN_HTTP2_PROTOCOL => true,
         Constant::OPTION_MAX_REQUEST => 100000,
+        Constant::OPTION_UPLOAD_MAX_FILESIZE => 10 * 1024 * 1024,
+        Constant::OPTION_HTTP_AUTOINDEX => true,
+        Constant::OPTION_HTTP_INDEX_FILES => ['index.html'],
         Constant::OPTION_SOCKET_BUFFER_SIZE => 3 * 1024 * 1024,
         // 关闭buffer输出大小限制
         // Constant::OPTION_BUFFER_OUTPUT_SIZE     => 3 * 1024 * 1024,

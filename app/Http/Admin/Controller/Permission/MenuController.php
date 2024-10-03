@@ -13,14 +13,11 @@ declare(strict_types=1);
 namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\CurrentUser;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\MenuRequest;
-use App\Http\Common\Middleware\AuthMiddleware;
+use App\Http\Admin\Request\Permission\MenuRequest;
+use App\Http\Common\Middleware\AccessTokenMiddleware;
+use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
-use App\Kernel\Annotation\Permission;
-use App\Kernel\Swagger\Attributes\PageResponse;
-use App\Kernel\Swagger\Attributes\ResultResponse;
 use App\Service\Permission\MenuService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -31,10 +28,15 @@ use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
+use Mine\Kernel\Access\Attribute\Permission;
+use Mine\Kernel\Core\CurrentUser;
+use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Kernel\Swagger\Attributes\ResultResponse;
 
 #[HyperfServer(name: 'http')]
-#[Middleware(middleware: AuthMiddleware::class, priority: 100)]
+#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
+#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
 final class MenuController extends AbstractController
 {
     public function __construct(
@@ -46,25 +48,24 @@ final class MenuController extends AbstractController
         path: '/admin/menu/list',
         operationId: 'menuList',
         summary: '菜单列表',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[Permission(code: 'menu:list')]
     #[ResultResponse(instance: new Result())]
     public function pageList(RequestInterface $request): Result
     {
-        return $this->success($this->service->page(
-            $request->all(),
-            $this->getCurrentPage(),
-            $this->getPageSize()
-        ));
+        return $this->success(data: $this->service->getRepository()->list([
+            'children' => true,
+            'parent_id' => 0,
+        ]));
     }
 
     #[Post(
         path: '/admin/menu',
         operationId: 'menuCreate',
         summary: '创建菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[RequestBody(
@@ -84,7 +85,7 @@ final class MenuController extends AbstractController
         path: '/admin/menu/{id}',
         operationId: 'menuEdit',
         summary: '编辑菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[RequestBody(
@@ -101,17 +102,17 @@ final class MenuController extends AbstractController
     }
 
     #[Delete(
-        path: '/admin/menu/{id}',
+        path: '/admin/menu',
         operationId: 'menuDelete',
         summary: '删除菜单',
-        security: [['bearerAuth' => []]],
+        security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
     #[PageResponse(instance: new Result())]
     #[Permission(code: 'menu:delete')]
-    public function delete(int $id): Result
+    public function delete(RequestInterface $request): Result
     {
-        $this->service->deleteById($id, false);
+        $this->service->deleteById($request->all(), false);
         return $this->success();
     }
 }

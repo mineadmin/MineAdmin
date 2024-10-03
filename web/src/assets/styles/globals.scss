@@ -1,0 +1,219 @@
+/* 变量定义 */
+:root {
+  /* 头部高度 */
+  --mine-g-header-height: 55px;
+  /* 脚部高度 */
+  --mine-g-footer-height: 50px;
+  /* 侧边栏主菜单宽度 */
+  --mine-g-main-aside-width: 80px;
+  /* 侧边栏子菜单展开宽度 */
+  --mine-g-sub-aside-width: 200px;
+  /* 侧边栏子菜单折叠后宽度 */
+  --mine-g-sub-aside-collapse-width: 65px;
+  /* 菜单缩进宽度 */
+  --mine-g-menu-retract-width: 15px;
+  /* 工具栏高度 */
+  --mine-g-toolbar-height: 55px;
+  /* 标签栏高度 */
+  --mine-g-tabbar-height: 40px;
+  /* 盒子阴影 */
+  --mine-g-box-shadow-color: rgb(0 0 0 / 18%);
+  /* 主颜色 */
+  --el-color-primary: --ui-primery;
+}
+
+@font-face {
+  font-family: 'alibaba-pu-hui-ti-3-regular';
+  src:url('/font/alibaba-pu-hui-ti-3/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: 'alibaba-pu-hui-ti-3-regular', Arial, Helvetica, sans-serif;
+}
+
+ul li { list-style: none; }
+
+.mine-card {
+  @apply relative p-3 rounded bg-white dark-bg-dark-8 m-3 mb-0;
+}
+
+.mine-layout {
+  @apply relative;
+}
+
+body {
+  @apply bg-[#f3f4f8] dark-bg-[#0a0a0a] overflow-x-hidden;
+}
+
+.mine-ui-scrollbars {
+  & ::-webkit-scrollbar {
+    width: 0.6em;
+    height: 0.6em;
+
+    @apply bg-transparent;
+  }
+
+  & ::-webkit-scrollbar-track {
+    @apply bg-[#f3f4f8];
+  }
+
+  & ::-webkit-scrollbar-thumb {
+    border-radius: 0.6em;
+
+    @apply bg-gray-3 hover:bg-gray-4;
+  }
+
+  &.dark {
+    & ::-webkit-scrollbar-track {
+      @apply bg-dark-9;
+    }
+
+    & ::-webkit-scrollbar-thumb {
+      @apply bg-dark-2 hover:bg-dark-1;
+    }
+  }
+}
+
+/* 右键菜单 */
+.mine-contextmenu {
+  @apply z-1000 !rounded-md !ring-1 !ring-gray-2 !dark-ring-dark-3
+  dark-bg-dark-8
+  ;
+
+  .mx-context-menu-item {
+    @apply w-auto !dark-text-gray-1;
+  }
+
+  .mx-context-menu-item.disabled {
+    @apply w-auto !dark-text-stone-7 !dark-bg-dark-8;
+  }
+
+  .mx-context-menu-item:hover {
+    @apply dark-bg-dark-4;
+  }
+
+  .mx-context-menu-item-sperator {
+    @apply dark-bg-dark-8;
+  }
+
+  .mx-context-menu-item-sperator::after {
+    @apply dark-bg-dark-3;
+  }
+}
+
+#app.mine-max-size {
+  .mine-max-size-exit {
+    @apply flex items-center justify-center
+      text-dark-5dark-text-stone-1
+      bg-[rgb(0,0,0,0.2)] dark-bg-[rgb(255,255,255,0.2)]
+    ;
+  }
+
+  .mine-aside,
+  .mine-bars {
+    @apply opacity-0 hidden;
+  }
+}
+
+#app {
+  .mine-max-size-exit {
+    @apply fixed z-9999 -top-[45px] left-[50%] -ml-[30px] cursor-pointer hidden
+      w-[60px] h-[60px] rounded-full transtion-all duration-300
+    ;
+  }
+
+  .mine-max-size-exit:hover {
+    @apply: top-0;
+  }
+}
+
+/* textarea 字体跟随系统 */
+textarea {
+  font-family: inherit;
+}
+
+.v-popper--theme-dropdown .v-popper__inner {
+  @apply text-sm b-1 b-solid
+    b-gray-2 !bg-white !text-gray-7
+    dark-b-dark-3 !dark-bg-dark-8 !dark-text-white
+  ;
+}
+
+.v-popper--theme-tooltip .v-popper__inner {
+  @apply text-sm b-1 b-solid
+    b-dark-3 !bg-dark-3 !text-white
+  dark-b-stone-2 !dark-bg-stone-2 !dark-text-black
+  ;
+}
+
+.v-popper--theme-tooltip .v-popper__inner {
+  @apply p-2;
+}
+
+.v-popper--theme-dropdown .v-popper__arrow-inner,
+.v-popper--theme-tooltip .v-popper__arrow-inner,
+.v-popper--theme-tooltip .v-popper__arrow-outer {
+  @apply hidden;
+}
+
+/* 全局样式 */
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* 页面过场动画 */
+.ma-fade-enter-active,
+.ma-fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.ma-fade-enter-from,
+.ma-fade-leave-to {
+  opacity: 0;
+}
+
+.ma-slide-right-enter-active,
+.ma-slide-right-leave-active,
+.ma-slide-left-enter-active,
+.ma-slide-left-leave-active {
+  transition: all 0.2s ease;
+  will-change: transform;
+}
+/* ma-slide-right */
+.ma-slide-right-enter-from,
+.ma-slide-left-enter-from
+{
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.ma-slide-right-leave-to,
+.ma-slide-left-leave-to
+{
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.ma-slide-down-enter-active,
+.ma-slide-down-leave-active,
+.ma-slide-up-enter-active,
+.ma-slide-up-leave-active {
+  transition: all 0.2s ease;
+  will-change: transform;
+}
+/* ma-slide-down */
+.ma-slide-down-enter-from,
+.ma-slide-up-leave-to
+{
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.ma-slide-down-leave-to,
+.ma-slide-up-enter-from
+ {
+  opacity: 0;
+  transform: translateY(10px);
+}

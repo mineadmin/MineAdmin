@@ -13,28 +13,23 @@ import type { MaSearchItem } from '@mineadmin/search'
 export default function getSearchItems(t: any): MaSearchItem[] {
   return [
     {
-      label: () => t('username'),
+      label: () => t('baseOperationLog.username'),
       prop: 'username',
       render: 'input',
     },
     {
-      label: () => t('router'),
+      label: () => t('baseOperationLog.router'),
       prop: 'router',
       render: 'input',
     },
     {
-      label: () => t('service_name'),
+      label: () => t('baseOperationLog.service_name'),
       prop: 'service_name',
       render: 'input',
     },
     {
-      label: () => t('ip'),
+      label: () => t('baseOperationLog.ip'),
       prop: 'ip',
-      render: 'input',
-    },
-    {
-      label: () => t('remark'),
-      prop: 'remark',
       render: 'input',
     },
   ]

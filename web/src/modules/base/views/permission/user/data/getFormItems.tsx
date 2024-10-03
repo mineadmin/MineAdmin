@@ -62,5 +62,17 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
         rules: [{ required: true, message: '密码必填' }],
       },
     },
+    {
+      label: () => t('baseUser.nickname'),
+      prop: 'nickname',
+      render: 'input',
+      cols: { span: 12 },
+      renderProps: {
+        placeholder: '请输入昵称',
+      },
+      itemProps: {
+        rules: [{ required: true, message: '昵称必填' }],
+      },
+    },
   ]
 }

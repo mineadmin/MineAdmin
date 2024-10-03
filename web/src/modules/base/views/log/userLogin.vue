@@ -1,38 +1,12 @@
-<i18n lang="yaml">
-en:
-  title: User Login log
-  id: "ID"
-  username: "Username"
-  ip: "Login IP Address"
-  os: "Operating System"
-  browser: "Browser"
-  status: "Login Status"
-  message: "Message"
-  login_time: "Login Time"
-  remark: "Remark"
-zh_CN:
-  title: 用户登录日志
-  id: "ID"
-  username: "用户名"
-  ip: "登录IP地址"
-  os: "操作系统"
-  browser: "浏览器"
-  status: "登录状态"
-  message: "提示消息"
-  login_time: "登录时间"
-  remark: "备注"
-zh_TW:
-  id: "ID"
-  username: "使用者名稱"
-  ip: "登入IP位址"
-  os: "作業系統"
-  browser: "瀏覽器"
-  status: "登入狀態（1為成功，2為失敗）"
-  message: "提示訊息"
-  login_time: "登入時間"
-  remark: "備註"
-</i18n>
-
+<!--
+ - MineAdmin is committed to providing solutions for quickly building web applications
+ - Please view the LICENSE file that was distributed with this source code,
+ - For the full copyright and license information.
+ - Thank you very much for using MineAdmin.
+ -
+ - @Author X.Mo<root@imoi.cn>
+ - @Link   https://github.com/mineadmin
+-->
 <script setup lang="ts">
 import type { UserLoginVo } from '~/base/api/log.ts'
 import { UserLoginLog } from '~/base/api/log.ts'
@@ -60,7 +34,7 @@ const options = ref<MaProTableOptions>({
   // 表格距离底部的像素偏移适配
   adaptionOffsetBottom: 161,
   header: {
-    mainTitle: t('title'),
+    mainTitle: () => t('baseLoginLog.title'),
   },
   // 表格参数
   tableOptions: {
@@ -72,7 +46,6 @@ const options = ref<MaProTableOptions>({
   // 搜索参数
   searchOptions: {
     fold: true,
-    defaultValue: { status: 1 },
     text: {
       searchBtn: () => t('crud.search'),
       resetBtn: () => t('crud.reset'),

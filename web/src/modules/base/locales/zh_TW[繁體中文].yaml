@@ -10,6 +10,23 @@ baseUser:
   status: 狀態
   mainTitle: 用戶管理
   subTitle: 提供使用者添加、編輯、刪除功能，超管不可修改。
+baseLoginLog:
+  title: 用戶登錄日志
+  username: 使用者名稱
+  ip: 登入IP
+  browser: 瀏覽器
+  status: 登入狀態
+  message: 提示訊息
+  login_time: 登入時間
+baseOperationLog:
+  title: 用戶操作日誌
+  username: 使用者名稱
+  method: 請求方式
+  router: 請求路由
+  service_name: 業務名稱
+  ip: 請求IP
+  created_at: 建立時間
+  updated_at: 更新時間
 baseMenu:
   permission:
     index: 權限管理

@@ -10,6 +10,23 @@ baseUser:
   status: Status
   mainTitle: User Manager
   subTitle: Provide users with the functions of adding, editing, and deleting
+baseLoginLog:
+  title: User Login log
+  username: Username
+  ip: Login IP
+  browser: Browser
+  status: Status
+  message: Message
+  login_time: Login Time
+baseOperationLog:
+  title: User Operation log
+  username: Username
+  method: Request Method
+  router: Router
+  service_name: Service Name
+  ip: Request IP
+  created_at: Creation Time
+  updated_at: Update Time
 baseMenu:
   permission:
     index: Permission

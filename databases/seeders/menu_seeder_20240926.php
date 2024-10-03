@@ -91,7 +91,7 @@ class MenuSeeder20240926 extends Seeder
                             'hidden' => 0,
                             'componentPath' => 'modules/',
                             'componentSuffix' => '.vue',
-                            'breadcrumbEnable' => true,
+                            'breadcrumbEnable' => 1,
                             'copyright' => 1,
                             'cache' => 1,
                             'affix' => 0,
@@ -280,6 +280,12 @@ class MenuSeeder20240926 extends Seeder
                             'hidden' => 0,
                             'icon' => 'ph:user-list',
                             'i18n' => 'baseMenu.log.userLoginLog',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
+                            'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [
@@ -313,6 +319,12 @@ class MenuSeeder20240926 extends Seeder
                             'hidden' => 0,
                             'icon' => 'ph:list-magnifying-glass',
                             'i18n' => 'baseMenu.log.operationLog',
+                            'componentPath' => 'modules/',
+                            'componentSuffix' => '.vue',
+                            'breadcrumbEnable' => 1,
+                            'copyright' => 1,
+                            'cache' => 1,
+                            'affix' => 0,
                         ]),
                         'children' => [
                             [

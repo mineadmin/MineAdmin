@@ -7,15 +7,14 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 索引序号列
-    { label: () => t('id'), prop: 'id' },
+    { type: 'index' },
     // 普通列
-    { label: () => t('username'), prop: 'username' },
-    { label: () => t('method'), prop: 'method' },
-    { label: () => t('router'), prop: 'router' },
-    { label: () => t('service_name'), prop: 'service_name' },
-    { label: () => t('ip'), prop: 'ip' },
-    { label: () => t('created_at'), prop: 'created_at' },
-    { label: () => t('remark'), prop: 'remark' },
+    { label: () => t('baseOperationLog.username'), prop: 'username' },
+    { label: () => t('baseOperationLog.method'), prop: 'method' },
+    { label: () => t('baseOperationLog.router'), prop: 'router' },
+    { label: () => t('baseOperationLog.service_name'), prop: 'service_name' },
+    { label: () => t('baseOperationLog.ip'), prop: 'ip' },
+    { label: () => t('baseOperationLog.created_at'), prop: 'created_at' },
     // 操作列
     {
       type: 'operation',
@@ -25,10 +24,9 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
           {
             name: 'del',
             icon: 'mdi:delete',
-            linkProps: { underline: false },
             text: '删除',
-            onClick: ({ row }) => {
-              UserOperatorLog.delete([row.id])
+            onClick: async ({ row }) => {
+              await UserOperatorLog.delete([row.id])
               tableRef.value.refresh()
             },
           },

@@ -40,7 +40,6 @@ const options = ref<MaProTableOptions>({
   // 搜索参数
   searchOptions: {
     fold: true,
-    defaultValue: { status: 1 },
     text: {
       searchBtn: () => t('crud.search'),
       resetBtn: () => t('crud.reset'),

@@ -14,32 +14,24 @@ import MaDictSelect from '@/components/ma-dict-picker/ma-dict-select.vue'
 export default function getSearchItems(t: any): MaSearchItem[] {
   return [
     {
-      label: () => t('username'),
+      label: () => t('baseLoginLog.username'),
       prop: 'username',
       render: 'input',
     },
     {
-      label: () => t('ip'),
+      label: () => t('baseLoginLog.ip'),
       prop: 'ip',
       render: 'input',
     },
     {
-      label: () => t('os'),
-      prop: 'os',
-      render: 'input',
-    },
-    {
-      label: () => t('status'),
+      label: () => t('baseLoginLog.status'),
       prop: 'status',
       render: () => MaDictSelect,
       renderProps: {
-        dictName: 'system-status',
+        clearable: true,
+        placeholder: '',
+        dictName: 'system-state',
       },
-    },
-    {
-      label: () => t('remark'),
-      prop: 'remark',
-      render: 'input',
     },
   ]
 }

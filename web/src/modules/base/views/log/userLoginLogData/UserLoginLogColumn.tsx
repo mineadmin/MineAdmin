@@ -10,21 +10,20 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 索引序号列
-    { label: () => t('id'), prop: 'id' },
+    { type: 'index' },
     // 普通列
-    { label: () => t('username'), prop: 'username' },
-    { label: () => t('os'), prop: 'os' },
-    { label: () => t('ip'), prop: 'ip' },
-    { label: () => t('browser'), prop: 'browser' },
-    { label: () => t('status'), prop: 'status',
+    { label: () => t('baseLoginLog.username'), prop: 'username' },
+    // { label: () => t('baseLoginLog.os'), prop: 'os' },
+    { label: () => t('baseLoginLog.ip'), prop: 'ip' },
+    { label: () => t('baseLoginLog.browser'), prop: 'browser' },
+    { label: () => t('baseLoginLog.status'), prop: 'status',
       cellRender: ({ row }) => (
-        <ElTag type={dictStore.t('status', row.status, 'color')}>
-          {t(dictStore.t('status', row.status, 'i18n'))}
+        <ElTag type={dictStore.t('system-state', row.status, 'color')}>
+          {t(dictStore.t('system-state', row.status, 'i18n'))}
         </ElTag>
       ),
     },
-    { label: () => t('remark'), prop: 'remark' },
-    { label: () => t('login_time'), prop: 'login_time' },
+    { label: () => t('baseLoginLog.login_time'), prop: 'login_time' },
     // 操作列
     {
       type: 'operation',
@@ -36,8 +35,8 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
             icon: 'mdi:delete',
             linkProps: { underline: false },
             text: '删除',
-            onClick: ({ row }) => {
-              UserLoginLog.delete([row.id])
+            onClick: async ({ row }) => {
+              await UserLoginLog.delete([row.id])
               tableRef.value.refresh()
             },
           },

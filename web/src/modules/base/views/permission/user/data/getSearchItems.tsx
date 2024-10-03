@@ -38,6 +38,8 @@ export default function getSearchItems(t: any): MaSearchItem[] {
       prop: 'status',
       render: () => MaDictSelect,
       renderProps: {
+        clearable: true,
+        placeholder: '',
         dictName: 'system-status',
       },
     },

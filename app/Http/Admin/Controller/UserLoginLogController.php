@@ -43,7 +43,7 @@ final class UserLoginLogController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['系统管理'],
     )]
-    #[Permission(code: 'user-login-log:list')]
+    #[Permission(code: 'log:userLogin:list')]
     #[PageResponse(instance: UserLoginLogSchema::class)]
     public function page(RequestInterface $request): Result
     {
@@ -63,7 +63,7 @@ final class UserLoginLogController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['系统管理'],
     )]
-    #[Permission(code: 'user-login-log:delete')]
+    #[Permission(code: 'log:userLogin:delete')]
     public function delete(RequestInterface $request): Result
     {
         $this->service->deleteById($request->input('ids'));

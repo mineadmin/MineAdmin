@@ -271,7 +271,7 @@ class MenuSeeder20240926 extends Seeder
                 ]),
                 'children' => [
                     [
-                        'name' => 'user-login',
+                        'name' => 'log:userLogin',
                         'path' => '/log/userLoginLog',
                         'component' => 'base/views/log/userLogin',
                         'meta' => new Meta([
@@ -289,7 +289,7 @@ class MenuSeeder20240926 extends Seeder
                         ]),
                         'children' => [
                             [
-                                'name' => 'user-login-log:list',
+                                'name' => 'log:userLogin:list',
                                 'path' => '/log/userLoginLog',
                                 'meta' => new Meta([
                                     'title' => '用户登录日志列表',
@@ -300,7 +300,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'user-login-log:delete',
+                                'name' => 'log:userLogin:delete',
                                 'meta' => new Meta([
                                     'title' => '删除用户登录日志',
                                     'i18n' => 'baseMenu.log.userLoginLogDelete',
@@ -310,7 +310,7 @@ class MenuSeeder20240926 extends Seeder
                         ],
                     ],
                     [
-                        'name' => 'operation',
+                        'name' => 'log:operation',
                         'path' => '/log/operationLog',
                         'component' => 'base/views/log/userOperation',
                         'meta' => new Meta([
@@ -328,7 +328,7 @@ class MenuSeeder20240926 extends Seeder
                         ]),
                         'children' => [
                             [
-                                'name' => 'user-operation-log:list',
+                                'name' => 'log:operation:list',
                                 'meta' => new Meta([
                                     'title' => '用户操作日志列表',
                                     'i18n' => 'baseMenu.log.userOperationLog',
@@ -336,7 +336,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'user-operation-log:delete',
+                                'name' => 'log:operation:delete',
                                 'meta' => new Meta([
                                     'title' => '删除用户操作日志',
                                     'i18n' => 'baseMenu.log.userOperationLogDelete',

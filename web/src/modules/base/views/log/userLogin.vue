@@ -12,8 +12,8 @@ import type { UserLoginVo } from '~/base/api/log.ts'
 import { UserLoginLog } from '~/base/api/log.ts'
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
-import getColumns from '~/base/views/log/UserLoginLogColumn.tsx'
-import getSearchItems from '~/base/views/log/UserLoginLogSearch.tsx'
+import getColumns from './userLoginLogData/UserLoginLogColumn.tsx'
+import getSearchItems from './userLoginLogData/UserLoginLogSearch.tsx'
 
 const t = useTrans()
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>

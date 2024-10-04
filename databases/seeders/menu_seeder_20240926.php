@@ -294,7 +294,6 @@ class MenuSeeder20240926 extends Seeder
                                 'meta' => new Meta([
                                     'title' => '用户登录日志列表',
                                     'i18n' => 'baseMenu.log.userLoginLogList',
-                                    'icon' => 'simple-icons:logstash',
                                     'type' => 'B',
                                 ]),
                             ],

@@ -1,8 +1,7 @@
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 export function useMessage() {
-  const { t } = useI18n()
+  const t = useTrans().globalTrans
   return {
     // 消息提示
     info(content: string) {
@@ -22,19 +21,19 @@ export function useMessage() {
     },
     // 弹出提示
     alert(content: string) {
-      ElMessageBox.alert(content, t('common.confirmTitle'))
+      ElMessageBox.alert(content, t('crud.confirmTitle'))
     },
     // 错误提示
     alertError(content: string) {
-      ElMessageBox.alert(content, t('common.confirmTitle'), { type: 'error' })
+      ElMessageBox.alert(content, t('crud.confirmTitle'), { type: 'error' })
     },
     // 成功提示
     alertSuccess(content: string) {
-      ElMessageBox.alert(content, t('common.confirmTitle'), { type: 'success' })
+      ElMessageBox.alert(content, t('crud.confirmTitle'), { type: 'success' })
     },
     // 警告提示
     alertWarning(content: string) {
-      ElMessageBox.alert(content, t('common.confirmTitle'), { type: 'warning' })
+      ElMessageBox.alert(content, t('crud.confirmTitle'), { type: 'warning' })
     },
     // 通知提示
     notify(content: string) {
@@ -52,22 +51,22 @@ export function useMessage() {
     notifyWarning(content: string) {
       ElNotification.warning(content)
     },
-    // 确认窗体
+    // 确认框
     confirm(content: string, tip?: string) {
-      return ElMessageBox.confirm(content, tip || t('common.confirmTitle'), {
-        confirmButtonText: t('common.ok'),
-        cancelButtonText: t('common.cancel'),
+      return ElMessageBox.confirm(content, tip || t('crud.confirmTitle'), {
+        confirmButtonText: t('crud.ok'),
+        cancelButtonText: t('crud.cancel'),
         type: 'warning',
       })
     },
-    // 删除窗体
+    // 删除框
     delConfirm(content?: string, tip?: string) {
       return ElMessageBox.confirm(
-        content || t('common.delMessage'),
-        tip || t('common.confirmTitle'),
+        content || t('crud.delMessage'),
+        tip || t('crud.confirmTitle'),
         {
-          confirmButtonText: t('common.ok'),
-          cancelButtonText: t('common.cancel'),
+          confirmButtonText: t('crud.ok'),
+          cancelButtonText: t('crud.cancel'),
           type: 'warning',
         },
       )
@@ -75,11 +74,11 @@ export function useMessage() {
     // 导出窗体
     exportConfirm(content?: string, tip?: string) {
       return ElMessageBox.confirm(
-        content || t('common.exportMessage'),
-        tip || t('common.confirmTitle'),
+        content || t('crud.exportMessage'),
+        tip || t('crud.confirmTitle'),
         {
-          confirmButtonText: t('common.ok'),
-          cancelButtonText: t('common.cancel'),
+          confirmButtonText: t('crud.ok'),
+          cancelButtonText: t('crud.cancel'),
           type: 'warning',
         },
       )
@@ -87,8 +86,8 @@ export function useMessage() {
     // 提交内容
     prompt(content: string, tip: string) {
       return ElMessageBox.prompt(content, tip, {
-        confirmButtonText: t('common.ok'),
-        cancelButtonText: t('common.cancel'),
+        confirmButtonText: t('crud.ok'),
+        cancelButtonText: t('crud.cancel'),
         type: 'warning',
       })
     },

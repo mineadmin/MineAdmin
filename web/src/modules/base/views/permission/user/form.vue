@@ -45,6 +45,13 @@ function create() {
 function save() {
 
 }
+
+defineExpose({
+  create,
+  save,
+  model: userModel,
+  maForm: userForm,
+})
 </script>
 
 <template>

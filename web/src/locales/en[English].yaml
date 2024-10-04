@@ -140,6 +140,19 @@ crud:
   searchUnFold: Unfold
   selection: Selection
   operation: Operation
+  createSuccess: The creation is successful
+  updateSuccess: The update was successful
+  delMessage: Whether to delete the selected data?
+  delDataMessage: Whether or not to delete the data?
+  delNoData: Select at least one row of data
+  delSuccess: The deletion is successful
+  status: Status
+  createTime: Creation time
+  updateTime: Updated time
+  exportMessage: Whether to confirm the export data?
+  importMessage: Whether to confirm the import data?
+  confirmTitle: System prompts
+  confirmMessage: OK to do %{msg}?
 form:
   pleaseInput: Please input %{msg}
   pleaseSelect: Please select %{msg}

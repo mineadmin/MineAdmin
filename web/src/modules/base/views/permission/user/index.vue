@@ -11,11 +11,13 @@
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
-import { page } from '~/base/api/user'
+import { create, page, save } from '~/base/api/user'
 import getSearchItems from './data/getSearchItems.tsx'
 import getTableColumns from './data/getTableColumns.tsx'
 import UserForm from './form.vue'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 import useDialog from '@/hooks/useDialog.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'permission:user' })
 
@@ -24,15 +26,37 @@ const formRef = ref()
 const selections = ref<any[]>([])
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
+const msg = useMessage()
 
 // 弹窗配置
-const { Dialog, open, setTitle } = useDialog({
-  // 新增 or 保存
-  onOk: () => {
-    // 保存
-    formRef.value?.validate().then(() => {
-      // TODO: 保存
-    })
+const maDialog: UseDialogExpose = useDialog({
+  // 保存数据
+  ok: ({ formType }) => {
+    const elForm = formRef.value.maForm.getElFormRef()
+    const model = formRef.value.model
+    // 验证通过后
+    elForm.validate().then(() => {
+      // 新增
+      if (formType === 'add') {
+        create(model).then((res) => {
+          res.code === 200 ? msg.success('添加成功') : msg.error(res.message)
+          maDialog.close()
+          proTableRef.value.refresh()
+        }).catch((err) => {
+          msg.error(err)
+        })
+      }
+      // 修改
+      else {
+        save(model.id, model).then((res) => {
+          res.code === 200 ? msg.success('修改成功') : msg.error(res.message)
+          maDialog.close()
+          proTableRef.value.refresh()
+        }).catch((err) => {
+          msg.error(err)
+        })
+      }
+    }).catch()
   },
 })
 
@@ -73,7 +97,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems: getSearchItems(t),
   // 表格列
-  tableColumns: getTableColumns(proTableRef, { open, setTitle }, t),
+  tableColumns: getTableColumns(maDialog, formRef, t),
 })
 </script>
 
@@ -83,8 +107,8 @@ const schema = ref<MaProTableSchema>({
       <template #actions>
         <el-button
           type="primary" @click="() => {
-            setTitle(t('crud.add'))
-            open({ formType: 'add' })
+            maDialog.setTitle(t('crud.add'))
+            maDialog.open({ formType: 'add' })
           }"
         >
           {{ t('crud.add') }}
@@ -99,18 +123,23 @@ const schema = ref<MaProTableSchema>({
       <!-- 数据为空时 -->
       <template #empty>
         <el-empty>
-          <el-button type="primary" @click="() => open()">
+          <el-button
+            type="primary" @click="() => {
+              maDialog.setTitle(t('crud.add'))
+              maDialog.open({ formType: 'add' })
+            }"
+          >
             {{ t('crud.add') }}
           </el-button>
         </el-empty>
       </template>
     </MaProTable>
 
-    <Dialog>
+    <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">
-        <UserForm :form-type="formType" :data="data" />
+        <UserForm ref="formRef" :form-type="formType" :data="data" />
       </template>
-    </Dialog>
+    </component>
   </div>
 </template>
 

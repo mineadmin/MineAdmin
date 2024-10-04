@@ -15,8 +15,8 @@ import { ElDialog } from 'element-plus'
 defineOptions({ name: 'MaDialog' })
 
 const emit = defineEmits<{
-  (e: 'ok', value: Event): void
-  (e: 'close', value: Event): void
+  (e: 'ok', value: any): void
+  (e: 'cancel', value: Event): void
 }>()
 
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
@@ -87,12 +87,12 @@ onMounted(() => {
     </template>
     <template #footer>
       <slot v-if="$attrs.footer" name="footer">
-        <el-button type="primary" @click="(e) => emit('ok', e)">
+        <el-button type="primary" @click="() => emit('ok', $attrs)">
           {{ t('crud.ok') }}
         </el-button>
         <el-button
           @click="(e) => {
-            emit('close', e)
+            emit('cancel', e)
             isOpen = false
           }"
         >

@@ -140,6 +140,19 @@ crud:
   searchUnFold: 展開
   selection: 多選
   operation: 操作
+  createSuccess: 新增成功
+  updateSuccess: 修改成功
+  delMessage: 是否刪除所選中數據？
+  delDataMessage: 是否刪除數據？
+  delNoData: 至少要選擇一行數據
+  delSuccess: 刪除成功
+  status: 狀態
+  createTime: 創建時間
+  updateTime: 更新時間
+  exportMessage: 是否確認導出數據？
+  importMessage: 是否確認導入數據？
+  confirmTitle: 系統提示
+  confirmMessage: 確認要%{msg}嗎？
 form:
   pleaseInput: 請輸入%{msg}
   pleaseSelect: 請選擇%{msg}

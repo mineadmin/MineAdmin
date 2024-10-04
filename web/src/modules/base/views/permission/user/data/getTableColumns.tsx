@@ -7,12 +7,12 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
-import type { Ref } from 'vue'
+import type { MaProTableColumns } from '@mineadmin/pro-table'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { ElTag } from 'element-plus'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 
-export default function getTableColumns(tableRef: Ref<MaProTableExpose>, dialog: any, t: any): MaProTableColumns[] {
+export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t: any): MaProTableColumns[] {
   const dictStore = useDictStore()
 
   return [
@@ -48,7 +48,7 @@ export default function getTableColumns(tableRef: Ref<MaProTableExpose>, dialog:
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            // show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             text: () => t('crud.edit'),
             onClick: ({ row }) => {
               dialog.setTitle(t('crud.edit'))

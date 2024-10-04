@@ -140,6 +140,11 @@ crud:
   searchUnFold: Unfold
   selection: Selection
   operation: Operation
+form:
+  pleaseInput: Please input %{msg}
+  pleaseSelect: Please select %{msg}
+  requiredInput: '%{msg} Required'
+  requiredSelect: '%{msg} Required'
 dictionary:
   system:
     statusEnabled: Enabled

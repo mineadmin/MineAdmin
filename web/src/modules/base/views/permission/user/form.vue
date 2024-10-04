@@ -11,48 +11,44 @@
 import type { UserVo } from '~/base/api/user'
 import getFormItems from './data/getFormItems.tsx'
 import type { MaFormExpose } from '@mineadmin/form'
+import useForm from '@/hooks/useForm.ts'
 
 defineOptions({ name: 'permission:user:form' })
 
-const t = useTrans()
-const isOpen = ref<boolean>(false)
-const userForm = ref<MaFormExpose>()
-const componentInfo = reactive({
-  title: '',
-  type: 'add',
-})
+const { formType = 'add', data = null } = defineProps<{
+  formType: 'add' | 'edit'
+  data?: UserVo | null
+}>()
 
+const t = useTrans().globalTrans
+const userForm = ref<MaFormExpose>()
 const userModel = ref<UserVo>({})
 
-function open(data: UserVo | null = null) {
-  componentInfo.title = data ? t('crud.edit') : t('crud.add')
-  componentInfo.type = data ? 'edit' : 'add'
-  isOpen.value = true
-  if (data) {
-    userModel.value = data
+useForm('userForm').then((form: MaFormExpose) => {
+  if (formType === 'edit' && data) {
+    Object.keys(data).map((key: string) => {
+      userModel.value[key] = data[key]
+    })
   }
-  nextTick(
-    () => {
-      userForm.value?.setItems(getFormItems(componentInfo.type as 'add' | 'edit', t, userModel.value))
-      userForm.value?.setOptions({
-        labelWidth: '80px',
-      })
-    },
-  )
+  form.setItems(getFormItems(formType, t, userModel.value))
+  form.setOptions({
+    labelWidth: '80px',
+  })
+})
+
+// 创建操作
+function create() {
+
 }
 
-defineExpose({ open })
+// 更新操作
+function save() {
+
+}
 </script>
 
 <template>
-  <ma-dialog
-    v-model="isOpen"
-    :title="componentInfo.title"
-    :close-on-click-modal="false"
-    append-to-body
-  >
-    <ma-form ref="userForm" v-model="userModel" />
-  </ma-dialog>
+  <ma-form ref="userForm" v-model="userModel" />
 </template>
 
 <style scoped lang="scss">

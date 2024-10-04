@@ -59,6 +59,8 @@ async function createI18nService(app: App) {
     globalInjection: true,
     fallbackLocale: 'zh_CN',
     locale: useUserStore().getLanguage(),
+    silentTranslationWarn: true,
+    silentFallbackWarn: true,
     messages,
   }))
 }

@@ -12,7 +12,7 @@ import type { Ref } from 'vue'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { ElTag } from 'element-plus'
 
-export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
+export default function getTableColumns(tableRef: Ref<MaProTableExpose>, dialog: any, t: any): MaProTableColumns[] {
   const dictStore = useDictStore()
 
   return [
@@ -49,34 +49,35 @@ export default function getUserColumns(tableRef: Ref<MaProTableExpose>, formRef:
             name: 'edit',
             icon: 'material-symbols:person-edit',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
-            text: () => '编辑',
+            text: () => t('crud.edit'),
             onClick: ({ row }) => {
-              formRef.value.open(row)
+              dialog.setTitle(t('crud.edit'))
+              dialog.open({ formType: 'edit', data: row })
             },
           },
           {
             name: 'del',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'mdi:delete',
-            text: '删除',
+            text: () => t('crud.delete'),
           },
           {
             name: 'setRole',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:person-add-rounded',
-            text: '赋予角色',
+            text: () => t('baseUser.setRole'),
           },
           {
             name: 'initPassword',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:passkey',
-            text: '初始化密码',
+            text: () => t('baseUser.initPassword'),
           },
           {
             name: 'noAllowSuperAdmin',
             show: ({ row }) => row.id === 1 && row.username === 'SuperAdmin',
             disabled: () => true,
-            text: '超管不可修改',
+            text: () => t('baseUser.superAdminNoEdit'),
           },
         ],
       },

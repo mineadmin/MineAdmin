@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Dictionary } from '#/global'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
 
 defineOptions({ name: 'MaDictRadio' })
 
@@ -21,7 +21,8 @@ const dictionaryData = computed<Dictionary[] | null>(() => {
   return dictStore.find(dictName)
 })
 
-const t = (transScope === 'global' ? useTrans() : useLocalTrans())
+const i18n = useTrans() as TransType
+const t = transScope === 'global' ? i18n.globalTrans : i18n.localTrans
 
 const model = defineModel<any>()
 </script>

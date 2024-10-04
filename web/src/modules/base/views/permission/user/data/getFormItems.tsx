@@ -8,15 +8,14 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaFormItem } from '@mineadmin/form'
-import MaUploadImage from '@/components/ma-upload-image/index.vue'
 import type { UserVo } from '~/base/api/user.ts'
+import MaUploadImage from '@/components/ma-upload-image/index.vue'
+import MaDictRadio from '@/components/ma-dict-picker/ma-dict-radio.vue'
 
 export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo): MaFormItem[] {
   if (formType === 'add') {
     model.password = '123456'
-  }
-  if (formType === 'edit') {
-    model.password = ''
+    model.status = 1
   }
 
   return [
@@ -29,50 +28,93 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
       label: () => t('baseUser.username'),
       prop: 'username',
       render: 'input',
-      cols: { span: 12 },
+      cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: '请输入用户名',
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.username') }),
       },
       itemProps: {
-        rules: [{ required: true, message: '用户名必填' }],
+        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.username') }) }],
       },
     },
     {
       label: () => t('baseUser.nickname'),
       prop: 'nickname',
       render: 'input',
-      cols: { span: 12 },
+      cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: '请输入昵称',
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.nickname') }),
       },
       itemProps: {
-        rules: [{ required: true, message: '昵称必填' }],
+        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.nickname') }) }],
       },
     },
     {
       label: () => t('baseUser.password'),
       prop: 'password',
-      hide: formType === 'edit',
       render: 'input',
-      cols: { span: 12 },
+      cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: '请输入密码',
+        disabled: formType === 'edit',
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.password') }),
       },
       itemProps: {
-        rules: [{ required: true, message: '密码必填' }],
+        rules: formType === 'add' ? [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.password') }) }] : [],
       },
     },
     {
-      label: () => t('baseUser.nickname'),
-      prop: 'nickname',
+      label: () => t('baseUser.phone'),
+      prop: 'phone',
       render: 'input',
-      cols: { span: 12 },
+      cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: '请输入昵称',
-      },
-      itemProps: {
-        rules: [{ required: true, message: '昵称必填' }],
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.phone') }),
       },
     },
+    {
+      label: () => t('baseUser.email'),
+      prop: 'email',
+      render: 'input',
+      cols: { md: 12, xs: 24 },
+      renderProps: {
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.email') }),
+      },
+    },
+    {
+      label: () => t('baseUser.status'),
+      prop: 'status',
+      render: () => MaDictRadio,
+      cols: { md: 12, xs: 24 },
+      renderProps: {
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.status') }),
+        dictName: 'system-status',
+      },
+    },
+    {
+      label: () => t('baseUser.remark'),
+      prop: 'remark',
+      render: 'input',
+      renderProps: {
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.remark') }),
+        type: 'textarea',
+      },
+    },
+    // {
+    //   label: () => t('baseUser.role'),
+    //   prop: 'role',
+    //   render: () => MaRemoteSelect,
+    //   cols: { span: 12 },
+    //   renderProps: {
+    //     placeholder: t('form.pleaseSelect', { msg: t('baseUser.role') }),
+    //     api: () => new Promise(resolve => resolve(page({ page_size: 999 }))),
+    //     dataHandle: (response: any) => {
+    //       return response.data.list?.map((item: RoleVo) => {
+    //         return { label: `${item.name}-${item.code}`, value: item.id }
+    //       })
+    //     },
+    //   },
+    //   itemProps: {
+    //     rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseUser.role') }) }],
+    //   },
+    // },
   ]
 }

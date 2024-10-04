@@ -42,6 +42,8 @@ const currentIconList = ref<string[]>([])
 const validIcons = ref<string[]>([])
 const pageData = ref<string[]>([])
 
+const t = useLocalTrans()
+
 function getIcons() {
   currentIconList.value = data.filter((item: any) => item.prefix === currentName.value)[0].icons
   validIcons.value = currentIconList.value
@@ -84,7 +86,7 @@ handleTabChange(currentName.value)
 <template>
   <el-tabs v-model="currentName" tab-position="left" class="h-[500px]" :class="className" @tab-change="handleTabChange">
     <div class="pl-1.5 pr-3">
-      <el-input v-model="keywords" :placeholder="useLocalTrans('searchPlaceholder')" clearable />
+      <el-input v-model="keywords" :placeholder="t('searchPlaceholder')" clearable />
     </div>
     <template v-for="item in data" :key="item.prefix">
       <el-tab-pane :label="item.info.name" :name="item.prefix" class="mt-2">

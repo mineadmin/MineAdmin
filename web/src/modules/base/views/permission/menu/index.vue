@@ -20,7 +20,7 @@ const defaultExpandNodes = ref<number[]>([])
 const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
 
-const trans = useTrans()
+const t = useTrans().globalTrans
 
 onMounted(async () => {
   const { data } = await page()
@@ -49,7 +49,7 @@ provide('defaultExpandNodes', defaultExpandNodes)
     </div>
     <div class="relative mt-3 h-[calc(100%-250px)] w-full overflow-x-hidden overflow-y-auto pr-5 lg:mt-0 lg:h-full">
       <div class="sticky top-0 z-2 flex items-center justify-between b-b-1 b-b-gray-1 b-b-solid bg-white pb-3 text-base dark-b-b-dark-4 dark-bg-dark-8">
-        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? trans(currentMenu.meta?.i18n) : currentMenu.meta?.title) : '添加顶级菜单' }}</span>
+        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) : '添加顶级菜单' }}</span>
         <div>
           <el-button type="primary">
             保存

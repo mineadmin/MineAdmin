@@ -8,8 +8,12 @@ baseUser:
   signed: 個人簽名
   role: 角色
   status: 狀態
+  remark: 備注
   mainTitle: 用戶管理
   subTitle: 提供使用者添加、編輯、刪除功能，超管不可修改。
+  setRole: 賦予角色
+  initPassword: 重設密碼
+  superAdminNoEdit: 超管不可修改
 baseLoginLog:
   title: 用戶登錄日志
   username: 使用者名稱

@@ -10,17 +10,31 @@
 <script setup lang="tsx">
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
+import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
 import { page } from '~/base/api/user'
 import getSearchItems from './data/getSearchItems.tsx'
-import getUserColumns from './data/getUserColumns.tsx'
+import getTableColumns from './data/getTableColumns.tsx'
 import UserForm from './form.vue'
+import useDialog from '@/hooks/useDialog.ts'
 
 defineOptions({ name: 'permission:user' })
 
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()
 const selections = ref<any[]>([])
-const t = useTrans()
+const i18n = useTrans() as TransType
+const t = i18n.globalTrans
+
+// 弹窗配置
+const { Dialog, open, setTitle } = useDialog({
+  // 新增 or 保存
+  onOk: () => {
+    // 保存
+    formRef.value?.validate().then(() => {
+      // TODO: 保存
+    })
+  },
+})
 
 // 参数配置
 const options = ref<MaProTableOptions>({
@@ -59,7 +73,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems: getSearchItems(t),
   // 表格列
-  tableColumns: getUserColumns(proTableRef, formRef, t),
+  tableColumns: getTableColumns(proTableRef, { open, setTitle }, t),
 })
 </script>
 
@@ -67,7 +81,12 @@ const schema = ref<MaProTableSchema>({
   <div class="mine-layout pt-3">
     <MaProTable ref="proTableRef" :options="options" :schema="schema">
       <template #actions>
-        <el-button type="primary" @click="() => formRef.open(null)">
+        <el-button
+          type="primary" @click="() => {
+            setTitle(t('crud.add'))
+            open({ formType: 'add' })
+          }"
+        >
           {{ t('crud.add') }}
         </el-button>
       </template>
@@ -80,14 +99,18 @@ const schema = ref<MaProTableSchema>({
       <!-- 数据为空时 -->
       <template #empty>
         <el-empty>
-          <el-button type="primary" @click="() => formRef.open(null)">
+          <el-button type="primary" @click="() => open()">
             {{ t('crud.add') }}
           </el-button>
         </el-empty>
       </template>
     </MaProTable>
 
-    <UserForm ref="formRef" />
+    <Dialog>
+      <template #default="{ formType, data }">
+        <UserForm :form-type="formType" :data="data" />
+      </template>
+    </Dialog>
   </div>
 </template>
 

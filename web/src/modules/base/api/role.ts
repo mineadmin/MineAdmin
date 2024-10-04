@@ -14,6 +14,7 @@ export interface RoleSearchVo {
   name?: string
   code?: string
   status?: number
+  [key: string]: any
 }
 
 export function page(data: RoleSearchVo): Promise<ResponseStruct<PageList<RoleVo>>> {

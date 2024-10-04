@@ -8,7 +8,7 @@ import { UserOperatorLog } from '~/base/api/log.ts'
 
 defineOptions({ name: 'log:userOperation' })
 
-const t = useTrans()
+const t = useTrans().globalTrans
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()
 const selections: Ref<RequestLogInfoVo[]> = ref([])

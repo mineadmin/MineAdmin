@@ -8,8 +8,12 @@ baseUser:
   role: Role
   signed: Signed
   status: Status
+  remark: Remark
   mainTitle: User Manager
   subTitle: Provide users with the functions of adding, editing, and deleting
+  setRole: Set role
+  initPassword: Init password
+  superAdminNoEdit: SuperAdmin not allow edit
 baseLoginLog:
   title: User Login log
   username: Username

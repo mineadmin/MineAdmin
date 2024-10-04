@@ -15,7 +15,7 @@ import type { MenuVo } from '~/base/api/menu.ts'
 const emit = defineEmits<{
   (event: 'menu-select', value: MenuVo): void
 }>()
-const t = useTrans()
+const t = useTrans().globalTrans
 
 onMounted(async () => {
   const resizeContainer = () => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const t = useTrans()
+const t = useTrans().globalTrans
 const router = useRouter()
 </script>
 

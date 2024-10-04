@@ -140,6 +140,11 @@ crud:
   searchUnFold: 展开
   selection: 多选
   operation: 操作
+form:
+  pleaseInput: 请输入%{msg}
+  pleaseSelect: 请选择%{msg}
+  requiredInput: '%{msg}必填'
+  requiredSelect: '%{msg}必选'
 dictionary:
   system:
     statusEnabled: 启用

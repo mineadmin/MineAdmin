@@ -14,6 +14,11 @@ import { ElDialog } from 'element-plus'
 
 defineOptions({ name: 'MaDialog' })
 
+const emit = defineEmits<{
+  (e: 'ok', value: Event): void
+  (e: 'close', value: Event): void
+}>()
+
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
 const dialogWidth = ref<string>('55%')
 const fullscreen = ref<boolean>(false)
@@ -22,7 +27,7 @@ const fsIcon = reactive({
   exit: 'mingcute:fullscreen-exit-line',
 })
 
-const t = useTrans()
+const t = useTrans().globalTrans
 
 const isOpen = defineModel<boolean>({ default: false })
 
@@ -82,11 +87,16 @@ onMounted(() => {
     </template>
     <template #footer>
       <slot v-if="$attrs.footer" name="footer">
-        <el-button @click="() => isOpen = false">
-          {{ t('crud.cancel') }}
-        </el-button>
-        <el-button type="primary">
+        <el-button type="primary" @click="(e) => emit('ok', e)">
           {{ t('crud.ok') }}
+        </el-button>
+        <el-button
+          @click="(e) => {
+            emit('close', e)
+            isOpen = false
+          }"
+        >
+          {{ t('crud.cancel') }}
         </el-button>
       </slot>
     </template>

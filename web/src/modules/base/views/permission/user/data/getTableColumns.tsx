@@ -48,7 +48,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            // show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             text: () => t('crud.edit'),
             onClick: ({ row }) => {
               dialog.setTitle(t('crud.edit'))

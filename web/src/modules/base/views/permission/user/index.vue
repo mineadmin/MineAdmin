@@ -39,21 +39,21 @@ const maDialog: UseDialogExpose = useDialog({
       // 新增
       if (formType === 'add') {
         create(model).then((res) => {
-          res.code === 200 ? msg.success('添加成功') : msg.error(res.message)
+          res.code === 200 ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
           maDialog.close()
           proTableRef.value.refresh()
         }).catch((err) => {
-          msg.error(err)
+          msg.alertError(err)
         })
       }
       // 修改
       else {
         save(model.id, model).then((res) => {
-          res.code === 200 ? msg.success('修改成功') : msg.error(res.message)
+          res.code === 200 ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
           maDialog.close()
           proTableRef.value.refresh()
         }).catch((err) => {
-          msg.error(err)
+          msg.alertError(err)
         })
       }
     }).catch()

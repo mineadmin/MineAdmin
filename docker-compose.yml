@@ -38,7 +38,7 @@ services:
   mysql:
     environment:
       - "TZ=Asia/Shanghai"
-      - MYSQL_ROOT_PASSWORD=12345678
+      - MYSQL_ROOT_PASSWORD=123456
       - "explicit_defaults_for_timestamp=true"
       - "lower_case_table_names=1"
     volumes:

@@ -22,10 +22,15 @@ const emit = defineEmits<{
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
 const dialogWidth = ref<string>('55%')
 const fullscreen = ref<boolean>(false)
+const okLoading = ref<boolean>(false)
 const fsIcon = reactive({
   todo: 'mingcute:fullscreen-line',
   exit: 'mingcute:fullscreen-exit-line',
 })
+
+function okLoadingState(state: boolean) {
+  okLoading.value = state
+}
 
 const t = useTrans().globalTrans
 
@@ -67,7 +72,9 @@ onMounted(() => {
     append-to-body
   >
     <template #default>
-      <slot name="default" />
+      <div v-loading="$attrs.loading ?? false">
+        <slot name="default" />
+      </div>
     </template>
     <template #header>
       <div class="relative flex items-center justify-between">
@@ -87,7 +94,7 @@ onMounted(() => {
     </template>
     <template #footer>
       <slot v-if="$attrs.footer" name="footer">
-        <el-button type="primary" @click="() => emit('ok', $attrs)">
+        <el-button type="primary" :loading="okLoading" @click="() => emit('ok', { okLoadingState, $attrs })">
           {{ t('crud.ok') }}
         </el-button>
         <el-button

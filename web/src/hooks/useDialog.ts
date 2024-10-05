@@ -51,9 +51,12 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
         'title': props?.title ?? title.value,
         'footer': true,
         'destroyOnClose': true,
-        'onOk': () => args?.ok?.(...openArgs.value) ?? on.value?.ok?.(...openArgs.value),
-        'onCancel': () => args?.close?.() ?? on.value?.cancel?.() ?? close(),
         ...args,
+        'onOk': ({ okLoadingState }) => {
+          openArgs.value.push(okLoadingState)
+          return args?.ok?.(...openArgs.value) ?? on.value?.ok?.(...openArgs.value)
+        },
+        'onCancel': () => args?.close?.() ?? on.value?.cancel?.() ?? close(),
       },
       {
         ...slots,

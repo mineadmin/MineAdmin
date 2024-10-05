@@ -5,6 +5,7 @@ baseUser:
   phone: 手機
   email: 郵箱
   password: 密碼
+  userType: 用戶類型
   signed: 個人簽名
   role: 角色
   status: 狀態

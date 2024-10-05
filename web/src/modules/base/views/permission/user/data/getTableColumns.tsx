@@ -8,9 +8,11 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
+import type { UserVo } from '~/base/api/user.ts'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
+
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { ElTag } from 'element-plus'
-import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { deleteByIds, resetPassword } from '~/base/api/user.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
@@ -21,7 +23,10 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
 
   return [
     // 多选列
-    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
+    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection'),
+      cellRender: ({ row }): any => (row.id === 1 || row.username === 'SuperAdmin') ? '-' : undefined,
+      selectable: (row: UserVo) => ![1].includes(row.id as number) || !['SuperAdmin'].includes(row.username as string),
+    },
     // 索引序号列
     { type: 'index' },
     // 普通列
@@ -34,6 +39,13 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     },
     { label: () => t('baseUser.username'), prop: 'username' },
     { label: () => t('baseUser.nickname'), prop: 'nickname' },
+    { label: () => t('baseUser.userType'), prop: 'user_type',
+      cellRender: ({ row }) => (
+        <ElTag type={dictStore.t('base-userType', row.user_type, 'color')}>
+          {t(dictStore.t('base-userType', row.user_type, 'i18n'))}
+        </ElTag>
+      ),
+    },
     { label: () => t('baseUser.phone'), prop: 'phone' },
     { label: () => t('baseUser.email'), prop: 'email' },
     { label: () => t('baseUser.status'), prop: 'status',

@@ -7,7 +7,7 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { AxiosInstance, AxiosResponse } from 'axios'
+import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import Message from 'vue-m-message'
 import { useDebounceFn } from '@vueuse/core'
@@ -16,6 +16,7 @@ import useCache from '@/hooks/useCache.ts'
 
 const { isLoading } = useNProgress()
 const cache = useCache()
+const requestList = ref<InternalAxiosRequestConfig[] | null>(null)
 
 function createHttp(baseUrl: string | null = null): AxiosInstance {
   const env = import.meta.env
@@ -43,11 +44,6 @@ http.interceptors.request.use(
       }, config.headers)
     }
 
-    // 检查token是否需要刷新
-    if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
-      console.log('需要刷新token了', `refreshToken:${cache.get('refresh_token')}`)
-    }
-
     await usePluginStore().callHooks('networkRequest', config)
     return config
   },
@@ -56,6 +52,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   async (response: AxiosResponse): Promise<any> => {
     isLoading.value = false
+    const userStore = useUserStore()
     await usePluginStore().callHooks('networkResponse', response)
     if ((response.headers['content-disposition'] || !/^application\/json/.test(response.headers['content-type'])) && response.status === 200) {
       return Promise.resolve(response.data)
@@ -68,6 +65,12 @@ http.interceptors.response.use(
       // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
       switch (response?.data?.code) {
         case 401: {
+          // 检查token是否需要刷新
+          if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
+            // todo 经测试，后端刷新接口还有问题，待修复
+            console.log('可以刷新token了')// cache.get('refresh_token')
+          }
+
           const logout = useDebounceFn(
             async () => {
               Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })

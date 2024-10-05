@@ -16,9 +16,9 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
   if (formType === 'add') {
     model.password = '123456'
     model.status = 1
+    model.user_type = 100
   }
 
-  model.user_type = 100
   model.backend_setting = []
 
   return [
@@ -83,13 +83,14 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
       },
     },
     {
-      label: () => t('baseUser.status'),
-      prop: 'status',
-      render: () => MaDictRadio,
+      label: () => t('baseUser.userType'),
+      prop: 'user_type',
       cols: { md: 12, xs: 24 },
+      render: () => MaDictRadio,
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.status') }),
-        dictName: 'system-status',
+        renderMode: 'button',
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.userType') }),
+        dictName: 'base-userType',
       },
     },
     {
@@ -99,6 +100,15 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
       renderProps: {
         placeholder: t('form.pleaseInput', { msg: t('baseUser.remark') }),
         type: 'textarea',
+      },
+    },
+    {
+      label: () => t('baseUser.status'),
+      prop: 'status',
+      render: () => MaDictRadio,
+      renderProps: {
+        placeholder: t('form.pleaseInput', { msg: t('baseUser.status') }),
+        dictName: 'system-status',
       },
     },
   ]

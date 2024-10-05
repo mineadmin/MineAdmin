@@ -166,3 +166,6 @@ dictionary:
     statusDisabled: Disabled
     successState: Success
     failState: Failure
+  base:
+    systemUser: System user
+    normalUser: Normal user

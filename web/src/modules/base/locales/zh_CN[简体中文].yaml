@@ -5,6 +5,7 @@ baseUser:
   phone: 手机
   email: 邮箱
   password: 密码
+  userType: 用户类型
   role: 角色
   signed: 个人签名
   status: 状态

@@ -5,6 +5,7 @@ baseUser:
   phone: Phone
   email: Email
   password: Password
+  userType: User type
   role: Role
   signed: Signed
   status: Status

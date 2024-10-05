@@ -12,14 +12,16 @@ import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@min
 import type { Ref } from 'vue'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
 import type { UseDialogExpose } from '@/hooks/useDialog.ts'
-import { page } from '~/base/api/user'
+
+import { deleteByIds, page } from '~/base/api/user'
 import getSearchItems from './data/getSearchItems.tsx'
 import getTableColumns from './data/getTableColumns.tsx'
 import useDialog from '@/hooks/useDialog.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { ResultCode } from '@/utils/ResultCode.ts'
+
 import UserForm from './form.vue'
 import SetRoleForm from './setRoleForm.vue'
-import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'permission:user' })
 
@@ -34,7 +36,8 @@ const msg = useMessage()
 // 弹窗配置
 const maDialog: UseDialogExpose = useDialog({
   // 保存数据
-  ok: ({ formType }) => {
+  ok: ({ formType }, okLoadingState: (state: boolean) => void) => {
+    okLoadingState(true)
     if (['add', 'edit'].includes(formType)) {
       const elForm = formRef.value.maForm.getElFormRef()
       // 验证通过后
@@ -76,6 +79,7 @@ const maDialog: UseDialogExpose = useDialog({
         })
       })
     }
+    okLoadingState(false)
   },
 })
 
@@ -118,6 +122,18 @@ const schema = ref<MaProTableSchema>({
   // 表格列
   tableColumns: getTableColumns(maDialog, formRef, t),
 })
+
+// 批量删除
+function handleDelete() {
+  const ids = selections.value.map((item: any) => item.id)
+  msg.confirm(t('crud.delMessage')).then(async () => {
+    const response = await deleteByIds(ids)
+    if (response.code === ResultCode.SUCCESS) {
+      msg.success(t('crud.delSuccess'))
+      proTableRef.value.refresh()
+    }
+  })
+}
 </script>
 
 <template>
@@ -135,7 +151,7 @@ const schema = ref<MaProTableSchema>({
       </template>
 
       <template #toolbarLeft>
-        <el-button type="danger" plain :disabled="selections.length < 1">
+        <el-button type="danger" plain :disabled="selections.length < 1" @click="handleDelete">
           {{ t('crud.delete') }}
         </el-button>
       </template>

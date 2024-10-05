@@ -59,7 +59,8 @@ const useDictStore = defineStore(
         return null
       }
 
-      const dictItem = data?.find((item: Dictionary) => item.value === value) ?? null
+      // eslint-disable-next-line eqeqeq
+      const dictItem = data?.find((item: Dictionary) => item.value == value) ?? null
 
       if (!dictItem || dictItem[attrName] === undefined) {
         return null

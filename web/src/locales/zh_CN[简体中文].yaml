@@ -166,3 +166,6 @@ dictionary:
     statusDisabled: 禁用
     successState: 成功
     failState: 失败
+  base:
+    systemUser: 系统用户
+    normalUser: 普通用户

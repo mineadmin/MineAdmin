@@ -46,7 +46,7 @@ const maDialog: UseDialogExpose = useDialog({
           // 新增
           case 'add':
             formRef.value.add().then((res: any) => {
-              res.code === ResultCode.SUCCESS ? msg.success(t('crud.addSuccess')) : msg.error(res.message)
+              res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
               maDialog.close()
               proTableRef.value.refresh()
             }).catch((err: any) => {
@@ -141,7 +141,9 @@ function handleDelete() {
     <MaProTable ref="proTableRef" :options="options" :schema="schema">
       <template #actions>
         <el-button
-          type="primary" @click="() => {
+          v-auth="['permission:user:save']"
+          type="primary"
+          @click="() => {
             maDialog.setTitle(t('crud.add'))
             maDialog.open({ formType: 'add' })
           }"
@@ -151,7 +153,13 @@ function handleDelete() {
       </template>
 
       <template #toolbarLeft>
-        <el-button type="danger" plain :disabled="selections.length < 1" @click="handleDelete">
+        <el-button
+          v-auth="['permission:user:delete']"
+          type="danger"
+          plain
+          :disabled="selections.length < 1"
+          @click="handleDelete"
+        >
           {{ t('crud.delete') }}
         </el-button>
       </template>
@@ -159,7 +167,9 @@ function handleDelete() {
       <template #empty>
         <el-empty>
           <el-button
-            type="primary" @click="() => {
+            v-auth="['permission:user:save']"
+            type="primary"
+            @click="() => {
               maDialog.setTitle(t('crud.add'))
               maDialog.open({ formType: 'add' })
             }"

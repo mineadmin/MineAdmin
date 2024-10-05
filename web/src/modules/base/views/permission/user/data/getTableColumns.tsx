@@ -16,10 +16,15 @@ import { ElTag } from 'element-plus'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { deleteByIds, resetPassword } from '~/base/api/user.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
+import hasAuth from '@/utils/permission/hasAuth.ts'
 
 export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t: any): MaProTableColumns[] {
   const dictStore = useDictStore()
   const msg = useMessage()
+
+  const showBtn = (auth: string | string[], row: UserVo) => {
+    return hasAuth(auth) && row.id !== 1 && row.username !== 'SuperAdmin'
+  }
 
   return [
     // 多选列
@@ -64,7 +69,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            show: ({ row }) => showBtn('permission:user:update', row),
             text: () => t('crud.edit'),
             onClick: ({ row }) => {
               dialog.setTitle(t('crud.edit'))
@@ -73,7 +78,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'del',
-            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            show: ({ row }) => showBtn('permission:user:delete', row),
             icon: 'mdi:delete',
             text: () => t('crud.delete'),
             onClick: ({ row }, proxy: MaProTableExpose) => {
@@ -88,7 +93,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'setRole',
-            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            show: ({ row }) => showBtn('permission:user:role', row),
             icon: 'material-symbols:person-add-rounded',
             text: () => t('baseUser.setRole'),
             onClick: ({ row }) => {
@@ -98,7 +103,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'initPassword',
-            show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
+            show: ({ row }) => showBtn('permission:user:password', row),
             icon: 'material-symbols:passkey',
             text: () => t('baseUser.initPassword'),
             onClick: ({ row }) => {

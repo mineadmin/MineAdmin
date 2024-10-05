@@ -140,7 +140,7 @@ crud:
   searchUnFold: 展開
   selection: 多選
   operation: 操作
-  createSuccess: 新增成功
+  createSuccess: 創建成功
   updateSuccess: 修改成功
   delMessage: 是否刪除所選中數據？
   delDataMessage: 是否刪除數據？

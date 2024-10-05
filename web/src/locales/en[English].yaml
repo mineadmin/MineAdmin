@@ -153,6 +153,8 @@ crud:
   importMessage: Whether to confirm the import data?
   confirmTitle: System prompts
   confirmMessage: OK to do %{msg}?
+  noPermission: There is no permission to access or use this feature
+  userNotAllow: This feature is not accessible or available to current users
 form:
   pleaseInput: Please input %{msg}
   pleaseSelect: Please select %{msg}

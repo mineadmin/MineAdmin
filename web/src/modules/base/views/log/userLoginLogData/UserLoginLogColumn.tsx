@@ -1,11 +1,13 @@
-import type { Ref } from 'vue'
 import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
 import { ElTag } from 'element-plus'
 import { UserLoginLog } from '~/base/api/log.ts'
+import { ResultCode } from '@/utils/ResultCode.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
-const dictStore = useDictStore()
+export default function getColumns(t: any): MaProTableColumns[] {
+  const dictStore = useDictStore()
+  const msg = useMessage()
 
-export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref<any>, t: any): MaProTableColumns[] {
   return [
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
@@ -34,10 +36,15 @@ export default function getColumns(tableRef: Ref<MaProTableExpose>, formRef: Ref
             name: 'del',
             icon: 'mdi:delete',
             linkProps: { underline: false },
-            text: '删除',
-            onClick: async ({ row }) => {
-              await UserLoginLog.delete([row.id])
-              tableRef.value.refresh()
+            text: () => t('crud.delete'),
+            onClick: ({ row }, proxy: MaProTableExpose) => {
+              msg.delConfirm(t('crud.delDataMessage')).then(async () => {
+                const response = await UserLoginLog.delete([row.id])
+                if (response.code === ResultCode.SUCCESS) {
+                  msg.success(t('crud.delSuccess'))
+                  proxy.refresh()
+                }
+              })
             },
           },
         ],

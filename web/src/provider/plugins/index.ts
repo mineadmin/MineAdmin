@@ -24,9 +24,9 @@ const pluginConfig = {}
 async function getPluginConfig() {
   const configs = import.meta.glob('./config/**.ts')
   for (const path in configs) {
-    const { default: config } = await configs[path]()
-    const matches = path.match(/[^config/][\w-]+/g)
-    const name = (matches[0] + matches[1]).replace('.', '/')
+    const { default: config }: any = await configs[path]()
+    const matches = path.match(/[^config/][\w-]+/g) as string[]
+    const name = (matches?.[0] + matches?.[1]).replace('.', '/')
     pluginConfig[name] = config
   }
 }

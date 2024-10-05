@@ -12,8 +12,11 @@ baseUser:
   mainTitle: User Manager
   subTitle: Provide users with the functions of adding, editing, and deleting
   setRole: Set role
+  setRoleSuccess: The role was set successfully
   initPassword: Init password
   superAdminNoEdit: SuperAdmin not allow edit
+  setPassword: Whether to reset the password to 123456?
+  setPasswordSuccess: The password was reset successfully
 baseLoginLog:
   title: User Login log
   username: Username

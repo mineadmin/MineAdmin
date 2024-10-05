@@ -14,12 +14,12 @@ import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@min
 import type { Ref } from 'vue'
 import getColumns from './userLoginLogData/UserLoginLogColumn.tsx'
 import getSearchItems from './userLoginLogData/UserLoginLogSearch.tsx'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'log:userLogin' })
 
 const t = useTrans().globalTrans
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
-const formRef = ref()
 const selections: Ref<UserLoginVo[]> = ref([])
 
 async function clickDelete() {
@@ -27,7 +27,7 @@ async function clickDelete() {
     return value.id
   })
   const res = await UserLoginLog.delete(ids)
-  if (res.code === 200) {
+  if (res.code === ResultCode.SUCCESS) {
     proTableRef.value.refresh()
   }
 }
@@ -67,7 +67,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems: getSearchItems(t),
   // 表格列
-  tableColumns: getColumns(proTableRef, formRef, t),
+  tableColumns: getColumns(t),
 })
 </script>
 

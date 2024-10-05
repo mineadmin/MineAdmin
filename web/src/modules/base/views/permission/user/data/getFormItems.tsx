@@ -101,23 +101,5 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
         type: 'textarea',
       },
     },
-    // {
-    //   label: () => t('baseUser.role'),
-    //   prop: 'role',
-    //   render: () => MaRemoteSelect,
-    //   cols: { span: 12 },
-    //   renderProps: {
-    //     placeholder: t('form.pleaseSelect', { msg: t('baseUser.role') }),
-    //     api: () => new Promise(resolve => resolve(page({ page_size: 999 }))),
-    //     dataHandle: (response: any) => {
-    //       return response.data.list?.map((item: RoleVo) => {
-    //         return { label: `${item.name}-${item.code}`, value: item.id }
-    //       })
-    //     },
-    //   },
-    //   itemProps: {
-    //     rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseUser.role') }) }],
-    //   },
-    // },
   ]
 }

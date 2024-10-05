@@ -12,8 +12,11 @@ baseUser:
   mainTitle: 用戶管理
   subTitle: 提供使用者添加、編輯、刪除功能，超管不可修改。
   setRole: 賦予角色
+  setRoleSuccess: 用戶角色設置成功
   initPassword: 重設密碼
   superAdminNoEdit: 超管不可修改
+  setPassword: 是否將密碼重設為[123456]?
+  setPasswordSuccess: 密碼重設完畢
 baseLoginLog:
   title: 用戶登錄日志
   username: 使用者名稱

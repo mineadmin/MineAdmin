@@ -16,6 +16,7 @@ use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
 use Hyperf\Collection\Arr;
+use Hyperf\Collection\Collection;
 
 /**
  * @extends IService<UserRepository>
@@ -38,12 +39,21 @@ final class UserService extends IService
         ])->value($field);
     }
 
-    public function resetPassword(int $id): bool
+    public function resetPassword(?int $id): bool
     {
+        if ($id === null) {
+            return false;
+        }
         $entity = $this->repository->findById($id);
         $entity->resetPassword();
         $entity->save();
         return true;
+    }
+
+    public function getUserRole(int $id): Collection
+    {
+        $entity = $this->repository->findById($id);
+        return $entity->getRoles();
     }
 
     public function batchGrantRoleForUser(int $id, array $roleCodes): void

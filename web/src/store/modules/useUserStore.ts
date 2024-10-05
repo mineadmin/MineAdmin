@@ -64,7 +64,7 @@ const useUserStore = defineStore(
     const userInfo = ref<any | null>(null)
     const menu = ref<MenuVo[]>([])
     const permissions = ref<string[]>([])
-    const roles = ref<RoleVo[]>([])
+    const roles = ref<string[]>([])
     const dropdownMenuState = ref<{
       shortcuts: boolean
       systemInfo: boolean
@@ -194,12 +194,12 @@ const useUserStore = defineStore(
       return true
     }
 
-    function getRoles(): RoleVo[] {
+    function getRoles(): string[] {
       return roles.value
     }
 
     function setRoles(roleArray: RoleVo[]): boolean {
-      roles.value = roleArray
+      roles.value = roleArray.map(item => item.code) as string[]
       return true
     }
 

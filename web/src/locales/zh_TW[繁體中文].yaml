@@ -153,6 +153,8 @@ crud:
   importMessage: 是否確認導入數據？
   confirmTitle: 系統提示
   confirmMessage: 確認要%{msg}嗎？
+  noPermission: 沒有權限訪問頁面或使用此功能
+  userNotAllow: 目前用戶無法訪問或使用此功能
 form:
   pleaseInput: 請輸入%{msg}
   pleaseSelect: 請選擇%{msg}

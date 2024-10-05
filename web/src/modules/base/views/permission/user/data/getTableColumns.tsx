@@ -7,13 +7,17 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { MaProTableColumns } from '@mineadmin/pro-table'
+import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
 import defaultAvatar from '@/assets/images/defaultAvatar.jpg'
 import { ElTag } from 'element-plus'
 import type { UseDialogExpose } from '@/hooks/useDialog.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
+import { deleteByIds, resetPassword } from '~/base/api/user.ts'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t: any): MaProTableColumns[] {
   const dictStore = useDictStore()
+  const msg = useMessage()
 
   return [
     // 多选列
@@ -60,18 +64,39 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'mdi:delete',
             text: () => t('crud.delete'),
+            onClick: ({ row }, proxy: MaProTableExpose) => {
+              msg.delConfirm(t('crud.delDataMessage')).then(async () => {
+                const response = await deleteByIds([row.id])
+                if (response.code === ResultCode.SUCCESS) {
+                  msg.success(t('crud.delSuccess'))
+                  proxy.refresh()
+                }
+              })
+            },
           },
           {
             name: 'setRole',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:person-add-rounded',
             text: () => t('baseUser.setRole'),
+            onClick: ({ row }) => {
+              dialog.setTitle(t('baseUser.setRole'))
+              dialog.open({ formType: 'setRole', data: row })
+            },
           },
           {
             name: 'initPassword',
             show: ({ row }) => row.id !== 1 && row.username !== 'SuperAdmin',
             icon: 'material-symbols:passkey',
             text: () => t('baseUser.initPassword'),
+            onClick: ({ row }) => {
+              msg.confirm(t('baseUser.setPassword')).then(async () => {
+                const response = await resetPassword(row.id)
+                if (response.code === ResultCode.SUCCESS) {
+                  msg.success(t('baseUser.setPasswordSuccess'))
+                }
+              })
+            },
           },
           {
             name: 'noAllowSuperAdmin',

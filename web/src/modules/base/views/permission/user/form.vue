@@ -9,9 +9,11 @@
 -->
 <script setup lang="ts">
 import type { UserVo } from '~/base/api/user'
+import { create, save } from '~/base/api/user'
 import getFormItems from './data/getFormItems.tsx'
 import type { MaFormExpose } from '@mineadmin/form'
 import useForm from '@/hooks/useForm.ts'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'permission:user:form' })
 
@@ -37,19 +39,30 @@ useForm('userForm').then((form: MaFormExpose) => {
 })
 
 // 创建操作
-function create() {
-
+function add(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    create(userModel.value).then((res: any) => {
+      res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
 
 // 更新操作
-function save() {
-
+function edit(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    save(userModel.value.id as number, userModel.value).then((res: any) => {
+      res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
 
 defineExpose({
-  create,
-  save,
-  model: userModel,
+  add,
+  edit,
   maForm: userForm,
 })
 </script>

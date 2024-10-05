@@ -5,12 +5,12 @@ import getSearchItems from './userOperationLogData/UserOperationLogSearch.tsx'
 import getColumns from './userOperationLogData/UserOperationLogColumn.tsx'
 import type { RequestLogInfoVo } from '~/base/api/log.ts'
 import { UserOperatorLog } from '~/base/api/log.ts'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'log:userOperation' })
 
 const t = useTrans().globalTrans
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
-const formRef = ref()
 const selections: Ref<RequestLogInfoVo[]> = ref([])
 
 async function clickDelete() {
@@ -18,7 +18,7 @@ async function clickDelete() {
     return value.id
   })
   const res = await UserOperatorLog.delete(ids)
-  if (res.code === 200) {
+  if (res.code === ResultCode.SUCCESS) {
     proTableRef.value.refresh()
   }
 }
@@ -58,7 +58,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems: getSearchItems(t),
   // 表格列
-  tableColumns: getColumns(proTableRef, formRef, t),
+  tableColumns: getColumns(t),
 })
 </script>
 

@@ -67,11 +67,11 @@ export function useMessage() {
         {
           confirmButtonText: t('crud.ok'),
           cancelButtonText: t('crud.cancel'),
-          type: 'warning',
+          type: 'error',
         },
       )
     },
-    // 导出窗体
+    // 导出框
     exportConfirm(content?: string, tip?: string) {
       return ElMessageBox.confirm(
         content || t('crud.exportMessage'),
@@ -83,11 +83,12 @@ export function useMessage() {
         },
       )
     },
-    // 提交内容
-    prompt(content: string, tip: string) {
-      return ElMessageBox.prompt(content, tip, {
+    // 提交框
+    prompt(content: string, defaultValue?: string, tip?: string) {
+      return ElMessageBox.prompt(content, tip || t('crud.confirmTitle'), {
         confirmButtonText: t('crud.ok'),
         cancelButtonText: t('crud.cancel'),
+        inputValue: defaultValue,
         type: 'warning',
       })
     },

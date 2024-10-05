@@ -1,3 +1,13 @@
+/**
+ * MineAdmin is committed to providing solutions for quickly building web applications
+ * Please view the LICENSE file that was distributed with this source code,
+ * For the full copyright and license information.
+ * Thank you very much for using MineAdmin.
+ *
+ * @Author X.Mo<root@imoi.cn>
+ * @Link   https://github.com/mineadmin
+ */
+
 import type { ProviderService } from '#/global'
 import type { App, Directive } from 'vue'
 import * as directives from '@/directives'
@@ -10,15 +20,6 @@ import VConsole from 'vconsole'
 import { createI18n } from 'vue-i18n'
 import router from './router'
 import pinia from './store'
-/**
- * MineAdmin is committed to providing solutions for quickly building web applications
- * Please view the LICENSE file that was distributed with this source code,
- * For the full copyright and license information.
- * Thank you very much for using MineAdmin.
- *
- * @Author X.Mo<root@imoi.cn>
- * @Link   https://github.com/mineadmin
- */
 import './utils/copyright.ts'
 
 // 加载 Element-plus 样式

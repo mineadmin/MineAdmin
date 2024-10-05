@@ -95,8 +95,9 @@ final class UserController extends AbstractController
     #[ResultResponse(new Result())]
     public function resetPassword(): Result
     {
-        $this->userService->resetPassword($this->currentUser->id());
-        return $this->success();
+        return $this->userService->resetPassword($this->getRequest()->input('id'))
+            ? $this->success()
+            : $this->error();
     }
 
     #[Post(
@@ -146,8 +147,22 @@ final class UserController extends AbstractController
         return $this->success();
     }
 
+    #[Get(
+        path: '/admin/user/getUserRole/{userId}',
+        operationId: 'getUserRole',
+        summary: '获取用户角色列表',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['用户管理']
+    )]
+    #[Permission(code: 'user:role')]
+    #[ResultResponse(new Result())]
+    public function getUserRole(int $userId): Result
+    {
+        return $this->success($this->userService->getUserRole($userId));
+    }
+
     #[Put(
-        path: '/admin/user/{id}/role',
+        path: '/admin/user/setUserRole/{userId}',
         operationId: 'batchGrantRolesForUser',
         summary: '批量授权用户角色',
         security: [['Bearer' => [], 'ApiKey' => []]],
@@ -156,9 +171,9 @@ final class UserController extends AbstractController
     #[Permission(code: 'user:role')]
     #[RequestBody(content: new JsonContent(ref: BatchGrantRolesForUserRequest::class, title: '批量授权用户角色'))]
     #[ResultResponse(new Result())]
-    public function batchGrantRolesForUser(int $id, BatchGrantRolesForUserRequest $request): Result
+    public function batchGrantRolesForUser(int $userId, BatchGrantRolesForUserRequest $request): Result
     {
-        $this->userService->batchGrantRoleForUser($id, $request->input('role_codes'));
+        $this->userService->batchGrantRoleForUser($userId, $request->input('role_codes'));
         return $this->success();
     }
 }

@@ -1,4 +1,4 @@
-import type { ResultCode } from '#/ResultCode.ts'
+import type { ResultCode } from '@/utils/ResultCode.ts'
 import type { App, Ref } from 'vue'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications

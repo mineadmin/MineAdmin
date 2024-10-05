@@ -11,18 +11,21 @@
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { Ref } from 'vue'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
-import { create, page, save } from '~/base/api/user'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
+import { page } from '~/base/api/user'
 import getSearchItems from './data/getSearchItems.tsx'
 import getTableColumns from './data/getTableColumns.tsx'
-import UserForm from './form.vue'
-import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 import useDialog from '@/hooks/useDialog.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
+import UserForm from './form.vue'
+import SetRoleForm from './setRoleForm.vue'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'permission:user' })
 
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()
+const setFormRef = ref()
 const selections = ref<any[]>([])
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
@@ -32,31 +35,47 @@ const msg = useMessage()
 const maDialog: UseDialogExpose = useDialog({
   // 保存数据
   ok: ({ formType }) => {
-    const elForm = formRef.value.maForm.getElFormRef()
-    const model = formRef.value.model
-    // 验证通过后
-    elForm.validate().then(() => {
-      // 新增
-      if (formType === 'add') {
-        create(model).then((res) => {
-          res.code === 200 ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
+    if (['add', 'edit'].includes(formType)) {
+      const elForm = formRef.value.maForm.getElFormRef()
+      // 验证通过后
+      elForm.validate().then(() => {
+        switch (formType) {
+          // 新增
+          case 'add':
+            formRef.value.add().then((res: any) => {
+              res.code === ResultCode.SUCCESS ? msg.success(t('crud.addSuccess')) : msg.error(res.message)
+              maDialog.close()
+              proTableRef.value.refresh()
+            }).catch((err: any) => {
+              msg.alertError(err)
+            })
+            break
+          // 修改
+          case 'edit':
+            formRef.value.edit().then((res: any) => {
+              res.code === 200 ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
+              maDialog.close()
+              proTableRef.value.refresh()
+            }).catch((err: any) => {
+              msg.alertError(err)
+            })
+            break
+        }
+      }).catch()
+    }
+    else {
+      const elForm = setFormRef.value.maForm.getElFormRef()
+      // 验证通过后
+      elForm.validate().then(() => {
+        // 设置角色
+        setFormRef.value.saveUserRole().then((res: any) => {
+          res.code === ResultCode.SUCCESS ? msg.success(t('baseUser.setRoleSuccess')) : msg.error(res.message)
           maDialog.close()
-          proTableRef.value.refresh()
-        }).catch((err) => {
+        }).catch((err: any) => {
           msg.alertError(err)
         })
-      }
-      // 修改
-      else {
-        save(model.id, model).then((res) => {
-          res.code === 200 ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
-          maDialog.close()
-          proTableRef.value.refresh()
-        }).catch((err) => {
-          msg.alertError(err)
-        })
-      }
-    }).catch()
+      })
+    }
   },
 })
 
@@ -137,7 +156,10 @@ const schema = ref<MaProTableSchema>({
 
     <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">
-        <UserForm ref="formRef" :form-type="formType" :data="data" />
+        <!-- 新增、编辑表单 -->
+        <UserForm v-if="formType !== 'setRole'" ref="formRef" :form-type="formType" :data="data" />
+        <!-- 赋予角色表单 -->
+        <SetRoleForm v-else ref="setFormRef" :data="data" />
       </template>
     </component>
   </div>

@@ -36,8 +36,7 @@ abstract class AbstractTokenMiddleware
         $this->userService->checkJwt($this->parserToken($request));
         return $handler->handle(
             value(
-                function (ServerRequestPlusInterface $request, UnencryptedToken $token) {
-                    $this->userService->checkJwt($token);
+                static function (ServerRequestPlusInterface $request, UnencryptedToken $token) {
                     return $request->setAttribute('token', $token);
                 },
                 $request,

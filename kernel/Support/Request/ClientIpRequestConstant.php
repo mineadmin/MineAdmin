@@ -33,7 +33,7 @@ final class ClientIpRequestConstant
         self::HEADER_X_FORWARDED_PORT => 'host',
     ];
 
-    protected const TRUSTED_HEADERS = [
+    private const TRUSTED_HEADERS = [
         self::HEADER_FORWARDED => 'FORWARDED',
         self::HEADER_X_FORWARDED_FOR => 'X_FORWARDED_FOR',
         self::HEADER_X_FORWARDED_HOST => 'X_FORWARDED_HOST',

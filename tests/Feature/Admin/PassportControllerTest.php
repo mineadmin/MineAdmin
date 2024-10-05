@@ -160,7 +160,7 @@ final class PassportControllerTest extends HttpTestCase
         }
 
         $refresh = $this->post('/admin/passport/refresh', [], [
-            'Authorization' => 'Bearer ' . $result['data']['access_token'],
+            'Authorization' => 'Bearer ' . $result['data']['refresh_token'],
         ]);
 
         self::assertSame(Arr::get($refresh, 'code'), ResultCode::SUCCESS->value);
@@ -170,8 +170,11 @@ final class PassportControllerTest extends HttpTestCase
         $info = $this->get('/admin/passport/getInfo', [], [
             'Authorization' => 'Bearer ' . $orlToken,
         ]);
-        self::assertSame(Arr::get($info, 'code'), ResultCode::UNAUTHORIZED->value);
-
+        self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
+        $info = $this->get('/admin/passport/getInfo', [], [
+            'Authorization' => 'Bearer ' . $refresh['data']['access_token'],
+        ]);
+        self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
         $user->forceDelete();
     }
 }

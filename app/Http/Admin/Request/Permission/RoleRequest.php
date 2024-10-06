@@ -33,7 +33,7 @@ class RoleRequest extends FormRequest
         return [
             'name' => 'required|string|max:60',
             'code' => 'required|string|max:60',
-            'status' => 'sometimes|integer|in:0,1',
+            'status' => 'sometimes|integer|in:1,2',
             'sort' => 'required|integer',
             'remark' => 'nullable|string|max:255',
         ];

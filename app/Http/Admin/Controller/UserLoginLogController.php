@@ -22,9 +22,9 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
-use Mine\Kernel\Access\Attribute\Permission;
-use Mine\Kernel\Core\CurrentUser;
-use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Access\Attribute\Permission;
+use Mine\Core\CurrentUser;
+use Mine\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]
 #[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]

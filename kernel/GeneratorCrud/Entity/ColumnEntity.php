@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Entity;
+namespace Mine\GeneratorCrud\Entity;
 
-use Mine\Kernel\GeneratorCrud\Enums\TableColumnType;
+use Mine\GeneratorCrud\Enums\TableColumnType;
 
 final class ColumnEntity
 {

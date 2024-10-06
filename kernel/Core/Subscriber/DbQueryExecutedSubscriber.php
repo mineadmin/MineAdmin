@@ -10,14 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core\Subscriber;
+namespace Mine\Core\Subscriber;
 
 use Hyperf\Collection\Arr;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Database\Events\QueryExecuted;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Traits\Debugging;
+use Mine\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
 final class DbQueryExecutedSubscriber implements ListenerInterface

@@ -19,7 +19,7 @@ use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model;
-use Mine\Kernel\Casbin\Rule\Rule;
+use Mine\Casbin\Rule\Rule;
 
 /**
  * @property int $id 用户ID，主键

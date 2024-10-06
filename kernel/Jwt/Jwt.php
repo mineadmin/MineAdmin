@@ -10,6 +10,6 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Jwt;
+namespace Mine\Jwt;
 
 final class Jwt extends AbstractJwt implements JwtInterface {}

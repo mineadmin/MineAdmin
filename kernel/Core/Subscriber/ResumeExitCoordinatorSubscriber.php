@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core\Subscriber;
+namespace Mine\Core\Subscriber;
 
 use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Coordinator\Constants;

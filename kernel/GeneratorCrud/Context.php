@@ -10,10 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud;
+namespace Mine\GeneratorCrud;
 
 use Hyperf\Collection\Collection;
-use Mine\Kernel\GeneratorCrud\Entity\TableEntity;
+use Mine\GeneratorCrud\Entity\TableEntity;
 
 final class Context
 {

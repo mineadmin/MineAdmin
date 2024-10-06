@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\JwtAuth\Annotation;
+namespace Mine\JwtAuth\Annotation;
 
 use Hyperf\Di\Annotation\AbstractAnnotation;
 

@@ -12,7 +12,7 @@ declare(strict_types=1);
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\RegisteredClaims;
-use Mine\Kernel\Jwt\Jwt;
+use Mine\Jwt\Jwt;
 
 return [
     'default' => [

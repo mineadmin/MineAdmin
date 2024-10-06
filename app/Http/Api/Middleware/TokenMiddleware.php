@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Middleware;
 
-use Mine\Kernel\Jwt\JwtInterface;
-use Mine\Kernel\JwtAuth\Middleware\AbstractTokenMiddleware;
+use Mine\Jwt\JwtInterface;
+use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
 
 final class TokenMiddleware extends AbstractTokenMiddleware
 {

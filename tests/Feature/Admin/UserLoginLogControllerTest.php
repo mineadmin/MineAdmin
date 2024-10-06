@@ -33,12 +33,12 @@ final class UserLoginLogControllerTest extends ControllerCase
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'user-login-log:list'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user-login-log:list'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user-login-log:list'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userLogin:list'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'log:userLogin:list'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'log:userLogin:list'));
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'user-login-log:list'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'log:userLogin:list'));
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
     }
@@ -72,14 +72,14 @@ final class UserLoginLogControllerTest extends ControllerCase
         $result = $this->delete($uri, [], ['Authorization' => 'Bearer ' . $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'user-login-log:delete'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user-login-log:delete'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user-login-log:delete'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userLogin:delete'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'log:userLogin:delete'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'log:userLogin:delete'));
         $result = $this->delete($uri, [
             'ids' => [$entity->id],
         ], ['Authorization' => 'Bearer ' . $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'user-login-log:delete'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'log:userLogin:delete'));
         $result = $this->delete($uri, [], ['Authorization' => 'Bearer ' . $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $this->expectException(ModelNotFoundException::class);

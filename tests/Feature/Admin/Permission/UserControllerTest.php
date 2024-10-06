@@ -223,6 +223,8 @@ final class UserControllerTest extends ControllerCase
         self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user:password'));
         self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:password'));
         $result = $this->put('/admin/user/password', [], ['Authorization' => 'Bearer ' . $token]);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::FAIL->value);
+        $result = $this->put('/admin/user/password', ['id' => $user->id], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();
         self::assertNotSame($oldPassword, $user->password);
@@ -257,15 +259,15 @@ final class UserControllerTest extends ControllerCase
         ];
         $roleIds = array_map(static fn ($role) => $role->id, $roles);
         $roleCodes = array_map(static fn ($role) => $role->code, $roles);
-        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes]);
+        $result = $this->put('/admin/user/setUserRole/' . $user->id, ['role_codes' => $roleCodes]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
-        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->put('/admin/user/setUserRole/' . $user->id, ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
         self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:role'));
         self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user:role'));
         self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:role'));
-        $result = $this->put('/admin/user/' . $user->id . '/role', ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->put('/admin/user/setUserRole/' . $user->id, ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();
         self::assertSame($user->roles()->pluck('role.id')->toArray(), $roleIds);

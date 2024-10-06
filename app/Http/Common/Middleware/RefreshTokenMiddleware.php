@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
-use Mine\Kernel\Jwt\JwtInterface;
-use Mine\Kernel\JwtAuth\Middleware\AbstractTokenMiddleware;
+use Mine\Jwt\JwtInterface;
+use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -44,7 +43,7 @@ class RefreshTokenMiddleware extends AbstractTokenMiddleware
         return $this->jwtFactory->get();
     }
 
-    protected function parserToken(ServerRequestInterface $request): Token
+    protected function parserToken(ServerRequestInterface $request): UnencryptedToken
     {
         return $this->getJwt()->parserRefreshToken($this->getToken($request));
     }

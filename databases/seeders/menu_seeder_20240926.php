@@ -14,7 +14,7 @@ use App\Model\Permission\Meta;
 use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
-use Mine\Kernel\Casbin\Rule\Rule;
+use Mine\Casbin\Rule\Rule;
 
 class MenuSeeder20240926 extends Seeder
 {

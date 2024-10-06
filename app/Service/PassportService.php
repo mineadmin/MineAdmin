@@ -19,9 +19,9 @@ use App\Model\Enums\User\Type;
 use App\Repository\Permission\UserRepository;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\UnencryptedToken;
-use Mine\Kernel\Jwt\Factory;
-use Mine\Kernel\Jwt\JwtInterface;
-use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
+use Mine\Jwt\Factory;
+use Mine\Jwt\JwtInterface;
+use Mine\JwtAuth\Event\UserLoginEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class PassportService extends IService

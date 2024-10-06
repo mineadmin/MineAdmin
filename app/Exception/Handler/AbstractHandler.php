@@ -20,8 +20,8 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Logger\UuidRequestIdProcessor;
-use Mine\Kernel\Support\Traits\Debugging;
+use Mine\Support\Logger\UuidRequestIdProcessor;
+use Mine\Support\Traits\Debugging;
 use Psr\Container\ContainerInterface;
 use Swow\Psr7\Message\ResponsePlusInterface;
 

@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model as MineModel;
-use Mine\Kernel\Casbin\Rule\Rule;
+use Mine\Casbin\Rule\Rule;
 
 /**
  * @property int $id 主键

@@ -10,12 +10,12 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Processor;
+namespace Mine\GeneratorCrud\Processor;
 
 use Hyperf\CodeParser\Project;
 use Hyperf\View\RenderInterface;
-use Mine\Kernel\GeneratorCrud\Context;
-use Mine\Kernel\GeneratorCrud\Entity\GeneratorEntity;
+use Mine\GeneratorCrud\Context;
+use Mine\GeneratorCrud\Entity\GeneratorEntity;
 
 abstract class AbstractProcessor implements ProcessorInterface
 {

@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core\Subscriber\Upload;
+namespace Mine\Core\Subscriber\Upload;
 
-use Mine\Kernel\Upload\Listener\UploadListener as AbstractUploadListener;
+use Mine\Upload\Listener\UploadListener as AbstractUploadListener;
 
 final class UploadSubscriber extends AbstractUploadListener
 {

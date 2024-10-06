@@ -10,12 +10,12 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use Hyperf\ExceptionHandler\Listener\ErrorExceptionHandler;
-use Mine\Kernel\Core\Subscriber\BootApplicationSubscriber;
-use Mine\Kernel\Core\Subscriber\DbQueryExecutedSubscriber;
-use Mine\Kernel\Core\Subscriber\FailToHandleSubscriber;
-use Mine\Kernel\Core\Subscriber\QueueHandleSubscriber;
-use Mine\Kernel\Core\Subscriber\ResumeExitCoordinatorSubscriber;
-use Mine\Kernel\Core\Subscriber\Upload\UploadSubscriber;
+use Mine\Core\Subscriber\BootApplicationSubscriber;
+use Mine\Core\Subscriber\DbQueryExecutedSubscriber;
+use Mine\Core\Subscriber\FailToHandleSubscriber;
+use Mine\Core\Subscriber\QueueHandleSubscriber;
+use Mine\Core\Subscriber\ResumeExitCoordinatorSubscriber;
+use Mine\Core\Subscriber\Upload\UploadSubscriber;
 
 return [
     ErrorExceptionHandler::class,

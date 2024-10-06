@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core\Subscriber;
+namespace Mine\Core\Subscriber;
 
 use Hyperf\AsyncQueue\AnnotationJob;
 use Hyperf\AsyncQueue\Event\AfterHandle;
@@ -22,7 +22,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
-use Mine\Kernel\Support\Traits\Debugging;
+use Mine\Support\Traits\Debugging;
 use Psr\Log\LoggerInterface;
 
 final class QueueHandleSubscriber implements ListenerInterface

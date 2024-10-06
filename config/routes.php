@@ -9,8 +9,6 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Ws\Admin\Controller\ServerController;
 use Hyperf\HttpServer\Router\Router;
 
 Router::get('/', static function () {
@@ -19,11 +17,4 @@ Router::get('/', static function () {
 
 Router::get('/favicon.ico', static function () {
     return '';
-});
-
-// 消息ws服务器
-Router::addServer('message', static function () {
-    Router::get('/message.io', ServerController::class, [
-        'middleware' => [AccessTokenMiddleware::class],
-    ]);
 });

@@ -10,12 +10,12 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Casbin\Adapters;
+namespace Mine\Casbin\Adapters;
 
 use Casbin\Model\Model;
 use Casbin\Persist\Adapter;
 use Casbin\Persist\AdapterHelper;
-use Mine\Kernel\Casbin\Rule\Rule;
+use Mine\Casbin\Rule\Rule;
 
 final class DatabaseAdapter implements Adapter
 {

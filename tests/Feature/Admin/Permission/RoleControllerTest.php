@@ -61,7 +61,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ];
         $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
@@ -91,7 +91,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ]);
         $result = $this->put('/admin/role/' . $entity->id);
@@ -102,7 +102,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ];
         $result = $this->put('/admin/role/' . $entity->id, $fill, ['Authorization' => 'Bearer ' . $token]);
@@ -131,7 +131,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ]);
         $result = $this->delete('/admin/role');
@@ -162,9 +162,9 @@ final class RoleControllerTest extends ControllerCase
                 'route' => Str::random(10),
                 'component' => Str::random(10),
                 'redirect' => Str::random(10),
-                'is_hidden' => rand(0, 1),
+                'is_hidden' => rand(1, 2),
                 'type' => Str::random(1),
-                'status' => rand(0, 1),
+                'status' => rand(1, 2),
                 'sort' => rand(1, 100),
                 'remark' => Str::random(10),
             ]),
@@ -176,9 +176,9 @@ final class RoleControllerTest extends ControllerCase
                 'route' => Str::random(10),
                 'component' => Str::random(10),
                 'redirect' => Str::random(10),
-                'is_hidden' => rand(0, 1),
+                'is_hidden' => rand(1, 2),
                 'type' => Str::random(1),
-                'status' => rand(0, 1),
+                'status' => rand(1, 2),
                 'sort' => rand(1, 100),
                 'remark' => Str::random(10),
             ]),
@@ -190,9 +190,9 @@ final class RoleControllerTest extends ControllerCase
                 'route' => Str::random(10),
                 'component' => Str::random(10),
                 'redirect' => Str::random(10),
-                'is_hidden' => rand(0, 1),
+                'is_hidden' => rand(1, 2),
                 'type' => Str::random(1),
-                'status' => rand(0, 1),
+                'status' => rand(1, 2),
                 'sort' => rand(1, 100),
                 'remark' => Str::random(10),
             ]),
@@ -203,7 +203,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ]);
         $token = $this->token;
@@ -224,7 +224,7 @@ final class RoleControllerTest extends ControllerCase
             'name' => Str::random(10),
             'code' => Str::random(10),
             'sort' => rand(1, 100),
-            'status' => rand(0, 1),
+            'status' => rand(1, 2),
             'remark' => Str::random(),
         ]);
         self::assertFalse($enforce->hasRoleForUser($this->user->username, $userRole->code));

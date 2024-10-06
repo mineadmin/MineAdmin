@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Jwt\Traits;
+namespace Mine\Jwt\Traits;
 
 use Hyperf\Context\RequestContext;
 use Lcobucci\JWT\UnencryptedToken;

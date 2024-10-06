@@ -16,7 +16,7 @@ use App\Service\UserLoginLogService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
-use Mine\Kernel\JwtAuth\Event\UserLoginEvent;
+use Mine\JwtAuth\Event\UserLoginEvent;
 
 #[Listener]
 class UserLoginSubscriber implements ListenerInterface

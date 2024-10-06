@@ -20,7 +20,7 @@ const defaultGlobalConfigSettings: RecursiveRequired<SystemSettings.all> = {
     layout: 'classic',
     pageAnimate: 'ma-slide-down',
     enableWatermark: false,
-    primaryColor: '#3790ff',
+    primaryColor: '#2563EB',
     showBreadcrumb: true,
     loadUserSetting: true,
     watermarkText: import.meta.env.VITE_APP_TITLE,

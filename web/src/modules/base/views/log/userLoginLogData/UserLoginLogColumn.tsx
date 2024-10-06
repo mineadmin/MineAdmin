@@ -31,6 +31,7 @@ export default function getColumns(t: any): MaProTableColumns[] {
       type: 'operation',
       label: () => t('crud.operation'),
       operationConfigure: {
+        type: 'tile',
         actions: [
           {
             name: 'del',

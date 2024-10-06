@@ -10,15 +10,15 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\JwtAuth\Middleware;
+namespace Mine\JwtAuth\Middleware;
 
 use App\Service\PassportService;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
-use Mine\Kernel\Jwt\Factory;
-use Mine\Kernel\Jwt\JwtInterface;
+use Mine\Jwt\Factory;
+use Mine\Jwt\JwtInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

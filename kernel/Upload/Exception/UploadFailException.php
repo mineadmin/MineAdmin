@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Upload\Exception;
+namespace Mine\Upload\Exception;
 
-use Mine\Kernel\Upload\Event\UploadEvent;
+use Mine\Upload\Event\UploadEvent;
 
 class UploadFailException extends \RuntimeException
 {

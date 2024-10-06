@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core\Subscriber;
+namespace Mine\Core\Subscriber;
 
 use Hyperf\Command\Event\AfterExecute;
 use Hyperf\Database\Commands\Migrations\GenMigrateCommand;
@@ -19,7 +19,7 @@ use Hyperf\Database\Migrations\Migrator;
 use Hyperf\Database\Seeders\Seed;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
-use Mine\Kernel\Support\Filesystem;
+use Mine\Support\Filesystem;
 
 final class BootApplicationSubscriber implements ListenerInterface
 {

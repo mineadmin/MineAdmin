@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Support\Listener;
+namespace Mine\Support\Listener;
 
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Event\Annotation\Listener;

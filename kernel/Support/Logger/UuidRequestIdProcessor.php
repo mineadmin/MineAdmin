@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Support\Logger;
+namespace Mine\Support\Logger;
 
 use Hyperf\Context\Context;
 use Hyperf\Coroutine\Coroutine;

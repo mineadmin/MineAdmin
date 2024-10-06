@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Core;
+namespace Mine\Core;
 
 use App\Model\Enums\User\Type;
 use App\Model\Permission\Role;
@@ -19,7 +19,7 @@ use App\Service\PassportService;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Collection;
 use Lcobucci\JWT\Token\RegisteredClaims;
-use Mine\Kernel\Jwt\Traits\RequestScopedTokenTrait;
+use Mine\Jwt\Traits\RequestScopedTokenTrait;
 
 final class CurrentUser
 {

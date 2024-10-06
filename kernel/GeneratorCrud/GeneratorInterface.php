@@ -10,10 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud;
+namespace Mine\GeneratorCrud;
 
-use Mine\Kernel\GeneratorCrud\Entity\GeneratorEntity;
-use Mine\Kernel\GeneratorCrud\Entity\TableEntity;
+use Mine\GeneratorCrud\Entity\GeneratorEntity;
+use Mine\GeneratorCrud\Entity\TableEntity;
 
 interface GeneratorInterface
 {

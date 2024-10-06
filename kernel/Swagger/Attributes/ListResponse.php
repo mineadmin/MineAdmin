@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Swagger\Attributes;
+namespace Mine\Swagger\Attributes;
 
 use Hyperf\Swagger\Annotation\Items;
 use Hyperf\Swagger\Annotation\Property;

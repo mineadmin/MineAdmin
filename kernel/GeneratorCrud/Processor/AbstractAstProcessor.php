@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Processor;
+namespace Mine\GeneratorCrud\Processor;
 
-use Mine\Kernel\GeneratorCrud\Context;
+use Mine\GeneratorCrud\Context;
 use PhpParser\Lexer;
 use PhpParser\Lexer\Emulative;
 use PhpParser\NodeTraverser;

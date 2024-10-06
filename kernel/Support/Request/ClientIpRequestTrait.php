@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Support\Request;
+namespace Mine\Support\Request;
 
 use Hyperf\HttpServer\Request;
 use Symfony\Component\HttpFoundation\HeaderUtils;

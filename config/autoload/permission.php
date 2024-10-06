@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-use Mine\Kernel\Casbin\Adapters\DatabaseAdapter;
+use Mine\Casbin\Adapters\DatabaseAdapter;
 
 return [
     /*

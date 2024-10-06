@@ -87,7 +87,7 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Mine\\Kernel\\": "kernel/"
+      "Mine\\": "kernel/"
     }
   },
   "autoload-dev": {

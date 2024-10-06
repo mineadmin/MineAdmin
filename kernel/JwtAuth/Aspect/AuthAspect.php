@@ -10,15 +10,15 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\JwtAuth\Aspect;
+namespace Mine\JwtAuth\Aspect;
 
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
 use Hyperf\Context\RequestContext;
 use Hyperf\Di\Aop\AbstractAspect;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
-use Mine\Kernel\Jwt\Factory;
-use Mine\Kernel\JwtAuth\Annotation\Auth;
+use Mine\Jwt\Factory;
+use Mine\JwtAuth\Annotation\Auth;
 
 final class AuthAspect extends AbstractAspect
 {

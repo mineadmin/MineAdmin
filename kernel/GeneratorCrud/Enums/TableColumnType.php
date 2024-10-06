@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Enums;
+namespace Mine\GeneratorCrud\Enums;
 
 enum TableColumnType: string
 {

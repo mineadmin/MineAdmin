@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use Hyperf\Validation\Middleware\ValidationMiddleware;
-use Mine\Kernel\Support\Middleware\CorsMiddleware;
-use Mine\Kernel\Support\Middleware\RequestIdMiddleware;
-use Mine\Kernel\Support\Middleware\TranslationMiddleware;
+use Mine\Support\Middleware\CorsMiddleware;
+use Mine\Support\Middleware\RequestIdMiddleware;
+use Mine\Support\Middleware\TranslationMiddleware;
 
 return [
     'http' => [

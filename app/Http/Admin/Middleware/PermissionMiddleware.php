@@ -18,9 +18,9 @@ use App\Service\PermissionService;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpServer\Router\Dispatched;
-use Mine\Kernel\Access\Attribute\Permission;
-use Mine\Kernel\Core\CurrentUser;
-use Mine\Kernel\Support\Traits\ParserRouterTrait;
+use Mine\Access\Attribute\Permission;
+use Mine\Core\CurrentUser;
+use Mine\Support\Traits\ParserRouterTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -51,7 +51,7 @@ final class PermissionMiddleware implements MiddlewareInterface
         $annotations = AnnotationCollector::getClassMethodAnnotation($controller, $method);
         $classAnnotation = AnnotationCollector::getClassAnnotation($controller, Permission::class);
         /**
-         * @var \Mine\Kernel\Access\Attribute\Permission[] $permissions
+         * @var \Mine\Access\Attribute\Permission[] $permissions
          */
         $permissions = [];
         $classAnnotation && $permissions[] = $classAnnotation;

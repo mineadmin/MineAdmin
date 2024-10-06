@@ -14,7 +14,7 @@ namespace HyperfTests\Feature\Casbin;
 
 use Casbin\Enforcer;
 use Hyperf\Context\ApplicationContext;
-use Mine\Kernel\Casbin\Factory;
+use Mine\Casbin\Factory;
 use PHPUnit\Framework\TestCase;
 
 /**

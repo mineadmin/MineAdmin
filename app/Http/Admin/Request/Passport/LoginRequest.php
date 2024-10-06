@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Passport;
 
+use Hyperf\Collection\Arr;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 use Hyperf\Validation\Request\FormRequest;
-use Mine\Kernel\Support\Request\ClientIpRequestTrait;
+use Mine\Support\Request\ClientIpRequestTrait;
 
 #[Schema(title: '登录请求', description: '登录请求参数', properties: [
     new Property('username', description: '用户名', type: 'string'),
@@ -48,6 +49,6 @@ class LoginRequest extends FormRequest
 
     public function ip(): string
     {
-        return $this->getRealIp();
+        return Arr::first($this->getClientIps(), static fn ($ip) => $ip, '0.0.0.0');
     }
 }

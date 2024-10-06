@@ -23,8 +23,8 @@ use App\Schema\RoleSchema;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
-use Mine\Kernel\Core\CurrentUser;
-use Mine\Kernel\Swagger\Attributes\PageResponse;
+use Mine\Core\CurrentUser;
+use Mine\Swagger\Attributes\PageResponse;
 
 #[HyperfServer(name: 'http')]
 #[Middleware(AccessTokenMiddleware::class)]

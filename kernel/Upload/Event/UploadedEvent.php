@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Upload\Event;
+namespace Mine\Upload\Event;
 
-use Mine\Kernel\Upload\Upload;
+use Mine\Upload\Upload;
 
 final class UploadedEvent
 {

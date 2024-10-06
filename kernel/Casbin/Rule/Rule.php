@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Casbin\Rule;
+namespace Mine\Casbin\Rule;
 
 use Hyperf\DbConnection\Model\Model;
 

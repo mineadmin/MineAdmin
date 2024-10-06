@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Swagger\Processor;
+namespace Mine\Swagger\Processor;
 
 use OpenApi\Analysis;
 use OpenApi\Processors\ProcessorInterface;

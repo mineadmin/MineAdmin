@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Event;
+namespace Mine\GeneratorCrud\Event;
 
-use Mine\Kernel\GeneratorCrud\Context;
+use Mine\GeneratorCrud\Context;
 
 class GeneratorStaringEvent
 {

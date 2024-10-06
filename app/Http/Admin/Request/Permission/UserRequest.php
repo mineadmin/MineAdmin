@@ -14,7 +14,7 @@ namespace App\Http\Admin\Request\Permission;
 
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
-use Mine\Kernel\Swagger\Attributes\FormRequest as FormRequestAnnotation;
+use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 
 #[FormRequestAnnotation(
     schema: UserSchema::class,

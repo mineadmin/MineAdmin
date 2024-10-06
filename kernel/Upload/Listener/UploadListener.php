@@ -10,14 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Upload\Listener;
+namespace Mine\Upload\Listener;
 
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Filesystem\FilesystemFactory;
 use Hyperf\Stringable\Str;
 use League\Flysystem\Filesystem;
-use Mine\Kernel\Upload\Event\UploadEvent;
-use Mine\Kernel\Upload\Upload;
+use Mine\Upload\Event\UploadEvent;
+use Mine\Upload\Upload;
 use Ramsey\Uuid\Uuid;
 
 abstract class UploadListener implements ListenerInterface

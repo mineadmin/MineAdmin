@@ -24,10 +24,10 @@ use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\Post;
-use Mine\Kernel\Access\Attribute\Permission;
-use Mine\Kernel\Core\CurrentUser;
-use Mine\Kernel\Swagger\Attributes\PageResponse;
-use Mine\Kernel\Swagger\Attributes\ResultResponse;
+use Mine\Access\Attribute\Permission;
+use Mine\Core\CurrentUser;
+use Mine\Swagger\Attributes\PageResponse;
+use Mine\Swagger\Attributes\ResultResponse;
 use Symfony\Component\Finder\SplFileInfo;
 
 #[HyperfServer(name: 'http')]

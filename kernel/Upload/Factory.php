@@ -10,10 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Upload;
+namespace Mine\Upload;
 
-use Mine\Kernel\Upload\Event\UploadEvent;
-use Mine\Kernel\Upload\Exception\UploadFailException;
+use Mine\Upload\Event\UploadEvent;
+use Mine\Upload\Exception\UploadFailException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class Factory implements UploadInterface

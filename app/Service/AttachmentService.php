@@ -15,7 +15,7 @@ namespace App\Service;
 use App\Model\Attachment;
 use App\Repository\AttachmentRepository;
 use Hyperf\HttpMessage\Upload\UploadedFile;
-use Mine\Kernel\Upload\UploadInterface;
+use Mine\Upload\UploadInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

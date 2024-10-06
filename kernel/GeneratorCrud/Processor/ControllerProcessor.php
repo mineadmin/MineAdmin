@@ -10,12 +10,12 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\GeneratorCrud\Processor;
+namespace Mine\GeneratorCrud\Processor;
 
 use App\Http\Common\Controller\AbstractController;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
-use Mine\Kernel\GeneratorCrud\Context;
+use Mine\GeneratorCrud\Context;
 use PhpParser\NodeTraverser;
 
 final class ControllerProcessor extends AbstractAstProcessor

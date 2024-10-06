@@ -10,10 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace Mine\Kernel\Support;
+namespace Mine\Support;
 
 use Hyperf\HttpServer\Contract\RequestInterface;
-use Mine\Kernel\Support\Request\ClientIpRequestTrait;
+use Mine\Support\Request\ClientIpRequestTrait;
 
 class Request extends \Hyperf\HttpServer\Request implements RequestInterface
 {

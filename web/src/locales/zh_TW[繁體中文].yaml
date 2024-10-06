@@ -147,6 +147,8 @@ crud:
   delNoData: 至少要選擇一行數據
   delSuccess: 刪除成功
   status: 狀態
+  remark: 備注
+  sort: 排序
   createTime: 創建時間
   updateTime: 更新時間
   exportMessage: 是否確認導出數據？
@@ -155,6 +157,7 @@ crud:
   confirmMessage: 確認要%{msg}嗎？
   noPermission: 沒有權限訪問頁面或使用此功能
   userNotAllow: 目前用戶無法訪問或使用此功能
+  superAdminNoEdit: 超管不可修改
 form:
   pleaseInput: 請輸入%{msg}
   pleaseSelect: 請選擇%{msg}

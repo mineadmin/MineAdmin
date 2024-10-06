@@ -35,25 +35,25 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     // 索引序号列
     { type: 'index' },
     // 普通列
-    { label: () => t('baseUser.avatar'), prop: 'avatar', width: '120px',
+    { label: () => t('baseUserManage.avatar'), prop: 'avatar', width: '120px',
       cellRender: ({ row }) => (
         <div class="flex-center">
           <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : row.avatar} alt={row.username} />
         </div>
       ),
     },
-    { label: () => t('baseUser.username'), prop: 'username' },
-    { label: () => t('baseUser.nickname'), prop: 'nickname' },
-    { label: () => t('baseUser.userType'), prop: 'user_type',
+    { label: () => t('baseUserManage.username'), prop: 'username' },
+    { label: () => t('baseUserManage.nickname'), prop: 'nickname' },
+    { label: () => t('baseUserManage.userType'), prop: 'user_type',
       cellRender: ({ row }) => (
         <ElTag type={dictStore.t('base-userType', row.user_type, 'color')}>
           {t(dictStore.t('base-userType', row.user_type, 'i18n'))}
         </ElTag>
       ),
     },
-    { label: () => t('baseUser.phone'), prop: 'phone' },
-    { label: () => t('baseUser.email'), prop: 'email' },
-    { label: () => t('baseUser.status'), prop: 'status',
+    { label: () => t('baseUserManage.phone'), prop: 'phone' },
+    { label: () => t('baseUserManage.email'), prop: 'email' },
+    { label: () => t('crud.status'), prop: 'status',
       cellRender: ({ row }) => (
         <ElTag type={dictStore.t('system-status', row.status, 'color')}>
           {t(dictStore.t('system-status', row.status, 'i18n'))}
@@ -95,9 +95,9 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             name: 'setRole',
             show: ({ row }) => showBtn('permission:user:role', row),
             icon: 'material-symbols:person-add-rounded',
-            text: () => t('baseUser.setRole'),
+            text: () => t('baseUserManage.setRole'),
             onClick: ({ row }) => {
-              dialog.setTitle(t('baseUser.setRole'))
+              dialog.setTitle(t('baseUserManage.setRole'))
               dialog.open({ formType: 'setRole', data: row })
             },
           },
@@ -105,12 +105,12 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             name: 'initPassword',
             show: ({ row }) => showBtn('permission:user:password', row),
             icon: 'material-symbols:passkey',
-            text: () => t('baseUser.initPassword'),
+            text: () => t('baseUserManage.initPassword'),
             onClick: ({ row }) => {
-              msg.confirm(t('baseUser.setPassword')).then(async () => {
+              msg.confirm(t('baseUserManage.setPassword')).then(async () => {
                 const response = await resetPassword(row.id)
                 if (response.code === ResultCode.SUCCESS) {
-                  msg.success(t('baseUser.setPasswordSuccess'))
+                  msg.success(t('baseUserManage.setPasswordSuccess'))
                 }
               })
             },
@@ -119,7 +119,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             name: 'noAllowSuperAdmin',
             show: ({ row }) => row.id === 1 && row.username === 'SuperAdmin',
             disabled: () => true,
-            text: () => t('baseUser.superAdminNoEdit'),
+            text: () => t('crud.superAdminNoEdit'),
           },
         ],
       },

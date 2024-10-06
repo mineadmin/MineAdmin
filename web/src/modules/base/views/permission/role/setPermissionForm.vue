@@ -10,9 +10,8 @@
 <script setup lang="ts">
 import type { MaFormExpose } from '@mineadmin/form'
 import type { RoleVo } from '~/base/api/role.ts'
-import { page } from '~/base/api/role.ts'
-import type { UserVo } from '~/base/api/user.ts'
-import { batchGrantRolesForUser, getUserRole } from '~/base/api/user.ts'
+import { page } from '~/base/api/menu.ts'
+import { batchGrantPermissionsForRole } from '~/base/api/role.ts'
 
 import useForm from '@/hooks/useForm.ts'
 
@@ -20,33 +19,33 @@ import MaRemoteSelect from '@/components/ma-remote-select/index.vue'
 import { ResultCode } from '@/utils/ResultCode.ts'
 
 const { data = null } = defineProps<{
-  data?: UserVo | null
+  data?: RoleVo | null
 }>()
 
 const t = useTrans().globalTrans
 const userRoleForm = ref<MaFormExpose>()
-const userModel = ref<{ id?: number, roleCode?: string[] }>({
-  roleCode: [],
+const userModel = ref<{ id?: number, permission_id?: number[] }>({
+  permission_id: [],
 })
 
 useForm('userRoleForm').then(async (form: MaFormExpose) => {
   if (data?.id) {
     userModel.value.id = data.id
-    const response = await getUserRole(data?.id)
-    if (response.code === ResultCode.SUCCESS) {
-      userModel.value.roleCode = response.data.map((item: any) => item.code)
-    }
+    // const response = await getUserRole(data?.id)
+    // if (response.code === ResultCode.SUCCESS) {
+    //   userModel.value.permission_id = response.data.map((item: any) => item.code)
+    // }
   }
 
   form.setItems([
     {
-      label: () => t('baseUserManage.role'),
-      prop: 'roleCode',
+      label: () => t('baseRoleManage.permission'),
+      prop: 'permission_id',
       render: () => MaRemoteSelect,
       renderProps: {
         multiple: true,
-        placeholder: t('form.pleaseSelect', { msg: t('baseUserManage.role') }),
-        api: () => new Promise(resolve => resolve(page({ page_size: 999 }))),
+        placeholder: t('form.pleaseSelect', { msg: t('baseRoleManage.permission') }),
+        api: () => new Promise(resolve => resolve(page())),
         dataHandle: (response: any) => {
           return response.data.list?.map((item: RoleVo) => {
             return { label: `${item.name}-${item.code}`, value: item.code }
@@ -54,7 +53,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
         },
       },
       itemProps: {
-        rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseUserManage.role') }) }],
+        rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseRoleManage.permission') }) }],
       },
     },
   ])
@@ -66,7 +65,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
 // 保存用户角色
 function saveUserRole(): Promise<any> {
   return new Promise((resolve, reject) => {
-    batchGrantRolesForUser(userModel.value.id as number, userModel.value.roleCode as string[]).then((res: any) => {
+    batchGrantPermissionsForRole(userModel.value.id as number, userModel.value.permission_id as number[]).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     }).catch((err) => {
       reject(err)

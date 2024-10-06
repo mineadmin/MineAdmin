@@ -147,6 +147,8 @@ crud:
   delNoData: Select at least one row of data
   delSuccess: The deletion is successful
   status: Status
+  remark: Remark
+  sort: Sort
   createTime: Creation time
   updateTime: Updated time
   exportMessage: Whether to confirm the export data?
@@ -155,6 +157,7 @@ crud:
   confirmMessage: OK to do %{msg}?
   noPermission: There is no permission to access or use this feature
   userNotAllow: This feature is not accessible or available to current users
+  superAdminNoEdit: SuperAdmin not allow edit
 form:
   pleaseInput: Please input %{msg}
   pleaseSelect: Please select %{msg}

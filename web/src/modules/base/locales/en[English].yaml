@@ -1,4 +1,4 @@
-baseUser:
+baseUserManage:
   avatar: Avatar
   username: Username
   nickname: Nickname
@@ -8,16 +8,20 @@ baseUser:
   userType: User type
   role: Role
   signed: Signed
-  status: Status
-  remark: Remark
   mainTitle: User Manager
   subTitle: Provide users with the functions of adding, editing, and deleting
   setRole: Set role
   setRoleSuccess: The role was set successfully
   initPassword: Init password
-  superAdminNoEdit: SuperAdmin not allow edit
   setPassword: Whether to reset the password to 123456?
   setPasswordSuccess: The password was reset successfully
+baseRoleManage:
+  mainTitle: Role Manager
+  subTitle: Provide user roles and permission settings
+  name: Role name
+  code: Role code
+  permission: Permission Menu
+  setPermission: Set permission
 baseLoginLog:
   title: User Login log
   username: Username

@@ -23,91 +23,91 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
 
   return [
     {
-      label: () => t('baseUser.avatar'),
+      label: () => t('baseUserManage.avatar'),
       prop: 'avatar',
       render: () => MaUploadImage,
     },
     {
-      label: () => t('baseUser.username'),
+      label: () => t('baseUserManage.username'),
       prop: 'username',
       render: 'input',
       cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.username') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.username') }),
       },
       itemProps: {
-        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.username') }) }],
+        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUserManage.username') }) }],
       },
     },
     {
-      label: () => t('baseUser.nickname'),
+      label: () => t('baseUserManage.nickname'),
       prop: 'nickname',
       render: 'input',
       cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.nickname') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.nickname') }),
       },
       itemProps: {
-        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.nickname') }) }],
+        rules: [{ required: true, message: t('form.requiredInput', { msg: t('baseUserManage.nickname') }) }],
       },
     },
     {
-      label: () => t('baseUser.password'),
+      label: () => t('baseUserManage.password'),
       prop: 'password',
       render: 'input',
       cols: { md: 12, xs: 24 },
       renderProps: {
         disabled: formType === 'edit',
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.password') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.password') }),
       },
       itemProps: {
-        rules: formType === 'add' ? [{ required: true, message: t('form.requiredInput', { msg: t('baseUser.password') }) }] : [],
+        rules: formType === 'add' ? [{ required: true, message: t('form.requiredInput', { msg: t('baseUserManage.password') }) }] : [],
       },
     },
     {
-      label: () => t('baseUser.phone'),
+      label: () => t('baseUserManage.phone'),
       prop: 'phone',
       render: 'input',
       cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.phone') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.phone') }),
       },
     },
     {
-      label: () => t('baseUser.email'),
+      label: () => t('baseUserManage.email'),
       prop: 'email',
       render: 'input',
       cols: { md: 12, xs: 24 },
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.email') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.email') }),
       },
     },
     {
-      label: () => t('baseUser.userType'),
+      label: () => t('baseUserManage.userType'),
       prop: 'user_type',
       cols: { md: 12, xs: 24 },
       render: () => MaDictRadio,
       renderProps: {
         renderMode: 'button',
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.userType') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.userType') }),
         dictName: 'base-userType',
       },
     },
     {
-      label: () => t('baseUser.remark'),
+      label: () => t('crud.remark'),
       prop: 'remark',
       render: 'input',
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.remark') }),
+        placeholder: t('form.pleaseInput', { msg: t('crud.remark') }),
         type: 'textarea',
       },
     },
     {
-      label: () => t('baseUser.status'),
+      label: () => t('crud.status'),
       prop: 'status',
       render: () => MaDictRadio,
       renderProps: {
-        placeholder: t('form.pleaseInput', { msg: t('baseUser.status') }),
+        placeholder: t('form.pleaseInput', { msg: t('crud.status') }),
         dictName: 'system-status',
       },
     },

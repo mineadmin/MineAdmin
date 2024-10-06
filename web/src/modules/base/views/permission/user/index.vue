@@ -72,7 +72,7 @@ const maDialog: UseDialogExpose = useDialog({
       elForm.validate().then(() => {
         // 设置角色
         setFormRef.value.saveUserRole().then((res: any) => {
-          res.code === ResultCode.SUCCESS ? msg.success(t('baseUser.setRoleSuccess')) : msg.error(res.message)
+          res.code === ResultCode.SUCCESS ? msg.success(t('baseUserManage.setRoleSuccess')) : msg.error(res.message)
           maDialog.close()
         }).catch((err: any) => {
           msg.alertError(err)
@@ -88,8 +88,8 @@ const options = ref<MaProTableOptions>({
   // 表格距离底部的像素偏移适配
   adaptionOffsetBottom: 161,
   header: {
-    mainTitle: () => t('baseUser.mainTitle'),
-    subTitle: () => t('baseUser.subTitle'),
+    mainTitle: () => t('baseUserManage.mainTitle'),
+    subTitle: () => t('baseUserManage.subTitle'),
   },
   // 表格参数
   tableOptions: {

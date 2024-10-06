@@ -7,8 +7,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:nocheck": "vite build",
+    "build": "vite build",
     "serve": "http-server ./dist -o",
     "svgo": "svgo -f src/assets/icons",
     "new": "plop",

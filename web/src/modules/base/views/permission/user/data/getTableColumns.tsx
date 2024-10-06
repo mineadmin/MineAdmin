@@ -93,7 +93,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'setRole',
-            show: ({ row }) => showBtn('permission:user:role', row),
+            show: ({ row }) => showBtn(['permission:user:getRole', 'permission:user:setRole'], row),
             icon: 'material-symbols:person-add-rounded',
             text: () => t('baseUserManage.setRole'),
             onClick: ({ row }) => {

@@ -124,10 +124,24 @@ final class RoleController extends AbstractController
         return $this->success();
     }
 
+    #[Get(
+        path: '/admin/role/getRolePermission/{id}',
+        operationId: 'setRolePermission',
+        summary: '获取角色权限列表',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['角色管理'],
+    )]
+    #[ResultResponse(instance: new Result())]
+    #[Permission(code: 'role:getPermission')]
+    public function setRolePermission(int $id): Result
+    {
+        return $this->success($this->service->getRolePermission($id));
+    }
+
     #[Put(
-        path: '/admin/role/{id}/permission',
+        path: '/admin/role/setRolePermission/{id}',
         operationId: 'roleGrantPermissions',
-        summary: '角色授权',
+        summary: '赋予角色权限',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['角色管理'],
     )]
@@ -135,7 +149,7 @@ final class RoleController extends AbstractController
     #[RequestBody(content: new JsonContent(
         ref: BatchGrantPermissionsForRoleRequest::class
     ))]
-    #[Permission(code: 'role:permission')]
+    #[Permission(code: 'role:setPermission')]
     public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
     {
         if (! $this->service->existsById($id)) {

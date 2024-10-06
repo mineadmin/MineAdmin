@@ -138,11 +138,19 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'permission:user:role',
+                                'name' => 'permission:user:getRole',
+                                'meta' => new Meta([
+                                    'title' => '获取用户角色',
+                                    'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.getUserRole',
+                                ]),
+                            ],
+                            [
+                                'name' => 'permission:user:setRole',
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
                                     'type' => 'B',
-                                    'i18n' => 'baseMenu.permission.userRole',
+                                    'i18n' => 'baseMenu.permission.setUserRole',
                                 ]),
                             ],
                         ],
@@ -247,6 +255,22 @@ class MenuSeeder20240926 extends Seeder
                                     'title' => '角色删除',
                                     'type' => 'B',
                                     'i18n' => 'baseMenu.permission.roleDelete',
+                                ]),
+                            ],
+                            [
+                                'name' => 'permission:role:getPermission',
+                                'meta' => new Meta([
+                                    'title' => '获取角色权限',
+                                    'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.getRolePermission',
+                                ]),
+                            ],
+                            [
+                                'name' => 'permission:role:setPermission',
+                                'meta' => new Meta([
+                                    'title' => '赋予角色权限',
+                                    'type' => 'B',
+                                    'i18n' => 'baseMenu.permission.setRolePermission',
                                 ]),
                             ],
                         ],

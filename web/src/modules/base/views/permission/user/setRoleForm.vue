@@ -12,7 +12,7 @@ import type { MaFormExpose } from '@mineadmin/form'
 import type { RoleVo } from '~/base/api/role.ts'
 import { page } from '~/base/api/role.ts'
 import type { UserVo } from '~/base/api/user.ts'
-import { batchGrantRolesForUser, getUserRole } from '~/base/api/user.ts'
+import { getUserRole, setUserRole } from '~/base/api/user.ts'
 
 import useForm from '@/hooks/useForm.ts'
 
@@ -66,7 +66,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
 // 保存用户角色
 function saveUserRole(): Promise<any> {
   return new Promise((resolve, reject) => {
-    batchGrantRolesForUser(userModel.value.id as number, userModel.value.roleCode as string[]).then((res: any) => {
+    setUserRole(userModel.value.id as number, userModel.value.roleCode as string[]).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     }).catch((err) => {
       reject(err)

@@ -48,12 +48,15 @@ baseMenu:
     userUpdate: User updated
     userDelete: User delete
     userPassword: Init user password
-    userRole: Set role for user
+    getUserRole: Get user role
+    setUserRole: Set user role
     role: Role
     roleList: Role list
     roleSave: Role save
     roleUpdate: Role updated
     roleDelete: Role delete
+    getRolePermission: Get role permission
+    setRolePermission: Set role permission
     menu: Menu
     menuList: Menu list
     menuSave: Menu save

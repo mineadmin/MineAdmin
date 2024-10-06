@@ -48,12 +48,15 @@ baseMenu:
     userUpdate: 用戶更新
     userDelete: 用戶刪除
     userPassword: 重設用戶密码
-    userRole: 設置用戶角色
+    getUserRole: 查詢用戶角色
+    setUserRole: 設置用戶角色
     role: 角色管理
     roleList: 角色列表
     roleSave: 角色保存
     roleUpdate: 角色更新
     roleDelete: 角色刪除
+    getRolePermission: 查詢角色權限
+    setRolePermission: 賦予角色權限
     menu: 菜單管理
     menuList: 菜單管列表
     menuSave: 菜單管保存

@@ -7,15 +7,15 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { MaFormExpose } from '@mineadmin/form'
 import type { RoleVo } from '~/base/api/role.ts'
+import { getRolePermission, setRolePermission } from '~/base/api/role.ts'
 import { page } from '~/base/api/menu.ts'
-import { batchGrantPermissionsForRole } from '~/base/api/role.ts'
 
 import useForm from '@/hooks/useForm.ts'
 
-import MaRemoteSelect from '@/components/ma-remote-select/index.vue'
+import MaTree from '@/components/ma-tree/index.vue'
 import { ResultCode } from '@/utils/ResultCode.ts'
 
 const { data = null } = defineProps<{
@@ -28,32 +28,44 @@ const userModel = ref<{ id?: number, permission_id?: number[] }>({
   permission_id: [],
 })
 
+const permissionTreeRef = ref<any>()
+
 useForm('userRoleForm').then(async (form: MaFormExpose) => {
   if (data?.id) {
     userModel.value.id = data.id
-    // const response = await getUserRole(data?.id)
-    // if (response.code === ResultCode.SUCCESS) {
-    //   userModel.value.permission_id = response.data.map((item: any) => item.code)
-    // }
+    const response = await getRolePermission(data?.id)
+    if (response.code === ResultCode.SUCCESS) {
+      console.log(response.data)
+    }
   }
+
+  const menuRes = await page()
 
   form.setItems([
     {
       label: () => t('baseRoleManage.permission'),
       prop: 'permission_id',
-      render: () => MaRemoteSelect,
+      render: () => MaTree,
       renderProps: {
-        multiple: true,
+        ref: (el: any) => permissionTreeRef.value = el,
+        class: 'w-full',
+        showCheckbox: true,
+        treeKey: 'meta.title',
         placeholder: t('form.pleaseSelect', { msg: t('baseRoleManage.permission') }),
-        api: () => new Promise(resolve => resolve(page())),
-        dataHandle: (response: any) => {
-          return response.data.list?.map((item: RoleVo) => {
-            return { label: `${item.name}-${item.code}`, value: item.code }
-          })
-        },
+        nodeKey: 'id',
+        data: menuRes.data,
       },
-      itemProps: {
-        rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseRoleManage.permission') }) }],
+      renderSlots: {
+        default: ({ data }) => {
+          return (
+            <div class="mine-tree-node">
+              <div class="label">
+                { data.meta?.icon && <ma-svg-icon name={data.meta?.icon} size={16} />}
+                { data.meta?.i18n ? t(data.meta?.i18n) : data.meta.title ?? 'unknown' }
+              </div>
+            </div>
+          )
+        },
       },
     },
   ])
@@ -65,7 +77,8 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
 // 保存用户角色
 function saveUserRole(): Promise<any> {
   return new Promise((resolve, reject) => {
-    batchGrantPermissionsForRole(userModel.value.id as number, userModel.value.permission_id as number[]).then((res: any) => {
+    const elTree = permissionTreeRef.value.elTree
+    setRolePermission(userModel.value.id as number, elTree.getCheckedKeys() as number[]).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     }).catch((err) => {
       reject(err)

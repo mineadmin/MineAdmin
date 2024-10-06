@@ -33,6 +33,10 @@ export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {
   return useHttp().delete('/admin/role', { data: ids })
 }
 
-export function batchGrantPermissionsForRole(id: number, permission_ids: number[]): Promise<ResponseStruct<null>> {
-  return useHttp().post(`/admin/role/${id}/permissions`, permission_ids)
+export function getRolePermission(id: number): Promise<ResponseStruct<null>> {
+  return useHttp().get(`/admin/role/getRolePermission/${id}`)
+}
+
+export function setRolePermission(id: number, permission_ids: number[]): Promise<ResponseStruct<null>> {
+  return useHttp().put(`/admin/role/setRolePermission/${id}`, { permission_ids })
 }

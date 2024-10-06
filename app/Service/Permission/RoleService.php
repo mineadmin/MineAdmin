@@ -16,6 +16,7 @@ use App\Model\Permission\Role;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
 use Hyperf\Collection\Arr;
+use Hyperf\Collection\Collection;
 
 /**
  * @extends IService<Role>
@@ -25,6 +26,12 @@ final class RoleService extends IService
     public function __construct(
         protected readonly RoleRepository $repository
     ) {}
+
+    public function getRolePermission(int $id): Collection
+    {
+        $entity = $this->repository->findById($id);
+        return $entity->menus()->get();
+    }
 
     public function batchGrantPermissionsForRole(int $id, array $menuIds): void
     {

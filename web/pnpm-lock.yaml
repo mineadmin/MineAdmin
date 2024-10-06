@@ -15,8 +15,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/form':
-        specifier: ^1.0.18
-        version: 1.0.18(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.20
+        version: 1.0.20(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/pro-table':
         specifier: ^1.0.19
         version: 1.0.19(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)
@@ -1581,8 +1581,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/form@1.0.18':
-    resolution: {integrity: sha512-Gt72wOosUFIzM5qqMbpCAzdrvPlb0jzKTxsk2Ws8Ct96G7/NWUu3P6pVvCkDOmBsne/PbiGKoGqxko/wlJ14bg==}
+  '@mineadmin/form@1.0.20':
+    resolution: {integrity: sha512-IqS/Sry65RSzgPxXTE/SRPi3BBb/NRXSTYmUS9y7nplIf2IWGD1US9k2q3oIcKZJxj9E209UrkUPAu6/438grg==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -6940,7 +6940,7 @@ snapshots:
       - '@vue/composition-api'
       - typescript
 
-  '@mineadmin/form@1.0.18(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/form@1.0.20(element-plus@2.8.3(vue@3.5.8(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.3(vue@3.5.8(typescript@5.6.2))
       vue: 3.5.8(typescript@5.6.2)

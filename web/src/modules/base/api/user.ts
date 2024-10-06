@@ -54,6 +54,6 @@ export function getUserRole(id: number): Promise<ResponseStruct<any[]>> {
   return useHttp().get(`/admin/user/getUserRole/${id}`)
 }
 
-export function batchGrantRolesForUser(id: number, role_codes: string[]): Promise<ResponseStruct<null>> {
+export function setUserRole(id: number, role_codes: string[]): Promise<ResponseStruct<null>> {
   return useHttp().put(`/admin/user/setUserRole/${id}`, { role_codes })
 }

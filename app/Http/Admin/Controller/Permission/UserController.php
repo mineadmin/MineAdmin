@@ -154,7 +154,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:role')]
+    #[Permission(code: 'user:getRole')]
     #[ResultResponse(new Result())]
     public function getUserRole(int $userId): Result
     {
@@ -168,7 +168,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:role')]
+    #[Permission(code: 'user:setRole')]
     #[RequestBody(content: new JsonContent(ref: BatchGrantRolesForUserRequest::class, title: '批量授权用户角色'))]
     #[ResultResponse(new Result())]
     public function batchGrantRolesForUser(int $userId, BatchGrantRolesForUserRequest $request): Result

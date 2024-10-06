@@ -55,29 +55,38 @@ function toggle(state: boolean) {
     item.expanded = state
   })
 }
+
+defineExpose({ toggle, elTree: treeRef })
 </script>
 
 <template>
-  <div class="sticky flex items-center justify-between gap-x-1">
-    <el-input v-model="filterText" :placeholder="t('placeholder')" clearable>
-      <template #prefix>
-        <ma-svg-icon name="heroicons:magnifying-glass" :size="20" />
-      </template>
-    </el-input>
-    <el-button-group class="flex justify-end">
-      <el-button @click="toggle(true)">
-        {{ t('open') }}
-      </el-button>
-      <el-button @click="toggle(false)">
-        {{ t('fold') }}
-      </el-button>
-    </el-button-group>
+  <div class="sticky w-full">
+    <div v-if="$attrs?.showCheckbox ?? false" class="flex items-center">
+      <el-checkbox>全选</el-checkbox>
+      <el-checkbox>反选</el-checkbox>
+      <el-checkbox>关闭父子联动</el-checkbox>
+    </div>
+    <div class="flex items-center justify-between gap-x-1">
+      <el-input v-model="filterText" :placeholder="t('placeholder')" clearable>
+        <template #prefix>
+          <ma-svg-icon name="heroicons:magnifying-glass" :size="20" />
+        </template>
+      </el-input>
+      <el-button-group class="flex justify-end">
+        <el-button @click="toggle(true)">
+          {{ t('open') }}
+        </el-button>
+        <el-button @click="toggle(false)">
+          {{ t('fold') }}
+        </el-button>
+      </el-button-group>
+    </div>
   </div>
   <ElTree
     v-bind="$attrs"
     ref="treeRef"
     :filter-node-method="filterNode"
-    class="overflow-y-auto"
+    class="w-auto overflow-y-auto"
   >
     <template #default="{ node, data }">
       <slot v-bind="{ node, data }" />

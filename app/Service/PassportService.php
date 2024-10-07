@@ -22,9 +22,10 @@ use Lcobucci\JWT\UnencryptedToken;
 use Mine\Jwt\Factory;
 use Mine\Jwt\JwtInterface;
 use Mine\JwtAuth\Event\UserLoginEvent;
+use Mine\JwtAuth\Interfaces\CheckTokenInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class PassportService extends IService
+final class PassportService extends IService implements CheckTokenInterface
 {
     /**
      * @var string jwt场景
@@ -56,14 +57,9 @@ final class PassportService extends IService
         ];
     }
 
-    public function checkJwt(UnencryptedToken $token): bool
+    public function checkJwt(UnencryptedToken $token): void
     {
-        return value(static function (JwtInterface $jwt) use ($token) {
-            if ($jwt->hasBlackList($token)) {
-                throw new JwtInBlackException();
-            }
-            return true;
-        }, $this->getJwt());
+        $this->getJwt()->hasBlackList($token) && throw new JwtInBlackException();
     }
 
     public function logout(UnencryptedToken $token): void

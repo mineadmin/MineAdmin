@@ -264,9 +264,9 @@ final class UserControllerTest extends ControllerCase
         $result = $this->put('/admin/user/setUserRole/' . $user->id, ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:role'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user:role'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:role'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'user:setRole'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'user:setRole'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'user:setRole'));
         $result = $this->put('/admin/user/setUserRole/' . $user->id, ['role_codes' => $roleCodes], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();

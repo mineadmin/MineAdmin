@@ -213,7 +213,7 @@ final class RoleControllerTest extends ControllerCase
             self::assertTrue($enforce->addPermissionForUser($role->code, $code));
             self::assertTrue($enforce->hasPermissionForUser($role->code, $code));
         }
-        $uri = '/admin/role/' . $role->id . '/permission';
+        $uri = '/admin/role/setRolePermission/' . $role->id;
         $result = $this->put($uri);
         self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
         $result = $this->put($uri, [], ['Authorization' => 'Bearer ' . $token]);
@@ -230,8 +230,8 @@ final class RoleControllerTest extends ControllerCase
         self::assertFalse($enforce->hasRoleForUser($this->user->username, $userRole->code));
         self::assertTrue($enforce->addRoleForUser($this->user->username, $userRole->code));
         self::assertTrue($enforce->hasRoleForUser($this->user->username, $userRole->code));
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:permission'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:permission'));
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:setPermission'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:setPermission'));
         $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
         self::assertTrue($enforce->addRoleForUser($this->user->username, $role->code));

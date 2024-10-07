@@ -18,6 +18,7 @@ use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\RefreshTokenMiddleware;
 use App\Http\Common\Result;
+use App\Http\CurrentUser;
 use App\Model\Enums\User\Type;
 use App\Schema\UserSchema;
 use App\Service\PassportService;
@@ -26,7 +27,6 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
 use Hyperf\Swagger\Annotation\Post;
-use Mine\Core\CurrentUser;
 use Mine\Jwt\Traits\RequestScopedTokenTrait;
 use Mine\Swagger\Attributes\ResultResponse;
 

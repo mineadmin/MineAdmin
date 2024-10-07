@@ -15,6 +15,7 @@ namespace App\Http\Admin\Controller;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
+use App\Http\CurrentUser;
 use App\Schema\UserOperationLogSchema;
 use App\Service\UserOperationLogService;
 use Hyperf\HttpServer\Annotation\Middleware;
@@ -23,7 +24,6 @@ use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Mine\Access\Attribute\Permission;
-use Mine\Core\CurrentUser;
 use Mine\Swagger\Attributes\PageResponse;
 use Mine\Swagger\Attributes\ResultResponse;
 

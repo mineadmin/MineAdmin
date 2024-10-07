@@ -18,6 +18,7 @@ use App\Http\Admin\Request\Permission\MenuRequest;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
+use App\Http\CurrentUser;
 use App\Service\Permission\MenuService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -29,7 +30,6 @@ use Hyperf\Swagger\Annotation\Post;
 use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
 use Mine\Access\Attribute\Permission;
-use Mine\Core\CurrentUser;
 use Mine\Swagger\Attributes\PageResponse;
 use Mine\Swagger\Attributes\ResultResponse;
 

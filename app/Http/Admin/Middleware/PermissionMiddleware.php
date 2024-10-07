@@ -14,12 +14,12 @@ namespace App\Http\Admin\Middleware;
 
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
+use App\Http\CurrentUser;
 use App\Service\PermissionService;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpServer\Router\Dispatched;
 use Mine\Access\Attribute\Permission;
-use Mine\Core\CurrentUser;
 use Mine\Support\Traits\ParserRouterTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

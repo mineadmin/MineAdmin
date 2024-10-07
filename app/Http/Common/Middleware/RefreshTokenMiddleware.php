@@ -24,7 +24,7 @@ class RefreshTokenMiddleware extends AbstractTokenMiddleware
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->userService->checkJwt($this->parserToken($request));
+        $this->checkToken->checkJwt($this->parserToken($request));
         return $handler->handle(
             value(
                 static function (ServerRequestPlusInterface $request, UnencryptedToken $token) {

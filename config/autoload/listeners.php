@@ -16,6 +16,7 @@ use Mine\Core\Subscriber\FailToHandleSubscriber;
 use Mine\Core\Subscriber\QueueHandleSubscriber;
 use Mine\Core\Subscriber\ResumeExitCoordinatorSubscriber;
 use Mine\Core\Subscriber\Upload\UploadSubscriber;
+use Mine\Support\Listener\RegisterBlueprintListener;
 
 return [
     ErrorExceptionHandler::class,
@@ -31,4 +32,6 @@ return [
     ResumeExitCoordinatorSubscriber::class,
     // 处理队列
     QueueHandleSubscriber::class,
+    // 注册新的 Blueprint 宏
+    RegisterBlueprintListener::class,
 ];

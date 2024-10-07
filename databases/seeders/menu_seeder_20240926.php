@@ -182,7 +182,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'permission:menu:save',
+                                'name' => 'permission:menu:create',
                                 'meta' => new Meta([
                                     'title' => '菜单保存',
                                     'type' => 'B',
@@ -190,7 +190,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'permission:menu:update',
+                                'name' => 'permission:menu:save',
                                 'meta' => new Meta([
                                     'title' => '菜单更新',
                                     'type' => 'B',

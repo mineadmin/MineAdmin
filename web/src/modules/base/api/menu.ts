@@ -3,7 +3,8 @@ import type { ResponseStruct } from '#/global'
 export interface MenuVo {
   id?: number
   parent_id?: number
-  name: string
+  name?: string
+  path?: string
   meta?: Record<string, any>
   component?: string
   redirect?: string

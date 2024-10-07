@@ -89,6 +89,7 @@ function handleInvert() {
 defineExpose({
   toggle,
   handleSelectAll,
+  handleInvert,
   elTree: treeRef,
 })
 </script>

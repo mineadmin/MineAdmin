@@ -63,13 +63,11 @@ onMounted(() => {
 <template>
   <ElDialog
     ref="dialogRef"
-    v-bind="$attrs"
     v-model="isOpen"
     :fullscreen="fullscreen"
     :width="dialogWidth"
-    :close-on-click-modal="false"
     draggable
-    append-to-body
+    v-bind="$attrs"
   >
     <template #default>
       <div v-loading="$attrs.loading ?? false">

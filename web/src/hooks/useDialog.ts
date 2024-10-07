@@ -43,6 +43,14 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
     const slots = useSlots()
     const args = Object.assign(dialogProps ?? {}, props)
 
+    if (args?.appendToBody === undefined) {
+      args.appendToBody = true
+    }
+
+    if (args?.closeOnClickModal === undefined) {
+      args.closeOnClickModal = false
+    }
+
     return h(
       MaDialog,
       {

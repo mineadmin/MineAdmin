@@ -35,21 +35,35 @@ export function useMessage() {
     alertWarning(content: string) {
       ElMessageBox.alert(content, t('crud.confirmTitle'), { type: 'warning' })
     },
-    // 通知提示
-    notify(content: string) {
-      ElNotification.info(content)
+    // 通知提示，第二个参数对象可配置所有参数
+    notify(content: string, args: Record<string, any> = {}) {
+      ElNotification({
+        title: t('crud.confirmTitle'),
+        message: content,
+        type: 'info',
+        ...args,
+      })
     },
     // 错误通知
     notifyError(content: string) {
-      ElNotification.error(content)
+      ElNotification.error({
+        title: t('crud.confirmTitle'),
+        message: content,
+      })
     },
     // 成功通知
     notifySuccess(content: string) {
-      ElNotification.success(content)
+      ElNotification.success({
+        title: t('crud.confirmTitle'),
+        message: content,
+      })
     },
     // 警告通知
     notifyWarning(content: string) {
-      ElNotification.warning(content)
+      ElNotification.warning({
+        title: t('crud.confirmTitle'),
+        message: content,
+      })
     },
     // 确认框
     confirm(content: string, tip?: string) {

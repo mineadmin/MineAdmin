@@ -8,14 +8,23 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="ts">
+import type { MenuVo } from '~/base/api/menu.ts'
 import { useResizeObserver } from '@vueuse/core'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
-import type { MenuVo } from '~/base/api/menu.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 const emit = defineEmits<{
   (event: 'menu-select', value: MenuVo): void
 }>()
+
+const maTreeRef = ref()
+const msg = useMessage()
+
 const t = useTrans().globalTrans
+
+function getCurrent() {
+  console.log(document.querySelector('.el-tree .is-current'))
+}
 
 onMounted(async () => {
   const resizeContainer = () => {
@@ -31,6 +40,7 @@ onMounted(async () => {
 <template>
   <ma-tree
     v-bind="$attrs"
+    ref="maTreeRef"
     tree-key="meta.title"
     highlight-current
     :expand-on-click-node="false"
@@ -38,21 +48,70 @@ onMounted(async () => {
     :indent="26"
     auto-expand-parent
     class="mt-1 h-[200px] lg:h-full"
-    @node-click="(node: MenuVo) => emit('menu-select', node)"
+    @node-click="(node: MenuVo) => {
+      emit('menu-select', node)
+    }"
   >
-    <template #default="{ data }">
+    <template #default="{ node, data }">
       <div class="mine-tree-node">
         <div class="label">
           <ma-svg-icon v-if="data.meta?.icon" :name="data.meta?.icon" :size="20" />
           {{ data.meta?.i18n ? t(data.meta?.i18n) : data.meta.title ?? 'unknown' }}
         </div>
-        <div class="do">
-          <el-button v-if="data.meta?.type === 'M'" size="small" circle type="primary">
+        <div class="do" :class="{ '!inline-block': maTreeRef.elTree.getCurrentKey() === data.id }">
+          <el-button
+            v-if="data.meta?.type === 'M'"
+            v-auth="['permission:menu:save']"
+            size="small" circle type="primary"
+            @click.stop="() => {
+              console.log(data.path)
+              const newData: MenuVo = {
+                parent_id: data.id,
+                path: '',
+                name: '',
+                component: '',
+                btnPermission: [],
+                meta: {
+                  title: `新菜单`,
+                  type: 'M',
+                  componentSuffix: '.vue',
+                  componentPath: 'modules/',
+                  breadcrumbEnable: true,
+                  copyright: true,
+                  hidden: false,
+                  affix: false,
+                  cache: true,
+                },
+              }
+              emit('menu-select', newData)
+            }"
+          >
             <ma-svg-icon name="ic:round-plus" :size="20" />
           </el-button>
-          <el-button size="small" circle type="danger">
-            <ma-svg-icon name="ic:round-minus" :size="20" />
-          </el-button>
+          <el-popconfirm
+            :title="t('crud.delDataMessage')"
+            :confirm-button-text="t('crud.ok')"
+            :cancel-button-text="t('crud.cancel')"
+            @confirm.stop="() => {
+              if (data.children && data.children.length > 0) {
+                msg.notifyError('当前菜单存在下级，请先删除下级菜单')
+                return
+              }
+              if (data.parent_id !== 0) {
+                maTreeRef.elTree.setCurrentKey(data.parent_id, true)
+                emit('menu-select', maTreeRef.elTree.getCurrentNode())
+              }
+              maTreeRef.elTree.remove(node)
+            }"
+          >
+            <template #reference>
+              <el-button
+                v-auth="['permission:menu:delete']" size="small" circle type="danger"
+              >
+                <ma-svg-icon name="ic:round-minus" :size="20" />
+              </el-button>
+            </template>
+          </el-popconfirm>
         </div>
       </div>
     </template>

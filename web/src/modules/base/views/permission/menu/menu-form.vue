@@ -109,7 +109,7 @@ const formItems = ref<MaFormItem[]>([
     ),
     renderProps: {
       class: 'w-full',
-      placeholder: '请选择上级菜单，默认为顶级菜单',
+      placeholder: '请选择上级菜单，不选为顶级菜单',
     },
     cols: { lg: 12, md: 24 },
   },
@@ -138,7 +138,7 @@ const formItems = ref<MaFormItem[]>([
       rules: [{ required: true, message: '请输入路由地址' }],
     },
     renderProps: {
-      placeholder: '页面访问地址，以 "/" 开头，如果下面存在子菜单（非按钮），可以不写此项。',
+      placeholder: '页面访问地址，以 "/" 开头',
     },
   },
   {

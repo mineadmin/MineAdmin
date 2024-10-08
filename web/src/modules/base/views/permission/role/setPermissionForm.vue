@@ -40,7 +40,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
   }
 
   const menuRes = await page()
-
+  // todo 这里是需要选择 code 而不是菜单 id
   form.setItems([
     {
       label: () => t('baseRoleManage.permission'),

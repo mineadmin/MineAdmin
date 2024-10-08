@@ -29,8 +29,7 @@ final class RoleService extends IService
 
     public function getRolePermission(int $id): Collection
     {
-        $entity = $this->repository->findById($id);
-        return $entity->menus()->get();
+        return $this->repository->findById($id)->menus()->get();
     }
 
     public function batchGrantPermissionsForRole(int $id, array $menuIds): void

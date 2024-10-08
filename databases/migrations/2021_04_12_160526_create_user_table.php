@@ -38,7 +38,6 @@ class CreateUserTable extends Migration
             $table->json('backend_setting')->nullable()->comment('后台设置数据');
             $table->authorBy();
             $table->datetimes();
-
             $table->string('remark', 255)->default('')->comment('备注');
         });
     }

@@ -157,7 +157,7 @@ final class RoleControllerTest extends ControllerCase
             Menu::create([
                 'parent_id' => 0,
                 'name' => Str::random(10),
-                'code' => Str::random(10),
+
                 'icon' => Str::random(10),
                 'route' => Str::random(10),
                 'component' => Str::random(10),
@@ -171,7 +171,7 @@ final class RoleControllerTest extends ControllerCase
             Menu::create([
                 'parent_id' => 0,
                 'name' => Str::random(10),
-                'code' => Str::random(10),
+
                 'icon' => Str::random(10),
                 'route' => Str::random(10),
                 'component' => Str::random(10),
@@ -185,7 +185,7 @@ final class RoleControllerTest extends ControllerCase
             Menu::create([
                 'parent_id' => 0,
                 'name' => Str::random(10),
-                'code' => Str::random(10),
+
                 'icon' => Str::random(10),
                 'route' => Str::random(10),
                 'component' => Str::random(10),
@@ -197,8 +197,7 @@ final class RoleControllerTest extends ControllerCase
                 'remark' => Str::random(10),
             ]),
         ];
-        $menuIds = array_column($menus, 'id');
-        $codes = array_column($menus, 'code');
+        $names = array_column($menus, 'name');
         $role = Role::create([
             'name' => Str::random(10),
             'code' => Str::random(10),
@@ -208,17 +207,12 @@ final class RoleControllerTest extends ControllerCase
         ]);
         $token = $this->token;
         $enforce = $this->getEnforce();
-        foreach ($codes as $code) {
-            self::assertFalse($enforce->hasPermissionForUser($role->code, $code));
-            self::assertTrue($enforce->addPermissionForUser($role->code, $code));
-            self::assertTrue($enforce->hasPermissionForUser($role->code, $code));
-        }
-        $uri = '/admin/role/setRolePermission/' . $role->id;
+        $uri = '/admin/role/' . $role->id . '/permissions';
         $result = $this->put($uri);
         self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
         $result = $this->put($uri, [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
-        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->put($uri, ['permissions' => $names], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $userRole = Role::create([
             'name' => Str::random(10),
@@ -230,50 +224,25 @@ final class RoleControllerTest extends ControllerCase
         self::assertFalse($enforce->hasRoleForUser($this->user->username, $userRole->code));
         self::assertTrue($enforce->addRoleForUser($this->user->username, $userRole->code));
         self::assertTrue($enforce->hasRoleForUser($this->user->username, $userRole->code));
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:setPermission'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:setPermission'));
-        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
-        self::assertSame($result['code'], ResultCode::SUCCESS->value);
+
+        self::assertFalse($enforce->hasRoleForUser($this->user->username, $role->code));
         self::assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
-        $this->asserRolePermission($role->code, $codes);
+        self::assertTrue($enforce->hasRoleForUser($this->user->username, $role->code));
 
-        // Delete role permission
-        foreach ($codes as $code) {
-            self::assertTrue($enforce->hasPermissionForUser($role->code, $code));
-            self::assertTrue($enforce->deletePermissionForUser($role->code, $code));
-            self::assertFalse($enforce->hasPermissionForUser($role->code, $code));
-        }
-        $this->asserRolePermission($role->code, $codes, false);
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:set:permission'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:set:permission'));
 
-        foreach ($codes as $code) {
-            self::assertFalse($enforce->hasPermissionForUser($role->code, $code));
-            self::assertTrue($enforce->addPermissionForUser($role->code, $code));
-            self::assertTrue($enforce->hasPermissionForUser($role->code, $code));
-        }
-        $this->asserRolePermission($role->code, $codes);
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:get:permission'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:get:permission'));
 
-        $result = $this->put($uri, ['permission_ids' => $menuIds], ['Authorization' => 'Bearer ' . $token]);
+        $result = $this->put($uri, ['permissions' => $names], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        $this->asserRolePermission($role->code, $codes);
+        $result = $this->get('/admin/role/' . $role->id . '/permissions', ['token' => $token]);
+        self::assertSame($result['code'], ResultCode::SUCCESS->value);
+        self::assertSame($result['data'], array_map(static fn ($menu) => ['id' => $menu['id'], 'name' => $menu['name']], $menus));
+
         $enforce->deleteRole($role->code);
-        $this->asserRolePermission($role->code, $codes, false);
-
         $role->forceDelete();
-        Menu::query()->whereIn('id', $menuIds)->forceDelete();
-    }
-
-    public function asserRolePermission(string $roleCode, array $codes, bool $in = true): void
-    {
-        $enforce = $this->getEnforce();
-        $allPermission = $enforce->getImplicitPermissionsForUser($roleCode);
-        $all = [];
-        array_walk_recursive($allPermission, static function ($value) use (&$all) {
-            $all[] = $value;
-        });
-
-        foreach ($codes as $code) {
-            $in ? self::assertTrue(\in_array($code, $all, true))
-                : self::assertFalse(\in_array($code, $all, true));
-        }
+        Menu::query()->whereIn('name', $names)->forceDelete();
     }
 }

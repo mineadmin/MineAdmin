@@ -34,9 +34,9 @@ export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {
 }
 
 export function getRolePermission(id: number): Promise<ResponseStruct<null>> {
-  return useHttp().get(`/admin/role/getRolePermission/${id}`)
+  return useHttp().get(`/admin/role/${id}/permissions`)
 }
 
-export function setRolePermission(id: number, permission_ids: number[]): Promise<ResponseStruct<null>> {
-  return useHttp().put(`/admin/role/setRolePermission/${id}`, { permission_ids })
+export function setRolePermission(id: number, permissions: string[]): Promise<ResponseStruct<null>> {
+  return useHttp().put(`/admin/role/${id}/permissions`, { permissions:permissions })
 }

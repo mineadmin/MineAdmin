@@ -29,7 +29,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+
           path: web
 
       - name: Install pnpm
@@ -104,7 +104,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+
           path: web
 
       - name: Install pnpm
@@ -160,7 +160,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           path: web
 
       - name: Install pnpm

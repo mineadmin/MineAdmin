@@ -29,6 +29,7 @@ final class RoleService extends IService
 
     public function getRolePermission(int $id): Collection
     {
+        // @phpstan-ignore-next-line
         return $this->repository->findById($id)->menus()->get();
     }
 

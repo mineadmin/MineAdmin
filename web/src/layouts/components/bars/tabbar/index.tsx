@@ -23,6 +23,7 @@ export default defineComponent({
   name: 'Tabbar',
   setup() {
     const tabStore = useTabStore()
+    const keeplive = useKeepAliveStore()
     const { getSettings } = useSettingStore()
     const route = useRoute()
     const { t } = useI18n()

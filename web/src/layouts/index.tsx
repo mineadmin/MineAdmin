@@ -80,7 +80,7 @@ export default defineComponent({
                 {({ Component }) => (
                   <Transition name={appSetting.pageAnimate} mode="out-in">
                     <KeepAlive include={keepAliveStore.list}>
-                      {keepAliveStore.getShowState() && Component}
+                      {keepAliveStore.getShowState() && <Component />}
                     </KeepAlive>
                   </Transition>
                 )}

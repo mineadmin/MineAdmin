@@ -97,8 +97,10 @@ const useTabStore = defineStore(
         tab = getCurrentTab() as MineTabbar
       }
       isLoading.value = true
-      keepAliveStore.remove(tab.name)
       keepAliveStore.hidden()
+      await new Promise(resolve => resolve(setTimeout(() => {
+      }, 200)))
+      keepAliveStore.remove(tab.name)
       await nextTick(async () => {
         keepAliveStore.add(tab.name)
         keepAliveStore.display()
@@ -122,12 +124,21 @@ const useTabStore = defineStore(
             }
           }
           tabList.value.splice(idx, 1)
+          keepAliveStore.remove(item.name)
         }
       })
     }
 
     async function closeOtherTab(tab: MineTabbar) {
-      tabList.value = tabList.value?.filter(item => item.fullPath === tab.fullPath || item.affix === true)
+      tabList.value = tabList.value?.filter((item: any) => {
+        if (item.fullPath === tab.fullPath || item.affix === true) {
+          return true
+        }
+        else {
+          keepAliveStore.remove(item.name)
+          return false
+        }
+      })
       await go(tab)
     }
     async function closeLeftTab(tab: MineTabbar) {
@@ -140,7 +151,13 @@ const useTabStore = defineStore(
 
       if (index !== -1) {
         tabList.value = tabList.value.filter((item: MineTabbar, idx: number) => {
-          return idx >= index || item.affix === true
+          if (idx >= index || item.affix === true) {
+            return true
+          }
+          else {
+            keepAliveStore.remove(item.name)
+            return false
+          }
         })
         await go(tab)
       }
@@ -155,7 +172,13 @@ const useTabStore = defineStore(
 
       if (index !== -1) {
         tabList.value = tabList.value.filter((item: MineTabbar, idx: number) => {
-          return idx <= index || item.affix === true
+          if (idx <= index || item.affix === true) {
+            return true
+          }
+          else {
+            keepAliveStore.remove(item.name)
+            return false
+          }
         })
         await go(tab)
       }
@@ -171,6 +194,7 @@ const useTabStore = defineStore(
 
     function clearTab() {
       tabList.value = [defaultTab.value]
+      keepAliveStore.clean()
     }
 
     function storage() {

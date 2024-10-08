@@ -8,10 +8,14 @@
  - @Link   https://github.com/mineadmin
 -->
 <script setup lang="tsx">
+import type { ElForm } from 'element-plus'
+import { ResultCode } from '@/utils/ResultCode.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
+import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
+import { create, type MenuVo, page } from '~/base/api/menu.ts'
+
 import MenuTree from './menu-tree.vue'
 import MenuForm from './menu-form.vue'
-import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
-import { type MenuVo, page } from '~/base/api/menu.ts'
 
 defineOptions({ name: 'permission:menu' })
 
@@ -21,6 +25,7 @@ const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
 
 const t = useTrans().globalTrans
+const msg = useMessage()
 
 onMounted(async () => {
   const { data } = await page()
@@ -30,6 +35,25 @@ onMounted(async () => {
 
 provide('menuList', menuList)
 provide('defaultExpandNodes', defaultExpandNodes)
+
+function createOrSaveMenu() {
+  const { model } = menuFormRef.value
+  const { getElFormRef, setLoadingState } = menuFormRef.value.menuForm
+  const elForm = getElFormRef() as typeof ElForm
+  setLoadingState(true)
+  elForm.validate().then(() => {
+    create(model).then((res: any) => {
+      res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
+    }).catch((err: any) => msg.alertError(err))
+    setLoadingState(false)
+  }).catch((err: any) => {
+    if (Object.keys(err)?.[0]) {
+      // 跳转到未填写字段
+      elForm.scrollToField(Object.keys(err)?.[0])
+    }
+    setLoadingState(false)
+  })
+}
 </script>
 
 <template>
@@ -51,7 +75,7 @@ provide('defaultExpandNodes', defaultExpandNodes)
       <div class="sticky top-0 z-2 flex items-center justify-between b-b-1 b-b-gray-1 b-b-solid bg-white pb-3 text-base dark-b-b-dark-4 dark-bg-dark-8">
         <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) : '添加顶级菜单' }}</span>
         <div>
-          <el-button type="primary">
+          <el-button type="primary" @click="createOrSaveMenu">
             保存
           </el-button>
         </div>

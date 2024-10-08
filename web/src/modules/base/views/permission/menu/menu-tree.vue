@@ -26,6 +26,28 @@ function getCurrent() {
   console.log(document.querySelector('.el-tree .is-current'))
 }
 
+function addMenu(data: MenuVo) {
+  const newData: MenuVo = {
+    parent_id: data.id,
+    path: '',
+    name: '',
+    component: '',
+    btnPermission: [],
+    meta: {
+      title: `新菜单`,
+      type: 'M',
+      componentSuffix: '.vue',
+      componentPath: 'modules/',
+      breadcrumbEnable: true,
+      copyright: true,
+      hidden: false,
+      affix: false,
+      cache: true,
+    },
+  }
+  emit('menu-select', newData)
+}
+
 onMounted(async () => {
   const resizeContainer = () => {
     const el = document.querySelector('.menu-container') as HTMLElement
@@ -63,28 +85,7 @@ onMounted(async () => {
             v-if="data.meta?.type === 'M'"
             v-auth="['permission:menu:save']"
             size="small" circle type="primary"
-            @click.stop="() => {
-              console.log(data.path)
-              const newData: MenuVo = {
-                parent_id: data.id,
-                path: '',
-                name: '',
-                component: '',
-                btnPermission: [],
-                meta: {
-                  title: `新菜单`,
-                  type: 'M',
-                  componentSuffix: '.vue',
-                  componentPath: 'modules/',
-                  breadcrumbEnable: true,
-                  copyright: true,
-                  hidden: false,
-                  affix: false,
-                  cache: true,
-                },
-              }
-              emit('menu-select', newData)
-            }"
+            @click.stop="addMenu(data)"
           >
             <ma-svg-icon name="ic:round-plus" :size="20" />
           </el-button>

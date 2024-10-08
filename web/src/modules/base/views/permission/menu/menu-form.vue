@@ -57,8 +57,6 @@ function setData(data: Record<string, any>) {
   })
 }
 
-defineExpose({ setData })
-
 const formOptions = ref<MaFormOptions>({
   labelWidth: '85px',
 })
@@ -248,6 +246,12 @@ watch(
   val => treeSelectRef.value.filter(val),
   { deep: true },
 )
+
+defineExpose({
+  setData,
+  menuForm,
+  model: form.value,
+})
 </script>
 
 <template>
@@ -257,9 +261,6 @@ watch(
     class="mt-5"
     :options="formOptions"
     :items="formItems"
-    @submit="(form) => {
-      console.log(form)
-    }"
   />
 </template>
 

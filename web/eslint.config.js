@@ -11,6 +11,7 @@ export default antfu(
   {
     rules: {
       'no-undefined': 'off',
+      'vue/custom-event-name-casing': 'off',
       'vue/no-unused-refs': 'off',
       'perfectionist/sort-imports': 'off',
       'vue/component-definition-name-casing': 'off',

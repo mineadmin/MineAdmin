@@ -20,6 +20,7 @@ use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Http\CurrentUser;
+use App\Model\Permission\Role;
 use App\Schema\UserSchema;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Arr;
@@ -148,27 +149,31 @@ final class UserController extends AbstractController
     }
 
     #[Get(
-        path: '/admin/user/getUserRole/{userId}',
+        path: '/admin/user/{userId}/roles',
         operationId: 'getUserRole',
         summary: '获取用户角色列表',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:getRole')]
+    #[Permission(code: 'user:get:roles')]
     #[ResultResponse(new Result())]
     public function getUserRole(int $userId): Result
     {
-        return $this->success($this->userService->getUserRole($userId));
+        return $this->success($this->userService->getUserRole($userId)->map(static fn (Role $role) => $role->only([
+            'id',
+            'code',
+            'name',
+        ])));
     }
 
     #[Put(
-        path: '/admin/user/setUserRole/{userId}',
+        path: '/admin/user/{userId}/roles',
         operationId: 'batchGrantRolesForUser',
         summary: '批量授权用户角色',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:setRole')]
+    #[Permission(code: 'user:set:roles')]
     #[RequestBody(content: new JsonContent(ref: BatchGrantRolesForUserRequest::class, title: '批量授权用户角色'))]
     #[ResultResponse(new Result())]
     public function batchGrantRolesForUser(int $userId, BatchGrantRolesForUserRequest $request): Result

@@ -138,7 +138,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'permission:user:getRole',
+                                'name' => 'user:get:roles',
                                 'meta' => new Meta([
                                     'title' => '获取用户角色',
                                     'type' => 'B',
@@ -146,7 +146,7 @@ class MenuSeeder20240926 extends Seeder
                                 ]),
                             ],
                             [
-                                'name' => 'permission:user:setRole',
+                                'name' => 'user:set:roles',
                                 'meta' => new Meta([
                                     'title' => '用户角色赋予',
                                     'type' => 'B',

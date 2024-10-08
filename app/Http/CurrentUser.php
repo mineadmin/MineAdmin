@@ -55,7 +55,7 @@ final class CurrentUser
      */
     public function roles(): Collection
     {
-        return $this->user()->getRoles();
+        return $this->user()->getRoles()->map(static fn (Role $role) => $role->only(['name', 'code', 'remark']));
     }
 
     public function isSystem(): bool

@@ -51,9 +51,9 @@ export function updateInfo(data: UserVo): Promise<ResponseStruct<null>> {
 }
 
 export function getUserRole(id: number): Promise<ResponseStruct<any[]>> {
-  return useHttp().get(`/admin/user/getUserRole/${id}`)
+  return useHttp().get(`/admin/user/${id}/roles`)
 }
 
 export function setUserRole(id: number, role_codes: string[]): Promise<ResponseStruct<null>> {
-  return useHttp().put(`/admin/user/setUserRole/${id}`, { role_codes })
+  return useHttp().put(`/admin/user/${id}/roles`, { role_codes })
 }

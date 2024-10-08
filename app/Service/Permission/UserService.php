@@ -52,8 +52,7 @@ final class UserService extends IService
 
     public function getUserRole(int $id): Collection
     {
-        $entity = $this->repository->findById($id);
-        return $entity->getRoles();
+        return $this->repository->findById($id)->roles()->get();
     }
 
     public function batchGrantRoleForUser(int $id, array $roleCodes): void

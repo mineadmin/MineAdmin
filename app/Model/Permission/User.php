@@ -114,7 +114,6 @@ final class User extends Model
     {
         return $this->roles()
             ->where('status', Status::ENABLE)
-            ->select(['name', 'code', 'remark'])
             ->get();
     }
 

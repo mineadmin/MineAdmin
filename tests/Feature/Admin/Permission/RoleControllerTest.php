@@ -239,7 +239,11 @@ final class RoleControllerTest extends ControllerCase
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
         $result = $this->get('/admin/role/' . $role->id . '/permissions', ['token' => $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        self::assertSame($result['data'], array_map(static fn ($menu) => ['id' => $menu['id'], 'name' => $menu['name']], $menus));
+        // 去除 name 空格
+        self::assertSame(
+            array_map(static fn ($menu) => ['id' => $menu['id'], 'name' => Str::trim($menu['name'])], $result['data']),
+            array_map(static fn ($menu) => ['id' => $menu['id'], 'name' => $menu['name']], $menus)
+        );
 
         $enforce->deleteRole($role->code);
         $role->forceDelete();

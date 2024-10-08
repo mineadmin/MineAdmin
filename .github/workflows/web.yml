@@ -40,9 +40,41 @@ jobs:
         run: pwd && ls -al
 
 
-      - name: Setup Node
-        run: pwd && ls -al
-        uses: ./.github/actions/setup-node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.8.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./web/.node-version
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - uses: actions/cache/restore@v4
+        if: ${{ github.ref_name != 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        shell: bash
+        run: pnpm install
 
       # - name: Check Git version
       #   run: git --version
@@ -76,8 +108,41 @@ jobs:
           fetch-depth: 0
           path: web
 
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.8.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./web/.node-version
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - uses: actions/cache/restore@v4
+        if: ${{ github.ref_name != 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        shell: bash
+        run: pnpm install
 
       - name: Lint
         run: pnpm run lint
@@ -99,8 +164,41 @@ jobs:
           fetch-depth: 0
           path: web
 
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.8.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./web/.node-version
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        if: ${{ github.ref_name == 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - uses: actions/cache/restore@v4
+        if: ${{ github.ref_name != 'master' }}
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        shell: bash
+        run: pnpm install
 
       - name: Typecheck
         run: pnpm check:type

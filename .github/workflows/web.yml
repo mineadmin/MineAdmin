@@ -40,7 +40,7 @@ jobs:
 
 
       - name: Setup Node
-        uses: ./.github/actions/setup-node
+        uses: ./.github/actions/setup-node/
 
       # - name: Check Git version
       #   run: git --version

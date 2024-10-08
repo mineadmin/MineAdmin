@@ -34,8 +34,8 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9.8.0
-        run: pwd && ls -al
-
+      - name: Dump Directory
+        run: ls -al && pwd
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:

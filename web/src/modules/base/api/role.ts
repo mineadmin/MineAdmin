@@ -38,5 +38,5 @@ export function getRolePermission(id: number): Promise<ResponseStruct<null>> {
 }
 
 export function setRolePermission(id: number, permissions: string[]): Promise<ResponseStruct<null>> {
-  return useHttp().put(`/admin/role/${id}/permissions`, { permissions:permissions })
+  return useHttp().put(`/admin/role/${id}/permissions`, { permissions })
 }

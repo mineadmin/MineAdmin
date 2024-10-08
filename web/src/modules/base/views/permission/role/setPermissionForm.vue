@@ -24,23 +24,23 @@ const { data = null } = defineProps<{
 
 const t = useTrans().globalTrans
 const userRoleForm = ref<MaFormExpose>()
-const userModel = ref<{ id?: number, permission_id?: number[] }>({
-  permission_id: [],
-})
+const userModel = ref<{ id?: number }>({})
 
 const permissionTreeRef = ref<any>()
 
 useForm('userRoleForm').then(async (form: MaFormExpose) => {
+  const names: string[] = []
   if (data?.id) {
     userModel.value.id = data.id
-    const response = await getRolePermission(data?.id)
-    if (response.code === ResultCode.SUCCESS) {
-      console.log(response.data)
+    const response: any = await getRolePermission(data?.id)
+    if (response.code === ResultCode.SUCCESS && response.data) {
+      response.data.map((item: any) => {
+        names.push(item.name)
+      })
     }
   }
 
   const menuRes = await page()
-  // todo 这里是需要选择 code 而不是菜单 id
   form.setItems([
     {
       label: () => t('baseRoleManage.permission'),
@@ -52,7 +52,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
         showCheckbox: true,
         treeKey: 'meta.title',
         placeholder: t('form.pleaseSelect', { msg: t('baseRoleManage.permission') }),
-        nodeKey: 'id',
+        nodeKey: 'name',
         data: menuRes.data,
       },
       renderSlots: {
@@ -72,13 +72,17 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
   form.setOptions({
     labelWidth: '80px',
   })
+
+  await nextTick(() => {
+    permissionTreeRef.value?.elTree?.setCheckedKeys?.(names)
+  })
 })
 
 // 保存用户角色
 function saveUserRole(): Promise<any> {
   return new Promise((resolve, reject) => {
     const elTree = permissionTreeRef.value.elTree
-    setRolePermission(userModel.value.id as number, elTree.getCheckedKeys() as number[]).then((res: any) => {
+    setRolePermission(userModel.value.id as number, elTree.getCheckedKeys() as string[]).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     }).catch((err) => {
       reject(err)

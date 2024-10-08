@@ -34,23 +34,12 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9.8.0
-      - name: Dump Directory
-        run: ls -al && pwd
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-          cache-dependency-path: ./web/pnpm-lock.yaml
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
       - uses: actions/cache@v4
         name: Setup pnpm cache
-        if: ${{ github.ref_name == 'master' }}
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -106,8 +95,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-          cache-dependency-path: ./web/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash
@@ -116,7 +103,6 @@ jobs:
 
       - uses: actions/cache@v4
         name: Setup pnpm cache
-        if: ${{ github.ref_name == 'master' }}
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -161,8 +147,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-          cache-dependency-path: ./web/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash

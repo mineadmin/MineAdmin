@@ -63,6 +63,9 @@ class CrudControllerCase extends ControllerCase
         }catch (\Exception $e){
             $entity = $model::query()->where(Arr::only($fillable, $required))->first();
         }
+        if (empty($entity)){
+            $entity = $model::query()->where(Arr::only($fillable, $required))->first();
+        }
         if (empty($entity)) {
             $this->fail('Create failed');
         }

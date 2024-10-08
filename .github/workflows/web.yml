@@ -37,9 +37,11 @@ jobs:
         with:
           run_install: false
           version: 9.8.0
+        run: pwd && ls -al
 
 
       - name: Setup Node
+        run: pwd && ls -al
         uses: ./.github/actions/setup-node
 
       # - name: Check Git version

@@ -1,4 +1,4 @@
-name: CI
+name: Frontend Ci
 
 on:
   push:
@@ -36,6 +36,8 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           run_install: false
+          version: 9.8.0
+
 
       - name: Setup Node
         uses: ./.github/actions/setup-node

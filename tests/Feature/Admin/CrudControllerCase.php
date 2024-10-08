@@ -58,8 +58,9 @@ class CrudControllerCase extends ControllerCase
         $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $entity = $model::query()->where($fillable)->first();
-        if ($required) {
+        try {
+            $entity = $model::query()->where($fillable)->first();
+        }catch (\Exception $e){
             $entity = $model::query()->where(Arr::only($fillable, $required))->first();
         }
         if (empty($entity)) {

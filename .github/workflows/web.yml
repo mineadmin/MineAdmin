@@ -37,7 +37,6 @@ jobs:
         with:
           run_install: false
           version: 9.8.0
-        run: pwd && ls -al
 
 
       - name: Install pnpm

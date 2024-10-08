@@ -13,7 +13,7 @@ runs:
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
-        node-version-file: .node-version
+        node-version-file: ./web/.node-version
         cache: "pnpm"
 
     - name: Get pnpm store directory

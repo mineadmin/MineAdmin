@@ -41,6 +41,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+          cache-dependency-path: ./web/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash
@@ -106,6 +107,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+          cache-dependency-path: ./web/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash
@@ -160,6 +162,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+          cache-dependency-path: ./web/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash

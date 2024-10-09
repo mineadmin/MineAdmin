@@ -44,6 +44,7 @@ function setData(data: Record<string, any>) {
       form.value.btnPermission = []
       data[name].map((item: any) => {
         form.value.btnPermission.push({
+          id: item?.id ?? undefined,
           code: item.name,
           title: item.meta?.title ?? '',
           i18n: item.meta?.i18n ?? '',

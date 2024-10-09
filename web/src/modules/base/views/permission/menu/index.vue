@@ -9,13 +9,13 @@
 -->
 <script setup lang="tsx">
 import type { ElForm } from 'element-plus'
-import { ResultCode } from '@/utils/ResultCode.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
-import { create, type MenuVo, page } from '~/base/api/menu.ts'
+import { create, type MenuVo, page, save } from '~/base/api/menu.ts'
 
 import MenuTree from './menu-tree.vue'
 import MenuForm from './menu-form.vue'
+import { ResultCode } from '@/utils/ResultCode.ts'
 
 defineOptions({ name: 'permission:menu' })
 
@@ -23,14 +23,28 @@ const menuList = ref<MenuVo[]>([])
 const defaultExpandNodes = ref<number[]>([])
 const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
+const menuTreeRef = ref()
 
 const t = useTrans().globalTrans
 const msg = useMessage()
 
-onMounted(async () => {
+async function getMenu() {
   const { data } = await page()
   menuList.value = data
-  menuList.value.map(item => defaultExpandNodes.value.push(item.id as number))
+  await nextTick(() => {
+    menuList.value.map((item: MenuVo) => setNodeExpand(item.id as number))
+  })
+}
+
+// 设置某个节点展开
+function setNodeExpand(id: number, state: boolean = true) {
+  const elTree = menuTreeRef.value.treeRef.elTree
+  const treeNode = elTree.store!._getAllNodes()?.find((node: any) => id === node.data.id) ?? {}
+  treeNode.expanded = state
+}
+
+onMounted(async () => {
+  await getMenu()
 })
 
 provide('menuList', menuList)
@@ -42,9 +56,18 @@ function createOrSaveMenu() {
   const elForm = getElFormRef() as typeof ElForm
   setLoadingState(true)
   elForm.validate().then(() => {
-    create(model).then((res: any) => {
-      res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
-    }).catch((err: any) => msg.alertError(err))
+    if (model.dataType && model.dataType === 'add') {
+      create(model).then(async (res: any) => {
+        res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
+        await getMenu()
+        setNodeExpand(model.parent_id as number)
+      }).catch((err: any) => msg.alertError(err))
+    }
+    else {
+      save(model.id as number, model).then((res: any) => {
+        res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
+      }).catch((err: any) => msg.alertError(err))
+    }
     setLoadingState(false)
   }).catch((err: any) => {
     if (Object.keys(err)?.[0]) {
@@ -63,8 +86,8 @@ function createOrSaveMenu() {
   >
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
       <MenuTree
+        ref="menuTreeRef"
         :data="menuList"
-        :default-expanded-keys="defaultExpandNodes"
         @menu-select="(menu) => {
           currentMenu = menu
           menuFormRef?.setData?.(menu)

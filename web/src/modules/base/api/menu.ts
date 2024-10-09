@@ -12,6 +12,7 @@ export interface MenuVo {
   sort?: number
   remark?: string
   btnPermission?: MenuVo[]
+  [key: string]: any
 }
 
 export function page(): Promise<ResponseStruct<MenuVo[]>> {

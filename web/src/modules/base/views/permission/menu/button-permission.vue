@@ -16,7 +16,7 @@ const { model = {} } = defineProps<{ model: Record<string, any> }>()
 const data = ref<any[]>([])
 
 function addItem() {
-  data.value.push({ title: '', code: '', i18n: '' })
+  data.value.push({ id: undefined, title: '', code: '', i18n: '' })
 }
 
 useTable('buttonFormTable').then((table: MaTableExpose) => {

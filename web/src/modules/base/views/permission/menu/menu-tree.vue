@@ -9,6 +9,7 @@
 -->
 <script setup lang="ts">
 import type { MenuVo } from '~/base/api/menu.ts'
+import { deleteByIds } from '~/base/api/menu.ts'
 import { useResizeObserver } from '@vueuse/core'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
@@ -22,10 +23,6 @@ const msg = useMessage()
 
 const t = useTrans().globalTrans
 
-function getCurrent() {
-  console.log(document.querySelector('.el-tree .is-current'))
-}
-
 function addMenu(data: MenuVo) {
   const newData: MenuVo = {
     parent_id: data.id,
@@ -33,6 +30,7 @@ function addMenu(data: MenuVo) {
     name: '',
     component: '',
     btnPermission: [],
+    dataType: 'add',
     meta: {
       title: `新菜单`,
       type: 'M',
@@ -47,6 +45,10 @@ function addMenu(data: MenuVo) {
   }
   emit('menu-select', newData)
 }
+
+defineExpose({
+  treeRef: maTreeRef,
+})
 
 onMounted(async () => {
   const resizeContainer = () => {
@@ -93,7 +95,7 @@ onMounted(async () => {
             :title="t('crud.delDataMessage')"
             :confirm-button-text="t('crud.ok')"
             :cancel-button-text="t('crud.cancel')"
-            @confirm.stop="() => {
+            @confirm.stop="async () => {
               if (data.children && data.children.length > 0) {
                 msg.notifyError('当前菜单存在下级，请先删除下级菜单')
                 return
@@ -102,6 +104,7 @@ onMounted(async () => {
                 maTreeRef.elTree.setCurrentKey(data.parent_id, true)
                 emit('menu-select', maTreeRef.elTree.getCurrentNode())
               }
+              await deleteByIds([data.id])
               maTreeRef.elTree.remove(node)
             }"
           >

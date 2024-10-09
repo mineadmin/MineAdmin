@@ -25,4 +25,43 @@ final class MenuService extends IService
     {
         return $this->repository;
     }
+
+    public function create(array $data): mixed
+    {
+        $model = parent::create($data);
+        if ($model && $data['meta']['type'] === 'M' && !empty($data['btnPermission'])) {
+            foreach($data['btnPermission'] as $item) {
+                $this->repository->create([
+                    'pid' => $model->id,
+                    'name' => $item['code'],
+                    'sort' => 0,
+                    'status' => 1,
+                    'meta' => [
+                        'title' => $item['title'],
+                        'i18n' => $item['i18n'],
+                        'type' => 'B',
+                    ],
+                ]);
+            }
+        }
+        return $model;
+    }
+
+    public function updateById(mixed $id, array $data): mixed
+    {
+        $model = parent::updateById($id, $data);
+        if ($model && $data['meta']['type'] === 'M' && !empty($data['btnPermission'])) {
+            foreach($data['btnPermission'] as $item) {
+                $this->repository->updateById($item['id'], [
+                    'name' => $item['code'],
+                    'meta' => [
+                        'title' => $item['title'],
+                        'i18n' => $item['i18n'],
+                        'type' => 'B',
+                    ],
+                ]);
+            }
+        }
+        return $model;
+    }
 }

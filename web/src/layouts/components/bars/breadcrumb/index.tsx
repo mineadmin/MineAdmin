@@ -75,7 +75,7 @@ export default defineComponent({
                     'breadcrumb-list': route?.children?.length > 0,
                     'flex items-center': true,
                   }}
-                  key={`${_}_${route.path}_${route?.meta?.title}`}
+                  key={`${_}_${route?.path}_${route?.meta?.title}`}
                 >
                   {
                     (_ + 1) === breadcrumbs.value.length

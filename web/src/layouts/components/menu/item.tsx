@@ -1,7 +1,7 @@
-import { useI18n } from 'vue-i18n'
 import type { PropType } from 'vue'
 import type { SubMenuItemProps } from './types'
 import { rootMenuInjectionKey } from './types'
+import { isFunction } from 'radash'
 import '@/layouts/style/menu.scss'
 
 import type { MineRoute } from '#/global'
@@ -16,11 +16,11 @@ export default defineComponent({
     expand: { type: Boolean, default: false },
   },
   setup(props, { expose }) {
-    const { t } = useI18n()
+    const t = useTrans().globalTrans
     const rootMenu = inject(rootMenuInjectionKey)!
     const itemRef = ref<HTMLElement>()
 
-    const { uniqueKey, item, level, subMenu, expand } = unref(props) as SubMenuItemProps
+    const { uniqueKey, item, level, subMenu } = unref(props) as SubMenuItemProps
     const isActive = computed(() => {
       return subMenu
         ? rootMenu.subMenus[uniqueKey!.at(-1)!].active
@@ -31,12 +31,16 @@ export default defineComponent({
       return isActive.value && (!subMenu || rootMenu.isMenuPopup)
     })
 
-    const displayI18n = (key,title) => {
-      const result = t(key)
-      if(result !== key){
-        return result
+    const displayI18n = (key: string | undefined | null, title: string) => {
+      if (key) {
+        const result = t(key)
+        return result === key ? title : result
       }
       return title
+    }
+
+    const getString = (key: any) => {
+      return isFunction(key) ? key() : key
     }
 
     // 缩进样式
@@ -60,12 +64,12 @@ export default defineComponent({
 
     return () => ((item.meta?.hidden !== true || item.meta?.hidden === undefined) || item.meta?.subForceShow === true) && (
       <div ref={itemRef} class={{ 'mine-menu-item': true, 'active': isItemActive.value }}>
-        <router-link custom to={uniqueKey?.at(-1) ?? ''}>
+        <router-link custom={true} to={uniqueKey?.at(-1) ?? ''}>
           {({ href, navigate }) => (
             <>
               <m-tooltip
                 enable={rootMenu.isMenuPopup && level === 0 && !subMenu}
-                text={displayI18n(item?.meta?.i18n,item.meta?.title)}
+                text={displayI18n(getString(item.meta?.i18n), getString(item.meta?.title))}
                 placement="right"
                 class="h-full w-full"
               >
@@ -78,7 +82,7 @@ export default defineComponent({
                       'px-3!': rootMenu.isMenuPopup && level === 0,
                       'no-underline': !subMenu,
                     },
-                    title: displayI18n(item?.meta?.i18n,item.meta?.title),
+                    title: displayI18n(getString(item.meta?.i18n), getString(item.meta?.title)),
                     ...(!subMenu && {
                       href: item?.meta?.type === 'L' ? item.meta.link : href,
                       target: item?.meta?.type === 'L' ? '_blank' : '_self',
@@ -99,7 +103,7 @@ export default defineComponent({
                                 'w-full text-center': rootMenu.isMenuPopup && level === 0 && rootMenu.props.showCollapseName,
                               }}
                             >
-                              {displayI18n(item?.meta?.i18n,item.meta?.title)}
+                              {displayI18n(getString(item.meta?.i18n), getString(item.meta?.title))}
                             </span>
                           )
                         }

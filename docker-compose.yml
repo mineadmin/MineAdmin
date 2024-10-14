@@ -21,3 +21,8 @@ services:
   redis:
     image: redis:alpine
     restart: always
+  frontend:
+    build:
+      dockerfile: ./web/Dockerfile
+      context: ./web/
+    restart: always

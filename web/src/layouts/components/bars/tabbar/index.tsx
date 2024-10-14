@@ -13,7 +13,7 @@ import { useI18n } from 'vue-i18n'
 import { TransitionGroup } from 'vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import ContextMenu from '@imengyu/vue3-context-menu'
-import { useMagicKeys } from '@vueuse/core'
+import { useMagicKeys, useScroll } from '@vueuse/core'
 import useSettingStore from '@/store/modules/useSettingStore.ts'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import type { MineTabbar } from '#/global'
@@ -23,11 +23,11 @@ export default defineComponent({
   name: 'Tabbar',
   setup() {
     const tabStore = useTabStore()
-    const keeplive = useKeepAliveStore()
     const { getSettings } = useSettingStore()
     const route = useRoute()
     const { t } = useI18n()
     const el = ref<HTMLElement | null>(null)
+    const tabbarEl = ref<HTMLElement | null>(null)
 
     useSortable(el, tabStore.tabList)
 
@@ -112,9 +112,19 @@ export default defineComponent({
           behavior: 'smooth',
           block: 'center',
         })
-        // document.querySelector('.mine-main')?.scrollTo({ top: 0 })
       })
     }, { immediate: true, deep: true })
+
+    const handleTabScroll = (type: 'left' | 'right') => {
+      const { x } = useScroll(tabbarEl, { behavior: 'smooth' })
+      const width: number = tabStore.tabList.length * 130
+      if (type === 'left') {
+        x.value = x.value <= 130 ? 0 : x.value - 1300
+      }
+      if (type === 'right') {
+        x.value = x.value >= width ? width : x.value + 1300
+      }
+    }
 
     const { current } = useMagicKeys()
     const keys = computed(() => Array.from(current))
@@ -155,8 +165,18 @@ export default defineComponent({
       }
     }, { deep: true })
 
+    onMounted(() => tabbarEl.value = document.querySelector('.mine-tabbar') as HTMLElement)
+
     return () => (
       <div ref="tabsRef" class="mine-tab-container !hidden !lg:flex">
+        <div class="mine-tab-arrow">
+          <div onClick={() => handleTabScroll('left')}>
+            <ma-svg-icon name="ic:round-keyboard-arrow-left" size={20} />
+          </div>
+          <div onClick={() => handleTabScroll('right')}>
+            <ma-svg-icon name="ic:round-keyboard-arrow-right" size={20} />
+          </div>
+        </div>
         <TransitionGroup name="tabbar" tag="div" class="mine-tabbar" ref={el} onWheel={(e: WheelEvent) => handlerWheelScroll(e)}>
           {tabStore.tabList?.map((item: any, idx: number) => {
             return (

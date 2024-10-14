@@ -10,7 +10,6 @@
     "build": "vite build",
     "serve": "http-server ./dist -o",
     "svgo": "svgo -f src/assets/icons",
-    "new": "plop",
     "gen:icons": "esno scripts/gen.icons.mts",
     "plugin:publish": "esno scripts/plugin.publish.mts",
     "lint": "npm-run-all -s lint:tsc lint:eslint lint:stylelint",

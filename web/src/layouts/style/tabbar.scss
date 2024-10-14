@@ -2,11 +2,23 @@
   @apply relative;
 }
 
+.mine-tab-arrow {
+  @apply flex b-b-1 b-[#e8e9ec] b-b-solid bg-[#f9fafc] dark-b-dark-5 dark-bg-dark-8 b-r-1 b-r-solid;
+
+  div {
+    @apply w-full h-full flex items-center transition-all duration-300 cursor-pointer;
+  }
+
+  div:hover {
+    @apply dark-bg-dark-4 bg-white;
+  }
+}
+
 .mine-tabbar {
   @apply text-sm flex items-center relative overflow-x-hidden w-full
     bg-[#f9fafc]
     dark-bg-dark-8
-    b-b-1 b-b-solid b-[#e8e9ec] dark-b-dark-5
+    b-b-1 b-b-solid b-[#e8e9ec] dark-b-dark-5 transition-all duration-300
   ;
 
   height: var(--mine-g-tabbar-height);

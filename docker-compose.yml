@@ -1,16 +1,23 @@
 version: '3'
 services:
   hyperf:
-    image: hyperf/hyperf:8.1-alpine-v3.19-swoole
+    build:
+      dockerfile: Dockerfile
+      context: .
     restart: always
     environment:
       - "TIMEZONE=Asia/Shanghai"
       - "APP_NAME=MineAdmin"
     working_dir: "/opt/www"
-    ports:
-      - "9501:9501"
     volumes:
       - ./:/opt/www
-    # 执行 php mine migrate 再执行 php mine db:seed
-
     entrypoint: ["php", "watch", "-c"]
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mineadmin
+  redis:
+    image: redis:alpine
+    restart: always

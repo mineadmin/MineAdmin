@@ -60,10 +60,10 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         try {
             $entity = $model::query()->where($fillable)->first();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $entity = $model::query()->where(Arr::only($fillable, $required))->first();
         }
-        if (empty($entity)){
+        if (empty($entity)) {
             $entity = $model::query()->where(Arr::only($fillable, $required))->first();
         }
         if (empty($entity)) {

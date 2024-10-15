@@ -1,5 +1,5 @@
 #FROM node:18.16.0-alpine3.16 AS build
-FROM node:lts-alpine AS build
+FROM node:20-alpine3.20 AS build
 
 WORKDIR /opt/www
 COPY . /opt/www/

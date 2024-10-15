@@ -124,7 +124,7 @@ final class PassportControllerTest extends HttpTestCase
 
         self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
         $attributes = $user->toArray();
-        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']) as $key => $value) {
+        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'backend_setting']) as $key => $value) {
             self::assertSame($value, Arr::get($info, 'data.' . $key));
         }
         $user->forceDelete();
@@ -155,7 +155,7 @@ final class PassportControllerTest extends HttpTestCase
 
         self::assertSame(Arr::get($info, 'code'), ResultCode::SUCCESS->value);
         $attributes = $user->toArray();
-        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'dashboard', 'backend_setting']) as $key => $value) {
+        foreach (Arr::only($attributes, ['username', 'nickname', 'avatar', 'signed', 'backend_setting']) as $key => $value) {
             self::assertSame($value, Arr::get($info, 'data.' . $key));
         }
 

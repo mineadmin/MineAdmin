@@ -55,15 +55,15 @@
     "hyperf/server": "3.1.*",
     "hyperf/utils": "3.1.*",
     "hyperf/validation": "~3.1",
-    "mineadmin/app-store": "*",
-    "mineadmin/core": "*",
-    "mineadmin/jwt": "*",
-    "mineadmin/support": "~3.0",
-    "mineadmin/upload": "*",
-    "mineadmin/casbin": "*",
-    "mineadmin/access": "*",
-    "mineadmin/auth-jwt": "*",
-    "mineadmin/swagger": "*"
+    "mineadmin/app-store": "3.0.x-dev",
+    "mineadmin/core": "3.0.x-dev",
+    "mineadmin/jwt": "3.0.x-dev",
+    "mineadmin/support": "3.0.x-dev",
+    "mineadmin/upload": "3.0.x-dev",
+    "mineadmin/casbin": "3.0.x-dev",
+    "mineadmin/access": "3.0.x-dev",
+    "mineadmin/auth-jwt": "3.0.x-dev",
+    "mineadmin/swagger": "3.0.x-dev"
   },
   "require-dev": {
     "doctrine/dbal": "^4.1",
@@ -95,40 +95,6 @@
       "HyperfTests\\": "./tests/"
     }
   },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Swagger.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Access.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Casbin.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Core.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Jwt.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/support.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/Upload.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/mineadmin/JwtAuth.git"
-    }
-  ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {

@@ -86,7 +86,6 @@ final class UserControllerTest extends ControllerCase
             'email' => Str::random(10) . '@qq.com',
             'avatar' => 'https://www.baidu.com',
             'signed' => 'test',
-            'dashboard' => 'test',
             'status' => 1,
             'backend_setting' => ['test'],
             'remark' => 'test',
@@ -135,7 +134,6 @@ final class UserControllerTest extends ControllerCase
             'email' => Str::random(10) . '@qq.com',
             'avatar' => 'https://www.baidu.com',
             'signed' => 'test',
-            'dashboard' => 'test',
             'status' => 1,
             'backend_setting' => ['testxx'],
             'remark' => 'test',
@@ -158,7 +156,6 @@ final class UserControllerTest extends ControllerCase
         self::assertSame($user->email, $fillAttributes['email']);
         self::assertSame($user->avatar, $fillAttributes['avatar']);
         self::assertSame($user->signed, $fillAttributes['signed']);
-        self::assertSame($user->dashboard, $fillAttributes['dashboard']);
         self::assertSame($user->status, Status::from($fillAttributes['status']));
         self::assertSame($user->backend_setting, $fillAttributes['backend_setting']);
         self::assertSame($user->remark, $fillAttributes['remark']);
@@ -179,7 +176,6 @@ final class UserControllerTest extends ControllerCase
             'email' => Str::random(10) . '@qq.com',
             'avatar' => 'https://www.baidu.com',
             'signed' => 'test',
-            'dashboard' => 'test',
             'status' => 1,
             'backend_setting' => ['testxx'],
             'remark' => 'test',
@@ -202,7 +198,6 @@ final class UserControllerTest extends ControllerCase
         self::assertSame($user->email, $fillAttributes['email']);
         self::assertSame($user->avatar, $fillAttributes['avatar']);
         self::assertSame($user->signed, $fillAttributes['signed']);
-        self::assertSame($user->dashboard, $fillAttributes['dashboard']);
         self::assertSame($user->status, Status::from($fillAttributes['status']));
         self::assertSame($user->backend_setting, $fillAttributes['backend_setting']);
         self::assertSame($user->remark, $fillAttributes['remark']);

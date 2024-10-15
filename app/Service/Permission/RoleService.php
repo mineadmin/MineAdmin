@@ -26,9 +26,7 @@ final class RoleService extends IService
 {
     public function __construct(
         protected readonly RoleRepository $repository
-    )
-    {
-    }
+    ) {}
 
     public function getRolePermission(int $id): Collection
     {

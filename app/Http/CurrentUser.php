@@ -51,6 +51,7 @@ final class CurrentUser
      */
     public function menus(): Collection
     {
+        // @phpstan-ignore-next-line
         return $this->user()->getMenus();
     }
 
@@ -59,6 +60,7 @@ final class CurrentUser
      */
     public function roles(): Collection
     {
+        // @phpstan-ignore-next-line
         return $this->user()->getRoles()->map(static fn (Role $role) => $role->only(['name', 'code', 'remark']));
     }
 

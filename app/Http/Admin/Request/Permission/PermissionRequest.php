@@ -18,7 +18,7 @@ use Hyperf\Validation\Request\FormRequest;
 #[\Mine\Swagger\Attributes\FormRequest(
     schema: UserSchema::class,
     only: [
-        'nickname', 'password', 'avatar', 'phone', 'email', 'signed', 'backend_setting',
+        'nickname', 'password', 'avatar', 'signed', 'backend_setting',
     ]
 )]
 class PermissionRequest extends FormRequest
@@ -34,8 +34,6 @@ class PermissionRequest extends FormRequest
             'nickname' => 'sometimes|string|max:255',
             'password' => 'sometimes|string|max:255',
             'avatar' => 'sometimes|string|max:255',
-            'phone' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|max:255',
             'signed' => 'sometimes|string|max:255',
             'backend_setting' => 'sometimes|array',
         ];
@@ -47,8 +45,6 @@ class PermissionRequest extends FormRequest
             'nickname' => trans('user.nickname'),
             'password' => trans('user.password'),
             'avatar' => trans('user.avatar'),
-            'phone' => trans('user.phone'),
-            'email' => trans('user.email'),
             'signed' => trans('user.signed'),
             'backend_setting' => trans('user.backend_setting'),
         ];

@@ -90,6 +90,7 @@ const form = reactive({
 })
 
 const avatar = ref<string>(userStore.getUserInfo().avatar)
+const globalTrans = useTrans().globalTrans
 
 const showFields = reactive({
   avatar: useLocalTrans('userinfo.avatar'),
@@ -104,8 +105,10 @@ const showFields = reactive({
 
 watch(avatar, async (val: string | undefined) => {
   const response: any = await useHttp().post('/admin/permission/update', { avatar: val ?? '' })
+  console.log(response)
   if (response.code === 200) {
-    msg.success(useTrans('crud.updateSuccess'))
+    msg.success(globalTrans('crud.updateSuccess'))
+    userStore.getUserInfo().avatar = val ?? ''
   }
 })
 </script>

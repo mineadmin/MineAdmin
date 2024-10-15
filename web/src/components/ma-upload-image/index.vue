@@ -266,6 +266,7 @@ watch(
         fileList = selected.map((item: any) => {
           return { name: item.ogirin_name, url: item.url }
         })
+        updateModelValue()
       }"
     />
   </el-upload>

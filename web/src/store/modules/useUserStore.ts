@@ -30,6 +30,7 @@ export interface UserInfo {
   username: string
   nickname: string
   avatar: string
+  phone: string
   email: string
   signed: string
   dashboard: string

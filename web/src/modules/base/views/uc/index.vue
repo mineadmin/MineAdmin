@@ -93,7 +93,6 @@ const avatar = ref<string>(userStore.getUserInfo().avatar)
 const globalTrans = useTrans().globalTrans
 
 const showFields = reactive({
-  avatar: useLocalTrans('userinfo.avatar'),
   nickname: useLocalTrans('userinfo.nickname'),
   username: useLocalTrans('userinfo.username'),
   signed: useLocalTrans('userinfo.signed'),
@@ -133,7 +132,7 @@ watch(avatar, async (val: string | undefined) => {
           <li class="!b-none">
             <div class="desc-item">
               <div class="desc-label">
-                {{ showFields.avatar }}
+                {{ useLocalTrans('userinfo.avatar') }}
               </div>
               <div class="desc-value">
                 <ma-upload-image v-model="avatar" />

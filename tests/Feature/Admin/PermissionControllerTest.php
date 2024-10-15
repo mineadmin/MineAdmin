@@ -218,4 +218,28 @@ final class PermissionControllerTest extends ControllerCase
         self::assertIsArray(Arr::get($result, 'data'));
         self::assertSame(\count(Arr::get($result, 'data')), 0);
     }
+
+    public function testUpdateInfo()
+    {
+        $user = $this->generatorUser();
+        $token = $this->getToken($user);
+        $noTokenResult = $this->post('/admin/permission/update');
+        self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
+        $payload = [
+            'nickname' => Str::random(10),
+            'password' => Str::random(10),
+            'avatar' => Str::random(10),
+            'signed' => Str::random(10),
+            'backend_setting' => [
+                Str::random(10),
+            ],
+        ];
+        $result = $this->post('/admin/permission/update', $payload, ['Authorization' => 'Bearer ' . $token]);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $user->refresh();
+        self::assertSame($user->nickname, Arr::get($payload, 'nickname'));
+        self::assertSame($user->avatar, Arr::get($payload, 'avatar'));
+        self::assertSame($user->signed, Arr::get($payload, 'signed'));
+        self::assertSame($user->backend_setting, Arr::get($payload, 'backend_setting'));
+    }
 }

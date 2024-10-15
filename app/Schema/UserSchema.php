@@ -45,9 +45,6 @@ final class UserSchema implements \JsonSerializable
     #[Property(property: 'signed', title: '个人签名', type: 'string')]
     public ?string $signed;
 
-    #[Property(property: 'dashboard', title: '后台首页类型', type: 'string')]
-    public ?string $dashboard;
-
     #[Property(property: 'status', title: '状态 (1正常 2停用)', type: 'int')]
     public ?Status $status;
 
@@ -88,7 +85,6 @@ final class UserSchema implements \JsonSerializable
         $this->email = $model->email;
         $this->avatar = $model->avatar;
         $this->signed = $model->signed;
-        $this->dashboard = $model->dashboard;
         $this->status = $model->status;
         $this->loginIp = $model->login_ip;
         $this->loginTime = $model->login_time;

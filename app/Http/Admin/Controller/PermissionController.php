@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Http\Admin\Request\Permission\PermissionRequest;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
@@ -21,10 +22,13 @@ use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
+use App\Service\Permission\UserService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
+use Hyperf\Swagger\Annotation\Post;
 use Mine\Swagger\Attributes\PageResponse;
+use Mine\Swagger\Attributes\ResultResponse;
 
 #[HyperfServer(name: 'http')]
 #[Middleware(AccessTokenMiddleware::class)]
@@ -33,7 +37,8 @@ final class PermissionController extends AbstractController
     public function __construct(
         private readonly CurrentUser $user,
         private readonly MenuRepository $repository,
-        private readonly RoleRepository $roleRepository
+        private readonly RoleRepository $roleRepository,
+        private readonly UserService $userService
     ) {}
 
     #[Get(
@@ -76,5 +81,19 @@ final class PermissionController extends AbstractController
                 ? $this->roleRepository->list(['status' => Status::ENABLE])
                 : $this->user->roles()
         );
+    }
+
+    #[Post(
+        path: '/admin/permission/update',
+        operationId: 'updateInfo',
+        summary: '更新用户信息',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['权限'],
+    )]
+    #[ResultResponse(new Result())]
+    public function updateInfo(PermissionRequest $request): Result
+    {
+        $this->userService->updateById($this->user->id(), $request->validated());
+        return $this->success();
     }
 }

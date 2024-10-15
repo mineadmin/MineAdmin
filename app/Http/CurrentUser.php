@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use App\Model\Enums\User\Type;
+use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use App\Service\PassportService;
@@ -45,13 +46,16 @@ final class CurrentUser
         return (int) $this->getToken()->claims()->get(RegisteredClaims::ID);
     }
 
+    /**
+     * @return Collection<int,Menu>
+     */
     public function menus(): Collection
     {
         return $this->user()->getMenus();
     }
 
     /**
-     * @return Collection|Collection<int, Role>
+     * @return Collection<int, Role>
      */
     public function roles(): Collection
     {

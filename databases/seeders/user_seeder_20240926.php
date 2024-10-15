@@ -29,7 +29,6 @@ class UserSeeder20240926 extends Seeder
             'email' => 'admin@adminmine.com',
             'phone' => '16858888988',
             'signed' => '广阔天地，大有所为',
-            'dashboard' => 'statistics',
             'created_by' => 0,
             'updated_by' => 0,
             'status' => 1,

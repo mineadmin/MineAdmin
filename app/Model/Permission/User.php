@@ -30,7 +30,6 @@ use Mine\Casbin\Rule\Rule;
  * @property string $email 用户邮箱
  * @property string $avatar 用户头像
  * @property string $signed 个人签名
- * @property string $dashboard 后台首页类型
  * @property Status $status 状态 (1正常 2停用)
  * @property string $login_ip 最后登陆IP
  * @property string $login_time 最后登陆时间

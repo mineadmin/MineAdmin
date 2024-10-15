@@ -31,7 +31,6 @@ class CreateUserTable extends Migration
             $table->string('email', 50)->default('')->comment('用户邮箱');
             $table->string('avatar', 255)->default('')->comment('用户头像');
             $table->string('signed', 255)->default('')->comment('个人签名');
-            $table->string('dashboard', 100)->default('')->comment('后台首页类型');
             $table->tinyInteger('status')->default(1)->comment('状态:1=正常,2=停用');
             $table->ipAddress('login_ip')->default('127.0.0.1')->comment('最后登陆IP');
             $table->timestamp('login_time')->useCurrent()->comment('最后登陆时间');

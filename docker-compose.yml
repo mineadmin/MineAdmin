@@ -23,6 +23,7 @@ services:
     restart: always
   frontend:
     build:
-      dockerfile: ./web/Dockerfile
-      context: ./web/
+      context: ./web
+    environment:
+      MINE_NODE_ENV: production
     restart: always

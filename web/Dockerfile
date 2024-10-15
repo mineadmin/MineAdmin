@@ -4,6 +4,8 @@ FROM node:lts-alpine AS build
 WORKDIR /opt/www
 COPY . /opt/www/
 
+RUN npm install -g pnpm
+
 ARG MINE_NODE_ENV=production
 
 ENV MINE_NODE_ENV $MINE_NODE_ENV
@@ -11,13 +13,13 @@ ENV MINE_NODE_ENV $MINE_NODE_ENV
 RUN echo "MINE_NODE_ENV=$MINE_NODE_ENV"
 
 
-RUN pnpm install --frozen-lockfile --prefer-frozen-lockfile && \
-    if [ "$MINE_NODE_ENV" = "development" ]; then pnpm build --mode development; fi && \
+RUN pnpm install
+RUN if [ "$MINE_NODE_ENV" = "development" ]; then pnpm build --mode development; fi && \
     if [ "$MINE_NODE_ENV" = "production" ]; then pnpm build --mode production; fi && \
     pnpm cache clear --force
 
 RUN pnpm build --mode production
 
-FROM nginx:alpine
+FROM nginx:alpine AS production
 
 COPY --from=build /opt/www/dist /usr/share/nginx/html

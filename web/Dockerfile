@@ -15,8 +15,7 @@ RUN echo "MINE_NODE_ENV=$MINE_NODE_ENV"
 
 RUN pnpm install
 RUN if [ "$MINE_NODE_ENV" = "development" ]; then pnpm build --mode development; fi && \
-    if [ "$MINE_NODE_ENV" = "production" ]; then pnpm build --mode production; fi && \
-    pnpm cache clear --force
+    if [ "$MINE_NODE_ENV" = "production" ]; then pnpm build --mode production; fi
 
 RUN pnpm build --mode production
 

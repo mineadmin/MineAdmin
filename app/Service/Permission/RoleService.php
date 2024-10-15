@@ -15,6 +15,7 @@ namespace App\Service\Permission;
 use App\Model\Permission\Role;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
+use Hyperf\Carbon\Carbon;
 use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
 
@@ -25,7 +26,9 @@ final class RoleService extends IService
 {
     public function __construct(
         protected readonly RoleRepository $repository
-    ) {}
+    )
+    {
+    }
 
     public function getRolePermission(int $id): Collection
     {
@@ -37,9 +40,12 @@ final class RoleService extends IService
     {
         $entity = $this->repository->findById($id);
         $syncData = [];
-        Arr::map($menuIds, static function ($menuId) use (&$syncData) {
+        $currentTime = Carbon::now();
+        Arr::map($menuIds, static function ($menuId) use (&$syncData, $currentTime) {
             $syncData[$menuId] = [
                 'ptype' => 'p',
+                'created_at' => $currentTime,
+                'updated_at' => $currentTime,
             ];
         });
         // @phpstan-ignore-next-line

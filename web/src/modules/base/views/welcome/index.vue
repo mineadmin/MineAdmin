@@ -128,7 +128,6 @@ useTable('table').then((table: MaTableExpose) => {
           <ul class="ma-link">
             <li>官方网站：<el-link>https://www.mineadmin.com</el-link></li>
             <li>开发文档：<el-link>https://doc.mineadmin.com</el-link></li>
-            <li>插件文档：<el-link>https://plugin-doc.mineadmin.com</el-link></li>
             <li>应用市场：<el-link>https://www.mineadmin.com/store</el-link></li>
             <li>QQ交流群：<el-link>150105478，点击加入</el-link></li>
           </ul>

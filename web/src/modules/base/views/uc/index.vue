@@ -72,6 +72,7 @@ import { useLocalTrans } from '@/hooks/useLocalTrans'
 import UcContainer from './components/container.vue'
 import UcModifyInfo from './components/modify-info.vue'
 import UcTitle from './components/title.vue'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 const modalRef = ref()
 const selected = ref('profile')
@@ -81,12 +82,17 @@ const tabOptions = reactive([
   { label: useLocalTrans('setting'), value: 'setting' },
 ])
 
+const msg = useMessage()
+
 const form = reactive({
   isReceiveMsg: true,
   multiDeviceLogin: false,
 })
 
+const avatar = ref<string>(userStore.getUserInfo().avatar)
+
 const showFields = reactive({
+  avatar: useLocalTrans('userinfo.avatar'),
   nickname: useLocalTrans('userinfo.nickname'),
   username: useLocalTrans('userinfo.username'),
   signed: useLocalTrans('userinfo.signed'),
@@ -96,16 +102,12 @@ const showFields = reactive({
   login_time: useLocalTrans('userinfo.loginTime'),
 })
 
-function updateImage() {
-  // Select image
-  const input = document.createElement('input')
-  input.type = 'file'
-  input.accept = 'image/*'
-  input.onchange = (e) => {
-    const file: File = e.target.files[0]
+watch(avatar, async (val: string | undefined) => {
+  const response: any = await useHttp().post('/admin/permission/update', { avatar: val ?? '' })
+  if (response.code === 200) {
+    msg.success(useTrans('crud.updateSuccess'))
   }
-  input.click()
-}
+})
 </script>
 
 <template>
@@ -128,18 +130,10 @@ function updateImage() {
           <li class="!b-none">
             <div class="desc-item">
               <div class="desc-label">
-                <img
-                  v-if="userStore.getUserInfo()?.avatar"
-                  class="h-30 w-30 rounded-full"
-                  :alt="userStore.getUserInfo()?.username"
-                  :src="userStore.getUserInfo()?.avatar"
-                >
+                {{ showFields.avatar }}
               </div>
               <div class="desc-value">
-                <div class="flex flex-col gap-x-5 gap-y-2 lg:flex-row">
-                  <a class="cursor-pointer text-gray-7 dark-text-gray-3" @click="updateImage">{{ useLocalTrans('changeAvatar') }}</a>
-                  <a v-if="userStore.getUserInfo()?.avatar" class="cursor-pointer text-red-6">{{ useLocalTrans('removeAvatar') }}</a>
-                </div>
+                <ma-upload-image v-model="avatar" />
               </div>
             </div>
           </li>

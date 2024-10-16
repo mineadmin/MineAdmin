@@ -46,7 +46,7 @@ function openModal() {
   state.isOpen = true
 }
 
-function submit(data) {
+function submit(data: Record<string, any>) {
   isFormSubmit.value = true
   const update = (data: Record<string, any>): Promise<any> => {
     return useHttp().post('/admin/permission/update', data)
@@ -64,7 +64,7 @@ function submit(data) {
   if (data.type === 'password') {
     update(data.form).then(() => {
       msg.success(globalTrans('crud.updateSuccess'))
-      // state.isOpen = false
+      state.isOpen = false
     })
   }
   isFormSubmit.value = false

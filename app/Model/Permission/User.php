@@ -16,7 +16,6 @@ use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
-use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model;
 use Mine\Casbin\Rule\Rule;
@@ -92,11 +91,6 @@ final class User extends Model
     public function verifyPassword(string $password): bool
     {
         return password_verify($password, $this->password);
-    }
-
-    public function creating(Creating $event)
-    {
-        $this->resetPassword();
     }
 
     public function resetPassword(): void

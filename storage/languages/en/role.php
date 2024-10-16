@@ -17,4 +17,5 @@ return [
     'sort' => 'Sort',
     'remark' => 'Remark',
     'permission_ids' => 'Permission ID',
+    'code_exists' => 'Role code already exists',
 ];

@@ -28,7 +28,7 @@ return [
             'callbacks' => [
                 Event::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
             ],
-        ]
+        ],
     ],
     'settings' => [
         // 对外部可以直接访问的目录地址，建议使用nginx反向代理访问

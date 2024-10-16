@@ -103,6 +103,7 @@ final class PermissionControllerTest extends ControllerCase
             'status' => Status::ENABLE,
             'remark' => Str::random(),
         ]);
+        Role::where('code', 'SuperAdmin')->forceDelete();
         $superAdminRole = Role::create([
             'name' => Str::random(10),
             'code' => 'SuperAdmin',

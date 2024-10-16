@@ -24,6 +24,11 @@ abstract class IService
 {
     use HasContainer;
 
+    public function count(array $params): int
+    {
+        return $this->repository->count($params);
+    }
+
     public function page(array $params, int $page = 1, int $pageSize = 10): array
     {
         return $this->repository->page($params, $page, $pageSize);

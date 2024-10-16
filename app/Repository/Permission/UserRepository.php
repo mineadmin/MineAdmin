@@ -38,6 +38,9 @@ final class UserRepository extends IRepository
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query
+            ->when(Arr::get($params, 'unique_username'), static function (Builder $query, $uniqueUsername) {
+                $query->where('username', $uniqueUsername);
+            })
             ->when(Arr::get($params, 'username'), static function (Builder $query, $username) {
                 $query->where('username', 'like', '%' . $username . '%');
             })

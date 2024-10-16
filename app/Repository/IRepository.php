@@ -59,6 +59,11 @@ abstract class IRepository
         return $this->perQuery($this->getQuery($params))->get();
     }
 
+    public function count(array $params = []): int
+    {
+        return $this->perQuery($this->getQuery($params))->count();
+    }
+
     public function page(array $params = [], ?int $page = null, ?int $pageSize = null): array
     {
         $result = $this->perQuery($this->getQuery($params))->paginate(

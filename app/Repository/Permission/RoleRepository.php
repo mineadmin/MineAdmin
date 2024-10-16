@@ -28,7 +28,7 @@ final class RoleRepository extends IRepository
         return $query->when(Arr::get($params, 'name'), static function (Builder $query, $name) {
             $query->where('name', 'like', '%' . $name . '%');
         })->when(Arr::get($params, 'code'), static function (Builder $query, $code) {
-            $query->whereIn('code', \is_array($code) ? $code : [$code]);
+            $query->whereIn('code', Arr::wrap($code));
         })->when(Arr::has($params, 'status'), static function (Builder $query) use ($params) {
             $query->where('status', $params['status']);
         })->when(Arr::get($params, 'created_at'), static function (Builder $query, $createdAt) {

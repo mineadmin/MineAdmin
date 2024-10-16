@@ -50,7 +50,9 @@ class UserListener
         $model = $event->getModel();
         if ($model instanceof User) {
             $this->check($model->username);
-            $model->resetPassword();
+            if (!$model->isDirty('password')) {
+                $model->resetPassword();
+            }
         }
         if ($model instanceof Role) {
             $this->check($model->code);

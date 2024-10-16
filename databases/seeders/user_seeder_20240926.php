@@ -22,7 +22,7 @@ class UserSeeder20240926 extends Seeder
     {
         User::truncate();
         $entity = User::create([
-            'username' => 'SuperAdmin',
+            'username' => 'admin',
             'password' => password_hash('123456', \PASSWORD_DEFAULT),
             'user_type' => '100',
             'nickname' => '创始人',

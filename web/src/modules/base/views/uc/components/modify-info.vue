@@ -20,15 +20,21 @@ zh_TW:
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import passwordForm from './password-form.vue'
 import userinfoForm from './userinfo-form.vue'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'UcModifyInfo' })
 
-const selected = ref('info')
+const msg = useMessage()
+const selected = ref('userinfo')
 const isFormSubmit = ref(false)
-provide('isFormSubmit', isFormSubmit)
+const userinfoFormRef = ref()
+const passwordFormRef = ref()
+
+const userStore = useUserStore()
+const globalTrans = useTrans().globalTrans
 
 const tabOptions = reactive([
-  { label: useLocalTrans('change.info'), value: 'info' },
+  { label: useLocalTrans('change.info'), value: 'userinfo' },
   { label: useLocalTrans('change.password'), value: 'password' },
 ])
 
@@ -40,6 +46,22 @@ function openModal() {
   state.isOpen = true
 }
 
+function submit(data) {
+  isFormSubmit.value = true
+  const update = (data: Record<string, any>): Promise<any> => {
+    return useHttp().post('/admin/permission/update', data)
+  }
+
+  if (data.type === 'userinfo') {
+    update(data.form).then(() => {
+      msg.success(globalTrans('crud.updateSuccess'))
+      userStore.getUserInfo().nickname = data.form.nickname
+      userStore.getUserInfo().signed = data.form.signed
+      state.isOpen = false
+    })
+  }
+}
+
 defineExpose({ openModal })
 </script>
 
@@ -47,13 +69,13 @@ defineExpose({ openModal })
   <m-modal
     v-model="state.isOpen"
     :title="useLocalTrans(selected === 'info' ? 'change.info' : 'change.password')"
-    content-class="w-[450px] h-[470px]"
+    content-class="w-[450px] h-[380px]"
   >
     <m-tabs v-model="selected" :options="tabOptions" class="text-sm" />
 
     <div class="my-5">
-      <userinfoForm v-if="selected === 'info'" />
-      <passwordForm v-if="selected === 'password'" />
+      <userinfoForm ref="userinfoFormRef" v-show="selected === 'userinfo'" @submit="submit" />
+      <passwordForm ref="passwordFormRef" v-show="selected === 'password'" @submit="submit" />
     </div>
     <template #footer>
       <m-button
@@ -62,8 +84,11 @@ defineExpose({ openModal })
         :class="{
           loading: isFormSubmit,
         }"
+        @click="() => {
+          selected === 'userinfo' ? userinfoFormRef.submit() : passwordFormRef.submit()
+        }"
       >
-        {{ useLocalTrans(selected === 'info' ? 'change.info' : 'change.password') }}
+        {{ useLocalTrans(selected === 'userinfo' ? 'change.info' : 'change.password') }}
       </m-button>
     </template>
   </m-modal>

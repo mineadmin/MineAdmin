@@ -35,7 +35,7 @@ defineExpose({ el })
 </script>
 
 <template>
-  <button v-bind="$attrs" ref="el" :class="buttonClass">
+  <button v-bind="$attrs" ref="el" :class="buttonClass" :disabled="buttonClass.indexOf('loading') !== -1">
     <slot />
   </button>
 </template>

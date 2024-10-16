@@ -52,13 +52,14 @@ async function submit() {
   }
 
   isFormSubmit.value = true
-  const userData = await userStore.login(form)
-  const welcomePath = settingStore.getSettings('welcomePage').path ?? null
-  const redirect = router.currentRoute.value.query?.redirect ?? undefined
-  if (userData) {
-    await router.push({ path: redirect ?? welcomePath ?? '/' })
-  }
-  isFormSubmit.value = false
+  userStore.login(form).then(async (userData: any) => {
+    const welcomePath = settingStore.getSettings('welcomePage').path ?? null
+    const redirect = router.currentRoute.value.query?.redirect ?? undefined
+    if (userData) {
+      await router.push({ path: redirect ?? welcomePath ?? '/' })
+    }
+    isFormSubmit.value = false
+  }).catch(() => isFormSubmit.value = false)
 }
 </script>
 

@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Http\CurrentUser;
 use App\Schema\UserSchema;
+use App\Service\Permission\UserService;
 use Hyperf\Validation\Request\FormRequest;
 
 #[\Mine\Swagger\Attributes\FormRequest(
@@ -32,7 +34,17 @@ class PermissionRequest extends FormRequest
     {
         return [
             'nickname' => 'sometimes|string|max:255',
-            'password' => 'sometimes|string|max:255',
+            'newPassword' => 'sometimes|confirmed|string',
+            'newPassword_confirmation' => 'sometimes|string',
+            'oldPassword' => ['sometimes', function ($attribute, $value, $fail) {
+                $user = $this->container->get(CurrentUser::class);
+                $service = $this->container->get(UserService::class);
+
+                $model = $service->getInfo($user->id());
+                if (! $model->verifyPassword($value)) {
+                    $fail('旧密码错误');
+                }
+            }],
             'avatar' => 'sometimes|string|max:255',
             'signed' => 'sometimes|string|max:255',
             'backend_setting' => 'sometimes|array',

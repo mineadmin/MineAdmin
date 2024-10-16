@@ -60,6 +60,14 @@ function submit(data) {
       state.isOpen = false
     })
   }
+
+  if (data.type === 'password') {
+    update(data.form).then(() => {
+      msg.success(globalTrans('crud.updateSuccess'))
+      // state.isOpen = false
+    })
+  }
+  isFormSubmit.value = false
 }
 
 defineExpose({ openModal })
@@ -74,8 +82,8 @@ defineExpose({ openModal })
     <m-tabs v-model="selected" :options="tabOptions" class="text-sm" />
 
     <div class="my-5">
-      <userinfoForm ref="userinfoFormRef" v-show="selected === 'userinfo'" @submit="submit" />
-      <passwordForm ref="passwordFormRef" v-show="selected === 'password'" @submit="submit" />
+      <userinfoForm v-show="selected === 'userinfo'" ref="userinfoFormRef" @submit="submit" />
+      <passwordForm v-show="selected === 'password'" ref="passwordFormRef" @submit="submit" />
     </div>
     <template #footer>
       <m-button

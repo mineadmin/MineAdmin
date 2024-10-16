@@ -22,14 +22,14 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
   const msg = useMessage()
 
   const showBtn = (auth: string | string[], row: RoleVo) => {
-    return hasAuth(auth) && row.id !== 1 && row.code !== 'SuperAdmin'
+    return hasAuth(auth) && row.id !== 1
   }
 
   return [
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection'),
-      cellRender: ({ row }): any => (row.id === 1 || row.name === 'SuperAdmin') ? '-' : undefined,
-      selectable: (row: RoleVo) => ![1].includes(row.id as number) || !['SuperAdmin'].includes(row.code as string),
+      cellRender: ({ row }): any => row.id === 1 ? '-' : undefined,
+      selectable: (row: RoleVo) => ![1].includes(row.id as number),
     },
     // 索引序号列
     { type: 'index' },

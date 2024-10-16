@@ -13,7 +13,6 @@ import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from '@/hooks/auto-imports/useHttp.ts'
 import * as PermissionApi from '~/base/api/permission.ts'
 import type { MenuVo, RoleVo } from '~/base/api/permission.ts'
-import isSuperAdmin from '@/utils/isSuperAdmin.ts'
 
 export interface LoginParams {
   username: string
@@ -134,7 +133,7 @@ const useUserStore = defineStore(
         await routeStore.initRoutes(router, getMenu())
         const codes: string[] = []
         router.getRoutes()?.map(item => codes.push(item.name as string))
-        isSuperAdmin() && codes.unshift('*')
+        getRoles().includes('SuperAdmin') && codes.unshift('*')
         setPermissions(codes)
         await usePluginStore().callHooks('getUserInfo', data)
       }

@@ -20,7 +20,7 @@ export default function hasRole(value: string | string[], whetherCheckRouteMeta:
     return false
   }
 
-  if (roles[0] === 'SuperAdmin') {
+  if (roles.includes('SuperAdmin')) {
     return true
   }
 

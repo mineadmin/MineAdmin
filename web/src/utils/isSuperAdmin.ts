@@ -8,5 +8,5 @@
  * @Link   https://github.com/mineadmin
  */
 export default function isSuperAdmin() {
-  return useUserStore().getUserInfo()?.username === 'SuperAdmin'
+  return useUserStore().getRoles().includes('SuperAdmin')
 }

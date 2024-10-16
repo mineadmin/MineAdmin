@@ -23,14 +23,14 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
   const msg = useMessage()
 
   const showBtn = (auth: string | string[], row: UserVo) => {
-    return hasAuth(auth) && row.id !== 1 && row.username !== 'SuperAdmin'
+    return hasAuth(auth) && row.id !== 1
   }
 
   return [
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection'),
-      cellRender: ({ row }): any => (row.id === 1 || row.username === 'SuperAdmin') ? '-' : undefined,
-      selectable: (row: UserVo) => ![1].includes(row.id as number) || !['SuperAdmin'].includes(row.username as string),
+      cellRender: ({ row }): any => row.id === 1 ? '-' : undefined,
+      selectable: (row: UserVo) => ![1].includes(row.id as number),
     },
     // 索引序号列
     { type: 'index' },
@@ -117,7 +117,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'noAllowSuperAdmin',
-            show: ({ row }) => row.id === 1 && row.username === 'SuperAdmin',
+            show: ({ row }) => row.id === 1,
             disabled: () => true,
             text: () => t('crud.superAdminNoEdit'),
           },

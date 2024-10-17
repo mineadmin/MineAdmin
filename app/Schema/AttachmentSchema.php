@@ -23,7 +23,7 @@ final class AttachmentSchema implements \JsonSerializable
     public ?int $id;
 
     #[Property(property: 'storage_mode', title: '存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)', type: 'int')]
-    public ?string $storageMode;
+    public ?int $storageMode;
 
     #[Property(property: 'origin_name', title: '原文件名', type: 'string')]
     public ?string $originName;

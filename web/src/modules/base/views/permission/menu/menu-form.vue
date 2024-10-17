@@ -19,6 +19,7 @@ const menuList = inject('menuList') as Ref<MenuVo[]>
 const menuForm = ref<MaFormExpose>()
 const treeSelectRef = ref()
 const form = ref<Record<string, any>>({
+  dataType: 'add',
   meta: {
     type: 'M',
     componentSuffix: '.vue',

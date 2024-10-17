@@ -125,9 +125,6 @@ abstract class IRepository
         return $this->model::whereKey($id)->first();
     }
 
-    /**
-     * @return null|T
-     */
     public function findByField(mixed $id, string $column): mixed
     {
         return $this->model::whereKey($id)->value($column);
@@ -152,5 +149,13 @@ abstract class IRepository
     public function existsById(mixed $id): bool
     {
         return (bool) $this->model::whereKey($id)->exists();
+    }
+
+    /**
+     * @return T
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 }

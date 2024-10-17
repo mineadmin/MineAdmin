@@ -26,10 +26,10 @@ final class UserLoginLogRepository extends IRepository
     {
         return $query
             ->when(Arr::get($params, 'username'), static function (Builder $query, $username) {
-                $query->when('username', $username);
+                $query->where('username', $username);
             })
             ->when(Arr::get($params, 'ip'), static function (Builder $query, $ip) {
-                $query->when('ip', $ip);
+                $query->where('ip', $ip);
             })
             ->when(Arr::get($params, 'os'), static function (Builder $query, $os) {
                 $query->where('os', $os);
@@ -48,12 +48,6 @@ final class UserLoginLogRepository extends IRepository
             })
             ->when(Arr::get($params, 'remark'), static function (Builder $query, $remark) {
                 $query->where('remark', $remark);
-            })
-            ->when(Arr::get($params, 'created_at'), static function (Builder $query, $created_at) {
-                $query->whereBetween('created_at', $created_at);
-            })
-            ->when(Arr::get($params, 'updated_at'), static function (Builder $query, $updated_at) {
-                $query->whereBetween('updated_at', $updated_at);
             });
     }
 }

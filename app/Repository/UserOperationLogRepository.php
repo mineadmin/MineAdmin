@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Model\UserOperationLog;
-use Carbon\Carbon;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
 
@@ -25,17 +24,6 @@ final class UserOperationLogRepository extends IRepository
 
     public function handleSearch(Builder $query, array $params): Builder
     {
-        /*
-         * @property string $username 用户名
-         * @property string $method 请求方式
-         * @property string $router 请求路由
-         * @property string $service_name 业务名称
-         * @property string $ip 请求IP地址
-         * @property Carbon $created_at 创建时间
-         * @property Carbon $updated_at 更新时间
-         * @property Carbon $deleted_at 删除时间
-         * @property string $remark 备注
-         */
         return $query
             ->when(Arr::get($params, 'username'), static function (Builder $query, $username) {
                 $query->where('username', $username);

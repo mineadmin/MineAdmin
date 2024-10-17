@@ -17,7 +17,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
 
 /**
  * @property int $id 主键
- * @property string $storage_mode 存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)
+ * @property int $storage_mode 存储模式 (1 本地 2 阿里云 3 七牛云 4 腾讯云)
  * @property string $origin_name 原文件名
  * @property string $object_name 新文件名
  * @property string $hash 文件hash

@@ -14,7 +14,7 @@ namespace App\Repository\Traits;
 
 trait BootTrait
 {
-    public function startBoot(...$params): void
+    protected function startBoot(...$params): void
     {
         $traits = class_uses_recursive(static::class);
         foreach ($traits as $trait) {

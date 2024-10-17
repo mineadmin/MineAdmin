@@ -56,7 +56,7 @@ class UserRequest extends FormRequest
         return [
             'username' => 'required|string|max:20',
             'user_type' => 'required|integer',
-            'nickname' => 'required|string|max:60',
+            'nickname' => ['required', 'string', 'max:60', 'regex:/^[^\s]+$/'],
             'phone' => 'sometimes|string|max:12',
             'email' => 'sometimes|string|max:60',
             'avatar' => 'sometimes|string|max:255',

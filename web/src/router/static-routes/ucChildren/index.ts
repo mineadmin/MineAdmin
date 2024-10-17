@@ -19,24 +19,4 @@ export default [
       i18n: 'menu.uc:index',
     },
   },
-  {
-    name: 'uc:message',
-    path: '/uc/message',
-    component: () => import(('~/base/views/uc/message.vue')),
-    meta: {
-      title: '消息',
-      icon: 'ph:chat-teardrop-text-bold',
-      i18n: 'menu.uc:message',
-    },
-  },
-  {
-    name: 'uc:logs',
-    path: '/uc/logs',
-    component: () => import(('~/base/views/uc/logs.vue')),
-    meta: {
-      title: '日志',
-      icon: 'ic:baseline-gps-fixed',
-      i18n: 'menu.uc:logs',
-    },
-  },
 ]

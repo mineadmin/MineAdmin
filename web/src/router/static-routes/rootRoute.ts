@@ -35,7 +35,7 @@ const rootRoutes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import(('~/base/views/[...all].vue')),
+    component: () => import(('@/layouts/[...all].vue')),
     meta: {
       title: '找不到页面',
       i18n: 'menu.pageNotFound',

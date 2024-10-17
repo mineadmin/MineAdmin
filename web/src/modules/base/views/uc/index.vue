@@ -170,7 +170,7 @@ watch(avatar, async (val: string | undefined) => {
                 {{ useLocalTrans('whetherReceiveMsg') }}
               </div>
               <div class="desc-value">
-                <m-switch v-model="form.isReceiveMsg" />
+                <!--                <m-switch v-model="form.isReceiveMsg" /> -->
               </div>
             </div>
           </li>
@@ -180,7 +180,7 @@ watch(avatar, async (val: string | undefined) => {
                 {{ useLocalTrans('whetherMultiDeviceLogin') }}
               </div>
               <div class="desc-value">
-                <m-switch v-model="form.multiDeviceLogin" />
+                <!--                <m-switch v-model="form.multiDeviceLogin" /> -->
               </div>
             </div>
           </li>

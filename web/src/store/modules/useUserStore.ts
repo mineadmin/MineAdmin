@@ -212,16 +212,16 @@ const useUserStore = defineStore(
     }
 
     function saveSettingToSever() {
-      const settings = setting.getSettings()
-      useHttp().post('/mock/system/saveSetting', settings).then(() => {
-        cache.set('sys_settings', settings)
+      const backend_setting = setting.getSettings()
+      useHttp().post('/admin/permission/update', { backend_setting }).then(() => {
+        cache.set('sys_settings', backend_setting)
       }).catch((error) => {
         console.log(error)
       })
     }
 
     async function clearCache() {
-      await useHttp().post('/mock/system/clearCache')
+      // await useHttp().post('/mock/system/clearCache')
     }
 
     function clearInfo() {

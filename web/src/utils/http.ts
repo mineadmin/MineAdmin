@@ -68,12 +68,12 @@ http.interceptors.response.use(
           // 检查token是否需要刷新
           if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
             // todo 经测试，后端刷新接口还有问题，待修复
-            console.log('可以刷新token了')// cache.get('refresh_token')
+            // console.log('可以刷新token了')// cache.get('refresh_token')
           }
 
           const logout = useDebounceFn(
             async () => {
-              Message.error('登录状态已过期，需要重新登录', { zIndex: 2000 })
+              Message.error('登录状态已过期，需要重新登录', { zIndex: 9999 })
               await useUserStore().logout()
             },
             3000,
@@ -83,13 +83,13 @@ http.interceptors.response.use(
           break
         }
         case 404:
-          Message.error('服务器资源不存在', { zIndex: 2000 })
+          Message.error('服务器资源不存在', { zIndex: 9999 })
           break
         case 500:
-          Message.error('服务器内部错误', { zIndex: 2000 })
+          Message.error('服务器内部错误', { zIndex: 9999 })
           break
         default:
-          Message.error(response?.data?.message ?? '未知错误', { zIndex: 2000 })
+          Message.error(response?.data?.message ?? '未知错误', { zIndex: 9999 })
           break
       }
 
@@ -100,7 +100,7 @@ http.interceptors.response.use(
     isLoading.value = false
     const serverError = useDebounceFn(async () => {
       if (error.response.status === 500) {
-        Message.error(error.message ?? '服务器内部错误', { zIndex: 2000 })
+        Message.error(error.message ?? '服务器内部错误', { zIndex: 9999 })
       }
     }, 3000, { maxWait: 5000 })
     await serverError()

@@ -23,6 +23,13 @@ const msg = useMessage()
 
 const t = useTrans().globalTrans
 
+const menuType = ref<{ [key: string]: Record<string, string> }>({
+  M: { color: 'primary', label: '菜单' },
+  B: { color: 'danger', label: '按钮' },
+  L: { color: 'success', label: '外链' },
+  I: { color: 'warning', label: 'iFrame' },
+})
+
 function addMenu(data: MenuVo) {
   const newData: MenuVo = {
     parent_id: data.id,
@@ -83,6 +90,9 @@ onMounted(async () => {
           {{ data.meta?.i18n ? t(data.meta?.i18n) : data.meta.title ?? 'unknown' }}
         </div>
         <div class="do" :class="{ '!inline-block': maTreeRef.elTree.getCurrentKey() === data.id }">
+          <el-tag :type="menuType[data.meta?.type].color as any" class="mr-2">
+            {{ menuType[data.meta?.type].label }}
+          </el-tag>
           <el-button
             v-if="data.meta?.type === 'M'"
             v-auth="['permission:menu:save']"

@@ -105,6 +105,20 @@ export default defineComponent ({
               ))}
             </div>
             <div class="flex items-center justify-center gap-x-3">
+              {
+                router.hasRoute('MineAppStoreRoute')
+                && (
+                  <m-tooltip text={useTrans('menu.appstore')} placement="right">
+                    <a
+                      class="h-14 flex cursor-pointer items-center justify-center"
+                      onClick={() => router.push({ path: '/appstore' })}
+                      title={useTrans('menu.appstore')}
+                    >
+                      <ma-svg-icon name="vscode-icons:file-type-azure" size={30} />
+                    </a>
+                  </m-tooltip>
+                )
+              }
               { isMixedLayout() && (
                 <m-tooltip text={useTrans(getUserBarState() ? 'mineAdmin.userBar.hideState' : 'mineAdmin.userBar.showState')}>
                   <div
@@ -125,20 +139,6 @@ export default defineComponent ({
                   </div>
                 </m-tooltip>
               )}
-              {
-                router.hasRoute('MineAppStoreRoute')
-                && (
-                  <m-tooltip text={useTrans('menu.appstore')} placement="right">
-                    <a
-                      class="h-14 flex cursor-pointer items-center justify-center"
-                      onClick={() => router.push({ path: '/appstore' })}
-                      title={useTrans('menu.appstore')}
-                    >
-                      <ma-svg-icon name="vscode-icons:file-type-azure" size={30} />
-                    </a>
-                  </m-tooltip>
-                )
-              }
             </div>
           </div>
         </Transition>

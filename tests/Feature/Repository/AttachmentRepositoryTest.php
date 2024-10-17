@@ -15,6 +15,7 @@ namespace HyperfTests\Feature\Repository;
 use App\Model\Attachment;
 use App\Repository\AttachmentRepository;
 use Carbon\Carbon;
+use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Stringable\Str;
 
@@ -66,7 +67,7 @@ final class AttachmentRepositoryTest extends AbstractTestRepository
     /**
      * @param Attachment $model
      */
-    protected function getSearchAttributes(Model $model, array $entityList): array
+    protected function getSearchAttributes(Model $model, Collection $entityList): array
     {
         return [
             'suffix' => $model->suffix,

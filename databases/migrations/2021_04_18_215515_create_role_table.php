@@ -29,7 +29,6 @@ class CreateRoleTable extends Migration
             $table->smallInteger('sort')->comment('排序')->default(0);
             $table->authorBy();
             $table->datetimes();
-
             $table->string('remark')->comment('备注')->default('');
         });
     }

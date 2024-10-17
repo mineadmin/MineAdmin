@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Repository;
 
 use App\Repository\IRepository;
+use Hyperf\Collection\Collection;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\DbConnection\Model\Model;
 use PHPUnit\Framework\TestCase;
@@ -62,12 +63,10 @@ abstract class AbstractTestRepository extends TestCase
         $repository = $this->getRepository();
         $query = $this->getRepository()->handleSearch($repository->getModel()->newQuery(), []);
         $repository->getModel()->newQuery()->whereRaw('1=1')->forceDelete();
-        /**
-         * @var Model[] $entityList
-         */
-        $entityList = [];
+        $entityList = Collection::make();
         for ($i = 0; $i <= 10; ++$i) {
-            $entityList[] = $current = $repository->create($this->getAttributes());
+            $current = $repository->create($this->getAttributes());
+            $entityList->push($current);
             foreach ($this->getSearchAttributes($current, $entityList) as $key => $attribute) {
                 $query = $this->getRepository()->handleSearch($repository->getModel()->newQuery(), [$key => $attribute]);
                 if ($query->count() === 0) {
@@ -80,5 +79,5 @@ abstract class AbstractTestRepository extends TestCase
 
     abstract protected function getAttributes(): array;
 
-    abstract protected function getSearchAttributes(Model $model, array $entityList): array;
+    abstract protected function getSearchAttributes(Model $model, Collection $entityList): array;
 }

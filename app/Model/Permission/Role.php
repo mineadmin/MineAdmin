@@ -29,7 +29,6 @@ use Mine\Casbin\Rule\Rule;
  * @property int $updated_by 更新者
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
- * @property Carbon $deleted_at 删除时间
  * @property string $remark 备注
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
@@ -44,7 +43,7 @@ final class Role extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'name', 'code', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'name', 'code', 'status', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.

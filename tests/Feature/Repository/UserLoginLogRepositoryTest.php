@@ -15,6 +15,7 @@ namespace HyperfTests\Feature\Repository;
 use App\Model\UserLoginLog;
 use App\Repository\UserLoginLogRepository;
 use Carbon\Carbon;
+use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Stringable\Str;
 
@@ -54,7 +55,7 @@ final class UserLoginLogRepositoryTest extends AbstractTestRepository
     /**
      * @param UserLoginLog $model
      */
-    protected function getSearchAttributes(Model $model, array $entityList): array
+    protected function getSearchAttributes(Model $model, Collection $entityList): array
     {
         return [
             'username' => $model->username,

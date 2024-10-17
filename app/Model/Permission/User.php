@@ -106,7 +106,7 @@ final class User extends Model
     public function getRoles(): Collection
     {
         return $this->roles()
-            ->where('status', Status::ENABLE)
+            ->where('status', Status::Normal)
             ->get();
     }
 

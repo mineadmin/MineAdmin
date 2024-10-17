@@ -89,7 +89,7 @@ final class Menu extends MineModel
         // @phpstan-ignore-next-line
         return $this
             ->hasMany(self::class, 'parent_id', 'id')
-            ->where('status', Status::ENABLE)
+            ->where('status', Status::Normal)
             ->orderBy('sort')
             ->with('children');
     }

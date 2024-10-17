@@ -16,6 +16,7 @@ use App\Model\UserOperationLog;
 use App\Repository\UserOperationLogRepository;
 use Carbon\Carbon;
 use Faker\Provider\Internet;
+use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Stringable\Str;
 
@@ -53,7 +54,7 @@ final class UserOperationLogRepositoryTest extends AbstractTestRepository
     /**
      * @param UserOperationLog $model
      */
-    protected function getSearchAttributes(Model $model, array $entityList): array
+    protected function getSearchAttributes(Model $model, Collection $entityList): array
     {
         return [
             'username' => $model->username,

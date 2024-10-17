@@ -27,13 +27,15 @@ final class MenuRepository extends IRepository
 
     public function handleSearch(Builder $query, array $params): Builder
     {
+        $whereInName = static function (Builder $query, array|string $code) {
+            $query->whereIn('name', Arr::wrap($code));
+        };
         return $query
             ->when(Arr::get($params, 'sortable'), static function (Builder $query, array $sortable) {
                 $query->orderBy(key($sortable), current($sortable));
             })
-            ->when(Arr::get($params, 'code'), static function (Builder $query, array|string $code) {
-                $query->whereIn('code', Arr::wrap($code));
-            })
+            ->when(Arr::get($params, 'code'), $whereInName)
+            ->when(Arr::get($params, 'name'), $whereInName)
             ->when(Arr::get($params, 'children'), static function (Builder $query) {
                 $query->with('children');
             })->when(Arr::get($params, 'status'), static function (Builder $query, Status $status) {

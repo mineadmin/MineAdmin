@@ -81,7 +81,6 @@ function otherWorker(app: App) {
   if (navigator && navigator.userAgent && navigator.userAgent.match(/Win[a-z0-9]*;/)) {
     document.documentElement.classList.add('mine-ui-scrollbars')
   }
-  useThemeColor().initThemeColor()
   useTabStore().initTab()
   app.config.globalProperties.$toolbars = toolbars()
 
@@ -113,6 +112,7 @@ async function bootstrap(app: App): Promise<void> {
   await createI18nService(app)
   await usePluginStore().registerPlugin(app)
   await router.isReady()
+  useThemeColor().initThemeColor()
 }
 
 export default bootstrap

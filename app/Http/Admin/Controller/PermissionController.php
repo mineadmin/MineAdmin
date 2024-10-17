@@ -12,10 +12,12 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Exception\BusinessException;
 use App\Http\Admin\Request\Permission\PermissionRequest;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
 use App\Http\CurrentUser;
 use App\Model\Enums\User\Status;
 use App\Repository\Permission\MenuRepository;
@@ -23,6 +25,7 @@ use App\Repository\Permission\RoleRepository;
 use App\Schema\MenuSchema;
 use App\Schema\RoleSchema;
 use App\Service\Permission\UserService;
+use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
@@ -35,7 +38,7 @@ use Mine\Swagger\Attributes\ResultResponse;
 final class PermissionController extends AbstractController
 {
     public function __construct(
-        private readonly CurrentUser $user,
+        private readonly CurrentUser $currentUser,
         private readonly MenuRepository $repository,
         private readonly RoleRepository $roleRepository,
         private readonly UserService $userService
@@ -55,11 +58,11 @@ final class PermissionController extends AbstractController
     public function menus(): Result
     {
         return $this->success(
-            data: $this->user->isSuperAdmin() ? $this->repository->list([
+            data: $this->currentUser->isSuperAdmin() ? $this->repository->list([
                 'status' => Status::ENABLE,
                 'children' => true,
                 'parent_id' => 0,
-            ]) : $this->user->menus()
+            ]) : $this->currentUser->menus()
         );
     }
 
@@ -77,9 +80,9 @@ final class PermissionController extends AbstractController
     public function roles(): Result
     {
         return $this->success(
-            data: $this->user->isSuperAdmin()
+            data: $this->currentUser->isSuperAdmin()
                 ? $this->roleRepository->list(['status' => Status::ENABLE])
-                : $this->user->roles()
+                : $this->currentUser->roles()
         );
     }
 
@@ -91,9 +94,17 @@ final class PermissionController extends AbstractController
         tags: ['权限'],
     )]
     #[ResultResponse(new Result())]
-    public function updateInfo(PermissionRequest $request): Result
+    public function update(PermissionRequest $request): Result
     {
-        $this->userService->updateById($this->user->id(), $request->validated());
+        $data = $request->validated();
+        $user = $this->currentUser->user();
+        if (Arr::exists($data, 'new_password')) {
+            if (! $user->verifyPassword(Arr::get($data, 'old_password'))) {
+                throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('user.old_password_error'));
+            }
+            $data['password'] = $data['new_password'];
+        }
+        $this->userService->updateById($user->id, $data);
         return $this->success();
     }
 }

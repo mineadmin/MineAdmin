@@ -27,6 +27,8 @@ use Mine\Casbin\Rule\Rule;
  */
 final class PermissionControllerTest extends ControllerCase
 {
+    protected string $password = '123456';
+
     public function testMenus(): void
     {
         User::truncate();
@@ -228,7 +230,6 @@ final class PermissionControllerTest extends ControllerCase
         self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $payload = [
             'nickname' => Str::random(10),
-            'password' => Str::random(10),
             'avatar' => Str::random(10),
             'signed' => Str::random(10),
             'backend_setting' => [
@@ -242,5 +243,21 @@ final class PermissionControllerTest extends ControllerCase
         self::assertSame($user->avatar, Arr::get($payload, 'avatar'));
         self::assertSame($user->signed, Arr::get($payload, 'signed'));
         self::assertSame($user->backend_setting, Arr::get($payload, 'backend_setting'));
+
+        // test update password
+        $oldPassword = Str::random(10);
+        $user->password = $oldPassword;
+        $user->save();
+        $this->password = $oldPassword;
+        $newPassword = Str::random(10);
+        $payload = [
+            'old_password' => $oldPassword,
+            'new_password' => $newPassword,
+            'new_password_confirmation' => $newPassword,
+        ];
+        $result = $this->post('/admin/permission/update', $payload, ['Authorization' => 'Bearer ' . $token]);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        $user->refresh();
+        self::assertTrue($user->verifyPassword($newPassword));
     }
 }

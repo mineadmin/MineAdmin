@@ -42,4 +42,12 @@ trait GetTokenTrait
         }
         return Arr::get($result, 'data.access_token');
     }
+
+    protected function getPassword(): string
+    {
+        if (property_exists($this, 'password')) {
+            return $this->password;
+        }
+        return '123456';
+    }
 }

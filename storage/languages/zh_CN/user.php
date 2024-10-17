@@ -40,4 +40,8 @@ return [
             2 => '停用',
         ],
     ],
+    'password' => '密码',
+    'old_password_error' => '旧密码错误',
+    'old_password' => '旧密码',
+    'password_confirmation' => '确认密码',
 ];

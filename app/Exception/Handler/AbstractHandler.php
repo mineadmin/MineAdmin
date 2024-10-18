@@ -14,6 +14,7 @@ namespace App\Exception\Handler;
 
 use App\Http\Common\Result;
 use Hyperf\Codec\Json;
+use Hyperf\Context\Context;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler;
@@ -41,7 +42,7 @@ abstract class AbstractHandler extends ExceptionHandler
     public function handle(\Throwable $throwable, ResponsePlusInterface $response)
     {
         $this->report($throwable);
-        return value(function (ResponsePlusInterface $responsePlus) {
+        return value(function (ResponsePlusInterface $responsePlus) use ($throwable) {
             // 如果是 debug 模式，自动处理跨域
             if ($this->isDebug()) {
                 $responsePlus
@@ -49,6 +50,12 @@ abstract class AbstractHandler extends ExceptionHandler
                     ->setHeader('Access-Control-Allow-Credentials', 'true')
                     ->setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
                     ->setHeader('Access-Control-Allow-Headers', 'DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,Authorization');
+                Context::set(self::class . '.throwable', [
+                    'message' => $throwable->getMessage(),
+                    'file' => $throwable->getFile(),
+                    'line' => $throwable->getLine(),
+                    'trace' => $throwable->getTrace(),
+                ]);
             }
             return $responsePlus;
         }, $this->handlerRequestId(
@@ -80,8 +87,16 @@ abstract class AbstractHandler extends ExceptionHandler
      */
     protected function handlerResult(ResponsePlusInterface $responsePlus, Result $result): ResponsePlusInterface
     {
+        $responsePlus->setHeader('Content-Type', 'application/json; charset=utf-8');
+
+        if ($this->isDebug()) {
+            $result = $result->toArray();
+            $result['throwable'] = Context::get(self::class . '.throwable');
+            return $responsePlus
+                ->setBody(new SwooleStream(Json::encode($result)));
+        }
+
         return $responsePlus
-            ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->setBody(new SwooleStream(Json::encode($result)));
     }
 

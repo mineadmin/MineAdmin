@@ -20,8 +20,6 @@ use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
 return [
     'handler' => [
         'http' => [
-            ErrorExceptionHandler::class,
-            HttpExceptionHandler::class,
             // 处理业务异常
             BusinessExceptionHandler::class,
             // 处理未授权异常

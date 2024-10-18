@@ -62,7 +62,7 @@ const useMenuStore = defineStore(
       }, { immediate: true, deep: true })
 
       watch((): any => activeTopMenu.value, (newActiveTopMenu: MineRoute.routeRecord) => {
-        if (newActiveTopMenu && newActiveTopMenu.children) {
+        if (newActiveTopMenu && newActiveTopMenu.children && newActiveTopMenu.children?.length > 0) {
           subMenu.value = newActiveTopMenu.children
           setSubAsideWidthByDefault()
         }

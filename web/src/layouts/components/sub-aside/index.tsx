@@ -27,6 +27,7 @@ export default defineComponent ({
       getMenuCollapseState,
       getFixedAsideState,
       isColumnsLayout,
+      isMixedLayout,
       showMineHeader,
       showMineSubAside,
       getMobileState,
@@ -54,7 +55,7 @@ export default defineComponent ({
           <div
             class={{
               'mine-sub-aside': true,
-              'w-0': isColumnsLayout(),
+              'w-0': isColumnsLayout() || (isMixedLayout() && (!menuStore.activeTopMenu || menuStore.activeTopMenu?.children?.length === 0)),
               'w-[var(--mine-g-sub-aside-width)]': !isColumnsLayout(),
               '!absolute left-[var(--mine-g-main-aside-width)] !w-0': getFixedAsideState() && isColumnsLayout(),
               '!group-hover-w-[var(--mine-g-sub-aside-width)] group-hover-shadow-lg': getFixedAsideState() && isColumnsLayout() && menuStore.subMenu.length > 0,

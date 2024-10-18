@@ -49,6 +49,9 @@ export default defineComponent({
       if (menuStore.subMenu.length > 0 && appSetting?.layout === 'columns') {
         menuStore.setSubAsideWidthByDefault()
       }
+      else if (menuStore.subMenu.length === 0 && appSetting?.layout === 'mixed') {
+        menuStore.setSubAsideWidthByZero()
+      }
       else if (appSetting?.layout === 'columns') {
         menuStore.setSubAsideWidthByZero()
       }

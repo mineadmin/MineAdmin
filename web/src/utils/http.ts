@@ -7,23 +7,26 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
 import Message from 'vue-m-message'
 import { useDebounceFn } from '@vueuse/core'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import useCache from '@/hooks/useCache.ts'
+import { ResultCode } from './ResultCode.ts'
 
 const { isLoading } = useNProgress()
 const cache = useCache()
-const requestList = ref<InternalAxiosRequestConfig[] | null>(null)
+const requestList = ref<any[]>([])
+const isRefreshToken = ref<boolean>(false)
 
-function createHttp(baseUrl: string | null = null): AxiosInstance {
+function createHttp(baseUrl: string | null = null, config: AxiosRequestConfig = {}): AxiosInstance {
   const env = import.meta.env
   return axios.create({
     baseURL: baseUrl ?? (env.VITE_OPEN_PROXY === 'true' ? env.VITE_PROXY_PREFIX : env.VITE_APP_API_BASEURL),
     timeout: 1000 * 5,
     responseType: 'json',
+    ...config,
   })
 }
 
@@ -54,23 +57,22 @@ http.interceptors.response.use(
     isLoading.value = false
     const userStore = useUserStore()
     await usePluginStore().callHooks('networkResponse', response)
-    if ((response.headers['content-disposition'] || !/^application\/json/.test(response.headers['content-type'])) && response.status === 200) {
+    const config = response.config
+    if ((response.request.responseType === 'blob'
+      || response.request.responseType === 'arraybuffer')
+      && !/^application\/json/.test(response.headers['content-type'])
+      && response.status === ResultCode.SUCCESS
+    ) {
       return Promise.resolve(response.data)
     }
 
-    if (response?.data?.code === 200) {
+    if (response?.data?.code === ResultCode.SUCCESS) {
       return Promise.resolve(response.data)
     }
     else {
       // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
       switch (response?.data?.code) {
-        case 401: {
-          // 检查token是否需要刷新
-          if (userStore.isLogin && (Number(cache.get('expire', 0)) - useDayjs().unix()) < 600) {
-            // todo 经测试，后端刷新接口还有问题，待修复
-            // console.log('可以刷新token了')// cache.get('refresh_token')
-          }
-
+        case ResultCode.UNAUTHORIZED: {
           const logout = useDebounceFn(
             async () => {
               Message.error('登录状态已过期，需要重新登录', { zIndex: 9999 })
@@ -79,13 +81,67 @@ http.interceptors.response.use(
             3000,
             { maxWait: 5000 },
           )
-          await logout()
-          break
+          // 检查token是否需要刷新
+          if (userStore.isLogin && !isRefreshToken.value) {
+            isRefreshToken.value = true
+            // 如果没有刷新token则退出
+            if (!cache.get('refresh_token')) {
+              await logout()
+              break
+            }
+
+            // 尝试获取新token
+            try {
+              const refreshTokenResponse = await createHttp(null, {
+                headers: {
+                  Authorization: `Bearer ${cache.get('refresh_token')}`,
+                },
+              }).post('/admin/passport/refresh')
+              const { data } = refreshTokenResponse.data
+              userStore.token = data.access_token
+              cache.set('token', data.access_token)
+              cache.set('expire', useDayjs().unix() + data.expire_at, { exp: data.expire_at })
+              cache.set('refresh_token', data.refresh_token)
+
+              config.headers!.Authorization = `Bearer ${userStore.token}`
+              requestList.value.map((cb: any) => {
+                cb()
+              })
+              requestList.value = []
+              return http(config)
+            }
+            // eslint-disable-next-line unused-imports/no-unused-vars
+            catch (e: any) {
+              requestList.value.map((cb: any) => {
+                cb()
+              })
+              await logout()
+              break
+            }
+            finally {
+              requestList.value = []
+              isRefreshToken.value = false
+            }
+          }
+          else {
+            return new Promise((resolve) => {
+              requestList.value.push(() => {
+                config.headers!.Authorization = `Bearer ${cache.get('token')}`
+                resolve(http(config))
+              })
+            })
+          }
         }
-        case 404:
+        case ResultCode.NOT_FOUND:
           Message.error('服务器资源不存在', { zIndex: 9999 })
           break
-        case 500:
+        case ResultCode.FORBIDDEN:
+          Message.error('没有权限访问此接口', { zIndex: 9999 })
+          break
+        case ResultCode.METHOD_NOT_ALLOWED:
+          Message.error('请求方法不被允许', { zIndex: 9999 })
+          break
+        case ResultCode.FAIL:
           Message.error('服务器内部错误', { zIndex: 9999 })
           break
         default:

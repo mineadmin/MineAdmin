@@ -70,7 +70,6 @@ http.interceptors.response.use(
       return Promise.resolve(response.data)
     }
     else {
-      // 后端使用非 http status 状态码，axios拦截器无法拦截，故使用下面方式
       switch (response?.data?.code) {
         case ResultCode.UNAUTHORIZED: {
           const logout = useDebounceFn(
@@ -84,13 +83,11 @@ http.interceptors.response.use(
           // 检查token是否需要刷新
           if (userStore.isLogin && !isRefreshToken.value) {
             isRefreshToken.value = true
-            // 如果没有刷新token则退出
             if (!cache.get('refresh_token')) {
               await logout()
               break
             }
 
-            // 尝试获取新token
             try {
               const refreshTokenResponse = await createHttp(null, {
                 headers: {
@@ -104,17 +101,13 @@ http.interceptors.response.use(
               cache.set('refresh_token', data.refresh_token)
 
               config.headers!.Authorization = `Bearer ${userStore.token}`
-              requestList.value.map((cb: any) => {
-                cb()
-              })
+              requestList.value.map((cb: any) => cb())
               requestList.value = []
               return http(config)
             }
             // eslint-disable-next-line unused-imports/no-unused-vars
             catch (e: any) {
-              requestList.value.map((cb: any) => {
-                cb()
-              })
+              requestList.value.map((cb: any) => cb())
               await logout()
               break
             }

@@ -14,4 +14,8 @@ return [
     'store' => [
         'response_fail' => '请求插件服务器失败',
     ],
+    'params_fail' => '请检查space、identifier、version参数是否正确',
+    'download_fail' => '应用下载失败',
+    'app_installed' => '应用已安装',
+    'app_not_installed' => '应用未安装',
 ];

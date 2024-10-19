@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Plugin\MineAdmin\AppStore\Service;
 
+use App\Exception\BusinessException;
+use App\Http\Common\ResultCode;
 use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\AppStore\Plugin;
 use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
-use Mine\Exception\MineException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -24,7 +25,7 @@ class Service
     public function download(array $params): bool
     {
         if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+            $this->throwParamsFail();
         }
 
         $service = make(AppStoreServiceImpl::class);
@@ -32,7 +33,7 @@ class Service
         if (! is_dir(BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'])) {
             $result = $service->download($params['space'], $params['identifier'], $params['version']);
             if (! $result) {
-                throw new MineException('应用下载失败');
+                $this->throwDownloadFail();
             }
         }
 
@@ -46,13 +47,13 @@ class Service
     public function install(array $params): bool
     {
         if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+            $this->throwParamsFail();
         }
 
         $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
 
         if (file_exists($path . '/install.lock')) {
-            throw new MineException('应用已经安装过');
+            $this->throwAppInstalled();
         }
 
         $pluginName = $params['space'] . '/' . $params['identifier'];
@@ -60,7 +61,7 @@ class Service
             Plugin::forceRefreshJsonPath();
             Plugin::install($pluginName);
         } catch (\RuntimeException $e) {
-            throw new MineException($e->getMessage());
+            throw new \RuntimeException($e->getMessage());
         }
 
         return true;
@@ -69,13 +70,13 @@ class Service
     public function unInstall(array $params): bool
     {
         if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
-            throw new MineException('请检查space、identifier、version参数是否正确');
+            $this->throwParamsFail();
         }
 
         $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
 
         if (! file_exists($path . '/install.lock')) {
-            throw new MineException('应用并未安装');
+            $this->throwAppNoInstall();
         }
 
         $pluginName = $params['space'] . '/' . $params['identifier'];
@@ -83,7 +84,7 @@ class Service
             Plugin::forceRefreshJsonPath();
             Plugin::uninstall($pluginName);
         } catch (\RuntimeException $e) {
-            throw new MineException($e->getMessage());
+            throw new \RuntimeException($e->getMessage());
         }
         return true;
     }
@@ -130,5 +131,25 @@ class Service
             throw new MineException($e->getMessage());
         }
         return true;
+    }
+
+    protected function throwParamsFail()
+    {
+        throw new BusinessException(ResultCode::FAIL, trans('app-store.params_fail'));
+    }
+
+    protected function throwDownloadFail()
+    {
+        throw new BusinessException(ResultCode::FAIL, trans('app-store.download_fail'));
+    }
+
+    protected function throwAppInstalled()
+    {
+        throw new BusinessException(ResultCode::FAIL, trans('app-store.app_installed'));
+    }
+
+    protected function throwAppNoInstall()
+    {
+        throw new BusinessException(ResultCode::FAIL, trans('app-store.app_not_installed'));
     }
 }

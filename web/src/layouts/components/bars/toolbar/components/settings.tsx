@@ -241,7 +241,7 @@ export default defineComponent({
           v-slots={{
             trigger: () => (
               <ma-svg-icon
-                className="tool-icon animate-spin animate-duration-[5s]"
+                class="tool-icon animate-spin animate-duration-[5s]"
                 name="heroicons:cog-solid"
                 size={20}
                 onClick={async () => {

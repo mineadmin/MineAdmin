@@ -10,19 +10,19 @@
 import type { Router, RouteRecordRaw } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { MineToolbarExpose, Plugin } from '#/global'
+import Message from 'vue-m-message'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app) {
-    // eslint-disable-next-line unused-imports/no-unused-vars
     const $toolbars = app.config.globalProperties.$toolbars as MineToolbarExpose
-    // $toolbars.add({
-    //   name: 'test',
-    //   title: '测试',
-    //   show: true,
-    //   icon: 'heroicons:archive-box',
-    //   handle: () => Message.info('我是在demo插件下扩展出来的哦'),
-    //   // component: () => import()
-    // })
+    $toolbars.add({
+      name: 'test',
+      title: '测试',
+      show: true,
+      icon: 'heroicons:archive-box',
+      handle: () => Message.info('我是在demo插件下扩展出来的哦'),
+      // component: () => import()
+    })
     console.log('demo 插件已经启动')
   },
   config: {

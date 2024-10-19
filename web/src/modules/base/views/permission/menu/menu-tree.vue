@@ -107,7 +107,7 @@ onMounted(async () => {
             :cancel-button-text="t('crud.cancel')"
             @confirm.stop="async () => {
               if (data.children && data.children.length > 0) {
-                msg.notifyError('当前菜单存在下级，请先删除下级菜单')
+                msg.notifyError(t('baseMenuManage.placeholder.parentMenu'))
                 return
               }
               if (data.parent_id !== 0) {

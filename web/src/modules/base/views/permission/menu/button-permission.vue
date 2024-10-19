@@ -13,6 +13,7 @@ import useTable from '@/hooks/useTable.ts'
 
 const { model = {} } = defineProps<{ model: Record<string, any> }>()
 
+const t = useTrans().globalTrans
 const data = ref<any[]>([])
 
 function addItem() {
@@ -51,21 +52,21 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
       ),
     },
     {
-      label: '按钮名称',
+      label: () => t('baseMenuManage.BtnPermission.name'),
       cellRender: ({ row }): any => (
-        <el-input v-model={row.title} placeholder="请输入按钮名称" />
+        <el-input v-model={row.title} placeholder={t('baseMenuManage.placeholder.btnName')} />
       ),
     },
     {
-      label: '按钮标识',
+      label: () => t('baseMenuManage.BtnPermission.code'),
       cellRender: ({ row }): any => (
-        <el-input v-model={row.code} placeholder="请输入按钮标识" />
+        <el-input v-model={row.code} placeholder={t('baseMenuManage.placeholder.btnCode')} />
       ),
     },
     {
-      label: '按钮国际化',
+      label: () => t('baseMenuManage.BtnPermission.i18n'),
       cellRender: ({ row }): any => (
-        <el-input v-model={row.i18n} placeholder="请输入按钮国际化" />
+        <el-input v-model={row.i18n} placeholder={t('baseMenuManage.placeholder.btnI18n')} />
       ),
     },
   ])
@@ -85,10 +86,10 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
   <el-card class="w-full" shadow="never">
     <ma-table ref="buttonFormTable">
       <template #empty>
-        <div>
-          没有按钮菜单？
+        <div class="flex items-center justify-center gap-x-2">
+          {{ t('baseMenuManage.BtnPermission.noBtn') }}
           <el-button type="primary" plain @click="addItem">
-            新增一个
+            {{ t('baseMenuManage.BtnPermission.add') }}
           </el-button>
         </div>
       </template>

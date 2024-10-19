@@ -129,6 +129,7 @@ menu:
   dashboard: 儀表盤
 crud:
   cancel: 放棄
+  save: 保存
   ok: 確定
   add: 新增
   edit: 編輯

@@ -22,6 +22,84 @@ baseRoleManage:
   code: 角色标识
   permission: 权限菜单
   setPermission: 赋予权限
+baseMenuManage:
+  addTopMenu: 新增顶级菜单
+  parentMenu: 上级菜单
+  name: 菜单名称
+  code: 菜单标识
+  url: 菜单路由
+  icon: 菜单图标
+  type: 菜单类型
+  route: 路由地址
+  view: 视图地址
+  link: 链接/iFrame
+  redirect: 路由重定向
+  i18n: 国际化
+  sort: 排序
+  isEnabled: 是否启用
+  isHidden: 是否隐藏
+  isCache: 是否缓存
+  isCopyright: 版权显示
+  isBreadcrumb: 面包屑显示
+  isAffix: Tab是否固定
+  remark: 备注
+  typeItem:
+    M: 菜单
+    B: 按钮
+    L: 外链
+    I: iFrame
+  BtnPermission:
+    label: 按钮权限
+    name: 按钮名称
+    code: 按钮标识
+    i18n: 按钮国际化
+    noBtn: 没有按钮菜单?
+    add: 新增一个
+  placeholder:
+    name: 请输入菜单名称
+    code: 请输入菜单标识，此项全局唯一
+    parentMenu: 请选择上级菜单，不选为顶级菜单
+    route: 页面访问地址，以 "/" 开头
+    view: 视图地址，请指向模块或插件下的views目录文件
+    link: 请输入第三方URL
+    redirect: 利用 vue-router 跳转其他路由地址，以 "/" 开头
+    i18n: 菜单标题国际化
+    remark: 备注信息
+    btnName: 请输入按钮名称
+    btnCode: 请输入按钮标识
+    btnI18n: 请输入按钮国际化
+baseRole:
+  name: 角色名称
+  code: 角色标识
+  remark: 备注
+  permission: 权限菜单
+  placeholder:
+    name: 请输入角色名称
+    code: 请输入角色标识，此项全局唯一
+    remark: 备注信息
+basePermission:
+  name: 权限名称
+  code: 权限标识
+  remark: 备注
+  placeholder:
+    name: 请输入权限名称
+    code: 请输入权限标识，此项全局唯一
+    remark: 备注信息
+baseDict:
+  name: 字典名称
+  code: 字典标识
+  remark: 备注
+  placeholder:
+    name: 请输入字典名称
+    code: 请输入字典标识，此项全局唯一
+    remark: 备注信息
+baseDictItem:
+  name: 字典项名称
+  code: 字典项标识
+  remark: 备注
+  placeholder:
+    name: 请输入字典项名称
+    code: 请输入字典项标识，此项全局唯一
 baseLoginLog:
   title: 用户登录日志
   username: 用户名

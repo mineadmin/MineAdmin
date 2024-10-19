@@ -91,7 +91,7 @@ function createOrSaveMenu() {
       <MenuTree
         ref="menuTreeRef"
         :data="menuList"
-        @menu-select="(menu) => {
+        @menu-select="(menu: MenuVo) => {
           currentMenu = menu
           menuFormRef?.setData?.(menu)
         }"
@@ -99,10 +99,10 @@ function createOrSaveMenu() {
     </div>
     <div class="relative mt-3 h-[calc(100%-250px)] w-full overflow-x-hidden overflow-y-auto pr-5 lg:mt-0 lg:h-full">
       <div class="sticky top-0 z-2 flex items-center justify-between b-b-1 b-b-gray-1 b-b-solid bg-white pb-3 text-base dark-b-b-dark-4 dark-bg-dark-8">
-        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) : '添加顶级菜单' }}</span>
+        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) : t('baseMenuManage.addTopMenu') }}</span>
         <div>
           <el-button type="primary" @click="createOrSaveMenu">
-            保存
+            {{ t('crud.save') }}
           </el-button>
         </div>
       </div>

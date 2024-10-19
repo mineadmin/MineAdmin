@@ -7,7 +7,6 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
-
 <script setup lang="ts">
 import { omit } from 'lodash-es'
 import MaResourcePanel from './panel.vue'

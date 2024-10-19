@@ -5,8 +5,9 @@
  - Thank you very much for using MineAdmin.
  -
  - @Author X.Mo<root@imoi.cn>
- - @Link   https://github.com/mineadmin
+ - @Link https://github.com/mineadmin
 -->
+
 <script setup lang="tsx">
 import type { MaFormExpose } from '@mineadmin/form'
 import type { RoleVo } from '~/base/api/role.ts'

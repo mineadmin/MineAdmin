@@ -7,21 +7,22 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { RouteRecordRaw, Router } from 'vue-router'
+import type { Router, RouteRecordRaw } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
-import type { Plugin } from '#/global'
+import type { MineToolbarExpose, Plugin } from '#/global'
+import Message from 'vue-m-message'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app) {
-    // const $toolbars = app.config.globalProperties.$toolbars as MineToolbarExpose
-    // $toolbars.add({
-    //   name: 'test',
-    //   title: '测试',
-    //   show: true,
-    //   icon: 'heroicons:archive-box',
-    //   handle: () => Message.info('我是在demo插件下扩展出来的哦'),
-    //   // component: () => import()
-    // })
+    const $toolbars = app.config.globalProperties.$toolbars as MineToolbarExpose
+    $toolbars.add({
+      name: 'test',
+      title: '测试',
+      show: true,
+      icon: 'heroicons:archive-box',
+      handle: () => Message.info('我是在demo插件下扩展出来的哦'),
+      // component: () => import()
+    })
     console.log('demo 插件已经启动')
   },
   config: {
@@ -38,7 +39,7 @@ const pluginConfig: Plugin.PluginConfig = {
       console.log('demo 插件启动前调用了 start 钩子', `插件版本: ${config.info.version}`)
     },
     setup: () => {
-      const { addPlugin, getPlugins } = useProTableRenderPlugin()
+      const { addPlugin } = useProTableRenderPlugin()
       addPlugin({
         name: 'test',
         render: () => '我是demo插件渲染出来的内容',
@@ -56,43 +57,13 @@ const pluginConfig: Plugin.PluginConfig = {
     routerRedirect: (route: RouteRecordRaw) => {
       console.log('demo 插件的路由跳转钩子，此次跳转路由信息：', route)
     },
-    // networkRequest: (request) => {
-    //   console.log('demo 插件的网络请求钩子，此次请求信息：', request)
-    // },
-    // networkResponse: (response) => {
-    //   console.log('demo 插件的网络返回钩子，此次返回信息：', response)
-    // },
-  },
-  views: [
-    {
-      name: 'demo',
-      path: '/demo',
-      meta: {
-        title: '开发示例',
-        // badge: () => 1,
-        hidden: false,
-        copyright: false,
-      },
-      children: [
-        {
-          name: 'demo-pro-table',
-          path: '/demo/pro-table',
-          component: () => import('./views/pro-table/index.vue'),
-          meta: {
-            title: '表格示例',
-          },
-        },
-        {
-          name: 'demo-form',
-          path: '/demo/form',
-          component: () => import('./views/form/index.vue'),
-          meta: {
-            title: '表单示例',
-          },
-        },
-      ],
+    networkRequest: (request) => {
+      console.log('demo 插件的网络请求钩子，此次请求信息：', request)
     },
-  ],
+    networkResponse: (response) => {
+      console.log('demo 插件的网络返回钩子，此次返回信息：', response)
+    },
+  },
 }
 
 export default pluginConfig

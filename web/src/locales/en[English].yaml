@@ -129,6 +129,7 @@ menu:
   dashboard: Dashboard
 crud:
   cancel: Cancel
+  save: Save
   ok: OK
   add: Add
   edit: Edit

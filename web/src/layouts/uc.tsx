@@ -1,5 +1,3 @@
-import Logo from '@/layouts/components/logo'
-import ucChildren from '@/router/static-routes/ucChildren'
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications
  * Please view the LICENSE file that was distributed with this source code,
@@ -9,6 +7,8 @@ import ucChildren from '@/router/static-routes/ucChildren'
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
+import Logo from '@/layouts/components/logo'
+import ucChildren from '@/router/static-routes/ucChildren'
 import './style/uc.scss'
 
 export default defineComponent({

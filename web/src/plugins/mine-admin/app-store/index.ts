@@ -16,7 +16,7 @@ const pluginConfig: Plugin.PluginConfig = {
   config: {
     enable: !import.meta.env.PROD,
     info: {
-      name: 'mine-admin/appstore',
+      name: 'mine-admin/app-store',
       version: '1.0.0',
       author: 'X.Mo',
       description: '提供应用市场功能',

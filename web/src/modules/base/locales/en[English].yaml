@@ -22,6 +22,52 @@ baseRoleManage:
   code: Role code
   permission: Permission Menu
   setPermission: Set permission
+baseMenuManage:
+  addTopMenu: Add Top Menu
+  parentMenu: Parent Menu
+  name: Menu Name
+  code: Menu Code
+  url: Menu Route
+  icon: Menu Icon
+  type: Menu Type
+  route: Route
+  view: View Address
+  link: Link/iFrame
+  redirect: Route Redirect
+  i18n: Internationalization
+  sort: Sort Order
+  isEnabled: Enabled
+  isHidden: Hidden
+  isCache: Cached
+  isCopyright: Copyright
+  isBreadcrumb: Breadcrumb
+  isAffix: Tab Is Fixed
+  remark: Remarks
+  typeItem:
+    M: Menu
+    B: Button
+    L: External Link
+    I: iFrame
+  BtnPermission:
+    label: Button Permission
+    name: Button Name
+    code: Button Code
+    i18n: Button Internationalization
+    noBtn: No Button Menu?
+    add: Add One
+  placeholder:
+    name: Please enter the menu name
+    code: Please enter the menu code, which must be unique globally
+    parentMenu: Please select the parent menu, or leave it blank for a top-level menu
+    route: Page access address, starting with "/"
+    view: View address, please point to a file in the views directory under the module or plugin
+    link: Please enter the third-party URL
+    redirect: Use vue-router to redirect to another route address, starting with "/"
+    i18n: Menu title internationalization
+    remark: Remarks/Notes
+    btnName: Please enter the button name
+    btnCode: Please enter the button code
+    btnI18n: Please enter the button i18n
 baseLoginLog:
   title: User Login log
   username: Username

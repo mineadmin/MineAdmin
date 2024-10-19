@@ -129,6 +129,7 @@ menu:
   dashboard: 仪表盘
 crud:
   cancel: 取消
+  save: 保存
   ok: 确定
   add: 新增
   edit: 编辑

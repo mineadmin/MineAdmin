@@ -22,6 +22,52 @@ baseRoleManage:
   code: 角色標識
   permission: 權限菜單
   setPermission: 賦予權限
+baseMenuManage:
+  addTopMenu: 新增頂級菜單
+  parentMenu: 上級菜單
+  name: 菜單名稱
+  code: 菜單標識
+  url: 菜單路由
+  icon: 菜單圖標
+  type: 菜單類型
+  route: 路由地址
+  view: 視圖地址
+  link: 鏈接/iFrame
+  redirect: 路由重定向
+  i18n: 國際化
+  sort: 排序
+  isEnabled: 是否啟用
+  isHidden: 是否隱藏
+  isCache: 是否緩存
+  isCopyright: 版權顯示
+  isBreadcrumb: 麵包屑顯示
+  isAffix: Tab是否固定
+  remark: 備註
+  typeItem:
+    M: 菜單
+    B: 按鍵
+    L: 外鏈
+    I: iFrame
+  BtnPermission:
+    label: 按鍵權限
+    name: 按鍵名稱
+    code: 按鍵標識
+    i18n: 按鍵國際化
+    noBtn: 沒有按鍵菜單?
+    add: 新增一個
+  placeholder:
+    name: 請輸入菜單名稱
+    code: 請輸入菜單標識，此項全局唯一
+    parentMenu: 請選擇上級菜單，不選為頂級菜單
+    route: 頁面訪問地址，以 "/" 開頭
+    view: 視圖地址，請指向模組或插件下的views目錄文件
+    link: 請輸入第三方網址
+    redirect: 利用 vue-router 跳轉其他路由地址，以 "/" 開頭
+    i18n: 菜單標題國際化
+    remark: 備註信息
+    btnName: 請輸入按鍵名稱
+    btnCode: 請輸入按鍵標識
+    btnI18n: 請輸入按鍵國際化
 baseLoginLog:
   title: 用戶登錄日志
   username: 使用者名稱

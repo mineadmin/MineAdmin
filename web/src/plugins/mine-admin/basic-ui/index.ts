@@ -28,6 +28,7 @@ const pluginConfig: Plugin.PluginConfig = {
       version: '1.0.0',
       author: 'X.Mo',
       description: 'MineAdmin基础UI',
+      order: 99999,
     },
   },
 }

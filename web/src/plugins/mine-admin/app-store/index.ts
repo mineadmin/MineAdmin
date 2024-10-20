@@ -14,7 +14,7 @@ const pluginConfig: Plugin.PluginConfig = {
     console.log('MineAdmin应用市场已启动')
   },
   config: {
-    enable: !import.meta.env.PROD,
+    enable: import.meta.env.DEV,
     info: {
       name: 'mine-admin/app-store',
       version: '1.0.0',
@@ -28,7 +28,7 @@ const pluginConfig: Plugin.PluginConfig = {
       path: '/appstore',
       meta: {
         title: '应用市场',
-        badge: () => '99+',
+        badge: () => 'Hot',
         i18n: 'menu.appstore',
         icon: 'vscode-icons:file-type-azure',
         type: 'M',

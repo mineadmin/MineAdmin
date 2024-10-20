@@ -14,6 +14,6 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
-export default function useDayjs(date?: dayjs.ConfigType) {
-  return dayjs(date)
+export default function useDayjs(date?: dayjs.ConfigType, origin: boolean = false) {
+  return origin ? dayjs : dayjs(date)
 }

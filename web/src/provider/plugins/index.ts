@@ -10,14 +10,20 @@
 import type { ProviderService } from '#/global'
 import type { App } from 'vue'
 import useGlobal from '@/hooks/auto-imports/useGlobal.ts'
+import { sort } from 'radash'
 
 const pluginList = {}
 async function getPluginList() {
   const plugins = import.meta.glob('../../plugins/*/*/index.ts')
+  const sortedPlugins: any[] = []
   for (const path in plugins) {
     const { default: plugin }: any = await plugins[path]()
-    pluginList[plugin.config.info.name] = plugin
+    sortedPlugins.push(plugin)
   }
+
+  sort(sortedPlugins, f => f.config.info.order ?? 0, true).map((item) => {
+    pluginList[item.config.info.name] = item
+  })
 }
 
 const pluginConfig = {}

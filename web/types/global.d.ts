@@ -46,6 +46,7 @@ declare namespace Plugin {
     version: string
     author: string
     description: string
+    order?: number
   }
 
   interface Config {

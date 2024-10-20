@@ -38,6 +38,7 @@ mineAdmin:
       mainMenuTitle: 主功能表標題
     copyRightSettings: 版權設置
     enableBreadcrumb: 啟用麵包屑
+    asideDark: 側邊欄黑暗模式
     tabbars:
       mode: 標籤欄風格
       modeCard: 卡片

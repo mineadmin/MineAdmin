@@ -108,6 +108,10 @@ declare namespace SystemSettings {
      */
     primaryColor?: string
     /**
+     * 侧边栏是否黑夜模式
+     */
+    asideDark?: boolean
+    /**
      * 使用的语言包
      * @默认值 `'zh_CN'`
      */

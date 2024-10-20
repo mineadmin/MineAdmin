@@ -38,6 +38,7 @@ mineAdmin:
       mainMenuTitle: 主菜单标题
     copyRightSettings: 版权设置
     enableBreadcrumb: 启用面包屑
+    asideDark: 侧边栏黑暗模式
     tabbars:
       mode: 标签栏风格
       modeCard: 卡片

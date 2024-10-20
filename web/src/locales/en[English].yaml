@@ -38,6 +38,7 @@ mineAdmin:
       mainMenuTitle: Main menu title
     copyRightSettings: Copyright settings
     enableBreadcrumb: Enable breadcrumbs
+    asideDark: Side bar dark mode
     tabbars:
       mode: Tab bar style
       modeCard: Card

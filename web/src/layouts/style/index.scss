@@ -79,3 +79,29 @@
 .mine-aside-animate-leave-to {
   transform: translateX(calc((var(--mine-g-main-aside-width) + var(--mine-g-sub-aside-width)) * -1));
 }
+
+// 仅侧边栏黑暗模式
+body.mine-aside-dark {
+  .mine-main-aside-content {
+    background: rgb(15 15 15 / var(--un-bg-opacity));
+    border-right-color: rgb(28 28 30 / var(--un-border-right-opacity));
+  }
+  .mine-main-aside-list {
+    a {
+      color: rgb(229 231 235 / var(--un-text-opacity)); /* #e5e7eb */;
+    }
+    a:hover {
+      background-color: rgb(var(--ui-primary) / 30%); /* rgb(var(--ui-primary)/30%) */
+      color: rgb(229 231 235 / var(--un-text-opacity)); /* #e5e7eb */
+    }
+    a.active {
+      background-color: rgb(var(--ui-primary) / 70%); /* rgb(var(--ui-primary)/70%) */
+    }
+  }
+
+  .mine-sub-aside-container,
+  .mine-sub-aside {
+    border-right-color: rgb(31 31 31 / 1);
+    background-color: rgb(24 24 24 / var(--un-bg-opacity)); /* #181818 */
+  }
+}

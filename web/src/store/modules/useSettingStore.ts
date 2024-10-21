@@ -191,6 +191,15 @@ const useSettingStore = defineStore(
       return searchPanelEnable.value
     }
 
+    function getAsideDark(): boolean {
+      return defaultSetting.value.app.asideDark
+    }
+
+    function setAsideDark(state: boolean): boolean {
+      state ? document.body.classList.add('mine-aside-dark') : document.body.classList.remove('mine-aside-dark')
+      return defaultSetting.value.app.asideDark = state
+    }
+
     // 设置网页标题
     function setTitle(routeTitle: string) {
       title.value = `${import.meta.env.VITE_APP_TITLE} - ${routeTitle}`
@@ -229,6 +238,8 @@ const useSettingStore = defineStore(
       toggleColorMode,
       getSettings,
       setSettings,
+      getAsideDark,
+      setAsideDark,
       openGlobalWatermark,
       clearGlobalWatermark,
     }

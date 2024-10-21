@@ -114,7 +114,7 @@ final class User extends Model
     {
         // @phpstan-ignore-next-line
         return $this->roles()->get()->map(static function (Role $role) {
-            return $role->menus()->get();
+            return $role->menus()->where('parent_id', 0)->with('children')->get();
         })->flatten();
     }
 }

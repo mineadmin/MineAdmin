@@ -148,7 +148,7 @@ http.interceptors.response.use(
   async (error: any) => {
     isLoading.value = false
     const serverError = useDebounceFn(async () => {
-      if (error.response.status === 500) {
+      if (error && error.response && error.response.status === 500) {
         Message.error(error.message ?? '服务器内部错误', { zIndex: 9999 })
       }
     }, 3000, { maxWait: 5000 })

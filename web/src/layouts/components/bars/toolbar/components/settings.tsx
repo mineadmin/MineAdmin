@@ -257,12 +257,12 @@ export default defineComponent({
                 <div class="mx-auto mt-3 w-[70%]">
                   {colorModeSettings()}
                 </div>
-                {/*{keys.value.colorMode !== 'dark' && settingsRender('app', [*/}
-                {/*  { label: useTrans('mineAdmin.settings.asideDark') as string,*/}
-                {/*    value: 'asideDark',*/}
-                {/*    change: (v: boolean) => settingStore.setAsideDark(v),*/}
-                {/*  },*/}
-                {/*])}*/}
+                {keys.value.colorMode !== 'dark' && settingsRender('app', [
+                  { label: useTrans('mineAdmin.settings.asideDark') as string,
+                    value: 'asideDark',
+                    change: (v: boolean) => settingStore.setAsideDark(v),
+                  },
+                ])}
 
                 {divider(useTrans('mineAdmin.settings.primaryColorSetting') as string)}
                 <ul class="mine-setting-color-list">

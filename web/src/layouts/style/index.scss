@@ -99,9 +99,53 @@ body.mine-aside-dark {
     }
   }
 
+  .mine-header-main {
+    background-color: rgb(15 15 15 / var(--un-bg-opacity));
+    border-bottom-color: rgb(28 28 30 / var(--un-border-right-opacity));
+  }
+
   .mine-sub-aside-container,
   .mine-sub-aside {
     border-right-color: rgb(31 31 31 / 1);
     background-color: rgb(24 24 24 / var(--un-bg-opacity)); /* #181818 */
+
+    & .mine-sub-aside-close-button,
+    & .mine-sub-aside-collapse-button,
+    & .mine-sub-aside-fixed-button {
+      color: rgb(243 244 246 / var(--un-text-opacity));
+      background-color: #2D2D2D;
+    }
+    & .mine-sub-aside-close-button:hover,
+    & .mine-sub-aside-collapse-button:hover,
+    & .mine-sub-aside-fixed-button:hover {
+      color: rgb(243 244 246 / var(--un-text-opacity)); /* #f3f4f6 */
+      background-color: rgb(60 60 60 / var(--un-bg-opacity)); /* #3c3c3c */
+    }
+  }
+
+  .mine-toolbar-btn {
+    color: #fff;
+    background-color: rgb(31 31 31 / var(--un-bg-opacity)); /* #1f1f1f */;
+    border-color: rgb(45 45 45 / var(--un-border-opacity));
+  }
+
+  .mine-menu-link, .mine-menu-link:hover, .mine-menu-link.active {
+    color: #E5E7EB;
+  }
+
+  .mine-menu-link:hover {
+    background-color: rgb(var(--ui-primary)/30%);
+  }
+
+  .mine-menu-link.active {
+    background-color: rgb(var(--ui-primary)/70%);
+  }
+
+  .mine-sub-menu {
+    background-color: rgb(24 24 24 / var(--un-bg-opacity));
+  }
+
+  .mine-logo-title {
+    color: #fff;
   }
 }

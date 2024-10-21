@@ -191,7 +191,7 @@ const useSettingStore = defineStore(
       return searchPanelEnable.value
     }
 
-    function getAsideDark(): boolean {
+    function getAsideDark() {
       return defaultSetting.value.app.asideDark
     }
 

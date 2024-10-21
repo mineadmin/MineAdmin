@@ -33,12 +33,12 @@ final class RoleControllerTest extends ControllerCase
         $result = $this->get('/admin/role/list', ['token' => $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'role:list'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'role:list'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'role:list'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'permission:role:index'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'permission:role:index'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'permission:role:index'));
         $result = $this->get('/admin/role/list', ['token' => $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:list'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'permission:role:index'));
         $result = $this->get('/admin/role/list', ['token' => $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
     }
@@ -67,12 +67,12 @@ final class RoleControllerTest extends ControllerCase
         $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'role:create'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'role:create'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'role:create'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'permission:role:save'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'permission:role:save'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'permission:role:save'));
         $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:create'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'permission:role:save'));
         $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity = Role::query()->where('code', $fill['code'])->first();
@@ -108,12 +108,12 @@ final class RoleControllerTest extends ControllerCase
         $result = $this->put('/admin/role/' . $entity->id, $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'role:save'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'role:save'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'role:save'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'permission:role:update'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'permission:role:update'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'permission:role:update'));
         $result = $this->put('/admin/role/' . $entity->id, $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:save'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'permission:role:update'));
         $result = $this->put('/admin/role/' . $entity->id, $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
@@ -139,12 +139,12 @@ final class RoleControllerTest extends ControllerCase
         $result = $this->delete('/admin/role', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'role:delete'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'role:delete'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'role:delete'));
+        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'permission:role:delete'));
+        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'permission:role:delete'));
+        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'permission:role:delete'));
         $result = $this->delete('/admin/role', [$entity->id], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'role:delete'));
+        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'permission:role:delete'));
         $result = $this->delete('/admin/role', [$entity->id], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $this->expectException(ModelNotFoundException::class);
@@ -229,11 +229,11 @@ final class RoleControllerTest extends ControllerCase
         self::assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
         self::assertTrue($enforce->hasRoleForUser($this->user->username, $role->code));
 
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:set:permission'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:set:permission'));
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:set:role'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:set:role'));
 
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'role:get:permission'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'role:get:permission'));
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:get:role'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:get:role'));
 
         $result = $this->put($uri, ['permissions' => $names], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);

@@ -25,12 +25,12 @@ final class MenuControllerTest extends CrudControllerCase
 {
     public function testPageList(): void
     {
-        $this->casePageList('/admin/menu/list', 'menu:list');
+        $this->casePageList('/admin/menu/list', 'permission:menu:index');
     }
 
     public function testCreate(): void
     {
-        $this->caseCreate('/admin/menu', 'menu:create', [
+        $this->caseCreate('/admin/menu', 'permission:menu:create', [
             'parent_id' => 0,
             'name' => Str::random(10),
             'component' => Str::random(10),
@@ -59,7 +59,7 @@ final class MenuControllerTest extends CrudControllerCase
             'meta' => $this->generatorMeta(),
             'path' => Str::random(10),
         ]);
-        $this->caseSave('/admin/menu/', $entity, 'menu:save', [
+        $this->caseSave('/admin/menu/', $entity, 'permission:menu:save', [
             'name' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),
@@ -83,7 +83,7 @@ final class MenuControllerTest extends CrudControllerCase
             'remark' => Str::random(10),
             'meta' => $this->generatorMeta(),
         ]);
-        $this->caseDelete('/admin/menu', $entity, 'menu:delete', true);
+        $this->caseDelete('/admin/menu', $entity, 'permission:menu:delete', true);
     }
 
     protected function generatorMeta()

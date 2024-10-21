@@ -14,8 +14,6 @@ use App\Exception\Handler\BusinessExceptionHandler;
 use App\Exception\Handler\JwtExceptionHandler;
 use App\Exception\Handler\UnauthorizedExceptionHandler;
 use App\Exception\Handler\ValidationExceptionHandler;
-use Hyperf\ExceptionHandler\Listener\ErrorExceptionHandler;
-use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
 
 return [
     'handler' => [

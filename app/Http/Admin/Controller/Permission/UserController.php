@@ -139,7 +139,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:save')]
+    #[Permission(code: 'permission:user:update')]
     #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '更新用户'))]
     #[ResultResponse(new Result())]
     public function save(int $userId, UserRequest $request): Result

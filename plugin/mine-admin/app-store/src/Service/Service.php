@@ -128,7 +128,7 @@ class Service
             Plugin::install($json['name']);
             @unlink($runtimePath);
         } catch (\Throwable $e) {
-            throw new MineException($e->getMessage());
+            throw new \RuntimeException($e->getMessage());
         }
         return true;
     }

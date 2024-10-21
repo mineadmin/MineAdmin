@@ -43,6 +43,7 @@
     "hyperf/event": "3.1.*",
     "hyperf/exception-handler": "3.1.*",
     "hyperf/framework": "3.1.*",
+    "hyperf/guzzle": "^3.1",
     "hyperf/helper": "~3.1",
     "hyperf/http-server": "3.1.*",
     "hyperf/logger": "3.1.*",
@@ -55,15 +56,15 @@
     "hyperf/server": "3.1.*",
     "hyperf/utils": "3.1.*",
     "hyperf/validation": "~3.1",
+    "mineadmin/access": "3.0.x-dev",
     "mineadmin/app-store": "3.0.x-dev",
+    "mineadmin/auth-jwt": "3.0.x-dev",
+    "mineadmin/casbin": "3.0.x-dev",
     "mineadmin/core": "3.0.x-dev",
     "mineadmin/jwt": "3.0.x-dev",
     "mineadmin/support": "3.0.x-dev",
-    "mineadmin/upload": "3.0.x-dev",
-    "mineadmin/casbin": "3.0.x-dev",
-    "mineadmin/access": "3.0.x-dev",
-    "mineadmin/auth-jwt": "3.0.x-dev",
-    "mineadmin/swagger": "3.0.x-dev"
+    "mineadmin/swagger": "3.0.x-dev",
+    "mineadmin/upload": "3.0.x-dev"
   },
   "require-dev": {
     "doctrine/dbal": "^4.1",

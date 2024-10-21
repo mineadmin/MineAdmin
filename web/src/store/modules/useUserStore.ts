@@ -126,7 +126,8 @@ const useUserStore = defineStore(
         const { data } = await getInfo()
         setUserInfo(data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
-          setUserSetting(data?.backend_setting)
+
+          setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
         }
         await refreshMenu()
         await refreshRole()
@@ -206,7 +207,7 @@ const useUserStore = defineStore(
     }
 
     function setUserSetting(settings: any) {
-      setting.setSettings(settings)
+      settings && setting.setSettings(settings)
       setting.initColorMode()
       useThemeColor().initThemeColor()
     }

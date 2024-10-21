@@ -51,7 +51,7 @@ final class MenuController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['菜单管理']
     )]
-    #[Permission(code: 'menu:list')]
+    #[Permission(code: 'permission:menu:index')]
     #[ResultResponse(instance: new Result())]
     public function pageList(RequestInterface $request): Result
     {
@@ -72,7 +72,7 @@ final class MenuController extends AbstractController
         content: new JsonContent(ref: MenuRequest::class, title: '创建菜单')
     )]
     #[PageResponse(instance: new Result())]
-    #[Permission(code: 'menu:create')]
+    #[Permission(code: 'permission:menu:create')]
     public function create(MenuRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
@@ -92,7 +92,7 @@ final class MenuController extends AbstractController
         content: new JsonContent(ref: MenuRequest::class, title: '编辑菜单')
     )]
     #[PageResponse(instance: new Result())]
-    #[Permission(code: 'menu:save')]
+    #[Permission(code: 'permission:menu:save')]
     public function save(int $id, MenuRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [
@@ -109,7 +109,7 @@ final class MenuController extends AbstractController
         tags: ['菜单管理']
     )]
     #[PageResponse(instance: new Result())]
-    #[Permission(code: 'menu:delete')]
+    #[Permission(code: 'permission:menu:delete')]
     public function delete(RequestInterface $request): Result
     {
         $this->service->deleteById($request->all(), false);

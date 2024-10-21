@@ -55,7 +55,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:list')]
+    #[Permission(code: 'permission:user:index')]
     #[PageResponse(instance: UserSchema::class)]
     public function pageList(Request $request): Result
     {
@@ -77,7 +77,7 @@ final class UserController extends AbstractController
     )
     ]
     #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '修改个人信息'))]
-    #[Permission(code: 'user:info')]
+    #[Permission(code: 'permission:user:update')]
     #[ResultResponse(new Result())]
     public function updateInfo(UserRequest $request): Result
     {
@@ -92,7 +92,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:password')]
+    #[Permission(code: 'permission:user:password')]
     #[ResultResponse(new Result())]
     public function resetPassword(): Result
     {
@@ -108,7 +108,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:create')]
+    #[Permission(code: 'permission:user:save')]
     #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '创建用户'))]
     #[ResultResponse(new Result())]
     public function create(UserRequest $request): Result
@@ -124,7 +124,7 @@ final class UserController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['用户管理']
     )]
-    #[Permission(code: 'user:delete')]
+    #[Permission(code: 'permission:user:delete')]
     #[ResultResponse(new Result())]
     public function delete(Request $request): Result
     {

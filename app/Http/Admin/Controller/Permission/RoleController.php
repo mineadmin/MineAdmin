@@ -58,7 +58,7 @@ final class RoleController extends AbstractController
         tags: ['角色管理'],
     )]
     #[PageResponse(instance: RoleSchema::class)]
-    #[Permission(code: 'role:list')]
+    #[Permission(code: 'permission:role:index')]
     public function pageList(RequestInterface $request): Result
     {
         return $this->success(
@@ -80,7 +80,7 @@ final class RoleController extends AbstractController
     #[RequestBody(
         content: new JsonContent(ref: RoleRequest::class)
     )]
-    #[Permission(code: 'role:create')]
+    #[Permission(code: 'permission:role:save')]
     #[ResultResponse(instance: new Result())]
     public function create(RoleRequest $request): Result
     {
@@ -100,7 +100,7 @@ final class RoleController extends AbstractController
     #[RequestBody(
         content: new JsonContent(ref: RoleRequest::class)
     )]
-    #[Permission(code: 'role:save')]
+    #[Permission(code: 'permission:role:update')]
     #[ResultResponse(instance: new Result())]
     public function save(int $id, RoleRequest $request): Result
     {
@@ -118,7 +118,7 @@ final class RoleController extends AbstractController
         tags: ['角色管理'],
     )]
     #[ResultResponse(instance: new Result())]
-    #[Permission(code: 'role:delete')]
+    #[Permission(code: 'permission:role:delete')]
     public function delete(RequestInterface $request): Result
     {
         $this->service->deleteById($request->all(), false);
@@ -136,7 +136,7 @@ final class RoleController extends AbstractController
         instance: new Result(),
         example: '{"code":200,"message":"成功","data":[{"id":59,"name":"xdrljpefIZ"},{"id":60,"name":"GIdOejHL2R"},{"id":61,"name":"ZpEnJv00VG"}]}'
     )]
-    #[Permission(code: 'role:get:permission')]
+    #[Permission(code: 'permission:get:role')]
     public function getRolePermissionForRole(int $id): Result
     {
         return $this->success($this->service->getRolePermission($id)->map(static fn (Menu $menu) => $menu->only([
@@ -155,7 +155,7 @@ final class RoleController extends AbstractController
     #[RequestBody(content: new JsonContent(
         ref: BatchGrantPermissionsForRoleRequest::class
     ))]
-    #[Permission(code: 'role:set:permission')]
+    #[Permission(code: 'permission:set:role')]
     public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
     {
         if (! $this->service->existsById($id)) {

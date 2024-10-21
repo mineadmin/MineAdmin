@@ -21,6 +21,11 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MineAppStoreRoute' })
 
+const {
+  isMixedLayout,
+  getUserBarState,
+  getSettings,
+} = useSettingStore()
 const dayjs = useDayjs(null, true) as any
 const storeMeta = ref <Record<string, any>>({
   isDev: import.meta.env.DEV,
@@ -65,6 +70,16 @@ function filterRequest(name: string, item: any) {
   requestAppList()
 }
 
+const filterClass = computed(() => {
+  return {
+    'mine-appstore-filter': true,
+    '!md:top-[41px]': isMixedLayout() && !getUserBarState() && getSettings('tabbar').enable,
+    '!md:top-[0px]': !getUserBarState() && !getSettings('tabbar').enable,
+    '!md:top-[56px]': !isMixedLayout() && !getSettings('tabbar').enable,
+    '!md:top-[97px]': (isMixedLayout() && getUserBarState() && getSettings('tabbar').enable) || (!isMixedLayout() && getSettings('tabbar').enable),
+  }
+})
+
 provide('storeMeta', storeMeta)
 
 function getData() {
@@ -84,7 +99,9 @@ const t = useLocalTrans()
 
 <template>
   <div class="mine-layout relative top-0">
-    <div class="sticky top-[56px] z-999 bg-white p-3 md:top-97px dark-bg-dark-8">
+    <div
+      :class="filterClass"
+    >
       <div class="flex justify-between gap-x-6">
         <m-tabs
           v-model="storeMeta.allStore"
@@ -213,6 +230,9 @@ const t = useLocalTrans()
 </template>
 
 <style scoped lang="scss">
+.mine-appstore-filter {
+  @apply sticky top-[56px] z-999 bg-white p-3 dark-bg-dark-8 shadow-md dark-shadow-dark-4 transition-all duration-300;
+}
 .mine-appstore-list {
   @apply sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-h-60 gap-4 mt-3 relative;
 }

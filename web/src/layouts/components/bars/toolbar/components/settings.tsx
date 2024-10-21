@@ -137,7 +137,7 @@ export default defineComponent({
       )
     }
 
-    const settingsRender = (name: SystemSettings.settingType, options: { label: string, value: string }[]) => {
+    const settingsRender = (name: SystemSettings.settingType, options: { label: string, value: string, change?: (e: boolean) => void }[]) => {
       const setting = settingStore.getSettings(name)
       return (
         <>
@@ -145,7 +145,7 @@ export default defineComponent({
             <div class="mine-setting-description">
               <div class="desc-label">{item.label}</div>
               <div class="desc-value">
-                <m-switch v-model={setting[item.value]} />
+                <m-switch v-model={setting[item.value]} onChange={(e: boolean) => item?.change?.(e)} />
               </div>
             </div>
           ))}
@@ -257,9 +257,12 @@ export default defineComponent({
                 <div class="mx-auto mt-3 w-[70%]">
                   {colorModeSettings()}
                 </div>
-                {keys.value.colorMode !== 'dark' && settingsRender('app', [
-                  { label: useTrans('mineAdmin.settings.asideDark') as string, value: 'asideDark' },
-                ])}
+                {/*{keys.value.colorMode !== 'dark' && settingsRender('app', [*/}
+                {/*  { label: useTrans('mineAdmin.settings.asideDark') as string,*/}
+                {/*    value: 'asideDark',*/}
+                {/*    change: (v: boolean) => settingStore.setAsideDark(v),*/}
+                {/*  },*/}
+                {/*])}*/}
 
                 {divider(useTrans('mineAdmin.settings.primaryColorSetting') as string)}
                 <ul class="mine-setting-color-list">

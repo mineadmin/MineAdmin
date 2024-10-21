@@ -26,10 +26,15 @@ export default function useThemeColor() {
     for (let i = 1; i <= 9; i++) {
       useCssVar(`--el-color-primary-dark-${i}`, document.documentElement).value = darken(color, i / 10)
     }
+
+    if (colorMode.value === 'dark') {
+      useSettingStore().setAsideDark(false)
+    }
   }
 
   function initThemeColor() {
     setThemeColor(useSettingStore().getSettings('app').primaryColor)
+    useSettingStore().setAsideDark(useSettingStore().getSettings('app').asideDark)
   }
 
   function hexToRgb(str: string): number[] {

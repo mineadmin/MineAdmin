@@ -14,28 +14,28 @@ const http = useHttp()
  * 检查是.env 是否设置了 access_token
  */
 export function hasAccessToken() {
-  return http.get('/plugin/store/hasAccessToken')
+  return http.get('/admin/plugin/store/hasAccessToken')
 }
 
 /**
  * 请求应用列表
  */
 export function getAppList(params: Record<string, string>) {
-  return http.get('/plugin/store/index', params)
+  return http.get('/admin/plugin/store/index', params)
 }
 
 /**
  * 已购买应用
  */
 export function getPayApp() {
-  return http.get('/plugin/store/getPayApp')
+  return http.get('/admin/plugin/store/getPayApp')
 }
 
 /**
  * 本地应用安装状态
  */
 export function getLocalAppInstallList() {
-  return http.get('/plugin/store/getLocalAppInstallList')
+  return http.get('/admin/plugin/store/getLocalAppInstallList')
 }
 
 /**
@@ -50,7 +50,7 @@ export function getDetail(params: Record<string, string>) {
  */
 export function download(data: any) {
   return http.post(
-    '/plugin/store/download',
+    '/admin/plugin/store/download',
     {
       timeout: 500000,
       data,
@@ -62,12 +62,12 @@ export function download(data: any) {
  * 安装应用
  */
 export function install(data: any) {
-  return http.post('/plugin/store/install', data)
+  return http.post('/admin/plugin/store/install', data)
 }
 
 /**
  * 安装应用
  */
 export function unInstall(data: any) {
-  return http.post('/plugin/store/unInstall', data)
+  return http.post('/admin/plugin/store/unInstall', data)
 }

@@ -35,7 +35,7 @@ const pluginConfig: Plugin.PluginConfig = {
         hidden: true,
         subForceShow: true,
         breadcrumbEnable: true,
-        copyright: true,
+        copyright: false,
         cache: true,
       },
       component: () => import('./views/index.vue'),

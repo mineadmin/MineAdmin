@@ -26,7 +26,7 @@ const form = reactive<{
   password: string
   code: string
 }>({
-  username: isProduction ? '' : 'SuperAdmin',
+  username: isProduction ? '' : 'admin',
   password: isProduction ? '' : '123456',
   code: isProduction ? '' : '1234',
 })

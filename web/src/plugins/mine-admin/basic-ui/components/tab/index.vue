@@ -89,7 +89,7 @@ onMounted(() => {
     >
       <slot name="default" :item="item">
         <ma-svg-icon v-if="item.icon" :name="item.icon" :size="16" />
-        <span>{{ item.label }}</span>
+        <span>{{ typeof item.label === 'function' ? item.label?.() : item.label }}</span>
       </slot>
     </a>
   </div>

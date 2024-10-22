@@ -7,7 +7,69 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
+<i18n lang="yaml">
+zh_CN:
+  alert: 这里是 MineAdmin 官方应用市场，您可以在此页面放心下载喜欢的应用。注意：只有开发环境才能使用应用市场
+  refresh: 刷新
+  localUpload: 本地上传
+  personalInfo: 个人信息
+  filterType: 类型
+  filterPrice: 价格
+  searchPlaceholder: 搜索应用
+  all: 全部
+  allApp: 全部应用
+  localApp: 本地应用
+  typeItem:
+    mixed: 完整应用
+    backend: 后端应用
+    frontend: 前端应用
+  priceItem:
+    free: 免费应用
+    integral: 积分应用
+    paid: 付费应用
+zh_TW:
+  alert: 這裡是 MineAdmin 官方應用市場，您可以在此頁面安心下載喜歡的應用。注意：只有開發環境才能使用應用市場
+  refresh: 刷新
+  localUpload: 本地上傳
+  personalInfo: 個人資訊
+  filterType: 類型篩選
+  filterPrice: 價格篩選
+  searchPlaceholder: 搜尋應用
+  all: 全部
+  allApp: 全部應用
+  localApp: 本地應用
+  typeItem:
+    mixed: 完整應用
+    backend: 後端應用
+    frontend: 前端應用
+  priceItem:
+    free: 免費應用
+    integral: 積分應用
+    paid: 付費應用
+en:
+  alert: This is the MineAdmin official app marketplace. You can safely download your favorite apps on this page. Note:The app marketplace is only available in the development environment.
+  refresh: Refresh
+  localUpload: Upload Locally
+  personalInfo: Personal Information
+  filterType: Type Filter
+  filterPrice: Price Filter
+  searchPlaceholder: Search for Apps
+  all: All
+  allApp: All Apps
+  localApp: Local Apps
+  typeItem:
+    mixed: Full Apps
+    backend: Backend Apps
+    frontend: Frontend Apps
+  priceItem:
+    free: Free Apps
+    integral: Apps with Integral Payment
+    paid: Paid Apps
+</i18n>
+
 <script setup lang="ts">
+import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+
 const {
   getMobileState,
   isMixedLayout,
@@ -17,26 +79,28 @@ const {
 
 const storeMeta = inject('storeMeta') as Record<string, any>
 const filterParams = inject('filterParams') as Record<string, any>
+const requestAppList = inject('requestAppList') as () => void
+const t = useLocalTrans()
 
 const paramsList = reactive({
   addType: [
-    { label: '全部', value: 'all' },
-    { label: '完整应用', value: 'mixed' },
-    { label: '后端应用', value: 'backend' },
-    { label: '前端应用', value: 'frontend' },
+    { label: 'all', value: 'all' },
+    { label: 'typeItem.mixed', value: 'mixed' },
+    { label: 'typeItem.backend', value: 'backend' },
+    { label: 'typeItem.frontend', value: 'frontend' },
   ],
   types: [
-    { label: '全部', value: 'all' },
-    { label: '免费应用', value: '0' },
-    { label: '积分应用', value: '1' },
-    { label: '付费应用', value: '2' },
+    { label: 'all', value: 'all' },
+    { label: 'priceItem.free', value: '0' },
+    { label: 'priceItem.integral', value: '1' },
+    { label: 'priceItem.paid', value: '2' },
   ],
   keywords: undefined,
 })
 
-const tabsOptions = reactive([
-  { label: '全部应用', value: true, icon: 'i-material-symbols:done-all-rounded' },
-  { label: '本地应用', value: false, icon: 'i-material-symbols:local-library-outline-rounded' },
+const tabsOptions = ref([
+  { label: () => t('allApp'), value: true, icon: 'i-material-symbols:done-all-rounded' },
+  { label: () => t('localApp'), value: false, icon: 'i-material-symbols:local-library-outline-rounded' },
 ])
 
 const filterClass = computed(() => {
@@ -48,6 +112,14 @@ const filterClass = computed(() => {
     '!md:top-[97px]': !getMobileState() && ((isMixedLayout() && getUserBarState() && getSettings('tabbar').enable) || (!isMixedLayout() && getSettings('tabbar').enable)),
   }
 })
+
+function filterRequest(name: string, item: any) {
+  if (filterParams.value[name] === item.value) {
+    return true
+  }
+  filterParams.value[name] = item.value
+  requestAppList()
+}
 </script>
 
 <template>
@@ -63,7 +135,7 @@ const filterClass = computed(() => {
         type="success"
         :closable="false"
       >
-        这里是 MineAdmin 官方应用市场，您可以在此页面放心下载喜欢的应用。注意：只有开发环境才能使用应用市场
+        {{ t('alert') }}
       </el-alert>
     </div>
     <div class="mt-2 justify-between gap-x-2 rounded-md md:flex">
@@ -71,17 +143,17 @@ const filterClass = computed(() => {
         <el-space>
           <el-button>
             <ma-svg-icon name="i-ri:refresh-line" :size="16" class="mr-1" />
-            刷新
+            {{ t('refresh') }}
           </el-button>
           <el-upload :show-file-list="false" accept=".zip,.rar">
             <el-button>
               <ma-svg-icon name="i-line-md:uploading-loop" :size="18" class="mr-1" />
-              本地上传
+              {{ t('localUpload') }}
             </el-button>
           </el-upload>
           <el-button status="success">
             <ma-svg-icon name="i-material-symbols:account-circle-outline" :size="18" class="mr-1" />
-            个人信息
+            {{ t('personalInfo') }}
           </el-button>
         </el-space>
       </div>
@@ -90,22 +162,22 @@ const filterClass = computed(() => {
           v-model="filterParams.add_type"
           class="w-150px"
         >
-          <el-option v-for="item in paramsList.addType" :value="item.value" :label="item.label" />
+          <el-option v-for="item in paramsList.addType" :key="item.value" :value="item.value" :label="t(item.label)" />
           <template #label="{ label }">
-            类型：{{ label }}
+            {{ t('filterType') }}：{{ label }}
           </template>
         </el-select>
         <el-select
           v-model="filterParams.type"
           class="w-150px"
         >
-          <el-option v-for="item in paramsList.types" :value="item.value" :label="item.label" />
+          <el-option v-for="item in paramsList.types" :key="item.value" :value="item.value" :label="t(item.label)" />
           <template #label="{ label }">
-            价格：{{ label }}
+            {{ t('filterPrice') }}：{{ label }}
           </template>
         </el-select>
         <el-input
-          placeholder="搜索应用..."
+          :placeholder="t('searchPlaceholder')"
           class="w-150px"
         />
       </div>

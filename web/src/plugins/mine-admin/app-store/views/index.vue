@@ -10,15 +10,31 @@
 <i18n lang="yaml">
 zh_CN:
   appstore: 应用商店
+  noDevMainTitle: 应用商店无法使用
+  noDevSubTitle: 对不起，应用商店只在开发环境开放使用。
+  noTokenMainTitle: 未设置 MINE_ACCESS_TOKEN
+  noTokenSubTitle: 目前无法获取到应用商店数据，请先设置 MINE_ACCESS_TOKEN。
+  refreshAppStore: 刷新应用商店
 zh_TW:
   appstore: 應用商店
+  noDevMainTitle: 應用商店無法使用
+  noDevSubTitle: 對不起，應用商店僅在開發環境開放使用。
+  noTokenMainTitle: 未設置 MINE_ACCESS_TOKEN
+  noTokenSubTitle: 目前無法獲取到應用商店數據，請先設置 MINE_ACCESS_TOKEN。
+  refreshAppStore: 刷新應用商店
 en:
-  appstore: App store
+  appstore: App Store
+  noDevMainTitle: App Store is not available
+  noDevSubTitle: Sorry, the App Store is only open for use in the development environment.
+  noTokenMainTitle: MINE_ACCESS_TOKEN is not set
+  noTokenSubTitle: Currently unable to retrieve App Store data. Please set MINE_ACCESS_TOKEN first.
+  refreshAppStore: Refresh App Store
 </i18n>
 
 <script setup lang="ts">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
-import { hasAccessToken } from '../api/app.ts'
+import { isUndefined } from 'lodash-es'
+import { getAppList, getLocalAppInstallList, getPayApp, hasAccessToken } from '../api/app.ts'
 import AppStoreNotice from './notice.vue'
 import AppStoreFilter from './filter.vue'
 import AppStoreList from './list.vue'
@@ -28,11 +44,20 @@ defineOptions({ name: 'MineAppStoreRoute' })
 const tabStore = useTabStore()
 const t = useLocalTrans()
 const noticeRef = ref()
+const appList = ref<any[]>()
 const storeMeta = ref<Record<string, any>>({
   isDev: import.meta.env.DEV,
   isHasAccessToken: false,
   loading: false,
   allStore: true,
+  total: 0,
+})
+const dataList = ref<Record<string, any[]>>({
+  my: [],
+  local: [],
+  original: [],
+  onlyLocal: [],
+  list: [],
 })
 
 const filterParams = ref<Record<string, any>>({
@@ -44,6 +69,25 @@ const filterParams = ref<Record<string, any>>({
   tag: undefined,
 })
 
+function requestAppList(params = { page: 1, size: 9999 }) {
+  const requestParams = Object.assign(filterParams.value, params)
+  storeMeta.value.loading = true
+  getAppList(requestParams).then((res: any) => {
+    if (res.code === 200) {
+      const { list, rowTotal } = res.data?.data
+      dataList.value.original = list
+      dataList.value.onlyLocal = dataList.value.original.filter(item => !isUndefined(dataList.value.my[`${item.identifier}`]))
+      storeMeta.value.total = rowTotal
+      storeMeta.value.loading = false
+      setAppList()
+    }
+  })
+}
+
+function setAppList() {
+  appList.value = storeMeta.value.allStore ? dataList.value.original : dataList.value.onlyLocal
+}
+
 if (storeMeta.value.isDev) {
   hasAccessToken().then((res: any) => {
     if (res.code === 200) {
@@ -53,10 +97,27 @@ if (storeMeta.value.isDev) {
       }
     }
   })
+
+  requestAppList()
 }
+
+getPayApp().then((res: any) => {
+  if (res.code === 200) {
+    dataList.value.my = res.data
+  }
+})
+
+getLocalAppInstallList().then((res: any) => {
+  if (res.code === 200) {
+    dataList.value.local.value = res.data
+  }
+})
 
 provide('storeMeta', storeMeta)
 provide('filterParams', filterParams)
+provide('dataList', dataList)
+provide('appList', appList)
+provide('requestAppList', requestAppList)
 </script>
 
 <template>
@@ -70,19 +131,19 @@ provide('filterParams', filterParams)
       v-if="!storeMeta.isDev"
       class="h-680px"
       icon="warning"
-      title="应用商店无法使用"
-      sub-title="对不起，应用商店只在开发环境开放使用。"
+      :title="t('noDevMainTitle')"
+      :sub-title="t('noDevSubTitle')"
     />
     <el-result
-      v-if="!storeMeta.isHasAccessToken"
+      v-if="storeMeta.isDev && !storeMeta.isHasAccessToken"
       class="h-680px"
       icon="error"
-      title="未设置 MINE_ACCESS_TOKEN"
-      sub-title="目前无法获取到应用商店数据，请先设置 MINE_ACCESS_TOKEN。"
+      :title="t('noTokenMainTitle')"
+      :sub-title="t('noTokenSubTitle')"
     >
       <template #extra>
         <el-button type="primary" @click="tabStore.refreshTab()">
-          刷新应用商店
+          {{ t('refreshAppStore') }}
         </el-button>
       </template>
     </el-result>

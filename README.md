@@ -14,8 +14,8 @@
 <p align="center">
     <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
     <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
-    <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v2.0 LTS" />
+    <img src="https://svg.hamm.cn/badge.svg?key=License&value=MIT&color=da4a00" />
+    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v3.0 RC" />
 </p>
 
 ## 项目介绍
@@ -32,12 +32,6 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 - 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
 - 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
 
-## 前端仓库地址
-移步前端仓库
-
-- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
-- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
-
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 
@@ -45,26 +39,13 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 ## 内置功能
 
-1.  用户管理，完成用户添加、修改、删除配置，支持不同用户登录后台看到不同的首页
-2.  部门管理，部门组织机构（公司、部门、小组），树结构展现支持数据权限
-3.  岗位管理，可以给用户配置所担任职务
-4.  角色管理，角色菜单权限分配、角色数据权限分配
-5.  菜单管理，配置系统菜单和按钮等
-6.  字典管理，对系统中经常使用并且固定的数据可以重复使用和维护
-7.  系统配置，系统的一些常用设置管理
-8.  操作日志，用户对系统的一些正常操作的查询
-9.  登录日志，用户登录系统的记录查询
-10. 在线用户，查看当前登录的用户
-11. 服务监控，查看当前服务器状态和PHP环境等信息
-12. 附件管理，管理当前系统上传的文件及图片等信息
-13. 数据表维护，对系统的数据表可以进行清理碎片和优化
-14. 模块管理，管理系统当前所有模块
-15. 定时任务，在线（添加、修改、删除)任务调度包含执行结果日志
-16. 代码生成，前后端代码的生成（php、vue、js、sql），支持下载和生成到模块
-17. 缓存监控，查看Redis信息和系统所使用key的信息
-18. API管理，对应用和接口管理、接口授权等功能。接口文档自动生成，输入、输出参数检查等
-19. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
-20. 应用市场，可下载各种基础应用、插件、前端组件等等（开发中...）
+1. 用户管理，完成用户添加、修改、删除配置，支持不同用户登录后台看到不同的首页
+2. 角色管理，角色菜单权限分配、角色数据权限分配
+3. 菜单管理，配置系统菜单和按钮等
+4. 操作日志，用户对系统的一些正常操作的查询
+5. 登录日志，用户登录系统的记录查询
+6. 附件管理，管理当前系统上传的文件及图片等信息
+7. 应用市场，可下载各种基础应用、插件、前端组件等等
 
 ## 环境需求
 
@@ -91,17 +72,6 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ```shell
 composer create-project mineadmin/mineadmin --keep-vcs
 ```
-
-## 项目安装
-
-配置 `.env` 填写 `redis` `db` 相关信息，保存关闭。
-
-打开终端，执行安装命令，执行Migrates数据迁移文件和SQL数据填充，完成安装。
-```shell
-php bin/hyperf.php mine:install
-```
-
-[点这里 -> 查看常见问题](https://doc.mineadmin.com/faqs/)
 
 ## 免责声明
 [《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)
@@ -149,16 +119,12 @@ php bin/hyperf.php mine:install
 [![贡献者趋势](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 
 ## 演示图片
-<img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl8eK.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl1L6.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklNJH.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklJoD.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkllsx.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklZoF.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklUWd.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl0yt.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkltFe.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkluW9.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklnJJ.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklmi4.jpg" />
+[![pAdQKPJ.png](https://s21.ax1x.com/2024/10/22/pAdQKPJ.png)](https://imgse.com/i/pAdQKPJ)
+[![pAdQlx1.png](https://s21.ax1x.com/2024/10/22/pAdQlx1.png)](https://imgse.com/i/pAdQlx1)
+[![pAdQQ2R.png](https://s21.ax1x.com/2024/10/22/pAdQQ2R.png)](https://imgse.com/i/pAdQQ2R)
+[![pAdQGqK.png](https://s21.ax1x.com/2024/10/22/pAdQGqK.png)](https://imgse.com/i/pAdQGqK)
+[![pAdQYVO.png](https://s21.ax1x.com/2024/10/22/pAdQYVO.png)](https://imgse.com/i/pAdQYVO)
+[![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)
+[![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)
+[![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
+

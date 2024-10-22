@@ -18,6 +18,7 @@
     </include>
     <exclude>
       <directory suffix=".php">./app/Schema</directory>
+      <directory suffix=".php">./databases</directory>
     </exclude>
   </source>
 </phpunit>

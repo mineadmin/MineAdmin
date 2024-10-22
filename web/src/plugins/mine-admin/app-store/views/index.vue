@@ -15,6 +15,7 @@ zh_CN:
   noTokenMainTitle: 未设置 MINE_ACCESS_TOKEN
   noTokenSubTitle: 目前无法获取到应用商店数据，请先设置 MINE_ACCESS_TOKEN。
   refreshAppStore: 刷新应用商店
+  notFoundApp: 没有找到任何应用
 zh_TW:
   appstore: 應用商店
   noDevMainTitle: 應用商店無法使用
@@ -22,6 +23,7 @@ zh_TW:
   noTokenMainTitle: 未設置 MINE_ACCESS_TOKEN
   noTokenSubTitle: 目前無法獲取到應用商店數據，請先設置 MINE_ACCESS_TOKEN。
   refreshAppStore: 刷新應用商店
+  notFoundApp: 沒有找到任何應用
 en:
   appstore: App Store
   noDevMainTitle: App Store is not available
@@ -29,11 +31,13 @@ en:
   noTokenMainTitle: MINE_ACCESS_TOKEN is not set
   noTokenSubTitle: Currently unable to retrieve App Store data. Please set MINE_ACCESS_TOKEN first.
   refreshAppStore: Refresh App Store
+  notFoundApp: No apps found
 </i18n>
 
 <script setup lang="ts">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { isUndefined } from 'lodash-es'
+import type { AppVo } from '../api/app.ts'
 import { getAppList, getLocalAppInstallList, getPayApp, hasAccessToken } from '../api/app.ts'
 import AppStoreNotice from './notice.vue'
 import AppStoreFilter from './filter.vue'
@@ -64,8 +68,8 @@ const filterParams = ref<Record<string, any>>({
   page: 1,
   size: 9999,
   keywords: undefined,
-  add_type: 'all',
-  type: 'all',
+  add_type: undefined,
+  type: undefined,
   tag: undefined,
 })
 
@@ -76,16 +80,12 @@ function requestAppList(params = { page: 1, size: 9999 }) {
     if (res.code === 200) {
       const { list, rowTotal } = res.data?.data
       dataList.value.original = list
-      dataList.value.onlyLocal = dataList.value.original.filter(item => !isUndefined(dataList.value.my[`${item.identifier}`]))
+      dataList.value.onlyLocal = list.filter((item: AppVo) => !isUndefined(dataList.value.my[`${item.identifier}`]))
+      dataList.value.list = storeMeta.value.allStore ? dataList.value.original : dataList.value.onlyLocal
       storeMeta.value.total = rowTotal
       storeMeta.value.loading = false
-      setAppList()
     }
   })
-}
-
-function setAppList() {
-  appList.value = storeMeta.value.allStore ? dataList.value.original : dataList.value.onlyLocal
 }
 
 if (storeMeta.value.isDev) {
@@ -109,7 +109,7 @@ getPayApp().then((res: any) => {
 
 getLocalAppInstallList().then((res: any) => {
   if (res.code === 200) {
-    dataList.value.local.value = res.data
+    dataList.value.local = res.data
   }
 })
 
@@ -125,7 +125,8 @@ provide('requestAppList', requestAppList)
     <AppStoreNotice ref="noticeRef" />
     <template v-if="storeMeta.isDev && storeMeta.isHasAccessToken">
       <AppStoreFilter />
-      <AppStoreList />
+      <AppStoreList v-if="dataList.list.length > 0" />
+      <el-empty v-else class="mt-40" :description="t('notFoundApp')" />
     </template>
     <el-result
       v-if="!storeMeta.isDev"

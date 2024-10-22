@@ -69,6 +69,7 @@ en:
 
 <script setup lang="ts">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+import { useThrottleFn } from '@vueuse/core'
 
 const {
   getMobileState,
@@ -81,8 +82,13 @@ const storeMeta = inject('storeMeta') as Record<string, any>
 const filterParams = inject('filterParams') as Record<string, any>
 const requestAppList = inject('requestAppList') as () => void
 const t = useLocalTrans()
+const params = reactive({
+  add_type: 'all',
+  type: 'all',
+  keywords: undefined,
+})
 
-const paramsList = reactive({
+const paramsOptions = reactive({
   addType: [
     { label: 'all', value: 'all' },
     { label: 'typeItem.mixed', value: 'mixed' },
@@ -95,7 +101,6 @@ const paramsList = reactive({
     { label: 'priceItem.integral', value: '1' },
     { label: 'priceItem.paid', value: '2' },
   ],
-  keywords: undefined,
 })
 
 const tabsOptions = ref([
@@ -113,11 +118,13 @@ const filterClass = computed(() => {
   }
 })
 
-function filterRequest(name: string, item: any) {
-  if (filterParams.value[name] === item.value) {
-    return true
-  }
-  filterParams.value[name] = item.value
+const execSearchKeywords = useThrottleFn(() => {
+  filterParams.value.keywords = params.keywords
+  requestAppList()
+}, 300)
+
+function filterRequest(name: string, value: string) {
+  filterParams.value[name] = value === 'all' ? undefined : value
   requestAppList()
 }
 </script>
@@ -141,7 +148,7 @@ function filterRequest(name: string, item: any) {
     <div class="mt-2 justify-between gap-x-2 rounded-md md:flex">
       <div>
         <el-space>
-          <el-button>
+          <el-button @click="requestAppList">
             <ma-svg-icon name="i-ri:refresh-line" :size="16" class="mr-1" />
             {{ t('refresh') }}
           </el-button>
@@ -159,26 +166,30 @@ function filterRequest(name: string, item: any) {
       </div>
       <div class="mt-2 flex items-center gap-x-3 md:mt-0">
         <el-select
-          v-model="filterParams.add_type"
+          v-model="params.add_type"
           class="w-150px"
+          @change="(v) => filterRequest('add_type', v)"
         >
-          <el-option v-for="item in paramsList.addType" :key="item.value" :value="item.value" :label="t(item.label)" />
+          <el-option v-for="item in paramsOptions.addType" :key="item.value" :value="item.value" :label="t(item.label)" />
           <template #label="{ label }">
             {{ t('filterType') }}：{{ label }}
           </template>
         </el-select>
         <el-select
-          v-model="filterParams.type"
+          v-model="params.type"
           class="w-150px"
+          @change="(v) => filterRequest('type', v)"
         >
-          <el-option v-for="item in paramsList.types" :key="item.value" :value="item.value" :label="t(item.label)" />
+          <el-option v-for="item in paramsOptions.types" :key="item.value" :value="item.value" :label="t(item.label)" />
           <template #label="{ label }">
             {{ t('filterPrice') }}：{{ label }}
           </template>
         </el-select>
         <el-input
+          v-model="params.keywords"
           :placeholder="t('searchPlaceholder')"
           class="w-150px"
+          @input="execSearchKeywords"
         />
       </div>
     </div>

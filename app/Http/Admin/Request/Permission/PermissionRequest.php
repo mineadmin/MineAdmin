@@ -32,8 +32,8 @@ class PermissionRequest extends FormRequest
     {
         return [
             'nickname' => 'sometimes|string|max:255',
-            'new_password' => 'sometimes|confirmed|string',
-            'new_password_confirmation' => 'sometimes|string',
+            'new_password' => 'sometimes|confirmed|string|min:8',
+            'new_password_confirmation' => 'sometimes|string|min:8',
             'old_password' => ['sometimes', 'string'],
             'avatar' => 'sometimes|string|max:255',
             'signed' => 'sometimes|string|max:255',

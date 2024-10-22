@@ -20,7 +20,7 @@ use HyperfTests\HttpTestCase;
 
 /**
  * @internal
- * @coversNothing
+ * 
  */
 abstract class ControllerCase extends HttpTestCase
 {

@@ -8,13 +8,16 @@
     <testsuite name="Tests">
       <directory suffix="Test.php">./tests</directory>
     </testsuite>
+
   </testsuites>
   <source>
     <include>
       <directory suffix=".php">./app</directory>
       <directory suffix=".php">./databases</directory>
       <directory suffix=".php">./plugin</directory>
-      <directory prefix="App" suffix=".php">./runtime/container/proxy</directory>
     </include>
+    <exclude>
+      <directory suffix=".php">./app/Schema</directory>
+    </exclude>
   </source>
 </phpunit>

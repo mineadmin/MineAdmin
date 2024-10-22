@@ -21,7 +21,7 @@ use Hyperf\Stringable\Str;
 
 /**
  * @internal
- * @coversNothing
+ * 
  */
 final class UserOperationLogControllerTest extends ControllerCase
 {

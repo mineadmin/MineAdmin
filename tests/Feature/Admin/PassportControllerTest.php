@@ -20,7 +20,7 @@ use HyperfTests\HttpTestCase;
 
 /**
  * @internal
- * @coversNothing
+ * 
  */
 final class PassportControllerTest extends HttpTestCase
 {

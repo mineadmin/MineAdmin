@@ -2,4 +2,6 @@
 
 set -e
 
+cp phpunit.xml.dist phpunit.xml
+
 composer coverage

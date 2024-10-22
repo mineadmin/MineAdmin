@@ -21,7 +21,7 @@ use Hyperf\Stringable\Str;
 
 /**
  * @internal
- * @coversNothing
+ * 
  */
 final class MenuRepositoryTest extends AbstractTestRepository
 {

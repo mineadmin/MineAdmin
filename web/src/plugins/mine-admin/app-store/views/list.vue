@@ -7,22 +7,23 @@
  - @Author X.Mo<root@imoi.cn>
  - @Link   https://github.com/mineadmin
 -->
+<i18n lang="yaml">
+zh_CN:
+  pluginNotExists: '要安装的插件：%{name} 不存在'
+zh_TW:
+  pluginNotExists: '要安裝的外掛程式：%{name} 不存在'
+en:
+  pluginNotExists: 'Plugin to install：%{name} Does not exist'
+</i18n>
 <script setup lang="ts">
+import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+
 const storeMeta = inject('storeMeta') as Record<string, any>
 const filterParams = inject('storeMeta') as Record<string, any>
 
+const t = useLocalTrans()
+const route = useRoute()
 const dayjs = useDayjs(null, true) as any
-
-function requestAppList(params = { page: 1, size: 9999 }) {
-}
-
-function filterRequest(name: string, item: any) {
-  if (filterParams[name] === item.value) {
-    return true
-  }
-  filterParams[name] = item.value
-  requestAppList()
-}
 
 function getData() {
   return Array.from({ length: 12 }).fill(0).map((_item, index) => ({
@@ -35,6 +36,18 @@ function getData() {
     description: '一个应用插件',
   }))
 }
+
+onMounted(() => {
+  if (route.query?.install) {
+    const installQuery = route.query.install.split('/')[1] ?? undefined
+    if (installQuery) {
+      openDetailModal({ identifier: installQuery })
+    }
+    else {
+      msg.alertError(`${t('pluginNotExists', { name: route.query.install })}`)
+    }
+  }
+})
 </script>
 
 <template>

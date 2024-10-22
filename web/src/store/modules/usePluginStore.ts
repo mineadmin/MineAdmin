@@ -8,6 +8,7 @@
  * @Link   https://github.com/mineadmin
  */
 import type { App } from 'vue'
+import { Plugin } from 'vue'
 import type { Plugin } from '#/global'
 
 const usePluginStore = defineStore(
@@ -15,15 +16,20 @@ const usePluginStore = defineStore(
   () => {
     interface keyPlugins { [key: string]: Plugin.PluginConfig }
     const plugins = ref<keyPlugins>({})
+    const useList = ref<Record<string, any>>({})
+    const instance = ref<App>()
 
     async function registerPlugin(app: App) {
+      instance.value = app
       plugins.value = app.config.globalProperties.$plugins as keyPlugins
       Object.keys(plugins.value).map(async (name: string) => {
         const plugin = plugins.value[name] as Plugin.PluginConfig
         if (plugin.config?.enable && plugin?.hooks && plugin?.hooks?.start) {
           await plugin.hooks.start(plugin.config)
         }
-        plugin?.config?.enable && app.use(plugin.install)
+        if (plugin?.config?.enable) {
+          useList.value[name] = app.use(plugin.install)
+        }
       })
     }
 
@@ -45,10 +51,32 @@ const usePluginStore = defineStore(
       return plugins.value as keyPlugins
     }
 
+    async function enabled(pluginName: string): boolean {
+      if (plugins.value[pluginName]) {
+        const plg = plugins.value[pluginName]
+        plg.config.enable = true
+        if (plg?.hooks && plg?.hooks?.start) {
+          await plg.hooks.start(plg.config)
+        }
+        if (!useList.value[pluginName]) {
+          useList.value[pluginName] = instance.value.use(plg.install)
+        }
+      }
+    }
+
+    function disabled(pluginName: string): boolean {
+      if (plugins.value[pluginName]) {
+        const plg = plugins.value[pluginName]
+        plg.config.enable = false
+      }
+    }
+
     return {
       registerPlugin,
       callHooks,
       getPluginConfig,
+      enabled,
+      disabled,
     }
   },
 )

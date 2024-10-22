@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Repository;
 
 use App\Model\UserOperationLog;
-use App\Repository\UserOperationLogRepository;
-use Carbon\Carbon;
 use Faker\Provider\Internet;
 use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
@@ -26,7 +24,7 @@ use Hyperf\Stringable\Str;
  */
 final class UserOperationLogRepositoryTest extends AbstractTestRepository
 {
-    protected string $repositoryClass = UserOperationLogRepository::class;
+    protected string $repositoryClass = \App\Repository\Logstash\UserOperationLogRepository::class;
 
     protected function getAttributes(): array
     {

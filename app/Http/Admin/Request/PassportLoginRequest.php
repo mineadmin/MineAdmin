@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Request\Passport;
+namespace App\Http\Admin\Request;
 
 use Hyperf\Collection\Arr;
 use Hyperf\Swagger\Annotation\Property;
@@ -22,7 +22,7 @@ use Mine\Support\Request\ClientIpRequestTrait;
     new Property('username', description: '用户名', type: 'string'),
     new Property('password', description: '密码', type: 'string'),
 ])]
-class LoginRequest extends FormRequest
+class PassportLoginRequest extends FormRequest
 {
     use ClientIpRequestTrait;
 

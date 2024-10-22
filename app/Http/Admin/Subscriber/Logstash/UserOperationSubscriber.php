@@ -10,11 +10,11 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Admin\Subscriber;
+namespace App\Http\Admin\Subscriber\Logstash;
 
 use App\Http\Common\Event\RequestOperationEvent;
+use App\Service\LogStash\UserOperationLogService;
 use App\Service\Permission\UserService;
-use App\Service\UserOperationLogService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;

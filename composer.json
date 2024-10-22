@@ -118,7 +118,8 @@
       "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations"
     ],
     "coverage": [
-      "co-phpunit --prepend tests/bootstrap.php --colors=always --coverage-xml tests/coverage"
+      "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always --coverage-xml tests/coverage",
+      "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations --colors=always --coverage-xml tests/coverage"
     ],
     "cs-fix": "php-cs-fixer fix $1",
     "analyse": "phpstan analyse --memory-limit 500M -l 5 -c phpstan.neon.dist ./app ./config",

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\Request\Passport\LoginRequest;
+use App\Http\Admin\Request\PassportLoginRequest;
 use App\Http\Admin\Vo\PassportLoginVo;
 use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
@@ -53,26 +53,23 @@ final class PassportController extends AbstractController
         example: '{"code":200,"message":"成功","data":{"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","refresh_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjIwOTQwNTYsIm5iZiI6MTcyMjA5NDAiwiZXhwIjoxNzIyMDk0MzU2fQ.7EKiNHb_ZeLJ1NArDpmK6sdlP7NsDecsTKLSZn_3D7k","expire_at":300}}'
     )]
     #[OA\RequestBody(content: new OA\JsonContent(
-        ref: LoginRequest::class,
+        ref: PassportLoginRequest::class,
         title: '登录请求参数',
         required: ['username', 'password'],
         example: '{"username":"admin","password":"123456"}'
     ))]
-    public function login(LoginRequest $request): Result
+    public function login(PassportLoginRequest $request): Result
     {
         $username = (string) $request->input('username');
         $password = (string) $request->input('password');
-        $ip = Arr::first(array: $request->getClientIps(), callback: static fn ($val) => $val ?: null, default: '0.0.0.0');
         $browser = $request->header('User-Agent') ?: 'unknown';
-        // todo 用户系统的获取
         $os = $request->header('User-Agent') ?: 'unknown';
-
         return $this->success(
             $this->passportService->login(
                 $username,
                 $password,
                 Type::SYSTEM,
-                $ip,
+                $request->ip(),
                 $browser,
                 $os
             )

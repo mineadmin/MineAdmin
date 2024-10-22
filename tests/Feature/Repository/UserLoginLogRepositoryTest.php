@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Repository;
 
 use App\Model\UserLoginLog;
-use App\Repository\UserLoginLogRepository;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\DbConnection\Model\Model;
@@ -36,7 +35,7 @@ final class UserLoginLogRepositoryTest extends AbstractTestRepository
      * @property Carbon $login_time 登录时间
      * @property string $remark 备注
      */
-    protected string $repositoryClass = UserLoginLogRepository::class;
+    protected string $repositoryClass = \App\Repository\Logstash\UserLoginLogRepository::class;
 
     protected function getAttributes(): array
     {

@@ -10,13 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Service;
+namespace App\Service\LogStash;
 
-use App\Repository\UserLoginLogRepository;
+use App\Repository\Logstash\UserOperationLogRepository;
+use App\Service\IService;
 
-final class UserLoginLogService extends IService
+final class UserOperationLogService extends IService
 {
     public function __construct(
-        protected readonly UserLoginLogRepository $repository
+        protected readonly UserOperationLogRepository $repository
     ) {}
 }

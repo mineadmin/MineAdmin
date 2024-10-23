@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * 
  */
 final class FactoryTest extends TestCase
 {

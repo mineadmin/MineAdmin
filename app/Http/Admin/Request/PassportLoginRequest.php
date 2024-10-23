@@ -25,7 +25,8 @@ use Mine\Support\Request\ClientOsTrait;
 ])]
 class PassportLoginRequest extends FormRequest
 {
-    use ClientIpRequestTrait, ClientOsTrait;
+    use ClientIpRequestTrait;
+    use ClientOsTrait;
 
     public function authorize(): bool
     {

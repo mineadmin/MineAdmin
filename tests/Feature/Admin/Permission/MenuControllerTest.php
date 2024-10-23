@@ -19,7 +19,6 @@ use HyperfTests\Feature\Admin\CrudControllerCase;
 
 /**
  * @internal
- * 
  */
 final class MenuControllerTest extends CrudControllerCase
 {

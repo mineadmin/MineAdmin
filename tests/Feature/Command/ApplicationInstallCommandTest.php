@@ -21,7 +21,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * @internal
- * 
  */
 #[Group('migrations')]
 final class ApplicationInstallCommandTest extends TestCase

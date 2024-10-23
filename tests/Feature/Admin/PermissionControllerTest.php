@@ -23,7 +23,6 @@ use Mine\Casbin\Rule\Rule;
 
 /**
  * @internal
- * 
  */
 final class PermissionControllerTest extends ControllerCase
 {

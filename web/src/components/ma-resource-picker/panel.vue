@@ -18,7 +18,6 @@ zh_TW:
 
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import { Search } from '@element-plus/icons-vue'
 import ContextMenu from '@imengyu/vue3-context-menu'
 import type { FileType, Resource, ResourcePanelProps } from './type.ts'
 
@@ -303,7 +302,7 @@ onMounted(async () => {
           }"
         >
           <template #suffix>
-            <el-icon><Search /></el-icon>
+            <ma-svg-icon name="i-material-symbols:search-rounded" :size="20" />
           </template>
         </el-input>
       </div>

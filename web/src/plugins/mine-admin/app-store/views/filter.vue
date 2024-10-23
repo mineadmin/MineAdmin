@@ -220,7 +220,7 @@ function filterRequest(name: string, value: string) {
           </el-button>
         </el-space>
       </div>
-      <div class="mt-2 flex items-center gap-x-3 md:mt-0">
+      <div v-if="storeMeta.allStore" class="mt-2 flex items-center gap-x-3 md:mt-0">
         <el-select
           v-model="params.add_type"
           class="w-150px"

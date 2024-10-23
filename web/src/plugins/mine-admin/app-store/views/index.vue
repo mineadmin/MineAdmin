@@ -36,12 +36,11 @@ en:
 
 <script setup lang="ts">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
-import { isUndefined } from 'lodash-es'
-import type { AppVo } from '../api/app.ts'
 import { getAppList, getLocalAppInstallList, getPayApp, hasAccessToken } from '../api/app.ts'
 import AppStoreNotice from './notice.vue'
 import AppStoreFilter from './filter.vue'
 import AppStoreList from './list.vue'
+import AppStoreLocalList from './localList.vue'
 
 defineOptions({ name: 'MineAppStoreRoute' })
 
@@ -60,8 +59,6 @@ const storeMeta = ref<Record<string, any>>({
 const dataList = ref<Record<string, any[]>>({
   my: [],
   local: [],
-  original: [],
-  onlyLocal: [],
   list: [],
 })
 
@@ -80,9 +77,7 @@ function requestAppList(params = { page: 1, size: 9999 }) {
   getAppList(requestParams).then((res: any) => {
     if (res.code === 200) {
       const { list, rowTotal } = res.data?.data
-      dataList.value.original = list
-      dataList.value.onlyLocal = list.filter((item: AppVo) => !isUndefined(dataList.value.my[`${item.identifier}`]))
-      dataList.value.list = storeMeta.value.allStore ? dataList.value.original : dataList.value.onlyLocal
+      dataList.value.list = list
       storeMeta.value.total = rowTotal
       storeMeta.value.loading = false
     }
@@ -97,6 +92,7 @@ if (storeMeta.value.isDev) {
         noticeRef.value?.open?.()
       }
       else {
+        requestAppList()
         getPayApp().then((res: any) => {
           if (res.code === 200) {
             dataList.value.my = res.data
@@ -107,7 +103,6 @@ if (storeMeta.value.isDev) {
             dataList.value.local = res.data
           }
         })
-        requestAppList()
       }
     }
   })
@@ -125,7 +120,8 @@ provide('requestAppList', requestAppList)
     <AppStoreNotice ref="noticeRef" />
     <template v-if="storeMeta.isDev && storeMeta.isHasAccessToken">
       <AppStoreFilter />
-      <AppStoreList v-if="dataList.list.length > 0" />
+      <AppStoreList v-if="dataList.list.length > 0 && storeMeta.allStore" />
+      <AppStoreLocalList v-if="!storeMeta.allStore" />
       <el-empty v-if="dataList.list.length === 0 && !storeMeta.loading" class="mt-40" :description="t('notFoundApp')" />
     </template>
     <el-result

@@ -10,10 +10,16 @@
 <i18n lang="yaml">
 zh_CN:
   pluginNotExists: '要安装的插件：%{name} 不存在'
+  free: 免费
+  point: 积分
 zh_TW:
   pluginNotExists: '要安裝的外掛程式：%{name} 不存在'
+  free: 免費
+  point: 積分
 en:
   pluginNotExists: 'Plugin to install：%{name} Does not exist'
+  free: free
+  point: points
 </i18n>
 
 <script setup lang="ts">
@@ -21,6 +27,7 @@ import AppStoreDetail from './detail.vue'
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import discount from '../utils/discount.ts'
+import { isUndefined } from 'lodash-es'
 
 const storeMeta = inject('storeMeta') as Record<string, any>
 const dataList = inject('dataList') as Record<string, any>
@@ -33,6 +40,10 @@ const dayjs = useDayjs(null, true) as any
 
 function openDetail(identifier: string) {
   detailRef.value.open(identifier)
+}
+
+function checkInstallStatus(identifier: string) {
+  return !isUndefined(dataList.value.local[identifier]) && dataList.value.local[identifier].status
 }
 
 onMounted(() => {
@@ -54,6 +65,18 @@ onMounted(() => {
       v-for="item in dataList.list"
       class="appstore-item"
     >
+      <div
+        v-if="dataList.my.includes(item.identifier)"
+        class="absolute top-2.5 z-10 w-auto origin-center rotate-45 bg-red-600 px-5 text-white -right-5"
+      >
+        已购买
+      </div>
+      <div
+        v-if="checkInstallStatus(item.identifier)"
+        class="absolute top-8 z-10 w-32 origin-center rotate-45 bg-lime-600 px-5 text-center text-white -right-11"
+      >
+        已安装
+      </div>
       <a class="h-44 w-full" href="javascript:" @click="openDetail(item.identifier)">
         <div class="relative">
           <el-image
@@ -85,15 +108,15 @@ onMounted(() => {
           </div>
           <div class="text-right">
             <el-tag v-if="item.auth.type === 0" type="primary">
-              免费
+              {{ t('free') }}
             </el-tag>
             <div v-else-if="item.auth.type === 1">
               <div class="flex items-center justify-end leading-6">
                 <div v-if="item.auth?.integral_discount !== '0.00'" class="text-gray-400 line-through">
-                  {{ item.auth?.integral_quota }} 积分
+                  {{ item.auth?.integral_quota }} {{ t('point') }}
                 </div>
                 <div class="ml-2 text-emerald-700">
-                  {{ discount(item.auth?.integral_discount, item.auth?.integral_quota) }} 积分
+                  {{ discount(item.auth?.integral_discount, item.auth?.integral_quota) }} {{ t('point') }}
                 </div>
               </div>
             </div>

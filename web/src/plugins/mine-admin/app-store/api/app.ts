@@ -10,6 +10,15 @@
 
 const http = useHttp()
 
+interface versionType {
+  preview_url?: string
+  require?: string
+  update_log?: string
+  version?: string
+  version_desc?: string
+  created_at?: string
+}
+
 export interface AppVo {
   id?: number
   name?: string
@@ -18,28 +27,26 @@ export interface AppVo {
   avatar?: string
   homepage?: string[]
   space?: string
+  app?: Record<string, any>
   tags?: {
     name?: string
     color?: string
-  }
+  }[]
   updated_at?: string
   auth?: {
     type?: number
     advance_quota?: string
     basic_quota?: string
+    integral_discount?: string
+    integral_quota?: string
     advance_discount?: string
     basic_discount?: string
   }
   created_at?: string
-  created_by?: string
+  created_by?: string | Record<string, any>
   description?: string
-  versions?: {
-    preview_url?: string
-    require?: string
-    update_log?: string
-    version?: string
-    version_desc?: string
-  }[]
+  version?: versionType[]
+  versions?: versionType[]
 }
 
 /**
@@ -74,7 +81,7 @@ export function getLocalAppInstallList() {
  * 详情
  */
 export function getDetail(params: Record<string, string>) {
-  return http.get('plugin/store/detail', params)
+  return http.get('/admin/plugin/store/detail', { params })
 }
 
 /**

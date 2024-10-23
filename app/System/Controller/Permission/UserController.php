@@ -19,12 +19,14 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineCollection;
 use Mine\MineController;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
@@ -36,6 +38,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class UserController.
  */
 #[Controller(prefix: 'system/user'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class UserController extends MineController
 {
     #[Inject]
@@ -181,9 +184,9 @@ class UserController extends MineController
      * @throws NotFoundExceptionInterface
      */
     #[PostMapping('updateInfo')]
-    public function updateInfo(): ResponseInterface
+    public function updateInfo(SystemUserRequest $request): ResponseInterface
     {
-        return $this->service->updateInfo(array_merge($this->request->all(), ['id' => user()->getId()])) ? $this->success() : $this->error();
+        return $this->service->updateInfo(array_merge($request->all(), ['id' => user()->getId()])) ? $this->success() : $this->error();
     }
 
     /**

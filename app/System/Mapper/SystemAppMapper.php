@@ -93,7 +93,9 @@ class SystemAppMapper extends AbstractMapper
         }
         $systemApiGroupMapper = container()->get(SystemApiGroupMapper::class);
         $data['apiGroup'] = $systemApiGroupMapper->get(function ($query) use ($groupIds) {
-            /* @var Hyperf\Database\Model\Builder $query */
+            /*
+             * @var Builder $query
+             */
             return $query->whereIn('id', array_unique($groupIds));
         }, ['id', 'name']);
 

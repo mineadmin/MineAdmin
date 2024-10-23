@@ -40,7 +40,9 @@ class SettingGenerateTablesMapper extends AbstractMapper
     #[Transaction]
     public function delete(array $ids): bool
     {
-        /* @var SettingGenerateTables $model */
+        /**
+         * @var SettingGenerateTables $model
+         */
         foreach ($this->model::query()->whereIn('id', $ids)->get() as $model) {
             if ($model) {
                 $model->columns()->delete();

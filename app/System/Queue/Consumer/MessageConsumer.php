@@ -15,7 +15,7 @@ namespace App\System\Queue\Consumer;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
-use PhpAmqpLib\Message\AMQPMessage;
+use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
 
 /**
  * 后台内部消息队列消费处理.
@@ -23,14 +23,41 @@ use PhpAmqpLib\Message\AMQPMessage;
 // #[Consumer(exchange: "mineadmin", routingKey: "message.routing", queue: "message.queue", name: "message.queue", nums: 1)]
 class MessageConsumer extends ConsumerMessage
 {
-    public function consumeMessage($data, AMQPMessage $message): Result
-    {
-        return parent::consumeMessage($data, $message);
-    }
+    /**
+     * @Message("消费成功")
+     */
+    public const CONSUME_STATUS_SUCCESS = 3;
+
+    /**
+     * @Message("消费失败")
+     */
+    public const CONSUME_STATUS_FAIL = 4;
+
+    public function __construct(
+        private readonly QueueLogServiceInterface $service
+    ) {}
 
     public function consume($data): Result
     {
-        return empty($data) ? Result::DROP : Result::ACK;
+        if (empty($data)) {
+            return Result::DROP;
+        }
+        $queueId = (int) $data['queue_id'];
+        try {
+            $this->service->update(
+                $queueId,
+                ['consume_status' => self::CONSUME_STATUS_SUCCESS]
+            );
+        } catch (\Exception $e) {
+            $this->service->update(
+                $queueId,
+                [
+                    'consume_status' => self::CONSUME_STATUS_FAIL,
+                    'log_content' => $e->getMessage(),
+                ]
+            );
+        }
+        return Result::ACK;
     }
 
     /**

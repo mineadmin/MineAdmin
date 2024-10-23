@@ -18,11 +18,13 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -33,6 +35,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class SystemConfigController.
  */
 #[Controller(prefix: 'setting/config'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class SystemConfigController extends MineController
 {
     #[Inject]
@@ -79,7 +82,7 @@ class SystemConfigController extends MineController
     #[PostMapping('updateByKeys'), Permission('setting:config:update'), OperationLog]
     public function updateByKeys(): ResponseInterface
     {
-        return $this->service->updatedByKeys($this->request->all()) ? $this->success() : $this->error();
+        return $this->service->updatedByKeys($this->request->post()) ? $this->success() : $this->error();
     }
 
     /**

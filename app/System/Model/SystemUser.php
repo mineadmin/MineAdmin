@@ -38,9 +38,9 @@ use Mine\MineModel;
  * @property Carbon $updated_at 更新时间
  * @property string $deleted_at 删除时间
  * @property string $remark 备注
- * @property SystemDept $dept
- * @property Collection|SystemPost[] $posts
- * @property Collection|SystemRole[] $roles
+ * @property null|Collection|SystemRole[] $roles
+ * @property null|Collection|SystemPost[] $posts
+ * @property null|Collection|SystemDept[] $depts
  * @property mixed $password 密码
  */
 class SystemUser extends MineModel
@@ -62,6 +62,12 @@ class SystemUser extends MineModel
     protected ?string $table = 'system_user';
 
     /**
+     * 隐藏的字段列表.
+     * @var string[]
+     */
+    protected array $hidden = ['password', 'deleted_at'];
+
+    /**
      * The attributes that are mass assignable.
      */
     protected array $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'dashboard', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
@@ -69,7 +75,7 @@ class SystemUser extends MineModel
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'array'];
+    protected array $casts = ['id' => 'integer', 'status' => 'integer', 'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'backend_setting' => 'json'];
 
     /**
      * 通过中间表关联角色.

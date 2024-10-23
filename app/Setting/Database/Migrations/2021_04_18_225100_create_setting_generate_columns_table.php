@@ -55,6 +55,7 @@ class CreateSettingGenerateColumnsTable extends Migration
             $table->addColumn('string', 'dict_type', ['length' => 200, 'comment' => '字典类型'])->nullable();
             $table->addColumn('string', 'allow_roles', ['length' => 255, 'comment' => '允许查看该字段的角色'])->nullable();
             $table->addColumn('string', 'options', ['length' => 1000, 'comment' => '字段其他设置'])->nullable();
+            $table->addColumn('string', 'extra', ['length' => 255, 'comment' => '字段扩展信息'])->nullable();
             $table->addColumn('tinyInteger', 'sort', ['unsigned' => true, 'default' => 0, 'comment' => '排序'])->nullable();
             $table->addColumn('bigInteger', 'created_by', ['comment' => '创建者'])->nullable();
             $table->addColumn('bigInteger', 'updated_by', ['comment' => '更新者'])->nullable();

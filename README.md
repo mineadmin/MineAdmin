@@ -1,3 +1,4 @@
+中文 | [English](./README-en.md)
 # 项目介绍
 
 <p align="center">
@@ -34,8 +35,8 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ## 前端仓库地址
 移步前端仓库
 
-- [Github MineAdmin-Vue](https://github.com/kanyxmo/MineAdmin-Vue)
-- [Gitee MineAdmin-Vue](https://gitee.com/xmo/MineAdmin-vue)
+- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
+- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
 
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
@@ -63,7 +64,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 17. 缓存监控，查看Redis信息和系统所使用key的信息
 18. API管理，对应用和接口管理、接口授权等功能。接口文档自动生成，输入、输出参数检查等
 19. 队列管理，消息队列管理功能、消息管理、消息发送。使用ws方式即时消息提醒（需安装rabbitMQ）
-20. 应用市场，可下载各种基础应用、插件、前端组件等等（开发中...）
+20. 应用市场，可下载各种基础应用、插件、前端组件等等（注意配置 `.env`文件中的 `MINE_ACCESS_TOKEN`  [在此处获取](https://www.mineadmin.com/member/setting)）
 
 ## 环境需求
 
@@ -75,7 +76,10 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
   - openssl
   - redis
   - pcntl
-- Mysql >= 5.7
+- [x] Mysql >= 5.7
+- [x] Pgsql >= 10
+- [x] Sql Server Latest
+- Sqlsrv is Latest
 - Redis >= 4.0
 - Git >= 2.x
 
@@ -85,25 +89,14 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 
 - 项目下载，请确保已经安装了 `Composer`
 ```shell
-git clone https://gitee.com/xmo/MineAdmin && cd MineAdmin
-composer config -g repo.packagist composer https://mirrors.tencent.com/composer/
-composer install
+composer create-project mineadmin/mineadmin:~2.0 --no-cache
 ```
 
 ## 项目安装
 
-打开终端，执行安装命令，按照提示，一步步完成`.env`文件的配置
-```shell
-php bin/hyperf.php mine:install
-```
+配置 `.env` 填写 `redis` `db` 相关信息，保存关闭。
 
-待提示以下信息后
-```shell
-Reset the ".env" file. Please restart the service before running 
-the installation command to continue the installation.
-```
-
-再次执行安装命令，执行Migrates数据迁移文件和SQL数据填充，完成安装。
+打开终端，执行安装命令，执行Migrates数据迁移文件和SQL数据填充，完成安装。
 ```shell
 php bin/hyperf.php mine:install
 ```
@@ -141,6 +134,19 @@ php bin/hyperf.php mine:install
 
 ## 通过 OSCS 安全认证
 [![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/9ztZvuSN6OLFjCDGVo)
+
+## star 趋势
+
+[![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
+
+## 贡献者
+
+> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
+<a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
+</a>
+
+[![贡献者趋势](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 
 ## 演示图片
 <img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />

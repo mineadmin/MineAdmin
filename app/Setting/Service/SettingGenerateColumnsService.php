@@ -58,6 +58,7 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
                 'sort' => count($data) - $k,
                 'allow_roles' => $item['allow_roles'] ?? null,
                 'options' => $item['options'] ?? null,
+                'extra' => $item['extra'],
             ];
 
             // 设置默认选项
@@ -94,7 +95,7 @@ class SettingGenerateColumnsService extends AbstractService implements GenerateC
 
     private function fieldDispose(array $column): array
     {
-        $object = new class() {
+        $object = new class {
             public function viewTypeDispose(&$column): void
             {
                 switch ($column['column_type']) {

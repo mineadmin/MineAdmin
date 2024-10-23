@@ -14,7 +14,9 @@ namespace App\Setting\Controller;
 
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Mine\Annotation\Auth;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -25,6 +27,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class CommonController.
  */
 #[Controller(prefix: 'setting/common'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class CommonController extends MineController
 {
     /**
@@ -35,6 +38,7 @@ class CommonController extends MineController
     #[GetMapping('getModuleList')]
     public function getModuleList(): ResponseInterface
     {
+        $this->mine->scanModule();
         return $this->success($this->mine->getModuleInfo());
     }
 }

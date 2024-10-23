@@ -17,11 +17,13 @@ use App\System\Service\SystemUploadFileService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemException;
 use Mine\Annotation\Auth;
 use Mine\Exception\MineException;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -31,6 +33,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class UploadController.
  */
 #[Controller(prefix: 'system')]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class UploadController extends MineController
 {
     #[Inject]

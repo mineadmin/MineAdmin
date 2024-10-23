@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\System\Request;
 
+use App\System\Model\SystemUser;
 use App\System\Service\SystemUserService;
 use Mine\MineFormRequest;
 
@@ -34,21 +35,27 @@ class SystemUserRequest extends MineFormRequest
         return [
             'username' => 'required|max:20',
             'password' => 'required|min:6',
+            'phone' => 'phone_number',
+            'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
+            'remark' => 'max:255',
         ];
     }
 
     /**
-     * 新增数据验证规则
+     * 更新数据验证规则
      * return array.
      */
     public function updateRules(): array
     {
         return [
             'username' => 'required|max:20',
+            'phone' => 'phone_number',
+            'email' => 'email',
             'dept_ids' => 'required',
             'role_ids' => 'required',
+            'remark' => 'max:255',
         ];
     }
 
@@ -71,11 +78,13 @@ class SystemUserRequest extends MineFormRequest
     public function modifyPasswordRules(): array
     {
         return [
-            'newPassword' => 'required|confirmed',
-            'newPassword_confirmation' => 'required',
+            'newPassword' => 'required|confirmed|string',
+            'newPassword_confirmation' => 'required|string',
             'oldPassword' => ['required', function ($attribute, $value, $fail) {
                 $service = $this->container->get(SystemUserService::class);
-                /* @var SystemUser $model */
+                /**
+                 * @var SystemUser $model
+                 */
                 $model = $service->mapper->getModel()::find((int) user()->getId(), ['password']);
                 if (! $service->mapper->checkPass($value, $model->password)) {
                     $fail(t('system.valid_password'));
@@ -108,6 +117,19 @@ class SystemUserRequest extends MineFormRequest
     }
 
     /**
+     * 更改用户资料验证规则.
+     */
+    public function updateInfoRules(): array
+    {
+        return [
+            'username' => 'max:20',
+            'phone' => 'phone_number',
+            'email' => 'email',
+            'signed' => 'max:255',
+        ];
+    }
+
+    /**
      * 字段映射名称
      * return array.
      */
@@ -124,6 +146,10 @@ class SystemUserRequest extends MineFormRequest
             'status' => '用户状态',
             'dept_ids' => '部门ID',
             'role_ids' => '角色列表',
+            'phone' => '手机',
+            'email' => '邮箱',
+            'remark' => '备注',
+            'signed' => '个人签名',
         ];
     }
 }

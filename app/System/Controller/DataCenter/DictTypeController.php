@@ -18,12 +18,14 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -34,6 +36,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class LogsController.
  */
 #[Controller(prefix: 'system/dictType'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class DictTypeController extends MineController
 {
     #[Inject]
@@ -48,6 +51,16 @@ class DictTypeController extends MineController
     public function index(): ResponseInterface
     {
         return $this->success($this->service->getPageList($this->request->all()));
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    #[GetMapping('list')]
+    public function list(): ResponseInterface
+    {
+        return $this->success($this->service->getList($this->request->all()));
     }
 
     /**

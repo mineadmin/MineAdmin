@@ -12,16 +12,11 @@ error_reporting(E_ALL);
 ! defined('START_TIME') && define('START_TIME', time());    // 启动时间
 ! defined('HF_VERSION') && define('HF_VERSION', '3.1');     // 定义hyperf版本号
 
-// 载入公共函数库文件
-foreach (glob(BASE_PATH . '/common/*') as $file) {
-    include_once($file);
-}
-
 require BASE_PATH . '/vendor/autoload.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 (function () {
-    \Xmo\AppStore\Plugin::init();
+    \Mine\AppStore\Plugin::init();
     Hyperf\Di\ClassLoader::init();
     /** @var Psr\Container\ContainerInterface $container */
     $container = require BASE_PATH . '/config/container.php';

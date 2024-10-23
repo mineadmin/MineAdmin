@@ -18,38 +18,49 @@ use App\System\Queue\Consumer\MessageConsumer;
 use App\System\Queue\Producer\MessageProducer;
 use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
+use Hyperf\Amqp\Producer;
+use Hyperf\Codec\Json;
 use Hyperf\Di\Annotation\AnnotationCollector;
-use Hyperf\Di\Annotation\Inject;
 use Mine\Abstracts\AbstractService;
-use Mine\Amqp\DelayProducer;
 use Mine\Annotation\DependProxy;
 use Mine\Exception\NormalStatusException;
 use Mine\Interfaces\ServiceInterface\QueueLogServiceInterface;
+use Mine\Interfaces\ServiceInterface\QueueMessageServiceInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * 队列管理服务类.
+ * @deprecated 2.0
+ * @see https://github.com/mineadmin/MineAdmin/discussions/162
  */
 #[DependProxy(values: [QueueLogServiceInterface::class])]
 class SystemQueueLogService extends AbstractService implements QueueLogServiceInterface
 {
     /**
+     * @Message("生产成功")
+     */
+    public const PRODUCE_STATUS_SUCCESS = 3;
+
+    /**
+     * @Message("生产失败")
+     */
+    public const PRODUCE_STATUS_FAIL = 4;
+
+    /**
      * @var SystemQueueLogMapper
      */
     public $mapper;
 
-    #[Inject]
-    protected SystemUserService $userService;
-
-    #[Inject]
-    protected DelayProducer $producer;
-
     /**
      * SystemQueueLogService constructor.
      */
-    public function __construct(SystemQueueLogMapper $mapper)
-    {
+    public function __construct(
+        SystemQueueLogMapper $mapper,
+        protected readonly Producer $producer,
+        protected readonly SystemUserService $userService,
+        protected readonly QueueMessageServiceInterface $queueMessageService
+    ) {
         $this->mapper = $mapper;
     }
 
@@ -78,12 +89,7 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
             throw new NormalStatusException(t('system.queue_annotation_not_open'), 500);
         }
 
-        return $this->producer->produce(
-            new $class($amqpQueueVo->getData()),
-            $amqpQueueVo->getIsConfirm(),
-            $amqpQueueVo->getTimeout(),
-            $amqpQueueVo->getDelayTime()
-        );
+        return $this->producer->produce($producer);
     }
 
     /**
@@ -116,7 +122,6 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
         if (empty($receiveUsers)) {
             $receiveUsers = $this->userService->pluck(['status' => SystemUser::USER_NORMAL], 'id');
         }
-
         $data = [
             'title' => $message->getTitle(),
             'content' => $message->getContent(),
@@ -124,12 +129,34 @@ class SystemQueueLogService extends AbstractService implements QueueLogServiceIn
             'send_by' => $message->getSendBy() ?: user()->getId(),
             'receive_users' => $receiveUsers,
         ];
+        $producer = new MessageProducer($data);
+        $queueName = strchr($producer->getRoutingKey(), '.', true) . '.queue';
+        $id = $this->save([
+            'exchange_name' => $producer->getExchange(),
+            'routing_key_name' => $producer->getRoutingKey(),
+            'queue_name' => $queueName,
+            'queue_content' => $producer->payload(),
+            'delay_time' => 0,
+            'produce_status' => self::PRODUCE_STATUS_SUCCESS,
+        ]);
+        $payload = Json::decode($producer->payload());
 
-        return $this->producer->produce(
-            new MessageProducer($data),
-            $message->getIsConfirm(),
-            $message->getTimeout(),
-            $message->getDelayTime()
+        $producer->setPayload([
+            'queue_id' => $id, 'data' => $payload,
+        ]);
+        $this->queueMessageService->save(
+            $payload
         );
+        try {
+            return $this->producer->produce(
+                $producer
+            );
+        } catch (\Exception $e) {
+            $this->update((int) $id, [
+                'produce_status' => self::PRODUCE_STATUS_FAIL,
+                'log_content' => $e->getMessage(),
+            ]);
+            throw new NormalStatusException($e->getMessage(), 500);
+        }
     }
 }

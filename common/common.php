@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Setting\Service\SettingConfigService;
+use App\System\Service\SystemUserService;
 use App\System\Vo\AmqpQueueVo;
 use App\System\Vo\QueueMessageVo;
 use Hyperf\Cache\Listener\DeleteListenerEvent;
@@ -123,5 +124,54 @@ if (! function_exists('delete_cache')) {
                 $prefix,
                 $args
             ));
+    }
+}
+
+if (! function_exists('is_in_container')) {
+    function is_in_container(): bool
+    {
+        if (file_exists('/.dockerenv')) {
+            return true;
+        }
+        $cgroup = file_get_contents('/proc/1/cgroup');
+        return strpos($cgroup, 'kubepods') > 0 || strpos($cgroup, 'docker') > 0;
+    }
+}
+
+if (! function_exists('has_permission')) {
+    /**
+     * 检查用户是否拥有某权限.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function has_permission(string $code, ?int $userId = null): bool
+    {
+        $codes = container()->get(SystemUserService::class)->getInfo($userId)['codes'];
+        if ($codes[0] === '*') {
+            return true;
+        }
+        return in_array($code, $codes);
+    }
+}
+
+if (! function_exists('has_role')) {
+    /**
+     * 检查用户是否拥有某角色.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function has_role(string $code, ?int $userId = null): bool
+    {
+        $roles = container()->get(SystemUserService::class)->getInfo($userId)['roles'];
+        if ($roles === 'superAdmin') {
+            return true;
+        }
+        return in_array($code, $roles);
+    }
+}
+
+if (! function_exists('pt')) {
+    function pt(string $prefix, string $key, array $replace = []) {
+        return t("plugin.$prefix.$key", $replace);
     }
 }

@@ -16,7 +16,6 @@ use App\System\Model\SystemDept;
 use App\System\Model\SystemUser;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Database\Model\Model;
-use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
 use Mine\Annotation\Transaction;
 use Mine\MineModel;
@@ -139,21 +138,16 @@ class SystemUserMapper extends AbstractMapper
     public function handleSearch(Builder $query, array $params): Builder
     {
         if (isset($params['dept_id']) && filled($params['dept_id']) && is_string($params['dept_id'])) {
-            $tablePrefix = env('DB_PREFIX');
-            $query->selectRaw(Db::raw("DISTINCT {$tablePrefix}system_user.*"))
-                ->join('system_user_dept as dept', 'system_user.id', '=', 'dept.user_id')
-                ->whereIn(
-                    'dept.dept_id',
-                    SystemDept::query()
-                        ->where(function ($query) use ($params) {
-                            $query->where('id', '=', $params['dept_id'])
-                                ->orWhere('level', 'like', $params['dept_id'] . ',%')
-                                ->orWhere('level', 'like', '%,' . $params['dept_id'])
-                                ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
-                        })
-                        ->pluck('id')
-                        ->toArray()
-                );
+            $deptIds = SystemDept::query()
+                ->where(function ($query) use ($params) {
+                    $query->where('id', '=', $params['dept_id'])
+                        ->orWhere('level', 'like', $params['dept_id'] . ',%')
+                        ->orWhere('level', 'like', '%,' . $params['dept_id'])
+                        ->orWhere('level', 'like', '%,' . $params['dept_id'] . ',%');
+                })
+                ->pluck('id')
+                ->toArray();
+            $query->whereHas('depts', fn ($query) => $query->whereIn('id', $deptIds));
         }
         if (isset($params['username']) && filled($params['username'])) {
             $query->where('username', 'like', '%' . $params['username'] . '%');
@@ -190,7 +184,9 @@ class SystemUserMapper extends AbstractMapper
             $isAll = $params['showDeptAll'] ?? false;
 
             $query->with(['depts' => function ($query) use ($isAll) {
-                /* @var Builder $query */
+                /*
+                 *  @var Builder $query
+                 */
                 $query->where('status', SystemDept::ENABLE);
                 return $isAll ? $query->select(['*']) : $query->select(['id', 'name']);
             }]);

@@ -17,10 +17,12 @@ use App\System\Service\SystemUserService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\Annotation\Auth;
 use Mine\Helper\LoginUser;
 use Mine\Interfaces\UserServiceInterface;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Mine\Vo\UserServiceVo;
 use Psr\Container\ContainerExceptionInterface;
@@ -32,6 +34,7 @@ use Psr\SimpleCache\InvalidArgumentException;
  * Class LoginController.
  */
 #[Controller(prefix: 'system')]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class LoginController extends MineController
 {
     #[Inject]

@@ -45,14 +45,15 @@ class UserAuthService implements UserServiceInterface
         $mapper = container()->get(SystemUserMapper::class);
         try {
             event(new UserLoginBefore(['username' => $userServiceVo->getUsername(), 'password' => $userServiceVo->getPassword()]));
-            $userinfo = $mapper->checkUserByUsername($userServiceVo->getUsername())->toArray();
-            $password = $userinfo['password'];
-            unset($userinfo['password']);
-            $userLoginAfter = new UserLoginAfter($userinfo);
-            if ($mapper->checkPass($userServiceVo->getPassword(), $password)) {
+            /**
+             * @var SystemUser $userinfo
+             */
+            $userinfo = $mapper->checkUserByUsername($userServiceVo->getUsername());
+            $userLoginAfter = new UserLoginAfter($userinfo->toArray());
+            if ($mapper->checkPass($userServiceVo->getPassword(), $userinfo->password)) {
                 if (
-                    ($userinfo['status'] == SystemUser::USER_NORMAL)
-                    || ($userinfo['status'] == SystemUser::USER_BAN && $userinfo['id'] == env('SUPER_ADMIN'))
+                    ($userinfo->status == SystemUser::USER_NORMAL)
+                    || ($userinfo->status == SystemUser::USER_BAN && $userinfo->getKey() == env('SUPER_ADMIN'))
                 ) {
                     $userLoginAfter->message = t('jwt.login_success');
                     $token = user()->getToken($userLoginAfter->userinfo);

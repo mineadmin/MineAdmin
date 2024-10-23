@@ -44,7 +44,9 @@ class UserDeleteListener implements ListenerInterface
         $prefix = config('cache.default.prefix') . 'Token:';
         $user = user();
 
-        /* @var $event UserDelete */
+        /**
+         * @var UserDelete $event
+         */
         foreach ($event->ids as $uid) {
             $token = $redis->get($prefix . $uid);
             $token && $user->getJwt()->logout($token);

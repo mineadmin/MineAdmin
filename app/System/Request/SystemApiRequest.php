@@ -34,8 +34,10 @@ class SystemApiRequest extends MineFormRequest
             'name' => 'required',
             'class_name' => 'required',
             'method_name' => 'required',
+            'access_name' => 'required',
             'auth_mode' => 'required',
             'request_mode' => 'required',
+            'group_id' => 'required',
         ];
     }
 

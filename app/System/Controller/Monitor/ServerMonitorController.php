@@ -16,8 +16,10 @@ use App\System\Service\ServerMonitorService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Mine\Annotation\Auth;
 use Mine\Annotation\Permission;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -27,6 +29,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class ServerMonitorController.
  */
 #[Controller(prefix: 'system/server'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class ServerMonitorController extends MineController
 {
     #[Inject]
@@ -40,6 +43,9 @@ class ServerMonitorController extends MineController
     #[GetMapping('monitor'), Permission('system:monitor:server')]
     public function getServerInfo(): ResponseInterface
     {
+        if (is_in_container()) {
+            return $this->error(t('system.monitor_server_in_container'));
+        }
         return $this->success([
             'cpu' => $this->service->getCpuInfo(),
             'memory' => $this->service->getMemInfo(),

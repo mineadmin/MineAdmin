@@ -18,12 +18,14 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\HttpServer\Annotation\PutMapping;
 use Mine\Annotation\Auth;
 use Mine\Annotation\OperationLog;
 use Mine\Annotation\Permission;
 use Mine\Annotation\RemoteState;
+use Mine\Middlewares\CheckModuleMiddleware;
 use Mine\MineController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -33,6 +35,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class DeptController.
  */
 #[Controller(prefix: 'system/dept'), Auth]
+#[Middleware(middleware: CheckModuleMiddleware::class)]
 class DeptController extends MineController
 {
     #[Inject]
@@ -105,9 +108,9 @@ class DeptController extends MineController
      * @throws NotFoundExceptionInterface
      */
     #[DeleteMapping('delLeader'), Permission('system:dept:delete'), OperationLog('删除部门领导')]
-    public function delLeader(): ResponseInterface
+    public function delLeader(SystemDeptRequest $request): ResponseInterface
     {
-        return $this->service->delLeader($this->request->all()) ? $this->success() : $this->error();
+        return $this->service->delLeader($request->validated()) ? $this->success() : $this->error();
     }
 
     /**

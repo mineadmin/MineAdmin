@@ -63,4 +63,10 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 WORKDIR /opt/www
 
+COPY . /opt/www
+
+RUN composer install --no-dev -o && php bin/hyperf.php
+
 EXPOSE 9501 9502 9503
+
+ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]

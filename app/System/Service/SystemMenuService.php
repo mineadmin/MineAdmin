@@ -121,7 +121,23 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
      */
     public function update(mixed $id, array $data): bool
     {
-        return $this->mapper->update($id, $this->handleData($data));
+        $handleData = $this->handleData($data);
+        if (! $this->checkChildrenExists($id)) {
+            return $this->mapper->update($id, $handleData);
+        }
+        $update[] = [
+            'id' => $id,
+            'data' => $handleData,
+        ];
+        $descendants = $this->mapper->getDescendantsMenus((int) $id);
+        foreach ($descendants as $descendant) {
+            $handleDescendantMenuLevelData = $this->handleDescendantMenuLevels($descendant['level'], $handleData['level'], $id);
+            $update[] = [
+                'id' => $descendant['id'],
+                'data' => ['level' => $handleDescendantMenuLevelData],
+            ];
+        }
+        return $this->mapper->batchUpdate($update);
     }
 
     /**
@@ -165,5 +181,14 @@ class SystemMenuService extends AbstractService implements MenuServiceInterface
             $data['level'] = $parentMenu['level'] . ',' . $parentMenu['id'];
         }
         return $data;
+    }
+
+    protected function handleDescendantMenuLevels(string $descendantLevel, string $handleDataLevel, int $id): string
+    {
+        $descendantLevelArr = explode(',', $descendantLevel);
+        $handleDataLevelArr = explode(',', $handleDataLevel);
+        $position = array_search($id, $descendantLevelArr);
+        array_splice($descendantLevelArr, 0, $position, $handleDataLevelArr);
+        return implode(',', $descendantLevelArr);
     }
 }

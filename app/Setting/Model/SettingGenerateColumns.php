@@ -33,6 +33,7 @@ use Mine\MineModel;
  * @property string $dict_type 字典类型
  * @property string $allow_roles 允许查看该字段的角色
  * @property string $options 字段其他设置
+ * @property string $extra 字段扩展信息
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -54,7 +55,7 @@ class SettingGenerateColumns extends MineModel
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
+    protected array $fillable = ['id', 'table_id', 'column_name', 'column_comment', 'column_type', 'is_pk', 'is_required', 'is_insert', 'is_edit', 'is_list', 'is_query', 'is_sort', 'query_type', 'view_type', 'dict_type', 'allow_roles', 'options', 'extra', 'sort', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.

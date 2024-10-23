@@ -30,7 +30,7 @@ return [
      *
      * 前端代码所在根目录.
      */
-    'front_directory' => dirname(BASE_PATH) . '/MineAdmin-Vue',
+    'front_directory' => './web/',
     'composer' => [
         /*
          * composer executes the program directly from composer by default,

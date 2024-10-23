@@ -55,7 +55,11 @@ class SystemDeptMapper extends AbstractMapper
                 ->orderBy('parent_id')->orderBy('sort', 'desc')
                 ->get()->toArray();
 
-            return (new MineCollection())->toTree(array_merge($treeData, $deptTree), $treeData[0]['parent_id'] ?? 0);
+            // 去除重复部门
+            $deptTree = array_merge($treeData, $deptTree);
+            $deptTree = array_values(array_column($deptTree, null, 'id'));
+
+            return (new MineCollection())->toTree($deptTree, $treeData[0]['parent_id'] ?? 0);
         }
         return $deptTree;
     }
@@ -86,10 +90,10 @@ class SystemDeptMapper extends AbstractMapper
 
         return $this->setPaginate(
             $query->paginate(
-                (int) $params['pageSize'] ?? $this->model::PAGE_SIZE,
+                (int) ($params['pageSize'] ?? $this->model::PAGE_SIZE),
                 ['u.*', 'dl.created_at as leader_add_time'],
                 'page',
-                (int) $params['page'] ?? 1
+                (int) ($params['page'] ?? 1)
             )
         );
     }
@@ -121,10 +125,22 @@ class SystemDeptMapper extends AbstractMapper
         return true;
     }
 
+    #[Transaction]
+    public function batchUpdate(array $update): bool
+    {
+        foreach ($update as $item) {
+            $result = parent::update($item['id'], $item['data']);
+            if (! $result) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 查询部门名称.
      */
-    public function getDeptName(array $ids = null): array
+    public function getDeptName(?array $ids = null): array
     {
         return $this->model::withTrashed()->whereIn('id', $ids)->pluck('name')->toArray();
     }
@@ -134,6 +150,12 @@ class SystemDeptMapper extends AbstractMapper
         return $this->model::withTrashed()->where('parent_id', $id)->exists();
     }
 
+    public function getDescendantsDepts(int $id): array
+    {
+        $params = ['level' => $id];
+        return $this->handleSearch($this->model::query(), $params)->get()->toArray();
+    }
+
     /**
      * 搜索处理器.
      */
@@ -141,6 +163,10 @@ class SystemDeptMapper extends AbstractMapper
     {
         if (isset($params['status']) && filled($params['status'])) {
             $query->where('status', $params['status']);
+        }
+
+        if (isset($params['level']) && filled($params['level'])) {
+            $query->where('level', 'like', '%' . $params['level'] . '%');
         }
 
         if (isset($params['name']) && filled($params['name'])) {

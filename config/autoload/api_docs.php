@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 return [
     // enable false 将不会启动 swagger 服务
-    'enable' => env('APP_ENV') !== 'prod',
+    'enable' => true,
     'format' => 'json',
     'output_dir' => BASE_PATH . '/runtime/swagger',
     'prefix_url' => env('API_DOCS_PREFIX_URL', '/swagger'),

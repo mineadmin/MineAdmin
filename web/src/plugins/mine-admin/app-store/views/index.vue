@@ -96,22 +96,22 @@ if (storeMeta.value.isDev) {
       if (!res.data.isHas) {
         noticeRef.value?.open?.()
       }
+      else {
+        getPayApp().then((res: any) => {
+          if (res.code === 200) {
+            dataList.value.my = res.data
+          }
+        })
+        getLocalAppInstallList().then((res: any) => {
+          if (res.code === 200) {
+            dataList.value.local = res.data
+          }
+        })
+        requestAppList()
+      }
     }
   })
-  requestAppList()
 }
-
-getPayApp().then((res: any) => {
-  if (res.code === 200) {
-    dataList.value.my = res.data
-  }
-})
-
-getLocalAppInstallList().then((res: any) => {
-  if (res.code === 200) {
-    dataList.value.local = res.data
-  }
-})
 
 provide('storeMeta', storeMeta)
 provide('filterParams', filterParams)
@@ -126,17 +126,17 @@ provide('requestAppList', requestAppList)
     <template v-if="storeMeta.isDev && storeMeta.isHasAccessToken">
       <AppStoreFilter />
       <AppStoreList v-if="dataList.list.length > 0" />
-      <el-empty v-else class="mt-40" :description="t('notFoundApp')" />
+      <el-empty v-if="dataList.list.length === 0 && !storeMeta.loading" class="mt-40" :description="t('notFoundApp')" />
     </template>
     <el-result
-      v-if="!storeMeta.isDev"
+      v-if="!storeMeta.isDev && !storeMeta.loading"
       class="h-680px"
       icon="warning"
       :title="t('noDevMainTitle')"
       :sub-title="t('noDevSubTitle')"
     />
     <el-result
-      v-if="storeMeta.isDev && !storeMeta.isHasAccessToken"
+      v-if="storeMeta.isDev && !storeMeta.isHasAccessToken && !storeMeta.loading"
       class="h-680px"
       icon="error"
       :title="t('noTokenMainTitle')"

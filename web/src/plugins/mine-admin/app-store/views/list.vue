@@ -17,6 +17,7 @@ en:
 </i18n>
 
 <script setup lang="ts">
+import AppStoreDetail from './detail.vue'
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import discount from '../utils/discount.ts'
@@ -26,14 +27,19 @@ const dataList = inject('dataList') as Record<string, any>
 
 const t = useLocalTrans()
 const msg = useMessage()
+const detailRef = ref()
 const route = useRoute()
 const dayjs = useDayjs(null, true) as any
+
+function openDetail(identifier: string) {
+  detailRef.value.open(identifier)
+}
 
 onMounted(() => {
   if (route.query?.install) {
     const installQuery: string | undefined = (route.query.install as string)?.split('/')[1] ?? undefined
     if (installQuery) {
-      openDetailModal({ identifier: installQuery })
+      openDetail(installQuery)
     }
     else {
       msg.alertError(`${t('pluginNotExists', { name: route.query.install })}`)
@@ -48,10 +54,10 @@ onMounted(() => {
       v-for="item in dataList.list"
       class="appstore-item"
     >
-      <a class="h-44 w-full" href="javascript:">
+      <a class="h-44 w-full" href="javascript:" @click="openDetail(item.identifier)">
         <div class="relative">
           <el-image
-            class="pointer-events-none h-48 w-full transform object-cover transition-transform duration-200 group-hover:scale-105 sm:rounded-md !rounded-b-none !rounded-t-md"
+            class="appstore-item-image"
             :src="item.homepage[0]"
           >
             <div class="absolute bottom-2 right-2 space-x-2">
@@ -62,7 +68,7 @@ onMounted(() => {
       <div class="p-3 pb-2">
         <div class="flex items-center justify-between">
           <div class="text-sm">
-            <el-link type="primary">
+            <el-link type="primary" @click="openDetail(item.identifier)">
               {{ item.name }}
             </el-link>
           </div>
@@ -105,6 +111,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <AppStoreDetail ref="detailRef" />
   </div>
 </template>
 
@@ -114,5 +122,9 @@ onMounted(() => {
   group b-1 b-solid
   relative top-0 mt-8 h-auto overflow-hidden border rounded-md transition-all duration-300
   sm:mt-0 dark:border-dark-400 dark:shadow-dark-300 hover:shadow-md hover:-top-1 dark:hover:b-[rgb(var(--ui-primary)/.95)];
+}
+.appstore-item-image {
+  @apply pointer-events-none h-48 w-full transform object-cover dark-brightness-[0.9]
+  transition-transform duration-200 group-hover:scale-105 sm:rounded-md !rounded-b-none !rounded-t-md;
 }
 </style>

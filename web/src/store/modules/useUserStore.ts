@@ -140,17 +140,12 @@ const useUserStore = defineStore(
       }
       // eslint-disable-next-line unused-imports/no-unused-vars
       catch (e) {
-        await logoutApi()
+        await logout()
       }
     }
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
       await usePluginStore().callHooks('logout')
-      // logoutApi().then(() => {
-      //   clearInfo()
-      // }).catch(() => {
-      //   clearInfo()
-      // })
       clearInfo()
       await router.push({
         name: 'login',

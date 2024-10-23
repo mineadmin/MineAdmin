@@ -63,7 +63,7 @@ final class PassportController extends AbstractController
         $username = (string) $request->input('username');
         $password = (string) $request->input('password');
         $browser = $request->header('User-Agent') ?: 'unknown';
-        $os = $request->header('User-Agent') ?: 'unknown';
+        $os = $request->os();
         return $this->success(
             $this->passportService->login(
                 $username,

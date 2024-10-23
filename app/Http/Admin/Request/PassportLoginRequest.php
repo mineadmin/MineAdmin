@@ -17,6 +17,7 @@ use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 use Hyperf\Validation\Request\FormRequest;
 use Mine\Support\Request\ClientIpRequestTrait;
+use Mine\Support\Request\ClientOsTrait;
 
 #[Schema(title: '登录请求', description: '登录请求参数', properties: [
     new Property('username', description: '用户名', type: 'string'),
@@ -24,7 +25,7 @@ use Mine\Support\Request\ClientIpRequestTrait;
 ])]
 class PassportLoginRequest extends FormRequest
 {
-    use ClientIpRequestTrait;
+    use ClientIpRequestTrait, ClientOsTrait;
 
     public function authorize(): bool
     {

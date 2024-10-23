@@ -90,6 +90,10 @@ export function download(data: any) {
   )
 }
 
+export function uploadLocalApp(formData: FormData) {
+  return http.post('/admin/plugin/store/uploadLocalApp', formData)
+}
+
 /**
  * 安装应用
  */

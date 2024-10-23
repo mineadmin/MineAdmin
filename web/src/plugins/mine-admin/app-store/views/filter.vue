@@ -12,6 +12,9 @@ zh_CN:
   alert: 这里是 MineAdmin 官方应用市场，您可以在此页面放心下载喜欢的应用。注意：只有开发环境才能使用应用市场
   refresh: 刷新
   localUpload: 本地上传
+  localUploadLoading: 应用上传中，请稍后...
+  uploadFail: 应用上传失败
+  uploadSuccess: 上传成功，是否刷新网页?
   personalInfo: 个人信息
   filterType: 类型
   filterPrice: 价格
@@ -31,6 +34,9 @@ zh_TW:
   alert: 這裡是 MineAdmin 官方應用市場，您可以在此頁面安心下載喜歡的應用。注意：只有開發環境才能使用應用市場
   refresh: 刷新
   localUpload: 本地上傳
+  localUploadLoading: 應用程式上傳中，請稍後...
+  uploadFail: 應用程式上傳失敗
+  uploadSuccess: 上傳成功，是否刷新網頁?
   personalInfo: 個人資訊
   filterType: 類型篩選
   filterPrice: 價格篩選
@@ -50,6 +56,9 @@ en:
   alert: This is the MineAdmin official app marketplace. You can safely download your favorite apps on this page. Note:The app marketplace is only available in the development environment.
   refresh: Refresh
   localUpload: Upload Locally
+  localUploadLoading: Uploading application, please wait...
+  uploadFail: Application upload failed
+  uploadSuccess: Upload successful, do you want to refresh the page?
   personalInfo: Personal Information
   filterType: Type Filter
   filterPrice: Price Filter
@@ -68,8 +77,11 @@ en:
 </i18n>
 
 <script setup lang="ts">
+import type { UploadRequestOptions } from 'element-plus'
+import { uploadLocalApp } from '../api/app.ts'
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useThrottleFn } from '@vueuse/core'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 const {
   getMobileState,
@@ -78,6 +90,7 @@ const {
   getSettings,
 } = useSettingStore()
 
+const msg = useMessage()
 const storeMeta = inject('storeMeta') as Record<string, any>
 const filterParams = inject('filterParams') as Record<string, any>
 const requestAppList = inject('requestAppList') as () => void
@@ -118,6 +131,42 @@ const filterClass = computed(() => {
   }
 })
 
+function go() {
+  window?.open('https://www.mineadmin.com/member/setting')
+}
+
+function handleUpload(options: UploadRequestOptions): any {
+  return new Promise((resolve, reject) => {
+    storeMeta.value.uploadLoading = true
+    const formData = new FormData()
+    formData.append('file', options.file)
+    uploadLocalApp(formData).then((res: Record<string, any>) => {
+      storeMeta.value.uploadLoading = false
+      if (res.code === 200) {
+        resolve(res)
+      }
+      else {
+        reject(res)
+      }
+    }).catch((err) => {
+      storeMeta.value.uploadLoading = false
+      reject(err)
+    })
+  })
+}
+
+function handleSuccess(res: any) {
+  if (res.code === 200) {
+    msg.confirm(t('uploadSuccess')).then(() => {
+      window.location.reload()
+    })
+  }
+}
+
+function handleError() {
+  msg.error(t('uploadFail'))
+}
+
 const execSearchKeywords = useThrottleFn(() => {
   filterParams.value.keywords = params.keywords
   requestAppList()
@@ -152,13 +201,20 @@ function filterRequest(name: string, value: string) {
             <ma-svg-icon name="i-ri:refresh-line" :size="16" class="mr-1" />
             {{ t('refresh') }}
           </el-button>
-          <el-upload :show-file-list="false" accept=".zip,.rar">
-            <el-button>
-              <ma-svg-icon name="i-line-md:uploading-loop" :size="18" class="mr-1" />
-              {{ t('localUpload') }}
+          <el-upload
+            :show-file-list="false"
+            accept=".zip,.rar"
+            :http-request="handleUpload"
+            :on-success="handleSuccess"
+            :on-error="handleError"
+            :disabled="storeMeta.uploadLoading"
+          >
+            <el-button :type="storeMeta.uploadLoading ? 'primary' : 'default'">
+              <ma-svg-icon name="i-line-md:uploading-loop" :size="18" class="mr-1" :disbaled="storeMeta.uploadLoading" :loading="storeMeta.uploadLoading" />
+              {{ t(storeMeta.uploadLoading ? 'localUploadLoading' : 'localUpload') }}
             </el-button>
           </el-upload>
-          <el-button status="success">
+          <el-button status="success" @click="go">
             <ma-svg-icon name="i-material-symbols:account-circle-outline" :size="18" class="mr-1" />
             {{ t('personalInfo') }}
           </el-button>

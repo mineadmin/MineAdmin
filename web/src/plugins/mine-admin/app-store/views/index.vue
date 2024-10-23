@@ -52,6 +52,7 @@ const appList = ref<any[]>()
 const storeMeta = ref<Record<string, any>>({
   isDev: import.meta.env.DEV,
   isHasAccessToken: false,
+  uploadLoading: false,
   loading: false,
   allStore: true,
   total: 0,
@@ -97,7 +98,6 @@ if (storeMeta.value.isDev) {
       }
     }
   })
-
   requestAppList()
 }
 

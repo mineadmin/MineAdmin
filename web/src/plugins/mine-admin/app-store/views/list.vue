@@ -15,31 +15,23 @@ zh_TW:
 en:
   pluginNotExists: 'Plugin to install：%{name} Does not exist'
 </i18n>
+
 <script setup lang="ts">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
+import discount from '../utils/discount.ts'
 
 const storeMeta = inject('storeMeta') as Record<string, any>
-const filterParams = inject('storeMeta') as Record<string, any>
+const dataList = inject('dataList') as Record<string, any>
 
 const t = useLocalTrans()
+const msg = useMessage()
 const route = useRoute()
 const dayjs = useDayjs(null, true) as any
 
-function getData() {
-  return Array.from({ length: 12 }).fill(0).map((_item, index) => ({
-    name: '测试插件',
-    homepage: [`https://picsum.photos/600/240?random=${index}`],
-    tags: [{ name: '官方应用', color: 'red' }],
-    created_at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    created_by: 'X.Mo',
-    auth: { type: 0 },
-    description: '一个应用插件',
-  }))
-}
-
 onMounted(() => {
   if (route.query?.install) {
-    const installQuery = route.query.install.split('/')[1] ?? undefined
+    const installQuery: string | undefined = (route.query.install as string)?.split('/')[1] ?? undefined
     if (installQuery) {
       openDetailModal({ identifier: installQuery })
     }
@@ -53,8 +45,8 @@ onMounted(() => {
 <template>
   <div v-loading="storeMeta.loading" class="mine-card mine-appstore-list">
     <div
-      v-for="(item, idx) in getData()"
-      class="border-gray-150 hover:border-primary-500 group relative top-0 mt-8 h-auto overflow-hidden border rounded-md transition-all duration-300 sm:mt-0 dark:border-gray-600 dark:shadow-gray-600 hover:shadow-md hover:-top-1 dark:hover:border-gray-400"
+      v-for="item in dataList.list"
+      class="appstore-item"
     >
       <a class="h-44 w-full" href="javascript:">
         <div class="relative">
@@ -63,20 +55,22 @@ onMounted(() => {
             :src="item.homepage[0]"
           >
             <div class="absolute bottom-2 right-2 space-x-2">
-              <el-tag v-for="tag in item.tags" :color="tag.color">{{ tag.name }}</el-tag>
+              <el-tag v-for="(tag, index) in item.tags" :key="index" :color="tag.color">{{ tag.name }}</el-tag>
             </div>
           </el-image></div>
       </a>
       <div class="p-3 pb-2">
-        <div class="grid grid-cols-2">
+        <div class="flex items-center justify-between">
           <div class="text-sm">
-            <a class="hover:underline" href="javascript:">{{ item.name }}</a>
+            <el-link type="primary">
+              {{ item.name }}
+            </el-link>
           </div>
           <div class="text-right text-xs text-gray-500 leading-5 dark:text-gray-400">
             {{ `${dayjs(item.created_at).fromNow()}更新` }}
           </div>
         </div>
-        <div class="mt-1 truncate text-xs text-gray-500 dark:text-gray-400">
+        <div class="dark:text-dark-0.5 mt-1 truncate text-xs text-gray-500">
           {{ item?.description }}
         </div>
         <div class="grid grid-cols-2 mt-5 text-xs">
@@ -115,5 +109,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-
+.appstore-item {
+  @apply b-gray-2 hover:b-[rgb(var(--ui-primary))]
+  group b-1 b-solid
+  relative top-0 mt-8 h-auto overflow-hidden border rounded-md transition-all duration-300
+  sm:mt-0 dark:border-dark-400 dark:shadow-dark-300 hover:shadow-md hover:-top-1 dark:hover:b-[rgb(var(--ui-primary)/.95)];
+}
 </style>

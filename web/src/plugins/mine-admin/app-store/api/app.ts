@@ -10,6 +10,38 @@
 
 const http = useHttp()
 
+export interface AppVo {
+  id?: number
+  name?: string
+  username?: string
+  identifier?: string
+  avatar?: string
+  homepage?: string[]
+  space?: string
+  tags?: {
+    name?: string
+    color?: string
+  }
+  updated_at?: string
+  auth?: {
+    type?: number
+    advance_quota?: string
+    basic_quota?: string
+    advance_discount?: string
+    basic_discount?: string
+  }
+  created_at?: string
+  created_by?: string
+  description?: string
+  versions?: {
+    preview_url?: string
+    require?: string
+    update_log?: string
+    version?: string
+    version_desc?: string
+  }[]
+}
+
 /**
  * 检查是.env 是否设置了 access_token
  */
@@ -21,7 +53,7 @@ export function hasAccessToken() {
  * 请求应用列表
  */
 export function getAppList(params: Record<string, string>) {
-  return http.get('/admin/plugin/store/index', params)
+  return http.get('/admin/plugin/store/index', { params })
 }
 
 /**

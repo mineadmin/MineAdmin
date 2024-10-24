@@ -94,16 +94,23 @@ http.interceptors.response.use(
                   Authorization: `Bearer ${cache.get('refresh_token')}`,
                 },
               }).post('/admin/passport/refresh')
-              const { data } = refreshTokenResponse.data
-              userStore.token = data.access_token
-              cache.set('token', data.access_token)
-              cache.set('expire', useDayjs().unix() + data.expire_at, { exp: data.expire_at })
-              cache.set('refresh_token', data.refresh_token)
 
-              config.headers!.Authorization = `Bearer ${userStore.token}`
-              requestList.value.map((cb: any) => cb())
-              requestList.value = []
-              return http(config)
+              if (refreshTokenResponse.data.code !== 200) {
+                await logout()
+                break
+              }
+              else {
+                const { data } = refreshTokenResponse.data
+                userStore.token = data.access_token
+                cache.set('token', data.access_token)
+                cache.set('expire', useDayjs().unix() + data.expire_at, { exp: data.expire_at })
+                cache.set('refresh_token', data.refresh_token)
+
+                config.headers!.Authorization = `Bearer ${userStore.token}`
+                requestList.value.map((cb: any) => cb())
+                requestList.value = []
+                return http(config)
+              }
             }
             // eslint-disable-next-line unused-imports/no-unused-vars
             catch (e: any) {

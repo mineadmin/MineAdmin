@@ -97,8 +97,8 @@ export default function toolbars() {
     }
   }
 
-  const remove = (toolbar: MineToolbar) => {
-    toolbars.value = toolbars.value.filter(item => item.name !== toolbar.name)
+  const remove = (name: string) => {
+    toolbars.value = toolbars.value.filter(item => item.name !== name)
   }
 
   return {

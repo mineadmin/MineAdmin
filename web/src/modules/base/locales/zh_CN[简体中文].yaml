@@ -23,6 +23,7 @@ baseRoleManage:
   permission: 权限菜单
   setPermission: 赋予权限
 baseMenuManage:
+  addError: 此操作已执行过，请点击左侧菜单重新操作。
   addTopMenu: 新增顶级菜单
   parentMenu: 上级菜单
   name: 菜单名称

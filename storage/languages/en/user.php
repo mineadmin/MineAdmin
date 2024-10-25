@@ -29,7 +29,7 @@ return [
     'updated_at ' => ' Update time ',
     'deleted_at' => 'Delete time',
     'Remark ' => ' Remark ',
-    'username_exists' => 'Username already exists',
+    'username_exist' => 'Username already exists',
     'Enums' => [
         'Type ' => [
             100 => 'System user',

@@ -17,5 +17,5 @@ return [
     'sort' => '排序',
     'remark' => '備註',
     'permission_ids' => '權限ID',
-    'code_exists' => '角色編碼已存在',
+    'code_exist' => '角色編碼已存在',
 ];

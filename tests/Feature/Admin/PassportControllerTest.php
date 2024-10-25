@@ -21,6 +21,7 @@ use HyperfTests\HttpTestCase;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class PassportControllerTest extends HttpTestCase
 {
@@ -54,13 +55,14 @@ final class PassportControllerTest extends HttpTestCase
         $user = User::create([
             'username' => uniqid('admin'),
             'password' => password_hash('admin', \PASSWORD_DEFAULT),
-            'user_type' =>  Type::USER
+            'user_type' => Type::USER,
         ]);
         $result = $this->post('/admin/passport/login', [
             'username' => $user->username,
             'password' => 'admin',
         ]);
-        var_dump($result);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::NOT_FOUND->value);
+        $user->forceDelete();
     }
 
     public function testLoginSuccess()

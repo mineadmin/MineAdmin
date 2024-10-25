@@ -24,6 +24,7 @@ use HyperfTests\Feature\Admin\ControllerCase;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class UserControllerTest extends ControllerCase
 {

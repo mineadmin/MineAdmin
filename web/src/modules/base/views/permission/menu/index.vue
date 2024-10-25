@@ -56,22 +56,21 @@ function createOrSaveMenu() {
   const elForm = getElFormRef() as typeof ElForm
   setLoadingState(true)
   elForm.validate().then(() => {
-    if (currentMenu.value !== null && model.dataType && model.dataType === 'add') {
+    if (!currentMenu.value) {
+      // 添加新菜单的逻辑
       if (!model.parent_id) {
         model.parent_id = 0
       }
       create(model).then(async (res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
         await getMenu()
-        currentMenu.value = null
         setNodeExpand(model.parent_id as number)
       }).catch((err: any) => msg.alertError(err))
+      // 针对创建顶级菜单后，上级菜单 显示为0的状态，删除parent_id处理。
+      delete model.parent_id
     }
     else {
-      msg.alertError(t('baseMenuManage.addError'))
-    }
-
-    if (model.dataType === 'edit' && model.id) {
+      // 编辑现有菜单的逻辑
       save(model.id as number, model).then((res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
       }).catch((err: any) => msg.alertError(err))
@@ -79,7 +78,6 @@ function createOrSaveMenu() {
     setLoadingState(false)
   }).catch((err: any) => {
     if (Object.keys(err)?.[0]) {
-      // 跳转到未填写字段
       elForm.scrollToField(Object.keys(err)?.[0])
     }
     setLoadingState(false)
@@ -88,23 +86,19 @@ function createOrSaveMenu() {
 </script>
 
 <template>
-  <div
-    class="mine-card menu-container h-full gap-x-4.5 lg:flex"
-    :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }"
-  >
+  <div class="mine-card menu-container h-full gap-x-4.5 lg:flex"
+    :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }">
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
-      <MenuTree
-        ref="menuTreeRef"
-        :data="menuList"
-        @menu-select="(menu: MenuVo) => {
-          currentMenu = menu
-          menuFormRef?.setData?.(menu)
-        }"
-      />
+      <MenuTree ref="menuTreeRef" :data="menuList" @menu-select="(menu: MenuVo) => {
+        currentMenu = menu
+        menuFormRef?.setData?.(menu)
+      }" />
     </div>
     <div class="relative mt-3 h-[calc(100%-250px)] w-full overflow-x-hidden overflow-y-auto pr-5 lg:mt-0 lg:h-full">
-      <div class="sticky top-0 z-2 flex items-center justify-between b-b-1 b-b-gray-1 b-b-solid bg-white pb-3 text-base dark-b-b-dark-4 dark-bg-dark-8">
-        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) : t('baseMenuManage.addTopMenu') }}</span>
+      <div
+        class="sticky top-0 z-2 flex items-center justify-between b-b-1 b-b-gray-1 b-b-solid bg-white pb-3 text-base dark-b-b-dark-4 dark-bg-dark-8">
+        <span>{{ currentMenu ? (currentMenu.meta?.i18n ? t(currentMenu.meta?.i18n) : currentMenu.meta?.title) :
+          t('baseMenuManage.addTopMenu') }}</span>
         <div>
           <el-button type="primary" @click="createOrSaveMenu">
             {{ t('crud.save') }}

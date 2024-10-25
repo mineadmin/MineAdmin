@@ -171,8 +171,10 @@ const useSettingStore = defineStore(
 
       // await useTabStore().refreshTab()
       defaultSetting.value.app.colorMode = colorMode.value as 'light' | 'dark' | 'autoMode'
-      defaultSetting.value.app.enableWatermark && openGlobalWatermark()
-      await nextTick(() => useThemeColor().initThemeColor())
+      await nextTick(() => {
+        useThemeColor().initThemeColor()
+        defaultSetting.value.app.enableWatermark && openGlobalWatermark()
+      })
     }
 
     function openGlobalWatermark(str: string | string[] | null = null) {

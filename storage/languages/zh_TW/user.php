@@ -29,7 +29,7 @@ return [
     'updated_at' => '更新時間',
     'deleted_at' => '刪除時間',
     'remark' => '備註',
-    'username_exists' => '用戶名已存在',
+    'username_exist' => '用戶名已存在',
     'enums' => [
         'type' => [
             100 => '系統用戶',

@@ -38,10 +38,10 @@ class UserListener
     public function check(string $key): void
     {
         if ($this->service->count(['unique_username' => $key]) > 0) {
-            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, 'user.username_exist');
+            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('user.username_exist'));
         }
         if ($this->roleService->count(['code' => $key]) > 0) {
-            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, 'role.code_exist');
+            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('role.code_exist'));
         }
     }
 

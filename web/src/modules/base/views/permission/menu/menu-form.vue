@@ -62,6 +62,10 @@ function setData(data: Record<string, any>) {
       form.value[name] = data[name]
     }
   })
+
+  if (data.id) {
+    form.value.dataType = 'edit'
+  }
 }
 
 const formOptions = ref<MaFormOptions>({
@@ -262,8 +266,12 @@ watch(
       if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
         formItem.renderProps.placeholder = t(`${item.renderProps?.placeholder}`)
       }
+      if (formItem?.itemProps?.rules && item?.itemProps?.rules) {
+        formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
+      }
     })
   },
+  { immediate: true },
 )
 
 onMounted(() => {
@@ -272,6 +280,9 @@ onMounted(() => {
     const formItem = menuForm.value?.getItemByProp(item.prop as string)
     if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
       formItem.renderProps.placeholder = t(`${item.renderProps?.placeholder}`)
+    }
+    if (formItem?.itemProps?.rules && item?.itemProps?.rules) {
+      formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
     }
   })
 })

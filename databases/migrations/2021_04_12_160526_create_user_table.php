@@ -23,7 +23,7 @@ class CreateUserTable extends Migration
         Schema::create('user', static function (Blueprint $table) {
             $table->comment('用户信息表');
             $table->bigIncrements('id')->comment('用户ID,主键');
-            $table->string('username', 20)->unique()->comment('用户名');
+            $table->string('username', 20)->unique()->comment('用户名')->unique();
             $table->string('password', 100)->comment('密码');
             $table->string('user_type', 3)->default('100')->comment('用户类型:100=系统用户');
             $table->string('nickname', 30)->default('')->comment('用户昵称');

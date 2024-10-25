@@ -23,6 +23,7 @@ baseRoleManage:
   permission: Permission Menu
   setPermission: Set permission
 baseMenuManage:
+  addError: This operation has already been performed. Please click the left menu to try again.
   addTopMenu: Add Top Menu
   parentMenu: Parent Menu
   name: Menu Name

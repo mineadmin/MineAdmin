@@ -23,6 +23,7 @@ baseRoleManage:
   permission: 權限菜單
   setPermission: 賦予權限
 baseMenuManage:
+  addError: 此操作已執行過，請點擊左側選單重新操作。
   addTopMenu: 新增頂級菜單
   parentMenu: 上級菜單
   name: 菜單名稱

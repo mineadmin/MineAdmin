@@ -67,14 +67,13 @@ function createOrSaveMenu() {
         setNodeExpand(model.parent_id as number)
       }).catch((err: any) => msg.alertError(err))
     }
-    else {
-      msg.alertError(t('baseMenuManage.addError'))
-    }
-
-    if (model.dataType === 'edit' && model.id) {
+    else if (model.dataType === 'edit' && model.id) {
       save(model.id as number, model).then((res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
       }).catch((err: any) => msg.alertError(err))
+    }
+    else {
+      msg.alertError(t('baseMenuManage.addError'))
     }
     setLoadingState(false)
   }).catch((err: any) => {

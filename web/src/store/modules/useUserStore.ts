@@ -113,7 +113,7 @@ const useUserStore = defineStore(
           cache.set('token', res.data.access_token)
           cache.set('expire', useDayjs().unix() + res.data.expire_at, { exp: res.data.expire_at })
           cache.set('refresh_token', res.data.refresh_token)
-          await usePluginStore().callHooks('login', res.data)
+          await usePluginStore().callHooks('login', { username: data.username, ...res.data })
           resolve(res.data)
         }).catch((error) => {
           reject(error)

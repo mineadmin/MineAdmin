@@ -8,7 +8,6 @@
  * @Link   https://github.com/mineadmin
  */
 import type { App } from 'vue'
-import { Plugin } from 'vue'
 import type { Plugin } from '#/global'
 
 const usePluginStore = defineStore(
@@ -51,20 +50,20 @@ const usePluginStore = defineStore(
       return plugins.value as keyPlugins
     }
 
-    async function enabled(pluginName: string): boolean {
+    async function enabled(pluginName: string) {
       if (plugins.value[pluginName]) {
-        const plg = plugins.value[pluginName]
+        const plg = plugins.value[pluginName] as Plugin.PluginConfig
         plg.config.enable = true
         if (plg?.hooks && plg?.hooks?.start) {
           await plg.hooks.start(plg.config)
         }
         if (!useList.value[pluginName]) {
-          useList.value[pluginName] = instance.value.use(plg.install)
+          useList.value[pluginName] = instance.value?.use(plg.install)
         }
       }
     }
 
-    function disabled(pluginName: string): boolean {
+    function disabled(pluginName: string) {
       if (plugins.value[pluginName]) {
         const plg = plugins.value[pluginName]
         plg.config.enable = false

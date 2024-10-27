@@ -64,7 +64,7 @@ declare namespace Plugin {
 
   interface PluginConfig {
     install: (app: App) => void
-    config?: Config
+    config: Config
     views?: Views[]
     /**
      * 插件hooks

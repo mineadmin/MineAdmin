@@ -20,6 +20,7 @@ final class ModeNotFoundHandler extends AbstractHandler
 {
     public function handleResponse(\Throwable $throwable): Result
     {
+        $this->stopPropagation();
         return new Result(
             code: ResultCode::NOT_FOUND
         );

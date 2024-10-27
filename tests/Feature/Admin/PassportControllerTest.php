@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTests\Feature\Admin;
 
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
@@ -45,6 +46,21 @@ final class PassportControllerTest extends HttpTestCase
             'password' => 'admin',
         ]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNPROCESSABLE_ENTITY->value);
+        $user->forceDelete();
+    }
+
+    public function testLoginExistUsername()
+    {
+        $user = User::create([
+            'username' => uniqid('admin'),
+            'password' => password_hash('admin', \PASSWORD_DEFAULT),
+            'user_type' => Type::USER,
+        ]);
+        $result = $this->post('/admin/passport/login', [
+            'username' => $user->username,
+            'password' => 'admin',
+        ]);
+        self::assertSame(Arr::get($result, 'code'), ResultCode::NOT_FOUND->value);
         $user->forceDelete();
     }
 

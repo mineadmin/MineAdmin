@@ -21,7 +21,6 @@ use HyperfTests\Feature\Admin\ControllerCase;
 
 /**
  * @internal
- * @coversNothing
  */
 final class RoleControllerTest extends ControllerCase
 {

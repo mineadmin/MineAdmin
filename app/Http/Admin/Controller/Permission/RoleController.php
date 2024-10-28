@@ -27,7 +27,6 @@ use App\Schema\RoleSchema;
 use App\Service\Permission\RoleService;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
@@ -59,11 +58,11 @@ final class RoleController extends AbstractController
     )]
     #[PageResponse(instance: RoleSchema::class)]
     #[Permission(code: 'permission:role:index')]
-    public function pageList(RequestInterface $request): Result
+    public function pageList(): Result
     {
         return $this->success(
             $this->service->page(
-                $request->all(),
+                $this->getRequestData(),
                 $this->getCurrentPage(),
                 $this->getPageSize()
             )
@@ -119,9 +118,9 @@ final class RoleController extends AbstractController
     )]
     #[ResultResponse(instance: new Result())]
     #[Permission(code: 'permission:role:delete')]
-    public function delete(RequestInterface $request): Result
+    public function delete(): Result
     {
-        $this->service->deleteById($request->all(), false);
+        $this->service->deleteById($this->getRequestData(), false);
         return $this->success();
     }
 

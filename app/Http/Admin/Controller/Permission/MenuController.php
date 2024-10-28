@@ -110,9 +110,9 @@ final class MenuController extends AbstractController
     )]
     #[PageResponse(instance: new Result())]
     #[Permission(code: 'permission:menu:delete')]
-    public function delete(RequestInterface $request): Result
+    public function delete(): Result
     {
-        $this->service->deleteById($request->all(), false);
+        $this->service->deleteById($this->getRequestData(), false);
         return $this->success();
     }
 }

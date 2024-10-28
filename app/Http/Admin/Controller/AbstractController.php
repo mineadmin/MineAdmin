@@ -28,6 +28,11 @@ class AbstractController extends Base
         return (int) $this->getRequest()->input('page_size', 10);
     }
 
+    protected function getRequestData(): array
+    {
+        return $this->getRequest()->all();
+    }
+
     protected function getRequest(): RequestInterface
     {
         return ApplicationContext::getContainer()->get(RequestInterface::class);

@@ -47,10 +47,10 @@ final class UserOperationLogController extends AbstractController
     )]
     #[Permission(code: 'log:userOperation:list')]
     #[PageResponse(instance: UserOperationLogSchema::class)]
-    public function page(RequestInterface $request): Result
+    public function page(): Result
     {
         return $this->success($this->service->page(
-            $request->all(),
+            $this->getRequestData(),
             $this->getCurrentPage(),
             $this->getPageSize()
         ));

@@ -67,7 +67,7 @@
     "mineadmin/upload": "3.0-RC"
   },
   "require-dev": {
-    "doctrine/dbal": "^3.6",
+    "doctrine/dbal": "^4.2",
     "fakerphp/faker": "^1.23",
     "friendsofphp/php-cs-fixer": "^3.0",
     "hyperf/devtool": "3.1.*",

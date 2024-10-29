@@ -25,7 +25,6 @@ use App\Schema\UserSchema;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\HttpServer\Request;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
@@ -57,11 +56,11 @@ final class UserController extends AbstractController
     )]
     #[Permission(code: 'permission:user:index')]
     #[PageResponse(instance: UserSchema::class)]
-    public function pageList(Request $request): Result
+    public function pageList(): Result
     {
         return $this->success(
             $this->userService->page(
-                $request->all(),
+                $this->getRequestData(),
                 $this->getCurrentPage(),
                 $this->getPageSize()
             )
@@ -126,9 +125,9 @@ final class UserController extends AbstractController
     )]
     #[Permission(code: 'permission:user:delete')]
     #[ResultResponse(new Result())]
-    public function delete(Request $request): Result
+    public function delete(): Result
     {
-        $this->userService->deleteById($request->all(), false);
+        $this->userService->deleteById($this->getRequestData(), false);
         return $this->success();
     }
 

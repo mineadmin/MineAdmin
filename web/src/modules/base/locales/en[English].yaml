@@ -117,3 +117,9 @@ baseMenu:
     userOperationLog: User Operation Log List
     userLoginLogDelete: User Login Log Delete
     userOperationLogDelete: User Operation Log Delete
+  dataCenter:
+    index: Data Center
+    attachment: Attachment
+    attachmentList: Attachment List
+    attachmentUpload: Attachment Upload
+    attachmentDelete: Attachment Delete

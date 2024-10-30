@@ -24,8 +24,8 @@ importers:
         specifier: ^1.0.19
         version: 1.0.19(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/table':
-        specifier: ^1.0.23
-        version: 1.0.23(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.25
+        version: 1.0.25(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@vueuse/core':
         specifier: ^11.1.0
         version: 11.1.0(vue@3.5.12(typescript@5.6.2))
@@ -1742,8 +1742,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/table@1.0.23':
-    resolution: {integrity: sha512-MgcUESYiBOfuT3H2WEIo0EENaTagMc9+zpg6g4GYKdxGiq2vHVO8ZWBerB+s7f1r3tQFMjHFqGbA91hzZlGqiw==}
+  '@mineadmin/table@1.0.25':
+    resolution: {integrity: sha512-iPWhCVbTzE8pr21dQqrnXnwcdIM0LCjd1HbH9ZF04LOZn7+0U4LWZvoHy7bVq3yyQo7SGZBqV61Zajeyrddo7A==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -7541,7 +7541,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/table@1.0.23(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/table@1.0.25(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.6(vue@3.5.12(typescript@5.6.2))
       vue: 3.5.12(typescript@5.6.2)

@@ -15,7 +15,7 @@ return [
     'enable' => true,
     'port' => 9503,
     'json_dir' => BASE_PATH . '/storage/swagger',
-    'html' => null,
+    'html' => BASE_PATH . '/storage/swagger/index.html',
     'url' => '/swagger',
     'auto_generate' => true,
     'scan' => [

@@ -149,3 +149,9 @@ baseMenu:
     userOperationLog: 用户操作日志
     userLoginLogDelete: 用户登录日志删除
     userOperationLogDelete: 用户操作日志删除
+  dataCenter:
+    index: 数据中心
+    attachment: 附件管理
+    attachmentList: 附件列表
+    attachmentUpload: 上传附件
+    attachmentDelete: 删除附件

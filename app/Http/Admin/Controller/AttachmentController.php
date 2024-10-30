@@ -48,7 +48,7 @@ final class AttachmentController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['数据中心'],
     )]
-    #[Permission(code: 'attachment:list')]
+    #[Permission(code: 'dataCenter:attachment:list')]
     #[PageResponse(instance: AttachmentSchema::class)]
     public function list(): Result
     {
@@ -69,7 +69,7 @@ final class AttachmentController extends AbstractController
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['数据中心'],
     )]
-    #[Permission(code: 'attachment:upload')]
+    #[Permission(code: 'dataCenter:attachment:upload')]
     #[ResultResponse(instance: new Result())]
     public function upload(UploadRequest $request): Result
     {
@@ -86,7 +86,7 @@ final class AttachmentController extends AbstractController
         path: '/admin/attachment/{id}',
         operationId: 'DeleteAttachment',
     )]
-    #[Permission(code: 'attachment:delete')]
+    #[Permission(code: 'dataCenter:attachment:delete')]
     #[ResultResponse(instance: new Result())]
     public function delete(int $id): Result
     {

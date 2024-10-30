@@ -28,7 +28,7 @@ final class AttachmentControllerTest extends ControllerCase
     {
         $token = $this->token;
         $url = '/admin/attachment/list';
-        $code = 'attachment:list';
+        $code = 'dataCenter:attachment:list';
         $result = $this->get($url);
         $enforce = $this->getEnforce();
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
@@ -68,7 +68,7 @@ final class AttachmentControllerTest extends ControllerCase
             'remark' => $faker->sentence,
         ]);
         $url = '/admin/attachment';
-        $code = 'attachment:delete';
+        $code = 'dataCenter:attachment:delete';
         $enforce = $this->getEnforce();
         $result = $this->delete($url . '/' . $entity->id);
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);

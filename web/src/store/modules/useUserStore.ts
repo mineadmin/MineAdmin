@@ -13,6 +13,7 @@ import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from '@/hooks/auto-imports/useHttp.ts'
 import * as PermissionApi from '~/base/api/permission.ts'
 import type { MenuVo, RoleVo } from '~/base/api/permission.ts'
+import {recursionGetKey} from "@/utils/recursionGetKey.ts";
 
 export interface LoginParams {
   username: string
@@ -126,14 +127,12 @@ const useUserStore = defineStore(
         const { data } = await getInfo()
         setUserInfo(data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
-
           setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
         }
         await refreshMenu()
         await refreshRole()
         await routeStore.initRoutes(router, getMenu())
-        const codes: string[] = []
-        router.getRoutes()?.map(item => codes.push(item.name as string))
+        const codes: string[] = recursionGetKey(getMenu(), 'name')
         getRoles().includes('SuperAdmin') && codes.unshift('*')
         setPermissions(codes)
         await usePluginStore().callHooks('getUserInfo', data)

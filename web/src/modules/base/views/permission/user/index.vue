@@ -130,7 +130,7 @@ function handleDelete() {
     const response = await deleteByIds(ids)
     if (response.code === ResultCode.SUCCESS) {
       msg.success(t('crud.delSuccess'))
-      proTableRef.value.refresh()
+      await proTableRef.value.refresh()
     }
   })
 }

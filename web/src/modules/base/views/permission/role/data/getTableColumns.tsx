@@ -54,7 +54,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
         actions: [
           {
             name: 'setPermission',
-            show: ({ row }) => showBtn('permission:role:permission', row),
+            show: ({ row }) => showBtn(['permission:role:getMenu', 'permission:role:setMenu'], row),
             icon: 'material-symbols:checklist-rounded',
             text: () => t('baseRoleManage.setPermission'),
             onClick: ({ row }) => {

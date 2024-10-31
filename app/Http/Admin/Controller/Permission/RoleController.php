@@ -135,7 +135,7 @@ final class RoleController extends AbstractController
         instance: new Result(),
         example: '{"code":200,"message":"成功","data":[{"id":59,"name":"xdrljpefIZ"},{"id":60,"name":"GIdOejHL2R"},{"id":61,"name":"ZpEnJv00VG"}]}'
     )]
-    #[Permission(code: 'permission:get:role')]
+    #[Permission(code: 'permission:role:getMenu')]
     public function getRolePermissionForRole(int $id): Result
     {
         return $this->success($this->service->getRolePermission($id)->map(static fn (Menu $menu) => $menu->only([
@@ -154,7 +154,7 @@ final class RoleController extends AbstractController
     #[RequestBody(content: new JsonContent(
         ref: BatchGrantPermissionsForRoleRequest::class
     ))]
-    #[Permission(code: 'permission:set:role')]
+    #[Permission(code: 'permission:role:setMenu')]
     public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
     {
         if (! $this->service->existsById($id)) {

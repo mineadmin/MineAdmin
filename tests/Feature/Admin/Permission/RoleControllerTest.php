@@ -228,11 +228,13 @@ final class RoleControllerTest extends ControllerCase
         self::assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
         self::assertTrue($enforce->hasRoleForUser($this->user->username, $role->code));
 
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:set:role'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:set:role'));
+        self::assertFalse($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:role:setMenu'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:role:setMenu'));
 
-        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:get:role'));
-        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:get:role'));
+        self::assertFalse($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
+        self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:role:getMenu'));
+        self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
 
         $result = $this->put($uri, ['permissions' => $names], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::SUCCESS->value);

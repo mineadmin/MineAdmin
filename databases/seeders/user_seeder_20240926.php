@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
-use Casbin\Enforcer;
 use Hyperf\Database\Seeders\Seeder;
 
 class UserSeeder20240926 extends Seeder

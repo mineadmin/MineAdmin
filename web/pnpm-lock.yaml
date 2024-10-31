@@ -15,14 +15,14 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/form':
-        specifier: ^1.0.20
-        version: 1.0.20(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.21
+        version: 1.0.21(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/pro-table':
         specifier: ^1.0.22
         version: 1.0.22(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/search':
-        specifier: ^1.0.19
-        version: 1.0.19(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
+        specifier: ^1.0.20
+        version: 1.0.20(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
       '@mineadmin/table':
         specifier: ^1.0.25
         version: 1.0.25(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)
@@ -1727,8 +1727,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/form@1.0.20':
-    resolution: {integrity: sha512-IqS/Sry65RSzgPxXTE/SRPi3BBb/NRXSTYmUS9y7nplIf2IWGD1US9k2q3oIcKZJxj9E209UrkUPAu6/438grg==}
+  '@mineadmin/form@1.0.21':
+    resolution: {integrity: sha512-UP+qO+VQr/9Xb4tdEVnjzIcUJf59Tq0ucZxmC/pdUEMPe2JL0diiJVUQjSmvtM37iCKdUJ0fukgQF53jHmsGsg==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -1737,8 +1737,8 @@ packages:
     peerDependencies:
       element-plus: ^2.0.0
 
-  '@mineadmin/search@1.0.19':
-    resolution: {integrity: sha512-3o1zQvkHJBG8RbyXoyo6DbrQ08iO0AsjnDkIt2d5q2ITAeidQK44jswGm2M3raPbMbY+CVSQCDy6d4h+JBK0eQ==}
+  '@mineadmin/search@1.0.20':
+    resolution: {integrity: sha512-C4UT/U/df3lp+NylI/uKFfm7vxsi0zOZIXEDIFREjbo76puxif+KwE/ISfOyOecHZp+SBXMEUZQBgxrYa4Jy9g==}
     peerDependencies:
       element-plus: ^2.0.0
 
@@ -7520,7 +7520,7 @@ snapshots:
       - '@vue/composition-api'
       - typescript
 
-  '@mineadmin/form@1.0.20(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/form@1.0.21(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.6(vue@3.5.12(typescript@5.6.2))
       vue: 3.5.12(typescript@5.6.2)
@@ -7534,7 +7534,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@mineadmin/search@1.0.19(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
+  '@mineadmin/search@1.0.20(element-plus@2.8.6(vue@3.5.12(typescript@5.6.2)))(typescript@5.6.2)':
     dependencies:
       element-plus: 2.8.6(vue@3.5.12(typescript@5.6.2))
       vue: 3.5.12(typescript@5.6.2)

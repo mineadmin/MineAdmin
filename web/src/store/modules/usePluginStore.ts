@@ -22,7 +22,7 @@ const usePluginStore = defineStore(
       instance.value = app
       plugins.value = app.config.globalProperties.$plugins as keyPlugins
       Object.keys(plugins.value).map(async (name: string) => {
-        const plugin = plugins.value[name] as Plugin.PluginConfig
+        const plugin: Plugin.PluginConfig = plugins.value[name]
         if (plugin.config?.enable && plugin?.hooks && plugin?.hooks?.start) {
           await plugin.hooks.start(plugin.config)
         }
@@ -39,7 +39,7 @@ const usePluginStore = defineStore(
      */
     async function callHooks(hookName: string, ...args: any[]) {
       await Promise.all(Object.keys(plugins.value as keyPlugins).map(async (name: string) => {
-        const plugin = plugins.value[name] as Plugin.PluginConfig
+        const plugin: Plugin.PluginConfig = plugins.value[name]
         if (plugin.config?.enable && plugin?.hooks && plugin.hooks[hookName]) {
           await plugin.hooks[hookName](...args)
         }
@@ -50,12 +50,12 @@ const usePluginStore = defineStore(
       return plugins.value as keyPlugins
     }
 
-    async function enabled(pluginName: string) {
+    function enabled(pluginName: string) {
       if (plugins.value[pluginName]) {
-        const plg = plugins.value[pluginName] as Plugin.PluginConfig
+        const plg: Plugin.PluginConfig = plugins.value[pluginName]
         plg.config.enable = true
         if (plg?.hooks && plg?.hooks?.start) {
-          await plg.hooks.start(plg.config)
+          plg.hooks.start(plg.config)
         }
         if (!useList.value[pluginName]) {
           useList.value[pluginName] = instance.value?.use(plg.install)

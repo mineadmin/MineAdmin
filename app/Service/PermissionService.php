@@ -16,12 +16,9 @@ use Casbin\Enforcer;
 
 final class PermissionService
 {
-    public function __construct(
-        private readonly Enforcer $enforcer
-    ) {}
 
     public function getEnforce(): Enforcer
     {
-        return $this->enforcer;
+        return make(Enforcer::class);
     }
 }

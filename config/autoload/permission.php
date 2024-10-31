@@ -27,7 +27,7 @@ return [
     /*
     * Casbin adapter .
     */
-//    'adapter' => DatabaseAdapter::class,
+    //    'adapter' => DatabaseAdapter::class,
 
     /*
     * Database setting.

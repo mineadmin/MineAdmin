@@ -228,9 +228,11 @@ final class RoleControllerTest extends ControllerCase
         self::assertTrue($enforce->addRoleForUser($this->user->username, $role->code));
         self::assertTrue($enforce->hasRoleForUser($this->user->username, $role->code));
 
+        self::assertFalse($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
         self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:role:setMenu'));
         self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:role:setMenu'));
 
+        self::assertFalse($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
         self::assertTrue($enforce->addPermissionForUser($userRole->code, 'permission:role:getMenu'));
         self::assertTrue($enforce->hasPermissionForUser($userRole->code, 'permission:role:getMenu'));
 

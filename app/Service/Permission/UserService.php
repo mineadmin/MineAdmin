@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
+use App\Model\Permission\Role;
 use App\Model\Permission\User;
+use App\Repository\Permission\RoleRepository;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
-use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
 
 /**
@@ -25,6 +26,7 @@ final class UserService extends IService
 {
     public function __construct(
         protected readonly UserRepository $repository,
+        protected readonly RoleRepository $roleRepository
     ) {}
 
     public function getInfo(int $id): ?User
@@ -57,14 +59,14 @@ final class UserService extends IService
 
     public function batchGrantRoleForUser(int $id, array $roleCodes): void
     {
-        $entity = $this->repository->findById($id);
-        $syncData = [];
-        Arr::map($roleCodes, static function ($roleCode) use (&$syncData) {
-            $syncData[$roleCode] = [
-                'ptype' => 'g',
-            ];
-        });
-        // @phpstan-ignore-next-line
-        $entity->roles()->sync($syncData);
+        $this->repository->findById($id)
+            ->roles()
+            ->sync(
+                $this->roleRepository->list([
+                    'code' => $roleCodes,
+                ])->map(static function (Role $role) {
+                    return $role->id;
+                })
+            );
     }
 }

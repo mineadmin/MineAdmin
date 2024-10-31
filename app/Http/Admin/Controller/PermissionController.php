@@ -62,7 +62,7 @@ final class PermissionController extends AbstractController
                 'status' => Status::Normal,
                 'children' => true,
                 'parent_id' => 0,
-            ]) : $this->currentUser->menus()
+            ]) : $this->currentUser->permissions()
         );
     }
 

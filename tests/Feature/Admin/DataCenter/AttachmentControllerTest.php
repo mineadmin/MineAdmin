@@ -21,6 +21,7 @@ use HyperfTests\Feature\Admin\ControllerCase;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class AttachmentControllerTest extends ControllerCase
 {
@@ -30,14 +31,12 @@ final class AttachmentControllerTest extends ControllerCase
         $url = '/admin/attachment/list';
         $code = 'dataCenter:attachment:list';
         $result = $this->get($url);
-        $enforce = $this->getEnforce();
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        $this->forAddPermission($code);
         $result = $this->get($url, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
@@ -69,15 +68,13 @@ final class AttachmentControllerTest extends ControllerCase
         ]);
         $url = '/admin/attachment';
         $code = 'dataCenter:attachment:delete';
-        $enforce = $this->getEnforce();
         $result = $this->delete($url . '/' . $entity->id);
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, $code));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, $code));
+        $this->forAddPermission($code);
         $result = $this->delete($url . '/' . $entity->id, [], [
             'Authorization' => 'Bearer ' . $token,
         ]);

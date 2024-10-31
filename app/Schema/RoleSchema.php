@@ -62,7 +62,7 @@ final class RoleSchema implements \JsonSerializable
         $this->name = $model->name;
         $this->code = $model->code;
         $this->dataScope = $model->data_scope;
-        $this->status = $model->status;
+        $this->status = $model->status->value;
         $this->sort = $model->sort;
         $this->createdBy = $model->created_by;
         $this->updatedBy = $model->updated_by;

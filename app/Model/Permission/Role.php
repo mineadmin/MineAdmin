@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Model\Enums\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model as MineModel;
-use Mine\Casbin\Rule\Rule;
 
 /**
  * @property int $id 主键
  * @property string $name 角色名称
  * @property string $code 角色代码
  * @property int $data_scope 数据范围（1：全部数据权限 2：自定义数据权限 3：本部门数据权限 4：本部门及以下数据权限 5：本人数据权限）
- * @property int $status 状态 (1正常 2停用)
+ * @property Status $status 状态 (1正常 2停用)
  * @property int $sort 排序
  * @property int $created_by 创建者
  * @property int $updated_by 更新者
@@ -49,9 +49,12 @@ final class Role extends MineModel
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'id' => 'integer', 'data_scope' => 'integer',
-        'status' => 'integer', 'sort' => 'integer',
-        'created_by' => 'integer', 'updated_by' => 'integer',
+        'id' => 'integer',
+        'data_scope' => 'integer',
+        'status' => Status::class,
+        'sort' => 'integer',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -64,14 +67,10 @@ final class Role extends MineModel
         // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Menu::class,
-            // @phpstan-ignore-next-line
-            Rule::getModel()->getTable(),
-            'v0',
-            'v1',
-            'code',
-            'name'
-            // @phpstan-ignore-next-line
-        )->where(Rule::getModel()->getTable() . '.ptype', 'p');
+            'role_belongs_menu',
+            'role_id',
+            'menu_id'
+        );
     }
 
     public function users(): BelongsToMany
@@ -80,12 +79,9 @@ final class Role extends MineModel
         return $this->belongsToMany(
             User::class,
             // @phpstan-ignore-next-line
-            Rule::getModel()->getTable(),
-            'v1',
-            'v0',
-            'code',
-            'username'
-            // @phpstan-ignore-next-line
-        )->where(Rule::getModel()->getTable() . '.ptype', 'g');
+            'user_belongs_role',
+            'role_id',
+            'user_id'
+        );
     }
 }

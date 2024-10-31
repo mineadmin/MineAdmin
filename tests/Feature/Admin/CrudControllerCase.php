@@ -26,13 +26,12 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
         $result = $this->get($uri, ['token' => $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
+        $this->assertFalse($this->hasPermissions($roleCode));
+        $this->assertTrue($this->addPermissions($roleCode));
+        $this->assertTrue($this->hasPermissions($roleCode));
         $result = $this->get($uri, ['token' => $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
-        $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
+        $this->deletePermissions($roleCode);
         $result = $this->get($uri, ['token' => $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
     }
@@ -49,13 +48,12 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
+        $this->assertFalse($this->hasPermissions($roleCode));
+        $this->assertTrue($this->addPermissions($roleCode));
+        $this->assertTrue($this->hasPermissions($roleCode));
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
-        $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
+        $this->deletePermissions($roleCode);
         $result = $this->post($uri, $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         try {
@@ -95,13 +93,12 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
         $result = $this->put($uri . $entity->getKey(), $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
+        $this->assertFalse($this->hasPermissions($roleCode));
+        $this->assertTrue($this->addPermissions($roleCode));
+        $this->assertTrue($this->hasPermissions($roleCode));
         $result = $this->put($uri . $entity->getKey(), $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
-        $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
+        $this->deletePermissions($roleCode);
         $result = $this->put($uri . $entity->getKey(), $fillable, ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $entity->refresh();
@@ -130,15 +127,14 @@ class CrudControllerCase extends ControllerCase
         $this->assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
         $result = $this->delete($requestPath, [], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        $this->assertFalse($enforce->hasPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->addPermissionForUser($this->user->username, $roleCode));
-        $this->assertTrue($enforce->hasPermissionForUser($this->user->username, $roleCode));
+        $this->assertFalse($this->hasPermissions($roleCode));
+        $this->assertTrue($this->addPermissions($roleCode));
+        $this->assertTrue($this->hasPermissions($roleCode));
         $result = $this->delete($requestPath, [
             $entity->getKey(),
         ], ['Authorization' => 'Bearer ' . $token]);
         $this->assertSame($result['code'], ResultCode::SUCCESS->value);
-        $this->assertTrue($enforce->deletePermissionForUser($this->user->username, $roleCode));
+        $this->deletePermissions($roleCode);
         $result = $this->delete($requestPath, [
             $entity->getKey(),
         ], ['Authorization' => 'Bearer ' . $token]);

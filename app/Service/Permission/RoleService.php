@@ -36,6 +36,7 @@ final class RoleService extends IService
 
     public function batchGrantPermissionsForRole(int $id, array $permissionsCode): void
     {
+        // @phpstan-ignore-next-line
         $this->repository->findById($id)
             ->menus()
             ->sync(
@@ -43,7 +44,8 @@ final class RoleService extends IService
                     ->list([
                         'code' => $permissionsCode,
                     ])
-                    ->map(static fn ($item) => $item->id)->toArray()
+                    ->map(static fn ($item) => $item->id)
+                    ->toArray()
             );
     }
 }

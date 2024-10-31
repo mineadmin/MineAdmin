@@ -18,11 +18,12 @@ use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
+use Hyperf\Collection\Collection;
 use Hyperf\Stringable\Str;
-use Mine\Casbin\Rule\Rule;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class PermissionControllerTest extends ControllerCase
 {
@@ -31,7 +32,6 @@ final class PermissionControllerTest extends ControllerCase
     public function testMenus(): void
     {
         User::truncate();
-        Rule::truncate();
         Menu::truncate();
         $user = $this->generatorUser();
         $token = $this->getToken($user);
@@ -39,7 +39,7 @@ final class PermissionControllerTest extends ControllerCase
         self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        $menus = [
+        $menus = Collection::make([
             Menu::create([
                 'parent_id' => 0,
                 'name' => Str::random(10),
@@ -96,7 +96,7 @@ final class PermissionControllerTest extends ControllerCase
                 'sort' => rand(1, 100),
                 'remark' => Str::random(10),
             ]),
-        ];
+        ]);
         $role = Role::create([
             'name' => Str::random(10),
             'code' => Str::random(10),
@@ -112,25 +112,13 @@ final class PermissionControllerTest extends ControllerCase
             'status' => Status::Normal,
             'remark' => Str::random(),
         ]);
-        $menuIds = [];
-        Arr::map($menus, static function (Menu $menu) use (&$menuIds) {
-            if (\count($menuIds) > 2) {
-                return;
-            }
-            $menuIds[$menu->name] = [
-                'ptype' => 'p',
-            ];
-        });
-        $role->menus()->sync($menuIds);
+
+        $role->menus()->sync($menus->pluck('id')->toArray());
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         self::assertIsArray(Arr::get($result, 'data'));
         self::assertSame(\count(Arr::get($result, 'data')), 0);
-        $user->roles()->sync([
-            $superAdminRole->code => [
-                'ptype' => 'g',
-            ],
-        ]);
+        $user->roles()->sync($superAdminRole);
 
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
@@ -142,15 +130,11 @@ final class PermissionControllerTest extends ControllerCase
         self::assertIsArray(Arr::get($result, 'data'));
         self::assertSame(\count(Arr::get($result, 'data')), 0);
 
-        $user->roles()->sync([
-            $role->code => [
-                'ptype' => 'g',
-            ],
-        ]);
+        $user->roles()->sync($role);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         self::assertIsArray(Arr::get($result, 'data'));
-        self::assertSame(\count(Arr::get($result, 'data')), 3);
+        self::assertSame(\count(Arr::get($result, 'data')), 4);
         $role->menus()->detach();
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
@@ -162,11 +146,10 @@ final class PermissionControllerTest extends ControllerCase
     public function testRoles(): void
     {
         User::truncate();
-        Rule::truncate();
         Role::truncate();
         $user = $this->generatorUser();
         $token = $this->getToken($user);
-        $role = [
+        $roles = [
             Role::create([
                 'name' => Str::random(10),
                 'code' => Str::random(10),
@@ -202,13 +185,8 @@ final class PermissionControllerTest extends ControllerCase
         User::query()->where('username', 'SuperAdmin')->forceDelete();
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         self::assertIsArray(Arr::get($result, 'data'));
-        self::assertSame(\count(Arr::get($result, 'data')), 0);
-        $role = Role::where('code', 'SuperAdmin')->value('code');
-        $user->roles()->sync([
-            $role => [
-                'ptype' => 'g',
-            ],
-        ]);
+        $role = Role::where('code', 'SuperAdmin')->first();
+        $user->roles()->sync($role);
         $result = $this->get('/admin/permission/roles', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         self::assertIsArray(Arr::get($result, 'data'));

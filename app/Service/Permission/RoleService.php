@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace App\Service\Permission;
 
 use App\Model\Permission\Role;
+use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
-use Hyperf\Carbon\Carbon;
-use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
 
 /**
@@ -25,7 +24,8 @@ use Hyperf\Collection\Collection;
 final class RoleService extends IService
 {
     public function __construct(
-        protected readonly RoleRepository $repository
+        protected readonly RoleRepository $repository,
+        protected readonly MenuRepository $menuRepository
     ) {}
 
     public function getRolePermission(int $id): Collection
@@ -34,19 +34,16 @@ final class RoleService extends IService
         return $this->repository->findById($id)->menus()->get();
     }
 
-    public function batchGrantPermissionsForRole(int $id, array $menuIds): void
+    public function batchGrantPermissionsForRole(int $id, array $permissionsCode): void
     {
-        $entity = $this->repository->findById($id);
-        $syncData = [];
-        $currentTime = Carbon::now();
-        Arr::map($menuIds, static function ($menuId) use (&$syncData, $currentTime) {
-            $syncData[$menuId] = [
-                'ptype' => 'p',
-                'created_at' => $currentTime,
-                'updated_at' => $currentTime,
-            ];
-        });
-        // @phpstan-ignore-next-line
-        $entity->menus()->sync($syncData);
+        $this->repository->findById($id)
+            ->menus()
+            ->sync(
+                $this->menuRepository
+                    ->list([
+                        'code' => $permissionsCode,
+                    ])
+                    ->map(static fn ($item) => $item->id)->toArray()
+            );
     }
 }

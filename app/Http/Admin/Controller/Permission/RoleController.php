@@ -160,8 +160,8 @@ final class RoleController extends AbstractController
         if (! $this->service->existsById($id)) {
             throw new BusinessException(code: ResultCode::NOT_FOUND);
         }
-        $permissionIds = Arr::get($request->validated(), 'permissions', []);
-        $this->service->batchGrantPermissionsForRole($id, $permissionIds);
+        $permissionsCode = Arr::get($request->validated(), 'permissions', []);
+        $this->service->batchGrantPermissionsForRole($id, $permissionsCode);
         return $this->success();
     }
 }

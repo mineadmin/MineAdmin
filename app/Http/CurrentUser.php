@@ -49,10 +49,10 @@ final class CurrentUser
     /**
      * @return Collection<int,Menu>
      */
-    public function menus(): Collection
+    public function permissions(): Collection
     {
         // @phpstan-ignore-next-line
-        return $this->user()->getMenus();
+        return $this->user()->getPermissions();
     }
 
     /**
@@ -62,6 +62,11 @@ final class CurrentUser
     {
         // @phpstan-ignore-next-line
         return $this->user()->getRoles()->map(static fn (Role $role) => $role->only(['name', 'code', 'remark']));
+    }
+
+    public function hasMenu(string $menuCode): bool
+    {
+        return $this->user()->roles()->whereHas('menus', static fn ($query) => $query->where('name', $menuCode))->exists();
     }
 
     public function isSystem(): bool

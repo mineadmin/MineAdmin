@@ -12,16 +12,4 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Casbin\Enforcer;
-
-final class PermissionService
-{
-    public function __construct(
-        private readonly Enforcer $enforcer
-    ) {}
-
-    public function getEnforce(): Enforcer
-    {
-        return $this->enforcer;
-    }
-}
+final class PermissionService {}

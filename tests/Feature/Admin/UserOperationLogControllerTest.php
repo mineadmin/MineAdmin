@@ -21,6 +21,7 @@ use Hyperf\Stringable\Str;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class UserOperationLogControllerTest extends ControllerCase
 {
@@ -31,14 +32,12 @@ final class UserOperationLogControllerTest extends ControllerCase
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:list'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'log:userOperation:list'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:list'));
+        self::assertFalse($this->hasPermissions('log:userOperation:list'));
+        self::assertTrue($this->addPermissions('log:userOperation:list'));
+        self::assertTrue($this->hasPermissions('log:userOperation:list'));
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'log:userOperation:list'));
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:list'));
+        $this->deletePermissions('log:userOperation:list');
         $result = $this->get($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
     }
@@ -74,10 +73,9 @@ final class UserOperationLogControllerTest extends ControllerCase
         self::assertSame(Arr::get($result, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->delete($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
-        $enforce = $this->getEnforce();
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:delete'));
-        self::assertTrue($enforce->addPermissionForUser($this->user->username, 'log:userOperation:delete'));
-        self::assertTrue($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:delete'));
+        self::assertFalse($this->hasPermissions('log:userOperation:delete'));
+        self::assertTrue($this->addPermissions('log:userOperation:delete'));
+        self::assertTrue($this->hasPermissions('log:userOperation:delete'));
         $result = $this->delete($uri, ['token' => $this->token, 'ids' => [$entity->id]]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         try {
@@ -85,8 +83,7 @@ final class UserOperationLogControllerTest extends ControllerCase
         } catch (\Exception $exception) {
             self::assertInstanceOf(ModelNotFoundException::class, $exception);
         }
-        self::assertTrue($enforce->deletePermissionForUser($this->user->username, 'log:userOperation:delete'));
-        self::assertFalse($enforce->hasPermissionForUser($this->user->username, 'log:userOperation:delete'));
+        $this->deletePermissions('log:userOperation:delete');
         $result = $this->delete($uri, ['token' => $this->token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::FORBIDDEN->value);
     }

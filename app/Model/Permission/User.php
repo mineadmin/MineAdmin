@@ -16,9 +16,9 @@ use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
+use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model;
-use Mine\Casbin\Rule\Rule;
 
 /**
  * @property int $id 用户ID，主键
@@ -63,9 +63,14 @@ final class User extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = [
-        'id' => 'integer', 'status' => Status::class, 'user_type' => Type::class,
-        'created_by' => 'integer', 'updated_by' => 'integer', 'created_at' => 'datetime',
-        'updated_at' => 'datetime', 'backend_setting' => 'json',
+        'id' => 'integer',
+        'status' => Status::class,
+        'user_type' => Type::class,
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'backend_setting' => 'json',
     ];
 
     public function roles(): BelongsToMany
@@ -74,18 +79,20 @@ final class User extends Model
         return $this->belongsToMany(
             Role::class,
             // @phpstan-ignore-next-line
-            Rule::getModel()->getTable(),
-            'v0',
-            'v1',
-            'username',
-            'code'
-            // @phpstan-ignore-next-line
-        )->where(Rule::getModel()->getTable() . '.ptype', '=', 'g');
+            'user_belongs_role',
+        );
     }
 
     public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = password_hash((string) $value, \PASSWORD_DEFAULT);
+    }
+
+    public function creating(Creating $event)
+    {
+        if (! $this->isDirty('password')) {
+            $this->resetPassword();
+        }
     }
 
     public function verifyPassword(string $password): bool
@@ -110,7 +117,7 @@ final class User extends Model
             ->get();
     }
 
-    public function getMenus(): Collection
+    public function getPermissions(): Collection
     {
         // @phpstan-ignore-next-line
         return $this->roles()->get()->map(static function (Role $role) {

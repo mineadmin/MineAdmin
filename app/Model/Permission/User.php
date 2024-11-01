@@ -116,18 +116,25 @@ final class User extends Model
         return $this->roles()->where('code', 'SuperAdmin')->exists();
     }
 
-    public function getRoles(): Collection
+    public function getRoles(array $fields): Collection
     {
         return $this->roles()
             ->where('status', Status::Normal)
+//            ->select(['id', ...$fields])
+            ->select($fields)
             ->get();
     }
 
+    /**
+     * @return Collection<int, Menu>
+     */
     public function getPermissions(): Collection
     {
-        // @phpstan-ignore-next-line
-        return $this->roles()->get()->map(static function (Role $role) {
-            return $role->menus()->where('parent_id', 0)->with('children')->get();
-        })->flatten();
+        return $this->roles()->with('menus')->get()->pluck('menus')->flatten();
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
     }
 }

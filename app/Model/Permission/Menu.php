@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model as MineModel;
-use Mine\Casbin\Rule\Rule;
 
 /**
  * @property int $id 主键
@@ -36,6 +35,7 @@ use Mine\Casbin\Rule\Rule;
  * @property Carbon $updated_at 更新时间]
  * @property string $remark 备注
  * @property Collection|Role[] $roles
+ * @property Collection|Menu[] $children
  */
 final class Menu extends MineModel
 {
@@ -71,17 +71,12 @@ final class Menu extends MineModel
      */
     public function roles(): BelongsToMany
     {
-        // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Role::class,
-            // @phpstan-ignore-next-line
-            Rule::getModel()->getTable(),
-            'v1',
-            'v0',
-            'code',
-            'name'
-            // @phpstan-ignore-next-line
-        )->where(Rule::getModel()->getTable() . '.ptype', 'p');
+            'role_belongs_menu',
+            'menu_id',
+            'role_id'
+        );
     }
 
     public function children()

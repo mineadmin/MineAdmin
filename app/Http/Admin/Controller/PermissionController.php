@@ -58,11 +58,13 @@ final class PermissionController extends AbstractController
     public function menus(): Result
     {
         return $this->success(
-            data: $this->currentUser->isSuperAdmin() ? $this->repository->list([
-                'status' => Status::Normal,
-                'children' => true,
-                'parent_id' => 0,
-            ]) : $this->currentUser->permissions()
+            data: $this->currentUser->isSuperAdmin()
+                ? $this->repository->list([
+                    'status' => Status::Normal,
+                    'children' => true,
+                    'parent_id' => 0,
+                ])
+                : $this->currentUser->filterCurrentUser()
         );
     }
 
@@ -82,7 +84,7 @@ final class PermissionController extends AbstractController
         return $this->success(
             data: $this->currentUser->isSuperAdmin()
                 ? $this->roleRepository->list(['status' => Status::Normal])
-                : $this->currentUser->roles()
+                : $this->currentUser->user()->getRoles(['name', 'code', 'remark'])
         );
     }
 

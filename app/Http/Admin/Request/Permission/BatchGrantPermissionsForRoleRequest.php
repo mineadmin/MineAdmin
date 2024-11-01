@@ -32,7 +32,7 @@ class BatchGrantPermissionsForRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'permissions' => 'required|array',
+            'permissions' => 'sometimes|array',
             'permissions.*' => 'string|exists:menu,name',
         ];
     }

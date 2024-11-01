@@ -36,6 +36,11 @@ final class RoleService extends IService
 
     public function batchGrantPermissionsForRole(int $id, array $permissionsCode): void
     {
+        if (\count($permissionsCode) === 0) {
+            // @phpstan-ignore-next-line
+            $this->repository->findById($id)->menus()->detach();
+            return;
+        }
         // @phpstan-ignore-next-line
         $this->repository->findById($id)
             ->menus()

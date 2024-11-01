@@ -64,7 +64,6 @@ final class Role extends MineModel
      */
     public function menus(): BelongsToMany
     {
-        // @phpstan-ignore-next-line
         return $this->belongsToMany(
             Menu::class,
             'role_belongs_menu',

@@ -106,10 +106,10 @@ abstract class IRepository
         }, $this->model, $id, $data);
     }
 
-    public function deleteById(mixed $id): bool
+    public function deleteById(mixed $id): int
     {
         // @phpstan-ignore-next-line
-        return (bool) $this->model->whereKey($id)->delete();
+        return $this->model::destroy($id);
     }
 
     public function forceDeleteById(mixed $id): bool

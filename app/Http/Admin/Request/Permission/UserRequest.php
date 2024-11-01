@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Model\Permission\User;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
 use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
@@ -53,8 +54,9 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
+        $userT = make(User::class)->getTable();
         return [
-            'username' => 'required|string|max:20',
+            'username' => 'required|string|max:20|unique:' . $userT . ',username',
             'user_type' => 'required|integer',
             'nickname' => ['required', 'string', 'max:60', 'regex:/^[^\s]+$/'],
             'phone' => 'sometimes|string|max:12',

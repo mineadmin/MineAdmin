@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use App\Model\Permission\Menu;
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use App\Service\PassportService;
@@ -53,30 +52,31 @@ final class CurrentUser
 
     public function filterCurrentUser(?array $menuTreeList = null, ?array $permissions = null): array
     {
-        $permissions = $permissions ?? $this->user()->getPermissions()->pluck('name')->toArray();
-        $menuTreeList = $menuTreeList ?? $this->globalMenuTreeList()->toArray();
+        $permissions ??= $this->user()->getPermissions()->pluck('name')->toArray();
+        $menuTreeList ??= $this->globalMenuTreeList()->toArray();
 
         return Arr::where(
             array_map(
-                fn(array $menu) => $this->filterMenu($menu, $permissions),
+                fn (array $menu) => $this->filterMenu($menu, $permissions),
                 $menuTreeList
             ),
-            fn(array $menu) => in_array($menu['name'], $permissions, true)
+            static fn (array $menu) => \in_array($menu['name'], $permissions, true)
         );
-    }
-
-    private function filterMenu(array $menu, array $permissions): array
-    {
-        if (!empty($menu['children'])) {
-            $menu['children'] = $this->filterCurrentUser($menu['children'], $permissions);
-        }
-        return $menu;
     }
 
     public function globalMenuTreeList(): Collection
     {
+        // @phpstan-ignore-next-line
         return $this->user()->roles()->get()->map(static function (Role $role) {
             return $role->menus()->where('parent_id', 0)->with('children')->get();
         })->flatten();
+    }
+
+    private function filterMenu(array $menu, array $permissions): array
+    {
+        if (! empty($menu['children'])) {
+            $menu['children'] = $this->filterCurrentUser($menu['children'], $permissions);
+        }
+        return $menu;
     }
 }

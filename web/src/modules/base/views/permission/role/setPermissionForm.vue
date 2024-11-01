@@ -26,6 +26,7 @@ const { data = null } = defineProps<{
 const t = useTrans().globalTrans
 const userRoleForm = ref<MaFormExpose>()
 const userModel = ref<{ id?: number }>({})
+const checkStrictly = ref<boolean>(false)
 
 const permissionTreeRef = ref<any>()
 
@@ -38,6 +39,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
       response.data.map((item: any) => {
         names.push(item.name)
       })
+      checkStrictly.value = true
     }
   }
 
@@ -75,6 +77,7 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
   })
 
   await nextTick(() => {
+    permissionTreeRef.value?.setCheckStrictly(!!userModel.value?.id)
     permissionTreeRef.value?.elTree?.setCheckedKeys?.(names)
   })
 })

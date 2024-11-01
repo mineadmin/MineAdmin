@@ -86,10 +86,15 @@ function handleInvert() {
   })
 }
 
+function setCheckStrictly(mode: boolean) {
+  checkStrictly.value = mode
+}
+
 defineExpose({
   toggle,
   handleSelectAll,
   handleInvert,
+  setCheckStrictly,
   elTree: treeRef,
 })
 </script>
@@ -97,7 +102,7 @@ defineExpose({
 <template>
   <div class="sticky w-full">
     <div v-if="$attrs?.showCheckbox ?? false" class="flex items-center">
-      <el-checkbox @change="v => checkStrictly = v as boolean">
+      <el-checkbox v-model="checkStrictly" @change="v => checkStrictly = v as boolean">
         <div class="flex items-center gap-x-1">
           {{ t('strictlyMode') }}
           <el-tooltip :content="t('strictlyModeTip')">

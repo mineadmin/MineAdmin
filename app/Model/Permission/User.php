@@ -17,6 +17,7 @@ use App\Model\Enums\User\Type;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
+use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model;
 
@@ -81,6 +82,11 @@ final class User extends Model
             // @phpstan-ignore-next-line
             'user_belongs_role',
         );
+    }
+
+    public function deleted(Deleted $event)
+    {
+        $this->roles()->detach();
     }
 
     public function setPasswordAttribute($value): void

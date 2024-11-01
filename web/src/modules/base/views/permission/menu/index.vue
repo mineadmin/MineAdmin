@@ -56,7 +56,7 @@ function createOrSaveMenu() {
   const elForm = getElFormRef() as typeof ElForm
   setLoadingState(true)
   elForm.validate().then(() => {
-    if (currentMenu.value !== null && model.dataType && model.dataType === 'add') {
+    if (model.dataType && model.dataType === 'add') {
       if (!model.parent_id) {
         model.parent_id = 0
       }
@@ -67,7 +67,7 @@ function createOrSaveMenu() {
         setNodeExpand(model.parent_id as number)
       }).catch((err: any) => msg.alertError(err))
     }
-    else if (model.dataType === 'edit' && model.id) {
+    else if (currentMenu.value !== null && model.dataType === 'edit' && model.id) {
       save(model.id as number, model).then((res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
       }).catch((err: any) => msg.alertError(err))

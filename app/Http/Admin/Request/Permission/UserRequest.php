@@ -54,7 +54,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|max:20',
+            'username' => 'required|string|max:20|unique:user,username',
             'user_type' => 'required|integer',
             'nickname' => ['required', 'string', 'max:60', 'regex:/^[^\s]+$/'],
             'phone' => 'sometimes|string|max:12',

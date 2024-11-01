@@ -127,7 +127,7 @@ final class UserController extends AbstractController
     #[ResultResponse(new Result())]
     public function delete(): Result
     {
-        $this->userService->deleteById($this->getRequestData(), false);
+        $this->userService->deleteById($this->getRequestData());
         return $this->success();
     }
 

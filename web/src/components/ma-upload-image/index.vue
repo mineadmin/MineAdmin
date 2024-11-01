@@ -177,6 +177,7 @@ watch(
   () => modelValue,
   (val: string | string[] | null) => {
     if (!val) {
+      fileList.value = []
       return false
     }
 

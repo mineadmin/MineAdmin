@@ -112,8 +112,15 @@ final class UserController extends AbstractController
     #[ResultResponse(new Result())]
     public function create(UserRequest $request): Result
     {
-        $this->userService->create($request->validated());
-        return $this->success();
+        try {
+            $this->userService->create($request->validated());
+            return $this->success();
+        } catch (\Throwable $e) {
+            if ($e instanceof \PDOException && $e->getCode() == '23000') {
+                return $this->error(trans('user.username_exists'));
+            }
+            throw $e;
+        }
     }
 
     #[Delete(

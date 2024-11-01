@@ -9,8 +9,9 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+
+use App\Model\Permission\Role;
 use App\Model\Permission\User;
-use Casbin\Enforcer;
 use Hyperf\Database\Seeders\Seeder;
 
 class UserSeeder20240926 extends Seeder
@@ -21,6 +22,7 @@ class UserSeeder20240926 extends Seeder
     public function run()
     {
         User::truncate();
+        Role::truncate();
         $entity = User::create([
             'username' => 'admin',
             'user_type' => '100',
@@ -34,7 +36,10 @@ class UserSeeder20240926 extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        $enforce = make(Enforcer::class);
-        $enforce->addRoleForUser($entity->username, 'SuperAdmin');
+        $role = Role::create([
+            'name' => '超级管理员',
+            'code' => 'SuperAdmin',
+        ]);
+        $entity->roles()->sync($role);
     }
 }

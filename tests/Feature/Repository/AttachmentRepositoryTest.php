@@ -21,6 +21,7 @@ use Hyperf\Stringable\Str;
 
 /**
  * @internal
+ * @coversNothing
  */
 final class AttachmentRepositoryTest extends AbstractTestRepository
 {

@@ -138,7 +138,7 @@ const useRouteStore = defineStore(
               component = pluginViews[`../../plugins/${item.component}${suffix}`]
             }
             else {
-              console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component}${suffix} 页面`)
+              // console.warn(`MineAdmin-UI: 路由 [${item.meta.title}] 找不到 ${item.component}${suffix} 页面`)
             }
           }
 

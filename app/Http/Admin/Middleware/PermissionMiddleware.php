@@ -15,7 +15,6 @@ namespace App\Http\Admin\Middleware;
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
 use App\Http\CurrentUser;
-use App\Service\PermissionService;
 use Hyperf\Collection\Arr;
 use Hyperf\Di\Annotation\AnnotationCollector;
 use Hyperf\HttpServer\Router\Dispatched;
@@ -32,7 +31,6 @@ final class PermissionMiddleware implements MiddlewareInterface
 
     public function __construct(
         private readonly CurrentUser $currentUser,
-        private readonly PermissionService $permissionService
     ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -69,21 +67,12 @@ final class PermissionMiddleware implements MiddlewareInterface
         }
         $operation = $permission->getOperation();
         $codes = $permission->getCode();
-        $username = $this->currentUser->user()->username;
-        $enforce = $this->permissionService->getEnforce();
-        $allPermissionCode = $enforce->getImplicitPermissionsForUser($username);
-        if (Arr::isList($allPermissionCode)) {
-            $result = [];
-            array_walk_recursive($allPermissionCode, static function ($value) use (&$result) {
-                $result[] = $value;
-            });
-            $allPermissionCode = $result;
-        }
         foreach ($codes as $code) {
-            if ($operation === Permission::OPERATION_AND && ! \in_array($code, $allPermissionCode, true)) {
+            $isMenu = $this->currentUser->hasMenu($code);
+            if ($operation === Permission::OPERATION_AND && ! $isMenu) {
                 throw new BusinessException(code: ResultCode::FORBIDDEN);
             }
-            if ($operation === Permission::OPERATION_OR && \in_array($code, $allPermissionCode, true)) {
+            if ($operation === Permission::OPERATION_OR && $isMenu) {
                 return;
             }
         }

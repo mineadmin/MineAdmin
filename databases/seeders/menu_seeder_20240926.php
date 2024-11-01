@@ -11,10 +11,8 @@ declare(strict_types=1);
  */
 use App\Model\Permission\Menu;
 use App\Model\Permission\Meta;
-use App\Model\Permission\Role;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
-use Mine\Casbin\Rule\Rule;
 
 class MenuSeeder20240926 extends Seeder
 {
@@ -31,22 +29,9 @@ class MenuSeeder20240926 extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
-        Rule::truncate();
         Menu::truncate();
-        Role::truncate();
-        Role::create([
-            'name' => '超级管理员（创始人）',
-            'code' => 'SuperAdmin',
-            'sort' => 0,
-            'created_by' => env('SUPER_ADMIN', 0),
-            'updated_by' => 0,
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-            'remark' => '系统内置角色，不可删除',
-        ]);
         if (env('DB_DRIVER') === 'odbc-sql-server') {
             Db::unprepared('SET IDENTITY_INSERT [' . Menu::getModel()->getTable() . '] ON;');
         }

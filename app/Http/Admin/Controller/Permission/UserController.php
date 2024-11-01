@@ -112,7 +112,7 @@ final class UserController extends AbstractController
     #[ResultResponse(new Result())]
     public function create(UserRequest $request): Result
     {
-        $this->userService->create(array_merge($request->validated(),[
+        $this->userService->create(array_merge($request->validated(), [
             'created_by' => $this->currentUser->id(),
         ]));
         return $this->success();
@@ -145,7 +145,7 @@ final class UserController extends AbstractController
     #[ResultResponse(new Result())]
     public function save(int $userId, UserRequest $request): Result
     {
-        $this->userService->updateById($userId, array_merge($request->validated(),[
+        $this->userService->updateById($userId, array_merge($request->validated(), [
             'updated_by' => $this->currentUser->id(),
         ]));
         return $this->success();

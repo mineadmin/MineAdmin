@@ -38,7 +38,7 @@ class UserSeeder20240926 extends Seeder
         ]);
         $role = Role::create([
             'name' => '超级管理员',
-            'code' => 'superAdmin',
+            'code' => 'SuperAdmin',
         ]);
         $entity->roles()->sync($role);
     }

@@ -130,6 +130,7 @@ defineExpose({
         <el-button @click="toggle(false)">
           {{ t('fold') }}
         </el-button>
+        <slot name="buttons" />
       </el-button-group>
     </div>
   </div>

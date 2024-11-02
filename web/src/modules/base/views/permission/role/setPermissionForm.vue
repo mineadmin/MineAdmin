@@ -78,7 +78,9 @@ useForm('userRoleForm').then(async (form: MaFormExpose) => {
 
   await nextTick(() => {
     permissionTreeRef.value?.setCheckStrictly(!!userModel.value?.id)
-    permissionTreeRef.value?.elTree?.setCheckedKeys?.(names)
+    setTimeout(() => {
+      permissionTreeRef.value?.elTree?.setCheckedKeys?.(names)
+    }, 50)
   })
 })
 

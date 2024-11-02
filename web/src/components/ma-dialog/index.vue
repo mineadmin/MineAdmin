@@ -9,7 +9,7 @@
 -->
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import {useMagicKeys, useResizeObserver} from '@vueuse/core'
 import { ElDialog } from 'element-plus'
 
 defineOptions({ name: 'MaDialog' })
@@ -32,9 +32,24 @@ function okLoadingState(state: boolean) {
   okLoading.value = state
 }
 
+const attrs = useAttrs()
 const t = useTrans().globalTrans
 
 const isOpen = defineModel<boolean>({ default: false })
+
+function ok() {
+  emit('ok', { okLoadingState, attrs })
+}
+
+const { current } = useMagicKeys()
+const keys = computed(() => Array.from(current))
+
+watch(() => keys.value, async () => {
+  const [one, two] = keys.value
+  if (isOpen.value && one === 'control' && two === 'enter') {
+    ok()
+  }
+})
 
 onMounted(() => {
   useResizeObserver(document.body, (entries) => {
@@ -92,8 +107,8 @@ onMounted(() => {
     </template>
     <template #footer>
       <slot v-if="$attrs.footer" name="footer">
-        <el-button type="primary" :loading="okLoading" @click="() => emit('ok', { okLoadingState, $attrs })">
-          {{ t('crud.ok') }}
+        <el-button type="primary" :loading="okLoading" @click="ok">
+          {{ `${t('crud.ok')} Ctrl + Enter` }}
         </el-button>
         <el-button
           @click="(e) => {
@@ -101,7 +116,7 @@ onMounted(() => {
             isOpen = false
           }"
         >
-          {{ t('crud.cancel') }}
+          {{ `${t('crud.cancel')} Esc` }}
         </el-button>
       </slot>
     </template>

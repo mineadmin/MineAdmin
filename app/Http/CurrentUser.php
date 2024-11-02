@@ -55,13 +55,13 @@ final class CurrentUser
         $permissions ??= $this->user()->getPermissions()->pluck('name')->toArray();
         $menuTreeList ??= $this->globalMenuTreeList()->toArray();
 
-        return Arr::where(
+        return array_values(Arr::where(
             array_map(
                 fn (array $menu) => $this->filterMenu($menu, $permissions),
                 $menuTreeList
             ),
             static fn (array $menu) => \in_array($menu['name'], $permissions, true)
-        );
+        ));
     }
 
     public function globalMenuTreeList(): Collection

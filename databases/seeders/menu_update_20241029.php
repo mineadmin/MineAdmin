@@ -51,7 +51,7 @@ class MenuUpdate20241029 extends Seeder
                     'i18n' => 'baseMenu.dataCenter.index',
                     'icon' => 'ri:database-line',
                     'type' => 'M',
-                    'hidden' => 1,
+                    'hidden' => 0,
                     'componentPath' => 'modules/',
                     'componentSuffix' => '.vue',
                     'breadcrumbEnable' => 1,
@@ -67,7 +67,7 @@ class MenuUpdate20241029 extends Seeder
                         'meta' => new Meta([
                             'title' => '附件管理',
                             'type' => 'M',
-                            'hidden' => 1,
+                            'hidden' => 0,
                             'icon' => 'ri:attachment-line',
                             'i18n' => 'baseMenu.dataCenter.attachment',
                             'componentPath' => 'modules/',

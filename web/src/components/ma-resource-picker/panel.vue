@@ -29,6 +29,7 @@ defineOptions({ name: 'MaResourcePanel' })
 const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
+  showAction: true,
   pageSize: 15,
   dbClickConfirm: false,
   fileTypes: () => [
@@ -273,7 +274,7 @@ onMounted(async () => {
 
 <template>
   <div class="ma-resource-panel h-full flex flex-col">
-    <div class="flex justify-between">
+    <div class="flex md:flex-row flex-col gap-y-1 justify-between">
       <div>
         <el-segmented
           v-model="fileTypeSelected"
@@ -296,7 +297,7 @@ onMounted(async () => {
           v-model="queryParams.origin_name"
           placeholder="搜索资源名"
           clearable
-          class="w-[180px]"
+          class="w-full md:w-[180px]"
           @input="() => {
             getResourceList(queryParams)
           }"
@@ -380,13 +381,15 @@ onMounted(async () => {
           :pager-count="5"
         />
       </div>
-      <div>
-        <el-button @click="cancel">
-          取消
-        </el-button>
-        <el-button type="primary" @click="confirm">
-          确认
-        </el-button>
+      <div v-if="props.showAction">
+        <slot name="actions">
+          <el-button @click="cancel">
+            取消
+          </el-button>
+          <el-button type="primary" @click="confirm">
+            确认
+          </el-button>
+        </slot>
       </div>
     </div>
   </div>

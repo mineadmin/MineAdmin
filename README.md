@@ -11,13 +11,6 @@
     <a href="https://hyperf.wiki/3.0/#/" target="_blank">Hyperf官方文档</a> 
 </p>
 
-<p align="center">
-    <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
-    <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
-    <img src="https://svg.hamm.cn/badge.svg?key=License&value=MIT&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v3.0 RC" />
-</p>
-
 ## 项目介绍
 
 PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。

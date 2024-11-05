@@ -18,7 +18,6 @@ import createComponents from './components'
 import createCompression from './compression'
 import createDevtools from './devtools'
 import createI18nMessage from './i18n-message'
-import createMock from './mock'
 import startInfo from './start-info'
 import createSvgIcon from './svg-icon'
 import createUnocss from './unocss'
@@ -41,7 +40,6 @@ export default function createVitePlugins(viteEnv: any, isBuild = false) {
   vitePlugins.push(createComponents())
   vitePlugins.push(createUnocss())
   vitePlugins.push(createSvgIcon(isBuild))
-  vitePlugins.push(createMock(viteEnv, isBuild))
   vitePlugins.push(...createCompression(viteEnv, isBuild))
   vitePlugins.push(createArchiver(viteEnv))
   vitePlugins.push(createI18nMessage())

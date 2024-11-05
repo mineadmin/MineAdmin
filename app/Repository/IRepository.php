@@ -81,6 +81,7 @@ abstract class IRepository
      */
     public function create(array $data): mixed
     {
+        // @phpstan-ignore-next-line
         return $this->getQuery()->create($data);
     }
 

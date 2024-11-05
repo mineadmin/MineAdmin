@@ -18,7 +18,6 @@ const include = [
   'echarts',
   'floating-vue',
   'lodash-es',
-  'mockjs',
   'nprogress',
   'overlayscrollbars',
   'overlayscrollbars-vue',

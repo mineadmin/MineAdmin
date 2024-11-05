@@ -7,15 +7,13 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import Mock from 'mockjs'
-
 export default function getAnalysisData() {
   const getVisitorsData = () => {
     const year = new Date().getFullYear()
     const getLineData = (name: number) => {
       return Array.from({ length: 12 }).fill(0).map((_item, index) => ({
         x: `${index + 1}月`,
-        y: Mock.Random.natural(0, 100),
+        y: Math.floor(Math.random() * 10 + 2),
         name: String(name),
       }))
     }
@@ -31,7 +29,7 @@ export default function getAnalysisData() {
     const getLineData = (name: number) => {
       return Array.from({ length: 12 }).fill(0).map((_item, index) => ({
         x: `${index + 1}日`,
-        y: Mock.Random.natural(20, 100),
+        y: Math.floor(Math.random() * 20 + 5),
         name: String(name),
       }))
     }
@@ -195,7 +193,7 @@ export default function getAnalysisData() {
       }
       Array.from({ length: 12 }).fill(0).forEach((_item, index) => {
         result.x.push(`${index * 2}:00`)
-        result.y.push(Mock.Random.natural(1000, 3000))
+        result.y.push(Math.floor(Math.random() * 1000 + 500))
       })
       return result
     }
@@ -210,7 +208,7 @@ export default function getAnalysisData() {
     const getLineData = (name: string) => {
       return {
         name,
-        value: Array.from({ length: 12 }).fill(0).map(() => Mock.Random.natural(30, 90)),
+        value: Array.from({ length: 12 }).fill(0).map(() => Math.floor(Math.random() * 30 + 5)),
       }
     }
     return {

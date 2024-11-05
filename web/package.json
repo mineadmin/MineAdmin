@@ -34,7 +34,6 @@
     "floating-vue": "5.2.2",
     "lodash-es": "^4.17.21",
     "md-editor-v3": "^4.21.0",
-    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-vue": "^0.5.9",

@@ -4,8 +4,8 @@
 
 .mine-menu-link {
   @apply flex items-center justify-between text-sm px-[var(--mine-g-menu-retract-width)] mt-1.5 cursor-pointer
-    decoration-none rounded truncate overflow-x-hidden
-    text-gray-7 dark-text-gray-2
+  decoration-none rounded truncate overflow-x-hidden
+  text-gray-7 dark-text-gray-2
   ;
 
   transition: all 0.2s, display 0.3s;
@@ -24,37 +24,41 @@
 
   .mine-collapse-icon {
     @apply
-      relative ml-1 w-[10px]
-      after:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px])
-      before:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px]);
+    relative ml-1 w-[10px]
+    after:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px])
+    before:(absolute h-[1.5px] w-[6px] bg-current transition-transform-200 content-empty -translate-y-[1px]);
   }
 
   .mine-menu-badge {
     @apply text-xs py-0.5 px-1 rounded-md
     bg-red-4 dark-bg-red-6
-      text-white
+    text-white
     ;
   }
 }
 
 .mine-menu-link:hover {
   @apply
-    bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
-    dark-bg-[rgb(var(--ui-primary)/30%)] dark-text-gray-2
+  bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+  dark-bg-[rgb(var(--ui-primary)/30%)] dark-text-gray-2
   ;
 }
 
 .mine-menu-link.active {
   @apply
-    bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
-    dark-bg-[rgb(var(--ui-primary)/70%)] dark-text-gray-2
+  bg-[rgb(var(--ui-primary)/5%)] text-[rgb(var(--ui-primary))]
+  dark-bg-[rgb(var(--ui-primary)/70%)] dark-text-gray-2
   ;
+}
+
+.mine-menu-link.parentActive {
+  @apply text-[rgb(var(--ui-primary))];
 }
 
 .mine-sub-menu {
   @apply
-    ring-stone-2 dark-ring-stone-8
-    bg-[#f9fafc] dark-bg-dark-8
+  ring-stone-2 dark-ring-stone-8
+  bg-[#f9fafc] dark-bg-dark-8
   ;
 }
 

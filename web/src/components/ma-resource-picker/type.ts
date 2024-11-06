@@ -17,7 +17,7 @@ export interface Resource {
 
 export interface FileType extends MTabsOptionItems<string> {
   value: string
-  label: string
+  label: string | (() => string)
   suffix: string
 }
 

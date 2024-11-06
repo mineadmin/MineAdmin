@@ -42,10 +42,33 @@ const currentIconList = ref<string[]>([])
 const validIcons = ref<string[]>([])
 const pageData = ref<string[]>([])
 
+// 使用 import.meta.glob 动态加载 SVG 图标
+const customIcons = import.meta.glob('@/assets/icons/*.svg', { eager: true })
+const customIconList = Object.keys(customIcons).map(key =>
+  key.split('/').pop()?.replace('.svg', '') || '',
+)
+
+// 将自定义图标追加到 data 中
+function appendCustomIcons() {
+  const customData = {
+    prefix: 'custom',
+    info: {
+      name: '自定义图标',
+      total: customIconList.length,
+      version: '1.0.0',
+    },
+    icons: customIconList,
+  }
+  return [...data, customData]
+}
+
+// 将处理后的数据赋值回 data
+const updatedData = appendCustomIcons()
+
 const t = useLocalTrans()
 
 function getIcons() {
-  currentIconList.value = data.filter((item: any) => item.prefix === currentName.value)[0].icons
+  currentIconList.value = updatedData.filter((item: any) => item.prefix === currentName.value)[0].icons
   validIcons.value = currentIconList.value
 }
 
@@ -88,7 +111,7 @@ handleTabChange(currentName.value)
     <div class="pl-1.5 pr-3">
       <el-input v-model="keywords" :placeholder="t('searchPlaceholder')" clearable />
     </div>
-    <template v-for="item in data" :key="item.prefix">
+    <template v-for="item in updatedData" :key="item.prefix">
       <el-tab-pane :label="item.info.name" :name="item.prefix" class="mt-2">
         <div class="relative">
           <OverlayScrollbarsComponent class="h-[400px] p-3 pl-2 pr-4">
@@ -96,11 +119,11 @@ handleTabChange(currentName.value)
               <template v-for="icon in pageData">
                 <div
                   class="icon-item" :class="{
-                    active: `${item.prefix}:${icon}` === model,
+                    active: currentName === 'custom' ? icon === model : `${item.prefix}:${icon}` === model,
                   }"
-                  @click="selected(`${item.prefix}:${icon}`)"
+                  @click="selected(currentName === 'custom' ? icon : `${item.prefix}:${icon}`)"
                 >
-                  <ma-svg-icon :name="`${item.prefix}:${icon}`" :size="26" />
+                  <ma-svg-icon :name="currentName === 'custom' ? icon : `${item.prefix}:${icon}`" :size="26" />
                 </div>
               </template>
             </div>

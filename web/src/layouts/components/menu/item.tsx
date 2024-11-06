@@ -88,7 +88,7 @@ export default defineComponent({
                     class: {
                       'mine-menu-link': true,
                       'active': isItemActive.value,
-                      'parentActive': route?.meta?.activeMenu === item.name || parentActive.value,
+                      'parentActive': route?.meta?.activeName === item.name || parentActive.value,
                       'px-3!': rootMenu.isMenuPopup && level === 0,
                       'no-underline': !subMenu,
                     },

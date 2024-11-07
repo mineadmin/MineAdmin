@@ -46,7 +46,7 @@ function setData(data: Record<string, any>) {
     if (name === 'parent_id' && data[name] === 0) {
       form.value[name] = undefined
     }
-    else if (name === 'children' && data[name]?.length > 0) {
+    if (name === 'children' && data[name]?.length > 0) {
       form.value.btnPermission = []
       data[name].map((item: any) => {
         form.value.btnPermission.push({
@@ -248,34 +248,11 @@ const formItems = ref<MaFormItem[]>([
     label: () => t('baseMenuManage.BtnPermission.label'),
     prop: 'btnPermission',
     show: (_, model) => model.meta.type === 'M',
-    render: (_, model: Record<string, any>) => <ButtonPermission model={model} />,
+    render: () => <ButtonPermission model={form.value} />,
   },
 ])
 
-watch(
-  () => menuList.value,
-  val => treeSelectRef.value.filter(val),
-  { deep: true },
-)
-
-watch(
-  locale,
-  () => {
-    formItems.value.map((item) => {
-      const formItem = menuForm.value?.getItemByProp(item.prop as string)
-      if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
-        formItem.renderProps.placeholder = t(`${item.renderProps?.placeholder}`)
-      }
-      if (formItem?.itemProps?.rules && item?.itemProps?.rules) {
-        formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
-      }
-    })
-  },
-  { immediate: true },
-)
-
-onMounted(() => {
-  menuForm.value?.setItems(cloneDeep(formItems.value))
+function setInfo() {
   formItems.value.map((item) => {
     const formItem = menuForm.value?.getItemByProp(item.prop as string)
     if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
@@ -285,6 +262,23 @@ onMounted(() => {
       formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
     }
   })
+}
+
+watch(
+  () => menuList.value,
+  val => treeSelectRef.value.filter(val),
+  { deep: true },
+)
+
+watch(
+  locale,
+  () => setInfo(),
+  { immediate: true },
+)
+
+onMounted(() => {
+  menuForm.value?.setItems(cloneDeep(formItems.value))
+  setInfo()
 })
 
 defineExpose({

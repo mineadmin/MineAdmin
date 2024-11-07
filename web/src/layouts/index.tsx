@@ -80,10 +80,10 @@ export default defineComponent({
             <MineBars />
             <div class="mine-worker-area">
               <RouterView class="router-view">
-                {({ Component }) => (
+                {({ Component, route }) => (
                   <Transition name={appSetting.pageAnimate} mode="out-in">
                     <KeepAlive include={keepAliveStore.list}>
-                      {keepAliveStore.getShowState() && <Component />}
+                      {keepAliveStore.getShowState() && <Component key={route.fullPath} />}
                     </KeepAlive>
                   </Transition>
                 )}

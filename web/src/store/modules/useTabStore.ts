@@ -68,8 +68,8 @@ const useTabStore = defineStore(
     }
 
     function addTab(route: MineTabbar) {
-      if (!tabList.value?.find(item => item.name === route.name)
-        && !settingStore.getSettings('app').whiteRoute.includes(route.name)
+      if (!tabList.value?.find(item => item.fullPath === route.fullPath)
+        && !settingStore.getSettings('app').whiteRoute.includes(route.fullPath)
       ) {
         tabList.value?.push({
           name: route.name,

@@ -52,7 +52,7 @@ final class MenuService extends IService
         $model = parent::updateById($id, $data);
         if ($model && $data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
             foreach ($data['btnPermission'] as $item) {
-                if (!empty($item['id'])) {
+                if (! empty($item['id'])) {
                     $this->repository->updateById($item['id'], [
                         'name' => $item['code'],
                         'meta' => [

@@ -13,6 +13,7 @@ import { deleteByIds } from '~/base/api/menu.ts'
 import { useResizeObserver } from '@vueuse/core'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
+import type { Ref } from 'vue'
 
 const emit = defineEmits<{
   (event: 'menu-select', value: MenuVo): void
@@ -20,6 +21,8 @@ const emit = defineEmits<{
 
 const maTreeRef = ref()
 const msg = useMessage()
+const newMenu = inject('newMenu') as Ref<MenuVo>
+const setNodeExpand = inject('setNodeExpand') as (id: number, state: boolean) => void
 
 const t = useTrans().globalTrans
 
@@ -31,25 +34,11 @@ const menuType = ref<{ [key: string]: Record<string, string> }>({
 })
 
 function addMenu(data: MenuVo) {
-  const newData: MenuVo = {
-    parent_id: data.id,
-    path: '',
-    name: '',
-    component: '',
-    btnPermission: [],
-    dataType: 'add',
-    meta: {
-      title: `新菜单`,
-      type: 'M',
-      componentSuffix: '.vue',
-      componentPath: 'modules/',
-      breadcrumbEnable: true,
-      copyright: true,
-      hidden: false,
-      affix: false,
-      cache: true,
-    },
-  }
+  const newData: MenuVo = newMenu.value
+  newData.dataType = 'add'
+  newData.id = undefined
+  newData.parent_id = data.id
+  newData.meta!.title = '新菜单'
   emit('menu-select', newData)
 }
 
@@ -111,7 +100,7 @@ onMounted(async () => {
                 return
               }
               if (data.parent_id !== 0) {
-                maTreeRef.elTree.setCurrentKey(data.parent_id, true)
+                setNodeExpand(data.parent_id, true)
                 emit('menu-select', maTreeRef.elTree.getCurrentNode())
               }
               await deleteByIds([data.id])
@@ -128,6 +117,15 @@ onMounted(async () => {
           </el-popconfirm>
         </div>
       </div>
+    </template>
+    <template #extra>
+      <el-button
+        type="primary"
+        class="w-full"
+        @click="() => emit('menu-select', newMenu)"
+      >
+        {{ t('baseMenuManage.addTopMenu') }}
+      </el-button>
     </template>
   </ma-tree>
 </template>

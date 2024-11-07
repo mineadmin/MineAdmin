@@ -24,7 +24,28 @@ const defaultExpandNodes = ref<number[]>([])
 const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
 const menuTreeRef = ref()
+const newMenu = ref<MenuVo>({
+  parent_id: undefined,
+  name: '',
+  path: '',
+  meta: {
+    title: '新增顶级菜单',
+    type: 'M',
+    componentSuffix: '.vue',
+    componentPath: 'modules/',
+    breadcrumbEnable: true,
+    copyright: true,
+    hidden: false,
+    affix: false,
+    cache: true,
+  },
+  component: '',
+  sort: 0,
+  status: 1,
+  btnPermission: [],
+})
 
+const loading = ref<boolean>(false)
 const t = useTrans().globalTrans
 const msg = useMessage()
 
@@ -47,14 +68,23 @@ onMounted(async () => {
   await getMenu()
 })
 
+provide('newMenu', newMenu)
 provide('menuList', menuList)
 provide('defaultExpandNodes', defaultExpandNodes)
+provide('setNodeExpand', setNodeExpand)
+
+function resetForm() {
+  currentMenu.value = Object.assign(newMenu.value, {})
+  currentMenu.value!.meta!.title = ''
+  menuFormRef.value?.setData?.(currentMenu.value)
+  menuFormRef.value?.menuForm?.getElFormRef().resetFields()
+}
 
 function createOrSaveMenu() {
   const { model } = menuFormRef.value
-  const { getElFormRef, setLoadingState } = menuFormRef.value.menuForm
+  const { getElFormRef } = menuFormRef.value.menuForm
   const elForm = getElFormRef() as typeof ElForm
-  setLoadingState(true)
+  loading.value = true
   elForm.validate().then(() => {
     if (model.dataType && model.dataType === 'add') {
       if (!model.parent_id) {
@@ -63,25 +93,27 @@ function createOrSaveMenu() {
       create(model).then(async (res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
         await getMenu()
-        currentMenu.value = null
+        resetForm()
         setNodeExpand(model.parent_id as number)
       }).catch((err: any) => msg.alertError(err))
     }
     else if (currentMenu.value !== null && model.dataType === 'edit' && model.id) {
-      save(model.id as number, model).then((res: any) => {
+      save(model.id as number, model).then(async (res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
+        await getMenu()
+        setNodeExpand(model.id as number)
       }).catch((err: any) => msg.alertError(err))
     }
     else {
       msg.alertError(t('baseMenuManage.addError'))
     }
-    setLoadingState(false)
+    loading.value = false
   }).catch((err: any) => {
     if (Object.keys(err)?.[0]) {
       // 跳转到未填写字段
       elForm.scrollToField(Object.keys(err)?.[0])
     }
-    setLoadingState(false)
+    loading.value = false
   })
 }
 </script>
@@ -90,6 +122,7 @@ function createOrSaveMenu() {
   <div
     class="mine-card menu-container h-full gap-x-4.5 lg:flex"
     :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }"
+    v-loading="loading"
   >
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
       <MenuTree

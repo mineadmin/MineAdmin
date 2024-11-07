@@ -21,24 +21,13 @@ const { locale } = useI18n()
 const t = useTrans().globalTrans
 const state = ref<boolean>(true)
 const menuList = inject('menuList') as Ref<MenuVo[]>
+const newMenu = inject('newMenu') as Ref<MenuVo>
 const menuForm = ref<MaFormExpose>()
+const btnPermissionRef = ref()
 const treeSelectRef = ref()
 const form = ref<Record<string, any>>({
   dataType: 'add',
-  meta: {
-    type: 'M',
-    componentSuffix: '.vue',
-    componentPath: 'modules/',
-    breadcrumbEnable: true,
-    copyright: true,
-    hidden: false,
-    affix: false,
-    cache: true,
-  },
-  component: '',
-  sort: 0,
-  status: 1,
-  btnPermission: [],
+  ...newMenu.value,
 })
 
 function setData(data: Record<string, any>) {
@@ -46,7 +35,7 @@ function setData(data: Record<string, any>) {
     if (name === 'parent_id' && data[name] === 0) {
       form.value[name] = undefined
     }
-    if (name === 'children' && data[name]?.length > 0) {
+    else if (name === 'children' && data[name]?.length > 0) {
       form.value.btnPermission = []
       data[name].map((item: any) => {
         form.value.btnPermission.push({
@@ -249,6 +238,17 @@ const formItems = ref<MaFormItem[]>([
     prop: 'btnPermission',
     show: (_, model) => model.meta.type === 'M',
     render: () => <ButtonPermission model={form.value} />,
+    renderProps: {
+      ref: (el: any) => {
+        btnPermissionRef.value = el
+        el?.setBtnData?.(form.value.btnPermission)
+      },
+      onAddBtn: (btn: MenuVo) => {
+        form.value.btnPermission.push(btn)
+        console.log(form.value.btnPermission)
+        btnPermissionRef.value?.setBtnData?.(form.value.btnPermission)
+      },
+    },
   },
 ])
 

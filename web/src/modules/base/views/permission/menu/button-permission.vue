@@ -10,14 +10,17 @@
 <script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
 import useTable from '@/hooks/useTable.ts'
+import type { MenuVo } from '~/base/api/menu.ts'
 
-const { model = {} } = defineProps<{ model: Record<string, any> }>()
-
+const emit = defineEmits<{
+  (event: 'add-btn', value: MenuVo): void
+}>()
 const t = useTrans().globalTrans
 const data = ref<any[]>([])
+const buttonFormTable = ref()
 
 function addItem() {
-  data.value.push({ id: undefined, title: '', code: '', i18n: '' })
+  emit('add-btn', { id: undefined, title: '', code: '', i18n: '', type: 'B' })
 }
 
 useTable('buttonFormTable').then((table: MaTableExpose) => {
@@ -31,7 +34,7 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
           size="small"
           circle
           type="primary"
-          onClick={addItem}
+          onClick={() => addItem()}
         >
           <ma-svg-icon name="ic:round-plus" size={20} />
         </el-button>
@@ -70,16 +73,18 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
       ),
     },
   ])
-
-  watch(() => model?.btnPermission, () => {
-    data.value = []
-    model?.btnPermission?.map((item: any) => {
-      item.type === 'B' && data.value.push(item)
-    })
-
-    table.setData(data.value)
-  }, { immediate: true, deep: true })
 })
+
+function setBtnData(btn: any[]) {
+  data.value = []
+  btn.map((item: any) => {
+    item.type === 'B' && data.value.push(item)
+  })
+
+  buttonFormTable.value?.setData(data.value)
+}
+
+defineExpose({ setBtnData })
 </script>
 
 <template>

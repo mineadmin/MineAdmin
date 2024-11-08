@@ -31,6 +31,7 @@ const form = ref<Record<string, any>>({
 })
 
 function setData(data: Record<string, any>) {
+  form.value.btnPermission = []
   Object.keys(data).map((name: string) => {
     if (name === 'parent_id' && data[name] === 0) {
       form.value[name] = undefined

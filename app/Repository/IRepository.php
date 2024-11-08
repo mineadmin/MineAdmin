@@ -143,7 +143,7 @@ abstract class IRepository
 
     public function getQuery(array $params = []): Builder
     {
-        return $this->model->newModelQuery();
+        return $this->model->newQuery();
     }
 
     public function existsById(mixed $id): bool

@@ -7,15 +7,14 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import Mock from 'mockjs'
 
 export default function getReportData() {
   const getOverviewData = () => {
     const generateLineData = (name: string) => {
       return {
         name,
-        count: Mock.Random.natural(20, 2000),
-        value: Array.from({ length: 8 }).fill(0).map(() => Mock.Random.natural(800, 4000)),
+        count: Math.floor(Math.random() * 20 + 5),
+        value: Array.from({ length: 8 }).fill(0).map(() => Math.floor(Math.random() * 800 + 500)),
       }
     }
     const xAxis = Array.from({ length: 8 }).fill(0).map((_item, index) => {
@@ -40,13 +39,13 @@ export default function getReportData() {
           name: quota,
           value: Array.from({ length: 12 })
             .fill(0)
-            .map(() => Mock.Random.natural(1000, 3000)),
+            .map(() => Math.floor(Math.random() * 1000 + 500)),
         },
       }
     }
     return {
-      count: Mock.Random.natural(1000, 3000),
-      growth: Mock.Random.float(20, 100, 2, 2),
+      count: Math.floor(Math.random() * 1000 + 100),
+      growth: Math.floor(Math.random() * 20 + 5),
       chartData: getLineData(),
     }
   }

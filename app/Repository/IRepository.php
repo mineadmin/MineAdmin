@@ -20,8 +20,6 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\DbConnection\Traits\HasContainer;
 use Hyperf\Paginator\AbstractPaginator;
 
-use function Hyperf\Collection\value;
-
 /**
  * @template T of Model
  * @property T $model
@@ -39,11 +37,6 @@ abstract class IRepository
         return $query;
     }
 
-    public function perQuery(Builder $query): Builder
-    {
-        return $query;
-    }
-
     public function handleItems(Collection $items): Collection
     {
         return $items;
@@ -56,17 +49,17 @@ abstract class IRepository
 
     public function list(array $params = []): Collection
     {
-        return $this->perQuery($this->getQuery($params))->get();
+        return $this->perQuery($this->getQuery($params), $params)->get();
     }
 
     public function count(array $params = []): int
     {
-        return $this->perQuery($this->getQuery($params))->count();
+        return $this->perQuery($this->getQuery($params), $params)->count();
     }
 
     public function page(array $params = [], ?int $page = null, ?int $pageSize = null): array
     {
-        $result = $this->perQuery($this->getQuery($params))->paginate(
+        $result = $this->perQuery($this->getQuery($params), $params)->paginate(
             perPage: $pageSize,
             pageName: static::PER_PAGE_PARAM_NAME,
             page: $page,
@@ -88,12 +81,13 @@ abstract class IRepository
      */
     public function create(array $data): mixed
     {
-        return $this->model::create($data);
+        // @phpstan-ignore-next-line
+        return $this->getQuery()->create($data);
     }
 
     public function updateById(mixed $id, array $data): bool
     {
-        return (bool) $this->model::whereKey($id)->first()?->update($data);
+        return (bool) $this->getQuery()->whereKey($id)->first()?->update($data);
     }
 
     /**
@@ -101,20 +95,23 @@ abstract class IRepository
      */
     public function saveById(mixed $id, array $data): mixed
     {
-        return value(static function (Model $model, mixed $id, array $data) {
-            return $model->newModelQuery()->whereKey($id)->first()?->fill($data)->save();
-        }, $this->model, $id, $data);
+        $model = $this->getQuery()->whereKey($id)->first();
+        if ($model) {
+            $model->fill($data)->save();
+            return $model;
+        }
+        return null;
     }
 
-    public function deleteById(mixed $id): bool
+    public function deleteById(mixed $id): int
     {
         // @phpstan-ignore-next-line
-        return (bool) $this->model->whereKey($id)->delete();
+        return $this->model::destroy($id);
     }
 
     public function forceDeleteById(mixed $id): bool
     {
-        return (bool) $this->model::whereKey($id)->forceDelete();
+        return (bool) $this->getQuery()->whereKey($id)->forceDelete();
     }
 
     /**
@@ -122,12 +119,12 @@ abstract class IRepository
      */
     public function findById(mixed $id): mixed
     {
-        return $this->model::whereKey($id)->first();
+        return $this->getQuery()->whereKey($id)->first();
     }
 
     public function findByField(mixed $id, string $column): mixed
     {
-        return $this->model::whereKey($id)->value($column);
+        return $this->getQuery()->whereKey($id)->value($column);
     }
 
     /**
@@ -135,20 +132,23 @@ abstract class IRepository
      */
     public function findByFilter(array $params): mixed
     {
-        return $this->getQuery($params)->first();
+        return $this->perQuery($this->getQuery($params), $params)->first();
+    }
+
+    public function perQuery(Builder $query, array $params): Builder
+    {
+        $this->startBoot($query, $params);
+        return $this->handleSearch($query, $params);
     }
 
     public function getQuery(array $params = []): Builder
     {
-        return value(function (Builder $builder, array $params) {
-            $this->startBoot($builder, $params);
-            return $this->handleSearch($builder, $params);
-        }, $this->model->newModelQuery(), $params);
+        return $this->model->newModelQuery();
     }
 
     public function existsById(mixed $id): bool
     {
-        return (bool) $this->model::whereKey($id)->exists();
+        return (bool) $this->getQuery()->whereKey($id)->exists();
     }
 
     /**

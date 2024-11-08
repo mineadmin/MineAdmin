@@ -68,7 +68,7 @@ final class PermissionMiddleware implements MiddlewareInterface
         $operation = $permission->getOperation();
         $codes = $permission->getCode();
         foreach ($codes as $code) {
-            $isMenu = $this->currentUser->hasMenu($code);
+            $isMenu = $this->currentUser->user()->hasPermission($code);
             if ($operation === Permission::OPERATION_AND && ! $isMenu) {
                 throw new BusinessException(code: ResultCode::FORBIDDEN);
             }

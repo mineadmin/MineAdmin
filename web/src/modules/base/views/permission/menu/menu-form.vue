@@ -21,24 +21,13 @@ const { locale } = useI18n()
 const t = useTrans().globalTrans
 const state = ref<boolean>(true)
 const menuList = inject('menuList') as Ref<MenuVo[]>
+const newMenu = inject('newMenu') as Ref<MenuVo>
 const menuForm = ref<MaFormExpose>()
+const btnPermissionRef = ref()
 const treeSelectRef = ref()
 const form = ref<Record<string, any>>({
   dataType: 'add',
-  meta: {
-    type: 'M',
-    componentSuffix: '.vue',
-    componentPath: 'modules/',
-    breadcrumbEnable: true,
-    copyright: true,
-    hidden: false,
-    affix: false,
-    cache: true,
-  },
-  component: '',
-  sort: 0,
-  status: 1,
-  btnPermission: [],
+  ...newMenu.value,
 })
 
 function setData(data: Record<string, any>) {
@@ -248,34 +237,22 @@ const formItems = ref<MaFormItem[]>([
     label: () => t('baseMenuManage.BtnPermission.label'),
     prop: 'btnPermission',
     show: (_, model) => model.meta.type === 'M',
-    render: (_, model: Record<string, any>) => <ButtonPermission model={model} />,
+    render: () => <ButtonPermission model={form.value} />,
+    renderProps: {
+      ref: (el: any) => {
+        btnPermissionRef.value = el
+        el?.setBtnData?.(form.value.btnPermission)
+      },
+      onAddBtn: (btn: MenuVo) => {
+        form.value.btnPermission.push(btn)
+        console.log(form.value.btnPermission)
+        btnPermissionRef.value?.setBtnData?.(form.value.btnPermission)
+      },
+    },
   },
 ])
 
-watch(
-  () => menuList.value,
-  val => treeSelectRef.value.filter(val),
-  { deep: true },
-)
-
-watch(
-  locale,
-  () => {
-    formItems.value.map((item) => {
-      const formItem = menuForm.value?.getItemByProp(item.prop as string)
-      if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
-        formItem.renderProps.placeholder = t(`${item.renderProps?.placeholder}`)
-      }
-      if (formItem?.itemProps?.rules && item?.itemProps?.rules) {
-        formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
-      }
-    })
-  },
-  { immediate: true },
-)
-
-onMounted(() => {
-  menuForm.value?.setItems(cloneDeep(formItems.value))
+function setInfo() {
   formItems.value.map((item) => {
     const formItem = menuForm.value?.getItemByProp(item.prop as string)
     if (formItem?.renderProps?.placeholder && item.renderProps?.placeholder) {
@@ -285,6 +262,23 @@ onMounted(() => {
       formItem.itemProps.rules[0].message = t(`${item?.itemProps?.rules[0].message}`)
     }
   })
+}
+
+watch(
+  () => menuList.value,
+  val => treeSelectRef.value.filter(val),
+  { deep: true },
+)
+
+watch(
+  locale,
+  () => setInfo(),
+  { immediate: true },
+)
+
+onMounted(() => {
+  menuForm.value?.setItems(cloneDeep(formItems.value))
+  setInfo()
 })
 
 defineExpose({

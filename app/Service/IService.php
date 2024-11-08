@@ -63,9 +63,9 @@ abstract class IService
         return $this->repository->updateById($id, $data);
     }
 
-    public function deleteById(mixed $id, bool $force = true): bool
+    public function deleteById(mixed $id): int
     {
-        return $force ? $this->repository->forceDeleteById($id) : $this->repository->deleteById($id);
+        return $this->repository->deleteById($id);
     }
 
     /**

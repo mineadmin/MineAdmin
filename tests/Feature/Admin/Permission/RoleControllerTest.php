@@ -196,9 +196,9 @@ final class RoleControllerTest extends ControllerCase
         $token = $this->token;
         $uri = '/admin/role/' . $role->id . '/permissions';
         $result = $this->put($uri);
-        self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
+        self::assertSame($result['code'], ResultCode::UNAUTHORIZED->value);
         $result = $this->put($uri, [], ['Authorization' => 'Bearer ' . $token]);
-        self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
+        self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $result = $this->put($uri, ['permissions' => $names], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
         $this->forAddPermission('permission:role:setMenu');

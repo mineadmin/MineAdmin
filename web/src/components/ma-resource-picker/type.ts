@@ -17,7 +17,7 @@ export interface Resource {
 
 export interface FileType extends MTabsOptionItems<string> {
   value: string
-  label: string
+  label: string | (() => string)
   suffix: string
 }
 
@@ -26,6 +26,7 @@ export interface ResourcePanelProps {
   multiple?: boolean
   limit?: number
   pageSize?: number
+  showAction?: boolean
   dbClickConfirm?: boolean
   defaultFileType?: string
   fileTypes?: FileType[]

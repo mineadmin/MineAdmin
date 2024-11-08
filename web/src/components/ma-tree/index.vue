@@ -49,6 +49,7 @@ const t = useLocalTrans()
 
 const filterText = ref<string>('')
 const treeRef = ref<InstanceType<typeof ElTree>>()
+const isExpand = ref<boolean>(false)
 const checkStrictly = ref<boolean>(false)
 
 watch(() => filterText.value, (val) => {
@@ -62,10 +63,11 @@ function filterNode(value: string, data: Record<string, any>) {
   return get(data, treeKey)!.includes(value)
 }
 
-function toggle(state: boolean) {
+function toggle() {
+  isExpand.value = !isExpand.value
   const nodes = treeRef.value!.store?._getAllNodes()
   nodes.forEach((item) => {
-    item.expanded = state
+    item.expanded = isExpand.value
   })
 }
 
@@ -117,20 +119,23 @@ defineExpose({
         {{ t('invert') }}
       </el-checkbox>
     </div>
-    <div class="flex items-center justify-between gap-x-1">
-      <el-input v-model="filterText" :placeholder="t('placeholder')" clearable>
-        <template #prefix>
-          <ma-svg-icon name="heroicons:magnifying-glass" :size="20" />
-        </template>
-      </el-input>
-      <el-button-group class="flex justify-end">
-        <el-button @click="toggle(true)">
-          {{ t('open') }}
-        </el-button>
-        <el-button @click="toggle(false)">
-          {{ t('fold') }}
-        </el-button>
-      </el-button-group>
+    <div class="flex flex-col gap-y-1">
+      <div class="flex items-center justify-between gap-x-1">
+        <el-input v-model="filterText" :placeholder="t('placeholder')" clearable>
+          <template #prefix>
+            <ma-svg-icon name="heroicons:magnifying-glass" :size="20" />
+          </template>
+        </el-input>
+        <el-button-group class="flex justify-end">
+          <el-button @click="toggle()">
+            {{ t(isExpand ? 'fold' : 'open') }}
+          </el-button>
+          <slot name="buttons" />
+        </el-button-group>
+      </div>
+      <div class="ma-tree-extra">
+        <slot name="extra" />
+      </div>
     </div>
   </div>
   <ElTree

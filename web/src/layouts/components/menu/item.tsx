@@ -27,6 +27,15 @@ export default defineComponent({
         : rootMenu.activeIndex === uniqueKey!.at(-1)!
     })
 
+    const route = useRoute()
+
+    const parentActive = computed(() => {
+      if (!route?.meta?.breadcrumb || !route.meta.breadcrumb.length) {
+        return false
+      }
+      return route.meta.breadcrumb[0].name === item.name
+    })
+
     const isItemActive = computed(() => {
       return isActive.value && (!subMenu || rootMenu.isMenuPopup)
     })
@@ -79,6 +88,7 @@ export default defineComponent({
                     class: {
                       'mine-menu-link': true,
                       'active': isItemActive.value,
+                      'parentActive': route?.meta?.activeName === item.name || parentActive.value,
                       'px-3!': rootMenu.isMenuPopup && level === 0,
                       'no-underline': !subMenu,
                     },

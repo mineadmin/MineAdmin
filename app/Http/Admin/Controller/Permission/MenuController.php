@@ -112,7 +112,7 @@ final class MenuController extends AbstractController
     #[Permission(code: 'permission:menu:delete')]
     public function delete(): Result
     {
-        $this->service->deleteById($this->getRequestData(), false);
+        $this->service->deleteById($this->getRequestData());
         return $this->success();
     }
 }

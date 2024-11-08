@@ -145,6 +145,7 @@ const useUserStore = defineStore(
 
     async function logout(redirect = router.currentRoute.value.fullPath) {
       await usePluginStore().callHooks('logout')
+      useTabStore().clearTab()
       clearInfo()
       await router.push({
         name: 'login',

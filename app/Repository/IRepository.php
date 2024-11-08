@@ -143,7 +143,14 @@ abstract class IRepository
 
     public function getQuery(array $params = []): Builder
     {
-        return $this->model->newModelQuery();
+        $query = $this->model->newQuery();
+        
+        // Apply scopes if any
+        if (method_exists($this->model, 'scopeApplyDefault')) {
+            $query->applyDefault();
+        }
+        
+        return $query;
     }
 
     public function existsById(mixed $id): bool

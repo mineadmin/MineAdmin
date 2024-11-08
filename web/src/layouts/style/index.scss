@@ -135,10 +135,15 @@ body.mine-aside-dark {
 
   .mine-menu-link:hover {
     background-color: rgb(var(--ui-primary)/30%);
+    color: #fff !important;
   }
 
   .mine-menu-link.active {
     background-color: rgb(var(--ui-primary)/70%);
+  }
+
+  .mine-menu-link.parentActive {
+    @apply text-[rgb(var(--ui-primary))];
   }
 
   .mine-sub-menu {

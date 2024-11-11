@@ -15,17 +15,20 @@ defineOptions({ name: 'MaDictSelect' })
 
 const {
   dictName = '',
+  data = [],
   transScope = 'global',
 } = defineProps<{
   // 字典名称
-  dictName: string
+  dictName?: string
+  // 字典数据
+  data?: Dictionary[]
   // 翻译范围
   transScope?: 'global' | 'local'
 }>()
 
 const dictStore = useDictStore()
 const dictionaryData = computed<Dictionary[] | null>(() => {
-  return dictStore.find(dictName)
+  return dictName === '' ? data : dictStore.find(dictName)
 })
 
 const i18n = useTrans() as TransType

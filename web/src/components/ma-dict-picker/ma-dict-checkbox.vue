@@ -15,11 +15,14 @@ defineOptions({ name: 'MaDictCheckbox' })
 
 const {
   dictName = '',
+  data = [],
   renderMode = 'normal',
   transScope = 'global',
 } = defineProps<{
   // 字典名称
-  dictName: string
+  dictName?: string
+  // 字典数据
+  data?: Dictionary[]
   // 渲染模式：`normal: el-checkbox` | `button: el-checkbox-button`
   renderMode?: 'normal' | 'button'
   // 翻译范围
@@ -27,7 +30,7 @@ const {
 }>()
 const dictStore = useDictStore()
 const dictionaryData = computed<Dictionary[] | null>(() => {
-  return dictStore.find(dictName)
+  return dictName === '' ? data : dictStore.find(dictName)
 })
 
 const i18n = useTrans() as TransType

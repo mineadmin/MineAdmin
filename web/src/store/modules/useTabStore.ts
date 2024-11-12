@@ -69,7 +69,7 @@ const useTabStore = defineStore(
 
     function addTab(route: MineTabbar) {
       if (!tabList.value?.find(item => item.fullPath === route.fullPath)
-        && !settingStore.getSettings('app').whiteRoute.includes(route.fullPath)
+        && !settingStore.getSettings('app').whiteRoute.includes(route.name)
       ) {
         tabList.value?.push({
           name: route.name,
@@ -192,6 +192,14 @@ const useTabStore = defineStore(
       return tabList.value.find(item => item.fullPath === route.fullPath)
     }
 
+    function changeTabTitle(title: string, tab: MineTabbar | null = null) {
+      const t = (tab ?? getCurrentTab())
+      t.title = title
+      delete t?.i18n
+      useSettingStore().setTitle(title)
+      storage()
+    }
+
     function clearTab() {
       tabList.value = [defaultTab.value]
       keepAliveStore.clean()
@@ -202,7 +210,7 @@ const useTabStore = defineStore(
     }
 
     async function go(item: any) {
-      await router.push(item?.fullPath ?? item.path)
+      await router.replace(item?.fullPath ?? item.path)
     }
 
     return {
@@ -210,6 +218,7 @@ const useTabStore = defineStore(
       defaultTab,
       go,
       initTab,
+      changeTabTitle,
       affixTab,
       cancelAffixTab,
       maxSizeTab,

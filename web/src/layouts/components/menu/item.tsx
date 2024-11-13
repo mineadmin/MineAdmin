@@ -33,7 +33,7 @@ export default defineComponent({
       if (!route?.meta?.breadcrumb || !route.meta.breadcrumb.length) {
         return false
       }
-      return route.meta.breadcrumb[0].name === item.name
+      return route.meta.breadcrumb.some(breadcrumb => breadcrumb.name === item.name)
     })
 
     const isItemActive = computed(() => {

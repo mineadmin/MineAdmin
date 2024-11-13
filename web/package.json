@@ -52,6 +52,8 @@
     "web-storage-cache": "^1.1.1"
   },
   "devDependencies": {
+    "ace-builds": "^1.36.4",
+    "vue3-ace-editor": "^2.2.4",
     "@antfu/eslint-config": "^3.7.1",
     "@iconify/json": "^2.2.252",
     "@iconify/vue": "^4.1.2",

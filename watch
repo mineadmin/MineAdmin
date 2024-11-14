@@ -42,7 +42,7 @@ if (!function_exists('exec')) {
     exit(1);
 }
 
-define('PHP', PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE);
+define('PHP', PHP_BINARY ?? (PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE));
 
 if (!file_exists(PHP) || !is_executable(PHP)) {
     echo '[x] PHP bin (" ' . PHP . ' ") 路径没有找到或无法执行，请确认路径正确?' . PHP_EOL;

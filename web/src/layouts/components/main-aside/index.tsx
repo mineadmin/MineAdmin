@@ -46,7 +46,7 @@ export default defineComponent ({
     const goToAppoint = async (e: any, route: MineRoute.routeRecord) => {
       await menuGotoHandle(router, route)
       menuStore.activeTopMenu = route
-      if (getSettings('mainAside').enableOpenFirstRoute || route?.children) {
+      if (getSettings('mainAside').enableOpenFirstRoute || route?.children || !route?.meta?.hidden) {
         const aNode = useParentNode(e, 'a')
         document.querySelector('a.active')?.classList.remove('active')
         aNode.classList.add('active')

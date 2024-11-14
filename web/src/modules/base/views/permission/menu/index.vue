@@ -25,6 +25,7 @@ const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
 const menuTreeRef = ref()
 const newMenu = ref<MenuVo>({
+  id: undefined,
   parent_id: undefined,
   name: '',
   path: '',
@@ -120,9 +121,9 @@ function createOrSaveMenu() {
 
 <template>
   <div
+    v-loading="loading"
     class="mine-card menu-container h-full gap-x-4.5 lg:flex"
     :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }"
-    v-loading="loading"
   >
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
       <MenuTree

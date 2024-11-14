@@ -90,9 +90,9 @@ export function getDetail(params: Record<string, string>) {
 export function download(data: any) {
   return http.post(
     '/admin/plugin/store/download',
+    data,
     {
       timeout: 500000,
-      data,
     },
   )
 }

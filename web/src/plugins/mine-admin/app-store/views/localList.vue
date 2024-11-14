@@ -16,11 +16,10 @@ en:
   pluginNotExists: 'Plugin to install：%{name} Does not exist'
 </i18n>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { MaTableExpose } from '@mineadmin/table'
 
 const tableRef = ref<MaTableExpose>()
-const storeMeta = inject('storeMeta') as Record<string, any>
 const dataList = inject('dataList') as Record<string, any>
 
 nextTick(() => {
@@ -29,13 +28,22 @@ nextTick(() => {
       name,
       status: dataList.value.local[name].status,
       version: dataList.value.local[name].version,
+      description: dataList.value.local[name].description,
+      author: dataList.value.local[name].author,
     }
   })
   tableRef.value?.setData(data)
   tableRef.value?.setColumns([
-    { label: '名称', prop: 'name', width: '300px', headerAlign: 'left', align: 'left' },
-    { label: '状态', prop: 'status' },
+    { label: '名称', prop: 'name' },
     { label: '版本', prop: 'version' },
+    { label: '描述', prop: 'description' },
+    { label: '作者', prop: 'author', cellRender: ({ row }) => row.author.map((item: any) => item.name).join(',') },
+    { label: '状态', prop: 'status', cellRender: ({ row }) => (
+      <el-tag type={row.status === true ? 'success' : 'error'}>
+        {row.status === true ? '已安装' : '未安装' }
+      </el-tag>
+    ),
+    },
   ])
 })
 </script>

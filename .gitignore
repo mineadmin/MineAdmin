@@ -12,6 +12,7 @@ vendor/
 .phpunit*
 *.cache
 .vscode/
+storage/swagger/http.json
 tests/cover
 tests/coverage.xml
 tests/coding_standard.xml

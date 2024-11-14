@@ -66,7 +66,7 @@ function checkInstallStatus(name: string) {
 }
 
 function openPage() {
-  window.open(`https://www.mineadmin.com/store/${data.value?.app?.identifier}`)
+  window.open(`https://www.mineadmin.com/store/${data.value?.app?.identifier.replace('/', '~')}`)
 }
 
 function downloadAndInstall() {

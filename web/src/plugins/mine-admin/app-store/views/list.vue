@@ -78,10 +78,12 @@ onMounted(() => {
         已安装
       </div>
       <a class="h-44 w-full" href="javascript:" @click="openDetail(item.identifier)">
-        <div class="relative">
+        <div class="relative h-48">
+          <div class="absolute h-38 w-full overflow-hidden text-center blur-30"><img :src="item.homepage[0]" alt="image"></div>
           <el-image
             class="appstore-item-image"
             :src="item.homepage[0]"
+            fit="contain"
           >
             <div class="absolute bottom-2 right-2 space-x-2">
               <el-tag v-for="(tag, index) in item.tags" :key="index" :color="tag.color">{{ tag.name }}</el-tag>
@@ -147,7 +149,7 @@ onMounted(() => {
   sm:mt-0 dark:border-dark-400 dark:shadow-dark-300 hover:shadow-md hover:-top-1 dark:hover:b-[rgb(var(--ui-primary)/.95)];
 }
 .appstore-item-image {
-  @apply pointer-events-none h-48 w-full transform object-cover dark-brightness-[0.9]
+  @apply pointer-events-none h-48 w-full transform dark-brightness-[0.9] absolute t-0 l-0 shadow-md
   transition-transform duration-200 group-hover:scale-105 sm:rounded-md !rounded-b-none !rounded-t-md;
 }
 </style>

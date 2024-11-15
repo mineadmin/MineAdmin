@@ -130,7 +130,7 @@ final class User extends Model
      */
     public function getPermissions(): Collection
     {
-        return $this->roles()->with('menus')->get()->pluck('menus')->flatten();
+        return $this->roles()->with('menus')->orderBy('sort')->get()->pluck('menus')->flatten();
     }
 
     public function hasPermission(string $permission): bool

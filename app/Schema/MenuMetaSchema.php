@@ -28,11 +28,11 @@ use Hyperf\Swagger\Annotation\Schema;
  * @property string $link 链接
  * @property string $componentPath 视图文件类型
  * @property string $componentSuffix 视图前缀路径
- * @property string $breadcrumbEnable 是否显示面包屑
+ * @property bool $breadcrumbEnable 是否显示面包屑
  * @property string $activeName 激活高亮的菜单标识
- * @property string $auth 前端权限判断，允许访问的权限码
- * @property string $role 前端权限判断，允许访问的角色码
- * @property string $user 前端权限判断，允许访问的用户名
+ * @property string[] $auth 前端权限判断，允许访问的权限码
+ * @property string[] $role 前端权限判断，允许访问的角色码
+ * @property string[] $user 前端权限判断，允许访问的用户名
  */
 #[Schema(title: 'MenuMetaSchema')]
 final class MenuMetaSchema

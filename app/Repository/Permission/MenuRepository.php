@@ -61,7 +61,6 @@ final class MenuRepository extends IRepository
         return $this->model
             ->newQuery()
             ->where('parent_id', 0)
-            ->orderBy('sort')
             ->with('children')
             ->get();
     }

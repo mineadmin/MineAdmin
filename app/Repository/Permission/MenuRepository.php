@@ -25,6 +25,16 @@ final class MenuRepository extends IRepository
         protected readonly Menu $model
     ) {}
 
+    public function enablePageOrderBy(): bool
+    {
+        return false;
+    }
+
+    public function list(array $params = []): \Hyperf\Collection\Collection
+    {
+        return $this->perQuery($this->getQuery($params), $params)->orderBy('sort')->get();
+    }
+
     public function handleSearch(Builder $query, array $params): Builder
     {
         $whereInName = static function (Builder $query, array|string $code) {
@@ -51,6 +61,7 @@ final class MenuRepository extends IRepository
         return $this->model
             ->newQuery()
             ->where('parent_id', 0)
+            ->orderBy('sort')
             ->with('children')
             ->get();
     }

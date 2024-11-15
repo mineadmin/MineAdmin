@@ -68,6 +68,9 @@ const useTabStore = defineStore(
     }
 
     function addTab(route: MineTabbar) {
+      if (route.name === 'MineSystemError') {
+        return
+      }
       if (!tabList.value?.find(item => item.fullPath === route.fullPath)
         && !settingStore.getSettings('app').whiteRoute.includes(route.name)
       ) {
@@ -194,7 +197,7 @@ const useTabStore = defineStore(
 
     function changeTabTitle(title: string, tab: MineTabbar | null = null) {
       const t = (tab ?? getCurrentTab())
-      t.title = title
+      t!.title = title
       delete t?.i18n
       useSettingStore().setTitle(title)
       storage()

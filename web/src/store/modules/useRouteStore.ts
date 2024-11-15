@@ -73,6 +73,15 @@ const useRouteStore = defineStore(
             },
           }),
           toRecordRawRoute(dashboardRoute),
+          toRecordRawRoute({
+            path: '/:pathMatch(.*)*',
+            name: 'MineSystemError',
+            component: () => import(('@/layouts/[...all].tsx')),
+            meta: {
+              hidden: true,
+              i18n: 'menu.pageError',
+            },
+          }),
         ],
       }
     }

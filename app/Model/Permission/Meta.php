@@ -23,14 +23,25 @@ use Hyperf\DbConnection\Model\Model;
  * @property bool $hidden 是否隐藏
  * @property string $type 类型
  * @property bool $cache 是否缓存
- * @property bool $copyright 是否
+ * @property bool $copyright 是否显示版权
  * @property string $link 链接
+ * @property string $componentPath 视图文件类型
+ * @property string $componentSuffix 视图前缀路径
+ * @property string $breadcrumbEnable 是否显示面包屑
+ * @property string $activeName 激活高亮的菜单标识
+ * @property string $auth 前端权限判断，允许访问的权限码
+ * @property string $role 前端权限判断，允许访问的角色码
+ * @property string $user 前端权限判断，允许访问的用户名
  */
 final class Meta extends Model
 {
     public bool $incrementing = false;
 
-    protected array $fillable = ['title', 'i18n', 'badge', 'icon', 'affix', 'hidden', 'type', 'cache', 'copyright', 'breadcrumbEnable', 'componentPath', 'componentSuffix', 'link'];
+    protected array $fillable = [
+        'title', 'i18n', 'badge', 'icon', 'affix', 'hidden', 'type', 'cache',
+        'copyright', 'breadcrumbEnable', 'componentPath', 'componentSuffix', 'link',
+        'activeName', 'auth', 'role', 'user',
+    ];
 
     protected array $casts = [
         'affix' => 'boolean',
@@ -46,5 +57,9 @@ final class Meta extends Model
         'icon' => 'string',
         'type' => 'string',
         'link' => 'string',
+        'activeName' => 'string',
+        'auth' => 'array',
+        'role' => 'array',
+        'user' => 'array',
     ];
 }

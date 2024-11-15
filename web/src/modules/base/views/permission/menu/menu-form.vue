@@ -94,11 +94,6 @@ function filterNode(_: string, data: Record<string, any>) {
 
 const formItems = ref<MaFormItem[]>([
   {
-    prop: '',
-    render: () => <el-divider content-position="left">{t('baseMenuManage.baseInfo')}</el-divider>,
-    itemProps: { labelWidth: '0' },
-  },
-  {
     label: () => t('baseMenuManage.name'), prop: 'meta.title', render: 'input',
     renderProps: {
       placeholder: 'baseMenuManage.placeholder.name',
@@ -187,20 +182,19 @@ const formItems = ref<MaFormItem[]>([
   {
     label: () => t('baseMenuManage.view'), prop: 'component', render: 'input',
     show: (_, model) => model.meta.type === 'M',
-    cols: { lg: 12, md: 24 },
     renderProps: {
       class: 'w-full',
       placeholder: 'baseMenuManage.placeholder.view',
     },
     renderSlots: {
       prepend: () => (
-        <ElSelect v-model={form.value.meta.componentPath} class="w-135px">
+        <ElSelect v-model={form.value.meta.componentPath} class="w-150px">
           <ElOption label="src/modules/" value="modules/" />
           <ElOption label="src/plugins/" value="plugins/" />
         </ElSelect>
       ),
       append: () => (
-        <ElSelect v-model={form.value.meta.componentSuffix} class="w-80px">
+        <ElSelect v-model={form.value.meta.componentSuffix} class="w-120px">
           <ElOption label=".vue" value=".vue" />
           <ElOption label=".jsx" value=".jsx" />
           <ElOption label=".tsx" value=".tsx" />
@@ -238,17 +232,6 @@ const formItems = ref<MaFormItem[]>([
       class: 'w-full',
     },
     cols: { lg: 12, md: 12, sm: 24 },
-  },
-  {
-    prop: '',
-    render: () => <el-divider content-position="left">{t('baseMenuManage.frontAuth')}</el-divider>,
-    show: (_, model) => model.meta.type !== 'B',
-    itemProps: { labelWidth: '0' },
-  },
-  {
-    prop: '',
-    render: () => <el-divider content-position="left">{t('baseMenuManage.otherInfo')}</el-divider>,
-    itemProps: { labelWidth: '0' },
   },
   {
     label: () => t('baseMenuManage.isEnabled'), prop: 'status', render: 'switch',

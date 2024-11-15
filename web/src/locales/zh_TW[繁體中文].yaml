@@ -7,6 +7,7 @@ loginForm:
   usernamePlaceholder: 請輸入賬戶
   passwordLabel: 密碼
 mineAdmin:
+  goHome: 回到首頁
   settings:
     copyRights:
       date: 時間
@@ -119,7 +120,7 @@ mineAdmin:
 menu:
   uc:index: 首頁
   dashboard:analysis: 分析頁
-  pageNotFound: 找不到頁面
+  pageError: 頁面出現了錯誤
   appstore: 應用商店
   dashboard:workbench: 工作臺
   dashboard:report: 統計報表

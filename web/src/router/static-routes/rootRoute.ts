@@ -32,15 +32,6 @@ const rootRoutes: RouteRecordRaw[] = [
       i18n: 'menu.login',
     },
   },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'notFound',
-    component: () => import(('@/layouts/[...all].vue')),
-    meta: {
-      title: '找不到页面',
-      i18n: 'menu.pageNotFound',
-    },
-  },
 ]
 
 export default rootRoutes

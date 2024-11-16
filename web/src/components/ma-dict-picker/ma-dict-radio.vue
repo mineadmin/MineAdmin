@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import type { Dictionary } from '#/global'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
+import { isFunction } from 'radash'
 
 defineOptions({ name: 'MaDictRadio' })
 
@@ -22,7 +23,7 @@ const {
   // 字典名称
   dictName?: string
   // 字典数据
-  data?: Dictionary[]
+  data?: Dictionary[] | (() => Dictionary[])
   // 渲染模式：`normal: el-radio` | `button: el-radio-button`
   renderMode?: 'normal' | 'button'
   // 翻译范围
@@ -30,7 +31,7 @@ const {
 }>()
 const dictStore = useDictStore()
 const dictionaryData = computed<Dictionary[] | null>(() => {
-  return dictName === '' ? data : dictStore.find(dictName)
+  return dictName === '' ? (isFunction(data) ? data() : data) : dictStore.find(dictName)
 })
 
 const i18n = useTrans() as TransType

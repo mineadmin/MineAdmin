@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import type { Dictionary } from '#/global'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
+import { isFunction } from 'radash'
 
 defineOptions({ name: 'MaDictSelect' })
 
@@ -21,14 +22,14 @@ const {
   // 字典名称
   dictName?: string
   // 字典数据
-  data?: Dictionary[]
+  data?: Dictionary[] | (() => Dictionary[])
   // 翻译范围
   transScope?: 'global' | 'local'
 }>()
 
 const dictStore = useDictStore()
 const dictionaryData = computed<Dictionary[] | null>(() => {
-  return dictName === '' ? data : dictStore.find(dictName)
+  return dictName === '' ? (isFunction(data) ? data() : data) : dictStore.find(dictName)
 })
 
 const i18n = useTrans() as TransType

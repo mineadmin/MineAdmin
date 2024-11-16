@@ -288,7 +288,7 @@ interface MineToolbarExpose {
   toolbars: Ref<MineToolbar[]>
   getShowToolbar: MineToolbar[]
   add: (toolbar: MineToolbar) => void
-  remove: (toolbar: MineToolbar) => void
+  remove: (name: string) => void
 }
 
 interface MineTabbar {

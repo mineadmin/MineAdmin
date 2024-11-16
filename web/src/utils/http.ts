@@ -132,20 +132,8 @@ http.interceptors.response.use(
             })
           }
         }
-        case ResultCode.NOT_FOUND:
-          Message.error('服务器资源不存在', { zIndex: 9999 })
-          break
-        case ResultCode.FORBIDDEN:
-          Message.error('没有权限访问此接口', { zIndex: 9999 })
-          break
-        case ResultCode.METHOD_NOT_ALLOWED:
-          Message.error('请求方法不被允许', { zIndex: 9999 })
-          break
-        case ResultCode.FAIL:
-          Message.error('服务器内部错误', { zIndex: 9999 })
-          break
         default:
-          Message.error(response?.data?.message ?? '未知错误', { zIndex: 9999 })
+          Message.error(response?.data?.message ?? '服务器错误', { zIndex: 9999 })
           break
       }
 
@@ -156,7 +144,7 @@ http.interceptors.response.use(
     isLoading.value = false
     const serverError = useDebounceFn(async () => {
       if (error && error.response && error.response.status === 500) {
-        Message.error(error.message ?? '服务器内部错误', { zIndex: 9999 })
+        Message.error(error.message ?? '服务器错误', { zIndex: 9999 })
       }
     }, 3000, { maxWait: 5000 })
     await serverError()

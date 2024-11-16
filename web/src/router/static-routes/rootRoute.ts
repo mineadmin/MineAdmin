@@ -32,6 +32,15 @@ const rootRoutes: RouteRecordRaw[] = [
       i18n: 'menu.login',
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'MineSystemError',
+    component: () => import(('@/layouts/[...all].tsx')),
+    meta: {
+      hidden: true,
+      i18n: 'menu.pageError',
+    },
+  },
 ]
 
 export default rootRoutes

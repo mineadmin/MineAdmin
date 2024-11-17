@@ -42,21 +42,26 @@ const useMenuStore = defineStore(
       )
     }
 
+    function setTopMenu() {
+      watchRoute.value = route as MineRoute.routeRecord
+      if (route.matched[1] && route.matched[1].meta && route.matched[1].meta.breadcrumb) {
+        const breadcrumb = route.matched[1].meta.breadcrumb as MineRoute.routeRecord[]
+        activeTopMenu.value = breadcrumb.find((item, index) => index === 0)
+      }
+      else {
+        activeTopMenu.value = undefined
+      }
+    }
+
     function init() {
+      setTopMenu()
+
       watch((): any => routeStore.routesRaw, (routesRaw: MineRoute.routeRecord[]) => {
         topMenu.value = routesRaw.find((route: any): boolean => route.path === '/')?.children as MineRoute.routeRecord[] ?? []
       }, { immediate: true, deep: true })
 
       watch((): any => route.name, async (newName: string, oldName: string) => {
-        watchRoute.value = route as MineRoute.routeRecord
-        if (route.matched[1] && route.matched[1].meta && route.matched[1].meta.breadcrumb) {
-          const breadcrumb = route.matched[1].meta.breadcrumb as MineRoute.routeRecord[]
-          activeTopMenu.value = breadcrumb.find((item, index) => index === 0)
-        }
-        else {
-          activeTopMenu.value = undefined
-        }
-
+        setTopMenu()
         const newRoute = router.getRoutes().find((route: any): boolean => route.name === newName)
         const oldRoute = router.getRoutes().find((route: any): boolean => route.name === oldName)
 

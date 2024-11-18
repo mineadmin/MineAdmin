@@ -16,7 +16,7 @@ import usePluginStore from '@/store/modules/usePluginStore.ts'
 const useRouteStore = defineStore(
   'useRouteStore',
   () => {
-    const settingsStore = useSettingStore()
+    const defaultSetting = ref<SystemSettings.all>(useDefaultSetting())
     // 原始路由
     const routesRaw = ref<RouteRecordRaw[]>([])
     const flatteningRoutesList = ref<RouteRecordRaw[]>([])
@@ -51,7 +51,7 @@ const useRouteStore = defineStore(
     }
 
     function getMineRootLayoutRoute(): RouteRecordRaw {
-      const welcomePage: SystemSettings.welcomePage = settingsStore.getSettings('welcomePage')
+      const welcomePage: SystemSettings.welcomePage = defaultSetting.value.welcomePage
       return {
         name: 'MineRootLayoutRoute',
         path: '/',

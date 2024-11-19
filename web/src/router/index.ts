@@ -15,6 +15,7 @@ import '@/assets/styles/nprogress.scss'
 import hasAuth from '@/utils/permission/hasAuth.ts'
 import hasRole from '@/utils/permission/hasRole.ts'
 import hasUser from '@/utils/permission/hasUser.ts'
+import { isEmpty } from 'radash'
 
 const { isLoading } = useNProgress()
 
@@ -53,16 +54,19 @@ router.afterEach(async (to) => {
   isLoading.value = false
   const keepAliveStore = useKeepAliveStore()
 
-  if (to.meta.auth && !hasAuth(to.meta.auth as string[])) {
+  if (!isEmpty(to.meta.auth) && !hasAuth(to.meta.auth as string[])) {
     await router.push({ path: '/403' })
+    return
   }
 
-  if (to.meta.role && !hasRole(to.meta.role as string[])) {
+  if (!isEmpty(to.meta.role) && !hasRole(to.meta.role as string[])) {
     await router.push({ path: '/403' })
+    return
   }
 
-  if (to.meta.user && !hasUser(to.meta.user as string[])) {
+  if (!isEmpty(to.meta.user) && !hasUser(to.meta.user as string[])) {
     await router.push({ path: '/403' })
+    return
   }
 
   if (to.meta.cache) {

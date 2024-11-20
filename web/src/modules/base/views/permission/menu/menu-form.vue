@@ -284,7 +284,6 @@ const formItems = ref<MaFormItem[]>([
       },
       onAddBtn: (btn: MenuVo) => {
         form.value.btnPermission.push(btn)
-        console.log(form.value.btnPermission)
         btnPermissionRef.value?.setBtnData?.(form.value.btnPermission)
       },
     },

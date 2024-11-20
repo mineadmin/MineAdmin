@@ -13,6 +13,8 @@ export default defineComponent({
   name: 'MineIframe',
   setup() {
     const route = useRoute()
+    const routers = useRouter().getRoutes()
+    const iframeStore = useIframeKeepAliveStore()
     onMounted(() => {
       const workerArea = document.querySelector('.mine-worker-area') as HTMLDivElement
       workerArea.classList.add('overflow-hidden')
@@ -20,7 +22,16 @@ export default defineComponent({
     })
     return () => (
       <div class="mine-layout h-full w-full">
-        {(route.meta?.type === 'I' && route.meta?.link) && <iframe class="h-full w-full" frameborder="0" src={route.meta?.link}></iframe>}
+        {iframeStore.iframeList?.map((name: string) => {
+          return (
+            <iframe
+              class="h-full w-full"
+              frameborder="0"
+              src={routers.find(item => item.name === name)!.meta!.link}
+              v-show={route.name === name}
+            />
+          )
+        })}
       </div>
     )
   },

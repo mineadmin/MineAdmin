@@ -30,7 +30,6 @@ export default defineComponent ({
     const shadowRight = ref<boolean>(false)
 
     function onAsideScroll() {
-      console.log(11111)
       const scrollTop = mainAsideRef.value.scrollTop
       const scrollLeft = mainAsideRef.value.scrollLeft
       shadowTop.value = scrollTop > 0

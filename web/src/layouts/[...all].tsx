@@ -15,7 +15,6 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
-    console.log(route)
     return () => (
       <div class="relative mx-auto w-full flex flex-col-center">
         <div class="absolute h-600px w-full"></div>

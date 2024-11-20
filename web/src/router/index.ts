@@ -53,6 +53,7 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach(async (to) => {
   isLoading.value = false
   const keepAliveStore = useKeepAliveStore()
+  const iframeKeepAliveStore = useIframeKeepAliveStore()
 
   if (!isEmpty(to.meta.auth) && !hasAuth(to.meta.auth as string[])) {
     await router.push({ path: '/403' })
@@ -69,14 +70,18 @@ router.afterEach(async (to) => {
     return
   }
 
-  if (to.meta.cache) {
-    const componentName = to.matched.at(-1)?.components?.default.name
+  if (to.meta.cache && to.meta.type !== 'I') {
+    const componentName = to.matched.at(-1)?.components?.default!.name
     if (componentName) {
       keepAliveStore.add(componentName)
     }
     else {
       console.warn(`MineAdmin-UI：[${to.meta.title}] 组件页面未设置组件名，将不会被缓存`)
     }
+  }
+
+  if (to.meta.type === 'I') {
+    iframeKeepAliveStore.add(to.name)
   }
 })
 

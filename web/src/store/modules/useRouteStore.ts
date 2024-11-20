@@ -131,8 +131,7 @@ const useRouteStore = defineStore(
       routerMap.forEach((item: any) => {
         if (item.meta?.type !== 'B') {
           if (item.meta.type === 'I') {
-            item.meta.url = item.path
-            item.path = `/maIframe/${item.name}`
+            item.path = `/MineIframe/${item.name}`
             item.component = () => import(('@/layouts/components/iframe/index.tsx'))
           }
 

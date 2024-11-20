@@ -16,6 +16,7 @@ import MineSubAside from './components/sub-aside'
 import MineBars from './components/bars'
 import MineFooter from './components/footer'
 import MineBackTop from './components/back-top'
+import MineIframe from './components/iframe'
 import '@/layouts/style/index.scss'
 import type { SystemSettings } from '#/global'
 import handleResize from '@/utils/handleResize'
@@ -83,11 +84,12 @@ export default defineComponent({
                 {({ Component, route }) => (
                   <Transition name={appSetting.pageAnimate} mode="out-in">
                     <KeepAlive include={keepAliveStore.list}>
-                      {keepAliveStore.getShowState() && <Component key={route.fullPath} />}
+                      {(keepAliveStore.getShowState() && route.meta.type !== 'I') && <Component key={route.fullPath} />}
                     </KeepAlive>
                   </Transition>
                 )}
               </RouterView>
+              <MineIframe />
             </div>
             <MineFooter />
             <MineBackTop />

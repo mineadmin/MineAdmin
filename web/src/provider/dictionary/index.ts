@@ -14,9 +14,11 @@ import type { App } from 'vue'
 const dictionary: Record<string, Dictionary[]> = {}
 async function getDictionary() {
   const data = import.meta.glob('./data/**.{ts,js}')
-  for (const dic in data) {
-    const d: any = await data[dic]()
-    const name: string | undefined = dic.match('/data/(.*).(ts|js)')?.[1] ?? undefined
+  const pluginData = import.meta.glob('../../plugins/*/*/dictionary/**.{ts,js}')
+  const allData = { ...data, ...pluginData }
+  for (const dic in allData) {
+    const d: any = await allData[dic]()
+    const name: string | undefined = dic.match(/\/(data|plugins\/.*\/dictionary)\/(.*)\.(ts|js)/)?.[2] ?? undefined
     if (name) {
       dictionary[name] = d.default
     }

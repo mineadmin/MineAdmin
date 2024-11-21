@@ -11,6 +11,7 @@ import type { Router } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { MineToolbarExpose, Plugin } from '#/global'
 import Message from 'vue-m-message'
+import { ElButton } from 'element-plus'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app) {
@@ -42,7 +43,9 @@ const pluginConfig: Plugin.PluginConfig = {
       const { addPlugin } = useProTableRenderPlugin()
       addPlugin({
         name: 'test',
-        render: () => '我是demo插件渲染出来的内容',
+        render: () => {
+          return h(ElButton, null, 'test')
+        },
       })
     },
     login: (formInfo) => {

@@ -96,7 +96,7 @@ onMounted(async () => {
             :cancel-button-text="t('crud.cancel')"
             @confirm.stop="async () => {
               if (data.children && data.children.length > 0) {
-                msg.notifyError(t('baseMenuManage.placeholder.parentMenu'))
+                msg.notifyError(t('baseMenuManage.deleteChildren'))
                 return
               }
               if (data.parent_id !== 0) {

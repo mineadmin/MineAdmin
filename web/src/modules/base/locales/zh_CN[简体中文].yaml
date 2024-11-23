@@ -24,6 +24,7 @@ baseRoleManage:
   setPermission: 赋予权限
 baseMenuManage:
   addError: 此操作已执行过，请点击左侧菜单重新操作。
+  deleteChildren: 当前菜单存在子菜单，请先删除子级。
   addTopMenu: 新增顶级菜单
   parentMenu: 上级菜单
   name: 菜单名称

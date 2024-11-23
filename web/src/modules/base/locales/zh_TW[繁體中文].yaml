@@ -24,6 +24,7 @@ baseRoleManage:
   setPermission: 賦予權限
 baseMenuManage:
   addError: 此操作已執行過，請點擊左側選單重新操作。
+  deleteChildren: 該菜單存在子菜單，請先刪除子級。
   addTopMenu: 新增頂級菜單
   parentMenu: 上級菜單
   name: 菜單名稱
@@ -34,6 +35,7 @@ baseMenuManage:
   route: 路由地址
   view: 視圖地址
   link: 鏈接/iFrame
+  activeName: 高亮菜單
   redirect: 路由重定向
   i18n: 國際化
   sort: 排序
@@ -60,6 +62,7 @@ baseMenuManage:
     name: 請輸入菜單名稱
     code: 請輸入菜單標識，此項全局唯一
     parentMenu: 請選擇上級菜單，不選為頂級菜單
+    activeName: 請輸入菜單標識，訪問頁面時高亮指定菜單
     route: 頁面訪問地址，以 "/" 開頭
     view: 視圖地址，請指向模組或插件下的views目錄文件
     link: 請輸入第三方網址

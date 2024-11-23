@@ -40,6 +40,7 @@ export default defineComponent({
     const keepAliveStore = useKeepAliveStore()
     const appSetting = getSettings('app') as SystemSettings.app
     const menuStore = useMenuStore()
+    const route = useRoute()
 
     watch(() => appSetting.enableWatermark, (v: boolean | undefined) => {
       v && openGlobalWatermark()
@@ -81,14 +82,17 @@ export default defineComponent({
             <MineBars />
             <div class="mine-worker-area">
               <RouterView class="router-view">
-                {({ Component, route }) => (
+                {({ Component }) => (
                   <Transition name={appSetting.pageAnimate} mode="out-in">
                     <KeepAlive include={keepAliveStore.list}>
                       {(keepAliveStore.getShowState() && route.meta.type !== 'I') && <Component key={route.fullPath} />}
                     </KeepAlive>
                   </Transition>
                 )}
+
               </RouterView>
+            </div>
+            <div class="mine-iframe-area" v-show={route.meta?.type === 'I'}>
               <MineIframe />
             </div>
             <MineFooter />

@@ -16,9 +16,9 @@ export default defineComponent({
     const routers = useRouter().getRoutes()
     const iframeStore = useIframeKeepAliveStore()
     onMounted(() => {
-      const workerArea = document.querySelector('.mine-worker-area') as HTMLDivElement
-      workerArea.classList.add('overflow-hidden')
-      workerArea.style.height = `${getOnlyWorkAreaHeight() + 48}px`
+      const iframeArea = document.querySelector('.mine-iframe-area') as HTMLDivElement
+      iframeArea.classList.add('overflow-hidden')
+      iframeArea.style.height = `${getOnlyWorkAreaHeight() + 48}px`
     })
     return () => (
       <div class="mine-layout h-full w-full">

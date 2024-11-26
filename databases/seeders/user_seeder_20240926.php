@@ -9,12 +9,11 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
-
 use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Database\Seeders\Seeder;
 
-class UserSeeder20240926 extends Seeder
+class user_seeder_20240926 extends Seeder
 {
     /**
      * Run the database seeds.

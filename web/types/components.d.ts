@@ -12,6 +12,7 @@ declare module 'vue' {
     MaDictCheckbox: typeof import('./../src/components/ma-dict-picker/ma-dict-checkbox.vue')['default']
     MaDictRadio: typeof import('./../src/components/ma-dict-picker/ma-dict-radio.vue')['default']
     MaDictSelect: typeof import('./../src/components/ma-dict-picker/ma-dict-select.vue')['default']
+    MaDrawer: typeof import('./../src/components/ma-drawer/index.vue')['default']
     MaIconPanel: typeof import('./../src/components/ma-icon-picker/ma-icon-panel.vue')['default']
     MaIconPicker: typeof import('./../src/components/ma-icon-picker/index.vue')['default']
     MaRemoteSelect: typeof import('./../src/components/ma-remote-select/index.vue')['default']

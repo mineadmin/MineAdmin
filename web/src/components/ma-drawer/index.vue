@@ -9,25 +9,19 @@
 -->
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { useMagicKeys, useResizeObserver } from '@vueuse/core'
-import { ElDialog } from 'element-plus'
+import { useMagicKeys } from '@vueuse/core'
+import type { ElDrawer } from 'element-plus'
 
-defineOptions({ name: 'MaDialog' })
+defineOptions({ name: 'MaDrawer' })
 
 const emit = defineEmits<{
   (e: 'ok', value: any): void
   (e: 'cancel', value: any): void
 }>()
 
-const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
-const dialogWidth = ref<string>('55%')
-const fullscreen = ref<boolean>(false)
+const drawerRef = ref<typeof ElDrawer>() as Ref<typeof ElDrawer>
 const okLoading = ref<boolean>(false)
 const cancelLoading = ref<boolean>(false)
-const fsIcon = reactive({
-  todo: 'mingcute:fullscreen-line',
-  exit: 'mingcute:fullscreen-exit-line',
-})
 
 function okLoadingState(state: boolean) {
   okLoading.value = state
@@ -59,38 +53,12 @@ watch(() => keys.value, async () => {
     ok()
   }
 })
-
-onMounted(() => {
-  useResizeObserver(document.body, (entries) => {
-    const [entry] = entries
-    const { width } = entry.contentRect
-    // xs
-    if (width < 768) {
-      dialogWidth.value = '90%'
-    }
-    // sm
-    if (width >= 768 && width < 992) {
-      dialogWidth.value = '75%'
-    }
-    // md
-    if (width >= 992 && width < 1200) {
-      dialogWidth.value = '65%'
-    }
-    // md
-    if (width >= 1200 && width < 1920) {
-      dialogWidth.value = '55%'
-    }
-  })
-})
 </script>
 
 <template>
-  <ElDialog
-    ref="dialogRef"
+  <ElDrawer
+    ref="drawerRef"
     v-model="isOpen"
-    :fullscreen="fullscreen"
-    :width="dialogWidth"
-    draggable
     v-bind="$attrs"
   >
     <template #default>
@@ -105,13 +73,6 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" :underline="false">
-          <ma-svg-icon
-            :name="fullscreen ? fsIcon.exit : fsIcon.todo"
-            :size="15"
-            @click="() => fullscreen = !fullscreen"
-          />
-        </el-link>
       </div>
     </template>
     <template #footer>
@@ -126,7 +87,7 @@ onMounted(() => {
       </slot>
       <slot name="footerAfter" />
     </template>
-  </ElDialog>
+  </ElDrawer>
 </template>
 
 <style scoped lang="scss">

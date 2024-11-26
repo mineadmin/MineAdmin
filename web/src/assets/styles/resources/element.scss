@@ -42,4 +42,17 @@
   }
 }
 
+.el-dialog__headerbtn, .el-drawer__close-btn {
+  @apply top-10px right-10px transition-all duration-200 w-30px h-30px flex items-center justify-center rounded
+  bg-gray-1 hover:bg-gray-2 dark:bg-dark-4 dark-hover:bg-dark-5
+  ;
+
+  .el-icon {
+    @apply  text-dark-6 dark-text-white transition-all duration-200 ;
+  }
+
+  .el-icon:hover {
+    @apply text-[rgb(var(--ui-primary))];
+  }
+}
 

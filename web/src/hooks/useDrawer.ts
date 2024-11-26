@@ -7,21 +7,21 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import MaDialog from '@/components/ma-dialog/index.vue'
+import MaDrawer from '@/components/ma-drawer/index.vue'
 import type { Component } from 'vue'
 
-export interface UseDialogExpose {
+export interface UseDrawerExpose {
   on: {
     ok?: (...args: any[]) => void
     cancel?: (...args: any[]) => void
   }
-  Dialog: Component
+  Drawer: Component
   open: (...args: any[]) => void
   close: () => void
   setTitle: (title: string) => void
 }
 
-export default function useDialog(dialogProps: Record<string, any> | null = null): UseDialogExpose {
+export default function useDrawer(drawerProps: Record<string, any> | null = null): UseDrawerExpose {
   const isOpen = ref<boolean>(false)
   const title = ref<string>('unknown')
 
@@ -43,9 +43,9 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
     cancel: (...args: any[]) => any
   }>({ ok: () => {}, cancel: () => {} })
 
-  const Dialog = (props: Record<string, any> = {}) => {
+  const Drawer = (props: Record<string, any> = {}) => {
     const slots = useSlots()
-    const args = Object.assign(dialogProps ?? {}, props)
+    const args = Object.assign(drawerProps ?? {}, props)
 
     if (args?.appendToBody === undefined) {
       args.appendToBody = true
@@ -56,7 +56,7 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
     }
 
     return h(
-      MaDialog,
+      MaDrawer,
       {
         'modelValue': isOpen.value,
         'onUpdate:modelValue': (v: boolean) => isOpen.value = v,
@@ -84,7 +84,7 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
 
   return {
     on: on.value,
-    Dialog,
+    Drawer,
     open,
     close,
     setTitle,

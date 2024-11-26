@@ -162,10 +162,10 @@ crud:
   userNotAllow: This feature is not accessible or available to current users
   superAdminNoEdit: SuperAdmin not allow edit
 form:
-  pleaseInput: Please input %{msg}
-  pleaseSelect: Please select %{msg}
-  requiredInput: '%{msg} Required'
-  requiredSelect: '%{msg} Required'
+  pleaseInput: Please input {msg}
+  pleaseSelect: Please select {msg}
+  requiredInput: '{msg} Required'
+  requiredSelect: '{msg} Required'
 dictionary:
   system:
     statusEnabled: Enabled

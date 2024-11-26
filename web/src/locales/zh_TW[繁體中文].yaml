@@ -162,10 +162,10 @@ crud:
   userNotAllow: 目前用戶無法訪問或使用此功能
   superAdminNoEdit: 超管不可修改
 form:
-  pleaseInput: 請輸入%{msg}
-  pleaseSelect: 請選擇%{msg}
-  requiredInput: '%{msg}必填'
-  requiredSelect: '%{msg}必選'
+  pleaseInput: 請輸入{msg}
+  pleaseSelect: 請選擇{msg}
+  requiredInput: '{msg}必填'
+  requiredSelect: '{msg}必選'
 dictionary:
   system:
     statusEnabled: 啓用

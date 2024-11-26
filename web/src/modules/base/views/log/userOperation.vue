@@ -15,21 +15,23 @@ import getColumns from './userOperationLogData/UserOperationLogColumn.tsx'
 import type { RequestLogInfoVo } from '~/base/api/log.ts'
 import { UserOperatorLog } from '~/base/api/log.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'log:userOperation' })
 
 const t = useTrans().globalTrans
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const selections: Ref<RequestLogInfoVo[]> = ref([])
+const msg = useMessage()
 
 async function clickDelete() {
-  const ids = selections.value.map((value: RequestLogInfoVo) => {
-    return value.id
+  const ids = selections.value.map((value: RequestLogInfoVo) => value.id)
+  msg.confirm(t('crud.delMessage')).then(async () => {
+    const res = await UserOperatorLog.delete(ids)
+    if (res.code === ResultCode.SUCCESS) {
+      proTableRef.value.refresh()
+    }
   })
-  const res = await UserOperatorLog.delete(ids)
-  if (res.code === ResultCode.SUCCESS) {
-    proTableRef.value.refresh()
-  }
 }
 
 const options = ref<MaProTableOptions>({

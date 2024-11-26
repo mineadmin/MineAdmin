@@ -10,11 +10,10 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 use App\Model\Permission\Menu;
-use App\Model\Permission\Meta;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
-class MenuUpdate20241031 extends Seeder
+class menu_update_20241031 extends Seeder
 {
     public const BASE_DATA = [
         'name' => '',

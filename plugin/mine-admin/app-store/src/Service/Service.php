@@ -18,8 +18,6 @@ use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\AppStore\Exception\PluginNotFoundException;
 use Mine\AppStore\Plugin;
 use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class Service
 {
@@ -41,10 +39,6 @@ class Service
         return true;
     }
 
-    /**
-     * @param array $params
-     * @return bool
-     */
     public function install(array $params): bool
     {
         if (empty($params['identifier']) || empty($params['version'])) {

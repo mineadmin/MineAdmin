@@ -15,21 +15,23 @@ import type { Ref } from 'vue'
 import getColumns from './userLoginLogData/UserLoginLogColumn.tsx'
 import getSearchItems from './userLoginLogData/UserLoginLogSearch.tsx'
 import { ResultCode } from '@/utils/ResultCode.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'log:userLogin' })
 
 const t = useTrans().globalTrans
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const selections: Ref<UserLoginVo[]> = ref([])
+const msg = useMessage()
 
 async function clickDelete() {
-  const ids = selections.value.map((value: UserLoginVo) => {
-    return value.id
+  const ids = selections.value.map((value: UserLoginVo) => value.id)
+  msg.confirm(t('crud.delMessage')).then(async () => {
+    const res = await UserLoginLog.delete(ids)
+    if (res.code === ResultCode.SUCCESS) {
+      proTableRef.value.refresh()
+    }
   })
-  const res = await UserLoginLog.delete(ids)
-  if (res.code === ResultCode.SUCCESS) {
-    proTableRef.value.refresh()
-  }
 }
 
 const options = ref<MaProTableOptions>({

@@ -49,7 +49,7 @@ final class PermissionMiddleware implements MiddlewareInterface
         $annotations = AnnotationCollector::getClassMethodAnnotation($controller, $method);
         $classAnnotation = AnnotationCollector::getClassAnnotation($controller, Permission::class);
         /**
-         * @var \Mine\Access\Attribute\Permission[] $permissions
+         * @var Permission[] $permissions
          */
         $permissions = [];
         $classAnnotation && $permissions[] = $classAnnotation;

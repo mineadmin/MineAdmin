@@ -22,8 +22,6 @@ use Hyperf\Swagger\Annotation as OA;
 class Result implements Arrayable
 {
     /**
-     * @param ResultCode $code
-     * @param null|string $message
      * @param T $data
      */
     public function __construct(

@@ -21,10 +21,11 @@ zh_TW:
 
 <script setup lang="tsx">
 import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
-import type { UploadRequestOptions, UploadUserFile } from 'element-plus'
+import type { UploadUserFile } from 'element-plus'
 import { isArray, uid } from 'radash'
 import { useDebounceFn } from '@vueuse/core'
 import { useMessage } from '@/hooks/useMessage.ts'
+import { uploadLocal } from '@/utils/uploadLocal.ts'
 
 defineOptions({ name: 'MaUploadImage' })
 
@@ -89,27 +90,6 @@ function btnRender() {
 }
 
 const fileList = ref<UploadUserFile[]>([])
-
-function upload(formData: FormData) {
-  return useHttp().post('/admin/attachment/upload', formData)
-}
-
-function handleUpload(options: UploadRequestOptions): any {
-  return new Promise((resolve, reject) => {
-    const formData = new FormData()
-    formData.append('file', options.file)
-    upload(formData).then((res: Record<string, any>) => {
-      if (res.code === 200) {
-        resolve(res)
-      }
-      else {
-        reject(res)
-      }
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
 
 function updateModelValue() {
   emit(
@@ -202,7 +182,7 @@ watch(
     v-model:file-list="fileList"
     :class="`ma-upload-${id}`"
     :before-upload="beforeUpload"
-    :http-request="handleUpload"
+    :http-request="uploadLocal"
     :on-success="handleSuccess"
     :on-exceed="handleExceed"
     :on-error="handleError"

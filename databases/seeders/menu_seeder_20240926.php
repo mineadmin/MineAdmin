@@ -14,7 +14,7 @@ use App\Model\Permission\Meta;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
-class menu_seeder_20240926 extends Seeder
+class MenuSeeder20240926 extends Seeder
 {
     public const BASE_DATA = [
         'name' => '',

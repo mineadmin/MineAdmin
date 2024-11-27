@@ -13,7 +13,7 @@ use App\Model\Permission\Menu;
 use Hyperf\Database\Seeders\Seeder;
 use Hyperf\DbConnection\Db;
 
-class menu_update_20241031 extends Seeder
+class MenuUpdate20241031 extends Seeder
 {
     public const BASE_DATA = [
         'name' => '',

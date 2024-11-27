@@ -15,6 +15,7 @@ export default defineComponent({
     const route = useRoute()
     const routers = useRouter().getRoutes()
     const iframeStore = useIframeKeepAliveStore()
+    const list = computed(() => iframeStore.iframeList ?? [])
     onMounted(() => {
       const iframeArea = document.querySelector('.mine-iframe-area') as HTMLDivElement
       iframeArea.classList.add('overflow-hidden')

@@ -55,14 +55,14 @@
     "hyperf/server": "3.1.*",
     "hyperf/utils": "3.1.*",
     "hyperf/validation": "~3.1",
-    "mineadmin/access": "3.0-RC",
-    "mineadmin/app-store": "3.0-RC",
-    "mineadmin/auth-jwt": "3.0-RC",
-    "mineadmin/core": "3.0-RC",
-    "mineadmin/jwt": "3.0-RC",
-    "mineadmin/support": "3.0-RC",
-    "mineadmin/swagger": "3.0-RC",
-    "mineadmin/upload": "3.0-RC"
+    "mineadmin/access": "3.0",
+    "mineadmin/app-store": "3.0",
+    "mineadmin/auth-jwt": "3.0",
+    "mineadmin/core": "3.0",
+    "mineadmin/jwt": "3.0",
+    "mineadmin/support": "3.0",
+    "mineadmin/swagger": "3.0",
+    "mineadmin/upload": "3.0"
   },
   "require-dev": {
     "doctrine/dbal": "^3.6",

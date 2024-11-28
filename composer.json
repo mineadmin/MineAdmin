@@ -23,6 +23,7 @@
     "ext-pdo_mysql": "*",
     "ext-redis": "*",
     "ext-swoole": ">=5.0",
+    "friendsofhyperf/tinker": "^3.1",
     "hyperf/async-queue": "3.1.*",
     "hyperf/cache": "3.1.*",
     "hyperf/carbon": "^3.1",

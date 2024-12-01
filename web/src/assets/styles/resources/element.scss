@@ -27,13 +27,13 @@
   }
 
   .mine-tree-node {
-    @apply flex items-center justify-between h-full pr-2 w-full;
+    @apply flex items-center justify-between h-full pr-2 w-full relative;
 
     .label {
       @apply flex items-center h-full gap-x-1.5;
     }
     .do {
-      @apply hidden;
+      @apply absolute right-3 hidden;
     }
   }
 

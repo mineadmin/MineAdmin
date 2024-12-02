@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
+    MaCitySelect: typeof import('./../src/components/ma-city-select/index.vue')['default']
     MaDialog: typeof import('./../src/components/ma-dialog/index.vue')['default']
     MaDictCheckbox: typeof import('./../src/components/ma-dict-picker/ma-dict-checkbox.vue')['default']
     MaDictRadio: typeof import('./../src/components/ma-dict-picker/ma-dict-radio.vue')['default']

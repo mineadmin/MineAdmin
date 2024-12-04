@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
+use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Jwt\JwtInterface;
 use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
@@ -24,6 +25,10 @@ class RefreshTokenMiddleware extends AbstractTokenMiddleware
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        if (! $this->parserToken($request)->isRelatedTo('refresh')) {
+            throw new InvalidTokenStructure('Token is not a refresh token');
+        }
+
         $this->checkToken->checkJwt($this->parserToken($request));
         return $handler->handle(
             value(

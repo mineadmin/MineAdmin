@@ -22,13 +22,13 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
 在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
 
-- 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
-- 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
-
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 
 <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
+
+## 战略合作
+[京策高防CDN](https://www.jcdun.com/guoneigaofangcdn)
 
 ## 内置功能
 

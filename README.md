@@ -28,7 +28,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
 
 ## 战略合作
-[京策高防CDN](https://www.jcdun.com/guoneigaofangcdn)
+[京策盾高防CDN - 抗DDOS/CC网络攻击的可靠服务商](https://www.jcdun.com/guoneigaofangcdn)
 
 ## 内置功能
 

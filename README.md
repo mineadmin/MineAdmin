@@ -85,7 +85,7 @@ composer create-project mineadmin/mineadmin --keep-vcs
 
 [Hyperf 一款高性能企业级协程框架](https://hyperf.io/)
 
-[Arco 字节跳动出品的企业级设计系统](https://arco.design/)
+[Element Plus 基于 Vue 3，面向设计师和开发者的组件库](https://element-plus.org/)
 
 [Swoole PHP协程框架](https://www.swoole.com)
 

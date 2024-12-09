@@ -67,7 +67,7 @@ onMounted(async () => {
     node-key="id"
     :indent="26"
     auto-expand-parent
-    class="mt-1 h-[200px] lg:h-full"
+    class="mt-1 h-[200px] lg:h-[calc(100%-80px)]"
     @node-click="(node: MenuVo) => {
       emit('menu-select', node)
     }"

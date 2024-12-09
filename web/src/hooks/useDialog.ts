@@ -19,6 +19,7 @@ export interface UseDialogExpose {
   open: (...args: any[]) => void
   close: () => void
   setTitle: (title: string) => void
+  setAttr: (attr: Record<string, any>) => void
 }
 
 export default function useDialog(dialogProps: Record<string, any> | null = null): UseDialogExpose {
@@ -37,6 +38,7 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
   }
 
   const setTitle = (string: string) => title.value = string
+  const setAttr = (attr: Record<string, any>) => Object.assign(dialogProps ?? {}, attr)
 
   const on = ref<{
     ok: (...args: any[]) => any
@@ -88,5 +90,6 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
     open,
     close,
     setTitle,
+    setAttr,
   }
 }

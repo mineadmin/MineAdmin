@@ -24,6 +24,6 @@ services:
   frontend:
     build:
       context: ./web
-    environment:
-      MINE_NODE_ENV: production
+      args:
+        MINE_NODE_ENV: production
     restart: always

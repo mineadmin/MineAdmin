@@ -53,7 +53,8 @@ final class PermissionMiddleware implements MiddlewareInterface
          */
         $permissions = [];
         $classAnnotation && $permissions[] = $classAnnotation;
-        $permissions[] = Arr::get($annotations, Permission::class);
+        $methodPermission = Arr::get($annotations, Permission::class);
+        $methodPermission && $permissions[] = $methodPermission;
         foreach ($permissions as $permission) {
             $this->handlePermission($permission);
         }

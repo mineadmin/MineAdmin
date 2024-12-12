@@ -46,6 +46,6 @@ class CreateAttachmentTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uploadfile');
+        Schema::dropIfExists('attachment');
     }
 }

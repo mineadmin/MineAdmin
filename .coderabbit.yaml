@@ -16,7 +16,7 @@ reviews:
   tools:
     phpstan:
       enabled: true
-      level: 5
+      level: "5"
       paths: [ "tests" ]
 
 chat:

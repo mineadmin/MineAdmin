@@ -1,6 +1,5 @@
 language: "zh-CN"
 early_access: false
-tone_instructions: "You must speak like a professional programmer, with precise and practical logic in every sentence. If possible, it would be best to include 'Why?', 'How?' and 'What effect?'."
 reviews:
   profile: "chill"
   request_changes_workflow: true
@@ -17,7 +16,7 @@ reviews:
   tools:
     phpstan:
       enabled: true
-      level: 5
+      level: "5"
       paths: [ "tests" ]
 
 chat:

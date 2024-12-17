@@ -1,0 +1,17 @@
+language: "zh-CN"
+early_access: false
+reviews:
+  profile: "chill"
+  request_changes_workflow: true
+  high_level_summary: true
+  auto_title_placeholder: "@coderabbitai"
+  commit_status: true
+  poem: true
+  review_status: true
+  collapse_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches: ["main"]
+chat:
+  auto_reply: true

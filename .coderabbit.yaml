@@ -2,7 +2,6 @@ language: "zh-CN"
 early_access: false
 reviews:
   profile: "chill"
-  tone_instructions: "You must speak like a professional programmer, with precise and practical logic in every sentence. If possible, it would be best to include 'Why?', 'How?' and 'What effect?'."
   request_changes_workflow: true
   high_level_summary: true
   auto_title_placeholder: "PR title"

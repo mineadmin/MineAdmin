@@ -13,12 +13,12 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
-    base_branches: ["*"]
+    base_branches: ["master"]
+  tools:
+    phpstan:
+      enabled: true
+      level: 5
+      paths: [ "tests" ]
+
 chat:
   auto_reply: true
-
-tools:
-  phpstan:
-    enabled: true
-    level: 5
-    paths: ["tests"]

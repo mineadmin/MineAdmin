@@ -1,10 +1,11 @@
 language: "zh-CN"
 early_access: false
+tone_instructions: "You must speak like a professional programmer, with precise and practical logic in every sentence. If possible, it would be best to include 'Why?', 'How?' and 'What effect?'."
 reviews:
   profile: "chill"
   request_changes_workflow: true
   high_level_summary: true
-  auto_title_placeholder: "@coderabbitai"
+  auto_title_placeholder: "PR title"
   commit_status: true
   poem: true
   review_status: true
@@ -15,3 +16,9 @@ reviews:
     base_branches: ["main"]
 chat:
   auto_reply: true
+
+tools:
+  phpstan:
+    enabled: true
+    level: 5
+    paths: ["tests"]

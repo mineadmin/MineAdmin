@@ -45,7 +45,7 @@ function handleChange(value: any) {
 
 function request() {
   if (props?.api && typeof props.api === 'function') {
-    props.api().then((res: any) => {
+    props.api(props.axiosConfig).then((res: any) => {
       options.value = props?.dataHandle?.(res) ?? res.data
     }).catch((err) => {
       msg.error(err)

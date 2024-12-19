@@ -568,16 +568,17 @@ onUnmounted(() => {
   }
 
   .ma-resource-dock {
-    @apply flex items-center justify-center gap-x-2;
+    @apply flex items-center justify-center gap-x-2 relative;
 
     li {
       @apply rounded-lg px-1 py-0.5 cursor-pointer flex items-center justify-center relative
       bg-gradient-to-b from-[rgb(var(--ui-primary)/.1)] to-[rgb(var(--ui-primary)/.5)]
       dark-from-[rgb(var(--ui-primary)/.5)] dark-to-[rgb(var(--ui-primary)/.1)]
-        transition-all duration-200
+        transition-all duration-150 transition-ease-in-out
       ;
-      width: calc(2rem * var(--scale));
-      height: calc(2rem * var(--scale));
+      top: calc((4rem * var(--scale) - 4rem) / 2 * -1 );
+      width: calc(3rem * var(--scale));
+      height: calc(3rem * var(--scale));
     }
     //li:hover {
     //  .dock-icon {

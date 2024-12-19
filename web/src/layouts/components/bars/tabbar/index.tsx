@@ -119,10 +119,10 @@ export default defineComponent({
       const { x } = useScroll(tabbarEl, { behavior: 'smooth' })
       const width: number = tabStore.tabList.length * 130
       if (type === 'left') {
-        x.value = x.value <= 130 ? 0 : x.value - 1300
+        x.value = x.value <= 130 ? 0 : x.value - 500
       }
       if (type === 'right') {
-        x.value = x.value >= width ? width : x.value + 1300
+        x.value = x.value >= width ? width : x.value + 500
       }
     }
 

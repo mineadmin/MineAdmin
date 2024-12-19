@@ -26,7 +26,6 @@ en:
   delete: Delete
   cancel: Cancel
   confirm: Confirm
-
 zh_CN:
   searchPlaceholder: 搜索此分类下的资源
   tips: 你确定要删除这条数据吗？
@@ -83,7 +82,7 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
   showAction: true,
-  pageSize: 15,
+  pageSize: 30,
   dbClickConfirm: false,
 })
 const emit = defineEmits<{
@@ -134,7 +133,7 @@ async function getResourceList(params: Resource = {}) {
   loading.value = true
   const { data } = await useHttp().get(
     '/admin/attachment/list',
-    { params: Object.assign({ pageSize: props.pageSize }, params) },
+    { params: Object.assign({ page_size: props.pageSize }, params) },
   )
   total.value = data.total
   resources.value = data.list
@@ -365,6 +364,46 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 
 onMounted(async () => {
   await getResourceList()
+
+  const liDom: NodeListOf<HTMLLIElement> = document.querySelectorAll('.ma-resource-dock li')
+
+  function resetScale() {
+    liDom.forEach((li: HTMLLIElement) => {
+      li.style.setProperty('--scale', 1)
+    })
+  }
+
+  document.querySelector('.ma-resource-dock')?.addEventListener('mouseleave', () => {
+    resetScale()
+  })
+
+  liDom.forEach((li: HTMLLIElement) => {
+    li.addEventListener('mousemove', (e: MouseEvent) => {
+      const item = e.target as HTMLLIElement
+      const rect = item.getBoundingClientRect()
+      const offset = Math.abs(e.clientX - rect.left) / rect.width
+
+      const prev = item?.previousElementSibling || null
+      const next = item?.nextElementSibling || null
+
+      const scale = 0.6
+      resetScale()
+      if (prev) {
+        prev?.style?.setProperty('--scale', 1 + scale * offset)
+      }
+      item.style.setProperty('--scale', 1 + scale)
+
+      if (next) {
+        next?.style?.setProperty('--scale', 1 + scale * offset)
+      }
+    })
+  })
+})
+
+onUnmounted(() => {
+  // 取消监听
+  document.querySelector('.ma-resource-dock')?.removeEventListener('mouseleave', () => {})
+  document.querySelectorAll('.ma-resource-dock li').forEach(li => li.removeEventListener('mousemove', () => {}))
 })
 </script>
 
@@ -374,7 +413,7 @@ onMounted(async () => {
       <div>
         <el-segmented
           v-model="fileTypeSelected"
-          :options="fileTypes" size="default"
+          :options="fileTypes as any" size="default"
           block
           @change="onfileTypesChange"
         >
@@ -392,7 +431,7 @@ onMounted(async () => {
 
       <div class="flex justify-end">
         <el-input
-          v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-full md:w-[180px]" @input="() => {
+          v-model="queryParams.origin_name" :placeholder="t('searchPlaceholder')" clearable class="w-full md:w-[180px]" @input="() => {
             getResourceList(queryParams)
           }"
         >
@@ -488,6 +527,18 @@ onMounted(async () => {
         </slot>
       </div>
     </div>
+
+    <div class="ma-resource-dock-container">
+      <ul class="ma-resource-dock">
+        <li>a</li>
+        <li>a</li>
+        <li>a</li>
+        <li>a</li>
+        <li>a</li>
+        <li>a</li>
+        <li>a</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -502,7 +553,38 @@ onMounted(async () => {
 }
 
 .ma-resource-panel{
+  @apply relative;
   --resource-item-size:120px;
+
+  .ma-resource-dock-container {
+    --scale: 1.2;
+    @apply absolute bg-gray-2 dark-bg-dark-9 w-6/12
+    rounded-xl p-2 px-2.5 flex items-center justify-center
+    ;
+    height: 47px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    bottom: 0;
+  }
+
+  .ma-resource-dock {
+    @apply flex items-center justify-center gap-x-2;
+
+    li {
+      @apply rounded-lg px-1 py-0.5 cursor-pointer flex items-center justify-center relative
+      bg-gradient-to-b from-[rgb(var(--ui-primary)/.1)] to-[rgb(var(--ui-primary)/.5)]
+      dark-from-[rgb(var(--ui-primary)/.5)] dark-to-[rgb(var(--ui-primary)/.1)]
+        transition-all duration-200
+      ;
+      width: calc(2rem * var(--scale));
+      height: calc(2rem * var(--scale));
+    }
+    //li:hover {
+    //  .dock-icon {
+    //    font-size: calc(2rem * var(--scale));
+    //  }
+    //}
+  }
 }
 .resource-item{
   animation: fadeIn 0.38s ease-out forwards;

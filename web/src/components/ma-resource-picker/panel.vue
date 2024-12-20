@@ -365,39 +365,61 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 onMounted(async () => {
   await getResourceList()
 
-  const liDom: NodeListOf<HTMLLIElement> = document.querySelectorAll('.ma-resource-dock li')
+  const nodes = document.getElementsByClassName('pointer')
+  const activateRecord = Array.from({ length: nodes.length }).fill(false)
 
-  function resetScale() {
-    liDom.forEach((li: HTMLLIElement) => {
-      li.style.setProperty('--scale', 1)
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
+
+    node.parentElement.addEventListener('mouseover', () => {
+      const index = i
+      node.className = 'pointer main-effect'
+
+      if (index === 0) {
+        nodes[1].className = 'pointer second-effect'
+        nodes[2].className = 'pointer third-effect'
+      }
+      else if (index === nodes.length - 1) {
+        // 鼠标悬浮在最右侧黑色方块上
+        // 和最左侧一样的道理，只是顺序是从右往左的
+        nodes[index - 1].className = 'pointer second-effect'
+        nodes[index - 2].className = 'pointer third-effect'
+      }
+      else {
+        if (nodes[index - 1]) {
+          nodes[index - 1].className = 'pointer second-effect'
+        }
+        if (nodes[index + 1]) {
+          nodes[index + 1]!.className = 'pointer second-effect'
+        }
+
+        if (index - 2 > -1 && nodes[index - 2]) {
+          nodes[index - 2].className = 'pointer third-effect'
+        }
+
+        if (index + 2 < nodes.length && nodes[index + 2]) {
+          nodes[index + 2].className = 'pointer third-effect'
+        }
+      }
+    })
+
+    node.parentElement.addEventListener('mouseout', () => {
+      for (const app of nodes) {
+        app.className = 'app'
+      }
+    })
+
+    node.addEventListener('click', () => {
+      const index = i
+
+      // 已经点击过的黑色方块，就不用再处理了
+      if (!activateRecord[index]) {
+        activateRecord[index] = true
+        node.parentElement.className = 'ma-resource-dock-item activate'
+        node.className = 'pointer main-effect animation-once'
+      }
     })
   }
-
-  document.querySelector('.ma-resource-dock')?.addEventListener('mouseleave', () => {
-    resetScale()
-  })
-
-  liDom.forEach((li: HTMLLIElement) => {
-    li.addEventListener('mousemove', (e: MouseEvent) => {
-      const item = e.target as HTMLLIElement
-      const rect = item.getBoundingClientRect()
-      const offset = Math.abs(e.clientX - rect.left) / rect.width
-
-      const prev = item?.previousElementSibling || null
-      const next = item?.nextElementSibling || null
-
-      const scale = 0.6
-      resetScale()
-      if (prev) {
-        prev?.style?.setProperty('--scale', 1 + scale * offset)
-      }
-      item.style.setProperty('--scale', 1 + scale)
-
-      if (next) {
-        next?.style?.setProperty('--scale', 1 + scale * offset)
-      }
-    })
-  })
 })
 
 onUnmounted(() => {
@@ -528,16 +550,28 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="ma-resource-dock-container">
-      <ul class="ma-resource-dock">
-        <li>a</li>
-        <li>a</li>
-        <li>a</li>
-        <li>a</li>
-        <li>a</li>
-        <li>a</li>
-        <li>a</li>
-      </ul>
+    <div class="ma-resource-dock">
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
+      <div class="ma-resource-dock-item">
+        <div class="pointer" />
+      </div>
     </div>
   </div>
 </template>
@@ -556,35 +590,50 @@ onUnmounted(() => {
   @apply relative;
   --resource-item-size:120px;
 
-  .ma-resource-dock-container {
+  .ma-resource-dock {
     --scale: 1.2;
-    @apply absolute bg-gray-2 dark-bg-dark-9 w-6/12
-    rounded-xl p-2 px-2.5 flex items-center justify-center
+    @apply absolute bg-gray-2 dark-bg-dark-9
+    rounded-xl p-2 px-2.5 flex items-center justify-center gap-x-2
     ;
     height: 47px;
     left: 50%;
     transform: translate(-50%, 0%);
     bottom: 0;
-  }
 
-  .ma-resource-dock {
-    @apply flex items-center justify-center gap-x-2 relative;
-
-    li {
-      @apply rounded-lg px-1 py-0.5 cursor-pointer flex items-center justify-center relative
-      bg-gradient-to-b from-[rgb(var(--ui-primary)/.1)] to-[rgb(var(--ui-primary)/.5)]
-      dark-from-[rgb(var(--ui-primary)/.5)] dark-to-[rgb(var(--ui-primary)/.1)]
-        transition-all duration-150 transition-ease-in-out
-      ;
-      top: calc((4rem * var(--scale) - 4rem) / 2 * -1 );
-      width: calc(3rem * var(--scale));
-      height: calc(3rem * var(--scale));
+    .ma-resource-dock-item {
+      @apply relative h-40px flex items-center;
     }
-    //li:hover {
-    //  .dock-icon {
-    //    font-size: calc(2rem * var(--scale));
-    //  }
-    //}
+
+    // 白色圆点
+    .activate::after {
+      content: "";
+      @apply block b-2 b-solid b-white rounded-full w-0 h-0 absolute bottom-2px left-50%;
+    }
+
+    .pointer {
+      @apply w-40px h-40px b-1 b-solid b-black bg-black rounded-10px transition-all duration-500;
+    }
+
+    // 主放大效果
+    .main-effect {
+      width: 80px;
+      height: 80px;
+      transform: translateY(-40px);
+    }
+
+    // 次放大效果
+    .second-effect {
+      width: 60px;
+      height: 60px;
+      transform: translateY(-20px);
+    }
+
+    // 最次放大效果
+    .third-effect {
+      width: 50px;
+      height: 50px;
+      transform: translateY(-10px);
+    }
   }
 }
 .resource-item{

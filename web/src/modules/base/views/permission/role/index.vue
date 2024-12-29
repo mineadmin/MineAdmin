@@ -35,6 +35,7 @@ const msg = useMessage()
 
 // 弹窗配置
 const maDialog: UseDialogExpose = useDialog({
+  lgWidth: '550px',
   // 保存数据
   ok: ({ formType }, okLoadingState: (state: boolean) => void) => {
     okLoadingState(true)

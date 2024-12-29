@@ -66,19 +66,19 @@ onMounted(() => {
     const { width } = entry.contentRect
     // xs
     if (width < 768) {
-      dialogWidth.value = '90%'
+      dialogWidth.value = (attrs?.xsWidth as string) ?? '90%'
     }
     // sm
     if (width >= 768 && width < 992) {
-      dialogWidth.value = '75%'
+      dialogWidth.value = (attrs?.smWidth as string) ?? '75%'
     }
     // md
     if (width >= 992 && width < 1200) {
-      dialogWidth.value = '65%'
+      dialogWidth.value = (attrs?.mdWidth as string) ?? '65%'
     }
-    // md
+    // lg
     if (width >= 1200 && width < 1920) {
-      dialogWidth.value = '55%'
+      dialogWidth.value = (attrs?.lgWidth as string) ?? '55%'
     }
   })
 })

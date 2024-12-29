@@ -126,7 +126,14 @@ export default defineComponent({
       }
     }
 
-    const { current } = useMagicKeys()
+    const { current } = useMagicKeys({
+      passive: false,
+      onEventFired(e: KeyboardEvent) {
+        if (e.key === 'Alt') {
+          e.preventDefault()
+        }
+      },
+    })
     const keys = computed(() => Array.from(current))
     const pressKeys = reactive<{
       oneKey: string | null

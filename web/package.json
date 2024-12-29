@@ -30,7 +30,7 @@
     "axios": "^1.7.8",
     "dayjs": "^1.11.12",
     "echarts": "^5.5.1",
-    "element-plus": "^2.8.8",
+    "element-plus": "^2.9.1",
     "floating-vue": "5.2.2",
     "lodash-es": "^4.17.21",
     "md-editor-v3": "^5.0.2",

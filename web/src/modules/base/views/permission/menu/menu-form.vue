@@ -31,6 +31,7 @@ const form = ref<Record<string, any>>({
 })
 
 function setData(data: Record<string, any>) {
+  form.value.btnPermission = []
   Object.keys(data).map((name: string) => {
     if (name === 'parent_id' && data[name] === 0) {
       form.value[name] = undefined
@@ -55,6 +56,32 @@ function setData(data: Record<string, any>) {
   if (data.id) {
     form.value.dataType = 'edit'
   }
+}
+
+const inputVisible = ref <Record<string, boolean>>({
+  auth: false,
+  role: false,
+  user: false,
+})
+
+function addTagRender(key: string, type: 'primary' | 'success' | 'info' | 'warning' | 'danger') {
+  return form.value.meta?.[key].map((item: string) => (
+    <>
+      <el-tag
+        closable={true}
+        type={type}
+        disable-transitions={false}
+        onClose={() => {
+          form.value.meta[key] = form.value.meta?.[key].filter((name: string) => name !== item)
+        }}
+      >
+        {item}
+      </el-tag>
+      {inputVisible.value[key] && (
+        <el-input />
+      )}
+    </>
+  ))
 }
 
 const formOptions = ref<MaFormOptions>({
@@ -123,13 +150,6 @@ const formItems = ref<MaFormItem[]>([
     cols: { lg: 12, md: 24 },
   },
   {
-    label: () => t('baseMenuManage.icon'), prop: 'meta.icon', render: () => MaIconPicker,
-    hide: (_, model) => model.meta.type === 'B',
-    renderProps: {
-      class: 'w-full',
-    },
-  },
-  {
     label: () => t('baseMenuManage.route'), prop: 'path', render: 'input',
     show: (_, model) => model.meta.type === 'M',
     itemProps: {
@@ -138,6 +158,26 @@ const formItems = ref<MaFormItem[]>([
     renderProps: {
       placeholder: 'baseMenuManage.placeholder.route',
     },
+    cols: { lg: 12, md: 24 },
+  },
+  {
+    label: () => t('baseMenuManage.link'), prop: 'meta.link', render: 'input',
+    show: (_, model) => ['L', 'I'].includes(model.meta.type),
+    cols: { lg: 12, md: 24 },
+    renderProps: {
+      placeholder: 'baseMenuManage.placeholder.link',
+    },
+    itemProps: {
+      rules: [{ required: true, message: 'baseMenuManage.placeholder.link' }],
+    },
+  },
+  {
+    label: () => t('baseMenuManage.activeName'), prop: 'meta.activeName', render: 'input',
+    renderProps: {
+      class: 'w-full',
+      placeholder: 'baseMenuManage.placeholder.activeName',
+    },
+    cols: { lg: 12, md: 24 },
   },
   {
     label: () => t('baseMenuManage.view'), prop: 'component', render: 'input',
@@ -163,20 +203,19 @@ const formItems = ref<MaFormItem[]>([
     },
   },
   {
-    label: () => t('baseMenuManage.redirect'), prop: 'redirect', render: 'input',
-    show: (_, model) => model.meta.type === 'M',
+    label: () => t('baseMenuManage.icon'), prop: 'meta.icon', render: () => MaIconPicker,
+    show: (_, model) => model.meta.type !== 'B',
     renderProps: {
-      placeholder: 'baseMenuManage.placeholder.redirect',
+      class: 'w-full',
     },
+    cols: { lg: 12, md: 24 },
   },
   {
-    label: () => t('baseMenuManage.link'), prop: 'meta.link', render: 'input',
-    show: (_, model) => ['L', 'I'].includes(model.meta.type),
+    label: () => t('baseMenuManage.redirect'), prop: 'redirect', render: 'input',
+    show: (_, model) => model.meta.type === 'M',
+    cols: { lg: 12, md: 24 },
     renderProps: {
-      placeholder: 'baseMenuManage.placeholder.link',
-    },
-    itemProps: {
-      rules: [{ required: true, message: 'baseMenuManage.placeholder.link' }],
+      placeholder: 'baseMenuManage.placeholder.redirect',
     },
   },
   {
@@ -245,7 +284,6 @@ const formItems = ref<MaFormItem[]>([
       },
       onAddBtn: (btn: MenuVo) => {
         form.value.btnPermission.push(btn)
-        console.log(form.value.btnPermission)
         btnPermissionRef.value?.setBtnData?.(form.value.btnPermission)
       },
     },

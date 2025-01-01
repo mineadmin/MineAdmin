@@ -19,3 +19,4 @@ tests/junit.xml
 public
 !web/public
 *.lock
+storage/swagger/http.json

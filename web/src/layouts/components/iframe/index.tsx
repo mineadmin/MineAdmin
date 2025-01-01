@@ -13,14 +13,26 @@ export default defineComponent({
   name: 'MineIframe',
   setup() {
     const route = useRoute()
+    const routers = useRouter().getRoutes()
+    const iframeStore = useIframeKeepAliveStore()
+    const list = computed(() => iframeStore.iframeList ?? [])
     onMounted(() => {
-      const workerArea = document.querySelector('.mine-worker-area') as HTMLDivElement
-      workerArea.classList.add('overflow-hidden')
-      workerArea.style.height = `${getOnlyWorkAreaHeight() + 48}px`
+      const iframeArea = document.querySelector('.mine-iframe-area') as HTMLDivElement
+      iframeArea.classList.add('overflow-hidden')
+      iframeArea.style.height = `${getOnlyWorkAreaHeight() + 48}px`
     })
     return () => (
       <div class="mine-layout h-full w-full">
-        {(route.meta?.type === 'I' && route.meta?.link) && <iframe class="h-full w-full" frameborder="0" src={route.meta?.link}></iframe>}
+        {iframeStore.iframeList?.map((name: string) => {
+          return (
+            <iframe
+              class="h-full w-full"
+              frameborder="0"
+              src={routers.find(item => item.name === name)!.meta!.link}
+              v-show={route.name === name}
+            />
+          )
+        })}
       </div>
     )
   },

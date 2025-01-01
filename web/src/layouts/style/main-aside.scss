@@ -17,7 +17,7 @@
 }
 
 .mine-main-aside-list {
-  @apply h-full overflow-y-auto transition-shadow-300;
+  @apply h-full transition-shadow-300;
 
   overscroll-behavior: contain;
   // firefox隐藏滚动条
@@ -35,8 +35,20 @@
     box-shadow: inset 0 0 0 transparent, inset 0 -10px 10px -10px var(--mine-g-box-shadow-color);
   }
 
+  &.shadow-left {
+    box-shadow: inset 10px 0 10px -10px var(--mine-g-box-shadow-color), inset 0 0 0 transparent;
+  }
+
+  &.shadow-right {
+    box-shadow: inset 0 0 0 transparent, inset -10px 0px 10px -10px var(--mine-g-box-shadow-color);
+  }
+
   &.shadow-top.shadow-bottom {
     box-shadow: inset 0 10px 10px -10px var(--mine-g-box-shadow-color), inset 0 -10px 10px -10px var(--mine-g-box-shadow-color);
+  }
+
+  &.shadow-left.shadow-right {
+    box-shadow: inset 10px 0 10px -10px var(--mine-g-box-shadow-color), inset -10px 0px 10px -10px var(--mine-g-box-shadow-color);
   }
 
   & a {

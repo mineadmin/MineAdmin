@@ -47,7 +47,7 @@ return [
          *
          * 前端包管理执行工具 可选 npm yarn pnpm，默认使用 npm
          */
-        'type' => 'yarn',
+        'type' => 'pnpm',
         /*
          * The default directory for executing programs is npm,
          * but if you don't have the npm environment variable configured,

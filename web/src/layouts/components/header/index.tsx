@@ -21,8 +21,8 @@ export default defineComponent({
         <Transition name="mine-header">
           {settingStore.showMineHeader() && (
             <div class="mine-header-main hidden lg:flex">
-              <Logo class="ml-6" />
-              <div class="ml-6 w-full">
+              <Logo class="ml-2 overflow-hidden !w-[var(--mine-g-sub-aside-width)]" />
+              <div class="w-[calc(100%-var(--mine-g-sub-aside-width))]">
                 { settingStore.getSettings('app').layout === 'mixed' && <MainAside /> }
               </div>
             </div>

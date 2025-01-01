@@ -104,7 +104,6 @@ const showFields = reactive({
 
 watch(avatar, async (val: string | undefined) => {
   const response: any = await useHttp().post('/admin/permission/update', { avatar: val ?? '' })
-  console.log(response)
   if (response.code === 200) {
     msg.success(globalTrans('crud.updateSuccess'))
     userStore.getUserInfo().avatar = val ?? ''

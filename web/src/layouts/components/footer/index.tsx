@@ -16,7 +16,7 @@ export default defineComponent({
     const footerSetting = settingStore.getSettings('copyright')
     const route = useRoute()
     return () => (
-      <footer>
+      <footer v-show={route.meta?.type !== 'I'}>
         {
           ((footerSetting.enable && route.meta?.copyright === true) && route.meta?.type !== 'I')
           && (

@@ -7,6 +7,7 @@ loginForm:
   usernamePlaceholder: please input account
   passwordLabel: Password
 mineAdmin:
+  goHome: Back to Home
   settings:
     copyRights:
       date: Date
@@ -119,7 +120,7 @@ mineAdmin:
 menu:
   uc:index: Home
   dashboard:analysis: Analysis Page
-  pageNotFound: Page not found
+  pageError: The page error
   appstore: App store
   dashboard:workbench: Workbench
   dashboard:report: Statistics reports
@@ -161,10 +162,10 @@ crud:
   userNotAllow: This feature is not accessible or available to current users
   superAdminNoEdit: SuperAdmin not allow edit
 form:
-  pleaseInput: Please input %{msg}
-  pleaseSelect: Please select %{msg}
-  requiredInput: '%{msg} Required'
-  requiredSelect: '%{msg} Required'
+  pleaseInput: Please input {msg}
+  pleaseSelect: Please select {msg}
+  requiredInput: '{msg} Required'
+  requiredSelect: '{msg} Required'
 dictionary:
   system:
     statusEnabled: Enabled

@@ -67,7 +67,7 @@ onMounted(async () => {
     node-key="id"
     :indent="26"
     auto-expand-parent
-    class="mt-1 h-[200px] lg:h-full"
+    class="mt-1 h-[200px] lg:h-[calc(100%-80px)]"
     @node-click="(node: MenuVo) => {
       emit('menu-select', node)
     }"
@@ -96,7 +96,7 @@ onMounted(async () => {
             :cancel-button-text="t('crud.cancel')"
             @confirm.stop="async () => {
               if (data.children && data.children.length > 0) {
-                msg.notifyError(t('baseMenuManage.placeholder.parentMenu'))
+                msg.notifyError(t('baseMenuManage.deleteChildren'))
                 return
               }
               if (data.parent_id !== 0) {

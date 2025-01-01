@@ -30,10 +30,10 @@ export default defineComponent({
     const route = useRoute()
 
     const parentActive = computed(() => {
-      if (!route?.meta?.breadcrumb || !route.meta.breadcrumb.length) {
+      if (!route?.meta?.breadcrumb || !route.meta.breadcrumb!.length) {
         return false
       }
-      return route.meta.breadcrumb[0].name === item.name
+      return route.meta.breadcrumb?.some((breadcrumb: any) => breadcrumb.name === item.name)
     })
 
     const isItemActive = computed(() => {

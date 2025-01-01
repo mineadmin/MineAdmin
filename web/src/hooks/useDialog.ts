@@ -13,12 +13,13 @@ import type { Component } from 'vue'
 export interface UseDialogExpose {
   on: {
     ok?: (...args: any[]) => void
-    cancel?: () => void
+    cancel?: (...args: any[]) => void
   }
   Dialog: Component
   open: (...args: any[]) => void
   close: () => void
   setTitle: (title: string) => void
+  setAttr: (attr: Record<string, any>) => void
 }
 
 export default function useDialog(dialogProps: Record<string, any> | null = null): UseDialogExpose {
@@ -26,17 +27,22 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
   const title = ref<string>('unknown')
 
   const openArgs = ref<any[]>([])
+  const closeArgs = ref<any[]>([])
   const open = (...args: any[]) => {
     openArgs.value = args
+    closeArgs.value = args
     isOpen.value = true
   }
-  const close = () => isOpen.value = false
+  const close = () => {
+    isOpen.value = false
+  }
 
   const setTitle = (string: string) => title.value = string
+  const setAttr = (attr: Record<string, any>) => Object.assign(dialogProps ?? {}, attr)
 
   const on = ref<{
     ok: (...args: any[]) => any
-    cancel: () => any
+    cancel: (...args: any[]) => any
   }>({ ok: () => {}, cancel: () => {} })
 
   const Dialog = (props: Record<string, any> = {}) => {
@@ -64,7 +70,12 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
           openArgs.value.push(okLoadingState)
           return args?.ok?.(...openArgs.value) ?? on.value?.ok?.(...openArgs.value)
         },
-        'onCancel': () => args?.close?.() ?? on.value?.cancel?.() ?? close(),
+        'onCancel': ({ cancelLoadingState }) => {
+          closeArgs.value.push(cancelLoadingState)
+          return (args?.cancel?.(...closeArgs.value) ?? on.value?.cancel?.(...closeArgs.value) ?? true)
+            ? (cancelLoadingState(false) || close())
+            : null
+        },
       },
       {
         ...slots,
@@ -79,5 +90,6 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
     open,
     close,
     setTitle,
+    setAttr,
   }
 }

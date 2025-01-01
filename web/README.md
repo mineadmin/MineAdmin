@@ -78,3 +78,8 @@ All rights reserved。
 <img src="https://s1.ax1x.com/2022/07/31/vkluW9.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vklnJJ.jpg" />
 <img src="https://s1.ax1x.com/2022/07/31/vklmi4.jpg" />
+
+## 鸣谢
+项目基于 [Fantastic-startkit启动套件](https://hooray.github.io/fantastic-startkit/) 构建，
+菜单等部分功能实现借鉴于 [Fantastic-admin](https://fantastic-admin.hurui.me/) 项目。
+感谢开源作者 [Hooray](https://github.com/hooray) 的对开源社区的贡献。

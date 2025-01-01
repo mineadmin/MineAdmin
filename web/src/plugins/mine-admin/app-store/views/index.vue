@@ -71,7 +71,7 @@ const filterParams = ref<Record<string, any>>({
   tag: undefined,
 })
 
-function requestAppList(params = { page: 1, size: 9999 }) {
+function requestAppList(params = { page: 1, size: 9999, created_at_desc: true }) {
   const requestParams = Object.assign(filterParams.value, params)
   storeMeta.value.loading = true
   getAppList(requestParams).then((res: any) => {

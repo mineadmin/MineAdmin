@@ -68,7 +68,7 @@ final class CurrentUser
     {
         // @phpstan-ignore-next-line
         return $this->user()->roles()->get()->map(static function (Role $role) {
-            return $role->menus()->where('parent_id', 0)->with('children')->get();
+            return $role->menus()->where('parent_id', 0)->with('children')->orderBy('sort')->get();
         })->flatten();
     }
 

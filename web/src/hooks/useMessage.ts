@@ -1,4 +1,5 @@
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import type { MessageBoxInputValidator } from 'element-plus/es/components/message-box/src/message-box.type'
 
 export function useMessage() {
   const t = useTrans().globalTrans
@@ -98,11 +99,12 @@ export function useMessage() {
       )
     },
     // 提交框
-    prompt(content: string, defaultValue?: string, tip?: string) {
+    prompt(content: string, defaultValue?: string, tip?: string, inputValidator?: MessageBoxInputValidator) {
       return ElMessageBox.prompt(content, tip || t('crud.confirmTitle'), {
         confirmButtonText: t('crud.ok'),
         cancelButtonText: t('crud.cancel'),
         inputValue: defaultValue,
+        inputValidator,
         type: 'warning',
       })
     },

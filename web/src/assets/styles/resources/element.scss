@@ -11,8 +11,9 @@
   @apply rounded;
 }
 
-.el-table th.el-table__cell {
-  @apply bg-gray-100 font-500 text-dark-9 dark-text-gray-1
+.el-table th.el-table__cell{
+  @apply font-500 text-dark-9 dark-text-gray-1
+  !bg-gray-100
   !dark:bg-dark-5;
 }
 
@@ -27,13 +28,13 @@
   }
 
   .mine-tree-node {
-    @apply flex items-center justify-between h-full pr-2 w-full;
+    @apply flex items-center justify-between h-full pr-2 w-full relative;
 
     .label {
       @apply flex items-center h-full gap-x-1.5;
     }
     .do {
-      @apply hidden;
+      @apply absolute right-3 hidden;
     }
   }
 
@@ -42,4 +43,17 @@
   }
 }
 
+.el-dialog__headerbtn, .el-drawer__close-btn {
+  @apply top-10px right-10px transition-all duration-200 w-30px h-30px flex items-center justify-center rounded
+  bg-gray-1 hover:bg-gray-2 dark:bg-dark-4 dark-hover:bg-dark-5
+  ;
+
+  .el-icon {
+    @apply  text-dark-6 dark-text-white transition-all duration-200 ;
+  }
+
+  .el-icon:hover {
+    @apply text-[rgb(var(--ui-primary))];
+  }
+}
 

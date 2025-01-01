@@ -84,7 +84,7 @@ declare namespace Plugin {
       // 获取用户信息时触发
       getUserInfo?: (userInfo: any) => any | void
       // 路由跳转时钩子，外链形式路由不生效
-      routerRedirect?: (route: RouteRecordRaw, router: Router) => any | void
+      routerRedirect?: ({ oldRoute: RouteRecordRaw, newRoute: RouteRecordRaw }, router: Router) => any | void
       // 网络请求时钩子
       networkRequest?: (request: T) => any | void
       // 网络返回后钩子
@@ -288,7 +288,7 @@ interface MineToolbarExpose {
   toolbars: Ref<MineToolbar[]>
   getShowToolbar: MineToolbar[]
   add: (toolbar: MineToolbar) => void
-  remove: (toolbar: MineToolbar) => void
+  remove: (name: string) => void
 }
 
 interface MineTabbar {

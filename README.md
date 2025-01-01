@@ -22,13 +22,13 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
 在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
 
-- 腾讯云特惠专场：[点击进入](http://txy.mineadmin.com)
-- 阿里云特惠专场：[点击进入](http://aly.mineadmin.com)
-
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 
 <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
+
+## 战略合作
+[京策盾高防CDN - 抗DDOS/CC网络攻击的可靠服务商](https://www.jcdun.com/guoneigaofangcdn)
 
 ## 内置功能
 
@@ -85,7 +85,7 @@ composer create-project mineadmin/mineadmin --keep-vcs
 
 [Hyperf 一款高性能企业级协程框架](https://hyperf.io/)
 
-[Arco 字节跳动出品的企业级设计系统](https://arco.design/)
+[Element Plus 基于 Vue 3，面向设计师和开发者的组件库](https://element-plus.org/)
 
 [Swoole PHP协程框架](https://www.swoole.com)
 

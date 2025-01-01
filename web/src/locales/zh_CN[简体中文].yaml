@@ -7,6 +7,7 @@ loginForm:
   usernamePlaceholder: 请输入账户
   passwordLabel: 密码
 mineAdmin:
+  goHome: 回到首页
   settings:
     copyRights:
       date: 时间
@@ -119,7 +120,7 @@ mineAdmin:
 menu:
   uc:index: 首页
   dashboard:analysis: 分析页
-  pageNotFound: 找不到页面
+  pageError: 页面出错了
   appstore: 应用商店
   dashboard:workbench: 工作台
   dashboard:report: 统计报表
@@ -161,10 +162,10 @@ crud:
   userNotAllow: 当前用户不可访问或使用此功能
   superAdminNoEdit: 超管不可修改
 form:
-  pleaseInput: 请输入%{msg}
-  pleaseSelect: 请选择%{msg}
-  requiredInput: '%{msg}必填'
-  requiredSelect: '%{msg}必选'
+  pleaseInput: 请输入{msg}
+  pleaseSelect: 请选择{msg}
+  requiredInput: '{msg}必填'
+  requiredSelect: '{msg}必选'
 dictionary:
   system:
     statusEnabled: 启用

@@ -15,23 +15,22 @@ namespace Plugin\MineAdmin\AppStore\Service;
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
 use Hyperf\HttpMessage\Upload\UploadedFile;
+use Mine\AppStore\Exception\PluginNotFoundException;
 use Mine\AppStore\Plugin;
 use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class Service
 {
     public function download(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
+        if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
 
         $service = make(AppStoreServiceImpl::class);
 
-        if (! is_dir(BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'])) {
-            $result = $service->download($params['space'], $params['identifier'], $params['version']);
+        if (! is_dir(BASE_PATH . '/plugin/' . $params['identifier'])) {
+            $result = $service->download($params['identifier'], $params['version']);
             if (! $result) {
                 $this->throwDownloadFail();
             }
@@ -40,26 +39,21 @@ class Service
         return true;
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function install(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
+        if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
 
-        $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
+        $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if (file_exists($path . '/install.lock')) {
             $this->throwAppInstalled();
         }
 
-        $pluginName = $params['space'] . '/' . $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
-            Plugin::install($pluginName);
+            Plugin::install($params['identifier']);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException($e->getMessage());
         }
@@ -69,26 +63,28 @@ class Service
 
     public function unInstall(array $params): bool
     {
-        if (empty($params['space']) || empty($params['identifier']) || empty($params['version'])) {
+        if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
 
-        $path = BASE_PATH . '/plugin/' . $params['space'] . '/' . $params['identifier'];
+        $path = BASE_PATH . '/plugin/' . $params['identifier'];
 
         if (! file_exists($path . '/install.lock')) {
             $this->throwAppNoInstall();
         }
 
-        $pluginName = $params['space'] . '/' . $params['identifier'];
         try {
             Plugin::forceRefreshJsonPath();
-            Plugin::uninstall($pluginName);
+            Plugin::uninstall($params['identifier']);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException($e->getMessage());
         }
         return true;
     }
 
+    /**
+     * @throws PluginNotFoundException
+     */
     public function getLocalAppInstallList(): array
     {
         $list = Plugin::getPluginJsonPaths();
@@ -100,6 +96,8 @@ class Service
                 $items[$info['name']] = [
                     'status' => $info['status'],
                     'version' => $info['version'],
+                    'description' => $info['description'],
+                    'author' => $info['author'],
                 ];
             }
         }

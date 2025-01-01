@@ -24,8 +24,15 @@ use Hyperf\Swagger\Annotation\Schema;
  * @property bool $hidden 是否隐藏
  * @property string $type 类型
  * @property bool $cache 是否缓存
- * @property bool $copyright 是否
+ * @property bool $copyright 是否显示版权
  * @property string $link 链接
+ * @property string $componentPath 视图文件类型
+ * @property string $componentSuffix 视图前缀路径
+ * @property bool $breadcrumbEnable 是否显示面包屑
+ * @property string $activeName 激活高亮的菜单标识
+ * @property string[] $auth 前端权限判断，允许访问的权限码
+ * @property string[] $role 前端权限判断，允许访问的角色码
+ * @property string[] $user 前端权限判断，允许访问的用户名
  */
 #[Schema(title: 'MenuMetaSchema')]
 final class MenuMetaSchema
@@ -69,6 +76,18 @@ final class MenuMetaSchema
     #[Property(property: 'link', title: '链接', type: 'string')]
     public string $link;
 
+    #[Property(property: 'activeName', title: '高亮菜单标识', type: 'string')]
+    public string $activeName;
+
+    #[Property(property: 'auth', title: '权限码', type: 'array')]
+    public array $auth;
+
+    #[Property(property: 'role', title: '角色码', type: 'array')]
+    public array $role;
+
+    #[Property(property: 'user', title: '用户名', type: 'array')]
+    public array $user;
+
     public function __construct(
         string $title = '',
         string $i18n = '',
@@ -82,7 +101,11 @@ final class MenuMetaSchema
         bool $breadcrumbEnable = true,
         string $componentPath = '',
         string $componentSuffix = '',
-        string $link = ''
+        string $link = '',
+        string $activeName = '',
+        array $auth = [],
+        array $role = [],
+        array $user = []
     ) {
         $this->title = $title;
         $this->i18n = $i18n;
@@ -97,5 +120,9 @@ final class MenuMetaSchema
         $this->componentSuffix = $componentSuffix;
         $this->breadcrumbEnable = $breadcrumbEnable;
         $this->link = $link;
+        $this->activeName = $activeName;
+        $this->auth = $auth;
+        $this->role = $role;
+        $this->user = $user;
     }
 }

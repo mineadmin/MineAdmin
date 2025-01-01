@@ -7,10 +7,11 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import type { Router, RouteRecordRaw } from 'vue-router'
+import type { Router } from 'vue-router'
 import { useProTableRenderPlugin } from '@mineadmin/pro-table'
 import type { MineToolbarExpose, Plugin } from '#/global'
 import Message from 'vue-m-message'
+import { ElButton } from 'element-plus'
 
 const pluginConfig: Plugin.PluginConfig = {
   install(app) {
@@ -42,7 +43,9 @@ const pluginConfig: Plugin.PluginConfig = {
       const { addPlugin } = useProTableRenderPlugin()
       addPlugin({
         name: 'test',
-        render: () => '我是demo插件渲染出来的内容',
+        render: () => {
+          return h(ElButton, null, 'test')
+        },
       })
     },
     login: (formInfo) => {
@@ -54,8 +57,10 @@ const pluginConfig: Plugin.PluginConfig = {
         routesRaw, router,
       )
     },
-    routerRedirect: (route: RouteRecordRaw) => {
-      console.log('demo 插件的路由跳转钩子，此次跳转路由信息：', route)
+    routerRedirect: (routes, router: Router) => {
+      router.getRoutes()
+      console.log('demo 插件的路由跳转钩子，此次跳转旧路由信息：', routes.oldRoute)
+      console.log('demo 插件的路由跳转钩子，此次跳转新路由信息：', routes.newRoute)
     },
     networkRequest: (request) => {
       console.log('demo 插件的网络请求钩子，此次请求信息：', request)

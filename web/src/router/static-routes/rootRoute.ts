@@ -34,11 +34,11 @@ const rootRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'notFound',
-    component: () => import(('@/layouts/[...all].vue')),
+    name: 'MineSystemError',
+    component: () => import(('@/layouts/[...all].tsx')),
     meta: {
-      title: '找不到页面',
-      i18n: 'menu.pageNotFound',
+      hidden: true,
+      i18n: 'menu.pageError',
     },
   },
 ]

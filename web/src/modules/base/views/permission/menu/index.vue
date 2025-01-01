@@ -25,6 +25,7 @@ const currentMenu = ref<MenuVo | null>(null)
 const menuFormRef = ref()
 const menuTreeRef = ref()
 const newMenu = ref<MenuVo>({
+  id: undefined,
   parent_id: undefined,
   name: '',
   path: '',
@@ -38,6 +39,10 @@ const newMenu = ref<MenuVo>({
     hidden: false,
     affix: false,
     cache: true,
+    activeName: '',
+    auth: [],
+    role: [],
+    user: [],
   },
   component: '',
   sort: 0,
@@ -52,16 +57,18 @@ const msg = useMessage()
 async function getMenu() {
   const { data } = await page()
   menuList.value = data
-  await nextTick(() => {
-    menuList.value.map((item: MenuVo) => setNodeExpand(item.id as number))
-  })
+  menuList.value.map((item: MenuVo) => setNodeExpand(item.id as number))
 }
 
 // 设置某个节点展开
 function setNodeExpand(id: number, state: boolean = true) {
   const elTree = menuTreeRef.value.treeRef.elTree
-  const treeNode = elTree.store!._getAllNodes()?.find((node: any) => id === node.data.id) ?? {}
-  treeNode.expanded = state
+  if (elTree) {
+    const treeNode = elTree.store!._getAllNodes()?.find((node: any) => id === node.data.id)
+    if (treeNode) {
+      treeNode.expanded = state
+    }
+  }
 }
 
 onMounted(async () => {
@@ -95,14 +102,14 @@ function createOrSaveMenu() {
         await getMenu()
         resetForm()
         setNodeExpand(model.parent_id as number)
-      }).catch((err: any) => msg.alertError(err))
+      })
     }
     else if (currentMenu.value !== null && model.dataType === 'edit' && model.id) {
       save(model.id as number, model).then(async (res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
         await getMenu()
         setNodeExpand(model.id as number)
-      }).catch((err: any) => msg.alertError(err))
+      })
     }
     else {
       msg.alertError(t('baseMenuManage.addError'))
@@ -120,9 +127,9 @@ function createOrSaveMenu() {
 
 <template>
   <div
+    v-loading="loading"
     class="mine-card menu-container h-full gap-x-4.5 lg:flex"
     :style="{ height: `${getOnlyWorkAreaHeight() + 12}px` }"
-    v-loading="loading"
   >
     <div class="relative w-full overflow-hidden b-r-1 b-r-gray-2 b-r-solid pr-5 lg:w-4/12 dark-b-r-dark-3">
       <MenuTree

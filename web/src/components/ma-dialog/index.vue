@@ -9,20 +9,21 @@
 -->
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import {useMagicKeys, useResizeObserver} from '@vueuse/core'
+import { useMagicKeys, useResizeObserver } from '@vueuse/core'
 import { ElDialog } from 'element-plus'
 
 defineOptions({ name: 'MaDialog' })
 
 const emit = defineEmits<{
   (e: 'ok', value: any): void
-  (e: 'cancel', value: Event): void
+  (e: 'cancel', value: any): void
 }>()
 
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
 const dialogWidth = ref<string>('55%')
 const fullscreen = ref<boolean>(false)
 const okLoading = ref<boolean>(false)
+const cancelLoading = ref<boolean>(false)
 const fsIcon = reactive({
   todo: 'mingcute:fullscreen-line',
   exit: 'mingcute:fullscreen-exit-line',
@@ -32,6 +33,10 @@ function okLoadingState(state: boolean) {
   okLoading.value = state
 }
 
+function cancelLoadingState(state: boolean) {
+  cancelLoading.value = state
+}
+
 const attrs = useAttrs()
 const t = useTrans().globalTrans
 
@@ -39,6 +44,10 @@ const isOpen = defineModel<boolean>({ default: false })
 
 function ok() {
   emit('ok', { okLoadingState, attrs })
+}
+
+function cancel() {
+  emit('cancel', { cancelLoadingState, attrs })
 }
 
 const { current } = useMagicKeys()
@@ -96,7 +105,7 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link class="relative text-gray-4 transition-all -top-5px" :underline="false">
+        <el-link class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" :underline="false">
           <ma-svg-icon
             :name="fullscreen ? fsIcon.exit : fsIcon.todo"
             :size="15"
@@ -106,19 +115,16 @@ onMounted(() => {
       </div>
     </template>
     <template #footer>
+      <slot name="footerBefore" />
       <slot v-if="$attrs.footer" name="footer">
         <el-button type="primary" :loading="okLoading" @click="ok">
-          {{ `${t('crud.ok')} Ctrl + Enter` }}
+          {{ $attrs?.okText ?? `${t('crud.ok')} Ctrl + Enter` }}
         </el-button>
-        <el-button
-          @click="(e) => {
-            emit('cancel', e)
-            isOpen = false
-          }"
-        >
-          {{ `${t('crud.cancel')} Esc` }}
+        <el-button :loading="cancelLoading" @click="cancel">
+          {{ $attrs?.cancelText ?? `${t('crud.cancel')} Esc` }}
         </el-button>
       </slot>
+      <slot name="footerAfter" />
     </template>
   </ElDialog>
 </template>

@@ -26,27 +26,36 @@ export default defineComponent ({
     const mainAsideRef = ref()
     const shadowTop = ref<boolean>(false)
     const shadowBottom = ref<boolean>(false)
+    const shadowLeft = ref<boolean>(false)
+    const shadowRight = ref<boolean>(false)
 
     function onAsideScroll() {
       const scrollTop = mainAsideRef.value.scrollTop
+      const scrollLeft = mainAsideRef.value.scrollLeft
       shadowTop.value = scrollTop > 0
+      shadowLeft.value = scrollLeft > 0
       const clientHeight = mainAsideRef.value.clientHeight
       const scrollHeight = mainAsideRef.value.scrollHeight
+      const clientWidth = mainAsideRef.value.clientWidth
+      const scrollWidth = mainAsideRef.value.scrollWidth
       shadowBottom.value = Math.ceil(scrollTop + clientHeight) < scrollHeight
+      shadowRight.value = Math.ceil(scrollLeft + clientWidth) < scrollWidth
     }
     const asideListClass = computed(() => {
       return {
         'mine-main-aside-list': true,
-        'shadow-top': shadowTop.value,
-        'shadow-bottom': shadowBottom.value,
-        'pt-2': !showMineHeader(),
-        'flex gap-x-2 px-2 items-center': showMineHeader(),
+        'shadow-top': shadowTop.value && !showMineHeader(),
+        'shadow-bottom': shadowBottom.value && !showMineHeader(),
+        'shadow-left': shadowLeft.value && showMineHeader(),
+        'shadow-right': shadowRight.value && showMineHeader(),
+        'pt-2 overflow-y-auto': !showMineHeader(),
+        'flex gap-x-2 px-2 items-center overflow-x-auto': showMineHeader(),
       }
     })
     const goToAppoint = async (e: any, route: MineRoute.routeRecord) => {
       await menuGotoHandle(router, route)
       menuStore.activeTopMenu = route
-      if (getSettings('mainAside').enableOpenFirstRoute || route?.children) {
+      if (getSettings('mainAside').enableOpenFirstRoute || route?.children || !route?.meta?.hidden) {
         const aNode = useParentNode(e, 'a')
         document.querySelector('a.active')?.classList.remove('active')
         aNode.classList.add('active')
@@ -68,7 +77,7 @@ export default defineComponent ({
               ref={mainAsideRef}
               class={asideListClass.value}
               onScroll={onAsideScroll}
-              style={`${showMineHeader() ? 'width: calc(100% - 110px) !important;' : ''}`}
+              style={`${showMineHeader() ? 'width: calc(100% - 100px) !important;' : ''}`}
             >
               {menuStore.topMenu.map((menu: MineRoute.routeRecord, _: number) => (
                 <a
@@ -80,7 +89,7 @@ export default defineComponent ({
                     'w-[50%] max-w-[50%]': !mainAsideSetting.showIcon,
                     'h-[35px]': !mainAsideSetting.showIcon,
                     'mx-auto mb-1.5 gap-y-0.5 px-1 py-1 block': !showMineHeader(),
-                    '!w-auto flex items-center px-2 h-11 gap-x-1': showMineHeader(),
+                    'min-w-100px justify-center !w-auto flex items-center px-2 h-11 gap-x-1': showMineHeader(),
                   }}
                   title={menu?.meta?.i18n ? useTrans(menu.meta?.i18n) : menu?.meta?.title}
                   onClick={async (e: any) => await goToAppoint(e, menu)}
@@ -104,7 +113,12 @@ export default defineComponent ({
                 </a>
               ))}
             </div>
-            <div class="flex items-center justify-center gap-x-3">
+            <div
+              class={{
+                'flex items-center justify-center gap-x-2': true,
+                'ml-1.5': showMineHeader(),
+              }}
+            >
               {
                 router.hasRoute('MineAppStoreRoute')
                 && (

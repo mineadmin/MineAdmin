@@ -1,20 +1,25 @@
 <?php
 
-use App\Model\Permission\Menu;
-use App\Model\Permission\Role;
-use Hyperf\Database\Schema\Schema;
-use Hyperf\Database\Schema\Blueprint;
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 use Hyperf\Database\Migrations\Migration;
-use Hyperf\DbConnection\Db;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('role_belongs_menu', function (Blueprint $table) {
+        Schema::create('role_belongs_menu', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('role_id')->comment('角色id');
             $table->bigInteger('menu_id')->comment('菜单id');

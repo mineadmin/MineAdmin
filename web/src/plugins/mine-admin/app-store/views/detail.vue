@@ -66,7 +66,7 @@ function checkInstallStatus(name: string) {
 }
 
 function openPage() {
-  window.open(`https://www.mineadmin.com/store/${data.value?.app?.identifier}`)
+  window.open(`https://www.mineadmin.com/store/${data.value?.app?.identifier.replace('/', '~')}`)
 }
 
 function downloadAndInstall() {
@@ -153,8 +153,12 @@ defineExpose({ open })
             indicator-type="line"
             show-arrow="hover"
           >
-            <el-carousel-item v-for="image in data?.app?.homepage" :key="image">
-              <el-image :src="image" fit="cover" />
+            <el-carousel-item v-for="(image, idx) in data?.app?.homepage" :key="idx">
+              <el-image
+                :src="image"
+                fit="contain"
+                class="h-full w-full"
+              />
             </el-carousel-item>
           </el-carousel>
           <el-space class="mt-2">

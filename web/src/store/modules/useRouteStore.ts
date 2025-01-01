@@ -16,7 +16,7 @@ import usePluginStore from '@/store/modules/usePluginStore.ts'
 const useRouteStore = defineStore(
   'useRouteStore',
   () => {
-    const settingsStore = useSettingStore()
+    const defaultSetting = ref<SystemSettings.all>(useDefaultSetting())
     // 原始路由
     const routesRaw = ref<RouteRecordRaw[]>([])
     const flatteningRoutesList = ref<RouteRecordRaw[]>([])
@@ -51,7 +51,7 @@ const useRouteStore = defineStore(
     }
 
     function getMineRootLayoutRoute(): RouteRecordRaw {
-      const welcomePage: SystemSettings.welcomePage = settingsStore.getSettings('welcomePage')
+      const welcomePage: SystemSettings.welcomePage = defaultSetting.value.welcomePage
       return {
         name: 'MineRootLayoutRoute',
         path: '/',
@@ -73,6 +73,15 @@ const useRouteStore = defineStore(
             },
           }),
           toRecordRawRoute(dashboardRoute),
+          toRecordRawRoute({
+            path: '/:pathMatch(.*)*',
+            name: 'MineSystemError',
+            component: () => import(('@/layouts/[...all].tsx')),
+            meta: {
+              hidden: true,
+              i18n: 'menu.pageError',
+            },
+          }),
         ],
       }
     }
@@ -122,8 +131,7 @@ const useRouteStore = defineStore(
       routerMap.forEach((item: any) => {
         if (item.meta?.type !== 'B') {
           if (item.meta.type === 'I') {
-            item.meta.url = item.path
-            item.path = `/maIframe/${item.name}`
+            item.path = `/MineIframe/${item.name}`
             item.component = () => import(('@/layouts/components/iframe/index.tsx'))
           }
 

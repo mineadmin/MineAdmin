@@ -23,6 +23,7 @@ export default async ({ mode, command }) => {
 
   const proxyPrefix = env.VITE_PROXY_PREFIX
   return defineConfig({
+    base: env.VITE_APP_ROOT_BASE,
     // 开发服务器选项 https://cn.vitejs.dev/config/#server-options
     server: {
       open: true,

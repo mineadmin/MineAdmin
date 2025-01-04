@@ -132,9 +132,15 @@ const selected = ref<Resource[]>([])
 
 async function getResourceList(params: Resource = {}) {
   loading.value = true
+  const { pageNo, pageSize, ...restParams } = params
+  const queryParams = {
+    page: pageNo,
+    page_size: pageSize,
+    ...restParams,
+  }
   const { data } = await useHttp().get(
     '/admin/attachment/list',
-    { params: Object.assign({ pageSize: props.pageSize }, params) },
+    { params: Object.assign({ page_size: props.pageSize }, queryParams) },
   )
   total.value = data.total
   resources.value = data.list
@@ -362,7 +368,11 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
     ],
   })
 }
-
+function handleChangePage(currentPage: number, pageSize: number) {
+  queryParams.value.pageNo = currentPage
+  queryParams.value.pageSize = pageSize
+  getResourceList(queryParams.value)
+}
 onMounted(async () => {
   await getResourceList()
 })
@@ -474,7 +484,7 @@ onMounted(async () => {
         </el-tag>
         <el-pagination
           v-model:current-page="queryParams.pageNo" :disabled="loading" :total="total"
-          :page-size="queryParams.pageSize" background layout="prev, pager, next" :pager-count="5"
+          :page-size="queryParams.pageSize" background layout="prev, pager, next" :pager-count="5" @change="handleChangePage"
         />
       </div>
       <div v-if="props.showAction">

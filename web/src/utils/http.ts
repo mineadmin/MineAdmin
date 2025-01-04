@@ -52,6 +52,8 @@ http.interceptors.request.use(
   },
 )
 
+let isLogout = false
+
 http.interceptors.response.use(
   async (response: AxiosResponse): Promise<any> => {
     isLoading.value = false
@@ -72,14 +74,14 @@ http.interceptors.response.use(
     else {
       switch (response?.data?.code) {
         case ResultCode.UNAUTHORIZED: {
-          const logout = useDebounceFn(
-            async () => {
+          const logout = async () => {
+            if (isLogout === false) {
+              isLogout = true
+              setTimeout(() => isLogout = false, 5000)
               Message.error('登录状态已过期，需要重新登录', { zIndex: 9999 })
               await useUserStore().logout()
-            },
-            3000,
-            { maxWait: 5000 },
-          )
+            }
+          }
           // 检查token是否需要刷新
           if (userStore.isLogin && !isRefreshToken.value) {
             isRefreshToken.value = true

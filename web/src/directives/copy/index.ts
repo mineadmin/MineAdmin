@@ -14,13 +14,20 @@ import Message from 'vue-m-message'
 export interface CopyElement extends HTMLElement {
   copyValue: string
 }
-
+/**
+ * eg.
+ * 1、 v-copy="'copyContent'"    // 默认是dblclick，localhost及https复制才会生效
+ * 2、 v-copy:dblclick.legacy="'copyContent'"  // 兼容模式，所有浏览器都生效
+ */
 export const copy = {
   mounted(el: CopyElement, binding: DirectiveBinding<string>) {
-    const { isSupported, copy } = useClipboard()
-    if (!isSupported.value) {
+    const legacy = binding.modifiers?.legacy === true
+    const { isSupported } = useClipboard()
+    const { copy } = useClipboard({ legacy })
+    if (!isSupported.value && !legacy) {
       throw new Error('[Directive: copy]: Your browser does not support Clipboard API')
     }
+
     const { value } = binding
     if (value) {
       el.copyValue = value

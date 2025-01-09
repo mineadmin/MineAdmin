@@ -13,6 +13,7 @@ import useTable from '@/hooks/useTable.ts'
 
 defineOptions({ name: 'welcome' })
 const userinfo = useUserStore().getUserInfo()
+console.log(useUserStore().getPermissions())
 
 useTable('table').then((table: MaTableExpose) => {
   table.setColumns([
@@ -135,10 +136,26 @@ useTable('table').then((table: MaTableExpose) => {
         </div>
         <div class="p-2 text-sm text-gray-5 dark-text-[#ccc]">
           <ul class="ma-link">
-            <li>官方网站：<el-link>https://www.mineadmin.com</el-link></li>
-            <li>开发文档：<el-link>https://doc.mineadmin.com</el-link></li>
-            <li>应用市场：<el-link>https://www.mineadmin.com/store</el-link></li>
-            <li>QQ交流群：<el-link>150105478，点击加入</el-link></li>
+            <li>
+              官方网站：<el-link target="_blank" href="https://www.mineadmin.com">
+                https://www.mineadmin.com
+              </el-link>
+            </li>
+            <li>
+              开发文档：<el-link target="_blank" href="https://doc.mineadmin.com">
+                https://doc.mineadmin.com
+              </el-link>
+            </li>
+            <li>
+              应用市场：<el-link target="_blank" href="https://www.mineadmin.com/store">
+                https://www.mineadmin.com/store
+              </el-link>
+            </li>
+            <li>
+              QQ交流群：<el-link target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=Uq4VW1H9jtDhEKsUb3hfjHraiSG80FI4&jump_from=webapi&authKey=bpaCvnQ65RpLdyQx8m57iQNc9OtgJgyIjrcG3qDrJZhnL4QdqzDLLQS8fx5jkevE">
+                150105478，点击加入
+              </el-link>
+            </li>
           </ul>
         </div>
       </div>

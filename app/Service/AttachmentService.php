@@ -19,7 +19,7 @@ use Mine\Upload\UploadInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * @extends IService<AttachmentRepository>
+ * @extends IService<Attachment>
  */
 final class AttachmentService extends IService
 {

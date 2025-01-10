@@ -12,9 +12,13 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
+use App\Model\Permission\Menu;
 use App\Repository\Permission\MenuRepository;
 use App\Service\IService;
 
+/**
+ * @extends IService<Menu>
+ */
 final class MenuService extends IService
 {
     public function __construct(
@@ -29,7 +33,7 @@ final class MenuService extends IService
     public function create(array $data): mixed
     {
         $model = parent::create($data);
-        if ($model && $data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
+        if ($data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
             foreach ($data['btnPermission'] as $item) {
                 $this->repository->create([
                     'pid' => $model->id,

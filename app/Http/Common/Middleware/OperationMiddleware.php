@@ -26,7 +26,6 @@ use Hyperf\Swagger\Annotation\Put;
 use Mine\Support\Request;
 use Mine\Support\Traits\ParserRouterTrait;
 use OpenApi\Annotations\Operation;
-use OpenApi\Generator;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -61,7 +60,7 @@ class OperationMiddleware implements MiddlewareInterface
         }
         [$controller,$method] = $parseResult;
         $operator = $this->getClassMethodPathAttribute($controller, $method);
-        if ($operator !== Generator::UNDEFINED) {
+        if ($operator !== null) {
             $this->dispatcher->dispatch(new RequestOperationEvent(
                 $this->user->id(),
                 $operator->summary,

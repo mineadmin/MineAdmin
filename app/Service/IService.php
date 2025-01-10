@@ -14,10 +14,11 @@ namespace App\Service;
 
 use App\Repository\IRepository;
 use Hyperf\Collection\Collection;
+use Hyperf\DbConnection\Model\Model;
 use Hyperf\DbConnection\Traits\HasContainer;
 
 /**
- * @template T
+ * @template T of Model
  * @property IRepository<T> $repository
  */
 abstract class IService
@@ -56,7 +57,7 @@ abstract class IService
     }
 
     /**
-     * @return null|T
+     * @return null|mixed|T
      */
     public function updateById(mixed $id, array $data): mixed
     {

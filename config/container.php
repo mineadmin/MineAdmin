@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Initialize a dependency injection container that implemented PSR-11 and return the container.
  */
@@ -15,11 +16,5 @@ declare(strict_types=1);
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSourceFactory;
-use Psr\Container\ContainerInterface;
 
-$container = new Container((new DefinitionSourceFactory())());
-
-if (! $container instanceof ContainerInterface) {
-    throw new RuntimeException('The dependency injection container is invalid.');
-}
-return ApplicationContext::setContainer($container);
+return ApplicationContext::setContainer(new Container((new DefinitionSourceFactory())()));

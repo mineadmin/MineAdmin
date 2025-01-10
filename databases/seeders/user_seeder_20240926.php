@@ -13,7 +13,7 @@ use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Database\Seeders\Seeder;
 
-class user_seeder_20240926 extends Seeder
+class UserSeeder20240926 extends Seeder
 {
     /**
      * Run the database seeds.

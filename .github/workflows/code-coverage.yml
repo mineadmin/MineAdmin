@@ -84,4 +84,5 @@ jobs:
         uses: codecov/codecov-action@v4-beta
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: "./tests/coverage/index.xml"
+          directory: './app'
+          file: "./tests/coverage.xml/index.xml"

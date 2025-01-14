@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Http\Common\Request\Trait\NoAuthorizeTrait;
 use App\Schema\MenuSchema;
 use Hyperf\Validation\Request\FormRequest;
 
@@ -24,10 +25,7 @@ use Hyperf\Validation\Request\FormRequest;
 )]
 class MenuRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return true;
-    }
+    use NoAuthorizeTrait;
 
     public function rules(): array
     {

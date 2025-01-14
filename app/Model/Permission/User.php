@@ -120,7 +120,6 @@ final class User extends Model
     {
         return $this->roles()
             ->where('status', Status::Normal)
-//            ->select(['id', ...$fields])
             ->select($fields)
             ->get();
     }

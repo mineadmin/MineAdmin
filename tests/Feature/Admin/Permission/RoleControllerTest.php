@@ -68,13 +68,18 @@ final class RoleControllerTest extends ControllerCase
         self::assertSame($result['code'], ResultCode::SUCCESS->value);
         $this->deletePermissions('permission:role:save');
         $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
+        self::assertSame($result['code'], ResultCode::UNPROCESSABLE_ENTITY->value);
+        $oldCode = $fill['code'];
+        $fill['code'] = Str::random(10);
+        $result = $this->post('/admin/role', $fill, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame($result['code'], ResultCode::FORBIDDEN->value);
-        $entity = Role::query()->where('code', $fill['code'])->first();
+        $entity = Role::query()->where('code', $oldCode)->first();
         self::assertNotNull($entity);
         self::assertSame($entity->name, $fill['name']);
         self::assertSame($entity->sort, $fill['sort']);
         self::assertSame($entity->status->value, $fill['status']);
         self::assertSame($entity->remark, $fill['remark']);
+        self::assertSame($entity->code, $oldCode);
         $entity->forceDelete();
     }
 

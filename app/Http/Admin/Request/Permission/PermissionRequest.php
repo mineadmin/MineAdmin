@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Http\Common\Request\Trait\NoAuthorizeTrait;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
 
@@ -23,10 +24,7 @@ use Hyperf\Validation\Request\FormRequest;
 )]
 class PermissionRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
+    use NoAuthorizeTrait;
 
     public function rules(): array
     {

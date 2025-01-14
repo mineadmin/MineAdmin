@@ -88,5 +88,6 @@ final class Role extends MineModel
     public function deleting(Deleting $event)
     {
         $this->users()->detach();
+        $this->menus()->detach();
     }
 }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
-use App\Http\Common\Request\Trait\NoAuthorizeTrait;
+use App\Http\Common\Request\Traits\NoAuthorizeTrait;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
 

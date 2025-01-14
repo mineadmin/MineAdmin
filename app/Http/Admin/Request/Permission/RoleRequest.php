@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
-use App\Http\Common\Request\Trait\HttpMethodTrait;
-use App\Http\Common\Request\Trait\NoAuthorizeTrait;
+use App\Http\Common\Request\Traits\HttpMethodTrait;
+use App\Http\Common\Request\Traits\NoAuthorizeTrait;
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
 

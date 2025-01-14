@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace App\Http\Common\Request\Trait;
+namespace App\Http\Common\Request\Traits;
 
 trait NoAuthorizeTrait
 {

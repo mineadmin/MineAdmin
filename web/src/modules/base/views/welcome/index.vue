@@ -13,7 +13,6 @@ import useTable from '@/hooks/useTable.ts'
 
 defineOptions({ name: 'welcome' })
 const userinfo = useUserStore().getUserInfo()
-console.log(useUserStore().getPermissions())
 
 useTable('table').then((table: MaTableExpose) => {
   table.setColumns([

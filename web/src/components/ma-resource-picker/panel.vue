@@ -129,11 +129,21 @@ const selectedKeys = ref<Array<string | number>>([])
 
 const selected = ref<Resource[]>([])
 
+/**
+ * 查询参数
+ */
+const queryParams = ref<Record<string, any>>({
+  page: 1,
+  page_size: props.pageSize,
+  origin_name: '',
+  suffix: [],
+})
+
 async function getResourceList(params: Resource = {}) {
   loading.value = true
   const { data } = await useHttp().get(
     '/admin/attachment/list',
-    { params: Object.assign({ page_size: props.pageSize }, params) },
+    { params: Object.assign({ page_size: queryParams.value.page_size, page: queryParams.value.page }, params) },
   )
   total.value = data.total
   resources.value = data.list
@@ -155,20 +165,10 @@ watch(() => selectedKeys.value, (newKeys) => {
 }, { deep: true })
 
 /**
- * 查询参数
- */
-const queryParams = ref<Record<string, any>>({
-  pageNo: 1,
-  pageSize: props.pageSize,
-  origin_name: '',
-  suffix: [],
-})
-
-/**
  * 加载占位符数量
  */
 const skeletonNum = computed(() => {
-  return loading.value ? queryParams.value.pageSize : 15
+  return loading.value ? queryParams.value.page_size : 30
 })
 
 function onfileTypesChange(value: any) {
@@ -529,8 +529,12 @@ onUnmounted(() => {
           </template>
         </el-tag>
         <el-pagination
-          v-model:current-page="queryParams.pageNo" :disabled="loading" :total="total"
-          :page-size="queryParams.pageSize" background layout="prev, pager, next" :pager-count="5"
+          v-model:current-page="queryParams.page" :disabled="loading" :total="total"
+          :page-size="queryParams.page_size" background layout="prev, pager, next" :pager-count="5"
+          @change="(p: number) => {
+            queryParams.page = p
+            getResourceList(queryParams)
+          }"
         />
       </div>
       <div v-if="props.showAction">
@@ -545,38 +549,38 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="ma-resource-dock">
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-      <div class="res-app-container">
-        <div class="res-app">
-          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" />
-        </div>
-      </div>
-    </div>
+    <!--    <div class="ma-resource-dock"> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--    </div> -->
   </div>
 </template>
 

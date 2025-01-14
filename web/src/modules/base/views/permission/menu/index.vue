@@ -93,10 +93,10 @@ function createOrSaveMenu() {
   const elForm = getElFormRef() as typeof ElForm
   loading.value = true
   elForm.validate().then(() => {
+    if (!model.parent_id) {
+      model.parent_id = 0
+    }
     if (model.dataType && model.dataType === 'add') {
-      if (!model.parent_id) {
-        model.parent_id = 0
-      }
       create(model).then(async (res: any) => {
         res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
         await getMenu()

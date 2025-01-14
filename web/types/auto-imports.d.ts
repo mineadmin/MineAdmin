@@ -97,6 +97,12 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { TransType } from '../src/hooks/auto-imports/useTrans'
+  import('../src/hooks/auto-imports/useTrans')
+  // @ts-ignore
+  export type { LoginParams, LoginResult, UserInfo } from '../src/store/modules/useUserStore'
+  import('../src/store/modules/useUserStore')
 }

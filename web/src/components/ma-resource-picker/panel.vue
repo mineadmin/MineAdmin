@@ -26,7 +26,6 @@ en:
   delete: Delete
   cancel: Cancel
   confirm: Confirm
-
 zh_CN:
   searchPlaceholder: 搜索此分类下的资源
   tips: 你确定要删除这条数据吗？
@@ -83,7 +82,7 @@ const props = withDefaults(defineProps<ResourcePanelProps>(), {
   multiple: false,
   limit: undefined,
   showAction: true,
-  pageSize: 15,
+  pageSize: 30,
   dbClickConfirm: false,
 })
 const emit = defineEmits<{
@@ -130,11 +129,21 @@ const selectedKeys = ref<Array<string | number>>([])
 
 const selected = ref<Resource[]>([])
 
+/**
+ * 查询参数
+ */
+const queryParams = ref<Record<string, any>>({
+  page: 1,
+  page_size: props.pageSize,
+  origin_name: '',
+  suffix: [],
+})
+
 async function getResourceList(params: Resource = {}) {
   loading.value = true
   const { data } = await useHttp().get(
     '/admin/attachment/list',
-    { params: Object.assign({ pageSize: props.pageSize }, params) },
+    { params: Object.assign({ page_size: queryParams.value.page_size, page: queryParams.value.page }, params) },
   )
   total.value = data.total
   resources.value = data.list
@@ -156,20 +165,10 @@ watch(() => selectedKeys.value, (newKeys) => {
 }, { deep: true })
 
 /**
- * 查询参数
- */
-const queryParams = ref<Record<string, any>>({
-  pageNo: 1,
-  pageSize: props.pageSize,
-  origin_name: '',
-  suffix: [],
-})
-
-/**
  * 加载占位符数量
  */
 const skeletonNum = computed(() => {
-  return loading.value ? queryParams.value.pageSize : 15
+  return loading.value ? queryParams.value.page_size : 30
 })
 
 function onfileTypesChange(value: any) {
@@ -365,6 +364,63 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
 
 onMounted(async () => {
   await getResourceList()
+
+  const apps = document.getElementsByClassName('res-app') as HTMLCollectionOf<HTMLDivElement>
+
+  for (let i = 0; i < apps.length; i++) {
+    const app = apps[i] as HTMLDivElement
+    app?.parentElement?.addEventListener('mouseover', () => {
+      const index = i
+      app.className = 'res-app main-effect'
+
+      if (index === 0) {
+        if (apps[1]) {
+          apps[1].className = 'res-app second-effect'
+        }
+        if (apps[2]) {
+          apps[2].className = 'res-app third-effect'
+        }
+      }
+      else if (index === apps.length - 1) {
+        if (apps[index - 1]) {
+          apps[index - 1].className = 'res-app second-effect'
+        }
+        if (apps[index - 2]) {
+          apps[index - 2].className = 'res-app third-effect'
+        }
+      }
+      else {
+        if (apps[index - 1]) {
+          apps[index - 1].className = 'res-app second-effect'
+        }
+        if (apps[index + 1]) {
+          apps[index + 1].className = 'res-app second-effect'
+        }
+
+        if (index - 2 > -1 && apps[index - 2]) {
+          apps[index - 2].className = 'res-app third-effect'
+        }
+
+        if (index + 2 < apps.length && apps[index + 2]) {
+          apps[index + 2].className = 'res-app third-effect'
+        }
+      }
+    })
+
+    app?.parentElement?.addEventListener('mouseout', () => {
+      for (const app of apps) {
+        app.className = 'res-app'
+      }
+    })
+  }
+})
+
+onUnmounted(() => {
+  // 取消监听
+  document.querySelectorAll('.ma-resource-dock .res-app').forEach((app) => {
+    app.removeEventListener('mousemove', () => {})
+    app.removeEventListener('mouseout', () => {})
+  })
 })
 </script>
 
@@ -374,7 +430,7 @@ onMounted(async () => {
       <div>
         <el-segmented
           v-model="fileTypeSelected"
-          :options="fileTypes" size="default"
+          :options="fileTypes as any" size="default"
           block
           @change="onfileTypesChange"
         >
@@ -392,7 +448,7 @@ onMounted(async () => {
 
       <div class="flex justify-end">
         <el-input
-          v-model="queryParams.origin_name" placeholder="搜索资源名" clearable class="w-full md:w-[180px]" @input="() => {
+          v-model="queryParams.origin_name" :placeholder="t('searchPlaceholder')" clearable class="w-full md:w-[180px]" @input="() => {
             getResourceList(queryParams)
           }"
         >
@@ -473,8 +529,12 @@ onMounted(async () => {
           </template>
         </el-tag>
         <el-pagination
-          v-model:current-page="queryParams.pageNo" :disabled="loading" :total="total"
-          :page-size="queryParams.pageSize" background layout="prev, pager, next" :pager-count="5"
+          v-model:current-page="queryParams.page" :disabled="loading" :total="total"
+          :page-size="queryParams.page_size" background layout="prev, pager, next" :pager-count="5"
+          @change="(p: number) => {
+            queryParams.page = p
+            getResourceList(queryParams)
+          }"
         />
       </div>
       <div v-if="props.showAction">
@@ -488,6 +548,39 @@ onMounted(async () => {
         </slot>
       </div>
     </div>
+
+    <!--    <div class="ma-resource-dock"> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--      <div class="res-app-container"> -->
+    <!--        <div class="res-app"> -->
+    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
+    <!--        </div> -->
+    <!--      </div> -->
+    <!--    </div> -->
   </div>
 </template>
 
@@ -502,7 +595,73 @@ onMounted(async () => {
 }
 
 .ma-resource-panel{
+  @apply relative;
   --resource-item-size:120px;
+
+  .ma-resource-dock {
+    @apply absolute bg-gray-2 dark-bg-dark-9
+    rounded-xl p-1 flex items-center justify-center gap-x-0.5
+    ;
+    height: 40px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    bottom: 0;
+
+    .res-app-container {
+      @apply relative h-40px flex items-center;
+    }
+
+    // 白色圆点
+    .activate::after {
+      content: "";
+      @apply block b-2 b-solid b-white rounded-full w-0 h-0 absolute bottom-2px left-50%;
+    }
+
+    .res-app {
+      @apply w-40px h-40px shadow-inset shadow-md rounded-10px transition-all duration-300 flex items-center justify-center
+      bg-gray-3 dark-bg-dark-4
+        dark-shadow-dark-9
+      ;
+    }
+
+    .res-app-icon {
+      @apply w-55px h-55px !text-2xl transform-all duration-300 text-dark-1 dark-text-gray-2
+      ;
+    }
+
+    // 主放大效果
+    .main-effect {
+      width: 80px;
+      height: 80px;
+      transform: translateY(-40px);
+    }
+
+    .main-effect .res-app-icon {
+      @apply w-80px h-80px !text-[60px];
+    }
+
+    // 次放大效果
+    .second-effect {
+      width: 60px;
+      height: 60px;
+      transform: translateY(-20px);
+    }
+
+    .second-effect .res-app-icon {
+      @apply w-60px h-60px !text-[40px];
+    }
+
+    // 最次放大效果
+    .third-effect {
+      width: 50px;
+      height: 50px;
+      transform: translateY(-10px);
+    }
+
+    .third-effect .res-app-icon {
+      @apply w-50px h-50px !text-[30px];
+    }
+  }
 }
 .resource-item{
   animation: fadeIn 0.38s ease-out forwards;

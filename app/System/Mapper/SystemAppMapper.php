@@ -16,6 +16,7 @@ use App\System\Model\SystemApp;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Mine\Abstracts\AbstractMapper;
+use Mine\Annotation\Api\MApiCollector;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -82,10 +83,15 @@ class SystemAppMapper extends AbstractMapper
      */
     public function getAppAndInterfaceList(string $appId): array
     {
+        /** 获取注解API */
+        $annotation_apis = MApiCollector::getApiInfosByAppId($appId);
+        
         $data = $this->model::query()->where('app_id', $appId)
             ->with(['apis' => function ($query) {
                 $query->where('status', SystemApp::ENABLE);
             }])->first(['id', 'app_id', 'app_secret', 'app_name', 'updated_at', 'description'])->toArray();
+
+        $data['apis'] = array_merge($annotation_apis, $data['apis']); // 合并注解api
 
         $groupIds = [];
         foreach ($data['apis'] as $api) {

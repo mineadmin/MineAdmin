@@ -79,12 +79,6 @@ class ApiDocController extends MineApi
     {
         $appAndInterfaceList = $this->systemAppService->getAppAndInterfaceList($id);
 
-        $apis = MApiCollector::getApiInfosByAppId($id);
-
-        // 注解与数据库定义的合并
-        $apis = array_merge($appAndInterfaceList['apis'], $apis);
-        $appAndInterfaceList['apis'] = $apis;
-
         return $this->success($appAndInterfaceList);
     }
 

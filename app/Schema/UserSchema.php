@@ -69,9 +69,6 @@ final class UserSchema implements \JsonSerializable
     #[Property(property: 'updated_at', title: '更新时间', type: 'string')]
     public mixed $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '删除时间', type: 'string')]
-    public mixed $deletedAt;
-
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
@@ -93,12 +90,11 @@ final class UserSchema implements \JsonSerializable
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
-        $this->deletedAt = $model->deleted_at;
         $this->remark = $model->remark;
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'username' => $this->username, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'username' => $this->username, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
     }
 }

@@ -64,9 +64,6 @@ final class AttachmentSchema implements \JsonSerializable
     #[Property(property: 'updated_at', title: '', type: 'mixed')]
     public mixed $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '', type: 'mixed')]
-    public mixed $deletedAt;
-
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
@@ -87,12 +84,11 @@ final class AttachmentSchema implements \JsonSerializable
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
-        $this->deletedAt = $model->deleted_at;
         $this->remark = $model->remark;
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'storage_mode' => $this->storageMode, 'origin_name' => $this->originName, 'object_name' => $this->objectName, 'hash' => $this->hash, 'mime_type' => $this->mimeType, 'storage_path' => $this->storagePath, 'suffix' => $this->suffix, 'size_byte' => $this->sizeByte, 'size_info' => $this->sizeInfo, 'url' => $this->url, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'storage_mode' => $this->storageMode, 'origin_name' => $this->originName, 'object_name' => $this->objectName, 'hash' => $this->hash, 'mime_type' => $this->mimeType, 'storage_path' => $this->storagePath, 'suffix' => $this->suffix, 'size_byte' => $this->sizeByte, 'size_info' => $this->sizeInfo, 'url' => $this->url, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt,'remark' => $this->remark];
     }
 }

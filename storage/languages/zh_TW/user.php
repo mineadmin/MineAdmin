@@ -27,7 +27,6 @@ return [
     'updated_by' => '更新者',
     'created_at' => '創建時間',
     'updated_at' => '更新時間',
-    'deleted_at' => '刪除時間',
     'remark' => '備註',
     'username_exist' => '用戶名已存在',
     'enums' => [

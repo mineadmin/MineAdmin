@@ -16,6 +16,7 @@ use App\Model\Casts\MetaCast;
 use App\Model\Enums\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
+use Hyperf\Database\Model\Events\Deleting;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model as MineModel;
 
@@ -87,5 +88,10 @@ final class Menu extends MineModel
             ->where('status', Status::Normal)
             ->orderBy('sort')
             ->with('children');
+    }
+
+    public function deleting(Deleting $event)
+    {
+        $this->roles()->detach();
     }
 }

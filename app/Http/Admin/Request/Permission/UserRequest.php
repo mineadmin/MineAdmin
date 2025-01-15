@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Http\Common\Request\Traits\NoAuthorizeTrait;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
 use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
@@ -46,10 +47,7 @@ use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 )]
 class UserRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
+    use NoAuthorizeTrait;
 
     public function rules(): array
     {
@@ -58,8 +56,8 @@ class UserRequest extends FormRequest
             'user_type' => 'required|integer',
             'nickname' => ['required', 'string', 'max:60', 'regex:/^[^\s]+$/'],
             'phone' => 'sometimes|string|max:12',
-            'email' => 'sometimes|string|max:60',
-            'avatar' => 'sometimes|string|max:255',
+            'email' => 'sometimes|string|max:60|email:rfc,dns',
+            'avatar' => 'sometimes|string|max:255|url',
             'signed' => 'sometimes|string|max:255',
             'status' => 'sometimes|integer',
             'backend_setting' => 'sometimes|array|max:255',

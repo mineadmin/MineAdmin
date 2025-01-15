@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request\Permission;
 
+use App\Http\Common\Request\Traits\HttpMethodTrait;
+use App\Http\Common\Request\Traits\NoAuthorizeTrait;
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
 
@@ -23,20 +25,30 @@ use Hyperf\Validation\Request\FormRequest;
 )]
 class RoleRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
+    use HttpMethodTrait;
+    use NoAuthorizeTrait;
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:60',
-            'code' => 'required|string|max:60',
+            'code' => [
+                'required',
+                'string',
+                'max:60',
+                'regex:/^[a-zA-Z0-9_]+$/',
+            ],
             'status' => 'sometimes|integer|in:1,2',
             'sort' => 'required|integer',
             'remark' => 'nullable|string|max:255',
         ];
+        if ($this->isCreate()) {
+            $rules['code'][] = 'unique:role,code';
+        }
+        if ($this->isUpdate()) {
+            $rules['code'][] = 'unique:role,code,' . $this->route('id');
+        }
+        return $rules;
     }
 
     public function attributes(): array

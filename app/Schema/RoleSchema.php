@@ -50,9 +50,6 @@ final class RoleSchema implements \JsonSerializable
     #[Property(property: 'updated_at', title: '', type: 'string')]
     public string $updatedAt;
 
-    #[Property(property: 'deleted_at', title: '', type: 'string')]
-    public string $deletedAt;
-
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
@@ -68,12 +65,11 @@ final class RoleSchema implements \JsonSerializable
         $this->updatedBy = $model->updated_by;
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at->format(CarbonInterface::DEFAULT_TO_STRING_FORMAT);
-        $this->deletedAt = $model->deleted_at->format(CarbonInterface::DEFAULT_TO_STRING_FORMAT);
         $this->remark = $model->remark;
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'deleted_at' => $this->deletedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
     }
 }

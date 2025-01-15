@@ -53,12 +53,12 @@ final class User extends Model
      * 隐藏的字段列表.
      * @var string[]
      */
-    protected array $hidden = ['password', 'deleted_at'];
+    protected array $hidden = ['password'];
 
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at', 'remark'];
+    protected array $fillable = ['id', 'username', 'password', 'user_type', 'nickname', 'phone', 'email', 'avatar', 'signed', 'status', 'login_ip', 'login_time', 'backend_setting', 'created_by', 'updated_by', 'created_at', 'updated_at', 'remark'];
 
     /**
      * The attributes that should be cast to native types.

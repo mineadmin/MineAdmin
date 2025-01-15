@@ -85,6 +85,6 @@ class UserOperationLogSchema implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'username' => $this->username, 'method' => $this->method, 'router' => $this->router, 'service_name' => $this->serviceName, 'ip' => $this->ip, 'ip_location' => $this->ipLocation, 'request_data' => $this->requestData, 'response_code' => $this->responseCode, 'response_data' => $this->responseData, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt,'remark' => $this->remark];
+        return ['id' => $this->id, 'username' => $this->username, 'method' => $this->method, 'router' => $this->router, 'service_name' => $this->serviceName, 'ip' => $this->ip, 'ip_location' => $this->ipLocation, 'request_data' => $this->requestData, 'response_code' => $this->responseCode, 'response_data' => $this->responseData, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
     }
 }

@@ -70,6 +70,6 @@ final class RoleSchema implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt,'remark' => $this->remark];
+        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
     }
 }

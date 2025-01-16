@@ -30,7 +30,7 @@ final class MenuControllerTest extends CrudControllerCase
 
     public function testCreate(): void
     {
-        $this->caseCreate('/admin/menu', 'permission:menu:create', [
+        $this->caseCreate('/admin/menu', 'permission:menu:save', [
             'parent_id' => 0,
             'name' => Str::random(10),
             'component' => Str::random(10),
@@ -59,7 +59,7 @@ final class MenuControllerTest extends CrudControllerCase
             'meta' => $this->generatorMeta(),
             'path' => Str::random(10),
         ]);
-        $this->caseSave('/admin/menu/', $entity, 'permission:menu:save', [
+        $this->caseSave('/admin/menu/', $entity, 'permission:menu:update', [
             'name' => Str::random(10),
             'component' => Str::random(10),
             'redirect' => Str::random(10),

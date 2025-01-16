@@ -72,7 +72,7 @@ final class MenuController extends AbstractController
         content: new JsonContent(ref: MenuRequest::class, title: '创建菜单')
     )]
     #[PageResponse(instance: new Result())]
-    #[Permission(code: 'permission:menu:create')]
+    #[Permission(code: 'permission:menu:save')]
     public function create(MenuRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
@@ -92,7 +92,7 @@ final class MenuController extends AbstractController
         content: new JsonContent(ref: MenuRequest::class, title: '编辑菜单')
     )]
     #[PageResponse(instance: new Result())]
-    #[Permission(code: 'permission:menu:save')]
+    #[Permission(code: 'permission:menu:update')]
     public function save(int $id, MenuRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [

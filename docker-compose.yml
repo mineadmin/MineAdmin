@@ -1,29 +1,38 @@
-version: '3'
+name: MineAdmin
+
 services:
-  hyperf:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    restart: always
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
     environment:
-      - "TIMEZONE=Asia/Shanghai"
-      - "APP_NAME=MineAdmin"
-    working_dir: "/opt/www"
-    volumes:
-      - ./:/opt/www
-    entrypoint: ["php", "watch", "-c"]
+      - TZ=Asia/Shanghai
+
   mysql:
     image: mysql:5.7
-    restart: always
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mineadmin
-  redis:
-    image: redis:alpine
-    restart: always
-  frontend:
-    build:
-      context: ./web
-      args:
-        MINE_NODE_ENV: production
-    restart: always
+      TZ: Asia/Shanghai
+
+  hyperf:
+    image: hyperf/hyperf:8.1-alpine-v3.18-swoole
+    volumes:
+      - ./:/www/MineAdmin
+      - /www/MineAdmin/web
+    working_dir: /www/MineAdmin
+    ports:
+      - "9501:9501"
+      - "9503:9503"
+    environment:
+      - TZ=Asia/Shanghai
+      - APP_NAME=MineAdmin
+    command:
+      - sh
+      - -c
+      - |
+        ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+        tail -F /dev/null

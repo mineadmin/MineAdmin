@@ -1,5 +1,8 @@
 name: MineAdmin
 
+volumes:
+  mine_mysql_data:
+
 services:
   redis:
     image: redis:alpine
@@ -10,19 +13,22 @@ services:
 
   mysql:
     image: mysql:5.7
+    volumes:  
+      - mine_mysql_data:/var/lib/mysql  
     ports:
       - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mineadmin
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
       TZ: Asia/Shanghai
 
   hyperf:
     image: hyperf/hyperf:8.1-alpine-v3.18-swoole
     volumes:
       - ./:/www/MineAdmin
-      - /www/MineAdmin/web
     working_dir: /www/MineAdmin
     ports:
       - "9501:9501"

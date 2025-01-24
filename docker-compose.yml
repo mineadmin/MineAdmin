@@ -1,6 +1,7 @@
 name: MineAdmin
 
 volumes:
+  mine_redis_data:
   mine_mysql_data:
 
 services:
@@ -8,6 +9,18 @@ services:
     image: redis:7.2-alpine
     ports:
       - "6379:6379"
+    volumes:
+      - mine_redis_data:/data
+    command: redis-server --appendonly yes
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     environment:
       - TZ=Asia/Shanghai
 

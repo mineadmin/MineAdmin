@@ -5,7 +5,7 @@ volumes:
 
 services:
   redis:
-    image: redis:alpine
+    image: redis:7.2-alpine
     ports:
       - "6379:6379"
     environment:
@@ -13,8 +13,8 @@ services:
 
   mysql:
     image: mysql:5.7
-    volumes:  
-      - mine_mysql_data:/var/lib/mysql  
+    volumes:
+      - mine_mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password

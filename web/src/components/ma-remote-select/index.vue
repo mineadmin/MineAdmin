@@ -82,8 +82,8 @@ defineExpose({
     clearable
     @change="handleChange"
   >
-    <template v-for="slot in Object.keys($slots)" #[slot]>
-      <slot :name="slot" />
+    <template v-for="(_, name) in $slots" #[name]="scopedData">
+      <slot :name="name" v-bind="scopedData" />
     </template>
   </ElSelectV2>
 </template>

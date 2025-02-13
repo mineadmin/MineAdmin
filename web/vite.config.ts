@@ -6,7 +6,7 @@ import pkg from './package.json'
 import createVitePlugins from './vite'
 import { exclude, include } from './vite/optimize'
 
-// https://vitejs.dev/config/
+// https://cn.vite.dev/config/
 export default async ({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
   function isProduction(): boolean {
@@ -24,7 +24,7 @@ export default async ({ mode, command }) => {
   const proxyPrefix = env.VITE_PROXY_PREFIX
   return defineConfig({
     base: env.VITE_APP_ROOT_BASE,
-    // 开发服务器选项 https://cn.vitejs.dev/config/#server-options
+    // 开发服务器选项 https://cn.vite.dev/config/#server-options
     server: {
       open: true,
       port: Number(env.VITE_APP_PORT ?? process.env.port),
@@ -39,7 +39,7 @@ export default async ({ mode, command }) => {
     esbuild: {
       drop: isProduction() ? ['console', 'debugger'] : [],
     },
-    // 构建选项 https://cn.vitejs.dev/config/#server-fsserve-root
+    // 构建选项 https://cn.vite.dev/config/#server-fsserve-root
     build: {
       outDir: isProduction ? 'dist' : `dist-${mode}`,
       sourcemap: env.VITE_BUILD_SOURCEMAP === 'true',

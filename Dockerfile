@@ -65,7 +65,7 @@ WORKDIR /opt/www
 
 COPY . /opt/www
 
-RUN composer install --no-dev -o && php bin/hyperf.php
+RUN composer install --no-dev -o && cp .env.example .env && php bin/hyperf.php
 
 EXPOSE 9501 9502 9503
 

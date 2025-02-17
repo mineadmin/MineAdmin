@@ -1,4 +1,4 @@
-import type {UploadRequestOptions} from "element-plus";
+import type { UploadRequestOptions } from 'element-plus'
 
 /**
  * MineAdmin is committed to providing solutions for quickly building web applications

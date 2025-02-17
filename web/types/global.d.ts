@@ -36,6 +36,23 @@ interface ResponseStruct<T> {
   data: T
 }
 
+declare namespace Resources {
+
+  interface Button {
+    name: string
+    label: string
+    icon: string
+    click: (args: any) => void
+    order?: number
+  }
+
+  interface TypeSetting {
+    name: string | string[]
+    icon: string
+    click?: (args: any) => void
+  }
+}
+
 declare namespace Plugin {
 
   /**

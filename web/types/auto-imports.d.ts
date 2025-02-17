@@ -80,6 +80,7 @@ declare global {
   const useMenuStore: typeof import('../src/store/modules/useMenuStore')['default']
   const useModel: typeof import('vue')['useModel']
   const usePluginStore: typeof import('../src/store/modules/usePluginStore')['default']
+  const useResourceStore: typeof import('../src/store/modules/useResourceStore')['default']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouteStore: typeof import('../src/store/modules/useRouteStore')['default']
   const useRouter: typeof import('vue-router')['useRouter']

@@ -14,12 +14,25 @@ const resourceDefaultButtons: Resources.Button[] = [
     name: 'local-image-upload',
     label: '图片上传',
     icon: 'solar:upload-square-broken',
-    click: (args: any) => {
+    click: (btn: Resources.Button, selected: any) => {
+      console.log(btn, selected)
+    },
+    upload: () => {
+
     },
     order: 0,
   },
   {
     name: 'local-file-upload',
+    label: '文件上传',
+    icon: 'hugeicons:file-upload',
+    click: (args: any) => {
+
+    },
+    order: 1,
+  },
+  {
+    name: 'local-file-upload2',
     label: '文件上传',
     icon: 'hugeicons:file-upload',
     click: (args: any) => {

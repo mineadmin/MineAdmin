@@ -42,14 +42,16 @@ declare namespace Resources {
     name: string
     label: string
     icon: string
-    click: (args: any) => void
+    click?: (btn: Resources.Button, selected: any[]) => void
+    upload?: () => void
+    uploadConfig?: Record<string, any>
     order?: number
   }
 
   interface TypeSetting {
     name: string | string[]
     icon: string
-    click?: (args: any) => void
+    click?: (...args: any[]) => void
   }
 }
 

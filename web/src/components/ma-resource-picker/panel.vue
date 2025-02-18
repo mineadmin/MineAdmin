@@ -75,6 +75,8 @@ import { ResultCode } from '@/utils/ResultCode.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
+import type { Resources } from '#/global'
+import useParentNode from '@/hooks/useParentNode.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
@@ -363,6 +365,22 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   })
 }
 
+function handleFile(ev: Event, btn: Resources.Button) {
+  console.log(ev.target, btn)
+}
+
+function handleDockClick(e: MouseEvent, btn: Resources.Button) {
+  e.stopPropagation()
+  if (btn?.click) {
+    btn?.click?.(btn, selected as any)
+  }
+  if (btn?.upload) {
+    const node = useParentNode(e, 'div')
+    const fileInput = node.children[0]
+    fileInput?.click?.()
+  }
+}
+
 onMounted(async () => {
   await getResourceList()
 
@@ -552,9 +570,12 @@ onUnmounted(() => {
 
     <div class="ma-resource-dock">
       <template v-for="btn in resourceStore.getAllButton()">
-        <div class="res-app-container">
-          <div class="res-app">
+        <div
+          class="res-app-container"
+        >
+          <div class="res-app" @click="handleDockClick($event, btn)">
             <m-tooltip :text="btn.label">
+              <input type="file" :name="btn.name" class="hidden" @change="handleFile($event, btn)">
               <ma-svg-icon :name="btn.icon" class="res-app-icon" />
             </m-tooltip>
           </div>

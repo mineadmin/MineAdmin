@@ -30,8 +30,6 @@ abstract class IRepository
     use HasContainer;
     use RepositoryOrderByTrait;
 
-    public const PER_PAGE_PARAM_NAME = 'per_page';
-
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query;
@@ -61,17 +59,10 @@ abstract class IRepository
     {
         $result = $this->perQuery($this->getQuery($params), $params)->paginate(
             perPage: $pageSize,
-            pageName: static::PER_PAGE_PARAM_NAME,
             page: $page,
         );
-        if ($result instanceof AbstractPaginator) {
-            $items = $result->getCollection();
-        } else {
-            $items = Collection::make($result->items());
-        }
-        $items = $this->handleItems($items);
         return $this->handlePage([
-            'list' => $items->toArray(),
+            'list' => $this->handleItems($result->getCollection())->toArray(),
             'total' => $result->total(),
         ]);
     }
@@ -122,7 +113,7 @@ abstract class IRepository
         return $this->getQuery()->whereKey($id)->first();
     }
 
-    public function findByField(mixed $id, string $column): mixed
+    public function findFieldValueById(mixed $id, string $column): mixed
     {
         return $this->getQuery()->whereKey($id)->value($column);
     }
@@ -130,7 +121,7 @@ abstract class IRepository
     /**
      * @return null|T
      */
-    public function findByFilter(array $params): mixed
+    public function findFirstByFilter(array $params): mixed
     {
         return $this->perQuery($this->getQuery($params), $params)->first();
     }

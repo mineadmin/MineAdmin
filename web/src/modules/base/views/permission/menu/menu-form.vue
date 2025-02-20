@@ -276,7 +276,7 @@ const formItems = ref<MaFormItem[]>([
     label: () => t('baseMenuManage.BtnPermission.label'),
     prop: 'btnPermission',
     show: (_, model) => model.meta.type === 'M',
-    render: () => <ButtonPermission model={form.value} />,
+    render: () => <ButtonPermission model={form.value.btnPermission} />,
     renderProps: {
       ref: (el: any) => {
         btnPermissionRef.value = el

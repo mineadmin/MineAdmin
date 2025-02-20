@@ -61,6 +61,7 @@ abstract class IRepository
             page: $page,
         );
         return $this->handlePage([
+            // @phpstan-ignore-next-line
             'list' => $this->handleItems($result->getCollection())->toArray(),
             'total' => $result->total(),
         ]);

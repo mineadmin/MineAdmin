@@ -18,7 +18,6 @@ use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\DbConnection\Traits\HasContainer;
-use Hyperf\Paginator\AbstractPaginator;
 
 /**
  * @template T of Model

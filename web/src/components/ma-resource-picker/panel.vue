@@ -365,20 +365,8 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   })
 }
 
-function handleFile(ev: Event, btn: Resources.Button) {
-  console.log(ev.target, btn)
-}
-
-function handleDockClick(e: MouseEvent, btn: Resources.Button) {
-  e.stopPropagation()
-  if (btn?.click) {
-    btn?.click?.(btn, selected as any)
-  }
-  if (btn?.upload) {
-    const node = useParentNode(e, 'div')
-    const fileInput = node.children[0]
-    fileInput?.click?.()
-  }
+function handleFile(ev: InputEvent, btn: Resources.Button) {
+  btn.upload?.((ev?.target!.files) as FileList, { btn, getResourceList })
 }
 
 onMounted(async () => {
@@ -388,6 +376,18 @@ onMounted(async () => {
 
   for (let i = 0; i < apps.length; i++) {
     const app = apps[i] as HTMLDivElement
+    app.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation()
+      const node = useParentNode(e, 'div')
+      const fileInput = node.children[0]
+      const btn = resourceStore.getAllButton()?.find(item => item.name === fileInput.getAttribute('name'))
+      if (btn?.click) {
+        btn?.click?.(btn, selected as any)
+      }
+      if (btn?.upload) {
+        fileInput?.click?.()
+      }
+    })
     app?.parentElement?.addEventListener('mouseover', () => {
       const index = i
       app.className = 'res-app main-effect'
@@ -439,6 +439,7 @@ onUnmounted(() => {
   document.querySelectorAll('.ma-resource-dock .res-app').forEach((app) => {
     app.removeEventListener('mousemove', () => {})
     app.removeEventListener('mouseout', () => {})
+    app.removeEventListener('click', () => {})
   })
 })
 </script>
@@ -570,12 +571,17 @@ onUnmounted(() => {
 
     <div class="ma-resource-dock">
       <template v-for="btn in resourceStore.getAllButton()">
-        <div
-          class="res-app-container"
-        >
-          <div class="res-app" @click="handleDockClick($event, btn)">
+        <div class="res-app-container">
+          <div class="res-app">
             <m-tooltip :text="btn.label">
-              <input type="file" :name="btn.name" class="hidden" @change="handleFile($event, btn)">
+              <input
+                type="file"
+                :name="btn.name"
+                class="hidden"
+                v-bind="btn?.uploadConfig ?? {}"
+                @change="handleFile($event, btn)"
+                @click.stop="() => {}"
+              >
               <ma-svg-icon :name="btn.icon" class="res-app-icon" />
             </m-tooltip>
           </div>

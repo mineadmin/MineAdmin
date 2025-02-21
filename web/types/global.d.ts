@@ -38,12 +38,16 @@ interface ResponseStruct<T> {
 
 declare namespace Resources {
 
+  interface Args {
+    [key: string]: any
+  }
+
   interface Button {
     name: string
     label: string
     icon: string
     click?: (btn: Resources.Button, selected: any[]) => void
-    upload?: () => void
+    upload?: (files: FileList, args: Args) => void
     uploadConfig?: Record<string, any>
     order?: number
   }

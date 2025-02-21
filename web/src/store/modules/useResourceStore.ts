@@ -8,17 +8,24 @@
  * @Link   https://github.com/mineadmin
  */
 import type { Resources } from '#/global'
+import { uploadLocal } from '@/utils/uploadLocal.ts'
 
 const resourceDefaultButtons: Resources.Button[] = [
   {
     name: 'local-image-upload',
     label: '图片上传',
     icon: 'solar:upload-square-broken',
-    click: (btn: Resources.Button, selected: any) => {
-      console.log(btn, selected)
+    upload: (files: FileList, args: Resources.Args) => {
+      const options = { file: files[0] }
+      uploadLocal(options).then(() => {
+        args?.getResourceList?.()
+      }).catch((e) => {
+        throw new Error(e)
+      })
     },
-    upload: () => {
-
+    uploadConfig: {
+      accept: 'image/*',
+      limit: 1,
     },
     order: 0,
   },
@@ -26,17 +33,17 @@ const resourceDefaultButtons: Resources.Button[] = [
     name: 'local-file-upload',
     label: '文件上传',
     icon: 'hugeicons:file-upload',
-    click: (args: any) => {
-
+    upload: (files: FileList, args: Resources.Args) => {
+      const options = { file: files[0] }
+      uploadLocal(options).then(() => {
+        args?.getResourceList?.()
+      }).catch((e) => {
+        throw new Error(e)
+      })
     },
-    order: 1,
-  },
-  {
-    name: 'local-file-upload2',
-    label: '文件上传',
-    icon: 'hugeicons:file-upload',
-    click: (args: any) => {
-
+    uploadConfig: {
+      accept: '.doc,.xls,.ppt,.txt,.pdf',
+      limit: 1,
     },
     order: 1,
   },

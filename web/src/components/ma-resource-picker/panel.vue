@@ -75,6 +75,8 @@ import { ResultCode } from '@/utils/ResultCode.ts'
 import { useImageViewer } from '@/hooks/useImageViewer.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
+import type { Resources } from '#/global'
+import useParentNode from '@/hooks/useParentNode.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
@@ -93,6 +95,7 @@ const i18n = useTrans() as TransType
 const t = i18n.globalTrans
 
 const msg = useMessage()
+const resourceStore = useResourceStore()
 
 const modelValue = defineModel<string | string[] | undefined>()
 
@@ -362,6 +365,10 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
   })
 }
 
+function handleFile(ev: InputEvent, btn: Resources.Button) {
+  btn.upload?.((ev?.target!.files) as FileList, { btn, getResourceList })
+}
+
 onMounted(async () => {
   await getResourceList()
 
@@ -369,6 +376,18 @@ onMounted(async () => {
 
   for (let i = 0; i < apps.length; i++) {
     const app = apps[i] as HTMLDivElement
+    app.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation()
+      const node = useParentNode(e, 'div')
+      const fileInput = node.children[0]
+      const btn = resourceStore.getAllButton()?.find(item => item.name === fileInput.getAttribute('name'))
+      if (btn?.click) {
+        btn?.click?.(btn, selected as any)
+      }
+      if (btn?.upload) {
+        fileInput?.click?.()
+      }
+    })
     app?.parentElement?.addEventListener('mouseover', () => {
       const index = i
       app.className = 'res-app main-effect'
@@ -420,6 +439,7 @@ onUnmounted(() => {
   document.querySelectorAll('.ma-resource-dock .res-app').forEach((app) => {
     app.removeEventListener('mousemove', () => {})
     app.removeEventListener('mouseout', () => {})
+    app.removeEventListener('click', () => {})
   })
 })
 </script>
@@ -549,38 +569,25 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!--    <div class="ma-resource-dock"> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--      <div class="res-app-container"> -->
-    <!--        <div class="res-app"> -->
-    <!--          <ma-svg-icon name="solar:upload-linear" class="res-app-icon" /> -->
-    <!--        </div> -->
-    <!--      </div> -->
-    <!--    </div> -->
+    <div class="ma-resource-dock">
+      <template v-for="btn in resourceStore.getAllButton()">
+        <div class="res-app-container">
+          <div class="res-app">
+            <m-tooltip :text="btn.label">
+              <input
+                type="file"
+                :name="btn.name"
+                class="hidden"
+                v-bind="btn?.uploadConfig ?? {}"
+                @change="handleFile($event, btn)"
+                @click.stop="() => {}"
+              >
+              <ma-svg-icon :name="btn.icon" class="res-app-icon" />
+            </m-tooltip>
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -625,7 +632,7 @@ onUnmounted(() => {
     }
 
     .res-app-icon {
-      @apply w-55px h-55px !text-2xl transform-all duration-300 text-dark-1 dark-text-gray-2
+      @apply w-55px h-55px !text-2xl transform-all duration-300 text-dark-1 dark-text-gray-2 cursor-pointer
       ;
     }
 

@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Form: typeof import('./../src/components/ma-key-value/components/form.vue')['default']
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
     MaCitySelect: typeof import('./../src/components/ma-city-select/index.vue')['default']
     MaDialog: typeof import('./../src/components/ma-dialog/index.vue')['default']
@@ -16,6 +17,7 @@ declare module 'vue' {
     MaDrawer: typeof import('./../src/components/ma-drawer/index.vue')['default']
     MaIconPanel: typeof import('./../src/components/ma-icon-picker/ma-icon-panel.vue')['default']
     MaIconPicker: typeof import('./../src/components/ma-icon-picker/index.vue')['default']
+    MaKeyValue: typeof import('./../src/components/ma-key-value/index.vue')['default']
     MaRemoteSelect: typeof import('./../src/components/ma-remote-select/index.vue')['default']
     MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']
     MaSvgIcon: typeof import('./../src/components/ma-svg-icon/index.vue')['default']

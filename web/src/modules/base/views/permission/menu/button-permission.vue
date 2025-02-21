@@ -12,8 +12,16 @@ import type { MaTableExpose } from '@mineadmin/table'
 import useTable from '@/hooks/useTable.ts'
 import type { MenuVo } from '~/base/api/menu.ts'
 
+const props = defineProps({
+  modelValue: {
+    type: Array as PropType<MenuVo[]>,
+    required: true,
+  },
+})
+
 const emit = defineEmits<{
   (event: 'add-btn', value: MenuVo): void
+  (event: 'update:modelValue', value: MenuVo[]): void
 }>()
 const t = useTrans().globalTrans
 const data = ref<any[]>([])
@@ -21,6 +29,12 @@ const buttonFormTable = ref()
 
 function addItem() {
   emit('add-btn', { id: undefined, title: '', code: '', i18n: '', type: 'B' })
+}
+
+function deleteItem(index: number) {
+  const updatedData = [...props.modelValue] as MenuVo[]
+  updatedData.splice(index, 1)
+  emit('update:modelValue', updatedData)
 }
 
 useTable('buttonFormTable').then((table: MaTableExpose) => {
@@ -44,11 +58,7 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
           size="small"
           circle
           type="danger"
-          onClick={() => {
-            if (data.value.length > 0) {
-              data.value.splice($index, 1)
-            }
-          }}
+          onClick={() => deleteItem($index)}
         >
           <ma-svg-icon name="ic:round-minus" size={20} />
         </el-button>
@@ -76,12 +86,7 @@ useTable('buttonFormTable').then((table: MaTableExpose) => {
 })
 
 function setBtnData(btn: any[]) {
-  data.value = []
-  btn.map((item: any) => {
-    item.type === 'B' && data.value.push(item)
-  })
-
-  buttonFormTable.value?.setData(data.value)
+  buttonFormTable.value?.setData(btn.filter((item: any) => item.type === 'B'))
 }
 
 defineExpose({ setBtnData })

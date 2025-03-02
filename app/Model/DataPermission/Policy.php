@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Permission;
+namespace App\Model\DataPermission;
 
-use App\Model\Enums\DataPermissionPolicy\PolicyType;
+use App\Model\Enums\DataPermission\PolicyType;
 use Carbon\Carbon;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
@@ -19,7 +19,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  */
-class DataPermissionPolicy extends Model
+class Policy extends Model
 {
     use SoftDeletes;
     /**

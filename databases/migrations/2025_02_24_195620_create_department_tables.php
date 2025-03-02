@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('department', function (Blueprint $table) {
             $table->comment('部门表');
             $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->bigInteger('parent_id')->default(0);
+            $table->string('name', 50)->comment('部门名称');
+            $table->bigInteger('parent_id')->default(0)->comment('父级部门ID');
             $table->datetimes();
             $table->softDeletes();
         });
         Schema::create('position', function (Blueprint $table) {
             $table->comment('岗位表');
             $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->bigInteger('dept_id');
+            $table->string('name', 50)->comment('岗位名称');
+            $table->bigInteger('dept_id')->comment('部门ID');
             $table->datetimes();
             $table->softDeletes();
         });
@@ -51,8 +51,8 @@ return new class extends Migration
         Schema::create('data_permission_policy', function (Blueprint $table) {
             $table->comment('数据权限策略');
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->comment('用户ID（与角色二选一）');
-            $table->bigInteger('role_id')->comment('角色ID（与用户二选一）');
+            $table->bigInteger('user_id')->default(0)->comment('用户ID（与角色二选一）');
+            $table->bigInteger('role_id')->default(0)->comment('角色ID（与用户二选一）');
             $table->string('policy_type', 20)->comment('策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）');
             $table->boolean('is_default')->default(true)->comment('是否默认策略（默认值：true）');
             $table->datetimes();
@@ -60,8 +60,8 @@ return new class extends Migration
         });
         Schema::create('data_permission_custom_func', function (Blueprint $table) {
             $table->comment('自定义回调函数表');
-            $table->bigInteger('policy_id');
-            $table->string('func_key', 50);
+            $table->bigInteger('policy_id')->comment('数据权限策略ID');
+            $table->string('func_key', 50)->comment('回调函数KEY');
             $table->datetimes();
             $table->softDeletes();
         });

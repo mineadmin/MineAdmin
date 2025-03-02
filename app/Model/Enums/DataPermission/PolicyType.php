@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Enums\DataPermissionPolicy;
+namespace App\Model\Enums\DataPermission;
 
 /**
  * 策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）

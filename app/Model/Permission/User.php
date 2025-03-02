@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Model\DataPermission\Policy;
 use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
 use Carbon\Carbon;
 use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Deleted;
+use Hyperf\Database\Model\Relations\BelongsTo;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model;
 
@@ -41,6 +43,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $remark 备注
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
+ * @property Policy|null $policy 数据权限策略
  */
 final class User extends Model
 {
@@ -135,5 +138,11 @@ final class User extends Model
     public function hasPermission(string $permission): bool
     {
         return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
+    }
+
+
+    public function policy(): BelongsTo
+    {
+        return $this->belongsTo(Policy::class, 'id', 'id');
     }
 }

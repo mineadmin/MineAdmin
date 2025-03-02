@@ -1,0 +1,83 @@
+<?php
+
+use Hyperf\Database\Schema\Schema;
+use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Migrations\Migration;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('department', function (Blueprint $table) {
+            $table->comment('部门表');
+            $table->bigIncrements('id');
+            $table->string('name', 50);
+            $table->bigInteger('parent_id')->default(0);
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('position', function (Blueprint $table) {
+            $table->comment('岗位表');
+            $table->bigIncrements('id');
+            $table->string('name', 50);
+            $table->bigInteger('dept_id');
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('user_dept', function (Blueprint $table) {
+            $table->comment('用户-部门关联表');
+            $table->bigInteger('user_id');
+            $table->bigInteger('dept_id');
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('user_position', function (Blueprint $table) {
+            $table->comment('用户-岗位关联表');
+            $table->bigInteger('user_id');
+            $table->bigInteger('position_id');
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('dept_leader', function (Blueprint $table) {
+            $table->comment('部门领导表');
+            $table->bigInteger('dept_id');
+            $table->bigInteger('user_id');
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('data_permission_policy', function (Blueprint $table) {
+            $table->comment('数据权限策略');
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->comment('用户ID（与角色二选一）');
+            $table->bigInteger('role_id')->comment('角色ID（与用户二选一）');
+            $table->string('policy_type', 20)->comment('策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）');
+            $table->boolean('is_default')->default(true)->comment('是否默认策略（默认值：true）');
+            $table->datetimes();
+            $table->softDeletes();
+        });
+        Schema::create('data_permission_custom_func', function (Blueprint $table) {
+            $table->comment('自定义回调函数表');
+            $table->bigInteger('policy_id');
+            $table->string('func_key', 50);
+            $table->datetimes();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('department');
+        Schema::dropIfExists('position');
+        Schema::dropIfExists('user_dept');
+        Schema::dropIfExists('user_position');
+        Schema::dropIfExists('dept_leader');
+        Schema::dropIfExists('data_permission_policy');
+        Schema::dropIfExists('data_permission_custom_func');
+    }
+};

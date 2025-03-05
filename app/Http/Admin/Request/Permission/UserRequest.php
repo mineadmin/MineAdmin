@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace App\Http\Admin\Request\Permission;
 
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
+use App\Model\Enums\DataPermission\PolicyType;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
+use Hyperf\Validation\Rule;
 use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 
 #[FormRequestAnnotation(
@@ -43,6 +45,7 @@ use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
         'status',
         'backend_setting',
         'remark',
+        'policy',
     ]
 )]
 class UserRequest extends FormRequest
@@ -62,6 +65,23 @@ class UserRequest extends FormRequest
             'status' => 'sometimes|integer',
             'backend_setting' => 'sometimes|array|max:255',
             'remark' => 'sometimes|string|max:255',
+            'policy' => 'sometimes|array',
+            'policy.*.policy_type' => [
+                'required_with:policy',
+                'string',
+                'max:10',
+                Rule::enum(PolicyType::class),
+            ],
+            'policy.*.value' => [
+                'sometimes',
+                'array',
+                'min:1',
+            ],
+            'policy.*.is_default' => [
+                'sometimes',
+                'integer',
+                'in:0,1',
+            ],
         ];
     }
 

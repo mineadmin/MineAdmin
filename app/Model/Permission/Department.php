@@ -1,6 +1,14 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
 namespace App\Model\Permission;
 
@@ -12,19 +20,20 @@ use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 
 /**
- * @property int $id 
+ * @property int $id
  * @property string $name 部门名称
  * @property int $parent_id 父级部门ID
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
- * @property-read Position[]|Collection<int,Position> $positions 岗位
- * @property-read User[]|Collection<int,User> $department_users 部门用户
- * @property-read User[]|Collection<int,User> $leader 部门领导
+ * @property Collection<int,Position>|Position[] $positions 岗位
+ * @property Collection<int,User>|User[] $department_users 部门用户
+ * @property Collection<int,User>|User[] $leader 部门领导
  */
 class Department extends Model
 {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
      */
@@ -54,5 +63,4 @@ class Department extends Model
     {
         return $this->belongsToMany(User::class, 'user_leader', 'dept_id', 'user_id');
     }
-
 }

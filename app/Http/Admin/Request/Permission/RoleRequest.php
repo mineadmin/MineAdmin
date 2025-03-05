@@ -14,13 +14,15 @@ namespace App\Http\Admin\Request\Permission;
 
 use App\Http\Common\Request\Traits\HttpMethodTrait;
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
+use App\Model\Enums\DataPermission\PolicyType;
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
+use Hyperf\Validation\Rule;
 
 #[\Mine\Swagger\Attributes\FormRequest(
     schema: RoleSchema::class,
     only: [
-        'name', 'code', 'status', 'sort', 'remark',
+        'name', 'code', 'status', 'sort', 'remark', 'policy',
     ]
 )]
 class RoleRequest extends FormRequest
@@ -41,6 +43,23 @@ class RoleRequest extends FormRequest
             'status' => 'sometimes|integer|in:1,2',
             'sort' => 'required|integer',
             'remark' => 'nullable|string|max:255',
+            'policy' => 'nullable|array',
+            'policy.*.policy_type' => [
+                'required_with:policy',
+                'string',
+                'max:10',
+                Rule::enum(PolicyType::class),
+            ],
+            'policy.*.value' => [
+                'required_with:policy',
+                'array',
+                'min:1',
+            ],
+            'policy.*.is_default' => [
+                'required_with:policy',
+                'integer',
+                'in:0,1',
+            ],
         ];
         if ($this->isCreate()) {
             $rules['code'][] = 'unique:role,code';

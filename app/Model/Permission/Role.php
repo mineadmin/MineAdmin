@@ -35,7 +35,7 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property string $remark 备注
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
- * @property Policy|null $policy 数据权限策略
+ * @property null|Policy $policy 数据权限策略
  */
 final class Role extends MineModel
 {
@@ -93,7 +93,6 @@ final class Role extends MineModel
         $this->users()->detach();
         $this->menus()->detach();
     }
-
 
     public function policy(): BelongsTo
     {

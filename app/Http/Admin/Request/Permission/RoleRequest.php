@@ -51,12 +51,12 @@ class RoleRequest extends FormRequest
                 Rule::enum(PolicyType::class),
             ],
             'policy.*.value' => [
-                'required_with:policy',
+                'sometimes',
                 'array',
                 'min:1',
             ],
             'policy.*.is_default' => [
-                'required_with:policy',
+                'sometimes',
                 'integer',
                 'in:0,1',
             ],

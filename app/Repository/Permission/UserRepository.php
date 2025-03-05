@@ -72,6 +72,7 @@ final class UserRepository extends IRepository
                 $query->whereHas('roles', static function (Builder $query) use ($roleId) {
                     $query->where('role_id', $roleId);
                 });
-            });
+            })
+            ->with(['policy']);
     }
 }

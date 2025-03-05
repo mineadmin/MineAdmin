@@ -90,6 +90,7 @@ final class User extends Model
     public function deleted(Deleted $event)
     {
         $this->roles()->detach();
+        $this->policy()->delete();
     }
 
     public function setPasswordAttribute($value): void

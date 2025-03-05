@@ -53,6 +53,9 @@ final class RoleSchema implements \JsonSerializable
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
+    #[Property(property: 'policy', ref: '#/components/schemas/PolicySchema', title: '权限')]
+    public ?PolicySchema $policy;
+
     public function __construct(Role $model)
     {
         $this->id = $model->id;
@@ -66,10 +69,11 @@ final class RoleSchema implements \JsonSerializable
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at->format(CarbonInterface::DEFAULT_TO_STRING_FORMAT);
         $this->remark = $model->remark;
+        $this->policy = isset($model->policy) ? new PolicySchema($model->policy) : null;
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'data_scope' => $this->dataScope, 'status' => $this->status, 'sort' => $this->sort, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark, 'policy' => $this->policy->jsonSerialize()];
     }
 }

@@ -43,7 +43,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $remark 备注
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
- * @property Policy|null $policy 数据权限策略
+ * @property null|Policy $policy 数据权限策略
  */
 final class User extends Model
 {
@@ -139,7 +139,6 @@ final class User extends Model
     {
         return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
     }
-
 
     public function policy(): BelongsTo
     {

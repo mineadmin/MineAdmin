@@ -1,22 +1,27 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Model\Enums\DataPermission;
 
 /**
- * 策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）
+ * 策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）.
  */
 enum PolicyType: string
 {
     case DeptSelf = 'DEPT_SELF';
-
     case DeptTree = 'DEPT_TREE';
-
     case All = 'ALL';
-
     case Self = 'SELF';
-
     case CustomDept = 'CUSTOM_DEPT';
-
     case CustomFunc = 'CUSTOM_FUNC';
 
     public function isDeptSelf(): bool
@@ -51,31 +56,31 @@ enum PolicyType: string
 
     public function isNotDeptSelf(): bool
     {
-        return !$this->isDeptSelf();
+        return ! $this->isDeptSelf();
     }
 
     public function isNotDeptTree(): bool
     {
-        return !$this->isDeptTree();
+        return ! $this->isDeptTree();
     }
 
     public function isNotAll(): bool
     {
-        return !$this->isAll();
+        return ! $this->isAll();
     }
 
     public function isNotSelf(): bool
     {
-        return !$this->isSelf();
+        return ! $this->isSelf();
     }
 
     public function isNotCustomDept(): bool
     {
-        return !$this->isCustomDept();
+        return ! $this->isCustomDept();
     }
 
     public function isNotCustomFunc(): bool
     {
-        return !$this->isCustomFunc();
+        return ! $this->isCustomFunc();
     }
 }

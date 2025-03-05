@@ -12,11 +12,14 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
+use App\Exception\BusinessException;
+use App\Http\Common\ResultCode;
 use App\Model\Permission\Role;
 use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
 use Hyperf\Collection\Collection;
+use Hyperf\DbConnection\Db;
 
 /**
  * @extends IService<Role>
@@ -52,5 +55,35 @@ final class RoleService extends IService
                     ->map(static fn ($item) => $item->id)
                     ->toArray()
             );
+    }
+
+    public function create(array $data): mixed
+    {
+        return Db::transaction(function () use ($data) {
+            /**
+             * @var Role $entity
+             */
+            $entity = parent::create($data);
+            if (isset($data['policy'])) {
+                $entity->policy()->create($data['policy']);
+            }
+        });
+    }
+
+    public function updateById(mixed $id, array $data): mixed
+    {
+        return Db::transaction(function () use ($id, $data) {
+            /**
+             * @var Role $entity
+             */
+            $entity = $this->repository->findById($id);
+            if (empty($entity)) {
+                throw new BusinessException(code: ResultCode::NOT_FOUND);
+            }
+            $entity->update($data);
+            if (isset($data['policy'])) {
+                $entity->policy()->update($data['policy']);
+            }
+        });
     }
 }

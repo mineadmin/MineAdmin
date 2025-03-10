@@ -45,12 +45,10 @@ class DepartmentRequest extends FormRequest
         if ($this->isUpdate()) {
             $rules['name'] = 'required|string|max:60|unique:department,name,' . $this->route('id');
         }
-        $rules['positions'] = 'sometimes|array';
-        $rules['positions.*.id'] = 'sometimes|integer';
         $rules['department_users'] = 'sometimes|array';
-        $rules['department_users.*.id'] = 'sometimes|integer';
+        $rules['department_users.*'] = 'sometimes|integer';
         $rules['leader'] = 'sometimes|array';
-        $rules['leader.*.id'] = 'sometimes|integer';
+        $rules['leader.*'] = 'sometimes|integer';
         return $rules;
     }
 

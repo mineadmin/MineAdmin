@@ -14,6 +14,7 @@ namespace App\Model\Permission;
 
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
+use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\Relations\HasMany;
 use Hyperf\Database\Model\SoftDeletes;
@@ -48,6 +49,13 @@ class Department extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = ['id' => 'integer', 'parent_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'deleted_at' => 'datetime'];
+
+    public function deleted(Deleted $event): void
+    {
+        $this->positions()->delete();
+        $this->department_users()->detach();
+        $this->leader()->detach();
+    }
 
     public function positions(): HasMany
     {

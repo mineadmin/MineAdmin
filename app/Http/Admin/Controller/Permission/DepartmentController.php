@@ -46,8 +46,8 @@ class DepartmentController extends AbstractController
 
     #[Get(
         path: '/admin/department/list',
-        operationId: 'roleList',
-        summary: '部门列表',
+        operationId: 'departmentList',
+        summary: '岗位列表',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['部门管理'],
     )]
@@ -66,8 +66,8 @@ class DepartmentController extends AbstractController
 
     #[Post(
         path: '/admin/department',
-        operationId: 'roleCreate',
-        summary: '创建部门',
+        operationId: 'departmentCreate',
+        summary: '创建岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['部门管理'],
     )]
@@ -86,8 +86,8 @@ class DepartmentController extends AbstractController
 
     #[Put(
         path: '/admin/department/{id}',
-        operationId: 'roleSave',
-        summary: '保存部门',
+        operationId: 'departmentSave',
+        summary: '保存岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['部门管理'],
     )]
@@ -106,8 +106,8 @@ class DepartmentController extends AbstractController
 
     #[Delete(
         path: '/admin/department',
-        operationId: 'roleDelete',
-        summary: '删除部门',
+        operationId: 'departmentDelete',
+        summary: '删除岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
         tags: ['部门管理'],
     )]

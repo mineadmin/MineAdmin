@@ -14,13 +14,13 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\DepartmentRequest;
+use App\Http\Admin\Request\Permission\PositionRequest;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use App\Http\CurrentUser;
-use App\Schema\DepartmentSchema;
-use App\Service\Permission\DepartmentService;
+use App\Schema\PositionSchema;
+use App\Service\Permission\PositionService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
@@ -37,22 +37,22 @@ use Mine\Swagger\Attributes\ResultResponse;
 #[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 #[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
 #[Middleware(middleware: OperationMiddleware::class, priority: 98)]
-class DepartmentController extends AbstractController
+class PositionController extends AbstractController
 {
     public function __construct(
         protected readonly CurrentUser $currentUser,
-        protected readonly DepartmentService $service
+        protected readonly PositionService $service
     ) {}
 
     #[Get(
-        path: '/admin/department/list',
-        operationId: 'departmentList',
-        summary: '部门列表',
+        path: '/admin/position/list',
+        operationId: 'positionList',
+        summary: '岗位列表',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['部门管理'],
+        tags: ['岗位管理'],
     )]
-    #[PageResponse(instance: DepartmentSchema::class)]
-    #[Permission(code: 'permission:department:index')]
+    #[PageResponse(instance: PositionSchema::class)]
+    #[Permission(code: 'permission:position:index')]
     public function pageList(): Result
     {
         return $this->success(
@@ -65,18 +65,18 @@ class DepartmentController extends AbstractController
     }
 
     #[Post(
-        path: '/admin/department',
-        operationId: 'departmentCreate',
-        summary: '创建部门',
+        path: '/admin/position',
+        operationId: 'positionCreate',
+        summary: '创建岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['部门管理'],
+        tags: ['岗位管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: DepartmentRequest::class)
+        content: new JsonContent(ref: PositionRequest::class)
     )]
-    #[Permission(code: 'permission:department:save')]
+    #[Permission(code: 'permission:position:save')]
     #[ResultResponse(instance: new Result())]
-    public function create(DepartmentRequest $request): Result
+    public function create(PositionRequest $request): Result
     {
         $this->service->create(array_merge($request->validated(), [
             'created_by' => $this->currentUser->id(),
@@ -85,18 +85,18 @@ class DepartmentController extends AbstractController
     }
 
     #[Put(
-        path: '/admin/department/{id}',
-        operationId: 'departmentSave',
-        summary: '保存部门',
+        path: '/admin/position/{id}',
+        operationId: 'positionSave',
+        summary: '保存岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['部门管理'],
+        tags: ['岗位管理'],
     )]
     #[RequestBody(
-        content: new JsonContent(ref: DepartmentRequest::class)
+        content: new JsonContent(ref: PositionRequest::class)
     )]
-    #[Permission(code: 'permission:department:update')]
+    #[Permission(code: 'permission:position:update')]
     #[ResultResponse(instance: new Result())]
-    public function save(int $id, DepartmentRequest $request): Result
+    public function save(int $id, PositionRequest $request): Result
     {
         $this->service->updateById($id, array_merge($request->validated(), [
             'updated_by' => $this->currentUser->id(),
@@ -105,17 +105,17 @@ class DepartmentController extends AbstractController
     }
 
     #[Delete(
-        path: '/admin/department',
-        operationId: 'departmentDelete',
-        summary: '删除部门',
+        path: '/admin/position',
+        operationId: 'positionDelete',
+        summary: '删除岗位',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['部门管理'],
+        tags: ['岗位管理'],
     )]
     #[ResultResponse(instance: new Result())]
-    #[Permission(code: 'permission:department:delete')]
+    #[Permission(code: 'permission:position:delete')]
     public function delete(): Result
     {
         $this->service->deleteById($this->getRequestData());
         return $this->success();
     }
-}
+} 

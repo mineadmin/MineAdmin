@@ -13,6 +13,10 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): 
   const treeSelectRef = ref()
   const deptList = ref([])
 
+  useHttp().get('/admin/department/list?level=1').then((res: any) => {
+    deptList.value = res.data.list
+  })
+
   return [
     {
       label: () => t('baseDepartment.parentDepartment'), prop: 'parent_id', render: () => (

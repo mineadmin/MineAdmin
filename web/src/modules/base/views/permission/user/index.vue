@@ -138,35 +138,13 @@ function handleDelete() {
 </script>
 
 <template>
-  <div class="mine-layout pt-3">
-    <MaProTable ref="proTableRef" :options="options" :schema="schema">
-      <template #actions>
-        <el-button
-          v-auth="['permission:user:save']"
-          type="primary"
-          @click="() => {
-            maDialog.setTitle(t('crud.add'))
-            maDialog.open({ formType: 'add' })
-          }"
-        >
-          {{ t('crud.add') }}
-        </el-button>
-      </template>
-
-      <template #toolbarLeft>
-        <el-button
-          v-auth="['permission:user:delete']"
-          type="danger"
-          plain
-          :disabled="selections.length < 1"
-          @click="handleDelete"
-        >
-          {{ t('crud.delete') }}
-        </el-button>
-      </template>
-      <!-- 数据为空时 -->
-      <template #empty>
-        <el-empty>
+  <div class="mine-layout flex justify-between pb-0 pl-3 pt-3">
+    <div class="w-full rounded bg-[#fff] md:w-2/12">
+      asda
+    </div>
+    <div class="w-full md:w-10/12">
+      <MaProTable ref="proTableRef" :options="options" :schema="schema">
+        <template #actions>
           <el-button
             v-auth="['permission:user:save']"
             type="primary"
@@ -177,9 +155,36 @@ function handleDelete() {
           >
             {{ t('crud.add') }}
           </el-button>
-        </el-empty>
-      </template>
-    </MaProTable>
+        </template>
+
+        <template #toolbarLeft>
+          <el-button
+            v-auth="['permission:user:delete']"
+            type="danger"
+            plain
+            :disabled="selections.length < 1"
+            @click="handleDelete"
+          >
+            {{ t('crud.delete') }}
+          </el-button>
+        </template>
+        <!-- 数据为空时 -->
+        <template #empty>
+          <el-empty>
+            <el-button
+              v-auth="['permission:user:save']"
+              type="primary"
+              @click="() => {
+                maDialog.setTitle(t('crud.add'))
+                maDialog.open({ formType: 'add' })
+              }"
+            >
+              {{ t('crud.add') }}
+            </el-button>
+          </el-empty>
+        </template>
+      </MaProTable>
+    </div>
 
     <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">

@@ -55,13 +55,9 @@ class DepartmentController extends AbstractController
     #[Permission(code: 'permission:department:index')]
     public function pageList(): Result
     {
-        return $this->success(
-            $this->service->page(
-                $this->getRequestData(),
-                $this->getCurrentPage(),
-                $this->getPageSize()
-            )
-        );
+        return $this->success([
+            'list' => $this->service->getList($this->getRequestData())
+        ]);
     }
 
     #[Post(

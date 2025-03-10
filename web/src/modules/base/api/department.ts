@@ -20,7 +20,7 @@ export interface DepartmentSearchVo {
 }
 
 export function page(data: DepartmentSearchVo): Promise<ResponseStruct<PageList<DepartmentVo>>> {
-  return useHttp().get('/admin/department/list', { params: data })
+  return useHttp().get('/admin/department/list?level=1', { params: data })
 }
 
 export function create(data: DepartmentVo): Promise<ResponseStruct<null>> {

@@ -94,6 +94,7 @@ const options = ref<MaProTableOptions>({
   },
   // 表格参数
   tableOptions: {
+    rowKey: 'id',
     on: {
       // 表格选择事件
       onSelectionChange: (selection: any[]) => selections.value = selection,
@@ -163,6 +164,11 @@ function handleDelete() {
         >
           {{ t('crud.delete') }}
         </el-button>
+        <div>
+          <el-button>
+            展开
+          </el-button>
+        </div>
       </template>
       <!-- 数据为空时 -->
       <template #empty>

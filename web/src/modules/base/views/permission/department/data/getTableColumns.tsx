@@ -26,17 +26,16 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 普通列
-    { label: () => t('baseDepartment.name'), prop: 'name' },
-    { label: () => t('baseDepartment.created_at'), prop: 'created_at' },
-    { label: () => t('baseDepartment.updated_at'), prop: 'updated_at' },
+    { label: () => t('baseDepartment.name'), prop: 'name', align: 'left' },
+    { label: () => t('baseDepartment.created_at'), prop: 'created_at', width: 200 },
+    { label: () => t('baseDepartment.updated_at'), prop: 'updated_at', width: 200 },
 
     // 操作列
     {
       type: 'operation',
       label: () => t('crud.operation'),
-      width: '260px',
+      width: '180px',
       operationConfigure: {
-        type: 'tile',
         actions: [
           {
             name: 'setLeader',
@@ -46,6 +45,26 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             onClick: ({ row }) => {
               dialog.setTitle(t('baseDepartment.page.setLeader'))
               dialog.open({ formType: 'setLeader', data: row })
+            },
+          },
+          {
+            name: 'manageUser',
+            icon: 'uil:users-alt',
+            show: () => showBtn('permission:department:update'),
+            text: () => t('baseDepartment.page.manageUser'),
+            onClick: ({ row }) => {
+              dialog.setTitle(t('baseDepartment.page.manageUser'))
+              dialog.open({ formType: 'manageUser', data: row })
+            },
+          },
+          {
+            name: 'managePost',
+            icon: 'material-symbols:position-bottom-right-outline-rounded',
+            show: () => showBtn('permission:department:update'),
+            text: () => t('baseDepartment.page.managePost'),
+            onClick: ({ row }) => {
+              dialog.setTitle(t('baseDepartment.page.managePost'))
+              dialog.open({ formType: 'managePost', data: row })
             },
           },
           {

@@ -82,6 +82,26 @@ class UserRequest extends FormRequest
                 'integer',
                 'in:0,1',
             ],
+            'department' => [
+                'sometimes',
+                'array',
+                'min:1',
+            ],
+            'department.*' => [
+                'sometimes',
+                'integer',
+                'exists:department,id',
+            ],
+            'position' => [
+                'sometimes',
+                'array',
+                'min:1',
+            ],
+            'position.*' => [
+                'sometimes',
+                'integer',
+                'exists:position,id',
+            ],
         ];
     }
 

@@ -44,6 +44,9 @@ use Hyperf\DbConnection\Model\Model;
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
  * @property null|Policy $policy 数据权限策略
+ * @property Collection|Department[] $department 部门
+ * @property Collection|Department[] $dept_leader 部门领导
+ * @property Collection|Position[] $position 岗位
  */
 final class User extends Model
 {
@@ -144,5 +147,20 @@ final class User extends Model
     public function policy(): BelongsTo
     {
         return $this->belongsTo(Policy::class, 'id', 'id');
+    }
+
+    public function department(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'user_dept', 'user_id', 'dept_id');
+    }
+
+    public function dept_leader(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'dept_leader', 'user_id', 'dept_id');
+    }
+
+    public function position(): BelongsToMany
+    {
+        return $this->belongsToMany(Position::class, 'user_position', 'user_id', 'position_id');
     }
 }

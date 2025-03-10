@@ -81,6 +81,7 @@ final class UserService extends IService
             if (! empty($data['policy'])) {
                 $entity->policy()->create($data['policy']);
             }
+            $this->handleWith($entity, $data);
         });
     }
 
@@ -96,6 +97,17 @@ final class UserService extends IService
             if (! empty($data['policy'])) {
                 $entity->policy()->update($data['policy']);
             }
+            $this->handleWith($entity, $data);
         });
+    }
+
+    protected function handleWith(User $entity, array $data): void
+    {
+        if (! empty($data['department'])) {
+            $entity->department()->sync($data['department']);
+        }
+        if (! empty($data['position'])) {
+            $entity->position()->sync($data['position']);
+        }
     }
 }

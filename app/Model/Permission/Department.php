@@ -59,8 +59,8 @@ class Department extends Model
         return $this->belongsToMany(User::class, 'user_dept', 'dept_id', 'user_id');
     }
 
-    public function leaders(): BelongsToMany
+    public function leader(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_leader', 'dept_id', 'user_id');
+        return $this->belongsToMany(User::class, 'dept_leader', 'dept_id', 'user_id');
     }
 }

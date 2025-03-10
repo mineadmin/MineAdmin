@@ -8,30 +8,23 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaProTableColumns, MaProTableExpose } from '@mineadmin/pro-table'
-import type { RoleVo } from '~/base/api/role.ts'
 import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 
 import { useMessage } from '@/hooks/useMessage.ts'
-import { deleteByIds } from '~/base/api/role.ts'
+import { deleteByIds } from '~/base/api/department.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 import hasAuth from '@/utils/permission/hasAuth.ts'
 
 export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t: any): MaProTableColumns[] {
-  const dictStore = useDictStore()
   const msg = useMessage()
 
-  const showBtn = (auth: string | string[], row: RoleVo) => {
-    return hasAuth(auth) && row.id !== 1
+  const showBtn = (auth: string | string[]) => {
+    return hasAuth(auth)
   }
 
   return [
     // 多选列
-    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection'),
-      cellRender: ({ row }): any => row.id === 1 ? '-' : undefined,
-      selectable: (row: RoleVo) => ![1].includes(row.id as number),
-    },
-    // 索引序号列
-    { type: 'index' },
+    { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 普通列
     { label: () => t('baseDepartment.name'), prop: 'name' },
     { label: () => t('baseDepartment.created_at'), prop: 'created_at' },
@@ -47,7 +40,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
         actions: [
           {
             name: 'setLeader',
-            show: ({ row }) => showBtn(['permission:department:save'], row),
+            show: () => showBtn('permission:department:update'),
             icon: 'material-symbols:checklist-rounded',
             text: () => t('baseDepartment.page.setLeader'),
             onClick: ({ row }) => {
@@ -58,7 +51,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           {
             name: 'edit',
             icon: 'material-symbols:person-edit',
-            show: ({ row }) => showBtn('permission:department:save', row),
+            show: () => showBtn('permission:department:update'),
             text: () => t('crud.edit'),
             onClick: ({ row }) => {
               dialog.setTitle(t('crud.edit'))
@@ -67,7 +60,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'del',
-            show: ({ row }) => showBtn('permission:department:delete', row),
+            show: () => showBtn('permission:department:delete'),
             icon: 'mdi:delete',
             text: () => t('crud.delete'),
             onClick: ({ row }, proxy: MaProTableExpose) => {

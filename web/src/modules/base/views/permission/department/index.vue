@@ -142,7 +142,7 @@ function handleDelete() {
     <MaProTable ref="proTableRef" :options="options" :schema="schema">
       <template #actions>
         <el-button
-          v-auth="['permission:department:create']"
+          v-auth="['permission:department:save']"
           type="primary"
           @click="() => {
             maDialog.setTitle(t('crud.add'))
@@ -168,7 +168,7 @@ function handleDelete() {
       <template #empty>
         <el-empty>
           <el-button
-            v-auth="['permission:department:create']"
+            v-auth="['permission:department:save']"
             type="primary"
             @click="() => {
               maDialog.setTitle(t('crud.add'))

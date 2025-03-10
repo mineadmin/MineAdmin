@@ -47,9 +47,9 @@ class DepartmentController extends AbstractController
     #[Get(
         path: '/admin/department/list',
         operationId: 'roleList',
-        summary: '岗位列表',
+        summary: '部门列表',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
+        tags: ['部门管理'],
     )]
     #[PageResponse(instance: DepartmentSchema::class)]
     #[Permission(code: 'permission:department:index')]
@@ -67,9 +67,9 @@ class DepartmentController extends AbstractController
     #[Post(
         path: '/admin/department',
         operationId: 'roleCreate',
-        summary: '创建岗位',
+        summary: '创建部门',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
+        tags: ['部门管理'],
     )]
     #[RequestBody(
         content: new JsonContent(ref: DepartmentRequest::class)
@@ -87,9 +87,9 @@ class DepartmentController extends AbstractController
     #[Put(
         path: '/admin/department/{id}',
         operationId: 'roleSave',
-        summary: '保存岗位',
+        summary: '保存部门',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
+        tags: ['部门管理'],
     )]
     #[RequestBody(
         content: new JsonContent(ref: DepartmentRequest::class)
@@ -107,9 +107,9 @@ class DepartmentController extends AbstractController
     #[Delete(
         path: '/admin/department',
         operationId: 'roleDelete',
-        summary: '删除岗位',
+        summary: '删除部门',
         security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
+        tags: ['部门管理'],
     )]
     #[ResultResponse(instance: new Result())]
     #[Permission(code: 'permission:department:delete')]

@@ -81,42 +81,45 @@ export default defineComponent({
                     (_ + 1) === breadcrumbs.value.length
                       ? renderBreadcrumbs(route, _)
                       : (
-                          <m-dropdown
-                            class="min-w-[5rem] p-1"
-                            v-slots={{
-                              default: () => renderBreadcrumbs(route, _),
-                              popper: () => {
-                                if (route?.children?.length > 0) {
-                                  return (
-                                    route?.children?.map((item: MineRoute.routeRecord) => (
-                                      <m-dropdown-item
-                                        type="default"
-                                        handle={async () => {
-                                          if (checkRouteIsRedirect(item, 'redirect')) {
-                                            await router.push({ path: item?.redirect as string })
-                                          }
-                                          if (checkRouteIsRedirect(item, 'component') && item.name !== route.name) {
-                                            await router.push({ path: item.path })
-                                          }
-                                        }}
-                                        v-slots={{
-                                          'default': () => <span>{item?.meta?.i18n ? useTrans(item?.meta?.i18n) : item?.meta?.title}</span>,
-                                          'prefix-icon': () => item?.meta?.icon && <ma-svg-icon name={item?.meta?.icon} size={18} />,
-                                        }}
-                                      />
-                                    ))
-                                  )
-                                }
-                              },
-                            }}
-                          />
-                        )
+                        <m-dropdown
+                          class="min-w-[5rem] p-1"
+                          v-slots={{
+                            default: () => renderBreadcrumbs(route, _),
+                            popper: () => {
+                              if (Array.isArray(route?.children) && route.children.length > 0) {
+                                return route.children
+                                  .filter((item: MineRoute.routeRecord) => !item?.meta?.hidden)
+                                  .map((item: MineRoute.routeRecord) => (
+                                    <m-dropdown-item
+                                      type="default"
+                                      key={item.path}
+                                      handle={async () => {
+                                        if (checkRouteIsRedirect(item, 'redirect')) {
+                                          await router.push({path: item?.redirect as string})
+                                        }
+                                        if (checkRouteIsRedirect(item, 'component') && item.name !== route.name) {
+                                          await router.push({path: item.path})
+                                        }
+                                      }}
+                                      v-slots={{
+                                        'default': () =>
+                                          <span>{item?.meta?.i18n ? useTrans(item?.meta?.i18n) : item?.meta?.title}</span>,
+                                        'prefix-icon': () => item?.meta?.icon
+                                          && <ma-svg-icon name={item?.meta?.icon} size={18}/>,
+                                      }}
+                                    />
+                                  ))
+                              }
+                            },
+                          }}
+                        />
+                      )
                   }
                 </div>
               ),
             )}
           </TransitionGroup>
-        )}
+          )}
       </div>
     )
   },

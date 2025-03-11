@@ -30,13 +30,16 @@ final class MenuService extends IService
         return $this->repository;
     }
 
-    public function create(array $data): mixed
+    public function create(array $data): Menu
     {
+        /**
+         * @var Menu $model
+         */
         $model = parent::create($data);
         if ($data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
             foreach ($data['btnPermission'] as $item) {
                 $this->repository->create([
-                    'pid' => $model->id,
+                    'parent_id' => $model->id,
                     'name' => $item['code'],
                     'sort' => 0,
                     'status' => 1,

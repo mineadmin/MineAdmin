@@ -8,7 +8,7 @@ baseUserManage:
   userType: User type
   role: Role
   signed: Signed
-  mainTitle: User Manager
+  mainTitle: User Rule
   subTitle: Provide users with the functions of adding, editing, and deleting
   setRole: Set role
   setRoleSuccess: The role was set successfully
@@ -16,7 +16,7 @@ baseUserManage:
   setPassword: Whether to reset the password to 123456?
   setPasswordSuccess: The password was reset successfully
 baseRoleManage:
-  mainTitle: Role Manager
+  mainTitle: Role Rule
   subTitle: Provide user roles and permission settings
   name: Role name
   code: Role code

@@ -56,7 +56,7 @@ class DepartmentController extends AbstractController
     public function pageList(): Result
     {
         return $this->success([
-            'list' => $this->service->getList($this->getRequestData())
+            'list' => $this->service->getList($this->getRequestData()),
         ]);
     }
 

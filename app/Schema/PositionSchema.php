@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use Hyperf\Swagger\Annotation\Items;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
@@ -47,4 +46,4 @@ class PositionSchema implements \JsonSerializable
     {
         return [];
     }
-} 
+}

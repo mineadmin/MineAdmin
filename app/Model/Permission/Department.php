@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Model\Permission;
 
 use Carbon\Carbon;
+use Hyperf\Collection\Collection as BaseCollection;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsToMany;
@@ -30,6 +31,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property Collection<int,Position>|Position[] $positions 岗位
  * @property Collection<int,User>|User[] $department_users 部门用户
  * @property Collection<int,User>|User[] $leader 部门领导
+ * @property Collection<int,Department>|Department[] $children 子部门
  */
 class Department extends Model
 {
@@ -74,6 +76,22 @@ class Department extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id', 'id')->with('children');
+    }
+
+    public function getFlatChildren(): BaseCollection
+    {
+        $flat = collect();
+        $this->load('children'); // 预加载子部门
+        $traverse = static function ($departments) use (&$traverse, $flat) {
+            foreach ($departments as $department) {
+                $flat->push($department);
+                if ($department->children->isNotEmpty()) {
+                    $traverse($department->children);
+                }
+            }
+        };
+        $traverse($this->children);
+        return $flat->prepend($this); // 包含自身
     }
 }

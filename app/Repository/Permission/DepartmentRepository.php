@@ -14,6 +14,8 @@ namespace App\Repository\Permission;
 
 use App\Model\Permission\Department;
 use App\Repository\IRepository;
+use Hyperf\Collection\Arr;
+use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Builder;
 
 /**
@@ -25,9 +27,17 @@ final class DepartmentRepository extends IRepository
         protected readonly Department $model
     ) {}
 
+    public function getByIds(array $ids): Collection
+    {
+        return $this->model->whereIn('id', $ids)->get();
+    }
+
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query
+            ->when(isset($params['id']), static function (Builder $query) use ($params) {
+                $query->whereIn('id', Arr::wrap($params['id']));
+            })
             ->when(isset($params['name']), static function (Builder $query) use ($params) {
                 $query->where('name', 'like', '%' . $params['name'] . '%');
             })

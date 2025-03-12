@@ -55,4 +55,4 @@ class PositionRequest extends FormRequest
             'dept_id' => '部门ID',
         ];
     }
-} 
+}

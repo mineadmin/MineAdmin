@@ -24,4 +24,4 @@ class PositionService extends IService
     public function __construct(
         protected readonly PositionRepository $repository
     ) {}
-} 
+}

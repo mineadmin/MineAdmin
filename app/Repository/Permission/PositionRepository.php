@@ -42,4 +42,4 @@ final class PositionRepository extends IRepository
             })
             ->with(['department']);
     }
-} 
+}

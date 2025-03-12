@@ -118,4 +118,4 @@ class PositionController extends AbstractController
         $this->service->deleteById($this->getRequestData());
         return $this->success();
     }
-} 
+}

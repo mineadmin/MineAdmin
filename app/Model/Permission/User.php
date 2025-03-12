@@ -164,26 +164,24 @@ final class User extends Model
         return $this->belongsToMany(Position::class, 'user_position', 'user_id', 'position_id');
     }
 
-    public function getPolicy(): Policy|null
+    public function getPolicy(): ?Policy
     {
         /**
-         * @var Policy|null $policy
+         * @var null|Policy $policy
          */
         $policy = $this->policy()->first();
-        if (!empty($policy)){
+        if (! empty($policy)) {
             return $policy;
         }
 
         $this->load('roles');
         $roleList = $this->roles;
-        foreach ($roleList as $role){
+        foreach ($roleList as $role) {
             $current = $role->policy()->first();
-            if (!empty($current)){
+            if (! empty($current)) {
                 return $current;
             }
         }
-
         return null;
-
     }
 }

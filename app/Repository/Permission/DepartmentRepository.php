@@ -51,7 +51,7 @@ final class DepartmentRepository extends IRepository
                 $query->whereBetween('updated_at', $params['updated_at']);
             })
             ->when(isset($params['level']), static function (Builder $query) use ($params) {
-                if ($params['level'] === 1) {
+                if ((int) $params['level'] === 1) {
                     $query->where('parent_id', 0);
                     $query->with('children');
                 }

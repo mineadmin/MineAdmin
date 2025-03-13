@@ -15,6 +15,7 @@ namespace App\Repository;
 use App\Repository\Traits\BootTrait;
 use App\Repository\Traits\RepositoryOrderByTrait;
 use Hyperf\Collection\Collection;
+use Hyperf\Contract\LengthAwarePaginatorInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\DbConnection\Traits\HasContainer;
@@ -42,9 +43,12 @@ abstract class IRepository
         return $items;
     }
 
-    public function handlePage(array $page): array
+    public function handlePage(LengthAwarePaginatorInterface $paginator): array
     {
-        return $page;
+        return [
+            'list' => $paginator->toArray(),
+            'total' => $paginator->total(),
+        ];
     }
 
     public function list(array $params = []): Collection
@@ -69,11 +73,8 @@ abstract class IRepository
         } else {
             $items = Collection::make($result->items());
         }
-        $items = $this->handleItems($items);
-        return $this->handlePage([
-            'list' => $items->toArray(),
-            'total' => $result->total(),
-        ]);
+        $result->setCollection($items);
+        return $this->handlePage($result);
     }
 
     /**

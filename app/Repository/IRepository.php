@@ -122,9 +122,9 @@ abstract class IRepository
         return $this->getQuery()->whereKey($id)->first();
     }
 
-    public function findByField(mixed $id, string $column): mixed
+    public function findByField(mixed $id, string $field): mixed
     {
-        return $this->getQuery()->whereKey($id)->value($column);
+        return $this->getQuery()->whereKey($id)->value($field);
     }
 
     /**

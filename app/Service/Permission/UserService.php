@@ -27,18 +27,13 @@ final class UserService extends IService
     public function __construct(
         protected readonly UserRepository $repository,
         protected readonly RoleRepository $roleRepository
-    ) {}
+    )
+    {
+    }
 
     public function getInfo(int $id): ?User
     {
         return $this->repository->findById($id);
-    }
-
-    public function getFieldByUserId(int $userId, string $field): mixed
-    {
-        return $this->repository->getQuery([
-            'id' => $userId,
-        ])->value($field);
     }
 
     public function resetPassword(?int $id): bool

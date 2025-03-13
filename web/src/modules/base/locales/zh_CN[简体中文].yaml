@@ -3,6 +3,7 @@ baseUserManage:
   username: 用户名
   nickname: 昵称
   phone: 手机
+  dept: 所属部门
   email: 邮箱
   password: 密码
   userType: 用户类型

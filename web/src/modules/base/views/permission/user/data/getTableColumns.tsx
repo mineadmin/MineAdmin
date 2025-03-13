@@ -86,13 +86,23 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
                 const response = await deleteByIds([row.id])
                 if (response.code === ResultCode.SUCCESS) {
                   msg.success(t('crud.delSuccess'))
-                  proxy.refresh()
+                  await proxy.refresh()
                 }
               })
             },
           },
           {
             name: 'setRole',
+            show: ({ row }) => showBtn(['permission:user:getRole', 'permission:user:setRole'], row),
+            icon: 'material-symbols:person-add-rounded',
+            text: () => t('baseUserManage.setRole'),
+            onClick: ({ row }) => {
+              dialog.setTitle(t('baseUserManage.setRole'))
+              dialog.open({ formType: 'setRole', data: row })
+            },
+          },
+          {
+            name: 'setDataScope',
             show: ({ row }) => showBtn(['permission:user:getRole', 'permission:user:setRole'], row),
             icon: 'material-symbols:person-add-rounded',
             text: () => t('baseUserManage.setRole'),

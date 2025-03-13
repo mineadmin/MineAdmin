@@ -19,7 +19,7 @@ export interface DepartmentSearchVo {
   [key: string]: any
 }
 
-export function page(data: DepartmentSearchVo): Promise<ResponseStruct<PageList<DepartmentVo>>> {
+export function page(data: DepartmentSearchVo | null = null): Promise<ResponseStruct<PageList<DepartmentVo>>> {
   return useHttp().get('/admin/department/list?level=1', { params: data })
 }
 

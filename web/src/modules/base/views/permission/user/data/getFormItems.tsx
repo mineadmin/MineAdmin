@@ -12,12 +12,14 @@ import type { UserVo } from '~/base/api/user.ts'
 import MaUploadImage from '@/components/ma-upload-image/index.vue'
 import MaDictRadio from '@/components/ma-dict-picker/ma-dict-radio.vue'
 
-export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo, deptData: Ref<any[]>): MaFormItem[] {
   if (formType === 'add') {
     model.password = '123456'
     model.status = 1
     model.user_type = 100
   }
+
+  const departmentList = deptData.value.filter((_, index) => index > 0)
 
   model.backend_setting = []
 
@@ -71,6 +73,20 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
       cols: { md: 12, xs: 24 },
       renderProps: {
         placeholder: t('form.pleaseInput', { msg: t('baseUserManage.phone') }),
+      },
+    },
+    {
+      label: () => t('baseUserManage.dept'),
+      prop: 'department_ids',
+      render: () => <el-tree-select />,
+      renderProps: {
+        data: departmentList,
+        filterable: true,
+        clearable: true,
+        props: { label: 'name' },
+        checkStrictly: true,
+        nodeKey: 'id',
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
       },
     },
     {

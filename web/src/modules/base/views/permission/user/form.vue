@@ -18,13 +18,14 @@ import { ResultCode } from '@/utils/ResultCode.ts'
 defineOptions({ name: 'permission:user:form' })
 
 const { formType = 'add', data = null } = defineProps<{
-  formType: 'add' | 'edit'
+  formType?: 'add' | 'edit'
   data?: UserVo | null
 }>()
 
 const t = useTrans().globalTrans
 const userForm = ref<MaFormExpose>()
 const userModel = ref<UserVo>({})
+const deptData = inject('deptData')
 
 useForm('userForm').then((form: MaFormExpose) => {
   if (formType === 'edit' && data) {
@@ -32,7 +33,7 @@ useForm('userForm').then((form: MaFormExpose) => {
       userModel.value[key] = data[key]
     })
   }
-  form.setItems(getFormItems(formType, t, userModel.value))
+  form.setItems(getFormItems(formType, t, userModel.value, deptData))
   form.setOptions({
     labelWidth: '80px',
   })

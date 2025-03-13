@@ -45,8 +45,13 @@ abstract class IRepository
 
     public function handlePage(LengthAwarePaginatorInterface $paginator): array
     {
+        if ($paginator instanceof AbstractPaginator) {
+            $items = $paginator->getCollection();
+        } else {
+            $items = Collection::make($paginator->items());
+        }
         return [
-            'list' => $paginator->toArray(),
+            'list' => $items->toArray(),
             'total' => $paginator->total(),
         ];
     }
@@ -68,13 +73,6 @@ abstract class IRepository
             pageName: static::PER_PAGE_PARAM_NAME,
             page: $page,
         );
-        if ($result instanceof AbstractPaginator) {
-            $items = $result->getCollection();
-        } else {
-            $items = Collection::make($result->items());
-        }
-        $items = $this->handleItems($items);
-        $result->setCollection($items);
         return $this->handlePage($result);
     }
 

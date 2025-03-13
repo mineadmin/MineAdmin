@@ -27,9 +27,7 @@ final class UserService extends IService
     public function __construct(
         protected readonly UserRepository $repository,
         protected readonly RoleRepository $roleRepository
-    )
-    {
-    }
+    ) {}
 
     public function getInfo(int $id): ?User
     {

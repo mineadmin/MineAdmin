@@ -49,17 +49,17 @@ abstract class IRepository
 
     public function list(array $params = []): Collection
     {
-        return $this->perQuery($this->getQuery($params), $params)->get();
+        return $this->perQuery($this->getQuery(), $params)->get();
     }
 
     public function count(array $params = []): int
     {
-        return $this->perQuery($this->getQuery($params), $params)->count();
+        return $this->perQuery($this->getQuery(), $params)->count();
     }
 
     public function page(array $params = [], ?int $page = null, ?int $pageSize = null): array
     {
-        $result = $this->perQuery($this->getQuery($params), $params)->paginate(
+        $result = $this->perQuery($this->getQuery(), $params)->paginate(
             perPage: $pageSize,
             pageName: static::PER_PAGE_PARAM_NAME,
             page: $page,
@@ -122,9 +122,9 @@ abstract class IRepository
         return $this->getQuery()->whereKey($id)->first();
     }
 
-    public function findByField(mixed $id, string $column): mixed
+    public function findByField(mixed $id, string $field): mixed
     {
-        return $this->getQuery()->whereKey($id)->value($column);
+        return $this->getQuery()->whereKey($id)->value($field);
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class IRepository
      */
     public function findByFilter(array $params): mixed
     {
-        return $this->perQuery($this->getQuery($params), $params)->first();
+        return $this->perQuery($this->getQuery(), $params)->first();
     }
 
     public function perQuery(Builder $query, array $params): Builder
@@ -141,7 +141,7 @@ abstract class IRepository
         return $this->handleSearch($query, $params);
     }
 
-    public function getQuery(array $params = []): Builder
+    public function getQuery(): Builder
     {
         return $this->model->newQuery();
     }

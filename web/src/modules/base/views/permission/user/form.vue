@@ -69,6 +69,7 @@ defineExpose({
 </script>
 
 <template>
+  {{ userModel }}
   <ma-form ref="userForm" v-model="userModel" />
 </template>
 

@@ -17,6 +17,7 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
     model.password = '123456'
     model.status = 1
     model.user_type = 100
+    model.policy = []
   }
 
   const departmentList = deptData.value.filter((_, index) => index > 0)
@@ -77,10 +78,26 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
     },
     {
       label: () => t('baseUserManage.dept'),
-      prop: 'department_ids',
+      prop: 'department.id',
       render: () => <el-tree-select />,
       renderProps: {
         data: departmentList,
+        multiple: true,
+        filterable: true,
+        clearable: true,
+        props: { label: 'name' },
+        checkStrictly: true,
+        nodeKey: 'id',
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
+      },
+    },
+    {
+      label: () => t('baseUserManage.post'),
+      prop: 'position.id',
+      render: () => <el-tree-select />,
+      renderProps: {
+        data: departmentList,
+        multiple: true,
         filterable: true,
         clearable: true,
         props: { label: 'name' },

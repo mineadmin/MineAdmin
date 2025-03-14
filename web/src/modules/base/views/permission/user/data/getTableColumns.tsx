@@ -103,12 +103,12 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           },
           {
             name: 'setDataScope',
-            show: ({ row }) => showBtn(['permission:user:getRole', 'permission:user:setRole'], row),
-            icon: 'material-symbols:person-add-rounded',
-            text: () => t('baseUserManage.setRole'),
+            show: ({ row }) => showBtn(['permission:user:update', 'permission:user:update'], row),
+            icon: 'mingcute:telescope-2-fill',
+            text: () => t('baseUserManage.setDataScope'),
             onClick: ({ row }) => {
-              dialog.setTitle(t('baseUserManage.setRole'))
-              dialog.open({ formType: 'setRole', data: row })
+              dialog.setTitle(t('baseUserManage.setDataScope'))
+              dialog.open({ formType: 'setDataScope', data: row })
             },
           },
           {

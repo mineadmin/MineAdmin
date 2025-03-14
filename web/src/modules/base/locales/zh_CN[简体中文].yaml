@@ -4,6 +4,7 @@ baseUserManage:
   nickname: 昵称
   phone: 手机
   dept: 所属部门
+  post: 部门岗位
   email: 邮箱
   password: 密码
   userType: 用户类型
@@ -12,6 +13,7 @@ baseUserManage:
   mainTitle: 用户管理
   subTitle: 提供用户添加、编辑、删除功能，超管不可修改。
   setRole: 赋予角色
+  setDataScope: 设置数据权限
   setRoleSuccess: 用户角色设置成功
   initPassword: 初始化密码
   setPassword: 是否将用户密码重置为[123456]?

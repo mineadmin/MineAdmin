@@ -87,7 +87,7 @@ abstract class IRepository
 
     public function updateById(mixed $id, array $data): bool
     {
-        return (bool)$this->getQuery()->whereKey($id)->first()?->update($data);
+        return (bool) $this->getQuery()->whereKey($id)->first()?->update($data);
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class IRepository
 
     public function forceDeleteById(mixed $id): bool
     {
-        return (bool)$this->getQuery()->whereKey($id)->forceDelete();
+        return (bool) $this->getQuery()->whereKey($id)->forceDelete();
     }
 
     /**
@@ -148,7 +148,7 @@ abstract class IRepository
 
     public function existsById(mixed $id): bool
     {
-        return (bool)$this->getQuery()->whereKey($id)->exists();
+        return (bool) $this->getQuery()->whereKey($id)->exists();
     }
 
     /**

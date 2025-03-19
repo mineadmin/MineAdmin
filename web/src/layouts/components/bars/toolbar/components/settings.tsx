@@ -27,6 +27,17 @@ export default defineComponent({
     const el = ref<HTMLElement | null>(null)
     const { t } = useI18n()
 
+    const toolbarList = computed(() => {
+      const toolbarSettings = settingStore.getSettings('toolBars') || []
+      return toolbarHook.toolbars.value.map((item: MineToolbar) => {
+        const savedItem = toolbarSettings.find((setting: MineToolbar) => setting.name === item.name)
+        return {
+          ...item,
+          show: savedItem ? savedItem.show : item.show, // 统一处理 show 值
+        }
+      })
+    })
+
     const divider = (title: string) => {
       return (
         <div class="relative my-5 h-6 flex items-center">
@@ -177,12 +188,18 @@ export default defineComponent({
     const toolbarRender = () => {
       return (
         <>
-          {toolbarHook.toolbars.value.map((item: MineToolbar) => {
+          {toolbarList.value.map((item: MineToolbar) => {
             return (
               <div class="mine-setting-description">
                 <div class="desc-label">{useTrans(item.title)}</div>
                 <div class="desc-value">
-                  <m-switch v-model={item.show} disabled={item.name === 'settings'} />
+                  <m-switch
+                    v-model={item.show}
+                    disabled={item.name === 'settings'}
+                    onUpdate:modelValue={(v: boolean) => {
+                      settingStore.setToolBar(item.name, v)
+                    }}
+                  />
                 </div>
               </div>
             )

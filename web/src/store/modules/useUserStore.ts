@@ -13,7 +13,7 @@ import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from '@/hooks/auto-imports/useHttp.ts'
 import * as PermissionApi from '~/base/api/permission.ts'
 import type { MenuVo, RoleVo } from '~/base/api/permission.ts'
-import {recursionGetKey} from "@/utils/recursionGetKey.ts";
+import { recursionGetKey } from '@/utils/recursionGetKey.ts';
 
 export interface LoginParams {
   username: string

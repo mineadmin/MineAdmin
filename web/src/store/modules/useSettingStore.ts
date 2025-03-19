@@ -83,6 +83,20 @@ const useSettingStore = defineStore(
       return defaultSetting.value.subAside.fixedAsideState = state
     }
 
+      function setToolBar(name: string, show: boolean) {
+          defaultSetting.value.toolBars = defaultSetting.value.toolBars || [] // 初始化为空数组
+
+          const existingToolBar = defaultSetting.value.toolBars.find(item => item.name === name)
+
+          if (existingToolBar) {
+              existingToolBar.show = show // 更新 show 值
+          } else {
+              defaultSetting.value.toolBars.push({ name, show }) // 添加新的工具栏项
+          }
+
+          console.log('defaultSetting.value.toolBars', defaultSetting.value.toolBars)
+      }
+
     function getMenuCollapseState() {
       return menuCollapseState.value
     }
@@ -229,6 +243,7 @@ const useSettingStore = defineStore(
       isBannerLayout,
       getFixedAsideState,
       setFixedAsideState,
+        setToolBar,
       getMenuCollapseState,
       setMenuCollapseState,
       toggleCollapseButton,

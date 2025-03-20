@@ -40,6 +40,7 @@ return [
         ],
     ],
     'password' => '密碼',
+    'disable' => '賬號已停用',
     'old_password_error' => '舊密碼錯誤',
     'old_password' => '舊密碼',
     'password_confirmation' => '確認密碼',

@@ -41,8 +41,8 @@ services:
   hyperf:
     image: hyperf/hyperf:8.1-alpine-v3.18-swoole
     volumes:
-      - ./:/www/MineAdmin
-    working_dir: /www/MineAdmin
+      - ./:/www
+    working_dir: /www
     ports:
       - "9501:9501"
       - "9503:9503"

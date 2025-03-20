@@ -35,6 +35,13 @@ final class PermissionMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $user = $this->currentUser->user();
+        if ($user->status->isDisable()) {
+            throw new BusinessException(code: ResultCode::FORBIDDEN, message: trans('user.disable'));
+        }
+        if ($user->isSuperAdmin()) {
+            return $handler->handle($request);
+        }
         $this->check($request->getAttribute(Dispatched::class));
         return $handler->handle($request);
     }
@@ -63,9 +70,6 @@ final class PermissionMiddleware implements MiddlewareInterface
 
     private function handlePermission(Permission $permission): void
     {
-        if ($this->currentUser->isSuperAdmin()) {
-            return;
-        }
         $operation = $permission->getOperation();
         $codes = $permission->getCode();
         foreach ($codes as $code) {

@@ -48,6 +48,15 @@ class DepartmentService extends IService
         });
     }
 
+    public function getPositionsByDepartmentId(int $id): array
+    {
+        $entity = $this->repository->findById($id);
+        if (empty($entity)) {
+            throw new BusinessException(ResultCode::NOT_FOUND);
+        }
+        return $entity->positions()->get(['id', 'name'])->toArray();
+    }
+
     protected function handleEntity(Department $entity, array $data): void
     {
         if (! empty($data['department_users'])) {

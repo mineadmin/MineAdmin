@@ -126,11 +126,6 @@ class DepartmentController extends AbstractController
     #[ResultResponse(instance: new Result())]
     public function getPositionsByDepartmentId(int $id): Result
     {
-        if (! $this->currentUser->isSuperAdmin()) {
-            throw new BusinessException(
-                code: ResultCode::FORBIDDEN
-            );
-        }
         return $this->success(
             $this->service->getPositionsByDepartmentId($id)
         );

@@ -117,17 +117,4 @@ class DepartmentController extends AbstractController
         return $this->success();
     }
 
-    #[Get(
-        path: '/admin/department/{id}/positions',
-        operationId: 'departmentPositions',
-        summary: '获取部门下的职位列表',
-    )]
-    #[Permission(code: 'permission:department:positions')]
-    #[ResultResponse(instance: new Result())]
-    public function getPositionsByDepartmentId(int $id): Result
-    {
-        return $this->success(
-            $this->service->getPositionsByDepartmentId($id)
-        );
-    }
 }

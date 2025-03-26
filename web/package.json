@@ -22,7 +22,7 @@
     "@mineadmin/echarts": "^1.0.5",
     "@mineadmin/form": "^1.0.25",
     "@mineadmin/pro-table": "^1.0.61",
-    "@mineadmin/search": "^1.0.29",
+    "@mineadmin/search": "^1.0.31",
     "@mineadmin/table": "^1.0.33",
     "@vueuse/core": "^12.7.0",
     "@vueuse/integrations": "^12.7.0",

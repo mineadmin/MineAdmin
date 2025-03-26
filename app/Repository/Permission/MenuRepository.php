@@ -32,7 +32,7 @@ final class MenuRepository extends IRepository
 
     public function list(array $params = []): \Hyperf\Collection\Collection
     {
-        return $this->perQuery($this->getQuery($params), $params)->orderBy('sort')->get();
+        return $this->perQuery($this->getQuery(), $params)->orderBy('sort')->get();
     }
 
     public function handleSearch(Builder $query, array $params): Builder

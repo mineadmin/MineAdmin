@@ -12,6 +12,7 @@ import type { MineToolbar } from '#/global'
 import MaSvgIcon from '@/components/ma-svg-icon/index.vue'
 
 export default function toolbars() {
+  const settingStore = useSettingStore()
   const toolbars = ref<MineToolbar[]>([])
   const state = ref(true)
   const defaultToolbars = ref<MineToolbar[]>([
@@ -62,7 +63,14 @@ export default function toolbars() {
   toolbars.value = defaultToolbars.value
 
   const getShowToolbar = () => {
-    return toolbars.value.filter(item => item.show)
+    const toolbarSettings = settingStore.getSettings('toolBars') || []
+    return toolbars.value.map((item) => {
+      const savedItem = toolbarSettings.find((setting: MineToolbar) => setting.name === item.name)
+      return {
+        ...item,
+        show: savedItem ? savedItem.show : item.show,
+      }
+    }).filter(item => item.show)
   }
 
   const render = () => {

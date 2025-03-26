@@ -31,8 +31,6 @@ return [
         ],
     ],
     'settings' => [
-        // 对外部可以直接访问的目录地址，建议使用nginx反向代理访问
-        Constant::OPTION_DOCUMENT_ROOT => BASE_PATH . '/storage',
         // 开启外部可以访问
         Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         Constant::OPTION_ENABLE_COROUTINE => true,
@@ -43,11 +41,8 @@ return [
         Constant::OPTION_OPEN_HTTP2_PROTOCOL => true,
         Constant::OPTION_MAX_REQUEST => 100000,
         Constant::OPTION_UPLOAD_MAX_FILESIZE => 10 * 1024 * 1024,
-        Constant::OPTION_HTTP_AUTOINDEX => true,
         Constant::OPTION_HTTP_INDEX_FILES => ['index.html'],
         Constant::OPTION_SOCKET_BUFFER_SIZE => 3 * 1024 * 1024,
-        // 关闭buffer输出大小限制
-        // Constant::OPTION_BUFFER_OUTPUT_SIZE     => 3 * 1024 * 1024,
         // 上传最大为4M
         Constant::OPTION_PACKAGE_MAX_LENGTH => 4 * 1024 * 1024,
     ],

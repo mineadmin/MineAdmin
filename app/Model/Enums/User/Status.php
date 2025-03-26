@@ -26,4 +26,14 @@ enum Status: int
 
     #[Message('user.enums.status.2')]
     case DISABLE = 2;
+
+    public function isNormal(): bool
+    {
+        return $this === self::Normal;
+    }
+
+    public function isDisable(): bool
+    {
+        return $this === self::DISABLE;
+    }
 }

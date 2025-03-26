@@ -37,13 +37,6 @@ final class UserService extends IService
         return $this->repository->findById($id);
     }
 
-    public function getFieldByUserId(int $userId, string $field): mixed
-    {
-        return $this->repository->getQuery([
-            'id' => $userId,
-        ])->value($field);
-    }
-
     public function resetPassword(?int $id): bool
     {
         if ($id === null) {

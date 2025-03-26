@@ -39,6 +39,7 @@ return [
             2 => 'Deactivated',
         ],
     ],
+    'disable' => 'Account deactivated',
     'old_password_error' => 'Old password error',
     'old_password ' => ' Old password ',
     'password_confirmation ' => ' Confirm password ',

@@ -118,7 +118,7 @@ declare namespace Plugin {
 }
 
 declare namespace SystemSettings {
-  type settingType = 'app' | 'welcomePage' | 'mainAside' | 'subAside' | 'tabbar' | 'copyright'
+  type settingType = 'app' | 'welcomePage' | 'mainAside' | 'subAside' | 'tabbar' | 'toolBars' | 'copyright'
   // 应用属性
   interface app {
     /**
@@ -249,7 +249,19 @@ declare namespace SystemSettings {
      */
     mode: 'rectangle' | 'card'
   }
-
+  // 工具栏
+  interface toolBars {
+    /**
+     * 工具栏名称
+     * @默认值
+     */
+    name?: string
+    /**
+     * 是否显示工具栏
+     * @默认值 `true`
+     */
+    show?: boolean
+  }
   // 版权信息属性
   interface copyright {
     /**
@@ -290,6 +302,8 @@ declare namespace SystemSettings {
     subAside: subAside
     /** 标签页设置 */
     tabbar: tabbar
+    /** 工具栏设置 */
+    toolBars: toolBars[]
     /** 底部版权设置 */
     copyright: copyright
   }

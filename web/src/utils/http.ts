@@ -60,12 +60,38 @@ http.interceptors.response.use(
     const userStore = useUserStore()
     await usePluginStore().callHooks('networkResponse', response)
     const config = response.config
-    if ((response.request.responseType === 'blob'
-      || response.request.responseType === 'arraybuffer')
-      && !/^application\/json/.test(response.headers['content-type'])
-      && response.status === ResultCode.SUCCESS
-    ) {
-      return Promise.resolve(response.data)
+
+    if (response.request.responseType === 'blob' || response.request.responseType === 'arraybuffer') {
+      // 处理 JSON 格式的错误响应
+      if (response.data instanceof Blob && response.data.type === 'application/json') {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => {
+            const result = JSON.parse(reader.result as string)
+            if (result.code !== ResultCode.SUCCESS) {
+              Message.error(result.message || '下载失败', { zIndex: 9999 })
+              reject(result)
+            }
+          }
+          reader.readAsText(response.data)
+        })
+      }
+
+      // 正常的文件下载响应
+      const disposition = response.headers['content-disposition']
+      let fileName = '未命名文件'
+      if (disposition) {
+        const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)
+        if (match && match[1]) {
+          fileName = decodeURIComponent(match[1].replace(/['"]/g, ''))
+        }
+      }
+
+      return Promise.resolve({
+        data: response.data,
+        fileName,
+        headers: response.headers,
+      })
     }
 
     if (response?.data?.code === ResultCode.SUCCESS) {

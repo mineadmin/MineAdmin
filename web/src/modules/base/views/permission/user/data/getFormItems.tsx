@@ -89,12 +89,16 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
         checkStrictly: true,
         nodeKey: 'id',
         placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
+        onChange: (value: any) => {
+          console.log(value)
+        },
       },
     },
     {
       label: () => t('baseUserManage.post'),
       prop: 'position.id',
       render: () => <el-tree-select />,
+      cols: { md: 12, xs: 24 },
       renderProps: {
         data: departmentList,
         multiple: true,
@@ -104,6 +108,18 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
         checkStrictly: true,
         nodeKey: 'id',
         placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
+      },
+    },
+    {
+      label: () => t('baseUserManage.dataScope'),
+      render: () => <el-button />,
+      cols: { md: 12, xs: 24 },
+      renderProps: {
+        type: 'primary',
+        plain: true,
+      },
+      renderSlots: {
+        default: () => t('baseUserManage.setDataScope'),
       },
     },
     {

@@ -10,7 +10,9 @@ baseUserManage:
   signed: Signed
   mainTitle: User Rule
   subTitle: Provide users with the functions of adding, editing, and deleting
+  dataScope: Data Scope
   setRole: Set role
+  setDataScope: Set data scope
   setRoleSuccess: The role was set successfully
   initPassword: Init password
   setPassword: Whether to reset the password to 123456?

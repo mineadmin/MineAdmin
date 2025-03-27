@@ -25,6 +25,9 @@ export interface UserVo {
   backend_setting?: Record<string, any>
   remark?: string
   password?: string
+  policy?: any[]
+  department?: any[]
+  position?: any[]
 }
 
 export interface UserSearchVo {

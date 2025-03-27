@@ -12,6 +12,7 @@ baseUserManage:
   signed: 个人签名
   mainTitle: 用户管理
   subTitle: 提供用户添加、编辑、删除功能，超管不可修改。
+  dataScope: 数据权限
   setRole: 赋予角色
   setDataScope: 设置数据权限
   setRoleSuccess: 用户角色设置成功

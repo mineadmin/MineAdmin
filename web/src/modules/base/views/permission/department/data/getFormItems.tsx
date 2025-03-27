@@ -9,12 +9,17 @@
  */
 import type { MaFormItem } from '@mineadmin/form'
 
-export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: any): MaFormItem[] {
   const treeSelectRef = ref()
-  const deptList = ref([])
+  const deptList = ref<any[]>([])
+
+  if (formType === 'add') {
+    model.parent_id = 0
+  }
 
   useHttp().get('/admin/department/list?level=1').then((res: any) => {
     deptList.value = res.data.list
+    deptList.value.unshift({ id: 0, name: '顶级部门', value: 0 } as any)
   })
 
   return [

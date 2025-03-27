@@ -63,8 +63,9 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             show: () => showBtn('permission:department:update'),
             text: () => t('baseDepartment.page.managePost'),
             onClick: ({ row }) => {
+              dialog.setAttr({ width: '55%' })
               dialog.setTitle(t('baseDepartment.page.managePost'))
-              dialog.open({ formType: 'managePost', data: row })
+              dialog.open({ formType: 'position', data: row })
             },
           },
           {

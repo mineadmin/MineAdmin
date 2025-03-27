@@ -21,17 +21,21 @@ import { useMessage } from '@/hooks/useMessage.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 
 import DepartmentForm from './form.vue'
-// import SetLeader from './setLeader.vue'
+import Position from './position.vue'
 
 defineOptions({ name: 'permission:department' })
 
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
 const formRef = ref()
-const setFormRef = ref()
+const setLeaderRef = ref()
+const positionRef = ref()
 const selections = ref<any[]>([])
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
 const msg = useMessage()
+const states = ref<Record<string, boolean>>({
+  isExpand: false,
+})
 
 // 弹窗配置
 const maDialog: UseDialogExpose = useDialog({
@@ -66,6 +70,9 @@ const maDialog: UseDialogExpose = useDialog({
             break
         }
       }).catch()
+    }
+    else if (formType === 'position') {
+      maDialog.close()
     }
     else {
       const elForm = setFormRef.value.maForm.getElFormRef()
@@ -136,6 +143,14 @@ function handleDelete() {
     }
   })
 }
+
+function expandToggle() {
+  states.value.isExpand = !states.value.isExpand
+  const tableStates = proTableRef.value?.getElTableStates?.()
+  Object.keys(tableStates.treeData.value).map((key: string) => {
+    tableStates.treeData.value[key]!.expanded = states.value.isExpand
+  })
+}
 </script>
 
 <template>
@@ -165,8 +180,8 @@ function handleDelete() {
           {{ t('crud.delete') }}
         </el-button>
         <div>
-          <el-button>
-            展开
+          <el-button @click="expandToggle">
+            {{ t('crud.searchUnFold') }}
           </el-button>
         </div>
       </template>
@@ -190,9 +205,11 @@ function handleDelete() {
     <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">
         <!-- 新增、编辑表单 -->
-        <DepartmentForm v-if="formType !== 'setLeader'" ref="formRef" :form-type="formType" :data="data" />
-        <!-- 赋予菜单表单 -->
-        <!--        <SetLeader v-else ref="setFormRef" :data="data" /> -->
+        <DepartmentForm v-if="formType.includes('add', 'edit')" ref="formRef" :form-type="formType" :data="data" />
+        <!-- 设置部门领导 -->
+        <!--        <SetLeader v-if="formType === 'setLeader'" ref="setLeaderRef" :data="data" /> -->
+        <!-- 管理部门岗位 -->
+        <Position v-if="formType === 'position'" ref="positionRef" :data="data" />
       </template>
     </component>
   </div>

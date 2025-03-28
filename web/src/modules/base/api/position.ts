@@ -11,6 +11,8 @@ import type { PageList, ResponseStruct } from '#/global'
 
 export interface PositionVo {
   id?: number
+  dept_id?: number
+  dept_name?: string
   name?: string
 }
 

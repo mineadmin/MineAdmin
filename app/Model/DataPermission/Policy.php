@@ -13,7 +13,11 @@ declare(strict_types=1);
 namespace App\Model\DataPermission;
 
 use App\Model\Enums\DataPermission\PolicyType;
+use App\Model\Permission\Position;
+use App\Model\Permission\User;
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
+use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 
@@ -27,6 +31,8 @@ use Hyperf\DbConnection\Model\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
+ * @property Position[]|Collection<int,Position> $positions
+ * @property User[]|Collection<int,User> $users
  */
 class Policy extends Model
 {
@@ -51,4 +57,15 @@ class Policy extends Model
         'updated_at' => 'datetime', 'deleted_at' => 'datetime',
         'policy_type' => PolicyType::class, 'value' => 'array',
     ];
+
+    public function positions(): BelongsToMany
+    {
+        return $this->belongsToMany(Position::class, 'data_permission_policy_position', 'policy_id', 'position_id');
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'data_permission_policy_user', 'policy_id', 'user_id');
+    }
+
 }

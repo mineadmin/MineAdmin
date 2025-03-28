@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
-use App\Model\DataPermission\Policy;
 use App\Model\Enums\User\Status;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Events\Deleting;
-use Hyperf\Database\Model\Relations\BelongsTo;
 use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\DbConnection\Model\Model as MineModel;
 
@@ -35,7 +33,6 @@ use Hyperf\DbConnection\Model\Model as MineModel;
  * @property string $remark 备注
  * @property Collection|Menu[] $menus
  * @property Collection|User[] $users
- * @property null|Policy $policy 数据权限策略
  */
 final class Role extends MineModel
 {
@@ -92,11 +89,6 @@ final class Role extends MineModel
     {
         $this->users()->detach();
         $this->menus()->detach();
-        $this->policy()->delete();
     }
 
-    public function policy(): BelongsTo
-    {
-        return $this->belongsTo(Policy::class, 'policy_id', 'id');
-    }
 }

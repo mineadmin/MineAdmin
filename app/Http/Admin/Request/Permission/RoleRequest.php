@@ -42,24 +42,7 @@ class RoleRequest extends FormRequest
             ],
             'status' => 'sometimes|integer|in:1,2',
             'sort' => 'required|integer',
-            'remark' => 'nullable|string|max:255',
-            'policy' => 'nullable|array',
-            'policy.*.policy_type' => [
-                'required_with:policy',
-                'string',
-                'max:10',
-                Rule::enum(PolicyType::class),
-            ],
-            'policy.*.value' => [
-                'sometimes',
-                'array',
-                'min:1',
-            ],
-            'policy.*.is_default' => [
-                'sometimes',
-                'integer',
-                'in:0,1',
-            ],
+            'remark' => 'nullable|string|max:255'
         ];
         if ($this->isCreate()) {
             $rules['code'][] = 'unique:role,code';

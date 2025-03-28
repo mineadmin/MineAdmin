@@ -14,6 +14,7 @@ namespace App\Http\Admin\Controller\Permission;
 
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\Middleware\PermissionMiddleware;
+use App\Http\Admin\Request\Permission\BatchGrantDataPermissionForPositionRequest;
 use App\Http\Admin\Request\Permission\PositionRequest;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
@@ -62,6 +63,21 @@ class PositionController extends AbstractController
                 $this->getPageSize()
             )
         );
+    }
+
+    #[Put(
+        path: '/admin/position/{id}/data_permission',
+        operationId: 'positionDataPermission',
+        summary: '设置岗位数据权限',
+        security: [['Bearer' => [], 'ApiKey' => []]],
+        tags: ['岗位管理'],
+    )]
+    #[Permission(code: 'permission:position:data_permission')]
+    #[ResultResponse(instance: new Result())]
+    public function batchDataPermission(int $id,BatchGrantDataPermissionForPositionRequest $request): Result
+    {
+        $this->service->batchDataPermission($id, $request->validated());
+        return $this->success();
     }
 
     #[Post(

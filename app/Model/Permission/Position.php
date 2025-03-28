@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Model\DataPermission\Policy;
 use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsTo;
@@ -28,6 +29,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property Carbon $deleted_at
  * @property null|Department $department
  * @property Collection<int,User>|User[] $users
+ * @property Policy $policy
  */
 class Position extends Model
 {
@@ -56,5 +58,10 @@ class Position extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_position', 'position_id', 'user_id');
+    }
+
+    public function policy(): BelongsTo
+    {
+        return $this->belongsTo(Policy::class, 'id', 'id');
     }
 }

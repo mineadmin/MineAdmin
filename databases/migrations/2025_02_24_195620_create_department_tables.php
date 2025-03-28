@@ -58,7 +58,7 @@ return new class extends Migration
             $table->comment('数据权限策略');
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->default(0)->comment('用户ID（与角色二选一）');
-            $table->bigInteger('role_id')->default(0)->comment('角色ID（与用户二选一）');
+            $table->bigInteger('position_id')->default(0)->comment('岗位ID（与用户二选一）');
             $table->string('policy_type', 20)->comment('策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）');
             $table->boolean('is_default')->default(true)->comment('是否默认策略（默认值：true）');
             $table->json('value')->nullable()->comment('策略值');

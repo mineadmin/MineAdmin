@@ -56,34 +56,4 @@ final class RoleService extends IService
                     ->toArray()
             );
     }
-
-    public function create(array $data): mixed
-    {
-        return Db::transaction(function () use ($data) {
-            /**
-             * @var Role $entity
-             */
-            $entity = parent::create($data);
-            if (isset($data['policy'])) {
-                $entity->policy()->create($data['policy']);
-            }
-        });
-    }
-
-    public function updateById(mixed $id, array $data): mixed
-    {
-        return Db::transaction(function () use ($id, $data) {
-            /**
-             * @var Role $entity
-             */
-            $entity = $this->repository->findById($id);
-            if (empty($entity)) {
-                throw new BusinessException(code: ResultCode::NOT_FOUND);
-            }
-            $entity->update($data);
-            if (isset($data['policy'])) {
-                $entity->policy()->update($data['policy']);
-            }
-        });
-    }
 }

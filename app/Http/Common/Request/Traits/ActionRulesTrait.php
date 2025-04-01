@@ -1,6 +1,14 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
 
 namespace App\Http\Common\Request\Traits;
 
@@ -9,7 +17,7 @@ use Hyperf\HttpServer\Router\Dispatched;
 trait ActionRulesTrait
 {
     /**
-     * 获取验证规则
+     * 获取验证规则.
      */
     public function rules(): array
     {
@@ -20,7 +28,7 @@ trait ActionRulesTrait
     }
 
     /**
-     * 获取自定义消息
+     * 获取自定义消息.
      */
     public function messages(): array
     {
@@ -31,7 +39,7 @@ trait ActionRulesTrait
     }
 
     /**
-     * 获取自定义属性
+     * 获取自定义属性.
      */
     public function attributes(): array
     {
@@ -43,11 +51,11 @@ trait ActionRulesTrait
     }
 
     /**
-     * 动态调用指定前缀的方法
+     * 动态调用指定前缀的方法.
      */
     protected function callNextFunction(?string $prefix, string $function): array
     {
-        if (is_null($prefix)) {
+        if ($prefix === null) {
             return [];
         }
         $callName = $prefix . ucfirst($function);
@@ -55,7 +63,7 @@ trait ActionRulesTrait
     }
 
     /**
-     * 获取当前控制器方法名
+     * 获取当前控制器方法名.
      */
     protected function getAction(): ?string
     {
@@ -64,10 +72,10 @@ trait ActionRulesTrait
          */
         $dispatch = $this->getAttribute(Dispatched::class);
         $callback = $dispatch?->handler?->callback;
-        if (is_array($callback) && count($callback) === 2) {
+        if (\is_array($callback) && \count($callback) === 2) {
             return $callback[1];
         }
-        if (is_string($callback)) {
+        if (\is_string($callback)) {
             if (str_contains($callback, '@')) {
                 return explode('@', $callback)[1] ?? null;
             }

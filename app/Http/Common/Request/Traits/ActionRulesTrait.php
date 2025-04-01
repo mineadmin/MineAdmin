@@ -77,4 +77,4 @@ trait ActionRulesTrait
         }
         return null;
     }
-} 
+}

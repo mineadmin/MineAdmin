@@ -62,6 +62,7 @@ class UserRequest extends FormRequest
             'status' => 'sometimes|integer',
             'backend_setting' => 'sometimes|array|max:255',
             'remark' => 'sometimes|string|max:255',
+            'password' => 'sometimes|string|min:6|max:20',
         ];
     }
 
@@ -79,6 +80,7 @@ class UserRequest extends FormRequest
             'backend_setting' => trans('user.backend_setting'),
             'created_by' => trans('user.created_by'),
             'remark' => trans('user.remark'),
+            'password' => trans('user.password'),
         ];
     }
 }

@@ -14,6 +14,9 @@ namespace App\Http\Common\Request\Traits;
 
 use Hyperf\HttpServer\Router\Dispatched;
 
+/**
+ * @phpstan-ignore-next-line
+ */
 trait ActionRulesTrait
 {
     /**

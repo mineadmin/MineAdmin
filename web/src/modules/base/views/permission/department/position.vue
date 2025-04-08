@@ -34,6 +34,7 @@ const positionForm = ref<MaFormExpose>()
 const postModel = ref<PositionVo>({
   dept_id: data?.id,
   dept_name: data?.name,
+  policy: {},
 })
 
 const msg = useMessage()
@@ -219,7 +220,7 @@ onMounted(() => {
           },
         ]"
       />
-      <DataScope />
+      <DataScope v-model="postModel.policy" />
     </template>
   </component>
 </template>

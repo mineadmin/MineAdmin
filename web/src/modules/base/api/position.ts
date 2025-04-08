@@ -14,6 +14,7 @@ export interface PositionVo {
   dept_id?: number
   dept_name?: string
   name?: string
+  policy?: string
 }
 
 export interface PositionSearchVo {

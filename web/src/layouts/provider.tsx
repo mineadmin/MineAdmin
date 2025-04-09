@@ -28,7 +28,7 @@ export default defineComponent({
     const attrsMerged: any = ref(merge({ locale: locales[userStore.getLanguage()], button: { autoInsertSpace: true } }, attrs))
     watch(() => userStore.getLanguage(), (lang: string) => {
       attrsMerged.value.locale = locales[lang]
-    })
+    }, { immediate: true })
 
     onMounted(async () => await usePluginStore().callHooks('setup'))
     return () => (

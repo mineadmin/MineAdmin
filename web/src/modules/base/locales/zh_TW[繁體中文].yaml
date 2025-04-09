@@ -119,11 +119,22 @@ baseMenu:
     departmentCreate: 新增部門
     departmentSave: 編輯部門
     departmentDelete: 刪除部門
-    positionList: 岗位列表
-    positionCreate: 新增岗位
-    positionSave: 編輯岗位
-    positionDelete: 刪除岗位
-    positionDataScope: 設置岗位數據權限
+    positionList: 職位列表
+    positionCreate: 新增職位
+    positionSave: 編輯職位
+    positionDelete: 刪除職位
+    positionDataScope: 設置職位數據權限
+basePost:
+  name: 職位名稱
+  belongPost: 所屬職位
+  belongDept: 所屬部門
+  created_at: 創建時間
+  updated_at: 更新時間
+  dataScope: 數據權限
+  selectDept: 自選部門
+  callFunc: 調用函數名
+  placeholder:
+    name: 請輸入職位名稱
   log:
     index: 日志管理
     userLoginLog: 登錄日志

@@ -147,17 +147,12 @@ baseDepartment:
 basePost:
   name: 岗位名称
   belongPost: 所属岗位
+  belongDept: 所属部门
   created_at: 创建时间
   updated_at: 更新时间
   dataScope: 数据权限
   selectDept: 自选部门
   callFunc: 调用函数名
-  page:
-    mainTitle: 部门管理
-    subTitle: 提供公司、机构的人员部门管理、以及部门负责人。
-    setLeader: 设置负责人
-    manageUser: 管理用户
-    managePost: 管理岗位
   placeholder:
     name: 请输入岗位名称
 baseMenu:

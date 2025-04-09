@@ -114,7 +114,7 @@ baseMenu:
     menuSave: Menu save
     menuUpdate: Menu updated
     menuDelete: Menu delete
-    department: Department Management
+    department: Department
     departmentList: Department list
     departmentCreate: Add department
     departmentSave: Edit department
@@ -124,6 +124,17 @@ baseMenu:
     positionSave: Edit post
     positionDelete: Delete post
     positionDataScope: Set post data scope
+basePost:
+  name: Post Name
+  belongPost: Belongs to Position
+  belongDept: Belongs to Department
+  created_at: Creation Time
+  updated_at: Update Time
+  dataScope: Data Permissions
+  selectDept: Selected Departments
+  callFunc: Function Call Name
+  placeholder:
+    name: Please enter position name
   log:
     index: Log Management
     userLoginLog: Login Log

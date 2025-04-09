@@ -130,7 +130,7 @@ const options = ref<MaProTableOptions>({
 // 架构配置
 const schema = ref<MaProTableSchema>({
   // 搜索项
-  searchItems: [{ label: '岗位名称', prop: 'name', render: 'input' }],
+  searchItems: [{ label: () => t('basePost.name'), prop: 'name', render: 'input' }],
   // 表格列
   tableColumns: [
     // 多选列
@@ -151,7 +151,7 @@ const schema = ref<MaProTableSchema>({
         return h(
           ElTag,
           { type: dictStore.t('data-scope', row.policy.policy_type, 'color') },
-          dictStore.t('data-scope', row.policy.policy_type),
+          t(dictStore.t('data-scope', row.policy.policy_type, 'i18n')),
         )
       },
     },
@@ -247,20 +247,20 @@ onMounted(() => {
         v-if="['add', 'edit'].includes(formType)"
         ref="positionForm"
         v-model="postModel"
-        :options="{ labelWidth: 90 }"
+        :options="{ labelWidth: 95 }"
         :items="[
           {
-            label: '所属部门',
+            label: () => '所属部门',
             prop: 'dept_name',
             render: 'input',
             renderProps: { disabled: true },
           },
           {
-            label: '岗位名称',
+            label: () => t('basePost.name'),
             prop: 'name',
             render: 'input',
-            renderProps: { placeholder: '请输入岗位名称' },
-            itemProps: { rules: [{ required: true, message: '岗位名称必填' }] },
+            renderProps: { placeholder: t('form.pleaseInput', { msg: t('basePost.name') }) },
+            itemProps: { rules: [{ required: true, message: t('form.requiredInput', { msg: t('basePost.placeholder.name') }) }] },
           },
         ]"
       />

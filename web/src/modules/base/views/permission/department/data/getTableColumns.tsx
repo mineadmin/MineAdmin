@@ -27,6 +27,9 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     // 普通列
     { label: () => t('baseDepartment.name'), prop: 'name', align: 'left' },
+    { label: () => t('baseDepartment.leaderCount'), prop: 'leader', cellRender: ({ row }) => row.leader?.length ?? 0 },
+    { label: () => t('baseDepartment.positionsCount'), prop: 'positions', cellRender: ({ row }) => row.positions?.length ?? 0 },
+    { label: () => t('baseDepartment.usersCount'), prop: 'users', cellRender: ({ row }) => row.users?.length ?? 0 },
     { label: () => t('baseDepartment.created_at'), prop: 'created_at', width: 200 },
     { label: () => t('baseDepartment.updated_at'), prop: 'updated_at', width: 200 },
 
@@ -60,7 +63,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
           {
             name: 'managePost',
             icon: 'material-symbols:position-bottom-right-outline-rounded',
-            show: () => showBtn('permission:department:update'),
+            show: () => showBtn('permission:position:index'),
             text: () => t('baseDepartment.page.managePost'),
             onClick: ({ row }) => {
               dialog.setAttr({ width: '55%' })

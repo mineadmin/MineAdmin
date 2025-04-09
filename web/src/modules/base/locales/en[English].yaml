@@ -114,6 +114,16 @@ baseMenu:
     menuSave: Menu save
     menuUpdate: Menu updated
     menuDelete: Menu delete
+    department: Department Management
+    departmentList: Department list
+    departmentCreate: Add department
+    departmentSave: Edit department
+    departmentDelete: Delete department
+    positionList: Post list
+    positionCreate: Add post
+    positionSave: Edit post
+    positionDelete: Delete post
+    positionDataScope: Set post data scope
   log:
     index: Log Management
     userLoginLog: Login Log

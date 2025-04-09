@@ -37,7 +37,6 @@ final class RoleRepository extends IRepository
             })
             ->when(Arr::get($params, 'created_at'), static function (Builder $query, $createdAt) {
                 $query->whereBetween('created_at', $createdAt);
-            })
-            ->with(['policy']);
+            });
     }
 }

@@ -6,10 +6,7 @@ import MaTree from '@/components/ma-tree/index.vue'
 
 defineOptions({ name: 'DataScope' })
 
-interface DataScopeVo {
-  policy_type: string
-  deptIds: number[]
-}
+const { label = '名称' } = defineProps<{ label?: string }>()
 
 const model = defineModel()
 const deptRef = ref()
@@ -18,51 +15,53 @@ const depts = ref<any[]>([])
 
 deptList().then((res) => {
   depts.value = res.data?.list
-  console.log(depts.value)
 })
 
 const items = ref<MaFormItem[]>([
   {
-    label: '数据权限',
-    prop: 'policy_type',
-    render: () => MaDictSelect,
+    label: () => label,
+    prop: 'name',
+    render: 'input',
     renderProps: {
-      placeholder: '请选择数据权限',
-      data: [
-        { label: '全部数据权限', value: 'ALL' },
-        { label: '本部门数据权限', value: 'DEPT_SELF' },
-        { label: '本部门及所有子部门数据权限', value: 'DEPT_TREE' },
-        { label: '本人数据权限', value: 'SELF' },
-        { label: '自选部门数据权限', value: 'CUSTOM_DEPT' },
-        { label: '自定义函数数据权限', value: 'CUSTOM_FUNC' },
-      ],
+      disabled: true,
     },
   },
   {
-    label: '自选部门',
-    prop: 'deptIds',
+    label: () => t('basePost.dataScope'),
+    prop: 'policy_type',
+    render: () => MaDictSelect,
+    renderProps: {
+      placeholder: t('form.pleaseSelect', { msg: t('basePost.dataScope') }),
+      dictName: 'data-scope',
+    },
+  },
+  {
+    label: () => t('basePost.selectDept'),
+    prop: 'value',
     show: (item, model) => model.policy_type === 'CUSTOM_DEPT',
     render: () => MaTree,
     renderProps: {
       ref: (el: any) => deptRef.value = el,
       class: 'w-full',
       showCheckbox: true,
-      treeKey: 'name',
-      placeholder: t('form.pleaseSelect', { msg: t('baseRoleManage.permission') }),
-      nodeKey: 'name',
+      props: { label: 'name' },
+      placeholder: t('form.pleaseSelect', { msg: t('basePost.selectDept') }),
+      nodeKey: 'id',
       data: depts,
     },
   },
   {
-    label: '调用函数名',
-    prop: 'value',
+    label: () => t('basePost.callFunc'),
+    prop: 'func_name',
     show: (item, model) => model.policy_type === 'CUSTOM_FUNC',
     render: 'input',
     renderProps: {
-      placeholder: '请输入调用函数名',
+      placeholder: t('form.pleaseInput', { msg: t('basePost.callFunc') }),
     },
   },
 ])
+
+defineExpose({ deptRef })
 </script>
 
 <template>

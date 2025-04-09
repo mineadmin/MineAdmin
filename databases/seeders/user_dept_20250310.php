@@ -45,12 +45,22 @@ class UserDept20250310 extends Seeder
             'permission:department:save'   =>  '部门新增',
             'permission:department:update' =>  '部门编辑',
             'permission:department:delete' =>  '部门删除',
+            'permission:position:index'  => '岗位列表',
+            'permission:position:save'   =>  '岗位新增',
+            'permission:position:update' =>  '岗位编辑',
+            'permission:position:delete' =>  '岗位删除',
+            'permission:position:data_permission' =>  '设置岗位数据权限',
         ];
         $i18n = [
             'baseMenu.permission.departmentList',
             'baseMenu.permission.departmentCreate',
             'baseMenu.permission.departmentSave',
             'baseMenu.permission.departmentDelete',
+            'baseMenu.permission.positionList',
+            'baseMenu.permission.positionCreate',
+            'baseMenu.permission.positionSave',
+            'baseMenu.permission.positionDelete',
+            'baseMenu.permission.positionDataScope',
         ];
         $i = 0;
         foreach ($children as $child => $title) {

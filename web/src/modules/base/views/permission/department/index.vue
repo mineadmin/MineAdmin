@@ -205,7 +205,7 @@ function expandToggle() {
     <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">
         <!-- 新增、编辑表单 -->
-        <DepartmentForm v-if="formType.includes('add', 'edit')" ref="formRef" :form-type="formType" :data="data" />
+        <DepartmentForm v-if="['add', 'edit'].includes(formType)" ref="formRef" :form-type="formType" :data="data" />
         <!-- 设置部门领导 -->
         <!--        <SetLeader v-if="formType === 'setLeader'" ref="setLeaderRef" :data="data" /> -->
         <!-- 管理部门岗位 -->

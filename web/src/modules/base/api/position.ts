@@ -14,7 +14,7 @@ export interface PositionVo {
   dept_id?: number
   dept_name?: string
   name?: string
-  policy?: string
+  [key: string]: any
 }
 
 export interface PositionSearchVo {
@@ -32,6 +32,10 @@ export function create(data: PositionVo): Promise<ResponseStruct<null>> {
 
 export function save(id: number, data: PositionVo): Promise<ResponseStruct<null>> {
   return useHttp().put(`/admin/position/${id}`, data)
+}
+
+export function setDataScope(id: number, data: PositionVo): Promise<ResponseStruct<null>> {
+  return useHttp().put(`/admin/position/${id}/data_permission`, data)
 }
 
 export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {

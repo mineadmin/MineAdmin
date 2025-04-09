@@ -11,7 +11,8 @@
 <script setup lang="tsx">
 import type { DepartmentVo } from '~/base/api/department.ts'
 import type { PositionVo } from '~/base/api/position.ts'
-import { create, deleteByIds, page, save } from '~/base/api/position.ts'
+import { create, deleteByIds, page, save, setDataScope } from '~/base/api/position.ts'
+
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
 import type { MaFormExpose } from '@mineadmin/form'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
@@ -22,19 +23,23 @@ import hasAuth from '@/utils/permission/hasAuth.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 
 import DataScope from '~/base/views/permission/component/dataScope.vue'
+import { ElTag } from 'element-plus'
 
 const { data = null } = defineProps<{
   data?: DepartmentVo | null
 }>()
 
+const dictStore = useDictStore()
+
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
 const proTableRef = ref<MaProTableExpose>()
+const scopeRef = ref()
 const positionForm = ref<MaFormExpose>()
 const postModel = ref<PositionVo>({
   dept_id: data?.id,
   dept_name: data?.name,
-  policy: {},
+  policy_type: '',
 })
 
 const msg = useMessage()
@@ -75,6 +80,19 @@ const maDialog: UseDialogExpose = useDialog({
             break
         }
       }).catch()
+    }
+    else if (formType === 'setDataScope') {
+      if (postModel.value.policy_type === 'CUSTOM_FUNC') {
+        postModel.value.value = [postModel.value.func_name]
+      }
+      if (postModel.value.policy_type === 'CUSTOM_DEPT') {
+        postModel.value.value = scopeRef.value.deptRef.elTree?.getCheckedKeys()
+      }
+      setDataScope(postModel.value?.id as number, postModel.value).then((res: any) => {
+        res.code === ResultCode.SUCCESS ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
+        maDialog.close()
+        proTableRef.value?.refresh()
+      })
     }
     okLoadingState(false)
   },
@@ -118,11 +136,27 @@ const schema = ref<MaProTableSchema>({
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     {
-      label: '岗位名称',
+      label: () => t('basePost.name'),
       prop: 'name',
       align: 'left',
-    }, {
-      label: '创建时间',
+    },
+    {
+      label: () => t('basePost.dataScope'),
+      prop: 'policy',
+      align: 'center',
+      cellRender: ({ row }) => {
+        if (!row.policy) {
+          return '-'
+        }
+        return h(
+          ElTag,
+          { type: dictStore.t('data-scope', row.policy.policy_type, 'color') },
+          dictStore.t('data-scope', row.policy.policy_type),
+        )
+      },
+    },
+    {
+      label: () => t('basePost.created_at'),
       prop: 'created_at',
       width: 180,
     },
@@ -130,19 +164,28 @@ const schema = ref<MaProTableSchema>({
     {
       type: 'operation',
       label: () => t('crud.operation'),
-      width: '280px',
       operationConfigure: {
-        type: 'tile',
         actions: [
           {
             name: 'dataScope',
             icon: 'mdi:sort-variant-lock-open',
-            show: () => showBtn('permission:position:update'),
+            show: () => showBtn('permission:position:data_permission'),
             text: () => t('baseUserManage.setDataScope'),
             onClick: ({ row }) => {
-              Object.keys(row).map((key: string) => postModel.value[key] = row[key])
+              postModel.value.id = row.id
+              postModel.value.name = row.name
               maDialog.setTitle(t('baseUserManage.setDataScope'))
               maDialog.open({ formType: 'setDataScope' })
+              postModel.value.policy_type = row?.policy?.policy_type ?? undefined
+              if (postModel.value.policy_type === 'CUSTOM_FUNC') {
+                postModel.value.func_name = row.policy.value
+              }
+              if (postModel.value.policy_type === 'CUSTOM_DEPT') {
+                nextTick(() => {
+                  postModel.value.value = row.policy.value
+                  scopeRef.value.deptRef.elTree?.setCheckedKeys(row.policy.value, true)
+                })
+              }
             },
           },
           {
@@ -153,7 +196,7 @@ const schema = ref<MaProTableSchema>({
             onClick: ({ row }) => {
               Object.keys(row).map((key: string) => postModel.value[key] = row[key])
               maDialog.setTitle(t('crud.edit'))
-              maDialog.open({ formType: 'edit' })
+              maDialog.open({ formType: 'edit', data: row })
             },
           },
           {
@@ -188,6 +231,7 @@ onMounted(() => {
         v-auth="['permission:position:save']"
         type="primary"
         @click="() => {
+          postModel.name = ''
           maDialog.setTitle(t('crud.add'))
           maDialog.open({ formType: 'add' })
         }"
@@ -220,7 +264,7 @@ onMounted(() => {
           },
         ]"
       />
-      <DataScope v-model="postModel.policy" />
+      <DataScope v-if="formType === 'setDataScope'" ref="scopeRef" v-model="postModel" :label="t('basePost.belongPost')" />
     </template>
   </component>
 </template>

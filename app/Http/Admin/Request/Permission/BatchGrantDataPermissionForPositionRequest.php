@@ -17,7 +17,6 @@ class BatchGrantDataPermissionForPositionRequest extends FormRequest
             'policy_type' => [
                 'required',
                 'string',
-                'max:10',
                 Rule::enum(PolicyType::class),
             ],
             'value' => [

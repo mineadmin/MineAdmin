@@ -114,6 +114,16 @@ baseMenu:
     menuSave: 菜單管保存
     menuUpdate: 菜單管更新
     menuDelete: 菜單管刪除
+    department: 部門管理
+    departmentList: 部門列表
+    departmentCreate: 新增部門
+    departmentSave: 編輯部門
+    departmentDelete: 刪除部門
+    positionList: 岗位列表
+    positionCreate: 新增岗位
+    positionSave: 編輯岗位
+    positionDelete: 刪除岗位
+    positionDataScope: 設置岗位數據權限
   log:
     index: 日志管理
     userLoginLog: 登錄日志

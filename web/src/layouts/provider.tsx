@@ -24,11 +24,16 @@ export default defineComponent({
       en,
     }
     const userStore = useUserStore()
+    const settingStore = useSettingStore()
     useMenuStore().init()
     userStore.setLanguage(userStore.getLanguage() ?? 'zh_CN')
     const attrsMerged: any = ref(merge({ locale: locales[userStore.getLanguage()], button: { autoInsertSpace: true } }, attrs))
     watch(() => userStore.getLanguage(), (lang: string) => {
       attrsMerged.value.locale = locales[lang]
+    }, { immediate: true })
+
+    watch(() => settingStore.colorMode, async (v) => {
+      await settingStore.toggleColorMode((v === 'auto' ? 'autoModel' : v) as any)
     }, { immediate: true })
 
     onMounted(async () => await usePluginStore().callHooks('setup'))

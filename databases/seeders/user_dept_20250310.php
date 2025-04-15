@@ -50,6 +50,10 @@ class UserDept20250310 extends Seeder
             'permission:position:update' =>  '岗位编辑',
             'permission:position:delete' =>  '岗位删除',
             'permission:position:data_permission' =>  '设置岗位数据权限',
+            'permission:leader:index'  => '部门领导列表',
+            'permission:leader:save'   =>  '新增部门领导',
+            'permission:leader:update' =>  '更新部门领导',
+            'permission:leader:delete' =>  '部门领导移除',
         ];
         $i18n = [
             'baseMenu.permission.departmentList',
@@ -61,6 +65,10 @@ class UserDept20250310 extends Seeder
             'baseMenu.permission.positionSave',
             'baseMenu.permission.positionDelete',
             'baseMenu.permission.positionDataScope',
+            'baseMenu.permission.leaderList',
+            'baseMenu.permission.leaderCreate',
+            'baseMenu.permission.leaderSave',
+            'baseMenu.permission.leaderDelete',
         ];
         $i = 0;
         foreach ($children as $child => $title) {

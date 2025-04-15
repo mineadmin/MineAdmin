@@ -14,6 +14,7 @@ import getFormItems from './data/getFormItems.tsx'
 import type { MaFormExpose } from '@mineadmin/form'
 import useForm from '@/hooks/useForm.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
+import { useMessage } from '@/hooks/useMessage.ts'
 
 defineOptions({ name: 'permission:department:form' })
 
@@ -25,6 +26,7 @@ const { formType = 'add', data = null } = defineProps<{
 const t = useTrans().globalTrans
 const departmentForm = ref<MaFormExpose>()
 const deptModel = ref<DepartmentVo>({})
+const msg = useMessage()
 
 useForm('departmentForm').then((form: MaFormExpose) => {
   if (formType === 'edit' && data) {
@@ -32,7 +34,7 @@ useForm('departmentForm').then((form: MaFormExpose) => {
       deptModel.value[key] = data[key]
     })
   }
-  form.setItems(getFormItems(formType, t, deptModel.value))
+  form.setItems(getFormItems(formType, t, deptModel.value, msg))
   form.setOptions({
     labelWidth: '80px',
   })

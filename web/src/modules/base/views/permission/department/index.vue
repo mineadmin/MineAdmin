@@ -22,6 +22,7 @@ import { ResultCode } from '@/utils/ResultCode.ts'
 
 import DepartmentForm from './form.vue'
 import Position from './position.vue'
+import SetLeader from './setLeader.vue'
 
 defineOptions({ name: 'permission:department' })
 
@@ -129,7 +130,7 @@ const schema = ref<MaProTableSchema>({
   // 搜索项
   searchItems: getSearchItems(t),
   // 表格列
-  tableColumns: getTableColumns(maDialog, formRef, t),
+  tableColumns: getTableColumns(maDialog, formRef, t, msg),
 })
 
 // 批量删除
@@ -162,6 +163,7 @@ function expandToggle() {
           type="primary"
           @click="() => {
             maDialog.setTitle(t('crud.add'))
+            maDialog.setAttr({ width: '550px' })
             maDialog.open({ formType: 'add' })
           }"
         >
@@ -193,6 +195,7 @@ function expandToggle() {
             type="primary"
             @click="() => {
               maDialog.setTitle(t('crud.add'))
+              maDialog.setAttr({ width: '550px' })
               maDialog.open({ formType: 'add' })
             }"
           >
@@ -207,7 +210,7 @@ function expandToggle() {
         <!-- 新增、编辑表单 -->
         <DepartmentForm v-if="['add', 'edit'].includes(formType)" ref="formRef" :form-type="formType" :data="data" />
         <!-- 设置部门领导 -->
-        <!--        <SetLeader v-if="formType === 'setLeader'" ref="setLeaderRef" :data="data" /> -->
+        <SetLeader v-if="formType === 'setLeader'" ref="setLeaderRef" :data="data" />
         <!-- 管理部门岗位 -->
         <Position v-if="formType === 'position'" ref="positionRef" :data="data" />
       </template>

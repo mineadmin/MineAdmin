@@ -47,17 +47,8 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             text: () => t('baseDepartment.page.setLeader'),
             onClick: ({ row }) => {
               dialog.setTitle(t('baseDepartment.page.setLeader'))
+              dialog.setAttr({ width: '55%' })
               dialog.open({ formType: 'setLeader', data: row })
-            },
-          },
-          {
-            name: 'manageUser',
-            icon: 'uil:users-alt',
-            show: () => showBtn('permission:department:update'),
-            text: () => t('baseDepartment.page.manageUser'),
-            onClick: ({ row }) => {
-              dialog.setTitle(t('baseDepartment.page.manageUser'))
-              dialog.open({ formType: 'manageUser', data: row })
             },
           },
           {
@@ -66,9 +57,20 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             show: () => showBtn('permission:position:index'),
             text: () => t('baseDepartment.page.managePost'),
             onClick: ({ row }) => {
-              dialog.setAttr({ width: '55%' })
               dialog.setTitle(t('baseDepartment.page.managePost'))
+              dialog.setAttr({ width: '55%' })
               dialog.open({ formType: 'position', data: row })
+            },
+          },
+          {
+            name: 'previewUser',
+            icon: 'uil:users-alt',
+            show: () => showBtn('permission:department:update'),
+            text: () => t('baseDepartment.page.previewUser'),
+            onClick: ({ row }) => {
+              dialog.setTitle(t('baseDepartment.page.previewUser'))
+              dialog.setAttr({ width: '55%' })
+              dialog.open({ formType: 'previewUser', data: row })
             },
           },
           {
@@ -78,6 +80,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             text: () => t('crud.edit'),
             onClick: ({ row }) => {
               dialog.setTitle(t('crud.edit'))
+              dialog.setAttr({ width: '550px' })
               dialog.open({ formType: 'edit', data: row })
             },
           },

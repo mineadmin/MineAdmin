@@ -8,10 +8,12 @@
  * @Link   https://github.com/mineadmin
  */
 import type { MaFormItem } from '@mineadmin/form'
+import { cloneDeep } from 'lodash-es'
 
-export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: any): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: any, msg: any): MaFormItem[] {
   const treeSelectRef = ref()
   const deptList = ref<any[]>([])
+  const sourceModel = cloneDeep(model)
 
   if (formType === 'add') {
     model.parent_id = 0
@@ -24,7 +26,8 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
 
   return [
     {
-      label: () => t('baseDepartment.parentDepartment'), prop: 'parent_id', render: () => (
+      label: () => t('baseDepartment.parentDepartment'), prop: 'parent_id',
+      render: () => (
         <el-tree-select
           ref={treeSelectRef}
           data={deptList.value}
@@ -32,6 +35,12 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
           check-strictly={true}
           default-expand-all={true}
           clearable={true}
+          onChange={(val: number) => {
+            if (val === model.id) {
+              msg.error(t('baseDepartment.error.selfNotParent'))
+              model.parent_id = sourceModel.parent_id
+            }
+          }}
         >
         </el-tree-select>
       ),

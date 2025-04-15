@@ -135,15 +135,18 @@ baseDepartment:
   leaderCount: 负责人数
   positionsCount: 岗位数
   usersCount: 人员数
+  parentDepartment: 上级部门
   page:
     mainTitle: 部门管理
     subTitle: 提供公司、机构的人员部门管理、以及部门负责人。
     setLeader: 设置负责人
-    manageUser: 管理用户
+    previewUser: 查看用户
     managePost: 管理岗位
   placeholder:
     name: 请输入部门名称
     parentDepartment: 请选择上级部门
+  error:
+    selfNotParent: 不可选择自己作为上级部门，已还原默认数据
 basePost:
   name: 岗位名称
   belongPost: 所属岗位
@@ -188,6 +191,10 @@ baseMenu:
     positionSave: 编辑岗位
     positionDelete: 删除岗位
     positionDataScope: 设置岗位数据权限
+    leaderList: 部门领导列表
+    leaderCreate: 新增部门领导
+    leaderSave: 编辑部门领导
+    leaderDelete: 删除部门领导
   log:
     index: 日志管理
     userLoginLog: 登录日志

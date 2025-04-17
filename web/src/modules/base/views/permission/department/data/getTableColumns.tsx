@@ -42,7 +42,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
         actions: [
           {
             name: 'setLeader',
-            show: () => showBtn('permission:department:update'),
+            show: () => showBtn('permission:leader:index'),
             icon: 'material-symbols:checklist-rounded',
             text: () => t('baseDepartment.page.setLeader'),
             onClick: ({ row }) => {

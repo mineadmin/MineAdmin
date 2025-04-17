@@ -22,6 +22,7 @@ declare module 'vue' {
     MaKeyValue: typeof import('./../src/components/ma-key-value/index.vue')['default']
     MaRemoteSelect: typeof import('./../src/components/ma-remote-select/index.vue')['default']
     MaResourcePicker: typeof import('./../src/components/ma-resource-picker/index.vue')['default']
+    MaSelectTable: typeof import('./../src/components/ma-select-table/index.vue')['default']
     MaSvgIcon: typeof import('./../src/components/ma-svg-icon/index.vue')['default']
     MaTree: typeof import('./../src/components/ma-tree/index.vue')['default']
     MaUploadFile: typeof import('./../src/components/ma-upload-file/index.vue')['default']

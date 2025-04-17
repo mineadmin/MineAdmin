@@ -158,6 +158,13 @@ basePost:
   callFunc: 调用函数名
   placeholder:
     name: 请输入岗位名称
+baseDeptLeader:
+  belongDept: 所属部门
+  username: 用户名
+  nickname: 昵称
+  user_id: 选择用户
+  placeholder:
+    user_id: 请选择要设置为负责人的用户
 baseMenu:
   permission:
     index: 权限管理

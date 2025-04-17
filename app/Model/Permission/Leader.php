@@ -36,7 +36,7 @@ class Leader extends Model
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'leader';
+    protected ?string $table = 'dept_leader';
 
     /**
      * The attributes that are mass assignable.

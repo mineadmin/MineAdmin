@@ -124,12 +124,18 @@ const schema = ref<MaProTableSchema>({
       return h(MaSelectTable, {
         api: userPage,
         showKey: 'username',
-        multiple: true,
+        multiple: false,
+        selectProps: {
+          placeholder: '请选择用户',
+        },
         columns: [
           { label: () => t('baseUserManage.username'), prop: 'username' },
           { label: () => t('baseUserManage.nickname'), prop: 'nickname' },
           { label: () => t('baseUserManage.phone'), prop: 'phone' },
         ],
+        searchItems: [{
+          label: '用户名', prop: 'username', render: 'input',
+        }],
       })
     },
     span: 2,
@@ -202,6 +208,9 @@ const schema = ref<MaProTableSchema>({
 })
 
 onMounted(() => {
+  proTableRef.value?.setSearchForm({
+    // users: { username: 'admin', id: 1, nickname: '创始人', phone: '16858888988' },
+  })
 })
 </script>
 
@@ -210,11 +219,6 @@ onMounted(() => {
     ref="proTableRef"
     :options="options"
     :schema="schema"
-    @search-submit="(form) => {
-      console.log(form)
-      form.user_id = form.users.map((item: any) => item.id)
-      delete form.users
-    }"
   >
     <template #actions>
       <el-button

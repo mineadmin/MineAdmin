@@ -126,7 +126,7 @@ const schema = ref<MaProTableSchema>({
         showKey: 'username',
         multiple: false,
         selectProps: {
-          placeholder: '请选择用户',
+          placeholder: t('form.pleaseSelect', { msg: t('baseUserManage.username') }),
         },
         columns: [
           { label: () => t('baseUserManage.username'), prop: 'username' },
@@ -134,7 +134,7 @@ const schema = ref<MaProTableSchema>({
           { label: () => t('baseUserManage.phone'), prop: 'phone' },
         ],
         searchItems: [{
-          label: '用户名', prop: 'username', render: 'input',
+          label: t('baseUserManage.username'), prop: 'username', render: 'input',
         }],
       })
     },
@@ -208,9 +208,6 @@ const schema = ref<MaProTableSchema>({
 })
 
 onMounted(() => {
-  proTableRef.value?.setSearchForm({
-    // users: { username: 'admin', id: 1, nickname: '创始人', phone: '16858888988' },
-  })
 })
 </script>
 
@@ -219,6 +216,9 @@ onMounted(() => {
     ref="proTableRef"
     :options="options"
     :schema="schema"
+    @search-submit="(form) => {
+      form.user_id = form.users.id
+    }"
   >
     <template #actions>
       <el-button
@@ -252,7 +252,22 @@ onMounted(() => {
             label: () => t('baseDeptLeader.user_id'),
             prop: 'user_id',
             render: () => MaSelectTable,
-            renderProps: { placeholder: t('form.pleaseSelect', { msg: t('baseDeptLeader.user_id') }) },
+            renderProps: {
+              api: userPage,
+              showKey: 'username',
+              multiple: true,
+              selectProps: {
+                placeholder: t('form.pleaseSelect', { msg: t('baseDeptLeader.user_id') }),
+              },
+              columns: [
+                { label: () => t('baseUserManage.username'), prop: 'username' },
+                { label: () => t('baseUserManage.nickname'), prop: 'nickname' },
+                { label: () => t('baseUserManage.phone'), prop: 'phone' },
+              ],
+              searchItems: [{
+                label: t('baseUserManage.username'), prop: 'username', render: 'input',
+              }],
+            },
             itemProps: { rules: [{ required: true, message: t('form.requiredSelect', { msg: t('baseDeptLeader.placeholder.user_id') }) }] },
           },
         ]"

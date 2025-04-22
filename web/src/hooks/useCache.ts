@@ -34,7 +34,7 @@ export default function useCache(type: CacheType = 'localStorage') {
    * 根据key获取缓存中未超时数据。返回相应类型String、Boolean、PlainObject、Array的值。
    */
   const get = (key: string, defaultValue: any = null): any => {
-    return cache.get(prefix.concat(key)) ?? defaultValue
+    return cache.get(prefix.concat(key)) || defaultValue
   }
 
   /**

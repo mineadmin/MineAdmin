@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
     }
     if (userStore.getUserInfo() === null) {
       await userStore.requestUserInfo()
-      next({ path: to.fullPath })
+      next({ path: to.fullPath, query: to.query })
     }
     else {
       next()

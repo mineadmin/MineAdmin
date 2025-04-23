@@ -57,6 +57,8 @@ const maDialog: UseDialogExpose = useDialog({
       const elForm = leaderForm.value?.getElFormRef()
       // 验证通过后
       elForm?.validate?.().then(() => {
+        leaderModel.value.user_id = leaderModel.value.users.map((item: any) => item.id)
+        delete leaderModel.value.users
         switch (formType) {
           // 新增
           case 'add':
@@ -250,7 +252,7 @@ onMounted(() => {
           },
           {
             label: () => t('baseDeptLeader.user_id'),
-            prop: 'user_id',
+            prop: 'users',
             render: () => MaSelectTable,
             renderProps: {
               api: userPage,

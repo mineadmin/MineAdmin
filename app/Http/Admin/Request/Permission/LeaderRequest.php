@@ -36,8 +36,8 @@ class LeaderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|string|exists:user,id',
-            'dept_id' => 'required|integer|exists:department,id',
+            'user_id' => 'required|array',
+            'dept_id' => 'required|integer',
         ];
     }
 

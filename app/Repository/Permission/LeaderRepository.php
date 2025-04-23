@@ -25,6 +25,15 @@ final class LeaderRepository extends IRepository
         protected readonly Leader $model
     ) {}
 
+    public function create(array $data): mixed
+    {
+        foreach($data['user_id'] as $id) {
+            Leader::create(['dept_id' => $data['dept_id'], 'user_id' => $id, 'created_at' => date('Y-m-d H:i:s')]);
+        }
+        return true;
+    }
+
+
     public function handleSearch(Builder $query, array $params): Builder
     {
         return $query

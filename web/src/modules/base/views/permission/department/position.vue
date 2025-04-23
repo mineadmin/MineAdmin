@@ -158,7 +158,7 @@ const schema = ref<MaProTableSchema>({
     {
       label: () => t('basePost.created_at'),
       prop: 'created_at',
-      width: 180,
+      width: 170,
     },
     // 操作列
     {

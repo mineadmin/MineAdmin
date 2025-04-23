@@ -28,9 +28,15 @@ final class LeaderRepository extends IRepository
     public function create(array $data): mixed
     {
         foreach($data['user_id'] as $id) {
+            Leader::query()->where('dept_id', $data['dept_id'])->where('user_id', $id)->forceDelete();
             Leader::create(['dept_id' => $data['dept_id'], 'user_id' => $id, 'created_at' => date('Y-m-d H:i:s')]);
         }
         return true;
+    }
+
+    protected function enablePageOrderBy(): bool
+    {
+        return false;
     }
 
 

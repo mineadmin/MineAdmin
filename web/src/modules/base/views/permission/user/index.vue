@@ -158,7 +158,7 @@ function requestUserByDept(node: any) {
 
 <template>
   <div class="mine-layout flex justify-between pb-0 pl-3 pt-3">
-    <div class="w-full rounded bg-[#fff] p-2 md:w-2/12">
+    <div class="w-full rounded bg-[#fff] p-2 md:w-2/12 dark-bg-dark-8">
       <ma-tree
         :data="deptData"
         tree-key="name"

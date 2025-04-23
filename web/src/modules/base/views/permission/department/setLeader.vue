@@ -23,7 +23,6 @@ import { useMessage } from '@/hooks/useMessage.ts'
 import hasAuth from '@/utils/permission/hasAuth.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 
-import { ElTag } from 'element-plus'
 import MaSelectTable from '@/components/ma-select-table/index.vue'
 
 const { data = null } = defineProps<{
@@ -147,29 +146,16 @@ const schema = ref<MaProTableSchema>({
     // 多选列
     { type: 'selection', showOverflowTooltip: false, label: () => t('crud.selection') },
     {
-      label: () => t('baseDeptLeader.user_id'),
-      prop: 'name',
-      align: 'left',
+      label: () => t('baseDeptLeader.username'),
+      prop: 'user.username',
     },
     {
-      label: () => t('basePost.dataScope'),
-      prop: 'policy',
-      align: 'center',
-      cellRender: ({ row }) => {
-        if (!row.policy) {
-          return '-'
-        }
-        return h(
-          ElTag,
-          { type: dictStore.t('data-scope', row.policy.policy_type, 'color') },
-          t(dictStore.t('data-scope', row.policy.policy_type, 'i18n')),
-        )
-      },
+      label: () => t('baseUserManage.phone'),
+      prop: 'user.phone',
     },
     {
-      label: () => t('basePost.created_at'),
-      prop: 'created_at',
-      width: 180,
+      label: () => t('baseUserManage.email'),
+      prop: 'user.email',
     },
     // 操作列
     {
@@ -177,17 +163,6 @@ const schema = ref<MaProTableSchema>({
       label: () => t('crud.operation'),
       operationConfigure: {
         actions: [
-          {
-            name: 'edit',
-            icon: 'material-symbols:person-edit',
-            show: () => showBtn('permission:leader:update'),
-            text: () => t('crud.edit'),
-            onClick: ({ row }) => {
-              Object.keys(row).map((key: string) => leaderModel.value[key] = row[key])
-              maDialog.setTitle(t('crud.edit'))
-              maDialog.open({ formType: 'edit', data: row })
-            },
-          },
           {
             name: 'del',
             show: () => showBtn('permission:leader:delete'),

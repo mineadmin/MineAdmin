@@ -33,6 +33,8 @@ class Leader extends Model
 {
     use SoftDeletes;
 
+    public bool $incrementing = false;
+
     /**
      * The table associated with the model.
      */

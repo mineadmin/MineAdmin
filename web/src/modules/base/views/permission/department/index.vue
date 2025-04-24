@@ -23,6 +23,7 @@ import { ResultCode } from '@/utils/ResultCode.ts'
 import DepartmentForm from './form.vue'
 import Position from './position.vue'
 import SetLeader from './setLeader.vue'
+import ViewUser from './viewUser.vue'
 
 defineOptions({ name: 'permission:department' })
 
@@ -72,7 +73,7 @@ const maDialog: UseDialogExpose = useDialog({
         }
       }).catch()
     }
-    else if (formType === 'position') {
+    else if (formType === 'position' || formType === 'viewUser') {
       maDialog.close()
     }
     else {
@@ -213,6 +214,8 @@ function expandToggle() {
         <SetLeader v-if="formType === 'setLeader'" ref="setLeaderRef" :data="data" />
         <!-- 管理部门岗位 -->
         <Position v-if="formType === 'position'" ref="positionRef" :data="data" />
+        <!-- 查看用户 -->
+        <ViewUser v-if="formType === 'viewUser'" :data="data" />
       </template>
     </component>
   </div>

@@ -63,14 +63,14 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             },
           },
           {
-            name: 'previewUser',
+            name: 'viewUser',
             icon: 'uil:users-alt',
             show: () => showBtn('permission:department:update'),
             text: () => t('baseDepartment.page.previewUser'),
             onClick: ({ row }) => {
               dialog.setTitle(t('baseDepartment.page.previewUser'))
               dialog.setAttr({ width: '55%' })
-              dialog.open({ formType: 'previewUser', data: row })
+              dialog.open({ formType: 'viewUser', data: row })
             },
           },
           {

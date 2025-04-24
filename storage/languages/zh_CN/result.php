@@ -13,6 +13,7 @@ return [
     'success' => '成功',
     'fail' => '失败',
     'unauthorized' => '未登录',
+    'disabled' => '账号已禁用',
     'forbidden' => '无权限',
     'not_found' => '数据不存在',
     'method_not_allowed' => '方法不允许',

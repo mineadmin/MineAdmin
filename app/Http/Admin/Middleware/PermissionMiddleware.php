@@ -37,7 +37,7 @@ final class PermissionMiddleware implements MiddlewareInterface
     {
         $user = $this->currentUser->user();
         if ($user->status->isDisable()) {
-            throw new BusinessException(code: ResultCode::FORBIDDEN, message: trans('user.disable'));
+            throw new BusinessException(code: ResultCode::DISABLED, message: trans('user.disable'));
         }
         if ($user->isSuperAdmin()) {
             return $handler->handle($request);

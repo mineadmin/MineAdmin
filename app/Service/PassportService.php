@@ -48,6 +48,9 @@ final class PassportService extends IService implements CheckTokenInterface
             $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser, false));
             throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
         }
+        if ($user->status->isDisable()) {
+            throw new BusinessException(ResultCode::DISABLED);
+        }
         $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
         $jwt = $this->getJwt();
         return [

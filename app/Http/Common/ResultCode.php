@@ -46,4 +46,7 @@ enum ResultCode: int
 
     #[Message('result.conflict')]
     case UNPROCESSABLE_ENTITY = 422;
+
+    #[Message('result.disabled')]
+    case DISABLED = 423;
 }

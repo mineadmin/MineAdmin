@@ -99,12 +99,13 @@ http.interceptors.response.use(
     }
     else {
       switch (response?.data?.code) {
-        case ResultCode.UNAUTHORIZED: {
+        case ResultCode.UNAUTHORIZED:
+        {
           const logout = async () => {
             if (isLogout === false) {
               isLogout = true
               setTimeout(() => isLogout = false, 5000)
-              Message.error('登录状态已过期，需要重新登录', { zIndex: 9999 })
+              Message.error(response?.data?.message ?? '登录已过期', { zIndex: 9999 })
               await useUserStore().logout()
             }
           }
@@ -159,6 +160,11 @@ http.interceptors.response.use(
               })
             })
           }
+        }
+        case ResultCode.DISABLED: {
+          Message.error(response?.data?.message ?? '账号已被禁用', {zIndex: 9999})
+          await useUserStore().logout()
+          break
         }
         default:
           Message.error(response?.data?.message ?? '服务器错误', { zIndex: 9999 })

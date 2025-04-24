@@ -48,5 +48,5 @@ enum ResultCode: int
     case UNPROCESSABLE_ENTITY = 422;
 
     #[Message('result.disabled')]
-    case Disabled = 423;
+    case DISABLED = 423;
 }

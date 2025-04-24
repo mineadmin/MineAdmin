@@ -46,6 +46,18 @@ const download = {
   markdown: (data: Blob, fileName: string) => {
     handleBlob(data, fileName, 'text/markdown')
   },
+  // 下载 base64 方法
+  base64: (base64Str: string, fileName: string) => {
+    const [header, data] = base64Str.split(',')
+    const mime = header?.match(/:(.*?);/)?.[1] || 'application/octet-stream'
+    const binary = atob(data)
+    const u8arr = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) {
+      u8arr[i] = binary.charCodeAt(i)
+    }
+    const blob = new Blob([u8arr], { type: mime })
+    handleBlob(blob, fileName, mime)
+  },
   // 下载图片（允许跨域）
   image: ({
     url,

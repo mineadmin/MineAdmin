@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+# 关闭端口
+foreach ([9501, 9502, 9503] as $port) {
+    $cmd = "lsof -i tcp:$port -t | xargs kill -9";
+    $output = shell_exec($cmd);
+    if ($output === null) {
+        echo "Port $port has been killed (if it existed).\n";
+    } else {
+        echo "Output: " . $output . "\n";
+    }
+}

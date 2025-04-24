@@ -39,6 +39,11 @@ final class LeaderRepository extends IRepository
         return false;
     }
 
+    public function deleteByDoubleKey(int $dept_id, array $user_ids): void
+    {
+        Leader::query()->where('dept_id', $dept_id)->whereIn('user_id', $user_ids)->forceDelete();
+    }
+
 
     public function handleSearch(Builder $query, array $params): Builder
     {

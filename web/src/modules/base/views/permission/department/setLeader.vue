@@ -11,7 +11,7 @@
 <script setup lang="tsx">
 import type { DepartmentVo } from '~/base/api/department.ts'
 import type { LeaderVo } from '~/base/api/leader.ts'
-import { create, deleteByIds, page, save } from '~/base/api/leader.ts'
+import { create, deleteByDoubleKey, page, save } from '~/base/api/leader.ts'
 import { page as userPage } from '~/base/api/user.ts'
 
 import type { MaProTableExpose, MaProTableOptions, MaProTableSchema } from '@mineadmin/pro-table'
@@ -29,10 +29,9 @@ const { data = null } = defineProps<{
   data?: DepartmentVo | null
 }>()
 
-const dictStore = useDictStore()
-
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
+const selections = ref<any[]>([])
 const proTableRef = ref<MaProTableExpose>()
 const leaderForm = ref<MaFormExpose>()
 const leaderModel = ref<LeaderVo>({
@@ -94,6 +93,10 @@ const options = ref<MaProTableOptions>({
     adaption: false,
     height: 400,
     rowKey: 'id',
+    on: {
+      // 表格选择事件
+      onSelectionChange: (selection: any[]) => selections.value = selection,
+    },
   },
   // 搜索参数
   searchOptions: {
@@ -170,7 +173,7 @@ const schema = ref<MaProTableSchema>({
             text: () => t('crud.delete'),
             onClick: ({ row }, proxy: MaProTableExpose) => {
               msg.delConfirm(t('crud.delDataMessage')).then(async () => {
-                const response = await deleteByIds([row.id])
+                const response = await deleteByDoubleKey(row.dept_id, [row.user_id])
                 if (response.code === ResultCode.SUCCESS) {
                   msg.success(t('crud.delSuccess'))
                   await proxy.refresh()
@@ -184,8 +187,18 @@ const schema = ref<MaProTableSchema>({
   ],
 })
 
-onMounted(() => {
-})
+// 批量删除
+function handleDelete() {
+  const deptId = selections.value[0].dept_id
+  const userIds = selections.value.map((item: any) => item.user_id)
+  msg.confirm(t('crud.delMessage')).then(async () => {
+    const response = await deleteByDoubleKey(deptId, userIds)
+    if (response.code === ResultCode.SUCCESS) {
+      msg.success(t('crud.delSuccess'))
+      await proTableRef?.value?.refresh?.()
+    }
+  })
+}
 </script>
 
 <template>
@@ -193,21 +206,35 @@ onMounted(() => {
     ref="proTableRef"
     :options="options"
     :schema="schema"
-    @search-submit="(form) => {
+    @search-submit="(form: any) => {
       form.user_id = form.users.id
     }"
+    @search-reset="(form: any) => {
+      form.user_id = undefined
+    }"
   >
-    <template #actions>
-      <el-button
-        v-auth="['permission:leader:save']"
-        type="primary"
-        @click="() => {
-          maDialog.setTitle(t('crud.add'))
-          maDialog.open({ formType: 'add' })
-        }"
-      >
-        {{ t('crud.add') }}
-      </el-button>
+    <template #toolbarLeft>
+      <div>
+        <el-button
+          v-auth="['permission:leader:save']"
+          type="primary"
+          @click="() => {
+            maDialog.setTitle(t('crud.add'))
+            maDialog.open({ formType: 'add' })
+          }"
+        >
+          {{ t('crud.add') }}
+        </el-button>
+        <el-button
+          v-auth="['permission:leader:delete']"
+          type="danger"
+          plain
+          :disabled="selections.length < 1"
+          @click="handleDelete"
+        >
+          {{ t('crud.delete') }}
+        </el-button>
+      </div>
     </template>
   </ma-pro-table>
 

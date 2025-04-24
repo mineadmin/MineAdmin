@@ -84,26 +84,6 @@ class LeaderController extends AbstractController
         return $this->success();
     }
 
-    #[Put(
-        path: '/admin/leader/{id}',
-        operationId: 'leaderSave',
-        summary: '编辑部门领导',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['部门领导管理'],
-    )]
-    #[RequestBody(
-        content: new JsonContent(ref: LeaderRequest::class)
-    )]
-    #[Permission(code: 'permission:leader:update')]
-    #[ResultResponse(instance: new Result())]
-    public function save(int $id, LeaderRequest $request): Result
-    {
-        $this->service->updateById($id, array_merge($request->validated(), [
-            'updated_by' => $this->currentUser->id(),
-        ]));
-        return $this->success();
-    }
-
     #[Delete(
         path: '/admin/leader',
         operationId: 'leaderDelete',
@@ -115,7 +95,7 @@ class LeaderController extends AbstractController
     #[Permission(code: 'permission:leader:delete')]
     public function delete(): Result
     {
-        $this->service->deleteById($this->getRequestData());
+        $this->service->deleteByDoubleKey($this->getRequestData());
         return $this->success();
     }
 }

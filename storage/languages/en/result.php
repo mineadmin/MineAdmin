@@ -18,4 +18,5 @@ return [
     'method_not_allowed' => 'Method Not Allowed',
     'not_acceptable' => 'Not Acceptable',
     'conflict' => 'Request parameter error',
+    'disabled' => 'Account disabled'
 ];

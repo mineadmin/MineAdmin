@@ -102,6 +102,16 @@ export default defineComponent({
         if (menu.children.every((item: any) => item.meta?.menu === false)) {
           flag = false
         }
+        let hiddenLen = 0
+        menu.children.map((item: any) => {
+          if (item.meta?.hidden === true) {
+            hiddenLen++
+          }
+        })
+
+        if (hiddenLen === menu.children.length) {
+          flag = false
+        }
       }
       else {
         flag = false

@@ -18,4 +18,5 @@ return [
     'method_not_allowed' => '方法不允許',
     'not_acceptable' => '不可接受',
     'conflict' => '請求參數錯誤',
+    'disabled' => '帳號已禁用'
 ];

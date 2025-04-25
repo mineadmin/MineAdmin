@@ -14,9 +14,11 @@ import getFormItems from './data/getFormItems.tsx'
 import type { MaFormExpose } from '@mineadmin/form'
 import useForm from '@/hooks/useForm.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
+import useDialog from '@/hooks/useDialog.ts'
+import DataScope from '../component/dataScope.vue'
 
 defineOptions({ name: 'permission:user:form' })
-
 const { formType = 'add', data = null } = defineProps<{
   formType?: 'add' | 'edit'
   data?: UserVo | null
@@ -25,7 +27,22 @@ const { formType = 'add', data = null } = defineProps<{
 const t = useTrans().globalTrans
 const userForm = ref<MaFormExpose>()
 const userModel = ref<UserVo>({})
+const scopeRef = ref()
 const deptData = inject('deptData')
+
+// 弹窗配置
+const maDialog: UseDialogExpose = useDialog({
+  lgWidth: '750px',
+  ok: () => {
+    if (userModel.value.policy.policy_type === 'CUSTOM_FUNC') {
+      userModel.value.policy.value = [userModel.value.policy.func_name]
+    }
+    if (userModel.value.policy.policy_type === 'CUSTOM_DEPT') {
+      userModel.value.policy.value = scopeRef.value.deptRef.elTree?.getCheckedKeys()
+    }
+    maDialog.close()
+  },
+})
 
 useForm('userForm').then((form: MaFormExpose) => {
   if (formType === 'edit' && data) {
@@ -33,9 +50,9 @@ useForm('userForm').then((form: MaFormExpose) => {
       userModel.value[key] = data[key]
     })
   }
-  form.setItems(getFormItems(formType, t, userModel.value, deptData))
+  form.setItems(getFormItems(formType, t, userModel.value, deptData, maDialog))
   form.setOptions({
-    labelWidth: '80px',
+    labelWidth: '90px',
   })
 })
 
@@ -69,8 +86,12 @@ defineExpose({
 </script>
 
 <template>
-  {{ userModel }}
-  <ma-form ref="userForm" v-model="userModel" />
+  <div>
+    <ma-form ref="userForm" v-model="userModel" />
+    <component :is="maDialog.Dialog">
+      <DataScope ref="scopeRef" v-model="userModel.policy" :label="t('baseUserManage.username')" />
+    </component>
+  </div>
 </template>
 
 <style scoped lang="scss">

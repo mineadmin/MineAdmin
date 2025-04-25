@@ -38,7 +38,7 @@ const items = ref<MaFormItem[]>([
   {
     label: () => t('basePost.selectDept'),
     prop: 'value',
-    show: (item, model) => model.policy_type === 'CUSTOM_DEPT',
+    show: () => model.value?.policy_type === 'CUSTOM_DEPT',
     render: () => MaTree,
     renderProps: {
       ref: (el: any) => deptRef.value = el,
@@ -53,7 +53,7 @@ const items = ref<MaFormItem[]>([
   {
     label: () => t('basePost.callFunc'),
     prop: 'func_name',
-    show: (item, model) => model.policy_type === 'CUSTOM_FUNC',
+    show: () => model.value?.policy_type === 'CUSTOM_FUNC',
     render: 'input',
     renderProps: {
       placeholder: t('form.pleaseInput', { msg: t('basePost.callFunc') }),

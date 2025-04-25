@@ -102,16 +102,6 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             },
           },
           {
-            name: 'setDataScope',
-            show: ({ row }) => showBtn(['permission:user:update', 'permission:user:update'], row),
-            icon: 'mingcute:telescope-2-fill',
-            text: () => t('baseUserManage.setDataScope'),
-            onClick: ({ row }) => {
-              dialog.setTitle(t('baseUserManage.setDataScope'))
-              dialog.open({ formType: 'setDataScope', data: row })
-            },
-          },
-          {
             name: 'initPassword',
             show: ({ row }) => showBtn('permission:user:password', row),
             icon: 'material-symbols:passkey',

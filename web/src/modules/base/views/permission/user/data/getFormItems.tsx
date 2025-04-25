@@ -11,16 +11,32 @@ import type { MaFormItem } from '@mineadmin/form'
 import type { UserVo } from '~/base/api/user.ts'
 import MaUploadImage from '@/components/ma-upload-image/index.vue'
 import MaDictRadio from '@/components/ma-dict-picker/ma-dict-radio.vue'
+import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 
-export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo, deptData: Ref<any[]>): MaFormItem[] {
+export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, model: UserVo, deptData: any, dialog: UseDialogExpose): MaFormItem[] {
   if (formType === 'add') {
     model.password = '123456'
     model.status = 1
     model.user_type = 100
-    model.policy = []
+    model.policy = {
+      policy_type: null,
+      value: null,
+    }
+    model.department = []
+    model.position = []
   }
 
+  if (formType === 'edit') {
+    if (!model.policy) {
+      model.policy = {}
+    }
+  }
+
+  console.log(model)
+
   const departmentList = deptData.value.filter((_, index) => index > 0)
+  const deptIds = ref<number[]>([])
+  const postList = ref<any[]>([])
 
   model.backend_setting = []
 
@@ -78,7 +94,7 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
     },
     {
       label: () => t('baseUserManage.dept'),
-      prop: 'department.id',
+      prop: 'department',
       render: () => <el-tree-select />,
       renderProps: {
         data: departmentList,
@@ -89,34 +105,60 @@ export default function getFormItems(formType: 'add' | 'edit' = 'add', t: any, m
         checkStrictly: true,
         nodeKey: 'id',
         placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
-        onChange: (value: any) => {
-          console.log(value)
+        onNodeClick: (row: any) => {
+          if (deptIds.value.includes(row.id)) {
+            // 移除
+            deptIds.value = deptIds.value.filter((id: number) => id !== row.id)
+            postList.value = postList.value.filter((item: any) => item.id !== row.id)
+          }
+          else {
+            // 添加
+            deptIds.value.push(row.id)
+            const post = JSON.parse(JSON.stringify(row))
+            post.disabled = true
+            postList.value.push(post)
+          }
         },
       },
     },
     {
       label: () => t('baseUserManage.post'),
-      prop: 'position.id',
+      prop: 'position',
       render: () => <el-tree-select />,
       cols: { md: 12, xs: 24 },
       renderProps: {
-        data: departmentList,
+        data: postList,
+        defaultExpandAll: true,
         multiple: true,
         filterable: true,
         clearable: true,
-        props: { label: 'name' },
+        props: { label: 'name', children: 'positions' },
         checkStrictly: true,
         nodeKey: 'id',
         placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
       },
     },
     {
-      label: () => t('baseUserManage.dataScope'),
       render: () => <el-button />,
       cols: { md: 12, xs: 24 },
       renderProps: {
         type: 'primary',
         plain: true,
+        onClick: () => {
+          dialog.setTitle(t('baseUserManage.setDataScope'))
+          model.policy!.name = model.username
+          dialog.open()
+        },
+      },
+      itemSlots: {
+        label: () => (
+          <div class="flex items-center gap-x-1">
+            {t('baseUserManage.dataScope')}
+            <el-tooltip content="设置后将覆盖岗位的数据权限" placement="top">
+              <ma-svg-icon name="material-symbols:help-outline" />
+            </el-tooltip>
+          </div>
+        ),
       },
       renderSlots: {
         default: () => t('baseUserManage.setDataScope'),

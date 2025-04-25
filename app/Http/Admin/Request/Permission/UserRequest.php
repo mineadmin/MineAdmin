@@ -66,18 +66,18 @@ class UserRequest extends FormRequest
             'backend_setting' => 'sometimes|array|max:255',
             'remark' => 'sometimes|string|max:255',
             'policy' => 'sometimes|array',
-            'policy.*.policy_type' => [
+            'policy.policy_type' => [
                 'required_with:policy',
                 'string',
                 'max:10',
                 Rule::enum(PolicyType::class),
             ],
-            'policy.*.value' => [
+            'policy.value' => [
                 'sometimes',
                 'array',
                 'min:1',
             ],
-            'policy.*.is_default' => [
+            'policy.is_default' => [
                 'sometimes',
                 'integer',
                 'in:0,1',

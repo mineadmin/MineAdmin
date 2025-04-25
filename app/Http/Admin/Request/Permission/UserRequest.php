@@ -69,18 +69,11 @@ class UserRequest extends FormRequest
             'policy.policy_type' => [
                 'required_with:policy',
                 'string',
-                'max:10',
+                'max:20',
                 Rule::enum(PolicyType::class),
             ],
             'policy.value' => [
                 'sometimes',
-                'array',
-                'min:1',
-            ],
-            'policy.is_default' => [
-                'sometimes',
-                'integer',
-                'in:0,1',
             ],
             'department' => [
                 'sometimes',

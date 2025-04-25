@@ -42,6 +42,9 @@ export default defineComponent({
         const index = item.path ?? JSON.stringify(item)
         if (item?.children && item?.children?.length > 0) {
           const indexPath = [index]
+          if (parentPaths.length > 0) {
+            indexPath.push(...parentPaths)
+          }
           subMenus.value[index] = {
             index,
             indexPath,
@@ -50,9 +53,15 @@ export default defineComponent({
           initItems(item.children, indexPath)
         }
         else {
+          const indexPath = [index, ...parentPaths]
+          subMenus.value[index] = {
+            index,
+            indexPath,
+            active: false,
+          }
           items.value[index] = {
             index,
-            indexPath: parentPaths,
+            indexPath,
           }
         }
       })
@@ -63,9 +72,9 @@ export default defineComponent({
         return
       }
       if (props.accordion) {
-        openedMenus.value = openedMenus.value.filter(key => indexPath.includes(key))
+        openedMenus.value = indexPath
       }
-      openedMenus.value.push(index)
+      openedMenus.value.push(...indexPath)
     }
     const closeMenu: MenuInjection['closeMenu'] = async (index) => {
       if (Array.isArray(index)) {
@@ -117,6 +126,7 @@ export default defineComponent({
       if (!activeItem || props.collapse) {
         return
       }
+
       // 展开该菜单项的路径上所有子菜单
       activeItem.indexPath.forEach((index) => {
         const subMenu = subMenus.value[index]

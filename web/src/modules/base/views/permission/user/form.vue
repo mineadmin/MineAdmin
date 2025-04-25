@@ -50,7 +50,7 @@ useForm('userForm').then((form: MaFormExpose) => {
       userModel.value[key] = data[key]
     })
   }
-  form.setItems(getFormItems(formType, t, userModel.value, deptData, maDialog))
+  form.setItems(getFormItems(formType, t, userModel.value, deptData, maDialog, scopeRef))
   form.setOptions({
     labelWidth: '90px',
   })

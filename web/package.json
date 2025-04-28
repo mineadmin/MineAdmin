@@ -27,7 +27,7 @@
     "@vueuse/core": "^12.7.0",
     "@vueuse/integrations": "^12.7.0",
     "animate.css": "^4.1.1",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "dayjs": "^1.11.13",
     "echarts": "^5.6.0",
     "element-plus": "^2.9.5",
@@ -46,7 +46,7 @@
     "sortablejs": "1.15.6",
     "vaul-vue": "^0.3.0",
     "vue": "^3.5.13",
-    "vue-i18n": "^11.1.1",
+    "vue-i18n": "^11.1.2",
     "vue-m-message": "^4.0.2",
     "vue-router": "^4.5.0",
     "web-storage-cache": "^1.1.1"

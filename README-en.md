@@ -1,171 +1,119 @@
-[中文](./README.md) | English
-# Projects
+[Chinese](./README.md) | English  
+# Project Introduction  
 
-<p align="center">
-    <img src="https://doc.mineadmin.com/logo.svg" width="120" />
-</p>
-<p align="center">
-    <a href="https://www.mineadmin.com" target="_blank">official website</a> |
-    <a href="https://doc.mineadmin.com" target="_blank">Document</a> | 
-    <a href="https://demo.mineadmin.com" target="_blank">Demo</a> |
-    <a href="https://hyperf.wiki/3.0/#/" target="_blank">Hyperf Official Document</a> 
-</p>
+<p align="center">  
+    <img src="https://doc.mineadmin.com/logo.svg" width="120" />  
+</p>  
+<p align="center">  
+    <a href="https://www.mineadmin.com" target="_blank">Official Website</a> |  
+    <a href="https://doc.mineadmin.com" target="_blank">Documentation</a> |  
+    <a href="https://demo.mineadmin.com" target="_blank">Demo</a> |  
+    <a href="https://hyperf.wiki/3.0/#/" target="_blank">Hyperf Official Docs</a>  
+</p>  
 
-<p align="center">
-    <img src="https://gitee.com/xmo/MineAdmin/badge/star.svg?theme=dark" />
-    <img src="https://gitee.com/xmo/MineAdmin/badge/fork.svg?theme=dark" />
-    <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0&color=da4a00" />
-    <img src="https://svg.hamm.cn/badge.svg?key=MineAdmin&value=v2.0 LTS" />
-</p>
+## Project Introduction  
 
-## Projects Description
+There are many excellent PHP backend management systems, but I couldn’t find one based on Swoole that suited my needs.  
+So, I developed a backend management system. It can be used for website admin panels, CMS, CRM, OA, ERP, and more.  
 
-PHP has a lot of good backend management system, but Swoole based backend management system did not find suitable for my own.
-So it developed a set of background management system. The system can be used for website management background , CMS, CRM, OA, ERP and so on.
+The backend system is built on the Hyperf framework. With an enterprise-level architecture, it easily supports startups and individuals in their early stages, delivering performance comparable to static languages with minimal server resources.  
+The frontend uses Vue3 + Vite4 + Pinia + Arco, adapting seamlessly to PC, mobile, and tablet devices.  
 
-Background system based on Hyperf framework development. Enterprise-level architecture layered to easily support startups and personal pre-development use , using a small amount of server resources comparable to the performance of static language .
-Front-end use of Vue3 + Vite4 + Pinia + Arco, one end of the adaptation of PC, mobile, tablet!
+If you find it useful, please give it a ⭐star—it would mean a lot to me and be a great encouragement!  
+Before using MineAdmin, please read the [Disclaimer](https://doc.mineadmin.com/guide/start/declaration.html) carefully and agree to its terms.  
 
-If you think it's not bad, please point a ⭐star support it, it will be the biggest support and encouragement to me!
-Please read [Disclaimer](https://doc.mineadmin.com/guide/start/declaration.html) and agree to it before using MineAdmin.
+## Default Main Branch (without department, position, or data permission features)  
+The current branch includes features such as departments, positions, and data permissions. If you do not need these features, please switch to the [`【Main Branch】`](https://github.com/mineadmin/MineAdmin) to download the code.  
 
-- Tencent Cloud Special Offer: [Click to enter](http://txy.mineadmin.com)
-- AliCloud Special Offer：[Click to enter](http://aly.mineadmin.com)
+## Official Community  
+> QQ group for discussion and learning—please avoid spamming.  
 
-## Front-end repository address
-Move to the front-end repository
+<img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" />  
 
-- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
-- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
+## Strategic Partnership  
+[Jingcedun High-Protection CDN - Reliable Anti-DDoS/CC Attack Service](https://www.jcdun.com/guoneigaofangcdn)  
 
-## Official communication group
-> QQ group for communication and learning, please do not water group.
+## Built-in Features  
 
-<img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
+1. **User Management**: Add, modify, and delete users; supports different homepages for different users.  
+2. **Role Management**: Assign menu permissions and data permissions to roles.  
+3. **Menu Management**: Configure system menus and buttons.  
+4. **Operation Logs**: Track and query user actions.  
+5. **Login Logs**: Record and query user login history.  
+6. **Attachment Management**: Manage uploaded files and images.  
+7. **App Market**: Download various basic apps, plugins, frontend components, and more.  
 
-## Built-in functions
+## Requirements  
 
-1. user management, complete the user add, modify, delete configuration, support for different users to log in the background to see different home page
-2. department management, departmental organization (company, department, group), tree structure show support for data permissions
-3. position management, you can configure the user's position
-4. role management, role menu rights allocation, role data rights allocation
-5. menu management, configure system menus and buttons, etc.
-6. dictionary management, the system often used and fixed data can be reused and maintained
-7. system configuration, some common settings of the system management
-8. operation log, the query of some normal operations of the system by users.
-9. login log, user login system record query
-10. online users, view the current logged-in users
-11. service monitoring, view the current server status and PHP environment and other information
-12. attachment management, management of the current system to upload files and pictures and other information
-13. data table maintenance, the system's data table can be cleaned up debris and optimization
-14. module management, manage all modules of the system
-15. timed tasks, online (add, modify, delete) task scheduling including execution results logs
-16. code generation, front and back-end code generation (php, vue, js, sql), support for downloading and generating to the module.
-17. cache monitoring , view the Redis information and the system used key information
-18. API management , application and interface management , interface authorization and other functions. Interface documents are automatically generated , input and output parameter checking , etc.
-19. queue management, message queue management functions, message management, message sending. The use of ws mode instant messaging reminders (need to install rabbitMQ)
-20. application market , you can download a variety of basic applications , plug-ins , front-end components , etc. (under development ...)
+- Swoole >= 5.0 (with `Short Name` disabled)  
+- PHP >= 8.1 with the following extensions enabled:  
+  - mbstring  
+  - json  
+  - pdo  
+  - openssl  
+  - redis  
+  - pcntl  
+- [x] MySQL >= 5.7  
+- [x] PostgreSQL >= 10  
+- [x] SQL Server (Latest)  
+- SQLSRV (Latest)  
+- Redis >= 4.0  
+- Git >= 2.x  
 
-## Environment requirements
+## Download the Project  
+- MineAdmin does not use SQL file imports for installation. Instead, it uses Migrate files for setup and data seeding.  
 
-- Swoole >= 5.0 with `Short Name` turned off.
-- PHP >= 8.1 and turn on the following extensions:
-    - mbstring
-    - json
-    - pdo
-    - openssl
-    - redis
-    - pcntl
-- Mysql >= 5.7
-- Redis >= 4.0
-- Git >= 2.x
-
-
-## Download the project
-- Please note that MineAdmin does not use SQL file import for installation, the system uses Migrates migration files to install and populate the data.
-
-- To download the project, make sure you have installed ``Composer``.
-```shell
-git clone https://gitee.com/xmo/MineAdmin && cd MineAdmin
-composer config -g repo.packagist composer https://mirrors.tencent.com/composer/
-composer install
-```
-
-## Project Installation
-
-Open a terminal, execute the install command, and follow the prompts to configure the `.env` file step by step.
-```shell
-php bin/hyperf.php mine:install
-```
-
-When prompted with the following message
-```shell
-Reset the ".env" file. Please restart the service before running 
-the installation command to continue the installation.
-```
-
-Execute the installation command again to execute the Migrates data migration file and SQL data fill to complete the installation.
-```shell
-php bin/hyperf.php mine:install
-```
-
-[Click here -> for FAQ](https://doc.mineadmin.com/faqs/)
+- To download the project (ensure `Composer` is installed):  
+```shell  
+composer create-project mineadmin/mineadmin --keep-vcs  
+```  
 
 ## Disclaimer
 [Disclaimer](https://doc.mineadmin.com/guide/start/declaration.html)
 
-The use of this software shall not be used to develop any software or application that violates the relevant national policies, and `MineAdmin` has nothing to do with any legal responsibility caused by the use of this software.
+This software must not be used to develop applications that violate national policies. `MineAdmin` bears no legal responsibility for any misuse.
 
-## Trial Addresses
+## Demo Access
+[Demo](https://demo.mineadmin.com)
+- Username: **superAdmin**
+- Password: **admin123**
 
-[Experience Address](https://demo.mineadmin.com)
-- Account: superAdmin
-- Password: admin123
-
-> Please do not add dirty data
+> Please avoid adding test data.
 
 ## Acknowledgments
 
-> The following are in no particular order
+> Listed in no particular order
 
-[Hyperf a high-performance enterprise-class concurrent programming framework](https://hyperf.io/)
+[Hyperf - A high-performance enterprise coroutine framework](https://hyperf.io/)  
+[Element Plus - A Vue 3-based component library for designers and developers](https://element-plus.org/)  
+[Swoole - PHP coroutine framework](https://www.swoole.com)  
+[Vue](https://vuejs.org/)  
+[Vite](https://vitejs.cn/)  
+[Jetbrains - Productivity tools](https://www.jetbrains.com/)
 
-[Element Plus is a component library for designers and developers based on Vue 3.](https://element-plus.org/)
+## OSCS Security Certification
+[![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/9ztZvuSN6OLFjCDGVo)
 
-[Swoole PHP Concurrent Programming Framework](https://www.swoole.com)
-
-[Vue](https://vuejs.org/)
-
-[Vite](https://vitejs.cn/)
-
-[Jetbrains Productivity Tools](https://www.jetbrains.com/)
-
-## OSCS Security Certified
-![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)
-
-## Stargazers over time
+## Star History
 
 [![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
-Thank you to all the code contributors who have participated in the development of MineAdmin。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
-<a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
+## Contributors
+
+> Thanks to all contributors who helped develop MineAdmin. [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]  
+<a href="https://github.com/mineadmin/mineadmin/graphs/contributors">  
+<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />  
 </a>
 
 [![Contributor Trends](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 
-
-## Demo image
-<img src="https://s1.ax1x.com/2022/07/31/vklKzR.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl8eK.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl1L6.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklNJH.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklJoD.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkllsx.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklZoF.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklUWd.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkl0yt.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkltFe.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vkluW9.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklnJJ.jpg" />
-<img src="https://s1.ax1x.com/2022/07/31/vklmi4.jpg" />
+## Demo Screenshots
+[![pAdQKPJ.png](https://s21.ax1x.com/2024/10/22/pAdQKPJ.png)](https://imgse.com/i/pAdQKPJ)  
+[![pAdQlx1.png](https://s21.ax1x.com/2024/10/22/pAdQlx1.png)](https://imgse.com/i/pAdQlx1)  
+[![pAdQQ2R.png](https://s21.ax1x.com/2024/10/22/pAdQQ2R.png)](https://imgse.com/i/pAdQQ2R)  
+[![pAdQGqK.png](https://s21.ax1x.com/2024/10/22/pAdQGqK.png)](https://imgse.com/i/pAdQGqK)  
+[![pAdQYVO.png](https://s21.ax1x.com/2024/10/22/pAdQYVO.png)](https://imgse.com/i/pAdQYVO)  
+[![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)  
+[![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)  
+[![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
+```

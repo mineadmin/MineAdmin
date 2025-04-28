@@ -19,10 +19,12 @@ return [
     'url' => '/swagger',
     'auto_generate' => true,
     'scan' => [
-        'paths' => Finder::create()
-            ->in([BASE_PATH . '/app/Http', BASE_PATH . '/app/Schema'])
-            ->name('*.php')
-            ->getIterator(),
+        'paths' => [
+            Finder::create()
+                ->in([BASE_PATH . '/app/Http', BASE_PATH . '/app/Schema'])
+                ->name('*.php')
+                ->getIterator()
+        ],
     ],
     'processors' => [],
 ];

@@ -90,7 +90,7 @@
     "unplugin-auto-import": "^19.1.0",
     "unplugin-vue-components": "^28.4.0",
     "vconsole": "^3.15.1",
-    "vite": "^6.1.1",
+    "vite": "^6.2.6",
     "vite-plugin-chunk-split": "^0.5.0",
     "vite-plugin-compression2": "^1.3.3",
     "vite-plugin-fake-server": "^2.2.0",

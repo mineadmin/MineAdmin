@@ -22,6 +22,9 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
 在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
 
+## 部门岗位分支（包含数据权限功能）
+当前默认分支不带部门、岗位、数据权限等功能，如需使用这些功能请移步 [`【包含部门岗位的MineAdmin----master-department】`](https://github.com/mineadmin/MineAdmin/tree/master-department) 分支代码下载
+
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 

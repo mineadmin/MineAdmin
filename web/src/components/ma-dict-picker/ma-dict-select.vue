@@ -40,17 +40,16 @@ const model = defineModel<any>()
 
 <template>
   <el-select v-model="model" v-bind="$attrs">
-    <slot name="default">
-      <template v-if="dictionaryData">
-        <template v-for="item in dictionaryData as Dictionary[]" :key="item">
-          <el-option :value="item.value" :label="item?.i18n ? t(item.i18n) : item.label">
-            <slot v-if="$slots.optionDefault" name="optionDefault" />
-          </el-option>
-        </template>
-      </template>
-    </slot>
     <template v-for="slot in Object.keys($slots)" #[slot]>
-      <slot v-if="slot !== 'default'" :name="slot" />
+      <slot :name="slot">
+        <template v-if="dictionaryData && slot === 'default'">
+          <template v-for="item in dictionaryData as Dictionary[]" :key="item">
+            <el-option :value="item.value" :label="item?.i18n ? t(item.i18n) : item.label">
+              <slot v-if="$slots.optionDefault" name="optionDefault" />
+            </el-option>
+          </template>
+        </template>
+      </slot>
     </template>
   </el-select>
 </template>

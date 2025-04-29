@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { MaFormItem } from '@mineadmin/form'
-import MaDictSelect from '@/components/ma-dict-picker/ma-dict-select.vue'
 import { page as deptList } from '~/base/api/department.ts'
 import MaTree from '@/components/ma-tree/index.vue'
+import MaDictSelect from '@/components/ma-dict-picker/ma-dict-select.vue'
 
 defineOptions({ name: 'DataScope' })
 

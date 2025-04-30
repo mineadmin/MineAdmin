@@ -20,7 +20,7 @@
   "dependencies": {
     "@imengyu/vue3-context-menu": "^1.4.4",
     "@mineadmin/echarts": "^1.0.5",
-    "@mineadmin/form": "^1.0.45",
+    "@mineadmin/form": "^1.0.51",
     "@mineadmin/pro-table": "^1.0.67",
     "@mineadmin/search": "^1.0.35",
     "@mineadmin/table": "^1.0.33",

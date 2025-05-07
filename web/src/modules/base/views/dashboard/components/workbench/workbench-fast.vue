@@ -21,7 +21,7 @@ const router = useRouter()
       <div class="grid grid-cols-3 mt-3 gap-3 lg:grid-cols-4 md:grid-cols-4 xl:grid-cols-6">
         <template v-for="(item, idx) in router.getRoutes()">
           <div v-if="/^(?!.*\/uc)(?!.*\/login)(?!.*\/:pathMatch\([^)]*\)).*$/.test(item.path) && item.components && idx < 10" class="flex-center">
-            <el-link :underline="false" @click="() => router.push(item.path)">
+            <el-link underline="never" @click="() => router.push(item.path)">
               <div class="link">
                 <ma-svg-icon :name="(item.meta?.icon ?? 'i-carbon:unknown') as string" :size="26" />
                 {{ item.meta?.i18n ? t(item.meta.i18n) : item.meta?.title ?? 'unknown' }}

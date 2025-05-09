@@ -23,7 +23,7 @@ import MaTable from '@mineadmin/table'
 // maTable样式
 import '@mineadmin/table/dist/style.css'
 // maSearch样式
-import '@mineadmin/search/dist/search.css'
+import '@mineadmin/search/dist/style.css'
 // MaProTable样式
 import '@mineadmin/pro-table/dist/style.css'
 

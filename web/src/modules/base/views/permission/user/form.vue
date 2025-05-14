@@ -70,6 +70,9 @@ function add(): Promise<any> {
 // 更新操作
 function edit(): Promise<any> {
   return new Promise((resolve, reject) => {
+    if (userModel.value.policy === null) {
+      userModel.value.policy = []
+    }
     save(userModel.value.id as number, userModel.value).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     }).catch((err) => {

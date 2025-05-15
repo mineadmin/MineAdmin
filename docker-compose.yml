@@ -1,4 +1,4 @@
-name: MineAdmin
+name: MineAdmin-Service
 
 volumes:
   mine_redis_data:

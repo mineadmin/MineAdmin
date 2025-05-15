@@ -2,7 +2,7 @@
 
 # 安装项目
 installProject() {
-
+  echo 'install'
 }
 
 # 启动项目

@@ -1,28 +1,28 @@
 #!/bin/bash
 
 # 启动项目
-function startProject() {
+function startProject {
   echo 111
 }
 
 # 停止项目
-function stopProject() {
+function stopProject {
   echo 222
 }
 
 # 重启项目
-function restartProject() {
+function restartProject {
   echo 333
 }
 
 # 显示状态
-function showStatus() {
+function showStatus {
   echo 444
 }
 
 # 帮助
-showHelp() {
-
+function showHelp {
+  echo 555
 }
 
 case "$1" in

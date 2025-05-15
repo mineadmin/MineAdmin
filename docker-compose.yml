@@ -7,7 +7,7 @@ volumes:
 services:
   redis:
     image: redis:7.2-alpine
-    container_name: redis
+    container_name: mineadmin-redis
     ports:
       - "6379:6379"
     volumes:
@@ -27,7 +27,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mineadmin-mysql
     volumes:
       - mine_mysql_data:/var/lib/mysql
     ports:
@@ -47,7 +47,7 @@ services:
 
   mineadmin:
     image: hyperf/hyperf:8.3-alpine-v3.20-swoole-slim-v5.1.5
-    container_name: mineadmin
+    container_name: mineadmin-project
     volumes:
       - ./:/www
     working_dir: /www

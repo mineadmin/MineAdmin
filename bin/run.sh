@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# 安装项目
+installProject() {
+
+}
+
 # 启动项目
 startProject() {
   echo 111
@@ -22,9 +27,10 @@ showStatus() {
 
 # 帮助
 showHelp() {
-  echo "用法: $0 [命令]"
+  echo "用法: bash $0 [命令]"
   echo ""
   echo "命令:"
+  echo "  install           安装项目"
   echo "  start             启动所有服务"
   echo "  stop              停止所有服务"
   echo "  restart           重启所有服务"
@@ -34,6 +40,9 @@ showHelp() {
 }
 
 case "$1" in
+  install)
+    installProject
+    ;;
   start)
     startProject
     ;;
@@ -54,6 +63,7 @@ case "$1" in
       startProject
     else
       echo "命令不存在: $1"
+      echo ""
       showHelp
       exit 1
     fi

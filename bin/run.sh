@@ -30,13 +30,13 @@ showHelp() {
   echo "用法: bash $0 [命令]"
   echo ""
   echo "命令:"
-  echo "  install           安装项目"
+  echo "  install           安装MineAdmin"
   echo "  start             启动所有服务"
   echo "  stop              停止所有服务"
   echo "  restart           重启所有服务"
   echo "  status            显示服务状态"
   echo ""
-  echo "未提供命令，默认使用 'start'"
+  echo "未提供命令，默认使用 start 启动所有服务"
 }
 
 case "$1" in

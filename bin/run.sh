@@ -1,28 +1,36 @@
 #!/bin/bash
 
 # 启动项目
-function startProject {
+startProject() {
   echo 111
 }
 
 # 停止项目
-function stopProject {
+stopProject() {
   echo 222
 }
 
 # 重启项目
-function restartProject {
+restartProject() {
   echo 333
 }
 
 # 显示状态
-function showStatus {
+showStatus() {
   echo 444
 }
 
 # 帮助
-function showHelp {
-  echo 555
+showHelp() {
+  echo "用法: $0 [命令]"
+  echo ""
+  echo "命令:"
+  echo "  start             启动所有服务"
+  echo "  stop              停止所有服务"
+  echo "  restart           重启所有服务"
+  echo "  status            显示服务状态"
+  echo ""
+  echo "未提供命令，默认使用 'start'"
 }
 
 case "$1" in

@@ -7,6 +7,7 @@ volumes:
 services:
   redis:
     image: redis:7.2-alpine
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
@@ -26,6 +27,7 @@ services:
 
   mysql:
     image: mysql:5.7
+    container_name: mysql
     volumes:
       - mine_mysql_data:/var/lib/mysql
     ports:
@@ -37,9 +39,15 @@ services:
       MYSQL_CHARACTER_SET_SERVER: utf8mb4
       MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
       TZ: Asia/Shanghai
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p root" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  hyperf:
-    image: hyperf/hyperf:8.1-alpine-v3.18-swoole
+  mineadmin:
+    image: hyperf/hyperf:8.3-alpine-v3.20-swoole-slim-v5.1.5
+    container_name: mineadmin
     volumes:
       - ./:/www
     working_dir: /www
@@ -49,6 +57,11 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - APP_NAME=MineAdmin
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     command:
       - sh
       - -c

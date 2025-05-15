@@ -45,7 +45,7 @@ case "$1" in
     if [ -z "$1" ]; then
       startProject
     else
-      bilingual "命令不存在: $1" "Unknown command: $1"
+      echo "命令不存在: $1"
       showHelp
       exit 1
     fi

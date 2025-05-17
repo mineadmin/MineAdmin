@@ -45,7 +45,7 @@ const model = defineModel<any>()
     <slot name="default">
       <template v-if="dictionaryData">
         <template v-for="item in dictionaryData as Dictionary[]" :key="item">
-          <component :is="renderMode === 'normal' ? 'el-checkbox' : 'el-checkbox-button'" :value="item.value">
+          <component :is="renderMode === 'normal' ? 'el-checkbox' : 'el-checkbox-button'" :value="item.value" :disabled="item.disabled">
             <slot name="optionDefault">
               {{ item?.i18n ? t(item.i18n) : item.label }}
             </slot>

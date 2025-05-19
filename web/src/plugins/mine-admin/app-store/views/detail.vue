@@ -334,6 +334,39 @@ defineExpose({ open })
               </div>
             </div>
           </div>
+          <div class="w-full">
+            <el-descriptions :column="1" direction="vertical" bordered class="mt-3">
+              <el-descriptions-item label="最新版本">
+                <el-text>
+                  {{ data?.app?.desc.version ?? '-' }}
+                </el-text>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <el-divider class="my-1" />
+              </el-descriptions-item>
+              <el-descriptions-item label="兼容版本">
+                <el-text>
+                  支持 >= {{ data?.app?.desc.require ?? '-' }} 版本
+                </el-text>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <el-divider class="my-1" />
+              </el-descriptions-item>
+              <el-descriptions-item label="在线演示">
+                <el-link
+                  v-if="data?.app?.desc.preview_url"
+                  type="primary"
+                  :href="data.app.desc.preview_url"
+                  target="_blank"
+                >
+                  点击跳转
+                </el-link>
+                <el-text v-else>
+                  暂无
+                </el-text>
+              </el-descriptions-item>
+            </el-descriptions>
+          </div>
         </div>
       </div>
     </div>

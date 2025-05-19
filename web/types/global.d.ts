@@ -18,6 +18,10 @@ type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
 }
 
+type SFCModule<T> = {
+  [P in keyof T]?: T
+}
+
 interface Dictionary {
   label?: string
   value?: any

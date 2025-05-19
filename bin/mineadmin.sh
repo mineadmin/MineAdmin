@@ -1,7 +1,27 @@
 #!/bin/bash
 
+checkEvn() {
+  # 检查config/config.yaml文件是否存在
+  if [ ! -f ".env" ]; then
+      if [ -f ".env.example" ]; then
+          echo "提示：.env 环境变量文件不存在，正在从示例文件复制..."
+          cp .env.example .env
+          echo "已成功复制示例 .env.example 作为 .env 环境变量文件"
+      else
+          echo "安装错误：.env.example 和 .env 文件都不存在！"
+          echo "请加入QQ群反馈该信息：150105478"
+          return 1
+      fi
+  fi
+
+  return 0
+}
+
 # 安装项目
 installProject() {
+
+
+
   echo 'install'
 }
 

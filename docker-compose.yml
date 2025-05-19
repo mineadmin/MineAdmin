@@ -66,3 +66,8 @@ services:
       - |
         ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
         tail -F /dev/null
+      - cd /www
+      - composer install
+      - php bin/hyperf.php migrate
+      - php bin/hyperf.php db:seed
+      - php bin/hyperf.php start

@@ -55,18 +55,6 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - APP_NAME=MineAdmin
-    healthcheck:
-      test: [ "CMD", "cd /www && composer install && php bin/hyperf.php migrate && php bin/hyperf.php db:seed"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      mineadmin:
-        condition: service_healthy
     command:
       - sh
       - -c
@@ -74,4 +62,5 @@ services:
         ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
         tail -F /dev/null
       - cd /www
+      - composer install
       - php bin/hyperf.php start

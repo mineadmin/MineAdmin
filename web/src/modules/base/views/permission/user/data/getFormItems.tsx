@@ -178,15 +178,20 @@ export default function getFormItems(
               policy_type: '',
             }
           }
-          if (formType === 'edit' && model.policy) {
-            model.policy.name = model.username
-            if (model.policy.policy_type === 'CUSTOM_FUNC') {
-              model.policy.func_name = model.policy.value
+          if (formType === 'edit') {
+            if (model.policy) {
+              model.policy.name = model.username
+              if (model.policy.policy_type === 'CUSTOM_FUNC') {
+                model.policy.func_name = model.policy.value
+              }
+              if (model.policy.policy_type === 'CUSTOM_DEPT') {
+                await nextTick(() => {
+                  scopeRef.value.deptRef.elTree?.setCheckedKeys(model.policy.value, true)
+                })
+              }
             }
-            if (model.policy.policy_type === 'CUSTOM_DEPT') {
-              await nextTick(() => {
-                scopeRef.value.deptRef.elTree?.setCheckedKeys(model.policy.value, true)
-              })
+            else {
+              model.policy = { name: model.username }
             }
           }
         },

@@ -43,7 +43,7 @@ const model = defineModel<any>()
     <slot name="default">
       <template v-if="dictionaryData">
         <template v-for="item in dictionaryData as Dictionary[]" :key="item">
-          <el-option :value="item.value" :label="item?.i18n ? t(item.i18n) : item.label">
+          <el-option :value="item.value" :label="item?.i18n ? t(item.i18n) : item.label" :disabled="item.disabled">
             <slot v-if="$slots.optionDefault" name="optionDefault" />
           </el-option>
         </template>

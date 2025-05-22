@@ -76,7 +76,7 @@ class Department extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id')->with('children');
+        return $this->hasMany(self::class, 'parent_id', 'id')->with(['children', 'positions']);
     }
 
     public function getFlatChildren(): BaseCollection

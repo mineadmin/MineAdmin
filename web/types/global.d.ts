@@ -28,6 +28,7 @@ interface Dictionary {
   i18n?: string
   color?: string
   disabled?: boolean
+  options?: Dictionary[]
 }
 
 interface PageList<T> {

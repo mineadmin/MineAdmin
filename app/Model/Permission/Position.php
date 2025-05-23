@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsTo;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasOne;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 
@@ -60,8 +61,8 @@ class Position extends Model
         return $this->belongsToMany(User::class, 'user_position', 'position_id', 'user_id');
     }
 
-    public function policy(): BelongsTo
+    public function policy(): HasOne
     {
-        return $this->belongsTo(Policy::class, 'id', 'id');
+        return $this->hasOne(Policy::class, 'position_id', 'id');
     }
 }

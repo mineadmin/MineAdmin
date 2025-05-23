@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of MineAdmin.
+ *
+ * @link     https://www.mineadmin.com
+ * @document https://doc.mineadmin.com
+ * @contact  root@imoi.cn
+ * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
+ */
+
 namespace App\Http\Admin\Request\Permission;
 
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
@@ -24,11 +34,6 @@ class BatchGrantDataPermissionForPositionRequest extends FormRequest
                 'array',
                 'min:1',
             ],
-            'is_default' => [
-                'sometimes',
-                'integer',
-                'in:0,1',
-            ],
         ];
     }
 
@@ -37,7 +42,6 @@ class BatchGrantDataPermissionForPositionRequest extends FormRequest
         return [
             'policy_type' => '策略类型',
             'value' => '策略值',
-            'is_default' => '是否默认策略',
         ];
     }
 }

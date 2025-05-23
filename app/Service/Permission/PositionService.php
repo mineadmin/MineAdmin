@@ -33,6 +33,11 @@ class PositionService extends IService
         if ($entity === null) {
             throw new BusinessException(ResultCode::NOT_FOUND);
         }
-        $entity->policy()->updateOrCreate([], $policy);
+        $policyEntity = $entity->policy()->first();
+        if (empty($policyEntity)) {
+            $entity->policy()->create($policy);
+        } else {
+            $policyEntity->update($policy);
+        }
     }
 }

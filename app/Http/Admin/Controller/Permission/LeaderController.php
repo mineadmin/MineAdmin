@@ -27,7 +27,6 @@ use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\JsonContent;
 use Hyperf\Swagger\Annotation\Post;
-use Hyperf\Swagger\Annotation\Put;
 use Hyperf\Swagger\Annotation\RequestBody;
 use Mine\Access\Attribute\Permission;
 use Mine\Swagger\Attributes\PageResponse;

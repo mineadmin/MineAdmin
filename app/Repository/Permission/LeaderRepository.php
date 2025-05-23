@@ -27,23 +27,17 @@ final class LeaderRepository extends IRepository
 
     public function create(array $data): mixed
     {
-        foreach($data['user_id'] as $id) {
+        foreach ($data['user_id'] as $id) {
             Leader::query()->where('dept_id', $data['dept_id'])->where('user_id', $id)->forceDelete();
             Leader::create(['dept_id' => $data['dept_id'], 'user_id' => $id, 'created_at' => date('Y-m-d H:i:s')]);
         }
         return true;
     }
 
-    protected function enablePageOrderBy(): bool
-    {
-        return false;
-    }
-
     public function deleteByDoubleKey(int $dept_id, array $user_ids): void
     {
         Leader::query()->where('dept_id', $dept_id)->whereIn('user_id', $user_ids)->forceDelete();
     }
-
 
     public function handleSearch(Builder $query, array $params): Builder
     {
@@ -60,6 +54,11 @@ final class LeaderRepository extends IRepository
             ->when(isset($params['updated_at']), static function (Builder $query) use ($params) {
                 $query->whereBetween('updated_at', $params['updated_at']);
             })
-            ->with(['department','user']);
+            ->with(['department', 'user']);
+    }
+
+    protected function enablePageOrderBy(): bool
+    {
+        return false;
     }
 }

@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller\Permission;
 
-use App\Exception\BusinessException;
 use App\Http\Admin\Controller\AbstractController;
 use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\Permission\DepartmentRequest;
 use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
-use App\Http\Common\ResultCode;
 use App\Http\CurrentUser;
 use App\Schema\DepartmentSchema;
 use App\Service\Permission\DepartmentService;
@@ -116,5 +114,4 @@ class DepartmentController extends AbstractController
         $this->service->deleteById($this->getRequestData());
         return $this->success();
     }
-
 }

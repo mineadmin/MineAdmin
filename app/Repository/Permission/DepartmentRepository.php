@@ -50,7 +50,7 @@ final class DepartmentRepository extends IRepository
             ->when(isset($params['updated_at']), static function (Builder $query) use ($params) {
                 $query->whereBetween('updated_at', $params['updated_at']);
             })
-            ->when(!empty($params['append_position']), static function (Builder $query) {
+            ->when(! empty($params['append_position']), static function (Builder $query) {
                 $query->with('positions:id,name');
             })
             ->when(isset($params['level']), static function (Builder $query) use ($params) {

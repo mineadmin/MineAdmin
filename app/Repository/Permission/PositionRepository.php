@@ -40,6 +40,6 @@ final class PositionRepository extends IRepository
             ->when(isset($params['updated_at']), static function (Builder $query) use ($params) {
                 $query->whereBetween('updated_at', $params['updated_at']);
             })
-            ->with(['department','policy']);
+            ->with(['department', 'policy']);
     }
 }

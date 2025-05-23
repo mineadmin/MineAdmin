@@ -71,9 +71,6 @@ final class UserService extends IService
         return Db::transaction(function () use ($data) {
             /** @var User $entity */
             $entity = parent::create($data);
-            if (! empty($data['policy'])) {
-                $entity->policy()->create($data['policy']);
-            }
             $this->handleWith($entity, $data);
         });
     }
@@ -87,9 +84,6 @@ final class UserService extends IService
                 throw new BusinessException(ResultCode::NOT_FOUND);
             }
             $entity->fill($data)->save();
-            if (! empty($data['policy'])) {
-                $entity->policy()->update($data['policy']);
-            }
             $this->handleWith($entity, $data);
         });
     }
@@ -101,6 +95,14 @@ final class UserService extends IService
         }
         if (! empty($data['position'])) {
             $entity->position()->sync($data['position']);
+        }
+        if (! empty($data['policy'])) {
+            $policy = $entity->policy()->first();
+            if ($policy) {
+                $policy->fill($data['policy'])->save();
+            } else {
+                $entity->policy()->create($data['policy']);
+            }
         }
     }
 }

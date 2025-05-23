@@ -74,7 +74,7 @@ class PositionController extends AbstractController
     )]
     #[Permission(code: 'permission:position:data_permission')]
     #[ResultResponse(instance: new Result())]
-    public function batchDataPermission(int $id,BatchGrantDataPermissionForPositionRequest $request): Result
+    public function batchDataPermission(int $id, BatchGrantDataPermissionForPositionRequest $request): Result
     {
         $this->service->batchDataPermission($id, $request->validated());
         return $this->success();

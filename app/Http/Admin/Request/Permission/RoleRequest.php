@@ -14,10 +14,8 @@ namespace App\Http\Admin\Request\Permission;
 
 use App\Http\Common\Request\Traits\HttpMethodTrait;
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
-use App\Model\Enums\DataPermission\PolicyType;
 use App\Schema\RoleSchema;
 use Hyperf\Validation\Request\FormRequest;
-use Hyperf\Validation\Rule;
 
 #[\Mine\Swagger\Attributes\FormRequest(
     schema: RoleSchema::class,
@@ -42,7 +40,7 @@ class RoleRequest extends FormRequest
             ],
             'status' => 'sometimes|integer|in:1,2',
             'sort' => 'required|integer',
-            'remark' => 'nullable|string|max:255'
+            'remark' => 'nullable|string|max:255',
         ];
         if ($this->isCreate()) {
             $rules['code'][] = 'unique:role,code';

@@ -159,7 +159,7 @@ export default function getFormItems(
         props: { label: 'name', children: 'positions' },
         checkStrictly: true,
         nodeKey: 'id',
-        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.dept') }),
+        placeholder: t('form.pleaseInput', { msg: t('baseUserManage.post') }),
       },
     },
     {

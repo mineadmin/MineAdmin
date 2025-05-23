@@ -64,8 +64,6 @@ const maDialog: UseDialogExpose = useDialog({
               res.code === ResultCode.SUCCESS ? msg.success(t('crud.createSuccess')) : msg.error(res.message)
               maDialog.close()
               proTableRef.value?.refresh()
-            }).catch((err: any) => {
-              msg.alertError(err)
             })
             break
           // 修改
@@ -74,8 +72,6 @@ const maDialog: UseDialogExpose = useDialog({
               res.code === 200 ? msg.success(t('crud.updateSuccess')) : msg.error(res.message)
               maDialog.close()
               proTableRef.value?.refresh()
-            }).catch((err: any) => {
-              msg.alertError(err)
             })
             break
         }

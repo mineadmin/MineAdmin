@@ -12,11 +12,8 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
-use App\Model\DataPermission\Policy;
 use Carbon\Carbon;
-use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\Relations\BelongsTo;
-use Hyperf\Database\Model\Relations\BelongsToMany;
 use Hyperf\Database\Model\SoftDeletes;
 use Hyperf\DbConnection\Model\Model;
 

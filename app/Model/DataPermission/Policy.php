@@ -24,15 +24,15 @@ use Hyperf\DbConnection\Model\Model;
 /**
  * @property int $id
  * @property int $user_id 用户ID（与角色二选一）
- * @property int $position_id 角色ID（与用户二选一）
+ * @property int $position_id 岗位ID（与用户二选一）
  * @property PolicyType $policy_type 策略类型（DEPT_SELF, DEPT_TREE, ALL, SELF, CUSTOM_DEPT, CUSTOM_FUNC）
  * @property bool $is_default 是否默认策略（默认值：true）
  * @property array $value 策略值
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
- * @property Position[]|Collection<int,Position> $positions
- * @property User[]|Collection<int,User> $users
+ * @property Collection<int,Position>|Position[] $positions
+ * @property Collection<int,User>|User[] $users
  */
 class Policy extends Model
 {
@@ -67,5 +67,4 @@ class Policy extends Model
     {
         return $this->belongsToMany(User::class, 'data_permission_policy_user', 'policy_id', 'user_id');
     }
-
 }

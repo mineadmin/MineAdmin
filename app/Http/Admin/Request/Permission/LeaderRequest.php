@@ -20,7 +20,7 @@ use Hyperf\Validation\Request\FormRequest;
 #[\Mine\Swagger\Attributes\FormRequest(
     schema: LeaderSchema::class,
     only: [
-        'dept_id', 'user_id'
+        'dept_id', 'user_id',
     ]
 )]
 class LeaderRequest extends FormRequest

@@ -78,17 +78,15 @@ class UserRequest extends FormRequest
             'department' => [
                 'sometimes',
                 'array',
-                'min:1',
             ],
             'department.*' => [
-                'sometimes',
+                'required_with:department',
                 'integer',
                 'exists:department,id',
             ],
             'position' => [
                 'sometimes',
                 'array',
-                'min:1',
             ],
             'position.*' => [
                 'sometimes',
@@ -112,6 +110,7 @@ class UserRequest extends FormRequest
             'backend_setting' => trans('user.backend_setting'),
             'created_by' => trans('user.created_by'),
             'remark' => trans('user.remark'),
+            'department' => trans('user.department'),
         ];
     }
 }

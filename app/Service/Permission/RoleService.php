@@ -12,14 +12,11 @@ declare(strict_types=1);
 
 namespace App\Service\Permission;
 
-use App\Exception\BusinessException;
-use App\Http\Common\ResultCode;
 use App\Model\Permission\Role;
 use App\Repository\Permission\MenuRepository;
 use App\Repository\Permission\RoleRepository;
 use App\Service\IService;
 use Hyperf\Collection\Collection;
-use Hyperf\DbConnection\Db;
 
 /**
  * @extends IService<Role>

@@ -90,5 +90,4 @@ final class Role extends MineModel
         $this->users()->detach();
         $this->menus()->detach();
     }
-
 }

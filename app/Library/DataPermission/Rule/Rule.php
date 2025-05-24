@@ -14,10 +14,12 @@ namespace App\Library\DataPermission\Rule;
 
 use App\Library\DataPermission\Rule\Executable\CreatedByIdsExecute;
 use App\Library\DataPermission\Rule\Executable\DeptExecute;
+use App\Library\DataPermission\ScopeType;
 use App\Model\DataPermission\Policy;
 use App\Model\Permission\User;
 use Hyperf\Cache\CacheManager;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Database\Query\Builder;
 use Psr\SimpleCache\CacheInterface;
 
 final class Rule
@@ -68,5 +70,14 @@ final class Rule
         $result = $execute->execute();
         $this->cache->set($cacheKey, $result, $this->getTtl());
         return $result;
+    }
+
+    public function loadCustomFunc(string $customFunc, Builder $builder, User $user, ?Policy $policy, ScopeType $scopeType): void
+    {
+        $func = $this->config->get('department.custom.' . $customFunc);
+        if ($func === null) {
+            throw new \RuntimeException(\sprintf('Custom function %s not found', $customFunc));
+        }
+        $func($builder, $scopeType, $policy, $user);
     }
 }

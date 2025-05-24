@@ -57,9 +57,6 @@ final class CreatedByIdsExecute extends AbstractExecutable
         }
         if (! empty($departmentList)) {
             foreach ($departmentList as $department) {
-                if ($policyType->isSelf()) {
-                    break;
-                }
                 $this->getUser()->newQuery()
                     ->whereHas('department', static function ($query) use ($department) {
                         $query->whereIn('id', $department->id);
@@ -98,9 +95,6 @@ final class CreatedByIdsExecute extends AbstractExecutable
              */
             $positionList = $this->getUser()->position()->get();
             foreach ($positionList as $position) {
-                if ($policyType->isSelf()) {
-                    break;
-                }
                 if ($policyType->isDeptSelf()) {
                     $position->department()->get()->each(function (Department $department) use (&$ids) {
                         $this->getUser()->newQuery()

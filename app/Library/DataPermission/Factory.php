@@ -14,6 +14,7 @@ namespace App\Library\DataPermission;
 
 use App\Library\DataPermission\Rule\Rule;
 use App\Model\DataPermission\Policy;
+use App\Model\Enums\DataPermission\PolicyType;
 use App\Model\Permission\User;
 use Hyperf\Database\Query\Builder;
 
@@ -34,6 +35,13 @@ final class Factory
             return;
         }
         $scopeType = Context::getScopeType();
+        if ($policy->policy_type === PolicyType::CustomFunc) {
+            $customFunc = $policy->value[0] ?? null;
+            if (! \is_string($customFunc)) {
+                throw new \RuntimeException(\sprintf('Invalid custom function: %s', $customFunc));
+            }
+            $this->rule->loadCustomFunc($customFunc, $builder, $user, $policy, $scopeType);
+        }
         switch ($scopeType) {
             case ScopeType::CREATED_BY:
                 self::handleCreatedBy($user, $policy, $builder);

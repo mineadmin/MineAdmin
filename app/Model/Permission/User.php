@@ -174,10 +174,10 @@ final class User extends Model
             return $policy;
         }
 
-        $this->load('roles');
-        $roleList = $this->roles;
-        foreach ($roleList as $role) {
-            $current = $role->policy()->first();
+        $this->load('position');
+        $positionList = $this->position;
+        foreach ($positionList as $position) {
+            $current = $position->policy()->first();
             if (! empty($current)) {
                 return $current;
             }

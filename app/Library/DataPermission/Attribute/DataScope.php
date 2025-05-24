@@ -22,7 +22,13 @@ final class DataScope extends AbstractAnnotation
         private readonly string $deptColumn = 'dept_id',
         private readonly string $createdByColumn = 'created_by',
         private readonly ScopeType $scopeType = ScopeType::DEPT_CREATED_BY,
+        private readonly ?array $onlyTables = null
     ) {}
+
+    public function getOnlyTables(): ?array
+    {
+        return $this->onlyTables;
+    }
 
     public function getDeptColumn(): string
     {

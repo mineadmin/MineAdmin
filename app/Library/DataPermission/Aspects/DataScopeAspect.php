@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace App\Library\DataPermission\Aspects;
 
+use App\Http\CurrentUser;
 use App\Library\DataPermission\Attribute\DataScope;
 use App\Library\DataPermission\Context as DataPermissionContext;
+use App\Library\DataPermission\Factory;
 use Hyperf\Context\Context;
 use Hyperf\Database\Query\Builder;
 use Hyperf\Di\Annotation\Aspect;
@@ -34,6 +36,10 @@ final class DataScopeAspect extends AbstractAspect
         Builder::class . '::delete',
         Builder::class . '::runSelect',
     ];
+
+    public function __construct(
+        private readonly Factory $factory
+    ) {}
 
     public function process(ProceedingJoinPoint $proceedingJoinPoint)
     {
@@ -74,8 +80,16 @@ final class DataScopeAspect extends AbstractAspect
          * @var Builder $builder
          */
         $builder = $proceedingJoinPoint->getInstance();
-        if (Context::has(self::CONTEXT_KEY)) {
-            // todo 做数据权限处理
+        if (! \in_array($builder->from, DataPermissionContext::getOnlyTables() ?: [], true)) {
+            return $proceedingJoinPoint->process();
+        }
+        if (Context::has(self::CONTEXT_KEY) && $user = CurrentUser::ctxUser()) {
+            Context::destroy(self::CONTEXT_KEY);
+            $this->factory->build(
+                $builder,
+                $user
+            );
+            Context::set(self::CONTEXT_KEY, 1);
         }
         return $proceedingJoinPoint->process();
     }
@@ -86,13 +100,14 @@ final class DataScopeAspect extends AbstractAspect
         /**
          * @var DataScope $attribute
          */
-        $attribute = $proceedingJoinPoint->getAnnotationMetadata()->class[DataScope::class];
+        $attribute = $proceedingJoinPoint->getAnnotationMetadata()->class[DataScope::class] ?? null;
         if ($attribute === null) {
-            $attribute = $proceedingJoinPoint->getAnnotationMetadata()->method[DataScope::class];
+            $attribute = $proceedingJoinPoint->getAnnotationMetadata()->method[DataScope::class] ?? null;
         }
         DataPermissionContext::setDeptColumn($attribute->getDeptColumn());
         DataPermissionContext::setCreatedByColumn($attribute->getCreatedByColumn());
         DataPermissionContext::setScopeType($attribute->getScopeType());
+        DataPermissionContext::setOnlyTables($attribute->getOnlyTables());
         $result = $proceedingJoinPoint->process();
         Context::destroy(self::CONTEXT_KEY);
         return $result;

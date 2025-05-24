@@ -22,6 +22,18 @@ final class Context
 
     private const SCOPE_TYPE_KEY = 'data_permission_scope_type';
 
+    private const ONLY_TABLES_KEY = 'data_permission_only_tables';
+
+    public static function setOnlyTables(array $tables): void
+    {
+        Ctx::set(self::ONLY_TABLES_KEY, $tables);
+    }
+
+    public static function getOnlyTables(): array
+    {
+        return Ctx::get(self::ONLY_TABLES_KEY, []);
+    }
+
     public static function getDeptColumn(): string
     {
         return Ctx::get(self::DEPT_COLUMN_KEY, 'dept_id');

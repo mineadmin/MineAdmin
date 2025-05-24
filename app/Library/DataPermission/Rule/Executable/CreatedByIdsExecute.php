@@ -52,16 +52,21 @@ final class CreatedByIdsExecute extends AbstractExecutable
         $ids = [
             $this->getUser()->id,
         ];
-        foreach ($departmentList as $department) {
-            if ($policyType->isSelf()) {
-                break;
+        if ($policyType->isSelf()) {
+            return $ids;
+        }
+        if (! empty($departmentList)) {
+            foreach ($departmentList as $department) {
+                if ($policyType->isSelf()) {
+                    break;
+                }
+                $this->getUser()->newQuery()
+                    ->whereHas('department', static function ($query) use ($department) {
+                        $query->whereIn('id', $department->id);
+                    })->get()->each(static function (User $user) use (&$ids) {
+                        $ids[] = $user->id;
+                    });
             }
-            $this->getUser()->newQuery()
-                ->whereHas('department', static function ($query) use ($department) {
-                    $query->whereIn('id', $department->id);
-                })->get()->each(static function (User $user) use (&$ids) {
-                    $ids[] = $user->id;
-                });
         }
         if ($policyType->isNotCustomFunc() && $policyType->isNotCustomDept()) {
             /**
@@ -69,10 +74,10 @@ final class CreatedByIdsExecute extends AbstractExecutable
              */
             $leaderDepartmentList = $this->getUser()->department()->get();
             foreach ($leaderDepartmentList as $department) {
-                if ($policyType->isSelf() || $policyType->isDeptSelf()) {
+                if ($policyType->isDeptSelf()) {
                     $this->getUser()->newQuery()
                         ->whereHas('department', static function ($query) use ($department) {
-                            $query->whereIn('id', $department->id);
+                            $query->where('id', $department->id);
                         })->get()->each(static function (User $user) use (&$ids) {
                             $ids[] = $user->id;
                         });

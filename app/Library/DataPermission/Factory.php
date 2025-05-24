@@ -52,22 +52,25 @@ final class Factory
 
     private function handleCreatedBy(User $user, Policy $policy, Builder $builder): void
     {
-        $createdByList = $this->rule->getCreatedByList($user, $policy);
-        $builder->whereIn(Context::getCreatedByColumn(), $createdByList);
+        $builder->when($this->rule->getCreatedByList($user, $policy), static function (Builder $query, array $createdByList) {
+            $query->whereIn(Context::getCreatedByColumn(), $createdByList);
+        });
     }
 
     private function handleDept(User $user, Policy $policy, Builder $builder): void
     {
-        $deptList = $this->rule->getDeptIds($user, $policy);
-        $builder->whereIn(Context::getDeptColumn(), $deptList);
+        $builder->when($this->rule->getDeptIds($user, $policy), static function (Builder $query, array $deptList) {
+            $query->whereIn(Context::getDeptColumn(), $deptList);
+        });
     }
 
     private function handleDeptCreatedBy(User $user, Policy $policy, Builder $builder): void
     {
-        $createdByList = $this->rule->getCreatedByList($user, $policy);
-        $deptList = $this->rule->getDeptIds($user, $policy);
-        $builder->whereIn(Context::getCreatedByColumn(), $createdByList)
-            ->whereIn(Context::getDeptColumn(), $deptList);
+        $builder->when($this->rule->getDeptIds($user, $policy), static function (Builder $query, array $deptList) {
+            $query->whereIn(Context::getDeptColumn(), $deptList);
+        })->when($this->rule->getCreatedByList($user, $policy), static function (Builder $query, array $createdByList) {
+            $query->whereIn(Context::getCreatedByColumn(), $createdByList);
+        });
     }
 
     private function handleDeptOrCreatedBy(User $user, Policy $policy, Builder $builder): void
@@ -75,8 +78,12 @@ final class Factory
         $createdByList = $this->rule->getCreatedByList($user, $policy);
         $deptList = $this->rule->getDeptIds($user, $policy);
         $builder->where(static function (Builder $query) use ($createdByList, $deptList) {
-            $query->whereIn(Context::getCreatedByColumn(), $createdByList)
-                ->orWhereIn(Context::getDeptColumn(), $deptList);
+            if ($createdByList) {
+                $query->whereIn(Context::getCreatedByColumn(), $createdByList);
+            }
+            if ($deptList) {
+                $query->orWhereIn(Context::getDeptColumn(), $deptList);
+            }
         });
     }
 }

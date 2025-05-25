@@ -118,19 +118,15 @@ const formItems = ref<MaFormItem[]>([
       <el-tree-select
         ref={treeSelectRef}
         data={menuList.value}
-        props={{ value: 'id', label: 'title' }}
+        props={{
+          value: 'id',
+          label: (data: MenuVo) => data.meta?.i18n ? t(data.meta.i18n) : data.meta?.title ?? 'unknown',
+        }}
         check-strictly={true}
         default-expand-all={true}
         clearable={true}
         filter-node-method={filterNode}
-      >
-        {{
-          default: ({ node }) => {
-            const { meta } = node.data
-            node.data.title = meta?.i18n ? useTrans(meta.i18n) : meta?.title ?? 'unknown'
-          },
-        }}
-      </el-tree-select>
+      />
     ),
     renderProps: {
       class: 'w-full',

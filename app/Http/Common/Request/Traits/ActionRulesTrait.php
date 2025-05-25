@@ -88,4 +88,14 @@ trait ActionRulesTrait
         }
         return null;
     }
+
+    public function getRealIp()
+    {
+        $headers = $this->getHeaders();
+        return $headers['x-real-ip'][0]
+            ?? $headers['x-forwarded-for'][0]
+            ?? $headers['http_x_forwarded_for'][0]
+            ?? $this->getServerParams()['remote_addr']
+            ?? '0.0.0.0';
+    }
 }

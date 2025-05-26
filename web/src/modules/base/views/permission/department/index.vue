@@ -77,17 +77,8 @@ const maDialog: UseDialogExpose = useDialog({
       maDialog.close()
     }
     else {
-      const elForm = setFormRef.value.maForm.getElFormRef()
-      // 验证通过后
-      elForm.validate().then(() => {
-        // 设置负责人
-        setFormRef.value.saveUserRole().then((res: any) => {
-          res.code === ResultCode.SUCCESS ? msg.success(t('baseUserManage.setRoleSuccess')) : msg.error(res.message)
-          maDialog.close()
-        }).catch((err: any) => {
-          msg.alertError(err)
-        })
-      })
+      proTableRef.value.refresh()
+      maDialog.close()
     }
     okLoadingState(false)
   },

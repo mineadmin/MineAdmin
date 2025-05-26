@@ -92,7 +92,7 @@ const options = ref<MaProTableOptions>({
   tableOptions: {
     adaption: false,
     height: 400,
-    rowKey: 'id',
+    rowKey: 'user_id',
     on: {
       // 表格选择事件
       onSelectionChange: (selection: any[]) => selections.value = selection,

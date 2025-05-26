@@ -29,7 +29,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     { label: () => t('baseDepartment.name'), prop: 'name', align: 'left' },
     { label: () => t('baseDepartment.leaderCount'), prop: 'leader', cellRender: ({ row }) => row.leader?.length ?? 0 },
     { label: () => t('baseDepartment.positionsCount'), prop: 'positions', cellRender: ({ row }) => row.positions?.length ?? 0 },
-    { label: () => t('baseDepartment.usersCount'), prop: 'users', cellRender: ({ row }) => row.users?.length ?? 0 },
+    { label: () => t('baseDepartment.usersCount'), prop: 'users', cellRender: ({ row }) => row.department_users?.length ?? 0 },
     { label: () => t('baseDepartment.created_at'), prop: 'created_at', width: 200 },
     { label: () => t('baseDepartment.updated_at'), prop: 'updated_at', width: 200 },
 

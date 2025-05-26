@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
+use App\Http\Admin\Request\PassportLoginRequest;
 use App\Http\Common\Event\RequestOperationEvent;
 use App\Http\CurrentUser;
 use Hyperf\Collection\Arr;
@@ -61,11 +62,12 @@ class OperationMiddleware implements MiddlewareInterface
         [$controller,$method] = $parseResult;
         $operator = $this->getClassMethodPathAttribute($controller, $method);
         if ($operator !== null) {
+            $ip = $this->container->get(PassportLoginRequest::class)->getRealIp();
             $this->dispatcher->dispatch(new RequestOperationEvent(
                 $this->user->id(),
                 $operator->summary,
                 $request->getUri()->getPath(),
-                Arr::first(array: $this->container->get(Request::class)->getClientIps(), callback: static fn ($val) => $val, default: '0.0.0.0'),
+                $ip,
                 $request->getMethod(),
             ));
         }

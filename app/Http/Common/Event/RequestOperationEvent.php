@@ -38,13 +38,7 @@ class RequestOperationEvent
 
     public function getIp(): string
     {
-        $request = ApplicationContext::getContainer()->get(Request::class);
-        $headers = $request->getHeaders();
-        return $headers['x-real-ip'][0]
-            ?? $headers['x-forwarded-for'][0]
-            ?? $headers['http_x_forwarded_for'][0]
-            ?? $request->getServerParams()['remote_addr']
-            ?? $this->ip;
+        return $this->ip;
     }
 
     public function getPath(): string

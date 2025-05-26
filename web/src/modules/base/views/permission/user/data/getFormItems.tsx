@@ -143,6 +143,21 @@ export default function getFormItems(
             postList.value.push(post)
           }
         },
+        onRemoveTag: (value: number) => {
+          const current = postList.value.find((item: any) => item.id === value)?.positions ?? []
+          if (current.length > 0) {
+            current?.map((item: any) => {
+              if (model.position?.includes(item.id)) {
+                model.position?.splice(model.position?.indexOf(item.id), 1)
+              }
+            })
+          }
+          postList.value = postList.value.filter((item: any) => item.id !== value)
+        },
+        onClear: () => {
+          postList.value = []
+          model.position = []
+        },
       },
     },
     {

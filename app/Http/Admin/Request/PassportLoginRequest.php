@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Request;
 
-use App\Http\Common\Request\Traits\ActionRulesTrait;
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
+use Hyperf\Collection\Arr;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 use Hyperf\Validation\Request\FormRequest;
@@ -26,7 +26,6 @@ use Mine\Support\Request\ClientOsTrait;
 ])]
 class PassportLoginRequest extends FormRequest
 {
-    use ActionRulesTrait;
     use ClientIpRequestTrait;
     use ClientOsTrait;
     use NoAuthorizeTrait;
@@ -49,6 +48,6 @@ class PassportLoginRequest extends FormRequest
 
     public function ip(): string
     {
-        return $this->getRealIp();
+        return Arr::first($this->getClientIps(), static fn ($ip) => $ip, '0.0.0.0');
     }
 }

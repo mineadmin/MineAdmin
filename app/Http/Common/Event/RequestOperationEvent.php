@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Event;
 
-use Hyperf\Context\ApplicationContext;
-use Mine\Support\Request;
-
 class RequestOperationEvent
 {
     public function __construct(

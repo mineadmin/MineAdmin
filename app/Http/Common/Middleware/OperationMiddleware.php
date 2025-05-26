@@ -65,7 +65,7 @@ class OperationMiddleware implements MiddlewareInterface
                 $this->user->id(),
                 $operator->summary,
                 $request->getUri()->getPath(),
-                $this->getRealIp($request),
+                Arr::first(array: $this->container->get(Request::class)->getClientIps(), callback: static fn ($val) => $val, default: '0.0.0.0'),
                 $request->getMethod(),
             ));
         }
@@ -85,20 +85,5 @@ class OperationMiddleware implements MiddlewareInterface
             }
         }
         return null;
-    }
-
-    /**
-     * 获取客户端真实IP.
-     * @param ServerRequestInterface $request
-     * @return string
-     */
-    private function getRealIp(ServerRequestInterface $request): string
-    {
-        $headers = $request->getHeaders();
-        return ($headers['x-real-ip'][0] ?? null)
-            ?? ($headers['x-forwarded-for'][0] ?? null)
-            ?? ($headers['http_x_forwarded_for'][0] ?? null)
-            ?? ($request->getServerParams()['remote_addr'] ?? null)
-            ?? '0.0.0.0';
     }
 }

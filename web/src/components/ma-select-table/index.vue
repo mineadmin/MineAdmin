@@ -69,6 +69,15 @@ const options = Object.assign(
 
 const cols = props?.columns ?? []
 
+function isRowSelected(row: any) {
+  if (multiple.value) {
+    return Array.isArray(model.value) && model.value.some(item => item?.[rowKey.value] === row?.[rowKey.value])
+  }
+  else {
+    return model.value?.[rowKey.value] === row?.[rowKey.value]
+  }
+}
+
 watch(() => model.value, () => {
   if (multiple.value && model.value?.length > 0) {
     selectModel.value = model.value.map((item: any) => item[showKey.value])
@@ -119,8 +128,12 @@ onMounted(() => {
         </template>
         <template #column-__selections__="{ row }">
           <div class="flex items-center justify-center">
-            <ma-svg-icon v-if="multiple && model.findIndex((item: any) => item[rowKey] === row[rowKey]) !== -1" name="heroicons:check-16-solid" class="text-green-7" :size="20" />
-            <ma-svg-icon v-else-if="!multiple && model?.[rowKey] === row[rowKey]" name="heroicons:check-16-solid" class="text-green-7" :size="20" />
+            <ma-svg-icon
+              v-if="isRowSelected(row)"
+              name="heroicons:check-16-solid"
+              class="text-green-7"
+              :size="20"
+            />
           </div>
         </template>
       </ma-pro-table>

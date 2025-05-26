@@ -59,10 +59,10 @@ class DepartmentService extends IService
 
     protected function handleEntity(Department $entity, array $data): void
     {
-        if (! empty($data['department_users'])) {
+        if (isset($data['department_users'])) {
             $entity->department_users()->sync($data['department_users']);
         }
-        if (! empty($data['leader'])) {
+        if (isset($data['leader'])) {
             $entity->leader()->sync($data['leader']);
         }
     }

@@ -101,13 +101,13 @@ final class UserService extends IService
 
     protected function handleWith(User $entity, array $data): void
     {
-        if (! empty($data['department'])) {
+        if (isset($data['department'])) {
             $entity->department()->sync($data['department']);
         }
-        if (! empty($data['position'])) {
+        if (isset($data['position'])) {
             $entity->position()->sync($data['position']);
         }
-        if (! empty($data['policy'])) {
+        if (isset($data['policy'])) {
             $policy = $entity->policy()->first();
             if ($policy) {
                 $policy->fill($data['policy'])->save();

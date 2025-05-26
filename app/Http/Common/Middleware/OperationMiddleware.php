@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
-use App\Http\Admin\Request\PassportLoginRequest;
 use App\Http\Common\Event\RequestOperationEvent;
 use App\Http\CurrentUser;
 use Hyperf\Collection\Arr;
@@ -62,12 +61,11 @@ class OperationMiddleware implements MiddlewareInterface
         [$controller,$method] = $parseResult;
         $operator = $this->getClassMethodPathAttribute($controller, $method);
         if ($operator !== null) {
-            $ip = $this->container->get(PassportLoginRequest::class)->getRealIp();
             $this->dispatcher->dispatch(new RequestOperationEvent(
                 $this->user->id(),
                 $operator->summary,
                 $request->getUri()->getPath(),
-                $ip,
+                $this->getRealIp($request),
                 $request->getMethod(),
             ));
         }
@@ -87,5 +85,20 @@ class OperationMiddleware implements MiddlewareInterface
             }
         }
         return null;
+    }
+
+    /**
+     * 获取客户端真实IP.
+     * @param ServerRequestInterface $request
+     * @return string
+     */
+    private function getRealIp(ServerRequestInterface $request): string
+    {
+        $headers = $request->getHeaders();
+        return ($headers['x-real-ip'][0] ?? null)
+            ?? ($headers['x-forwarded-for'][0] ?? null)
+            ?? ($headers['http_x_forwarded_for'][0] ?? null)
+            ?? ($request->getServerParams()['remote_addr'] ?? null)
+            ?? '0.0.0.0';
     }
 }

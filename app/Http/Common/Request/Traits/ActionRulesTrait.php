@@ -88,4 +88,18 @@ trait ActionRulesTrait
         }
         return null;
     }
+
+    /**
+     * 获取客户端真实IP.
+     * @return string
+     */
+    public function getRealIp(): string
+    {
+        $headers = $this->getHeaders();
+        return ($headers['x-real-ip'][0] ?? null)
+            ?? ($headers['x-forwarded-for'][0] ?? null)
+            ?? ($headers['http_x_forwarded_for'][0] ?? null)
+            ?? ($this->getServerParams()['remote_addr'] ?? null)
+            ?? '0.0.0.0';
+    }
 }

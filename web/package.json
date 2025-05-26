@@ -32,6 +32,7 @@
     "echarts": "^5.6.0",
     "element-plus": "^2.9.9",
     "floating-vue": "5.2.2",
+    "inquirer": "^12.6.3",
     "lodash-es": "^4.17.21",
     "md-editor-v3": "^5.3.0",
     "nprogress": "^0.2.0",

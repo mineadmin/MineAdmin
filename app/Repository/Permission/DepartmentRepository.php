@@ -29,7 +29,7 @@ final class DepartmentRepository extends IRepository
 
     public function getByIds(array $ids): Collection
     {
-        return $this->model->whereIn('id', $ids)->get();
+        return $this->model->newQuery()->whereIn('id', $ids)->get();
     }
 
     public function handleSearch(Builder $query, array $params): Builder

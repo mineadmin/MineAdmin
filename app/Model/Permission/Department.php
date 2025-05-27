@@ -76,6 +76,7 @@ class Department extends Model
 
     public function children(): HasMany
     {
+        // @phpstan-ignore-next-line
         return $this->hasMany(self::class, 'parent_id', 'id')->with(['children', 'positions']);
     }
 

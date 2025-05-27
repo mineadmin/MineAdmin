@@ -98,11 +98,14 @@ final class DataScopeAspect extends AbstractAspect
     {
         Context::set(self::CONTEXT_KEY, 1);
         /**
-         * @var DataScope $attribute
+         * @var null|DataScope $attribute
          */
-        $attribute = $proceedingJoinPoint->getAnnotationMetadata()->class[DataScope::class] ?? null;
+        $attribute = $proceedingJoinPoint->getAnnotationMetadata()->class[DataScope::class] ?: null;
         if ($attribute === null) {
-            $attribute = $proceedingJoinPoint->getAnnotationMetadata()->method[DataScope::class] ?? null;
+            $attribute = $proceedingJoinPoint->getAnnotationMetadata()->method[DataScope::class] ?: null;
+        }
+        if ($attribute === null) {
+            return $proceedingJoinPoint->process();
         }
         DataPermissionContext::setDeptColumn($attribute->getDeptColumn());
         DataPermissionContext::setCreatedByColumn($attribute->getCreatedByColumn());

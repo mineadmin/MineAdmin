@@ -48,6 +48,9 @@ final class DeptExecute extends AbstractExecutable
                 $departmentList->merge($item->getFlatChildren());
             }
         }
+        if (empty($departmentList)) {
+            return null;
+        }
         $departmentList->merge($this->getUser()->dept_leader()->get());
         /**
          * @var Collection|Position[] $positionList

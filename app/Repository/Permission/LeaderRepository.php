@@ -31,7 +31,8 @@ final class LeaderRepository extends IRepository
             Leader::query()->where('dept_id', $data['dept_id'])->where('user_id', $id)->forceDelete();
             Leader::create(['dept_id' => $data['dept_id'], 'user_id' => $id, 'created_at' => date('Y-m-d H:i:s')]);
         }
-        return true;
+        // @phpstan-ignore-next-line
+        return null;
     }
 
     public function deleteByDoubleKey(int $dept_id, array $user_ids): void

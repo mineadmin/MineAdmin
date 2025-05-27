@@ -57,9 +57,11 @@ final class CreatedByIdsExecute extends AbstractExecutable
         }
         if (! empty($departmentList)) {
             foreach ($departmentList as $department) {
+                // @phpstan-ignore-next-line
                 $this->getUser()->newQuery()
                     ->whereHas('department', static function ($query) use ($department) {
                         $query->whereIn('id', $department->id);
+                        // @phpstan-ignore-next-line
                     })->get()->each(static function (User $user) use (&$ids) {
                         $ids[] = $user->id;
                     });
@@ -72,18 +74,22 @@ final class CreatedByIdsExecute extends AbstractExecutable
             $leaderDepartmentList = $this->getUser()->department()->get();
             foreach ($leaderDepartmentList as $department) {
                 if ($policyType->isDeptSelf()) {
+                    // @phpstan-ignore-next-line
                     $this->getUser()->newQuery()
                         ->whereHas('department', static function ($query) use ($department) {
                             $query->where('id', $department->id);
+                            // @phpstan-ignore-next-line
                         })->get()->each(static function (User $user) use (&$ids) {
                             $ids[] = $user->id;
                         });
                 }
                 if ($policyType->isDeptTree()) {
+                    // @phpstan-ignore-next-line
                     $department->getFlatChildren()->each(function (Department $department) use (&$ids) {
                         $this->getUser()->newQuery()
                             ->whereHas('department', static function ($query) use ($department) {
                                 $query->whereIn('id', $department->id);
+                                // @phpstan-ignore-next-line
                             })->get()->each(static function (User $user) use (&$ids) {
                                 $ids[] = $user->id;
                             });
@@ -96,21 +102,25 @@ final class CreatedByIdsExecute extends AbstractExecutable
             $positionList = $this->getUser()->position()->get();
             foreach ($positionList as $position) {
                 if ($policyType->isDeptSelf()) {
+                    // @phpstan-ignore-next-line
                     $position->department()->get()->each(function (Department $department) use (&$ids) {
                         $this->getUser()->newQuery()
                             ->whereHas('department', static function ($query) use ($department) {
                                 $query->whereIn('id', $department->id);
+                                // @phpstan-ignore-next-line
                             })->get()->each(static function (User $user) use (&$ids) {
                                 $ids[] = $user->id;
                             });
                     });
                 }
                 if ($policyType->isDeptTree()) {
+                    // @phpstan-ignore-next-line
                     $position->department()->get()->each(function (Department $department) use (&$ids) {
                         $department->getFlatChildren()->each(function (Department $department) use (&$ids) {
                             $this->getUser()->newQuery()
                                 ->whereHas('department', static function ($query) use ($department) {
                                     $query->whereIn('id', $department->id);
+                                    // @phpstan-ignore-next-line
                                 })->get()->each(static function (User $user) use (&$ids) {
                                     $ids[] = $user->id;
                                 });

@@ -1,5 +1,5 @@
-[Chinese](./README.md) | English
-# Project Introduction  
+[中文](./README.md) | English
+# Projects
 
 <p align="center">  
     <img src="https://doc.mineadmin.com/logo.svg" width="120" />  
@@ -41,10 +41,7 @@ The current branch includes features such as departments, positions, and data pe
 4. **Operation Logs**: Track and query user actions.  
 5. **Login Logs**: Record and query user login history.  
 6. **Attachment Management**: Manage uploaded files and images.  
-7. **Department Management**: Organize company structures.  
-8. **Position Management**: Assign positions within departments and allocate users to positions.  
-9. **Data Permissions**: Configure data permissions per position; can also override per user.  
-10. **App Market**: Download various basic apps, plugins, frontend components, and more.  
+7. **App Market**: Download various basic apps, plugins, frontend components, and more.  
 
 ## Requirements  
 

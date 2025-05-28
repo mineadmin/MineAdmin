@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Library\DataPermission\Scope;
 
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Context\ApplicationContext;
 
 /**
  * @internal
@@ -22,6 +23,6 @@ trait DataScopes
 {
     public static function bootDataScopes(): void
     {
-        static::addGlobalScope(DataScope::class);
+        static::addGlobalScope(ApplicationContext::getContainer()->get(DataScope::class));
     }
 }

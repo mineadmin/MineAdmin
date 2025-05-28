@@ -146,7 +146,7 @@ final class User extends Model
 
     public function policy(): BelongsTo
     {
-        return $this->belongsTo(Policy::class, 'id', 'id');
+        return $this->belongsTo(Policy::class, 'id', 'user_id');
     }
 
     public function department(): BelongsToMany

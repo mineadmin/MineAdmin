@@ -112,7 +112,7 @@ final class UserService extends IService
             if ($policy) {
                 $policy->fill($data['policy'])->save();
             } else {
-                $entity->policy()->create($data['policy']);
+                $entity->policy()->create(array_merge($data['policy'], ['user_id' => $entity->id]));
             }
         }
     }

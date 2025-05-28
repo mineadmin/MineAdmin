@@ -129,6 +129,9 @@ const options = ref<MaProTableOptions>({
   requestOptions: {
     api: page,
   },
+  onSearchReset: () => {
+    proTableRef.value.setRequestParams({ department_id: undefined }, false)
+  },
 })
 // 架构配置
 const schema = ref<MaProTableSchema>({

@@ -16,6 +16,7 @@ use App\Http\CurrentUser;
 use App\Library\DataPermission\Attribute\DataScope;
 use App\Library\DataPermission\Context as DataPermissionContext;
 use App\Library\DataPermission\Factory;
+use Hyperf\Collection\Arr;
 use Hyperf\Context\Context;
 use Hyperf\Database\Query\Builder;
 use Hyperf\Di\Annotation\Aspect;
@@ -100,9 +101,9 @@ final class DataScopeAspect extends AbstractAspect
         /**
          * @var null|DataScope $attribute
          */
-        $attribute = $proceedingJoinPoint->getAnnotationMetadata()->class[DataScope::class] ?: null;
+        $attribute = Arr::get($proceedingJoinPoint->getAnnotationMetadata()->class, DataScope::class);
         if ($attribute === null) {
-            $attribute = $proceedingJoinPoint->getAnnotationMetadata()->method[DataScope::class] ?: null;
+            $attribute = Arr::get($proceedingJoinPoint->getAnnotationMetadata()->method, DataScope::class);
         }
         if ($attribute === null) {
             return $proceedingJoinPoint->process();

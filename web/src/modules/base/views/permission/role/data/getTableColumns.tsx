@@ -82,7 +82,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
                 const response = await deleteByIds([row.id])
                 if (response.code === ResultCode.SUCCESS) {
                   msg.success(t('crud.delSuccess'))
-                  proxy.refresh()
+                  await proxy.refresh()
                 }
               })
             },

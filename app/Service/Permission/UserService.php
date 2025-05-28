@@ -80,7 +80,7 @@ final class UserService extends IService
     public function updateById(mixed $id, array $data): mixed
     {
         return Db::transaction(function () use ($id, $data) {
-            /** @var User $entity */
+            /** @var null|User $entity */
             $entity = $this->repository->findById($id);
             if (empty($entity)) {
                 throw new BusinessException(ResultCode::NOT_FOUND);
@@ -107,7 +107,7 @@ final class UserService extends IService
         if (isset($data['position'])) {
             $entity->position()->sync($data['position']);
         }
-        if (!empty($data['policy'])) {
+        if (! empty($data['policy'])) {
             $policy = $entity->policy()->first();
             if ($policy) {
                 $policy->fill($data['policy'])->save();

@@ -15,6 +15,7 @@ namespace App\Library\DataPermission\Scope;
 use Hyperf\DbConnection\Model\Model;
 
 /**
+ * @internal
  * @mixin Model
  */
 trait DataScopes

@@ -40,17 +40,52 @@ const model = defineModel<any>()
 
 <template>
   <el-select v-model="model" v-bind="$attrs">
+    <!-- 默认插槽 -->
     <slot name="default">
       <template v-if="dictionaryData">
-        <template v-for="item in dictionaryData as Dictionary[]" :key="item">
-          <el-option :value="item.value" :label="item?.i18n ? t(item.i18n) : item.label" :disabled="item.disabled">
-            <slot v-if="$slots.optionDefault" name="optionDefault" />
+        <template v-for="item in dictionaryData" :key="item.label || item.value">
+          <!-- 分组选项 -->
+          <el-option-group
+            v-if="item.options"
+            :label="item.i18n ? t(item.i18n) : item.label"
+            :disabled="item.disabled"
+          >
+            <el-option
+              v-for="sub in item.options"
+              :key="sub.value"
+              :value="sub.value"
+              :label="sub.i18n ? t(sub.i18n) : sub.label"
+              :disabled="sub.disabled"
+            >
+              <!-- option 插槽 -->
+              <template v-if="$slots.optionDefault">
+                <slot name="optionDefault" :option="sub" />
+              </template>
+            </el-option>
+          </el-option-group>
+
+          <!-- 普通选项 -->
+          <el-option
+            v-else
+            :value="item.value"
+            :label="item.i18n ? t(item.i18n) : item.label"
+            :disabled="item.disabled"
+          >
+            <!-- option 插槽 -->
+            <template v-if="$slots.optionDefault">
+              <slot name="optionDefault" :option="item" />
+            </template>
           </el-option>
         </template>
       </template>
     </slot>
+
+    <!-- 其他具名插槽 -->
     <template v-for="slot in Object.keys($slots)" #[slot]>
-      <slot v-if="slot !== 'default'" :name="slot" />
+      <slot
+        v-if="slot !== 'default' && slot !== 'optionDefault'"
+        :name="slot"
+      />
     </template>
   </el-select>
 </template>

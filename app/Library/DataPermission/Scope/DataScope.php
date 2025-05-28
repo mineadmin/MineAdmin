@@ -20,12 +20,6 @@ use Hyperf\Database\Model\Scope;
 
 class DataScope implements Scope
 {
-    protected array $extensions = [];
-
-    public function __construct(
-        private readonly Factory $factory
-    ) {}
-
     public function apply(Builder $builder, Model $model): void
     {
         $user = CurrentUser::ctxUser();
@@ -33,6 +27,6 @@ class DataScope implements Scope
             return;
         }
 
-        $this->factory->build($builder->getQuery(), $user);
+        Factory::make()->build($builder->getQuery(), $user);
     }
 }

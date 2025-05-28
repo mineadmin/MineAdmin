@@ -16,6 +16,7 @@ use App\Library\DataPermission\Rule\Rule;
 use App\Model\DataPermission\Policy;
 use App\Model\Enums\DataPermission\PolicyType;
 use App\Model\Permission\User;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Database\Query\Builder;
 
 final class Factory
@@ -23,6 +24,11 @@ final class Factory
     public function __construct(
         private readonly Rule $rule
     ) {}
+
+    public static function make(): self
+    {
+        return ApplicationContext::getContainer()->get(self::class);
+    }
 
     public function build(
         Builder $builder,

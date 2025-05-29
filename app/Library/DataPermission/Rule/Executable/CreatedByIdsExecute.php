@@ -55,18 +55,7 @@ final class CreatedByIdsExecute extends AbstractExecutable
         if ($policyType->isSelf()) {
             return $ids;
         }
-        if (! empty($departmentList)) {
-            foreach ($departmentList as $department) {
-                // @phpstan-ignore-next-line
-                $this->getUser()->newQuery()
-                    ->whereHas('department', static function ($query) use ($department) {
-                        $query->where('id', $department->id);
-                        // @phpstan-ignore-next-line
-                    })->get()->each(static function (User $user) use (&$ids) {
-                        $ids[] = $user->id;
-                    });
-            }
-        }
+
         if ($policyType->isNotCustomFunc() && $policyType->isNotCustomDept()) {
             /**
              * @var Collection|Department[] $leaderDepartmentList

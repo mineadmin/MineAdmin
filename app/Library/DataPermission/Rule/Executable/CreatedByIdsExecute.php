@@ -117,6 +117,33 @@ final class CreatedByIdsExecute extends AbstractExecutable
                     });
                 }
             }
+
+            if (! empty($departmentList)) {
+                foreach ($departmentList as $department) {
+                    if ($policyType->isDeptSelf()) {
+                        // @phpstan-ignore-next-line
+                        $this->getUser()->newQuery()
+                            ->whereHas('department', static function ($query) use ($department) {
+                                $query->where('id', $department->id);
+                                // @phpstan-ignore-next-line
+                            })->get()->each(static function (User $user) use (&$ids) {
+                                $ids[] = $user->id;
+                            });
+                    }
+                    if ($policyType->isDeptTree()) {
+                        // @phpstan-ignore-next-line
+                        $department->getFlatChildren()->each(function (Department $department) use (&$ids) {
+                            $this->getUser()->newQuery()
+                                ->whereHas('department', static function ($query) use ($department) {
+                                    $query->where('id', $department->id);
+                                    // @phpstan-ignore-next-line
+                                })->get()->each(static function (User $user) use (&$ids) {
+                                    $ids[] = $user->id;
+                                });
+                        });
+                    }
+                }
+            }
         }
         return array_unique($ids);
     }

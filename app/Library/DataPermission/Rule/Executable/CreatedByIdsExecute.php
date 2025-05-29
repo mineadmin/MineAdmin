@@ -129,6 +129,6 @@ final class CreatedByIdsExecute extends AbstractExecutable
                 }
             }
         }
-        return $ids;
+        return array_unique($ids);
     }
 }

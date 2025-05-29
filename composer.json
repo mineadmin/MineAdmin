@@ -61,7 +61,7 @@
     "mineadmin/auth-jwt": "~3.0",
     "mineadmin/core": "~3.0",
     "mineadmin/jwt": "~3.0",
-    "mineadmin/support": "~3.0",
+    "mineadmin/support": "v3.0.2",
     "mineadmin/swagger": "~3.0",
     "mineadmin/upload": "~3.0"
   },

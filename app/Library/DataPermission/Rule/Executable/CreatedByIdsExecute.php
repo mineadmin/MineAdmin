@@ -60,7 +60,7 @@ final class CreatedByIdsExecute extends AbstractExecutable
                 // @phpstan-ignore-next-line
                 $this->getUser()->newQuery()
                     ->whereHas('department', static function ($query) use ($department) {
-                        $query->whereIn('id', $department->id);
+                        $query->where('id', $department->id);
                         // @phpstan-ignore-next-line
                     })->get()->each(static function (User $user) use (&$ids) {
                         $ids[] = $user->id;
@@ -88,7 +88,7 @@ final class CreatedByIdsExecute extends AbstractExecutable
                     $department->getFlatChildren()->each(function (Department $department) use (&$ids) {
                         $this->getUser()->newQuery()
                             ->whereHas('department', static function ($query) use ($department) {
-                                $query->whereIn('id', $department->id);
+                                $query->where('id', $department->id);
                                 // @phpstan-ignore-next-line
                             })->get()->each(static function (User $user) use (&$ids) {
                                 $ids[] = $user->id;
@@ -106,7 +106,7 @@ final class CreatedByIdsExecute extends AbstractExecutable
                     $position->department()->get()->each(function (Department $department) use (&$ids) {
                         $this->getUser()->newQuery()
                             ->whereHas('department', static function ($query) use ($department) {
-                                $query->whereIn('id', $department->id);
+                                $query->where('id', $department->id);
                                 // @phpstan-ignore-next-line
                             })->get()->each(static function (User $user) use (&$ids) {
                                 $ids[] = $user->id;
@@ -119,7 +119,7 @@ final class CreatedByIdsExecute extends AbstractExecutable
                         $department->getFlatChildren()->each(function (Department $department) use (&$ids) {
                             $this->getUser()->newQuery()
                                 ->whereHas('department', static function ($query) use ($department) {
-                                    $query->whereIn('id', $department->id);
+                                    $query->where('id', $department->id);
                                     // @phpstan-ignore-next-line
                                 })->get()->each(static function (User $user) use (&$ids) {
                                     $ids[] = $user->id;

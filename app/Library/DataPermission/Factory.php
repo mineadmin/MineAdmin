@@ -19,7 +19,7 @@ use App\Model\Permission\User;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Database\Query\Builder;
 
-final class Factory
+class Factory
 {
     public function __construct(
         private readonly Rule $rule

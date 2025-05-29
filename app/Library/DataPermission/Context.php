@@ -24,7 +24,7 @@ final class Context
 
     private const ONLY_TABLES_KEY = 'data_permission_only_tables';
 
-    public static function setOnlyTables(array $tables): void
+    public static function setOnlyTables(?array $tables): void
     {
         Ctx::set(self::ONLY_TABLES_KEY, $tables);
     }

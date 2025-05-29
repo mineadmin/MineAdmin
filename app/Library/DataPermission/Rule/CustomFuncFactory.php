@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Library\DataPermission\Rule;
 
-final class CustomFuncFactory
+class CustomFuncFactory
 {
     /**
      * @var array<string,\Closure>

@@ -16,7 +16,7 @@ use App\Library\DataPermission\ScopeType;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
-final class DataScope extends AbstractAnnotation
+class DataScope extends AbstractAnnotation
 {
     public function __construct(
         private readonly string $deptColumn = 'dept_id',

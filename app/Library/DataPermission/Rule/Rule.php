@@ -22,7 +22,7 @@ use Hyperf\Contract\ConfigInterface;
 use Hyperf\Database\Query\Builder;
 use Psr\SimpleCache\CacheInterface;
 
-final class Rule
+class Rule
 {
     private readonly CacheInterface $cache;
 

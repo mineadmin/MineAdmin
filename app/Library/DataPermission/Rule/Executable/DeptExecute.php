@@ -17,7 +17,7 @@ use App\Model\Permission\Position;
 use App\Repository\Permission\DepartmentRepository;
 use Hyperf\Database\Model\Collection;
 
-final class DeptExecute extends AbstractExecutable
+class DeptExecute extends AbstractExecutable
 {
     public function execute(): ?array
     {

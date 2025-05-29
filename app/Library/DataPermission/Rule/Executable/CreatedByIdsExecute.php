@@ -18,7 +18,7 @@ use App\Model\Permission\User;
 use App\Repository\Permission\DepartmentRepository;
 use Hyperf\Database\Model\Collection;
 
-final class CreatedByIdsExecute extends AbstractExecutable
+class CreatedByIdsExecute extends AbstractExecutable
 {
     public function execute(): ?array
     {

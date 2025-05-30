@@ -21,6 +21,7 @@ use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsTo;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasOne;
 use Hyperf\DbConnection\Model\Model;
 
 /**
@@ -139,16 +140,32 @@ final class User extends Model
         return $this->roles()->with('menus')->orderBy('sort')->get()->pluck('menus')->flatten();
     }
 
+    /**
+     * Determines whether the user has a specific permission.
+     *
+     * @param string $permission The name of the permission to check.
+     * @return bool True if the user has the specified permission; otherwise, false.
+     */
     public function hasPermission(string $permission): bool
     {
         return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
     }
 
-    public function policy(): BelongsTo
+    /**
+     * Defines a one-to-one relationship to the user's data permission policy.
+     *
+     * @return HasOne The associated Policy model for this user.
+     */
+    public function policy(): HasOne
     {
-        return $this->belongsTo(Policy::class, 'id', 'user_id');
+        return $this->hasOne(Policy::class, 'user_id', 'id');
     }
 
+    /**
+     * Defines a many-to-many relationship between the user and departments.
+     *
+     * @return BelongsToMany The related departments for the user.
+     */
     public function department(): BelongsToMany
     {
         return $this->belongsToMany(Department::class, 'user_dept', 'user_id', 'dept_id');

@@ -21,6 +21,7 @@ use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsTo;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasOne;
 use Hyperf\DbConnection\Model\Model;
 
 /**
@@ -144,9 +145,9 @@ final class User extends Model
         return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
     }
 
-    public function policy(): BelongsTo
+    public function policy(): HasOne
     {
-        return $this->belongsTo(Policy::class, 'id', 'user_id');
+        return $this->hasOne(Policy::class, 'user_id', 'id');
     }
 
     public function department(): BelongsToMany

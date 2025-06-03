@@ -45,19 +45,19 @@ class DeptExecute extends AbstractExecutable
              */
             $currentList = $this->getUser()->department()->get();
             foreach ($currentList as $item) {
-                $departmentList->merge($item->getFlatChildren());
+                $departmentList = $departmentList->merge($item->getFlatChildren());
             }
         }
         if (empty($departmentList)) {
             return null;
         }
-        $departmentList->merge($this->getUser()->dept_leader()->get());
+        $departmentList = $departmentList->merge($this->getUser()->dept_leader()->get());
         /**
          * @var Collection|Position[] $positionList
          */
         $positionList = $this->getUser()->position()->get();
         foreach ($positionList as $position) {
-            $departmentList->merge($position->department()->get());
+            $departmentList = $departmentList->merge($position->department()->get());
         }
         return $departmentList->pluck('id')->toArray();
     }

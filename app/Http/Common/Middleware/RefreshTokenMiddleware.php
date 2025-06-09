@@ -18,6 +18,7 @@ use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Swow\Psr7\Message\ServerRequestPlusInterface;
 
 class RefreshTokenMiddleware extends AbstractTokenMiddleware
 {
@@ -26,7 +27,7 @@ class RefreshTokenMiddleware extends AbstractTokenMiddleware
         $this->checkToken->checkJwt($this->parserToken($request));
         return $handler->handle(
             value(
-                static function (ServerRequestInterface $request, UnencryptedToken $token) {
+                static function (ServerRequestPlusInterface $request, UnencryptedToken $token) {
                     return $request->setAttribute('token', $token);
                 },
                 $request,

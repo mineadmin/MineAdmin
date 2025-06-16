@@ -74,6 +74,7 @@ final class UserService extends IService
             /** @var User $entity */
             $entity = parent::create($data);
             $this->handleWith($entity, $data);
+            return $entity;
         });
     }
 

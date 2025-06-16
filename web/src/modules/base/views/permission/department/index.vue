@@ -74,6 +74,7 @@ const maDialog: UseDialogExpose = useDialog({
       }).catch()
     }
     else if (formType === 'position' || formType === 'viewUser') {
+      proTableRef.value.refresh()
       maDialog.close()
     }
     else {

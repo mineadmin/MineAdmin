@@ -45,14 +45,14 @@ export default function getColumns(t: any): MaProTableColumns[] {
           {
             name: 'del',
             icon: 'mdi:delete',
-            linkProps: { underline: false },
+            linkProps: { underline: 'never' },
             text: () => t('crud.delete'),
             onClick: ({ row }, proxy: MaProTableExpose) => {
               msg.delConfirm(t('crud.delDataMessage')).then(async () => {
                 const response = await UserLoginLog.delete([row.id])
                 if (response.code === ResultCode.SUCCESS) {
                   msg.success(t('crud.delSuccess'))
-                  proxy.refresh()
+                  await proxy.refresh()
                 }
               })
             },

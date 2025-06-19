@@ -93,7 +93,8 @@ final class UserService extends IService
 
     #[DataScope(
         scopeType: ScopeType::CREATED_BY,
-        onlyTables: ['user']
+        onlyTables: ['user'],
+        createdByColumn: 'id'
     )]
     public function page(array $params, int $page = 1, int $pageSize = 10): array
     {

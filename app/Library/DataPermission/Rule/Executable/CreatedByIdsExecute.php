@@ -43,7 +43,7 @@ class CreatedByIdsExecute extends AbstractExecutable
              */
             $currentList = $this->getUser()->department()->get();
             foreach ($currentList as $item) {
-                $departmentList->merge($item->getFlatChildren());
+                $departmentList  = $departmentList->merge($item->getFlatChildren());
             }
         }
         if ($policyType->isCustomFunc()) {

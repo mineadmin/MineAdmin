@@ -47,7 +47,7 @@ class RedisConnectionCheckSubscriber implements ListenerInterface
         try {
             $redis = $this->container->get(RedisFactory::class)->get('default');
             $result = $redis->ping();
-            if ($result !== 'PONG') {
+            if (! $result) {
                 $this->logger->error('Redis connection failed: Invalid ping response');
                 $this->container->get(StdoutLoggerInterface::class)->error('Redis connection failed: Invalid ping response');
             }

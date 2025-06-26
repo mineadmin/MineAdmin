@@ -34,7 +34,7 @@ use Hyperf\Swagger\Annotation as OA;
             description: '演示服务',
         ),
     ],
-    externalDocs: new OA\ExternalDocumentation(description: '开发文档', url: 'https://v3.doc.mineadmin.com')
+    externalDocs: new OA\ExternalDocumentation(description: '开发文档', url: 'https://doc.mineadmin.com')
 )]
 #[OA\SecurityScheme(
     securityScheme: 'Bearer',

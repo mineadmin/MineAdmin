@@ -31,7 +31,6 @@ final class AttachmentService extends IService
 
     /**
      * @param SwowUploadedFile|UploadedFile $uploadedFile
-     * @return null|Attachment
      */
     public function upload(SplFileInfo $fileInfo, $uploadedFile, int $userId): Attachment
     {

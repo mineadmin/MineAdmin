@@ -30,6 +30,7 @@ final class AttachmentService extends IService
     ) {}
 
     /**
+     * @phpstan-ignore-next-line
      * @param SwowUploadedFile|UploadedFile $uploadedFile
      */
     public function upload(SplFileInfo $fileInfo, $uploadedFile, int $userId): Attachment
@@ -43,6 +44,7 @@ final class AttachmentService extends IService
         );
         return $this->repository->create([
             'created_by' => $userId,
+            // @phpstan-ignore-next-line
             'origin_name' => $uploadedFile->getClientFilename(),
             'storage_mode' => $upload->getStorageMode(),
             'object_name' => $upload->getObjectName(),

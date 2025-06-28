@@ -100,7 +100,7 @@ This software must not be used to develop applications that violate national pol
 
 ## Contributors
 
-> Thanks to all contributors who helped develop MineAdmin. [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]  
+> Thanks to all contributors who helped develop MineAdmin. [[contributors](https://github.com/mineadmin/mineadmin/graphs/contributors)]  
 <a href="https://github.com/mineadmin/mineadmin/graphs/contributors">  
 <img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />  
 </a>

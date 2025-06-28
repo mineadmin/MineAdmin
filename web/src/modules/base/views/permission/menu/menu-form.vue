@@ -38,7 +38,7 @@ function setData(data: Record<string, any>) {
     }
     else if (name === 'children' && data[name]?.length > 0) {
       form.value.btnPermission = []
-      data[name].map((item: any) => {
+      data[name].filter((v: any) => v.meta?.type === 'B').map((item: any) => {
         form.value.btnPermission.push({
           id: item?.id ?? undefined,
           code: item.name,

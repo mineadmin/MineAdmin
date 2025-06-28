@@ -105,6 +105,8 @@ declare namespace Plugin {
       setup?: () => any | void
       // 注册路由时触发，可以对路由进行所有操作
       registerRoute?: (router: Router, routesRaw: Route.RouteRecordRaw[] | Plugin.Views[] | MineRoute.routeRecord[]) => any | void
+      // 登录前时触发，用于处理提交的数据
+      loginBefore?: (data: Record<string, any>) => any | void
       // 登录时触发
       login?: (formInfo: any) => any | void
       // 退出登录时触发

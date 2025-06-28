@@ -82,7 +82,7 @@ defineExpose({ open })
               target="_blank"
               type="primary"
               class="-top-[1px]"
-              :underline="false"
+              underline="never"
               href="https://www.mineadmin.com/login?redirect=/member/setting"
             >
               {{ t('oneStep.two') }}

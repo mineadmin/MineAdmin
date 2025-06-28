@@ -57,24 +57,37 @@ final class MenuService extends IService
     public function updateById(mixed $id, array $data): mixed
     {
         $model = parent::updateById($id, $data);
-        if ($model && $data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
-            foreach ($data['btnPermission'] as $item) {
-                if (! empty($item['type']) && $item['type'] === 'B') {
-                    $data = [
-                        'name' => $item['code'],
-                        'meta' => [
-                            'title' => $item['title'],
-                            'i18n' => $item['i18n'],
-                            'type' => 'B',
-                        ],
-                    ];
-                    if (! empty($item['id'])) {
-                        $this->repository->updateById($item['id'], $data);
-                    } else {
-                        $data['parent_id'] = $id;
-                        $this->repository->create($data);
+        if ($model && $data['meta']['type'] === 'M' && isset($data['btnPermission'])) {
+            $existsBtnPermissions = array_flip($this->repository->getQuery()
+                ->where('parent_id', $id)
+                ->whereJsonContains('meta->type', 'B')
+                ->pluck('id')
+                ->toArray());
+
+            if (! empty($data['btnPermission'])) {
+                foreach ($data['btnPermission'] as $item) {
+                    if (! empty($item['type']) && $item['type'] === 'B') {
+                        $data = [
+                            'name' => $item['code'],
+                            'meta' => [
+                                'title' => $item['title'],
+                                'i18n' => $item['i18n'],
+                                'type' => 'B',
+                            ],
+                        ];
+                        if (! empty($item['id'])) {
+                            $this->repository->updateById($item['id'], $data);
+                            unset($existsBtnPermissions[$item['id']]);
+                        } else {
+                            $data['parent_id'] = $id;
+                            $this->repository->create($data);
+                        }
                     }
                 }
+            }
+
+            if (! empty($existsBtnPermissions)) {
+                $this->deleteById(array_keys($existsBtnPermissions));
             }
         }
         return $model;

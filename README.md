@@ -111,7 +111,7 @@ composer create-project mineadmin/mineadmin --keep-vcs
 
 ## 贡献者
 
-> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/minedmin/graphs/contributors)]
+> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/mineadmin/graphs/contributors)]
 <a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
 </a>

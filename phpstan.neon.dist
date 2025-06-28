@@ -1,8 +1,3 @@
-# Magic behaviour with __get, __set, __call and __callStatic is not exactly static analyser-friendly :)
-# Fortunately, You can ingore it by the following config.
-#
-# vendor/bin/phpstan analyse app --memory-limit 200M -l 0
-#
 parameters:
   reportUnmatchedIgnoredErrors: false
   excludePaths:
@@ -17,3 +12,4 @@ parameters:
     - '#.return type specified.*#'
     - '#Access to an undefined property.*#'
     - '#Call to an undefined static method App\\Kernel\\Casbin\\Rule\\Rule::getModel\(\)#'
+    - '#^Parameter \$uploadedFile of method App\\\\Service\\\\AttachmentService\:\:upload$$ has invalid type Swow\\\\Psr7\\\\Message\\\\UploadedFile\.$#'

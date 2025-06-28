@@ -16,6 +16,7 @@ use App\Model\Attachment;
 use App\Repository\AttachmentRepository;
 use Hyperf\HttpMessage\Upload\UploadedFile;
 use Mine\Upload\UploadInterface;
+use Swow\Psr7\Message\UploadedFile as SwowUploadedFile;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -28,7 +29,11 @@ final class AttachmentService extends IService
         protected readonly UploadInterface $upload
     ) {}
 
-    public function upload(SplFileInfo $fileInfo, UploadedFile $uploadedFile, int $userId): Attachment
+    /**
+     * @phpstan-ignore-next-line
+     * @param SwowUploadedFile|UploadedFile $uploadedFile
+     */
+    public function upload(SplFileInfo $fileInfo, $uploadedFile, int $userId): Attachment
     {
         $fileHash = md5_file($fileInfo->getRealPath());
         if ($attachment = $this->repository->findByHash($fileHash)) {
@@ -39,6 +44,7 @@ final class AttachmentService extends IService
         );
         return $this->repository->create([
             'created_by' => $userId,
+            // @phpstan-ignore-next-line
             'origin_name' => $uploadedFile->getClientFilename(),
             'storage_mode' => $upload->getStorageMode(),
             'object_name' => $upload->getObjectName(),

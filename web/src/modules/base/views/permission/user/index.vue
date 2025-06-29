@@ -14,6 +14,7 @@ import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
 import type { UseDialogExpose } from '@/hooks/useDialog.ts'
 
 import { deleteByIds, page } from '~/base/api/user'
+import { page as departmentList } from '~/base/api/department'
 import getSearchItems from './data/getSearchItems.tsx'
 import getTableColumns from './data/getTableColumns.tsx'
 import useDialog from '@/hooks/useDialog.ts'
@@ -32,6 +33,19 @@ const selections = ref<any[]>([])
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
 const msg = useMessage()
+const deptData = ref<any[]>([])
+
+provide('deptData', deptData)
+
+// 请求部门数据
+function getDepartment() {
+  departmentList().then((res) => {
+    deptData.value = res.data.list as any[]
+    deptData.value.unshift({ id: undefined, name: '所有部门' })
+  })
+}
+
+getDepartment()
 
 // 弹窗配置
 const maDialog: UseDialogExpose = useDialog({
@@ -115,6 +129,9 @@ const options = ref<MaProTableOptions>({
   requestOptions: {
     api: page,
   },
+  onSearchReset: () => {
+    proTableRef.value.setRequestParams({ department_id: undefined }, false)
+  },
 })
 // 架构配置
 const schema = ref<MaProTableSchema>({
@@ -135,38 +152,36 @@ function handleDelete() {
     }
   })
 }
+
+// 请求某部门的用户列表
+function requestUserByDept(node: any) {
+  proTableRef.value.setRequestParams({ department_id: node.id }, true)
+}
 </script>
 
 <template>
-  <div class="mine-layout pt-3">
-    <MaProTable ref="proTableRef" :options="options" :schema="schema">
-      <template #actions>
-        <el-button
-          v-auth="['permission:user:save']"
-          type="primary"
-          @click="() => {
-            maDialog.setTitle(t('crud.add'))
-            maDialog.open({ formType: 'add' })
-          }"
-        >
-          {{ t('crud.add') }}
-        </el-button>
-      </template>
-
-      <template #toolbarLeft>
-        <el-button
-          v-auth="['permission:user:delete']"
-          type="danger"
-          plain
-          :disabled="selections.length < 1"
-          @click="handleDelete"
-        >
-          {{ t('crud.delete') }}
-        </el-button>
-      </template>
-      <!-- 数据为空时 -->
-      <template #empty>
-        <el-empty>
+  <div class="mine-layout flex justify-between pb-0 pl-3 pt-3">
+    <div class="w-full rounded bg-[#fff] p-2 md:w-2/12 dark-bg-dark-8">
+      <ma-tree
+        :data="deptData"
+        tree-key="name"
+        node-key="id"
+        :props="{ label: 'name' }"
+        :expand-on-click-node="false"
+        @node-click="requestUserByDept"
+      >
+        <template #default="{ data }">
+          <div class="mine-tree-node">
+            <div class="label">
+              {{ data.name }}
+            </div>
+          </div>
+        </template>
+      </ma-tree>
+    </div>
+    <div class="w-full md:w-10/12">
+      <MaProTable ref="proTableRef" :options="options" :schema="schema">
+        <template #actions>
           <el-button
             v-auth="['permission:user:save']"
             type="primary"
@@ -177,9 +192,36 @@ function handleDelete() {
           >
             {{ t('crud.add') }}
           </el-button>
-        </el-empty>
-      </template>
-    </MaProTable>
+        </template>
+
+        <template #toolbarLeft>
+          <el-button
+            v-auth="['permission:user:delete']"
+            type="danger"
+            plain
+            :disabled="selections.length < 1"
+            @click="handleDelete"
+          >
+            {{ t('crud.delete') }}
+          </el-button>
+        </template>
+        <!-- 数据为空时 -->
+        <template #empty>
+          <el-empty>
+            <el-button
+              v-auth="['permission:user:save']"
+              type="primary"
+              @click="() => {
+                maDialog.setTitle(t('crud.add'))
+                maDialog.open({ formType: 'add' })
+              }"
+            >
+              {{ t('crud.add') }}
+            </el-button>
+          </el-empty>
+        </template>
+      </MaProTable>
+    </div>
 
     <component :is="maDialog.Dialog">
       <template #default="{ formType, data }">

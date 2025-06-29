@@ -42,7 +42,7 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 defineOptions({ name: 'MaTree' })
 
 const { treeKey = 'label' } = defineProps<{
-  treeKey: string
+  treeKey?: string
 }>()
 
 const t = useLocalTrans()

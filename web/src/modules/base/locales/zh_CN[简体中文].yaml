@@ -3,6 +3,8 @@ baseUserManage:
   username: 用户名
   nickname: 昵称
   phone: 手机
+  dept: 所属部门
+  post: 部门岗位
   email: 邮箱
   password: 密码
   userType: 用户类型
@@ -10,7 +12,9 @@ baseUserManage:
   signed: 个人签名
   mainTitle: 用户管理
   subTitle: 提供用户添加、编辑、删除功能，超管不可修改。
+  dataScope: 数据权限
   setRole: 赋予角色
+  setDataScope: 设置数据权限
   setRoleSuccess: 用户角色设置成功
   initPassword: 初始化密码
   setPassword: 是否将用户密码重置为[123456]?
@@ -124,6 +128,43 @@ baseOperationLog:
   ip: 请求IP
   created_at: 创建时间
   updated_at: 更新时间
+baseDepartment:
+  name: 部门名称
+  created_at: 创建时间
+  updated_at: 更新时间
+  leaderCount: 负责人数
+  positionsCount: 岗位数
+  usersCount: 人员数
+  parentDepartment: 上级部门
+  page:
+    mainTitle: 部门管理
+    subTitle: 提供公司、机构的人员部门管理、以及部门负责人。
+    setLeader: 设置负责人
+    previewUser: 查看用户
+    managePost: 管理岗位
+  placeholder:
+    name: 请输入部门名称
+    parentDepartment: 请选择上级部门
+  error:
+    selfNotParent: 不可选择自己作为上级部门，已还原默认数据
+basePost:
+  name: 岗位名称
+  belongPost: 所属岗位
+  belongDept: 所属部门
+  created_at: 创建时间
+  updated_at: 更新时间
+  dataScope: 数据权限
+  selectDept: 自选部门
+  callFunc: 调用函数名
+  placeholder:
+    name: 请输入岗位名称
+baseDeptLeader:
+  belongDept: 所属部门
+  username: 用户名
+  nickname: 昵称
+  user_id: 选择用户
+  placeholder:
+    user_id: 请选择要设置为负责人的用户
 baseMenu:
   permission:
     index: 权限管理
@@ -147,6 +188,20 @@ baseMenu:
     menuSave: 菜单保存
     menuUpdate: 菜单更新
     menuDelete: 菜单删除
+    department: 部门管理
+    departmentList: 部门列表
+    departmentCreate: 新增部门
+    departmentSave: 编辑部门
+    departmentDelete: 删除部门
+    positionList: 岗位列表
+    positionCreate: 新增岗位
+    positionSave: 编辑岗位
+    positionDelete: 删除岗位
+    positionDataScope: 设置岗位数据权限
+    leaderList: 部门领导列表
+    leaderCreate: 新增部门领导
+    leaderSave: 编辑部门领导
+    leaderDelete: 删除部门领导
   log:
     index: 日志管理
     userLoginLog: 登录日志

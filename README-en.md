@@ -1,5 +1,5 @@
-[Chinese](./README.md) | English  
-# Project Introduction  
+[中文](./README.md) | English
+# Projects
 
 <p align="center">  
     <img src="https://doc.mineadmin.com/logo.svg" width="120" />  

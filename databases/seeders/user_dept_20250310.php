@@ -25,9 +25,11 @@ class UserDept20250310 extends Seeder
             'name'  =>  'permission:department',
             'path'  =>  '/permission/departments',
             'parent_id' => $parent->id,
+            'component' => 'base/views/permission/department/index',
             'meta'  =>  [
                 'title' => '部门管理',
-                'icon' => 'ri:git-repository-private-line',
+                'icon' => 'mingcute:department-line',
+                'i18n' => 'baseMenu.permission.department',
                 'type' => 'M',
                 'hidden' => 0,
                 'componentPath' => 'modules/',
@@ -39,28 +41,33 @@ class UserDept20250310 extends Seeder
             ]
         ]);
         $children = [
-            'permission:department:index' => '部门列表',
-            'permission:department:save'    =>  '部门新增',
-            'permission:department:update'  =>  '部门编辑',
-            'permission:department:delete'  =>  '部门删除',
+            'permission:department:index'  => '部门列表',
+            'permission:department:save'   =>  '部门新增',
+            'permission:department:update' =>  '部门编辑',
+            'permission:department:delete' =>  '部门删除',
         ];
+        $i18n = [
+            'baseMenu.permission.departmentList',
+            'baseMenu.permission.departmentCreate',
+            'baseMenu.permission.departmentSave',
+            'baseMenu.permission.departmentDelete',
+        ];
+        $i = 0;
         foreach ($children as $child => $title) {
             Menu::create([
                 'name'  =>  $child,
                 'path'  =>  '/permission/departments',
                 'meta'  =>  [
                     'title' => $title,
-                    'icon' => 'ri:git-repository-private-line',
-                    'type' => 'M',
+                    'type' => 'B',
+                    'i18n' => $i18n[$i],
                     'hidden' => 1,
-                    'componentPath' => 'modules/',
-                    'componentSuffix' => '.vue',
-                    'breadcrumbEnable' => 1,
                     'cache' => 1,
                     'affix' => 0,
                 ],
                 'parent_id' => $now->id
             ]);
+            $i++;
         }
     }
 }

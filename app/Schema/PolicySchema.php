@@ -32,7 +32,7 @@ class PolicySchema implements \JsonSerializable
     #[Property(property: 'value', title: '策略值', type: 'object')]
     protected array $value;
 
-    public function __construct(Policy $model) {}
+    public function __construct(protected Policy $model) {}
 
     public function jsonSerialize(): mixed
     {

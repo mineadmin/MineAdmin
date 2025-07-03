@@ -74,7 +74,7 @@ final class RoleService extends IService
     {
         return Db::transaction(function () use ($id, $data) {
             /**
-             * @var Role $entity
+             * @var null|Role $entity
              */
             $entity = $this->repository->findById($id);
             if (empty($entity)) {

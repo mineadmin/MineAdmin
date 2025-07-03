@@ -12,6 +12,10 @@ declare module 'vue' {
     MaAuth: typeof import('./../src/components/ma-auth/index.vue')['default']
     MaCitySelect: typeof import('./../src/components/ma-city-select/index.vue')['default']
     MaColCard: typeof import('./../src/components/ma-col-card/index.vue')['default']
+<<<<<<< HEAD
+=======
+    MaColsCard: typeof import('./../src/components/ma-cols-card/index.vue')['default']
+>>>>>>> d895cc55 (feat: 部门管理前端页面.)
     MaDialog: typeof import('./../src/components/ma-dialog/index.vue')['default']
     MaDictCheckbox: typeof import('./../src/components/ma-dict-picker/ma-dict-checkbox.vue')['default']
     MaDictRadio: typeof import('./../src/components/ma-dict-picker/ma-dict-radio.vue')['default']

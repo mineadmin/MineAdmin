@@ -124,6 +124,18 @@ baseOperationLog:
   ip: 请求IP
   created_at: 创建时间
   updated_at: 更新时间
+baseDepartment:
+  name: 部门名称
+  created_at: 创建时间
+  updated_at: 更新时间
+  parentDepartment: 上级部门
+  page:
+    mainTitle: 部门管理
+    subTitle: 提供公司、机构的人员部门管理、以及部门负责人。
+    setLeader: 设置负责人
+  placeholder:
+    name: 请输入部门名称
+    parentDepartment: 请选择上级部门
 baseMenu:
   permission:
     index: 权限管理
@@ -147,6 +159,11 @@ baseMenu:
     menuSave: 菜单保存
     menuUpdate: 菜单更新
     menuDelete: 菜单删除
+    department: 部门管理
+    departmentList: 部门列表
+    departmentCreate: 新增部门
+    departmentSave: 编辑部门
+    departmentDelete: 删除部门
   log:
     index: 日志管理
     userLoginLog: 登录日志

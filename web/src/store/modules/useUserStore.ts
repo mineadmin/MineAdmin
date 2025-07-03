@@ -107,7 +107,8 @@ const useUserStore = defineStore(
       setMenu(res.data)
     }
 
-    async function login(data: { username: string, password: string, code: string }) {
+    async function login(data: { username: string, password: string, code: string, [key: string]: any }) {
+      await usePluginStore().callHooks('loginBefore', data)
       return new Promise((resolve, reject) => {
         loginApi(data).then(async (res) => {
           token.value = res.data.access_token

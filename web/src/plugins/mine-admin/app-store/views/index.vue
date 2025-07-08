@@ -14,6 +14,8 @@ zh_CN:
   noDevSubTitle: 对不起，应用商店只在开发环境开放使用。
   noTokenMainTitle: 未设置 MINE_ACCESS_TOKEN
   noTokenSubTitle: 目前无法获取到应用商店数据，请先设置 MINE_ACCESS_TOKEN。
+  checkingTokenMainTitle: 正在检查 MINE_ACCESS_TOKEN
+  checkingTokenSubTitle: 正在验证访问令牌，请稍候...
   refreshAppStore: 刷新应用商店
   notFoundApp: 没有找到任何应用
 zh_TW:
@@ -22,6 +24,8 @@ zh_TW:
   noDevSubTitle: 對不起，應用商店僅在開發環境開放使用。
   noTokenMainTitle: 未設置 MINE_ACCESS_TOKEN
   noTokenSubTitle: 目前無法獲取到應用商店數據，請先設置 MINE_ACCESS_TOKEN。
+  checkingTokenMainTitle: 正在檢查 MINE_ACCESS_TOKEN
+  checkingTokenSubTitle: 正在驗證訪問令牌，請稍候...
   refreshAppStore: 刷新應用商店
   notFoundApp: 沒有找到任何應用
 en:
@@ -30,6 +34,8 @@ en:
   noDevSubTitle: Sorry, the App Store is only open for use in the development environment.
   noTokenMainTitle: MINE_ACCESS_TOKEN is not set
   noTokenSubTitle: Currently unable to retrieve App Store data. Please set MINE_ACCESS_TOKEN first.
+  checkingTokenMainTitle: Checking MINE_ACCESS_TOKEN
+  checkingTokenSubTitle: Verifying access token, please wait...
   refreshAppStore: Refresh App Store
   notFoundApp: No apps found
 </i18n>
@@ -51,6 +57,7 @@ const appList = ref<any[]>()
 const storeMeta = ref<Record<string, any>>({
   isDev: import.meta.env.DEV,
   isHasAccessToken: false,
+  tokenCheckCompleted: false,
   uploadLoading: false,
   loading: false,
   allStore: true,
@@ -88,6 +95,7 @@ if (storeMeta.value.isDev) {
   hasAccessToken().then((res: any) => {
     if (res.code === 200) {
       storeMeta.value.isHasAccessToken = res.data.isHas
+      storeMeta.value.tokenCheckCompleted = true
       if (!res.data.isHas) {
         noticeRef.value?.open?.()
       }
@@ -124,20 +132,19 @@ provide('requestAppList', requestAppList)
       <AppStoreLocalList v-if="!storeMeta.allStore" />
       <el-empty v-if="dataList.list.length === 0 && !storeMeta.loading" class="mt-40" :description="t('notFoundApp')" />
     </template>
+    <el-result v-if="!storeMeta.isDev && !storeMeta.loading" class="h-680px" icon="warning" :title="t('noDevMainTitle')"
+      :sub-title="t('noDevSubTitle')" />
+    <el-result v-if="storeMeta.isDev && !storeMeta.tokenCheckCompleted && !storeMeta.loading" class="h-680px"
+      :title="t('checkingTokenMainTitle')" :sub-title="t('checkingTokenSubTitle')">
+      <template #icon>
+        <el-icon :size="75">
+          <ma-svg-icon name="svg-spinners:180-ring" />
+        </el-icon>
+      </template>
+    </el-result>
     <el-result
-      v-if="!storeMeta.isDev && !storeMeta.loading"
-      class="h-680px"
-      icon="warning"
-      :title="t('noDevMainTitle')"
-      :sub-title="t('noDevSubTitle')"
-    />
-    <el-result
-      v-if="storeMeta.isDev && !storeMeta.isHasAccessToken && !storeMeta.loading"
-      class="h-680px"
-      icon="error"
-      :title="t('noTokenMainTitle')"
-      :sub-title="t('noTokenSubTitle')"
-    >
+      v-if="storeMeta.isDev && storeMeta.tokenCheckCompleted && !storeMeta.isHasAccessToken && !storeMeta.loading"
+      class="h-680px" icon="error" :title="t('noTokenMainTitle')" :sub-title="t('noTokenSubTitle')">
       <template #extra>
         <el-button type="primary" @click="tabStore.refreshTab()">
           {{ t('refreshAppStore') }}
@@ -151,6 +158,7 @@ provide('requestAppList', requestAppList)
 .mine-appstore-filter {
   @apply sticky top-[56px] z-999 bg-white p-3 dark-bg-dark-8 shadow-md dark-shadow-dark-4 transition-all duration-300;
 }
+
 .mine-appstore-list {
   @apply sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-h-60 gap-4 mt-3 relative;
 }

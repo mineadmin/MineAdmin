@@ -61,6 +61,6 @@ final class DepartmentRepository extends IRepository
 
                 // todo 指定层级查询
             })
-            ->with(['positions', 'department_users:id,nickname,username,avatar', 'leader:id,nickname,username,avatar']);
+            ->with(['positions', 'department_users:id,nickname,username,avatar,phone,email', 'leader:id,nickname,username,avatar']);
     }
 }

@@ -10,9 +10,8 @@ declare(strict_types=1);
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
 
-namespace HyperfTests\Feature\Library\DataPermission\Aspects;
+namespace HyperfTests\Feature\Library\DataPermission;
 
-use App\Http\CurrentUser;
 use App\Library\DataPermission\Aspects\DataScopeAspect;
 use App\Library\DataPermission\Attribute\DataScope;
 use App\Library\DataPermission\Context as DataPermissionContext;

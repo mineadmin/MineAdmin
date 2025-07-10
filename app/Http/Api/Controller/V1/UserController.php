@@ -21,7 +21,6 @@ use Hyperf\Swagger\Annotation\Post;
 #[HyperfServer(name: 'http')]
 final class UserController extends AbstractController
 {
-
     #[Post(
         path: '/api/v1/login',
         operationId: 'ApiV1Login',

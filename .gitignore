@@ -21,3 +21,4 @@ public
 !web/public
 *.lock
 storage/swagger/http.json
+storage/uploads

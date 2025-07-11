@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace App\Http\Admin\Request\Permission;
 
 use App\Http\Common\Request\Traits\NoAuthorizeTrait;
+use App\Model\Enums\DataPermission\PolicyType;
 use App\Schema\UserSchema;
 use Hyperf\Validation\Request\FormRequest;
+use Hyperf\Validation\Rule;
 use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
 
 #[FormRequestAnnotation(
@@ -43,6 +45,7 @@ use Mine\Swagger\Attributes\FormRequest as FormRequestAnnotation;
         'status',
         'backend_setting',
         'remark',
+        'policy',
     ]
 )]
 class UserRequest extends FormRequest
@@ -62,7 +65,34 @@ class UserRequest extends FormRequest
             'status' => 'sometimes|integer',
             'backend_setting' => 'sometimes|array|max:255',
             'remark' => 'sometimes|string|max:255',
-            'password' => 'sometimes|string|min:6|max:20',
+            'policy' => 'sometimes|array',
+            'policy.policy_type' => [
+                'required_with:policy',
+                'string',
+                'max:20',
+                Rule::enum(PolicyType::class),
+            ],
+            'policy.value' => [
+                'sometimes',
+            ],
+            'department' => [
+                'sometimes',
+                'array',
+            ],
+            'department.*' => [
+                'required_with:department',
+                'integer',
+                'exists:department,id',
+            ],
+            'position' => [
+                'sometimes',
+                'array',
+            ],
+            'position.*' => [
+                'sometimes',
+                'integer',
+                'exists:position,id',
+            ],
         ];
     }
 
@@ -80,7 +110,7 @@ class UserRequest extends FormRequest
             'backend_setting' => trans('user.backend_setting'),
             'created_by' => trans('user.created_by'),
             'remark' => trans('user.remark'),
-            'password' => trans('user.password'),
+            'department' => trans('user.department'),
         ];
     }
 }

@@ -50,6 +50,7 @@ abstract class IRepository
         } else {
             $items = Collection::make($paginator->items());
         }
+        $items = $this->handleItems($items);
         return [
             'list' => $items->toArray(),
             'total' => $paginator->total(),
@@ -58,7 +59,7 @@ abstract class IRepository
 
     public function list(array $params = []): Collection
     {
-        return $this->perQuery($this->getQuery(), $params)->get();
+        return $this->handleItems($this->perQuery($this->getQuery(), $params)->get());
     }
 
     public function count(array $params = []): int

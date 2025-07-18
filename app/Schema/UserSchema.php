@@ -72,6 +72,9 @@ final class UserSchema implements \JsonSerializable
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
+    #[Property(property: 'policy', ref: '#/components/schemas/PolicySchema', title: '权限')]
+    public ?PolicySchema $policy;
+
     public function __construct(User $model)
     {
         $this->id = $model->id;
@@ -91,6 +94,7 @@ final class UserSchema implements \JsonSerializable
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
         $this->remark = $model->remark;
+        $this->policy = isset($model->policy) ? new PolicySchema($model->policy) : null;
     }
 
     public function jsonSerialize(): mixed

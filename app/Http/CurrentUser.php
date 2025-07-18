@@ -18,6 +18,7 @@ use App\Service\PassportService;
 use App\Service\Permission\UserService;
 use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
+use Hyperf\Context\Context;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Mine\Jwt\Traits\RequestScopedTokenTrait;
 
@@ -30,9 +31,19 @@ final class CurrentUser
         private readonly UserService $userService
     ) {}
 
+    public static function ctxUser(): ?User
+    {
+        return Context::get('current_user');
+    }
+
     public function user(): ?User
     {
-        return $this->userService->getInfo($this->id());
+        if (Context::has('current_user')) {
+            return Context::get('current_user');
+        }
+        $user = $this->userService->getInfo($this->id());
+        Context::set('current_user', $user);
+        return $user;
     }
 
     public function refresh(): array

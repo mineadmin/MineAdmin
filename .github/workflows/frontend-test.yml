@@ -1,0 +1,7 @@
+name: Frontend Tests
+on:
+  push:
+  pull_request:
+jobs:
+  e2e-tests:
+    uses : ./web/.github/workflows/test.yml

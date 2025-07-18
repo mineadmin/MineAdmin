@@ -22,13 +22,15 @@ The frontend uses Vue3 + Vite4 + Pinia + Arco, adapting seamlessly to PC, mobile
 If you find it useful, please give it a ⭐star—it would mean a lot to me and be a great encouragement!  
 Before using MineAdmin, please read the [Disclaimer](https://doc.mineadmin.com/guide/start/declaration.html) carefully and agree to its terms.  
 
-## Default Main Branch (without department, position, or data permission features)  
-The current branch includes features such as departments, positions, and data permissions. If you do not need these features, please switch to the [`【Main Branch】`](https://github.com/mineadmin/MineAdmin) to download the code.  
+## Department and Position Branch (includes data permission features)  
+The current default branch does not include departments, positions, data permissions, and other features. If you need these features, please go to the [`【MineAdmin with Departments and Positions----master-department】`](https://github.com/mineadmin/MineAdmin/tree/master-department) branch to download the code.  
 
 ## Official Community  
 > QQ group for discussion and learning—please avoid spamming.  
 
-<img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" />  
+<a href="https://qm.qq.com/q/PJnEgr4D8C" target="_blank">
+  <img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" /> 
+</a>
 
 ## Strategic Partnership  
 [Jingcedun High-Protection CDN - Reliable Anti-DDoS/CC Attack Service](https://www.jcdun.com/guoneigaofangcdn)  

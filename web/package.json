@@ -15,7 +15,8 @@
     "lint": "npm-run-all -s lint:tsc lint:eslint lint:stylelint",
     "lint:tsc": "vue-tsc --noEmit",
     "lint:eslint": "eslint . --cache --fix",
-    "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\" --cache --fix"
+    "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\" --cache --fix",
+    "test:e2e": "playwright test --config=playwright.config.ts"
   },
   "dependencies": {
     "@imengyu/vue3-context-menu": "^1.4.4",
@@ -58,9 +59,11 @@
     "@iconify/json": "^2.2.309",
     "@iconify/vue": "^4.3.0",
     "@intlify/unplugin-vue-i18n": "^6.0.3",
+    "@playwright/test": "^1.54.1",
     "@stylistic/stylelint-config": "^2.0.0",
     "@types/archiver": "^6.0.3",
     "@types/mockjs": "^1.0.10",
+    "@types/node": "^24.0.14",
     "@types/nprogress": "^0.2.3",
     "@types/path-browserify": "^1.0.3",
     "@types/qs": "^6.9.18",

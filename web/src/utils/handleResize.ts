@@ -7,7 +7,7 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import { useMouseInElement, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 
 let listenerBound = false
 
@@ -59,11 +59,18 @@ function isMobileDevice(): boolean {
 /**
  * 子菜单区域监听 - 始终开启监听，避免多端逻辑错乱
  */
-function setupSubAsideListener(el: Ref<HTMLElement>, settingStore: any) {
-  const { isOutside } = useMouseInElement(el)
+function setupSubAsideListener(el: Ref<any>, settingStore: any) {
+  const listener = (e: MouseEvent | TouchEvent) => {
+    const target = e.target as HTMLElement
 
-  const listener = () => {
-    if (settingStore.getMobileSubmenuState() && isOutside.value) {
+    // 获取真实 DOM 元素：组件实例的 $el，或直接是 DOM
+    const dom = el.value?.$el ?? el.value
+
+    if (
+      settingStore.getMobileSubmenuState()
+      && dom instanceof HTMLElement
+      && !dom.contains(target)
+    ) {
       settingStore.setMobileSubmenuState(false)
     }
   }

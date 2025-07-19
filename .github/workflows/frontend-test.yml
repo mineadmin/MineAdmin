@@ -1,7 +1,86 @@
-name: Frontend Tests
+name: Frontend Test
 on:
   push:
   pull_request:
+
 jobs:
   e2e-tests:
-    uses : ./web/.github/workflows/test.yml
+    name: E2E Testing (Real APIs)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        php-version: [ '8.1' ]
+        sw-version: [ 'v5.0.3' ]
+        node-version: [ '20' ]
+    env:
+      SW_VERSION: ${{ matrix.sw-version }}
+      MYSQL_VERSION: '8.0'
+      PGSQL_VERSION: '14'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upgrade
+        run: |
+          sudo apt-get clean
+          sudo apt-get update
+          sudo apt-get upgrade -f
+      - name: Setup PHP TS
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: phpize
+          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
+          ini-values: opcache.enable_cli=0
+        env:
+          phpts: ts
+      - name: Install Swoole
+        run: |
+          wget https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz -O swoole.tar.gz
+          mkdir -p swoole
+          tar -xf swoole.tar.gz -C swoole --strip-components=1
+          rm swoole.tar.gz
+      - name: Setup Swoole
+        run: |
+          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
+          cd swoole
+          phpize
+          ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli --enable-swoole-thread
+          make -j$(nproc)
+          sudo make install
+          sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          php --ri swoole
+      - name: Setup Packages
+        run: ./.github/ci/requirement.install.sh
+      - name: Setup Services
+        run: ./.github/ci/setup.services.sh
+      - name: Setup Mysql
+        run: bash ./.github/ci/setup.mysql.sh
+      - name: Run Scripts Before Test
+        run: cp .github/ci/.env.example .env
+      - name: Print PHP Environments
+        run: |
+          sudo rm -rf /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini
+          php -i
+          php -m
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - name: Install PNPM
+        run: npm install -g pnpm
+      - name: Setup Frontend Packages
+        working-directory: web
+        run: ./github/ci/requirement.install.sh
+      - name: Start Backend Server
+        working-directory: web
+        run: ./github/ci/run.start-backend-server.sh
+      - name: Run E2E Tests
+        working-directory: web
+        run: ./github/ci/run.test.sh
+      - name: Stop Backend Server
+        working-directory: web
+        run: ./github/ci/run.stop-backend-server.sh
+      

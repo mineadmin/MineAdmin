@@ -18,6 +18,7 @@ use App\Repository\Permission\RoleRepository;
 use App\Repository\Permission\UserRepository;
 use App\Service\IService;
 use Hyperf\Collection\Collection;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * @extends IService<User>
@@ -26,12 +27,18 @@ final class UserService extends IService
 {
     public function __construct(
         protected readonly UserRepository $repository,
-        protected readonly RoleRepository $roleRepository
+        protected readonly RoleRepository $roleRepository,
+        protected readonly CacheInterface $cache
     ) {}
 
     public function getInfo(int $id): ?User
     {
-        return $this->repository->findById($id);
+        if ($this->cache->has((string) $id)) {
+            return $this->cache->get((string) $id);
+        }
+        $user = $this->repository->findById((string) $id);
+        $this->cache->set((string) $id, $user, 60);
+        return $user;
     }
 
     public function resetPassword(?int $id): bool

@@ -8,31 +8,69 @@
  * @Link   https://github.com/mineadmin
  */
 import { useMouseInElement, useResizeObserver } from '@vueuse/core'
-import type { Ref } from 'vue'
+
+let listenerBound = false
 
 export default function handleResize(el: Ref<HTMLElement>) {
-  const { setMobileState, setMobileSubmenuState } = useSettingStore()
+  const settingStore = useSettingStore()
+
   useResizeObserver(document.body, (entries) => {
-    const [entry] = entries
-    const { width, height } = entry.contentRect
-    const searchPanelNode = document.querySelector('.mine-search-panel-container') as HTMLElement
-    searchPanelNode.style.top = height < 500 ? '0px' : height < 800 ? 'calc(100% - 50% - 250px)' : 'calc(100% - 50% - 350px)'
-    setMobileState(width < 1024)
-    setMobileSubmenuState(!(width < 1024))
-    checkMobileSubAside(el)
+    const { width, height } = entries[0].contentRect
+
+    updateSearchPanelTop(height)
+
+    const isSmallScreen = width < 1024
+    isMobileDevice()
+    settingStore.setMobileState(isSmallScreen)
+    settingStore.setMobileSubmenuState(!isSmallScreen)
+
+    setupSubAsideListener(el, settingStore)
   })
 }
 
-function checkMobileSubAside(el: Ref<HTMLElement>) {
+/**
+ * 设置搜索面板位置
+ */
+function updateSearchPanelTop(height: number) {
+  const searchPanel = document.querySelector('.mine-search-panel-container') as HTMLElement | null
+  // eslint-disable-next-line style/max-statements-per-line
+  if (!searchPanel) { return }
+
+  let top = '0px'
+  if (height >= 800) {
+    top = 'calc(100% - 50% - 350px)'
+  }
+  else if (height >= 500) {
+    top = 'calc(100% - 50% - 250px)'
+  }
+  searchPanel.style.top = top
+}
+
+/**
+ * 更全面的移动端判断：触摸设备 + UA
+ */
+function isMobileDevice(): boolean {
+  return (
+    window.matchMedia('(pointer: coarse)').matches
+    || /android|iphone|ipad|ipod|mobile|tablet/i.test(navigator.userAgent)
+  )
+}
+
+/**
+ * 子菜单区域监听 - 始终开启监听，避免多端逻辑错乱
+ */
+function setupSubAsideListener(el: Ref<HTMLElement>, settingStore: any) {
   const { isOutside } = useMouseInElement(el)
-  const settingStore = useSettingStore()
-  const listenerEvent = () => {
+
+  const listener = () => {
     if (settingStore.getMobileSubmenuState() && isOutside.value) {
       settingStore.setMobileSubmenuState(false)
     }
   }
 
-  settingStore.getMobileState()
-    ? document.addEventListener('mousemove', listenerEvent)
-    : document.removeEventListener('mousemove', listenerEvent)
+  if (!listenerBound) {
+    document.addEventListener('mousedown', listener)
+    document.addEventListener('touchstart', listener)
+    listenerBound = true
+  }
 }

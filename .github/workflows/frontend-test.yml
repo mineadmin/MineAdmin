@@ -64,13 +64,16 @@ jobs:
           sudo rm -rf /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini
           php -i
           php -m
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
-      - name: Install PNPM
-        run: npm install -g pnpm
       - name: Setup Frontend Packages
         working-directory: web
         run: ./github/ci/requirement.install.sh

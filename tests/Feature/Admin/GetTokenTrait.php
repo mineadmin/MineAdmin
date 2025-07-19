@@ -35,9 +35,9 @@ trait GetTokenTrait
     {
         $result = $this->post('/admin/passport/login', [
             'username' => $user->username,
-            'password' => '123456',
+            'password' => $this->getPassword(),
         ]);
-        if (!is_array($result)){
+        if (! \is_array($result)) {
             Assert::fail('Get token failed.');
         }
         if (! Arr::has($result, 'data.access_token')) {

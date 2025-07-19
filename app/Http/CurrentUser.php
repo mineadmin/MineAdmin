@@ -55,11 +55,12 @@ final class CurrentUser
         $permissions = $this->user()
             ->getPermissions()
             ->pluck('name')
-            ->unique()
-            ->toArray();
-        $menuList = $this->menuService
-            ->getList(['status' => Status::Normal, 'name' => $permissions])
-            ->toArray();
+            ->unique();
+        $menuList = $permissions->isEmpty()
+            ? []
+            : $this->menuService
+                ->getList(['status' => Status::Normal, 'name' => $permissions->toArray()])
+                ->toArray();
         $tree = [];
         $map = [];
         foreach ($menuList as &$menu) {

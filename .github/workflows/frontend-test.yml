@@ -75,14 +75,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Setup Frontend Packages
         working-directory: web
-        run: .github/ci/requirement.install.sh
+        run: ./.github/ci/requirement.install.sh
       - name: Start Backend Server
         working-directory: web
-        run: .github/ci/run.start-backend-server.sh
+        run: ./.github/ci/run.start-backend-server.sh
       - name: Run E2E Tests
         working-directory: web
-        run: .github/ci/run.test.sh
+        run: ./.github/ci/run.test.sh
       - name: Stop Backend Server
         working-directory: web
-        run: .github/ci/run.stop-backend-server.sh
+        run: ./.github/ci/run.stop-backend-server.sh
       

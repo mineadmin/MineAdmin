@@ -4,6 +4,10 @@ set -e
 
 set -x
 
+# 运行migrate 和 seeder
+
+php ../bin/hyperf.php migrate --seed
+
 # 启动 MineAdmin 后端服务在后台，保存 PID 和输出
 LOG_FILE="mineadmin_server.log"
 PID_FILE="mineadmin_server.pid"

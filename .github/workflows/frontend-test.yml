@@ -51,7 +51,7 @@ jobs:
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
-      - name: Setup Packages
+      - name: Setup Backend Packages
         run: ./.github/ci/requirement.install.sh
       - name: Setup Services
         run: ./.github/ci/setup.services.sh
@@ -79,10 +79,15 @@ jobs:
       - name: Start Backend Server
         working-directory: web
         run: ./.github/ci/run.start-backend-server.sh
+        env:
+          DB_DRIVER: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: mineadmin
       - name: Run E2E Tests
         working-directory: web
         run: ./.github/ci/run.test.sh
       - name: Stop Backend Server
+        if: always()
         working-directory: web
         run: ./.github/ci/run.stop-backend-server.sh
       

@@ -1,6 +1,6 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test.describe('MineAdmin Base Tests', () => {
+test.describe.serial('Base Tests', () => {
 
   test('Api Test', async ({ request }) => {
     const response = await request.get('http://localhost:9501');
@@ -11,7 +11,7 @@ test.describe('MineAdmin Base Tests', () => {
   });
 
   test('Page Check', async ({ page }) => {
-    await page.goto('');
+    await page.goto('/');
 
     await page.waitForLoadState('networkidle');
 

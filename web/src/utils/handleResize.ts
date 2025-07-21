@@ -8,6 +8,7 @@
  * @Link   https://github.com/mineadmin
  */
 import { useResizeObserver } from '@vueuse/core'
+import useSettingStore from '@/store/modules/useSettingStore.ts'
 
 let listenerBound = false
 
@@ -62,22 +63,28 @@ function isMobileDevice(): boolean {
 function setupSubAsideListener(el: Ref<any>, settingStore: any) {
   const listener = (e: MouseEvent | TouchEvent) => {
     const target = e.target as HTMLElement
-
-    // 获取真实 DOM 元素：组件实例的 $el，或直接是 DOM
     const dom = el.value?.$el ?? el.value
+    // eslint-disable-next-line style/max-statements-per-line
+    if (!dom || !(target instanceof HTMLElement)) { return }
 
-    if (
-      settingStore.getMobileSubmenuState()
-      && dom instanceof HTMLElement
-      && !dom.contains(target)
-    ) {
-      settingStore.setMobileSubmenuState(false)
+    // 点击的是菜单内部
+    if (dom.contains(target)) {
+      const tag = target.tagName.toLowerCase()
+      if (['a', 'span'].includes(tag)) {
+        setTimeout(() => {
+          settingStore.setMobileSubmenuState(false)
+        }, 100)
+      }
+      return
     }
+
+    // 点击菜单外部，立即关闭
+    settingStore.setMobileSubmenuState(false)
   }
 
   if (!listenerBound) {
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
+    document.addEventListener('mousedown', listener, true) // 捕获阶段，防止冒泡后错过
+    document.addEventListener('touchstart', listener, true)
     listenerBound = true
   }
 }

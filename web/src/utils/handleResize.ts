@@ -21,7 +21,6 @@ export default function handleResize(el: Ref<HTMLElement>) {
     updateSearchPanelTop(height)
 
     const isSmallScreen = width < 1024
-    isMobileDevice()
     settingStore.setMobileState(isSmallScreen)
     settingStore.setMobileSubmenuState(!isSmallScreen)
 
@@ -48,19 +47,9 @@ function updateSearchPanelTop(height: number) {
 }
 
 /**
- * 更全面的移动端判断：触摸设备 + UA
- */
-function isMobileDevice(): boolean {
-  return (
-    window.matchMedia('(pointer: coarse)').matches
-    || /android|iphone|ipad|ipod|mobile|tablet/i.test(navigator.userAgent)
-  )
-}
-
-/**
  * 子菜单区域监听 - 始终开启监听，避免多端逻辑错乱
  */
-function setupSubAsideListener(el: Ref<any>, settingStore: any) {
+function setupSubAsideListener(el: Ref<any>, settingStore: ReturnType<typeof useSettingStore>) {
   const listener = (e: MouseEvent | TouchEvent) => {
     const target = e.target as HTMLElement
     const dom = el.value?.$el ?? el.value
@@ -73,7 +62,7 @@ function setupSubAsideListener(el: Ref<any>, settingStore: any) {
       if (['a', 'span'].includes(tag)) {
         setTimeout(() => {
           settingStore.setMobileSubmenuState(false)
-        }, 100)
+        }, 150)
       }
       return
     }

@@ -6,12 +6,12 @@ on:
     - cron: '0 2 * * *'
 jobs:
   cs-fix:
-    name: PHP CS Fix on PHP${{ matrix.php }} ${{ matrix.swoole }}
+    name: PHP CS Fix on PHP${{ matrix.php-version }} ${{ matrix.swoole }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php: [ '8.1' ]
+        php-version: [ '8.1' ]
         swoole: [ 'swoole' ]
     steps:
       - name: Checkout

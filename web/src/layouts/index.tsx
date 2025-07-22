@@ -62,7 +62,12 @@ export default defineComponent({
       }
       handleResize(subAsideEl)
     })
-
+    watch(
+      () => route.fullPath,
+      () => {
+        handleResize(subAsideEl)
+      },
+    )
     return () => (
       <div class="app-container">
         <MineHeader />

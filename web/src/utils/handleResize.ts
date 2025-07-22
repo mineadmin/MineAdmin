@@ -7,73 +7,108 @@
  * @Author X.Mo<root@imoi.cn>
  * @Link   https://github.com/mineadmin
  */
-import { useResizeObserver } from '@vueuse/core'
+import type { Ref } from 'vue'
+import { useMouseInElement, useResizeObserver } from '@vueuse/core'
 import useSettingStore from '@/store/modules/useSettingStore.ts'
 
-let listenerBound = false
+// 用于记录监听控制函数
+let stopMouseListener: (() => void) | null = null
+let startMouseListener: (() => void) | null = null
 
+/**
+ * 自定义事件监听组合式函数
+ */
+function useEventListener<T extends Event>(
+  target: Ref<HTMLElement | Document | Window | null> | HTMLElement | Document | Window,
+  event: string,
+  handler: (e: T) => void,
+) {
+  let isListening = false
+  const getTarget = () => (target as Ref<any>).value ?? target
+
+  const startListening = () => {
+    const el = getTarget()
+    if (el && !isListening) {
+      el.addEventListener(event, handler as EventListener)
+      isListening = true
+    }
+  }
+
+  const stopListening = () => {
+    const el = getTarget()
+    if (el && isListening) {
+      el.removeEventListener(event, handler as EventListener)
+      isListening = false
+    }
+  }
+
+  onUnmounted(stopListening)
+
+  return { startListening, stopListening }
+}
+
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+}
+
+/**
+ * 主函数，监听尺寸变化并处理事件绑定
+ */
 export default function handleResize(el: Ref<HTMLElement>) {
-  const settingStore = useSettingStore()
+  const { setMobileState, setMobileSubmenuState } = useSettingStore()
 
   useResizeObserver(document.body, (entries) => {
-    const { width, height } = entries[0].contentRect
+    const [entry] = entries
+    const { width, height } = entry.contentRect
 
-    updateSearchPanelTop(height)
+    const searchPanelNode = document.querySelector('.mine-search-panel-container') as HTMLElement
+    if (searchPanelNode) {
+      searchPanelNode.style.top
+        = height < 500
+        ? '0px'
+        : height < 800
+          ? 'calc(100% - 50% - 250px)'
+          : 'calc(100% - 50% - 350px)'
+    }
 
-    const isSmallScreen = width < 1024
-    settingStore.setMobileState(isSmallScreen)
-    settingStore.setMobileSubmenuState(!isSmallScreen)
+    // 设置是否是移动状态
+    const isMobile = width < 1024
+    setMobileState(isMobile)
+    setMobileSubmenuState(!isMobile)
 
-    setupSubAsideListener(el, settingStore)
+    // 清理并重建监听
+    checkMobileSubAside(el)
   })
 }
 
 /**
- * 设置搜索面板位置
+ * 判断是否点击在外部并根据设备类型动态绑定 mousemove
  */
-function updateSearchPanelTop(height: number) {
-  const searchPanel = document.querySelector('.mine-search-panel-container') as HTMLElement | null
-  // eslint-disable-next-line style/max-statements-per-line
-  if (!searchPanel) { return }
+function checkMobileSubAside(el: Ref<HTMLElement>) {
+  const { isOutside } = useMouseInElement(el)
+  const settingStore = useSettingStore()
 
-  let top = '0px'
-  if (height >= 800) {
-    top = 'calc(100% - 50% - 350px)'
-  }
-  else if (height >= 500) {
-    top = 'calc(100% - 50% - 250px)'
-  }
-  searchPanel.style.top = top
-}
+  // 清理旧的监听器
+  stopMouseListener?.()
+  stopMouseListener = null
+  startMouseListener = null
 
-/**
- * 子菜单区域监听 - 始终开启监听，避免多端逻辑错乱
- */
-function setupSubAsideListener(el: Ref<any>, settingStore: ReturnType<typeof useSettingStore>) {
-  const listener = (e: MouseEvent | TouchEvent) => {
-    const target = e.target as HTMLElement
-    const dom = el.value?.$el ?? el.value
-    // eslint-disable-next-line style/max-statements-per-line
-    if (!dom || !(target instanceof HTMLElement)) { return }
-
-    // 点击的是菜单内部
-    if (dom.contains(target)) {
-      const tag = target.tagName.toLowerCase()
-      if (['a', 'span'].includes(tag)) {
-        setTimeout(() => {
-          settingStore.setMobileSubmenuState(false)
-        }, 150)
-      }
-      return
+  const handleMouseMove = () => {
+    if (settingStore.getMobileSubmenuState() && isOutside.value) {
+      settingStore.setMobileSubmenuState(false)
     }
-
-    // 点击菜单外部，立即关闭
-    settingStore.setMobileSubmenuState(false)
   }
 
-  if (!listenerBound) {
-    document.addEventListener('mousedown', listener, true) // 捕获阶段，防止冒泡后错过
-    document.addEventListener('touchstart', listener, true)
-    listenerBound = true
-  }
+  const { startListening, stopListening } = useEventListener<MouseEvent>(
+    window,
+    'mousemove',
+    handleMouseMove,
+  )
+
+  // 缓存控制函数
+  startMouseListener = startListening
+  stopMouseListener = stopListening
+
+  const isMobile = isMobileDevice() && window.innerWidth < 1024
+  isMobile ? startMouseListener() : stopMouseListener()
 }

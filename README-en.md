@@ -77,8 +77,8 @@ This software must not be used to develop applications that violate national pol
 
 ## Demo Access
 [Demo](https://demo.mineadmin.com)
-- Username: **superAdmin**
-- Password: **admin123**
+- Username: **admin**
+- Password: **123456**
 
 > Please avoid adding test data.
 

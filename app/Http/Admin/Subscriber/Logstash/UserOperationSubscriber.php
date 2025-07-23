@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Http\Admin\Subscriber\Logstash;
 
 use App\Http\Common\Event\RequestOperationEvent;
-use App\Service\LogStash\UserOperationLogService;
+use App\Service\Logstash\UserOperationLogService;
 use App\Service\Permission\UserService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
@@ -42,7 +42,7 @@ class UserOperationSubscriber implements ListenerInterface
             if (empty($user)) {
                 return;
             }
-            Coroutine::create(fn () => $this->logService->save([
+            Coroutine::create(fn() => $this->logService->save([
                 'username' => $user->username,
                 'method' => $event->getMethod(),
                 'router' => $event->getPath(),

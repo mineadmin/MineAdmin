@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Subscriber\Logstash;
 
-use App\Service\LogStash\UserLoginLogService;
+use App\Service\Logstash\UserLoginLogService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
@@ -36,7 +36,7 @@ class UserLoginSubscriber implements ListenerInterface
     {
         if ($event instanceof UserLoginEvent) {
             $user = $event->getUser();
-            Coroutine::create(fn () => $this->userService->save([
+            Coroutine::create(fn() => $this->userService->save([
                 'username' => $user->username,
                 'ip' => $event->getIp(),
                 'os' => $event->getOs(),

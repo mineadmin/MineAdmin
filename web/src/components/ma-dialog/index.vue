@@ -21,6 +21,7 @@ const emit = defineEmits<{
 
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
 const dialogWidth = ref<string>('55%')
+const fullscreen = defineModel<boolean>('fullscreen', { default: false })
 const okLoading = ref<boolean>(false)
 const cancelLoading = ref<boolean>(false)
 const fsIcon = reactive({
@@ -51,22 +52,6 @@ function cancel() {
 
 const { current } = useMagicKeys()
 const keys = computed(() => Array.from(current))
-// 1. 声明 v-model 外部使用-受控状态
-const fullscreen = defineModel<boolean>('fullscreen', { default: false })
-
-// 2. 内部兜底状态-非受控状态
-const innerFullScreen = ref(true)
-
-// 3. 判断父级有没有传全屏 v-model
-const isControlled = computed(() => fullscreen.value !== undefined)
-
-// 4. 统一使用 getter / setter 控制全屏状态
-const isFullscreen = computed({
-  get() { return isControlled.value ? fullscreen.value : innerFullScreen.value },
-  set(v: boolean) {
-    isControlled.value ? (fullscreen.value = v) : (innerFullScreen.value = v)
-  },
-})
 
 watch(() => keys.value, async () => {
   const [one, two] = keys.value
@@ -120,11 +105,11 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link
-          class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" underline="never"
-          @click="() => isFullscreen = !isFullscreen"
-        >
-          <ma-svg-icon :name="isFullscreen ? fsIcon.exit : fsIcon.todo" :size="15" />
+        <el-link class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" underline="never" @click="() => fullscreen = !fullscreen">
+          <ma-svg-icon
+            :name="fullscreen ? fsIcon.exit : fsIcon.todo"
+            :size="15"
+          />
         </el-link>
       </div>
     </template>

@@ -28,7 +28,7 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 
-<a href="https://qm.qq.com/q/PJnEgr4D8C" target="_blank">
+<a href="https://qm.qq.com/q/PJnEgr4D8C">
   <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
 </a>
 
@@ -79,8 +79,8 @@ composer create-project mineadmin/mineadmin --keep-vcs
 ## 体验地址
 
 [体验地址](https://demo.mineadmin.com)
-- 账号：superAdmin
-- 密码：admin123
+- 账号：admin
+- 密码：123456
 
 > 请勿添加脏数据
 

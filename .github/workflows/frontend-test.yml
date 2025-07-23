@@ -77,7 +77,6 @@ jobs:
         working-directory: web
         run: ./.github/ci/requirement.install.sh
       - name: Start Backend Server
-        id: start_backend_server
         working-directory: web
         run: ./.github/ci/run.start-backend-server.sh
         env:
@@ -94,7 +93,7 @@ jobs:
           path: web/playwright-report/
           retention-days: 1
       - name: Stop Backend Server
-        if: steps.start_backend_server.outcome == 'success'
+        if: always()
         working-directory: web
         run: ./.github/ci/run.stop-backend-server.sh
       

@@ -28,7 +28,7 @@ The current default branch does not include departments, positions, data permiss
 ## Official Community  
 > QQ group for discussion and learning—please avoid spamming.  
 
-<a href="https://qm.qq.com/q/PJnEgr4D8C" target="_blank">
+<a href="https://qm.qq.com/q/PJnEgr4D8C">
   <img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" /> 
 </a>
 

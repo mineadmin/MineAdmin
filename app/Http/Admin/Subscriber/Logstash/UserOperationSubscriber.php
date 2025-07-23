@@ -42,7 +42,7 @@ class UserOperationSubscriber implements ListenerInterface
             if (empty($user)) {
                 return;
             }
-            Coroutine::create(fn() => $this->logService->save([
+            Coroutine::create(fn () => $this->logService->save([
                 'username' => $user->username,
                 'method' => $event->getMethod(),
                 'router' => $event->getPath(),

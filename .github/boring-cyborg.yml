@@ -28,7 +28,7 @@ labelPRBasedOnFilePath:
   Logging:
     - app/Model/UserLoginLog.php
     - app/Model/UserOperationLog.php
-    - app/Service/LogStash/**/*
+    - app/Service/Logstash/**/*
     - app/Repository/Logstash/**/*
   Frontend:
     - web/**/*

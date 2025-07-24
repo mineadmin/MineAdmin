@@ -76,21 +76,23 @@ function downloadAndInstall() {
     return false
   }
 
-  const md = `
-    \`\`\`bash
-    # 进入到后端根目录，第一步下载应用
-    php bin/hyperf.php mine-extension:download ${data.value?.app?.identifier}
-
-    # 第二步安装应用
-    php bin/hyperf.php mine-extension:install ${data.value?.app?.identifier}
-    \`\`\`
-    `
+  const md = [
+    '```bash',
+    '# 进入到后端根目录，第一步下载应用',
+    `php bin/hyperf.php mine-extension:download ${data.value?.app?.identifier}`,
+    '',
+    '# 第二步安装应用',
+    `php bin/hyperf.php mine-extension:install ${data.value?.app?.identifier}`,
+    '```',
+  ].join('\n')
 
   ElMessageBox({
     title: '⚠️ 温馨提示',
+    showConfirmButton: false,
     message: () =>
       h(MdPreview, {
         modelValue: md,
+        codeFoldable: false,
         theme: settingStore.colorMode === 'dark' ? 'dark' : 'light',
         previewTheme: 'github',
       }),
@@ -370,7 +372,7 @@ defineExpose({ open })
 :deep(.el-descriptions__cell) {
   @apply flex;
 }
-:deep(.md-editor-code-head) {
+:deep(.md-editor-code-head, .md-editor-code) {
   width: 100%; display: flex;
 }
 :deep(.md-editor-code-lang) {

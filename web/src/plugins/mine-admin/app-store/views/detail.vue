@@ -372,7 +372,7 @@ defineExpose({ open })
 :deep(.el-descriptions__cell) {
   @apply flex;
 }
-:deep(.md-editor-code-head, .md-editor-code) {
+:deep(.md-editor-code-head) {
   width: 100%; display: flex;
 }
 :deep(.md-editor-code-lang) {

@@ -9,12 +9,13 @@
 -->
 <script setup lang="ts">
 import type { AppVo } from '../api/app.ts'
-import { download, getDetail, install, unInstall } from '../api/app.ts'
+import { getDetail, unInstall } from '../api/app.ts'
 import versionCompare from '../utils/versionCompare.ts'
 import discount from '../utils/discount.ts'
 import { isUndefined } from 'lodash-es'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { MdPreview } from 'md-editor-v3'
+import { ElMessageBox } from 'element-plus'
 import '../style/preview.css'
 
 const settingStore = useSettingStore()
@@ -75,32 +76,26 @@ function downloadAndInstall() {
     return false
   }
 
-  const body = {
-    identifier: data.value.app?.identifier,
-    version: data.value?.version?.[0]!.version,
-  }
+  const md = [
+    '```bash',
+    '# 进入到后端根目录，第一步下载应用',
+    `php bin/hyperf.php mine-extension:download ${data.value?.app?.identifier}`,
+    '',
+    '# 第二步安装应用',
+    `php bin/hyperf.php mine-extension:install ${data.value?.app?.identifier}`,
+    '```',
+  ].join('\n')
 
-  dataState.value.buttonLoading = true
-  textState.value.installButtonText = '应用下载中...'
-
-  download(body).then(async () => {
-    msg.success('应用下载成功，现在开始安装...')
-    textState.value.installButtonText = '安装应用中...'
-
-    install(body).then(() => {
-      pluginStore.enabled(data.value.app?.identifier)
-      msg.success('应用安装成功，请手动重启后端服务')
-      dataState.value.buttonLoading = false
-      dataState.value.isInstall = true
-    }).catch(() => {
-      msg.error('应用安装失败')
-      textState.value.installButtonText = textState.value.installBtnDefaultText
-      dataState.value.buttonLoading = false
-    })
-  }).catch((e: any) => {
-    textState.value.installButtonText = textState.value.installBtnDefaultText
-    dataState.value.buttonLoading = false
-    msg.alertError(e)
+  ElMessageBox({
+    title: '⚠️ 温馨提示',
+    showConfirmButton: false,
+    message: () =>
+      h(MdPreview, {
+        modelValue: md,
+        codeFoldable: false,
+        theme: settingStore.colorMode === 'dark' ? 'dark' : 'light',
+        previewTheme: 'github',
+      }),
   })
 }
 

@@ -68,7 +68,7 @@ jobs:
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ matrix.os }}-pnpm-store-
+          key: ${{ matrix.os }}-pnpm-store-${{ hashFiles('web/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ matrix.os }}-pnpm-store-
       - name: Setup Frontend Packages

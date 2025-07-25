@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '8.1' ]
-        sw-version: [ 'v5.0.3' ]
+        sw-version: [ '5.0.3' ]
         node-version: [ '20' ]
     env:
       SW_VERSION: ${{ matrix.sw-version }}

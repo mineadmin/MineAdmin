@@ -2,11 +2,11 @@ name: Frontend Test
 on:
   push:
     paths:
-      - '.github/workflows/frontend.yml'
+      - '.github/workflows/frontend-test.yml'
       - 'web'
   pull_request:
     paths:
-      - '.github/workflows/frontend.yml'
+      - '.github/workflows/frontend-test.yml'
       - 'web'
 jobs:
   e2e-tests:
@@ -101,4 +101,3 @@ jobs:
         if: always()
         working-directory: web
         run: .github/ci/run.stop-backend-server.sh
-      

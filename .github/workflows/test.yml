@@ -7,6 +7,7 @@ on:
       - 'composer.*'
       - 'databases/**'
       - 'tests/**'
+      - '.github/ci/**'
       - '.github/workflows/test.yml'
   pull_request:
     paths:
@@ -15,6 +16,7 @@ on:
       - 'composer.*'
       - 'databases/**'
       - 'tests/**'
+      - '.github/ci/**'
       - '.github/workflows/test.yml'
   schedule:
     - cron: '0 2 * * *'

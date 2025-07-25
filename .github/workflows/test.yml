@@ -1,7 +1,21 @@
 name: MineAdmin Unit and Ci Test
 on:
   push:
+    paths:
+        - 'app/**'
+        - 'config/**'
+        - 'composer.*'
+        - 'databases/**'
+        - 'tests/**'
+        - '.github/workflows/test.yml'
   pull_request:
+    paths:
+        - 'app/**'
+        - 'config/**'
+        - 'composer.*'
+        - 'databases/**'
+        - 'tests/**'
+        - '.github/workflows/test.yml'
   schedule:
     - cron: '0 2 * * *'
 jobs:

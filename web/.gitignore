@@ -5,7 +5,6 @@ dist-ssr
 *.local
 .eslintcache
 .stylelintcache
-pnpm-lock.yaml
 .idea*
 types/auto-imports.d.ts
 types/components.d.ts

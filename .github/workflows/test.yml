@@ -98,6 +98,7 @@ jobs:
         with:
           packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
           version: 1.0
+          execute_install_scripts: true
       - name: Generate PHP_EXTENSIONS Cache Key
         id: ext_key
         run: |

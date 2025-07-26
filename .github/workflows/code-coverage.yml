@@ -29,8 +29,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '8.1' ]
-        sw-version: [ 'v5.1.3']
+        php-version: [ '8.3' ]
+        sw-version: [ 'master' ]
         exclude:
           - php-version: '8.3'
             sw-version: 'v5.0.3'
@@ -44,24 +44,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Generate PHP_EXTENSIONS Cache Key
-        id: ext_key
-        run: |
-          md5=$(echo -n "${{ env.PHP_EXTENSIONS }}" | md5sum | awk '{print $1}')
-          echo "key=${{ matrix.os }}-php-${{ matrix.php-version }}-extensions-$md5" >> $GITHUB_OUTPUT
-      - name: Setup PHP Extensions cache environment
-        id: php-extcache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
-          key: ${{ steps.ext_key.outputs.key }}
-      - name: Setup PHP Extensions Cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.php-extcache.outputs.dir }}
-          key: ${{ steps.php-extcache.outputs.key }}
-          restore-keys: ${{ steps.php-extcache.outputs.key }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -81,8 +63,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ matrix.os }}-composer-
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

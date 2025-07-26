@@ -14,7 +14,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     container:
       image: mcr.microsoft.com/playwright:v1.54.0-noble
-      options: --user 1001
     strategy:
       matrix:
         os: [ ubuntu-latest ]

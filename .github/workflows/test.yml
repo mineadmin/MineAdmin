@@ -57,7 +57,7 @@ jobs:
         with:
           php-version: '8.1'
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.sw-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
       - name: Get Composer Cache Directory
         id: composer-cache
         run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT

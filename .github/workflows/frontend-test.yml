@@ -22,14 +22,32 @@ jobs:
       SW_VERSION: ${{ matrix.sw-version }}
       MYSQL_VERSION: '8.0'
       PGSQL_VERSION: '14'
+      PHP_EXTENSIONS: redis, pdo, pdo_mysql, sqlsrv, pdo_sqlsrv, pdo_odbc, bcmath, swoole-${{ matrix.sw-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generate PHP_EXTENSIONS md5
+        id: ext_md5
+        run: |
+          echo "md5=$(echo -n '${{ env.PHP_EXTENSIONS }}' | md5sum | awk '{print $1}')" >> $GITHUB_OUTPUT
+      - name: Setup PHP Extensions cache environment
+        id: php-extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-extensions-${{ steps.ext_md5.outputs.md5 }}
+      - name: Get PHP Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.php-extcache.outputs.dir }}
+          key: ${{ steps.php-extcache.outputs.key }}
+          restore-keys: ${{ steps.php-extcache.outputs.key }}
       - name: Setup PHP TS
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath,swoole-${{ matrix.sw-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
         env:
           phpts: ts
@@ -37,6 +55,15 @@ jobs:
         run: |
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-composer-
       - name: Setup Backend Packages
         run: .github/ci/requirement.install.sh
       - name: Setup Services
@@ -62,12 +89,11 @@ jobs:
           cache-dependency-path: web/pnpm-lock.yaml
       - name: Get pnpm store directory
         id: pnpm-cache
-        run: |
-          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_OUTPUT
+        run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v4
-        name: Setup pnpm cache
+        name: Setup pnpm Cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_DIR }}
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ matrix.os }}-pnpm-store-${{ hashFiles('web/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ matrix.os }}-pnpm-store-
@@ -77,14 +103,13 @@ jobs:
       - name: Get Playwright Version
         id: playwright-version
         working-directory: web
-        run: |
-          echo "PLAYWRIGHT_VERSION=$(jq -r '.devDependencies["@playwright/test"]' package.json)" >> $GITHUB_OUTPUT
-      - name: Cache Playwright
+        run: echo "playwright_version=$(jq -r '.devDependencies["@playwright/test"]' package.json)" >> $GITHUB_OUTPUT
+      - name: Setup Playwright Cache
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ matrix.os }}-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+          key: playwright-${{ matrix.os }}-${{ steps.playwright-version.outputs.playwright_version }}
       - name: Install Playwright dependencies
         working-directory: web
         shell: bash

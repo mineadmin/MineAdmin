@@ -98,7 +98,6 @@ jobs:
           version: 1.0
       - name: Setup Swoole
         run: |
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
           cd swoole
           phpize
           ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli --enable-swoole-thread
@@ -204,7 +203,6 @@ jobs:
           version: 1.0
       - name: Setup Swow
         run: |
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
           cd swow/ext
           phpize
           ./configure --enable-openssl --enable-swow-curl --enable-cares --enable-swow-pgsql --enable-brotli

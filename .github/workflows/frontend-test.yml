@@ -12,8 +12,6 @@ jobs:
   e2e-tests:
     name: E2E Testing (Real APIs)
     runs-on: ${{ matrix.os }}
-    container:
-      image: mcr.microsoft.com/playwright:v1.54.0-noble
     strategy:
       matrix:
         os: [ ubuntu-latest ]

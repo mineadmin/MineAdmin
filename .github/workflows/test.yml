@@ -91,6 +91,11 @@ jobs:
           mkdir -p swoole
           tar -xf swoole.tar.gz -C swoole --strip-components=1
           rm swoole.tar.gz
+      - name: Setup APT Packages Cache
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
+          version: 1.0
       - name: Setup Swoole
         run: |
           cd swoole
@@ -192,6 +197,11 @@ jobs:
           mkdir -p swow
           tar -xf swow.tar.gz -C swow --strip-components=1
           rm swow.tar.gz
+      - name: Setup APT Packages Cache
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
+          version: 1.0
       - name: Setup Swow
         run: |
           cd swow/ext

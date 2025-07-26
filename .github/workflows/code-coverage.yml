@@ -68,6 +68,7 @@ jobs:
       - name: Setup Swoole
         run: |
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo 'swoole.enable_fiber_mock=On' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/20-xdebug.ini"
           php --ri swoole
           php --ri xdebug
       - name: Setup Packages

@@ -4,4 +4,4 @@ set -e
 
 set -x
 
-pnpm install --reporter=debug
+pnpm install --frozen-lockfile

@@ -65,6 +65,11 @@ jobs:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
           key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
+      - name: Setup Swoole
+        run: |
+          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          php --ri swoole
+          php --ri xdebug
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

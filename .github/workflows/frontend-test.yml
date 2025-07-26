@@ -77,7 +77,8 @@ jobs:
       - name: Get Playwright Version
         id: playwright-version
         working-directory: web
-        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.devDependencies.playwright' package.json)" >> $GITHUB_OUTPUT
+        run: |
+          echo "PLAYWRIGHT_VERSION=$(jq -r '.devDependencies["@playwright/test"]' package.json)" >> $GITHUB_OUTPUT
       - name: Cache Playwright
         id: playwright-cache
         uses: actions/cache@v4
@@ -85,6 +86,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ matrix.os }}-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
       - name: Install Playwright dependencies
+        working-directory: web
         shell: bash
         run: pnpm exec playwright install --with-deps --only-shell
       - name: Start Backend Server

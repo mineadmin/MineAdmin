@@ -63,17 +63,30 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_DIR }}
           key: ${{ matrix.os }}-pnpm-store-${{ hashFiles('web/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ matrix.os }}-pnpm-store-
       - name: Setup Frontend Packages
         working-directory: web
         run: .github/ci/requirement.install.sh
+      - name: Get Playwright Version
+        id: playwright-version
+        working-directory: web
+        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.devDependencies.playwright' package.json)" >> $GITHUB_OUTPUT
+      - name: Cache Playwright
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ matrix.os }}-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright dependencies
+        shell: bash
+        run: pnpm exec playwright install --with-deps --only-shell
       - name: Start Backend Server
         working-directory: web
         run:  .github/ci/run.start-backend-server.sh
@@ -85,7 +98,7 @@ jobs:
         working-directory: web
         run: .github/ci/run.test.sh
       - name: Upload E2E Test Report
-        if: always()
+        if: always() && hashFiles('web/playwright-report/index.html')
         uses: actions/upload-artifact@v4
         with:
           path: web/playwright-report/

@@ -65,8 +65,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ matrix.os }}-composer-
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run CS Fix
@@ -131,8 +131,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ matrix.os }}-composer-
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan
@@ -226,12 +226,6 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
-      - name: Install Swow
-        run: |
-          wget https://github.com/swow/swow/archive/${SW_VERSION}.tar.gz -O swow.tar.gz
-          mkdir -p swow
-          tar -xf swow.tar.gz -C swow --strip-components=1
-          rm swow.tar.gz
       - name: Get Composer Cache Directory
         id: composer-cache
         run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -239,8 +233,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
-          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ matrix.os }}-composer-
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swow-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swow-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

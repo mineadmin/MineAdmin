@@ -2,7 +2,23 @@ name: Code Coverage Upload
 
 on:
   push:
+    paths:
+      - 'app/**'
+      - 'config/**'
+      - 'composer.*'
+      - 'databases/**'
+      - 'tests/**'
+      - '.github/ci/**'
+      - '.github/workflows/code-coverage.yml'
   pull_request:
+    paths:
+      - 'app/**'
+      - 'config/**'
+      - 'composer.*'
+      - 'databases/**'
+      - 'tests/**'
+      - '.github/ci/**'
+      - '.github/workflows/code-coverage.yml'
   schedule:
     - cron: '0 2 * * *'
 
@@ -24,40 +40,50 @@ jobs:
       SW_VERSION: ${{ matrix.sw-version }}
       MYSQL_VERSION: '8.0'
       PGSQL_VERSION: '14'
+      PHP_EXTENSIONS: redis, pdo, pdo_mysql, sqlsrv, pdo_sqlsrv, pdo_odbc, bcmath, swoole-${{ matrix.sw-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Upgrade
+      - name: Generate PHP_EXTENSIONS Cache Key
+        id: ext_key
         run: |
-          sudo apt-get clean
-          sudo apt-get update
-          sudo apt-get upgrade -f
+          md5=$(echo -n "${{ env.PHP_EXTENSIONS }}" | md5sum | awk '{print $1}')
+          echo "key=${{ matrix.os }}-php-${{ matrix.php-version }}-extensions-$md5" >> $GITHUB_OUTPUT
+      - name: Setup PHP Extensions cache environment
+        id: php-extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          key: ${{ steps.ext_key.outputs.key }}
+      - name: Setup PHP Extensions Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.php-extcache.outputs.dir }}
+          key: ${{ steps.php-extcache.outputs.key }}
+          restore-keys: ${{ steps.php-extcache.outputs.key }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          tools: phpize
-          extensions: redis, pdo, pdo_mysql, bcmath
+          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
           coverage: xdebug
-      - name: Install Swoole
+      - name: Set Swoole Shortname
         run: |
-          wget https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz -O swoole.tar.gz
-          mkdir -p swoole
-          tar -xf swoole.tar.gz -C swoole --strip-components=1
-          rm swoole.tar.gz
-      - name: Setup Swoole
-        run: |
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
-          cd swoole
-          phpize
-          ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
-          make -j$(nproc)
-          sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
           php --ri xdebug
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan

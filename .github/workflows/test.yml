@@ -94,11 +94,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
-          version: 1.0
-          execute_install_scripts: true
       - name: Generate PHP_EXTENSIONS Cache Key
         id: ext_key
         run: |
@@ -117,6 +112,10 @@ jobs:
           path: ${{ steps.php-extcache.outputs.dir }}
           key: ${{ steps.php-extcache.outputs.key }}
           restore-keys: ${{ steps.php-extcache.outputs.key }}
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
+          version: 1.0
       - name: Setup PHP TS
         uses: shivammathur/setup-php@v2
         with:

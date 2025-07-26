@@ -26,18 +26,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Generate PHP_EXTENSIONS md5
-        id: ext_md5
+      - name: Generate PHP_EXTENSIONS Cache Key
+        id: ext_key
         run: |
-          echo "md5=$(echo -n '${{ env.PHP_EXTENSIONS }}' | md5sum | awk '{print $1}')" >> $GITHUB_OUTPUT
+          md5=$(echo -n "${{ env.PHP_EXTENSIONS }}" | md5sum | awk '{print $1}')
+          echo "key=${{ matrix.os }}-php-${{ matrix.php-version }}-extensions-$md5" >> $GITHUB_OUTPUT
       - name: Setup PHP Extensions cache environment
         id: php-extcache
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.PHP_EXTENSIONS }}
-          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-extensions-${{ steps.ext_md5.outputs.md5 }}
-      - name: Get PHP Cache extensions
+          key: ${{ steps.ext_key.outputs.key }}
+      - name: Setup PHP Cache extensions
         uses: actions/cache@v4
         with:
           path: ${{ steps.php-extcache.outputs.dir }}

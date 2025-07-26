@@ -187,6 +187,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
+          tools: phpize
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
@@ -196,11 +197,6 @@ jobs:
           mkdir -p swow
           tar -xf swow.tar.gz -C swow --strip-components=1
           rm swow.tar.gz
-      - name: Setup APT Packages Cache
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
-          version: 1.0
       - name: Setup Swow
         run: |
           cd swow/ext

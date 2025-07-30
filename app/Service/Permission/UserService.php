@@ -112,7 +112,7 @@ final class UserService extends IService
         if (isset($data['policy'])) {
             $policy = $entity->policy()->first();
             if ($policy) {
-                if (isset($data['id'])) {
+                if (isset($data['policy']['id'])) {
                     $policy->fill($data['policy'])->save();
                 } else {
                     $entity->policy()->delete();

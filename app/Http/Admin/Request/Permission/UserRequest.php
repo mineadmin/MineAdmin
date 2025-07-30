@@ -66,6 +66,7 @@ class UserRequest extends FormRequest
             'backend_setting' => 'sometimes|array|max:255',
             'remark' => 'sometimes|string|max:255',
             'policy' => 'sometimes|array',
+            'delete_policy' => 'sometimes|bool',
             'policy.policy_type' => [
                 'required_with:policy',
                 'string',

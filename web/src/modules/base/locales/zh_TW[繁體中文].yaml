@@ -17,7 +17,6 @@ baseUserManage:
   initPassword: 重設密碼
   setPassword: 是否將密碼重設為[123456]?
   setPasswordSuccess: 密碼重設完畢
-  delete_policy: 删除數據權限
 baseRoleManage:
   mainTitle: 角色管理
   subTitle: 提供用戶角色、權限設定

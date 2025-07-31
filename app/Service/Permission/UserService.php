@@ -118,7 +118,9 @@ final class UserService extends IService
                     $entity->policy()->delete();
                 }
             } else {
-                $entity->policy()->create($data['policy']);
+                if (!empty($data['policy'])) {
+                    $entity->policy()->create($data['policy']);
+                }
             }
         }
     }

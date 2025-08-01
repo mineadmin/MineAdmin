@@ -109,14 +109,16 @@ final class UserService extends IService
         if (isset($data['position'])) {
             $entity->position()->sync($data['position']);
         }
-        if (! empty($data['policy'])) {
-            if (! empty($data['delete_policy'])) {
-                $entity->policy()->delete();
-            } else {
-                $policy = $entity->policy()->first();
-                if ($policy) {
+        if (isset($data['policy'])) {
+            $policy = $entity->policy()->first();
+            if ($policy) {
+                if (isset($data['policy']['id'])) {
                     $policy->fill($data['policy'])->save();
                 } else {
+                    $entity->policy()->delete();
+                }
+            } else {
+                if (! empty($data['policy'])) {
                     $entity->policy()->create($data['policy']);
                 }
             }

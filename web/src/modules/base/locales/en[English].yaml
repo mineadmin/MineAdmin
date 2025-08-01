@@ -17,7 +17,6 @@ baseUserManage:
   initPassword: Init password
   setPassword: Whether to reset the password to 123456?
   setPasswordSuccess: The password was reset successfully
-  delete_policy: Delete Policy
 baseRoleManage:
   mainTitle: Role Rule
   subTitle: Provide user roles and permission settings

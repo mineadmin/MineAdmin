@@ -33,6 +33,10 @@ const items = ref<MaFormItem[]>([
     renderProps: {
       placeholder: t('form.pleaseSelect', { msg: t('basePost.dataScope') }),
       dictName: 'data-scope',
+      clearable: true,
+      onClear: () => {
+        model.value = {}
+      },
     },
   },
   {

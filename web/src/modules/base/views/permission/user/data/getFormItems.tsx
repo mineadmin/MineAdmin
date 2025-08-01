@@ -117,17 +117,6 @@ export default function getFormItems(
       },
     },
     {
-      label: () => t('baseUserManage.delete_policy'),
-      itemProps: {
-        labelWidth: '120px',
-      },
-      prop: 'delete_policy',
-      cols: {
-        md: 12,
-      },
-      render: () => <el-switch />,
-    },
-    {
       label: () => t('baseUserManage.dept'),
       prop: 'department',
       render: () => <el-tree-select />,

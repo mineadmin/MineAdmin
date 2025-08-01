@@ -10,9 +10,9 @@ MineAdmin is an open source project, and we welcome anyone to participate in its
 
 ## Repository address
 
-Currently, the source code repository is hosted on GitHub, and the front-end and back-end source code in the gitee repository is used as a mirror repository. The code is automatically synchronized every day. We do not support any kind of code submission.
+Currently, the codebase is hosted on GitHub. The front-end and back-end code in the Gitee repository **are** read-only mirror repositories, automatically synchronized every day. We **do not accept** code submissions on Gitee.
 
-<span style="color: #F56C6C; font-weight: bold;">Note: In version 3.0, both the front-end and back-end source code are located in the same repository under the /web directory.</span>
+>**Note**: Starting from version 3.0, both the front-end and back-end source code are located in the `/web` directory of this repository.
 
 ### Github
 
@@ -33,7 +33,7 @@ Currently, the source code repository is hosted on GitHub, and the front-end and
 
 * We will release some pending features in issues, if you are interested, you can leave a comment in issues, we will reply as soon as possible.
 * Comment replies help users who ask questions;
-* According to the content of [issues](https://github.com/mineadmin/mineadmin/issues), propose a reasonable solution; go to fix the bug or realize the function, and take [pull request](https://github.com/mineadmin/ mineadmin/pulls) to the MineAdmin repository.
+* According to the content of [issues](https://github.com/mineadmin/mineadmin/issues), propose a reasonable solution; go to fix the bug or realize the function, and take [pull request](https://github.com/mineadmin/mineadmin/pulls) to the MineAdmin repository.
 * Keep an eye on the progress and status of your own Pull Requests, in order to push your Pull Requests to be merged into the main repository as soon as possible;
 * Conduct Code Review on other people's Pull Requests, and give your suggestions and opinions.
 * Develop independent functional components based on others' or your own requirements;
@@ -48,7 +48,8 @@ Before submitting an issue, please check if a similar issue has already been pos
 * The format of the commit message should be [File Name]: Info about commit. (e.g.) README.md: Fix xxx bugs
 * Run `composer cs-fix` to format your code before committing it;
 * Run `composer analyse` for static code checking before committing;
-* Run `composer test` before submitting code. <span style="color: #F56C6C; font-weight: bold;">！！！Do NOT run unit tests on any of your production environments, as they will delete or modify data!！！！</span>
+* Run `composer test` before submitting code. 
+  * **Note:** ！！！Do NOT run unit tests on any of your production environments, as they will delete or modify data!！！！
 * Make sure to create the PR as your functional branch, rather than committing changes directly on the master branch.
 * If your PR fixes a bug, please provide a description of the bug.
 
@@ -68,7 +69,7 @@ MineAdmin 是一个开源项目，我们欢迎任何人参与开发。如果你�
 
 目前源代码仓库托管在 GitHub,码云仓库中的前后端源码作为镜像仓库。每天会自动同步代码。不支持任何形式的代码提交。
 
-<span style="color: #F56C6C; font-weight: bold;">注意：3.0 版本的前端源码与后端源码位于同一仓库的 `/web` 目录下。</span>
+>**注意**：自 3.0 版本起，前端与后端源码统一放在仓库的 `/web` 目录下。
 
 ### GitHub
 * [MineAdmin 文档](https://github.com/mineadmin/doc-v3)
@@ -104,6 +105,7 @@ MineAdmin 是一个开源项目，我们欢迎任何人参与开发。如果你�
 * 提交信息的格式应为 [File Name]: Info about commit. （例如） README.md: Fix xxx bug
 * 提交代码前，请先执行 `composer cs-fix` 进行代码格式化；
 * 提交代码前，请先执行 `composer analyse` 进行代码静态检查；
-* 提交代码前，请先执行 `composer test` 进行单元测试；<span style="color: #F56C6C; font-weight: bold;">！！！单元测试不要在您的任何生产环境上运行，因为它会删除添加数据！！！</span>；
+* 提交代码前，请先执行 `composer test` 进行单元测试；
+  * **注意**： ！！！单元测试不要在您的任何生产环境上运行，因为它会删除添加数据！！！；
 * 确保将 PR 创建为你的功能分支， 而不是 master 分支上直接提交修改。
 * 如果你的 PR 修复了 bug，请提供有关相关 bug 的描述。

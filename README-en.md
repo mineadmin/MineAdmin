@@ -1,4 +1,4 @@
-[Chinese](./README.md) | English | [日本語](./README-jp.md)
+[中文](./README.md) | English | [日本語](./README-jp.md)
 # Project Introduction  
 
 <p align="center">  

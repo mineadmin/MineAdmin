@@ -1,4 +1,4 @@
-[Chinese](./README.md) | English  
+[中文](./README.md) | English | [日本語](./README-jp.md)
 # Project Introduction  
 
 <p align="center">  
@@ -118,4 +118,3 @@ This software must not be used to develop applications that violate national pol
 [![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)  
 [![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)  
 [![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
-```

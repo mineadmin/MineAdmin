@@ -1,4 +1,4 @@
-中文 | [English](./README-en.md)
+中文 | [English](./README-en.md) | [日本語](./README-jp.md)
 # 项目介绍
 
 <p align="center">
@@ -125,4 +125,3 @@ composer create-project mineadmin/mineadmin --keep-vcs
 [![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)
 [![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)
 [![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
-

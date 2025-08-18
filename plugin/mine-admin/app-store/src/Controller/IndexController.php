@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Plugin\MineAdmin\AppStore\Controller;
 
 use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Http\Common\Middleware\DeBugOnlyMiddleware;
 use App\Http\Common\Result;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -24,7 +23,6 @@ use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
 use Plugin\MineAdmin\AppStore\Service\Service;
 
 #[Controller(prefix: 'admin/plugin/store')]
-#[Middleware(middleware: DeBugOnlyMiddleware::class, priority: 101)]
 #[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 class IndexController extends AbstractController
 {

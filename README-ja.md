@@ -2,7 +2,7 @@
 # プロジェクト紹介
 
 <p align="center">
-    <img src="https://doc.mineadmin.com/logo.svg" width="120" />
+    <img src="https://doc2.mineadmin.com/logo.svg" width="120" alt="logo" />
 </p>
 <p align="center">
     <a href="https://www.mineadmin.com" target="_blank">公式サイト</a> |

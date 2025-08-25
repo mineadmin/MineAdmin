@@ -2,7 +2,7 @@
 # 项目介绍
 
 <p align="center">
-    <img src="https://doc2.mineadmin.com/logo.svg" width="120" alt="logo" />
+    <img src="https://docv2.mineadmin.com/logo.svg" width="120" alt="logo" />
 </p>
 <p align="center">
     <a href="https://www.mineadmin.com" target="_blank">官网</a> |

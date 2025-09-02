@@ -202,14 +202,13 @@ const useUserStore = defineStore(
       return true
     }
 
-    async function setUserSetting(settings: any) {
+    async function setUserSetting(settings: { app?: { useLocale?: string } } | null) {
       settings && setting.setSettings(settings)
       setting.initColorMode()
 
-      await nextTick().then(() => {
-        useThemeColor().initThemeColor()
-        setLanguage(settings?.app?.useLocale ?? 'zh_CN')
-      })
+      await nextTick()
+      useThemeColor().initThemeColor()
+      setLanguage(settings?.app?.useLocale ?? language.value ?? 'zh_CN')
     }
 
     function saveSettingToSever() {

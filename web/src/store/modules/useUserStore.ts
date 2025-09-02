@@ -128,7 +128,7 @@ const useUserStore = defineStore(
         const { data } = await getInfo()
         setUserInfo(data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
-          setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
+          await setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
         }
         await refreshMenu()
         await refreshRole()
@@ -202,11 +202,14 @@ const useUserStore = defineStore(
       return true
     }
 
-    function setUserSetting(settings: any) {
+    async function setUserSetting(settings: any) {
       settings && setting.setSettings(settings)
       setting.initColorMode()
-      setLanguage(settings?.app?.useLocale ?? 'zh_CN')
-      useThemeColor().initThemeColor()
+
+      await nextTick().then(() => {
+        useThemeColor().initThemeColor()
+        setLanguage(settings?.app?.useLocale ?? 'zh_CN')
+      })
     }
 
     function saveSettingToSever() {

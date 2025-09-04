@@ -128,7 +128,9 @@ const useUserStore = defineStore(
         const { data } = await getInfo()
         setUserInfo(data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
-          setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
+          const raw = data?.backend_setting
+          const normalized = raw && !Array.isArray(raw) ? raw : null
+          await setUserSetting(normalized)
         }
         await refreshMenu()
         await refreshRole()
@@ -157,7 +159,8 @@ const useUserStore = defineStore(
     }
 
     function setLanguage(langName: string) {
-      language.value = langName
+      if (!langName || typeof langName !== 'string' || !langName.trim()) return false
+      language.value = langName.trim()
       cache.set('language', language.value)
       return true
     }
@@ -202,11 +205,14 @@ const useUserStore = defineStore(
       return true
     }
 
-    function setUserSetting(settings: any) {
+    async function setUserSetting(settings: any) {
       settings && setting.setSettings(settings)
       setting.initColorMode()
-      setLanguage(settings?.app?.useLocale ?? 'zh_CN')
+
+      await nextTick()
       useThemeColor().initThemeColor()
+      const locale = settings?.app?.useLocale ?? (language.value?.trim() || 'zh_CN')
+      setLanguage(locale)
     }
 
     function saveSettingToSever() {

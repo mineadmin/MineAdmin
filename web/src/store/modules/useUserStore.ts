@@ -205,7 +205,7 @@ const useUserStore = defineStore(
       return true
     }
 
-    async function setUserSetting(settings: { app?: { useLocale?: string } } | null) {
+    async function setUserSetting(settings: any) {
       settings && setting.setSettings(settings)
       setting.initColorMode()
 

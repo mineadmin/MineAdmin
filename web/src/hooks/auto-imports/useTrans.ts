@@ -24,6 +24,11 @@ export function useTrans(key: any | null = null): TransType | string | any {
   })
 
   if (key === null) {
+    /**
+     * @deprecated This usage is not recommended. Please use useTrans('key') instead.
+     * Returning both global and local translation functions is discouraged.
+     * This helps avoid duplicate useI18n() calls and improves performance.
+     */
     return {
       localTrans: local.t,
       globalTrans: global.t,

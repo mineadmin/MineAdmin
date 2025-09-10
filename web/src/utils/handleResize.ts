@@ -10,6 +10,8 @@
 import { useMouseInElement, useResizeObserver } from '@vueuse/core'
 import type { Ref } from 'vue'
 
+const listenerMap = new WeakMap<HTMLElement, (e: MouseEvent) => void>()
+
 export default function handleResize(el: Ref<HTMLElement>) {
   const { setMobileState, setMobileSubmenuState } = useSettingStore()
   useResizeObserver(document.body, (entries) => {
@@ -23,16 +25,30 @@ export default function handleResize(el: Ref<HTMLElement>) {
   })
 }
 
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+}
+
 function checkMobileSubAside(el: Ref<HTMLElement>) {
   const { isOutside } = useMouseInElement(el)
   const settingStore = useSettingStore()
-  const listenerEvent = () => {
-    if (settingStore.getMobileSubmenuState() && isOutside.value) {
-      settingStore.setMobileSubmenuState(false)
-    }
+  const targetEl = el.value
+
+  // 如果之前绑定过，先移除
+  const prevListener = listenerMap.get(targetEl)
+  if (prevListener) {
+    document.removeEventListener('mousemove', prevListener)
+    listenerMap.delete(targetEl)
   }
 
-  settingStore.getMobileState()
-    ? document.addEventListener('mousemove', listenerEvent)
-    : document.removeEventListener('mousemove', listenerEvent)
+  if (isMobileDevice() && window.innerWidth < 1024) {
+    const listenerEvent = () => {
+      if (settingStore.getMobileSubmenuState() && isOutside.value) {
+        settingStore.setMobileSubmenuState(false)
+      }
+    }
+
+    document.addEventListener('mousemove', listenerEvent)
+    listenerMap.set(targetEl, listenerEvent)
+  }
 }

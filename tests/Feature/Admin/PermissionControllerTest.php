@@ -19,7 +19,9 @@ use App\Model\Permission\Role;
 use App\Model\Permission\User;
 use Hyperf\Collection\Arr;
 use Hyperf\Collection\Collection;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Stringable\Str;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * @internal
@@ -31,7 +33,6 @@ final class PermissionControllerTest extends ControllerCase
 
     public function testMenus(): void
     {
-        User::truncate();
         Menu::truncate();
         $user = $this->generatorUser();
         $token = $this->getToken($user);
@@ -39,6 +40,7 @@ final class PermissionControllerTest extends ControllerCase
         self::assertSame(Arr::get($noTokenResult, 'code'), ResultCode::UNAUTHORIZED->value);
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
+        self::assertCount(0, Arr::get($result, 'data'));
         $menus = Collection::make([
             Menu::create([
                 'parent_id' => 0,
@@ -114,6 +116,7 @@ final class PermissionControllerTest extends ControllerCase
         ]);
 
         $role->menus()->sync($menus->pluck('id')->toArray());
+
         $result = $this->get('/admin/permission/menus', [], ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         self::assertIsArray(Arr::get($result, 'data'));
@@ -225,6 +228,9 @@ final class PermissionControllerTest extends ControllerCase
         $oldPassword = Str::random(10);
         $user->password = $oldPassword;
         $user->save();
+        $user->refresh();
+        ApplicationContext::getContainer()->get(CacheInterface::class)
+            ->delete((string) $user->id);
         $this->password = $oldPassword;
         $newPassword = Str::random(10);
         $payload = [
@@ -232,6 +238,7 @@ final class PermissionControllerTest extends ControllerCase
             'new_password' => $newPassword,
             'new_password_confirmation' => $newPassword,
         ];
+        $token = $this->getToken($user);
         $result = $this->post('/admin/permission/update', $payload, ['Authorization' => 'Bearer ' . $token]);
         self::assertSame(Arr::get($result, 'code'), ResultCode::SUCCESS->value);
         $user->refresh();

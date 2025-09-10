@@ -18,7 +18,7 @@ use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Result;
 use App\Http\CurrentUser;
 use App\Schema\UserOperationLogSchema;
-use App\Service\LogStash\UserOperationLogService;
+use App\Service\Logstash\UserOperationLogService;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Delete;

@@ -1,18 +1,36 @@
 name: MineAdmin Unit and Ci Test
 on:
   push:
+    paths:
+      - 'app/**'
+      - 'config/**'
+      - 'composer.*'
+      - 'databases/**'
+      - 'tests/**'
+      - '.github/ci/**'
+      - '.github/workflows/test.yml'
   pull_request:
+    paths:
+      - 'app/**'
+      - 'config/**'
+      - 'composer.*'
+      - 'databases/**'
+      - 'tests/**'
+      - '.github/ci/**'
+      - '.github/workflows/test.yml'
   schedule:
     - cron: '0 2 * * *'
 jobs:
   cs-fix:
-    name: PHP CS Fix on PHP${{ matrix.php }} ${{ matrix.swoole }}
+    name: PHP CS Fix on PHP${{ matrix.php-version }} ${{ matrix.sw-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php: [ '8.1' ]
-        swoole: [ 'swoole' ]
+        php-version: [ '8.3' ]
+        sw-version: [ 'master' ]
+    env:
+      PHP_EXTENSIONS: redis, pdo, pdo_mysql, sqlsrv, pdo_sqlsrv, pdo_odbc, bcmath, swoole-${{ matrix.sw-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,17 +39,16 @@ jobs:
         with:
           php-version: '8.1'
           tools: php-cs-fixer
-          extensions: redis, pdo, pdo_mysql, bcmath, ${{ matrix.swoole }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v4
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ matrix.php-version }}-composer
-          restore-keys: |
-            ${{ matrix.php-version }}-composer
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run CS Fix
@@ -45,7 +62,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '8.3', '8.2', '8.1' ]
-        sw-version: [ 'v5.0.3', 'v5.1.5', 'master' ]
+        sw-version: [ 'v5.0.3', 'v5.1.8', 'v6.0.2', 'master' ]
         exclude:
           - php-version: '8.3'
             sw-version: 'v5.0.3'
@@ -55,20 +72,16 @@ jobs:
       SW_VERSION: ${{ matrix.sw-version }}
       MYSQL_VERSION: '8.0'
       PGSQL_VERSION: '14'
+      PHP_EXTENSIONS: redis, pdo, pdo_mysql, sqlsrv, pdo_sqlsrv, pdo_odbc, bcmath
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Upgrade
-        run: |
-          sudo apt-get clean
-          sudo apt-get update
-          sudo apt-get upgrade -f
       - name: Setup PHP TS
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
         env:
           phpts: ts
@@ -78,9 +91,13 @@ jobs:
           mkdir -p swoole
           tar -xf swoole.tar.gz -C swoole --strip-components=1
           rm swoole.tar.gz
+      - name: Setup APT Packages Cache
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
+          version: 1.0
       - name: Setup Swoole
         run: |
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
           cd swoole
           phpize
           ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli --enable-swoole-thread
@@ -89,6 +106,15 @@ jobs:
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           php --ri swoole
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swoole-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
         run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan
@@ -144,14 +170,12 @@ jobs:
       SW_VERSION: ${{ matrix.sw-version }}
       MYSQL_VERSION: '8.0'
       PGSQL_VERSION: '14'
+      PHP_EXTENSIONS: redis, pdo, pdo_mysql, sqlsrv, pdo_sqlsrv, pdo_odbc, bcmath
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Upgrade
+      - name: Update composer.json
         run: |
-          sudo apt-get clean
-          sudo apt-get update
-          sudo apt-get upgrade -f
           COMPOSER_JSON_PATH="composer.json"
           COMPOSER_JSON_CONTENT=$(cat $COMPOSER_JSON_PATH)
           COMPOSER_DATA=$(echo $COMPOSER_JSON_CONTENT | jq 'del(.require["ext-swoole"])')
@@ -163,9 +187,9 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql,sqlsrv,pdo_sqlsrv,pdo_odbc,bcmath
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: opcache.enable_cli=0
       - name: Install Swow
         run: |
@@ -173,18 +197,30 @@ jobs:
           mkdir -p swow
           tar -xf swow.tar.gz -C swow --strip-components=1
           rm swow.tar.gz
+      - name: Setup APT Packages Cache
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libcurl4-openssl-dev libc-ares-dev libpq-dev
+          version: 1.0
       - name: Setup Swow
         run: |
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
           cd swow/ext
           phpize
           ./configure --enable-openssl --enable-swow-curl --enable-cares --enable-swow-pgsql --enable-brotli
           make && sudo make install
           sudo sh -c "echo extension=swow > /etc/php/${{ matrix.php-version }}/cli/conf.d/swow.ini"
           php --ri swow
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.composer_cache_dir }}
+          key: ${{ matrix.os }}-php-${{ matrix.php-version }}-swow-${{ matrix.sw-version }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.os }}-php-${{ matrix.php-version }}-swow-${{ matrix.sw-version }}-composer-
       - name: Setup Packages
-        run: | 
-          ./.github/ci/requirement.install.sh
+        run: ./.github/ci/requirement.install.sh
       - name: Run PHPStan
         run: ./.github/ci/run.check.sh
       - name: Setup Services

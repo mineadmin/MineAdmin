@@ -21,7 +21,7 @@ const emit = defineEmits<{
 
 const dialogRef = ref<typeof ElDialog>() as Ref<typeof ElDialog>
 const dialogWidth = ref<string>('55%')
-const fullscreen = ref<boolean>(false)
+const fullscreen = defineModel<boolean>('fullscreen', { default: false })
 const okLoading = ref<boolean>(false)
 const cancelLoading = ref<boolean>(false)
 const fsIcon = reactive({
@@ -109,7 +109,6 @@ onMounted(() => {
           <ma-svg-icon
             :name="fullscreen ? fsIcon.exit : fsIcon.todo"
             :size="15"
-            @click="() => fullscreen = !fullscreen"
           />
         </el-link>
       </div>

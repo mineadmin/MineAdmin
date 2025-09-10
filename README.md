@@ -1,8 +1,8 @@
-中文 | [English](./README-en.md)
+中文 | [English](./README-en.md) | [日本語](./README-ja.md)
 # 项目介绍
 
 <p align="center">
-    <img src="https://doc.mineadmin.com/logo.svg" width="120" />
+    <img src="web/public/logo.svg" width="120" alt="logo" />
 </p>
 <p align="center">
     <a href="https://www.mineadmin.com" target="_blank">官网</a> |
@@ -29,7 +29,9 @@ PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统�
 ## 官方交流群
 > QQ群用于交流学习，请勿水群
 
-<img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
+<a href="https://qm.qq.com/q/PJnEgr4D8C">
+  <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
+</a>
 
 ## 战略合作
 [京策盾高防CDN - 抗DDOS/CC网络攻击的可靠服务商](https://www.jcdun.com/guoneigaofangcdn)
@@ -81,8 +83,8 @@ composer create-project mineadmin/mineadmin --keep-vcs
 ## 体验地址
 
 [体验地址](https://demo.mineadmin.com)
-- 账号：superAdmin
-- 密码：admin123
+- 账号：admin
+- 密码：123456
 
 > 请勿添加脏数据
 
@@ -127,4 +129,3 @@ composer create-project mineadmin/mineadmin --keep-vcs
 [![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)
 [![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)
 [![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
-

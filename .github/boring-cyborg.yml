@@ -1,15 +1,60 @@
 labelPRBasedOnFilePath:
-  Setting:
-    - app/Setting/**/*
-  System:
-    - app/System/**/*
+  Permission:
+    - app/Model/Permission/**/*
+    - app/Service/Permission/**/*
+    - app/Repository/Permission/**/*
+  Http:
+    - app/Http/**/*
+  Model:
+    - app/Model/**/*
+  Service:
+    - app/Service/**/*
+  Repository:
+    - app/Repository/**/*
+  Schema:
+    - app/Schema/**/*
+  Command:
+    - app/Command/**/*
+  Exception:
+    - app/Exception/**/*
+  Authentication:
+    - app/Http/CurrentUser.php
+    - app/Service/PassportService.php
+  Attachment:
+    - app/Model/Attachment.php
+    - app/Service/AttachmentService.php
+    - app/Repository/AttachmentRepository.php
+    - app/Schema/AttachmentSchema.php
+  Logging:
+    - app/Model/UserLoginLog.php
+    - app/Model/UserOperationLog.php
+    - app/Service/Logstash/**/*
+    - app/Repository/Logstash/**/*
+  Frontend:
+    - web/**/*
+  Config:
+    - config/**/*
+  Database:
+    - databases/**/*
   UnitTest:
-    - test/**/*
+    - tests/**/*
   ChangeLog:
-    - CHANGELOG-*.md
+    - CHANGELOG*.md
+    - web/CHANGELOG.md
   Composer:
     - composer.json
-    - src/*/composer.json
+    - composer.lock
+  Docker:
+    - Dockerfile
+    - docker-compose.yml
+    - deploy.test.yml
+  Documentation:
+    - README*.md
+    - CONTRIBUTING.md
+    - SECURITY.md
+    - LICENSE
+  GitHub:
+    - .github/**/*
 
 firstPRWelcomeComment: >
   Thanks for opening this pull request! Please check out our [contributing guidelines](https://github.com/mineadmin/MineAdmin/blob/master/CONTRIBUTING.md).

@@ -9,7 +9,7 @@ assignees: ''
 
 执行命令并粘贴以下结果。
 
-Command: `uname -a && php -v && composer info | grep mine && php --ri swoole`
+Command: `uname -a && php -v && composer info | grep mineadmin && php --ri swoole`
 
 ```bash
 # Paste the result here.

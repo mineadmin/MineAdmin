@@ -7,3 +7,6 @@ dist-ssr
 .stylelintcache
 pnpm-lock.yaml
 .idea*
+types/auto-imports.d.ts
+types/components.d.ts
+tests/e2e/.output/*

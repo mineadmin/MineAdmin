@@ -1,8 +1,8 @@
-[中文](./README.md) | English
-# Projects
+[中文](./README.md) | English | [日本語](README-ja.md)
+# Project Introduction  
 
 <p align="center">  
-    <img src="https://doc.mineadmin.com/logo.svg" width="120" />  
+    <img src="web/public/logo.svg" width="120" alt="logo" />  
 </p>  
 <p align="center">  
     <a href="https://www.mineadmin.com" target="_blank">Official Website</a> |  
@@ -22,13 +22,15 @@ The frontend uses Vue3 + Vite4 + Pinia + Arco, adapting seamlessly to PC, mobile
 If you find it useful, please give it a ⭐star—it would mean a lot to me and be a great encouragement!  
 Before using MineAdmin, please read the [Disclaimer](https://doc.mineadmin.com/guide/start/declaration.html) carefully and agree to its terms.  
 
-## Default Main Branch (without department, position, or data permission features)  
-The current branch includes features such as departments, positions, and data permissions. If you do not need these features, please switch to the [`【Main Branch】`](https://github.com/mineadmin/MineAdmin) to download the code.  
+## Department and Position Branch (includes data permission features)  
+The current default branch does not include departments, positions, data permissions, and other features. If you need these features, please go to the [`【MineAdmin with Departments and Positions----master-department】`](https://github.com/mineadmin/MineAdmin/tree/master-department) branch to download the code.  
 
 ## Official Community  
 > QQ group for discussion and learning—please avoid spamming.  
 
-<img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" />  
+<a href="https://qm.qq.com/q/PJnEgr4D8C">
+  <img src="https://svg.hamm.cn/badge.svg?key=QQ Group&value=150105478" /> 
+</a>
 
 ## Strategic Partnership  
 [Jingcedun High-Protection CDN - Reliable Anti-DDoS/CC Attack Service](https://www.jcdun.com/guoneigaofangcdn)  
@@ -75,8 +77,8 @@ This software must not be used to develop applications that violate national pol
 
 ## Demo Access
 [Demo](https://demo.mineadmin.com)
-- Username: **superAdmin**
-- Password: **admin123**
+- Username: **admin**
+- Password: **123456**
 
 > Please avoid adding test data.
 
@@ -116,4 +118,3 @@ This software must not be used to develop applications that violate national pol
 [![pAdQNIe.png](https://s21.ax1x.com/2024/10/22/pAdQNIe.png)](https://imgse.com/i/pAdQNIe)  
 [![pAdQaPH.png](https://s21.ax1x.com/2024/10/22/pAdQaPH.png)](https://imgse.com/i/pAdQaPH)  
 [![pAdQdGd.png](https://s21.ax1x.com/2024/10/22/pAdQdGd.png)](https://imgse.com/i/pAdQdGd)
-```

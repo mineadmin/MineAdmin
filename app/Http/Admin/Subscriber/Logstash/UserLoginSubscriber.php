@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Subscriber\Logstash;
 
-use App\Service\LogStash\UserLoginLogService;
+use App\Service\Logstash\UserLoginLogService;
 use Hyperf\Engine\Coroutine;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;

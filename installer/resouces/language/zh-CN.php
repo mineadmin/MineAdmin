@@ -1,5 +1,35 @@
 <?php
 
 return [
-
+    'setup_runtime_directory' => '设置数据与缓存目录',
+    'install_hyperf_script_0'   =>  '您想设置哪个时区？',
+    'install_hyperf_script_1'   =>  'php.ini 的默认时区',
+    'install_hyperf_script_2'   =>  '请选择或输入时区名称（例如 Asia/Shanghai）',
+    'install_hyperf_script_3'   =>  '您需要输入时区名称（例如 Asia/Shanghai），或输入 n 跳过',
+    'select_driver' =>  '选择协程驱动',
+    'select_driver_0'   =>  '您想设置哪种协程驱动？',
+    'swow_timezone_warning' =>  '您已选择 Swow 协程驱动，请在 bin/hyperf.php 中重新配置时区',
+    'setup_database_env'    =>  '设置数据库连接',
+    'setup_database_env_0'  =>  '请选择数据库类型（mysql,pgsql），默认：[mysql]',
+    'setup_database_env_1'  =>  '请输入数据库连接地址（默认：127.0.0.1）',
+    'setup_database_env_2'  =>  '请输入数据库连接端口（默认：3306）',
+    'setup_database_env_3'  =>  '请输入数据库用户名（默认：root）',
+    'setup_database_env_4'  =>  '请输入数据库用户密码（默认：空）',
+    'setup_database_env_5'  =>  '请输入数据库名称（默认：mineadmin）',
+    'setup_database_env_6'  =>  '请输入数据库字符集（默认：utf8mb4）',
+    'setup_database_env_7'  =>  '正在测试数据库连接',
+    'setup_database_env_8'  =>  '数据库连接成功',
+    'setup_database_env_9'  =>  '数据库连接失败，请检查数据库连接信息并重试',
+    'setup_redis_env'   =>  '设置 Redis 连接',
+    'setup_redis_env_0' =>  '请输入 Redis 连接地址（默认：127.0.0.1）',
+    'setup_redis_env_1' =>  '请输入 Redis 连接端口（默认：6379）',
+    'setup_redis_env_2' =>  '请输入 Redis 连接密码（默认：空）',
+    'setup_redis_env_3'=>'  请输入 Redis 数据库索引（默认：0）',
+    'setup_redis_env_4' =>  '正在测试 Redis 连接',
+    'setup_redis_env_5' =>  'Redis 连接成功',
+    'setup_redis_env_6' =>  'Redis 连接失败，请检查 Redis 连接信息并重试',
+    'generator_jwt_secret'  =>  '生成 JWT 密钥',
+    'put_env_file_exists'   =>  '.env 文件已存在',
+    'put_env_file_exists_2' =>  '请手动填写以下配置项',
+    'driver_not_found'  =>  '未找到驱动，请手动安装相应的扩展'
 ];

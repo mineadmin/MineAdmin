@@ -412,7 +412,7 @@ class OptionalPackages
 
     public function putEnv(): void
     {
-        $envFile = $this->rootPath . '/.env';
+        $envFile = $this->projectRoot . '/.env';
         if (file_exists($envFile)) {
             $this->io->error($this->translation->trans('put_env_file_exists','The .env file already exists.'));
             // 已经存在环境文件，请手动填写以下配置项

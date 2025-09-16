@@ -81,10 +81,11 @@ const model = defineModel<any>()
     </slot>
 
     <!-- 其他具名插槽 -->
-    <template v-for="slot in Object.keys($slots)" #[slot]>
+    <template v-for="slot in Object.keys($slots)" #[slot]="slotProps">
       <slot
         v-if="slot !== 'default' && slot !== 'optionDefault'"
         :name="slot"
+        v-bind="slotProps"
       />
     </template>
   </el-select>

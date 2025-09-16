@@ -284,37 +284,37 @@ class OptionalPackages
 
     public function setupDatabaseEnv(): void
     {
-        $this->io->write('<info>'. $this->translation->trans('setup_database_env','Setup database connection') .'</info>');
+        $this->io->write('<info>'. $this->translation->trans('setup_database_env','Setup database connection') .'</info>' .PHP_EOL);
         $databaseType = $this->io->ask(
-            $this->translation->trans('setup_database_env_0','Please select database type (mysql,pgsql)'),
+            '<info>'. $this->translation->trans('setup_database_env_0','Please select database type (mysql,pgsql)') .'</info>' .PHP_EOL,
             'mysql'
         );
         $databaseHost = $this->io->ask(
-            $this->translation->trans('setup_database_env_1','Please input database connection address(default: 127.0.0.1)'),
+            '<info>'. $this->translation->trans('setup_database_env_1','Please input database connection address(default: 127.0.0.1)') .'</info>' .PHP_EOL,
             '127.0.0.1'
         );
         $databasePort = $this->io->ask(
-            $this->translation->trans('setup_database_env_2','Please input database port(default: 3306)'),
+            '<info>'. $this->translation->trans('setup_database_env_2','Please input database port(default: 3306)') .'</info>' .PHP_EOL,
             '3306'
         );
         $databaseUser = $this->io->ask(
-            $this->translation->trans('setup_database_env_3','Please input database user name(default: root)'),
+            '<info>'. $this->translation->trans('setup_database_env_3','Please input database user name(default: root)') .'</info>' .PHP_EOL,
             'root'
         );
         $databasePassword = $this->io->ask(
-            $this->translation->trans('setup_database_env_4','Please input database password (default: \'\')'),
+            '<info>'. $this->translation->trans('setup_database_env_4','Please input database password (default: \'\')') .'</info>' .PHP_EOL,
             ''
         );
         $databaseName = $this->io->ask(
-            $this->translation->trans('setup_database_env_5','Please input database name (default: mineadmin)'),
+            '<info>'. $this->translation->trans('setup_database_env_5','Please input database name (default: mineadmin)') .'</info>' .PHP_EOL,
             'hyperf'
         );
         $databaseCharset = $this->io->ask(
-            $this->translation->trans('setup_database_env_6','Please input database charset (default: utf8mb4)'),
+            '<info>'. $this->translation->trans('setup_database_env_6','Please input database charset (default: utf8mb4)') .'</info>' .PHP_EOL,
             'utf8mb4'
         );
         // test database connection
-        $this->io->write('<info>'. $this->translation->trans('setup_database_env_7','Testing database connection') .'</info>');
+        $this->io->write('<info>'. $this->translation->trans('setup_database_env_7','Testing database connection') .'</info>'.PHP_EOL) ;
         try {
             $pdo = new \PDO(
                 "{$databaseType}:host={$databaseHost};port={$databasePort};dbname={$databaseName};charset={$databaseCharset}",
@@ -325,14 +325,14 @@ class OptionalPackages
             $stm = $pdo->query("SELECT 1");
             $res = $stm->fetch();
             if (!$res) {
-                $this->io->write('<error>'. $this->translation->trans('setup_database_env_9','Database connection test failed') .'</error>');
+                $this->io->write('<error>'. $this->translation->trans('setup_database_env_9','Database connection test failed') .'</error>'.PHP_EOL);
                 exit;
             }else{
-                $this->io->write('<info>'. $this->translation->trans('setup_database_env_8','Database connection test successful') .'</info>');
+                $this->io->write('<info>'. $this->translation->trans('setup_database_env_8','Database connection test successful') .'</info>'.PHP_EOL);
             }
         }catch (\Exception $e){
             $this->io->write('<error>'. $e->getMessage() .'</error>');
-            $this->io->write('<error>'. $this->translation->trans('setup_database_env_9','Database connection test failed') .'</error>');
+            $this->io->write('<error>'. $this->translation->trans('setup_database_env_9','Database connection test failed') .'</error>'.PHP_EOL);
             exit(1);
         }
         $this->env['DB_DRIVER'] = $databaseType;
@@ -349,24 +349,24 @@ class OptionalPackages
     {
         $this->io->write('<info>'. $this->translation->trans('setup_redis_env','Setup redis connection') .'</info>');
         $redisHost = $this->io->ask(
-            $this->translation->trans('setup_redis_env_0','Please input redis connection address(default: 127.0.0.1)'),
+            '<info>'.$this->translation->trans('setup_redis_env_0','Please input redis connection address(default: 127.0.0.1)'.'</info>'.PHP_EOL),
             '127.0.0.1'
         );
         $redisPort = $this->io->ask(
-            $this->translation->trans('setup_redis_env_1','Please input redis port(default: 6379)'),
+            '<info>'.$this->translation->trans('setup_redis_env_1','Please input redis port(default: 6379)' .'</info>'.PHP_EOL),
             '6379'
         );
         $redisPassword = $this->io->ask(
-            $this->translation->trans('setup_redis_env_2','Please input redis password (default: Empty)'),
+            '<info>'.$this->translation->trans('setup_redis_env_2','Please input redis password (default: Empty)'.'</info>'.PHP_EOL),
             ''
         );
         $redisDb = $this->io->ask(
-            $this->translation->trans('setup_redis_env_3','Please input redis db (default: 0)'),
+            '<info>'.$this->translation->trans('setup_redis_env_3','Please input redis db (default: 0)'.'</info>'.PHP_EOL),
             '0'
         );
         // test redis connection
 
-        $this->io->write('<info>'. $this->translation->trans('setup_redis_env_4','Testing redis connection') .'</info>');
+        $this->io->write('<info>'. $this->translation->trans('setup_redis_env_4','Testing redis connection') .'</info>'.PHP_EOL);
 
         try {
             $redis = new \Redis();
@@ -376,10 +376,10 @@ class OptionalPackages
             }
             $redis->select((int)$redisDb);
             $redis->ping();
-            $this->io->write('<info>'. $this->translation->trans('setup_redis_env_5','Redis connection test successful') .'</info>');
+            $this->io->write('<info>'. $this->translation->trans('setup_redis_env_5','Redis connection test successful') .'</info>'.PHP_EOL);
         }catch (\Exception $e){
-            $this->io->write('<error>'. $e->getMessage() .'</error>');
-            $this->io->write('<error>'. $this->translation->trans('setup_redis_env_6','Redis connection test failed') .'</error>');
+            $this->io->write('<error>'. $e->getMessage() .'</error>'.PHP_EOL);
+            $this->io->write('<error>'. $this->translation->trans('setup_redis_env_6','Redis connection test failed') .'</error>'.PHP_EOL);
             exit(1);
         }
         $this->env['REDIS_HOST'] = $redisHost;

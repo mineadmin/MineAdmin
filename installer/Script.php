@@ -28,12 +28,11 @@ class Script
         $installer->setupRuntimeDir();
         $installer->selectDriver();
         $installer->updateRootPackage();
-        $installer->removeInstallerFromDefinition();
-        $installer->finalizePackage();
-
         $installer->setupDatabaseEnv();
         $installer->setupRedisEnv();
         $installer->generatorJwtSecret();
         $installer->putEnv();
+        $installer->removeInstallerFromDefinition();
+        $installer->finalizePackage();
     }
 }

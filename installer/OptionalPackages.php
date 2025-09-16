@@ -316,7 +316,7 @@ class OptionalPackages
         $this->io->write('<info>' . $databasePassword . '</info>'.PHP_EOL);
         $databaseName = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_5','Please input database name (default: mineadmin)') .'</info>' .PHP_EOL,
-            'hyperf'
+            'mineadmin'
         );
         $this->io->write('<info>' . $databaseName . '</info>'.PHP_EOL);
         $databaseCharset = $this->io->ask(

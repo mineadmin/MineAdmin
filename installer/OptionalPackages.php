@@ -293,30 +293,37 @@ class OptionalPackages
             '<info>'. $this->translation->trans('setup_database_env_0','Please select database type (mysql,pgsql)') .'</info>' .PHP_EOL,
             'mysql'
         );
+        $this->io->write('<info>' . $databaseType . '</info>'.PHP_EOL);
         $databaseHost = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_1','Please input database connection address(default: 127.0.0.1)') .'</info>' .PHP_EOL,
             '127.0.0.1'
         );
+        $this->io->write('<info>' . $databaseHost . '</info>'.PHP_EOL);
         $databasePort = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_2','Please input database port(default: 3306)') .'</info>' .PHP_EOL,
             '3306'
         );
+        $this->io->write('<info>' . $databasePort . '</info>'.PHP_EOL);
         $databaseUser = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_3','Please input database user name(default: root)') .'</info>' .PHP_EOL,
             'root'
         );
+        $this->io->write('<info>' . $databaseUser . '</info>'.PHP_EOL);
         $databasePassword = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_4','Please input database password (default: \'\')') .'</info>' .PHP_EOL,
             ''
         );
+        $this->io->write('<info>' . $databasePassword . '</info>'.PHP_EOL);
         $databaseName = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_5','Please input database name (default: mineadmin)') .'</info>' .PHP_EOL,
             'hyperf'
         );
+        $this->io->write('<info>' . $databaseName . '</info>'.PHP_EOL);
         $databaseCharset = $this->io->ask(
             '<info>'. $this->translation->trans('setup_database_env_6','Please input database charset (default: utf8mb4)') .'</info>' .PHP_EOL,
             'utf8mb4'
         );
+        $this->io->write('<info>' . $databaseCharset . '</info>'.PHP_EOL);
         // test database connection
         $this->io->write('<info>'. $this->translation->trans('setup_database_env_7','Testing database connection') .'</info>'.PHP_EOL) ;
         try {
@@ -356,18 +363,22 @@ class OptionalPackages
             '<info>'.$this->translation->trans('setup_redis_env_0','Please input redis connection address(default: 127.0.0.1)'.'</info>'.PHP_EOL),
             '127.0.0.1'
         );
+        $this->io->write('<info>' . $redisHost . '</info>'.PHP_EOL);
         $redisPort = $this->io->ask(
             '<info>'.$this->translation->trans('setup_redis_env_1','Please input redis port(default: 6379)' .'</info>'.PHP_EOL),
             '6379'
         );
+        $this->io->write('<info>' . $redisPort . '</info>'.PHP_EOL);
         $redisPassword = $this->io->ask(
             '<info>'.$this->translation->trans('setup_redis_env_2','Please input redis password (default: Empty)'.'</info>'.PHP_EOL),
             ''
         );
+        $this->io->write('<info>' . $redisPassword . '</info>'.PHP_EOL);
         $redisDb = $this->io->ask(
             '<info>'.$this->translation->trans('setup_redis_env_3','Please input redis db (default: 0)'.'</info>'.PHP_EOL),
             '0'
         );
+        $this->io->write('<info>' . $redisDb . '</info>'.PHP_EOL);
         // test redis connection
 
         $this->io->write('<info>'. $this->translation->trans('setup_redis_env_4','Testing redis connection') .'</info>'.PHP_EOL);

@@ -27,12 +27,12 @@ class Script
         $installer = new OptionalPackages($io, $event->getComposer(),$languageAnswer);
         $installer->setupRuntimeDir();
         $installer->selectDriver();
-        $installer->updateRootPackage();
         $installer->setupDatabaseEnv();
         $installer->setupRedisEnv();
         $installer->generatorJwtSecret();
         $installer->putEnv();
         $installer->removeInstallerFromDefinition();
+        $installer->updateRootPackage();
         $installer->finalizePackage();
     }
 }

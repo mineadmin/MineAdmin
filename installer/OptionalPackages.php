@@ -358,24 +358,24 @@ class OptionalPackages
 
     public function setupRedisEnv(): void
     {
-        $this->io->write('<info>'. $this->translation->trans('setup_redis_env','Setup redis connection') .'</info>');
+        $this->io->write('<info>'. $this->translation->trans('setup_redis_env','Setup redis connection') .'</info>' . PHP_EOL);
         $redisHost = $this->io->ask(
-            '<info>'.$this->translation->trans('setup_redis_env_0','Please input redis connection address(default: 127.0.0.1)'.'</info>'.PHP_EOL),
+            '<info>'.$this->translation->trans('setup_redis_env_0','Please input redis connection address(default: 127.0.0.1)') .'</info>'.PHP_EOL,
             '127.0.0.1'
         );
         $this->io->write('<info>' . $redisHost . '</info>'.PHP_EOL);
         $redisPort = $this->io->ask(
-            '<info>'.$this->translation->trans('setup_redis_env_1','Please input redis port(default: 6379)' .'</info>'.PHP_EOL),
+            '<info>'.$this->translation->trans('setup_redis_env_1','Please input redis port(default: 6379)') .'</info>'.PHP_EOL,
             '6379'
         );
         $this->io->write('<info>' . $redisPort . '</info>'.PHP_EOL);
         $redisPassword = $this->io->ask(
-            '<info>'.$this->translation->trans('setup_redis_env_2','Please input redis password (default: Empty)'.'</info>'.PHP_EOL),
+            '<info>'.$this->translation->trans('setup_redis_env_2','Please input redis password (default: Empty)') .'</info>'.PHP_EOL,
             ''
         );
         $this->io->write('<info>' . $redisPassword . '</info>'.PHP_EOL);
         $redisDb = $this->io->ask(
-            '<info>'.$this->translation->trans('setup_redis_env_3','Please input redis db (default: 0)'.'</info>'.PHP_EOL),
+            '<info>'.$this->translation->trans('setup_redis_env_3','Please input redis db (default: 0)') .'</info>'.PHP_EOL,
             '0'
         );
         $this->io->write('<info>' . $redisDb . '</info>'.PHP_EOL);

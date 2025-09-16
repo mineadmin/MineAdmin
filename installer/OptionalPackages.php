@@ -164,20 +164,24 @@ class OptionalPackages
      */
     public function selectDriver(): void
     {
-        $this->io->write('<info>'. $this->translation->trans('select_driver','Select Coroutine Driver') .'</info>');
-        $driver = $this->io->select(
-            $this->translation->trans('select_driver_0','What coroutine driver do you want to setup ?'),
-            [
-                'swoole' => 'Swoole',
-                'swow' => 'Swow',
-            ],
-            'swow'
-        );
-
-        // check driver
-        if (! extension_loaded($driver)){
-            $this->io->error($this->translation->trans('driver_not_found','Driver not found'));
+        $swooleInstalled = extension_loaded('swoole');
+        $swowInstalled = extension_loaded('swow');
+        if (! $swooleInstalled && ! $swowInstalled){
+            $this->io->error($this->translation->trans('driver_not_found_1','Please install Swoole or Swow extension first'));
             exit;
+        }
+        if ($swowInstalled && $swooleInstalled) {
+            $this->io->write('<info>' . $this->translation->trans('select_driver', 'Select Coroutine Driver') . '</info>');
+            $driver = $this->io->select(
+                $this->translation->trans('select_driver_0', 'What coroutine driver do you want to setup ?'),
+                [
+                    'swoole' => 'Swoole',
+                    'swow' => 'Swow',
+                ],
+                'swow'
+            );
+        }else{
+            $driver = $swowInstalled ? 'swow' : 'swoole';
         }
 
         if ($driver === 'swow'){

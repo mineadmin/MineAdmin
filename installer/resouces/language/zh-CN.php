@@ -9,6 +9,7 @@ return [
     'select_driver' =>  '选择协程驱动',
     'select_driver_0'   =>  '您想设置哪种协程驱动？',
     'swow_timezone_warning' =>  '您已选择 Swow 协程驱动，请在 bin/hyperf.php 中重新配置时区',
+    'driver_not_found_1' =>  '未检测到协程驱动，请手动安装 Swoole 或 Swow 扩展',
     'setup_database_env'    =>  '设置数据库连接',
     'setup_database_env_0'  =>  '请选择数据库类型（mysql,pgsql），默认：[mysql]',
     'setup_database_env_1'  =>  '请输入数据库连接地址（默认：127.0.0.1）',
@@ -31,5 +32,4 @@ return [
     'generator_jwt_secret'  =>  '生成 JWT 密钥',
     'put_env_file_exists'   =>  '.env 文件已存在',
     'put_env_file_exists_2' =>  '请手动填写以下配置项',
-    'driver_not_found'  =>  '未找到驱动，请手动安装相应的扩展'
 ];

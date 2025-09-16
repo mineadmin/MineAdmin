@@ -10,6 +10,7 @@ return [
     'select_driver_0'   =>  'What coroutine driver do you want to setup ?',
     'swow_timezone_warning' =>  'You have selected the Swow coroutine driver, please reconfigure the timezone in bin/hyperf.php',
     'setup_database_env'    =>  'Setup database connection',
+    'driver_not_found_1'    =>  'Please install Swoole or Swow extension first',
     'setup_database_env_0'  =>  'Please select database type (mysql,pgsql), default: [mysql]',
     'setup_database_env_1'  =>  'Please input database connection address(default: 127.0.0.1)',
     'setup_database_env_2'  =>  'Please input database connection port(default: 3306)',
@@ -31,5 +32,4 @@ return [
     'generator_jwt_secret'  =>  'Generate JWT secret key',
     'put_env_file_exists'   =>  'The .env file already exists',
     'put_env_file_exists_2' =>  'Please manually fill in the following configuration items',
-    'driver_not_found'  =>  'Driver not found, please manually install the corresponding extension'
 ];

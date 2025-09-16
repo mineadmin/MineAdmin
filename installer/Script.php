@@ -19,9 +19,11 @@ class Script
     public static function install(Event $event)
     {
         $io = $event->getIO();
-
-        $io->write('<info>Setting up optional packages</info>');
-        $languageAnswer = $io->select('What language do you want to setup ?', ['zh-CN', 'en-US'], 'zh-CN');
+        $languageAnswer = $io->select('<info>What language do you want to setup ?</info>', ['zh-CN', 'en-US'], 'zh-CN');
+        $languageAnswer = match ($languageAnswer){
+            "en-US", "1" => "en_US",
+            default => "zh-CN"
+        };
         $installer = new OptionalPackages($io, $event->getComposer(),$languageAnswer);
         $installer->setupRuntimeDir();
         $installer->selectDriver();

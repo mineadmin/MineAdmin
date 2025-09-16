@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'setup_runtime_directory' => '设置数据与缓存目录',
+    'setup_runtime_directory' => '已设置数据与缓存目录',
     'install_hyperf_script_0'   =>  '您想设置哪个时区？',
     'install_hyperf_script_1'   =>  'php.ini 的默认时区',
     'install_hyperf_script_2'   =>  '请选择或输入时区名称（例如 Asia/Shanghai）',

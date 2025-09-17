@@ -199,8 +199,14 @@ class OptionalPackages
             }
             $this->io->warning($this->translation->trans('swow_timezone_warning','You have selected the Swow coroutine driver, please reconfigure the timezone in bin/hyperf.php'));
         }
-
-        $this->composerRequires['ext-'.$driver] = '*';
+        $ext = 'ext-'.$driver;
+        // Get the version constraint
+        $versionParser = new VersionParser();
+        $constraint = $versionParser->parseConstraints('*');
+        // Create package link
+        $link = new Link('__root__', $ext, $constraint, 'requires', '*');
+        $this->composerDefinition['require'][$ext] = '*';
+        $this->composerRequires[$ext] = $link;
     }
 
     /**

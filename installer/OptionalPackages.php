@@ -196,8 +196,18 @@ class OptionalPackages
                     unlink($destination);
                 }
                 copy($source, $destination);
+                $this->io->info( $source . '=======> ' . $destination);
             }
             $this->io->warning($this->translation->trans('swow_timezone_warning','You have selected the Swow coroutine driver, please reconfigure the timezone in bin/hyperf.php'));
+
+            // add hyperf/engine-swow to composer.json
+            $swowVersionParser = new VersionParser();
+            $swowConstraint = $swowVersionParser->parseConstraints('~2.14');
+            $link = new Link('__root__', 'hyperf/engine-swow', $swowConstraint, 'requires', '*');
+            $this->composerDefinition['require'][$link->getTarget()] = '*';
+            $this->composerRequires[$link->getTarget()] = $link;
+
+
         }
         $ext = 'ext-'.$driver;
         // Get the version constraint

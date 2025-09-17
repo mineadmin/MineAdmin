@@ -25,7 +25,6 @@ error_reporting(E_ALL);
 
 ! defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
 require BASE_PATH . '/vendor/autoload.php';
-! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', DefaultOption::hookFlags());
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 (function () {

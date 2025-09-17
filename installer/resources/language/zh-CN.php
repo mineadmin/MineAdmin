@@ -32,4 +32,6 @@ return [
     'generator_jwt_secret'  =>  '生成 JWT 密钥',
     'put_env_file_exists'   =>  '.env 文件已存在',
     'put_env_file_exists_2' =>  '请手动填写以下配置项',
+    'select_driver_single_swow' => '仅检测到 Swow 扩展，已自动选择 Swow 驱动',
+    'select_driver_single_swoole' => '仅检测到 Swoole 扩展，已自动选择 Swoole 驱动'
 ];

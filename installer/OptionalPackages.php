@@ -181,8 +181,12 @@ class OptionalPackages
                 ],
                 'swow'
             );
-        }else{
+        } else {
             $driver = $swowInstalled ? 'swow' : 'swoole';
+            $this->io->write('<info>' . ($swowInstalled
+                    ? $this->translation->trans('select_driver_single_swow','You have only installed the Swow extension, the coroutine driver has been set to Swow')
+                    : $this->translation->trans('select_driver_single_swoole','You have only installed the Swoole extension, the coroutine driver has been set to Swoole')
+                ) . '</info>');
         }
 
         if ($driver === 'swow'){
@@ -206,7 +210,6 @@ class OptionalPackages
             $link = new Link('__root__', 'hyperf/engine-swow', $swowConstraint, 'requires', '*');
             $this->composerDefinition['require'][$link->getTarget()] = '*';
             $this->composerRequires[$link->getTarget()] = $link;
-
 
         }
         $ext = 'ext-'.$driver;

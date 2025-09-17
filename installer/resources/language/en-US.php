@@ -32,4 +32,6 @@ return [
     'generator_jwt_secret'  =>  'Generate JWT secret key',
     'put_env_file_exists'   =>  'The .env file already exists',
     'put_env_file_exists_2' =>  'Please manually fill in the following configuration items',
+    'select_driver_single_swow' => 'You have only installed the Swow extension, the coroutine driver has been set to Swow',
+    'select_driver_single_swoole' => 'You have only installed the Swoole extension, the coroutine driver has been set to Swoole'
 ];

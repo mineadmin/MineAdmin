@@ -13,7 +13,7 @@ class Translation
     private array $trans = [];
 
     public function __construct(){
-        $transFile = glob(__DIR__ . '/resouces/language/*.php');
+        $transFile = glob(__DIR__ . '/resources/language/*.php');
         foreach ($transFile as $file) {
             $lang = pathinfo($file, PATHINFO_FILENAME);
             $this->trans[$lang] = include $file;

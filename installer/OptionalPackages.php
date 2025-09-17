@@ -91,7 +91,7 @@ class OptionalPackages
             $answer = date_default_timezone_get();
         }
 
-        $content = file_get_contents($this->installerSource . '/resources/bin/hyperf.stub');
+        $content = file_get_contents($this->installerSource . 'resources/bin/hyperf.stub');
         $content = str_replace('%TIME_ZONE%', $answer, $content);
         file_put_contents($this->projectRoot . '/bin/hyperf.php', $content);
     }
@@ -187,9 +187,9 @@ class OptionalPackages
 
         if ($driver === 'swow'){
             $swow = [
-                __DIR__.'/resouces/swow/hyperf.php' => $this->projectRoot.'/bin/hyperf.php',
-                __DIR__.'/resouces/swow/server.php' => $this->projectRoot.'/config/autoload/server.php',
-                __DIR__.'/resouces/swow/bootstrap.php' => $this->projectRoot.'/tests/bootstrap.php'
+                __DIR__ . '/resources/swow/hyperf.php' => $this->projectRoot.'/bin/hyperf.php',
+                __DIR__ . '/resources/swow/server.php' => $this->projectRoot.'/config/autoload/server.php',
+                __DIR__ . '/resources/swow/bootstrap.php' => $this->projectRoot.'/tests/bootstrap.php'
             ];
             foreach ($swow as $source => $destination) {
                 if (file_exists($destination)) {

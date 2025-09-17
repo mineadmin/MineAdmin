@@ -25,6 +25,7 @@ class Script
             default => "zh-CN"
         };
         $installer = new OptionalPackages($io, $event->getComposer(),$languageAnswer);
+        $installer->installHyperfScript();
         $installer->setupRuntimeDir();
         $installer->selectDriver();
         $installer->setupDatabaseEnv();

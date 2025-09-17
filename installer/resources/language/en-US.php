@@ -31,7 +31,18 @@ return [
     'setup_redis_env_6' =>  'Redis connection failed, please check the redis connection information and try again',
     'generator_jwt_secret'  =>  'Generate JWT secret key',
     'put_env_file_exists'   =>  'The .env file already exists',
-    'put_env_file_exists_2' =>  'Please manually fill in the following configuration items',
+    'put_env_file_exists_2' =>  'Please manually modify the configuration in .env',
     'select_driver_single_swow' => 'You have only installed the Swow extension, the coroutine driver has been set to Swow',
-    'select_driver_single_swoole' => 'You have only installed the Swoole extension, the coroutine driver has been set to Swoole'
+    'select_driver_single_swoole' => 'You have only installed the Swoole extension, the coroutine driver has been set to Swoole',
+    'database_not_clean' => 'Database is not empty. Please provide an empty database for installation.',
+    'existing_tables' => 'Existing tables:',
+    'action_cleanup_installer' => 'Cleanup Installer',
+    'summary_actions' => 'Please check if the configuration is correct:',
+    'confirm_proceed' => 'Proceed with the above deferred changes? (y/n), default: [y]',
+    'action_cancelled' => 'Action cancelled',
+    'action_done_single' => 'Done:',
+    'action_failed_single' => 'Failed:',
+    'action_write_file' => 'Write file',
+    'action_create_runtime_dir' => 'Create runtime dir',
+    'action_add_ext' => 'Add ext requirement'
 ];

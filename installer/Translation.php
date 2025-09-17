@@ -7,11 +7,16 @@ class Translation
 
     private string $language;
 
+    /**
+     * @var <string,mixed>[] $trans
+     */
+    private array $trans = [];
+
     public function __construct(){
         $transFile = glob(__DIR__ . '/resouces/language/*.php');
         foreach ($transFile as $file) {
             $lang = pathinfo($file, PATHINFO_FILENAME);
-            $this->{$lang} = require $file;
+            $this->trans[$lang] = include $file;
         }
     }
 
@@ -22,6 +27,6 @@ class Translation
 
     public function trans(string $key,mixed $default): mixed
     {
-        return $this->{$this->language}[$key] ?? $default;
+        return $this->trans[$this->language][$key] ?? $default;
     }
 }

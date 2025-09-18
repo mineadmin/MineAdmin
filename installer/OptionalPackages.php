@@ -81,19 +81,17 @@ class OptionalPackages
         }
 
         $this->io->write("\n<info>" . $this->translation->trans('summary_actions', 'Please check if the configuration is correct:') . "</info>\n");
-        // foreach ($this->deferredActions as $i => $item) {
-        //     $this->io->write('<comment>' . sprintf("  %d. %s", $i + 1, $item['desc']) . '</comment>');
-        // }
 
         foreach ($this->env as $key => $value) {
-            $this->io->write('<info>' . $key . '=>' . $value . '</info>');
+            $this->io->write('<comment>' . sprintf("  %s => %s", $key, $value) . '</comment>');
         }
 
+
         if ($interactive) {
-            $confirm = $this->io->ask('<info>' . $this->translation->trans('confirm_proceed', 'Proceed with the above deferred changes? (y/n)') . '</info>' . PHP_EOL, 'y');
+            $confirm = $this->io->ask("\n<info>" . $this->translation->trans('confirm_proceed', 'Shall we continue? [y/n] (default: y)') . '</info>' . PHP_EOL, 'y');
             if (strtolower(trim($confirm)) !== 'y') {
                 $this->io->write('<info>' . $this->translation->trans('action_cancelled', 'Action cancelled.') . '</info>');
-                return;
+                exit(1);
             }
         }
 
@@ -191,7 +189,6 @@ class OptionalPackages
      */
     public function removeInstallerFromDefinition(): void
     {
-        $this->io->write('<info>Remove installer</info>');
         // 直接修改内存 composerDefinition（将在 finalize 写入）
         unset(
             $this->composerDefinition['autoload']['psr-4']['Installer\\'],
@@ -216,7 +213,7 @@ class OptionalPackages
         $swowInstalled = \extension_loaded('swow');
         if (! $swooleInstalled && ! $swowInstalled) {
             $this->io->error($this->translation->trans('driver_not_found_1', 'Please install Swoole or Swow extension first'));
-            exit;
+            exit(1);
         }
         if ($swowInstalled && $swooleInstalled) {
             $this->io->write('<info>' . $this->translation->trans('select_driver', 'Select Coroutine Driver') . '</info>');
@@ -326,17 +323,17 @@ class OptionalPackages
         );
         $this->io->write('<info>' . $databaseType . '</info>' . \PHP_EOL);
         $databaseHost = $this->io->ask(
-            '<info>' . $this->translation->trans('setup_database_env_1', 'Please input database connection address(default: 127.0.0.1)') . '</info>' . \PHP_EOL,
+            '<info>' . $this->translation->trans('setup_database_env_1', 'Please input database connection address (default: 127.0.0.1)') . '</info>' . \PHP_EOL,
             '127.0.0.1'
         );
         $this->io->write('<info>' . $databaseHost . '</info>' . \PHP_EOL);
         $databasePort = $this->io->ask(
-            '<info>' . $this->translation->trans('setup_database_env_2', 'Please input database port(default: 3306)') . '</info>' . \PHP_EOL,
+            '<info>' . $this->translation->trans('setup_database_env_2', 'Please input database port (default: 3306)') . '</info>' . \PHP_EOL,
             '3306'
         );
         $this->io->write('<info>' . $databasePort . '</info>' . \PHP_EOL);
         $databaseUser = $this->io->ask(
-            '<info>' . $this->translation->trans('setup_database_env_3', 'Please input database user name(default: root)') . '</info>' . \PHP_EOL,
+            '<info>' . $this->translation->trans('setup_database_env_3', 'Please input database user name (default: root)') . '</info>' . \PHP_EOL,
             'root'
         );
         $this->io->write('<info>' . $databaseUser . '</info>' . \PHP_EOL);
@@ -368,7 +365,7 @@ class OptionalPackages
             $res = $stm->fetch();
             if (! $res) {
                 $this->io->write('<error>' . $this->translation->trans('setup_database_env_9', 'Database connection test failed') . '</error>' . \PHP_EOL);
-                exit;
+                exit(1);
             }
             $this->io->write('<info>' . $this->translation->trans('setup_database_env_8', 'Database connection test successful') . '</info>' . \PHP_EOL);
 

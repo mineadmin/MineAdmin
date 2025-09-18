@@ -109,11 +109,35 @@ const options = ref<MaProTableOptions>({
       notFoldBtn: () => t('crud.searchUnFold'),
     },
   },
+  
+  // Fix for pagination reset issue in onSearchSubmit
+  onSearchSubmit: (form: Record<string, any>) => {
+    console.log('搜索提交:', JSON.stringify(form))
+    
+    // Reset pagination parameters - this fixes the backend request
+    // Use correct parameter names that match the backend API
+    form.page = 1 // Reset to page 1
+    form.page_size = form.page_size || 10 // Keep current page size or default to 10
+    
+    // WORKAROUND: Manually reset the pagination UI component
+    // This is needed because MaProTable doesn't sync pagination UI with modified form params
+    setTimeout(() => {
+      const tableRef = proTableRef.value?.getTableRef()
+      if (tableRef) {
+        tableRef.setPagination({ currentPage: 1 })
+      }
+    }, 100)
+    
+    return form
+  },
+  
   // 搜索表单参数
   searchFormOptions: { labelWidth: '90px' },
   // 请求配置
   requestOptions: {
     api: page,
+    // Use correct pagination parameter names that match the backend
+    requestPage: { pageName: 'page', sizeName: 'page_size' },
   },
 })
 // 架构配置

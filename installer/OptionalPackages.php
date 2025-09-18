@@ -274,11 +274,19 @@ class OptionalPackages
         // 一律记录 ext 依赖的变更（延迟修改内存 composerDefinition）
         $this->deferAction($this->translation->trans('action_add_ext', 'Add ext requirement').'ext-'.$driver, function () use ($driver) {
             $ext = 'ext-' . $driver;
-            $versionParser = new VersionParser();
-            $constraint = $versionParser->parseConstraints('*');
-            $link = new Link('__root__', $ext, $constraint, 'requires', '*');
-            $this->composerDefinition['require'][$ext] = '*';
-            $this->composerRequires[$ext] = $link;
+            $require = $this->composerDefinition['require'];
+
+            if (array_key_exists('php', $require)) {
+                $keys = array_keys($require);
+                $phpIndex = array_search('php', $keys, true);
+                $before = array_slice($require, 0, $phpIndex + 1, true);
+                $after = array_slice($require, $phpIndex + 1, null, true);
+                $newRequire = $before + [$ext => '*'] + $after;
+            } else {
+                $newRequire = [$ext => '*'] + $require;
+            }
+
+            $this->composerDefinition['require'] = $newRequire;
         });
 
     }

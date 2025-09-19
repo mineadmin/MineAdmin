@@ -22,7 +22,6 @@
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
     "ext-redis": "*",
-    "ext-swoole": ">=5.0",
     "friendsofhyperf/tinker": "^3.1",
     "hyperf/async-queue": "3.1.*",
     "hyperf/cache": "3.1.*",
@@ -72,22 +71,15 @@
     "hyperf/devtool": "3.1.*",
     "hyperf/ide-helper": "3.1.*",
     "hyperf/testing": "3.1.*",
-    "hyperf/watcher": "3.1.*",
     "mockery/mockery": "^1.0",
     "phpstan/phpstan": "^2.1",
     "swoole/ide-helper": "^6.0",
     "zircote/swagger-php": "4.10.6"
   },
-  "suggest": {
-    "ext-openssl": "Required to use HTTPS.",
-    "ext-json": "Required to use JSON.",
-    "ext-pdo": "Required to use MySQL Client.",
-    "ext-pdo_mysql": "Required to use MySQL Client.",
-    "ext-redis": "Required to use Redis Client."
-  },
   "autoload": {
     "psr-4": {
-      "App\\": "app/"
+      "App\\": "app/",
+      "Installer\\": "installer/"
     }
   },
   "autoload-dev": {
@@ -103,13 +95,12 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.0-dev"
+      "dev-master": "3.1-dev"
     }
   },
   "scripts": {
-    "post-root-package-install": [
-      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-    ],
+    "pre-install-cmd": "Installer\\Script::install",
+    "pre-update-cmd": "Installer\\Script::install",
     "post-autoload-dump": [
       "rm -rf runtime/container"
     ],
@@ -126,10 +117,6 @@
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "php bin/hyperf.php start"
-    ],
-    "dev": [
-      "Composer\\Config::disableProcessTimeout",
-      "php bin/hyperf.php server:watch"
     ]
   }
 }

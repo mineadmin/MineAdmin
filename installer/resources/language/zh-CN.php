@@ -62,4 +62,12 @@ return [
     'action_migrate_and_seed' => '运行数据库迁移和填充',
     'running_migrate_seed' => '正在运行数据库迁移和填充...',
     'migrate_seed_failed' => '数据库迁移和填充失败，请检查错误。',
+    'install_completed' => '安装完成！',
+    'mineadmin_website' => '官网：',
+    'mineadmin_docs' => '文档：',
+    'mineadmin_qq' => 'QQ交流群：',
+    'mineadmin_github' => 'GitHub：',
+    'please_star' => '如果你喜欢 MineAdmin，请给我们一个 Star！谢谢！[y/n] （默认： y）',
+    'follow_up' => '你可以访问上面的链接获取更多信息。',
+    'start' => '运行此命令启动后端服务：',
 ];

@@ -76,16 +76,18 @@ class OptionalPackages
     /**
      * Execute all deferred actions. If interactive is true, ask for confirmation.
      */
-    public function executeDeferredActions(bool $interactive = true): void
+    public function executeDeferredActions(bool $interactive = true, bool $showEnv = true): void
     {
         if (empty($this->deferredActions)) {
             return;
         }
 
-        $this->io->write("\n<info>" . $this->translation->trans('summary_actions', 'Please check if the configuration is correct:') . "</info>\n");
+        if ($showEnv) {
+            $this->io->write("\n<info>" . $this->translation->trans('summary_actions', 'Please check if the configuration is correct:') . "</info>\n");
 
-        foreach ($this->env as $key => $value) {
-            $this->io->write('<comment>' . sprintf("  %s => %s", $key, $value) . '</comment>');
+            foreach ($this->env as $key => $value) {
+                $this->io->write('<comment>' . sprintf("  %s => %s", $key, $value) . '</comment>');
+            }
         }
 
 
@@ -364,7 +366,7 @@ class OptionalPackages
     public function finalizePackage(): void
     {
         // 先执行所有延迟动作（包含文件复制、目录创建、composerDefinition 变更等）
-        $this->executeDeferredActions(true);
+        $this->executeDeferredActions();
 
         // Update composer definition
         $this->composerJson->write($this->composerDefinition);
@@ -589,7 +591,7 @@ class OptionalPackages
     public function migrateAndSeed(): void
     {
         $ans = $this->io->ask(
-            '<info>' . $this->translation->trans('run_migrate_and_seed_prompt', 'Run migrations and seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+            "\n<info>" . $this->translation->trans('run_migrate_and_seed_prompt', 'Run migrations and seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
             'y'
         );
         $run = strtolower(trim((string)$ans)) === 'y';
@@ -602,13 +604,14 @@ class OptionalPackages
         $this->deferAction(
             $this->translation->trans('action_migrate_and_seed', 'Run migrations and seeders'),
             function () {
-                $this->io->write('<info>' . $this->translation->trans('running_migrate_seed', 'Running migrations and seeders...') . '</info>');
+                $this->io->write('<info>' . $this->translation->trans('running_migrate_seed', 'Running migrations and seeders...') . "</info>\n");
                 $output = [];
                 $code = 0;
                 exec('php bin/hyperf.php migrate --seed', $output, $code);
                 foreach ($output as $line) {
                     $this->io->write($line);
                 }
+                $this->io->write("\n");
                 if (($code ?? 0) !== 0) {
                     $this->io->write('<error>' . $this->translation->trans('migrate_seed_failed', 'Migrate & seed failed.') . '</error>');
                     $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate --seed</comment>');
@@ -620,7 +623,8 @@ class OptionalPackages
 
     public function cleanupInstaller(): void
     {
-        $this->executeDeferredActions(false);
+        $this->executeDeferredActions(false, false);
+        $this->composerJson->write($this->composerDefinition);
         $this->cleanUp();
         $this->showMineAdminInfo();
     }
@@ -634,6 +638,7 @@ class OptionalPackages
         $github = 'https://github.com/mineadmin/MineAdmin';
 
         $this->io->write("\n<info>". $this->translation->trans('install_completed', 'Install completed!') ."</info>");
+        $this->io->write("<info>MineAdmin <comment>v-$version</comment></info>");
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_website', 'Website:') . ' ' . $website . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_docs', 'Docs:') . ' ' . $docs . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ Group:') . ' ' . $qqGroup . '</comment>');
@@ -644,35 +649,22 @@ class OptionalPackages
         $ans = strtolower(trim((string)$ans));
 
         if ($ans === 'y') {
-            $opened = false;
             $url = $github;
 
             try {
                 if (stripos(PHP_OS, 'WIN') === 0) {
                     pclose(popen('start "" ' . escapeshellarg($url), 'r'));
-                    $opened = true;
                 } elseif (PHP_OS === 'Darwin') {
                     exec('open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
-                    $opened = ($code ?? 0) === 0;
                 } else {
                     exec('xdg-open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
-                    $opened = ($code ?? 0) === 0;
                 }
             } catch (\Throwable $e) {
-                $opened = false;
             }
-
-            if ($opened) {
-                $this->io->write('<info>' . $this->translation->trans('thanks_star', 'Thanks! Repository opened in your browser:') . ' ' . $github . '</info>');
-            } else {
-                $this->io->write('<info>' . $this->translation->trans('thanks_star', 'Thanks!') . '</info>');
-                $this->io->write('<comment>' . $this->translation->trans('please_open_manually', 'Could not open browser automatically. Please open manually:') . ' ' . $github . '</comment>');
-            }
-        } else {
-            $this->io->write('<info>' . $this->translation->trans('thanks_using', 'Thanks for using MineAdmin!') . '</info>');
         }
-
         $this->io->write("\n<comment>" . $this->translation->trans('follow_up', 'You can visit the links above for more information.') . "</comment>\n");
+
+        $this->io->write("<info>" . $this->translation->trans('start', 'You can start the server with:') . " <comment>php bin/hyperf.php start</comment></info>\n");
     }
 
     /**
@@ -698,7 +690,7 @@ class OptionalPackages
      */
     private function clearComposerLockFile(): void
     {
-        $this->io->write('<info>' . $this->translation->trans('remove_composer_lock_gitignore', 'Removing composer.lock from .gitignore') . '</info>');
+        $this->io->write("\n<info>" . $this->translation->trans('remove_composer_lock_gitignore', 'Removing composer.lock from .gitignore') . '</info>');
         $ignoreFile = \sprintf('%s/.gitignore', $this->projectRoot);
 
         if (! file_exists($ignoreFile)) {

@@ -62,4 +62,12 @@ return [
     'action_migrate_and_seed' => 'Run migrations and seeders',
     'running_migrate_seed' => 'Running migrations and seeders...',
     'migrate_seed_failed' => 'Migrate & seed failed.',
+    'install_completed' => 'Installation completed!',
+    'mineadmin_website' => 'Website:',
+    'mineadmin_docs' => 'Docs:',
+    'mineadmin_qq' => 'QQ Group:',
+    'mineadmin_github' => 'GitHub:',
+    'please_star' => 'If you like MineAdmin, could you give us a star on GitHub? thank you! [y/n] (default: y)',
+    'follow_up' => 'You can visit the links above for more information.',
+    'start' => 'You can start the server with:',
 ];

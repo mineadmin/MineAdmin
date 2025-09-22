@@ -604,7 +604,7 @@ class OptionalPackages
         $this->deferAction(
             $this->translation->trans('action_migrate_and_seed', 'Run migrations and seeders'),
             function () {
-                $this->io->write('<info>' . $this->translation->trans('running_migrate_seed', 'Running migrations and seeders...') . "</info>\n");
+                $this->io->write('<info>' . $this->translation->trans('running_migrate_seed', 'Running migrations and seeders...') . "</info>". PHP_EOL);
                 $output = [];
                 $code = 0;
                 exec('php bin/hyperf.php migrate --seed', $output, $code);
@@ -642,7 +642,7 @@ class OptionalPackages
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_website', 'Website:') . ' ' . $website . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_docs', 'Docs:') . ' ' . $docs . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ Group:') . ' ' . $qqGroup . '</comment>');
-        $this->io->write('<comment>' . $this->translation->trans('mineadmin_github', 'GitHub:') . ' ' . $github . '</comment>');
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_github', 'GitHub:') . ' ' . $github . '</comment>'.PHP_EOL);
 
         $ask = '<question>' . $this->translation->trans('please_star', 'If you like MineAdmin, could you give us a star on GitHub? [y/n] (default: y)') . '</question>' . PHP_EOL;
         $ans = $this->io->ask($ask, 'y');
@@ -652,14 +652,32 @@ class OptionalPackages
             $url = $github;
 
             try {
-                if (stripos(PHP_OS, 'WIN') === 0) {
+                $isWindows = stripos(PHP_OS, 'WIN') === 0;
+                $isMac = PHP_OS === 'Darwin';
+                $isWsl = false;
+                // 检测 WSL（多种可能）
+                if (getenv('WSL_DISTRO_NAME') !== false) {
+                    $isWsl = true;
+                } elseif (is_readable('/proc/version')) {
+                    $ver = file_get_contents('/proc/version') ?: '';
+                    if (stripos($ver, 'microsoft') !== false) {
+                        $isWsl = true;
+                    }
+                }
+
+                if ($isWindows) {
                     pclose(popen('start "" ' . escapeshellarg($url), 'r'));
-                } elseif (PHP_OS === 'Darwin') {
+                } elseif ($isMac) {
                     exec('open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
+                } elseif ($isWsl) {
+                    // 在 WSL 中使用 explorer.exe 打开 Windows 默认浏览器
+                    exec('explorer.exe ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
                 } else {
+                    // 其他 Linux（带桌面环境且有 xdg-open）
                     exec('xdg-open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
                 }
             } catch (\Throwable $e) {
+                // 忽略打开失败
             }
         }
         $this->io->write("\n<comment>" . $this->translation->trans('follow_up', 'You can visit the links above for more information.') . "</comment>\n");

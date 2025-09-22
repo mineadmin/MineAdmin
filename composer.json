@@ -99,8 +99,9 @@
     }
   },
   "scripts": {
-    "pre-install-cmd": "Installer\\Script::install",
-    "pre-update-cmd": "Installer\\Script::install",
+    "pre-install-cmd": "Installer\\Script::installBefore",
+    "pre-update-cmd": "Installer\\Script::installBefore",
+    "post-install-cmd": "Installer\\Script::installAfter",
     "post-autoload-dump": [
       "rm -rf runtime/container"
     ],

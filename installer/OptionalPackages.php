@@ -199,9 +199,9 @@ class OptionalPackages
             $this->composerDefinition['scripts']['pre-install-cmd']
         );
         // 清理安装器文件等放到清理队列（defer），以避免立即删除当前执行的代码文件
-        $this->deferAction($this->translation->trans('action_cleanup_installer', 'Cleanup installer'), function () {
-            $this->cleanUp();
-        });
+        // $this->deferAction($this->translation->trans('action_cleanup_installer', 'Cleanup installer'), function () {
+        //     $this->cleanUp();
+        // });
     }
 
     /**
@@ -319,7 +319,7 @@ class OptionalPackages
         // Update composer definition
         $this->composerJson->write($this->composerDefinition);
         $this->clearComposerLockFile();
-        $this->cleanUp();
+        // $this->cleanUp();
     }
 
     public function setupDatabaseEnv(): void
@@ -505,6 +505,52 @@ class OptionalPackages
         $this->deferAction($this->translation->trans('action_write_env', 'Write .env file'), function () use ($envFile, $content) {
             file_put_contents($envFile, $content);
         });
+    }
+
+    public function migrateAndSeed(): void
+    {
+        $this->deferAction(
+            $this->translation->trans('action_migrate_and_seed', 'Run migrations and seeders'),
+            function () {
+                $runMigrate = $this->io->ask(
+                    '<info>' . $this->translation->trans('run_migrate', 'Do you want to run database migrations now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+                    'y'
+                );
+                if (strtolower(trim($runMigrate)) === 'y') {
+                    $this->io->write('<info>' . $this->translation->trans('running_migrate', 'Running migrations...') . '</info>');
+                    exec('php bin/hyperf.php migrate', $output, $code);
+                    foreach ($output as $line) {
+                        $this->io->write($line);
+                    }
+                    if ($code !== 0) {
+                        $this->io->write('<error>' . $this->translation->trans('migrate_failed', 'Migration failed.') . '</error>');
+                        exit(1);
+                    }
+                }
+
+                $runSeed = $this->io->ask(
+                    '<info>' . $this->translation->trans('run_seed', 'Do you want to run database seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+                    'y'
+                );
+                if (strtolower(trim($runSeed)) === 'y') {
+                    $this->io->write('<info>' . $this->translation->trans('running_seed', 'Running seeders...') . '</info>');
+                    exec('php bin/hyperf.php seed', $output, $code);
+                    foreach ($output as $line) {
+                        $this->io->write($line);
+                    }
+                    if ($code !== 0) {
+                        $this->io->write('<error>' . $this->translation->trans('seed_failed', 'Seeding failed.') . '</error>');
+                        exit(1);
+                    }
+                }
+            }
+        );
+    }
+
+    public function cleanupInstaller()
+    {
+        $this->executeDeferredActions(true);
+        $this->cleanUp();
     }
 
     /**

@@ -512,10 +512,10 @@ class OptionalPackages
         $content .= "MINE_ACCESS_TOKEN={$this->env['MINE_ACCESS_TOKEN']}\n";
 
         if (file_exists($envFile)) {
-            $ask = "/n<question>" . $this->translation->trans('put_env_overwrite', 'The .env file already exists. Overwrite? [y/n] (default: n)') . '</question>' . PHP_EOL;
+            $ask = "\n<question>" . $this->translation->trans('put_env_overwrite', 'The .env file already exists. Overwrite? [y/n] (default: n)') . '</question>' . PHP_EOL;
             $ans = $this->io->ask($ask, 'n');
             if (strtolower(trim((string)$ans)) !== 'y') {
-                $this->io->write("/n<info>" . $this->translation->trans('put_env_file_exists_2', 'Please manually fill in the following configuration items') . '</info>');
+                $this->io->write("\n<info>" . $this->translation->trans('put_env_file_exists_2', 'Please manually fill in the following configuration items') . '</info>');
                 return;
             }
 

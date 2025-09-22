@@ -44,5 +44,10 @@ return [
     'action_failed_single' => 'Failed:',
     'action_write_file' => 'Write file',
     'action_create_runtime_dir' => 'Create runtime dir',
-    'action_add_ext' => 'Add ext requirement'
+    'action_add_ext' => 'Add ext requirement',
+    'action_write_env' => 'Write .env file',
+    'remove_composer_lock_gitignore' => 'Removing composer.lock from .gitignore',
+    'gitignore_not_found' => '.gitignore file not found, skipping...',
+    'package_install_start' => 'Start installing the dependencies and run composer install...',
+    'put_env_overwrite' => 'The .env file already exists. Overwrite? [y/n] (default: n)',
 ];

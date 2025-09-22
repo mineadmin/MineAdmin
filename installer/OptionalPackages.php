@@ -142,7 +142,7 @@ class OptionalPackages
 
         $content = file_get_contents($this->installerSource . 'resources/bin/hyperf.stub');
         $content = str_replace('%TIME_ZONE%', $answer, $content);
-        $dest = $this->projectRoot . '/bin/hyperf.php';
+        $dest = $this->projectRoot . 'bin/hyperf.php';
 
         $this->deferAction($this->translation->trans('action_write_file', 'Write file') . " {$dest}", function () use ($dest, $content) {
             if (!is_dir(dirname($dest))) {
@@ -160,8 +160,8 @@ class OptionalPackages
     public function setupRuntimeDir(): void
     {
         $str = $this->translation->trans('setup_runtime_directory', 'Setup data and cache dir');
-        $this->io->write('<info>' . $str . '</info>');
-        $runtimeDir = $this->projectRoot . '/runtime';
+        $this->io->write('<info>' . $str . "</info>\n");
+        $runtimeDir = $this->projectRoot . 'runtime';
 
         // 延迟创建
         $this->deferAction($this->translation->trans('action_create_runtime_dir', 'Create runtime dir') . " {$runtimeDir}", function () use ($runtimeDir) {
@@ -233,7 +233,7 @@ class OptionalPackages
                 $swowInstalled
                     ? $this->translation->trans('select_driver_single_swow', 'You have only installed the Swow extension, the coroutine driver has been set to Swow')
                     : $this->translation->trans('select_driver_single_swoole', 'You have only installed the Swoole extension, the coroutine driver has been set to Swoole')
-                ) . '</info>');
+                ) . "</info>\n");
         }
 
         // 仅记录动作（延迟执行）
@@ -274,7 +274,7 @@ class OptionalPackages
         }
 
         // 一律记录 ext 依赖的变更（延迟修改内存 composerDefinition）
-        $this->deferAction($this->translation->trans('action_add_ext', 'Add ext requirement').'ext-'.$driver, function () use ($driver) {
+        $this->deferAction($this->translation->trans('action_add_ext', 'Add ext requirement').' ext-'.$driver, function () use ($driver) {
             $ext = 'ext-' . $driver;
             $require = $this->composerDefinition['require'];
 
@@ -321,7 +321,10 @@ class OptionalPackages
         // Update composer definition
         $this->composerJson->write($this->composerDefinition);
         $this->clearComposerLockFile();
-        // $this->cleanUp();
+
+        // 说明开始执行 composer install
+        $this->io->write("\n<info>" . $this->translation->trans('package_install_start', 'Start installing the dependencies and run composer install...') . '</info>');
+
     }
 
     public function setupDatabaseEnv(): void
@@ -489,12 +492,6 @@ class OptionalPackages
     public function putEnv(): void
     {
         $envFile = $this->projectRoot . '/.env';
-        if (file_exists($envFile)) {
-            $this->io->error($this->translation->trans('put_env_file_exists', 'The .env file already exists.'));
-            // 已经存在环境文件，请手动填写以下配置项
-            $this->io->write('<info>' . $this->translation->trans('put_env_file_exists_2', 'Please manually fill in the following configuration items') . '</info>');
-            return;
-        }
 
         $content = "APP_NAME=\"{$this->env['APP_NAME']}\"\n";
         $content .= "APP_ENV={$this->env['APP_ENV']}\n";
@@ -514,7 +511,28 @@ class OptionalPackages
         $content .= "JWT_SECRET={$this->env['JWT_SECRET']}\n";
         $content .= "MINE_ACCESS_TOKEN={$this->env['MINE_ACCESS_TOKEN']}\n";
 
-        // 延迟写入 .env
+        if (file_exists($envFile)) {
+            $ask = "/n<question>" . $this->translation->trans('put_env_overwrite', 'The .env file already exists. Overwrite? [y/n] (default: n)') . '</question>' . PHP_EOL;
+            $ans = $this->io->ask($ask, 'n');
+            if (strtolower(trim((string)$ans)) !== 'y') {
+                $this->io->write("/n<info>" . $this->translation->trans('put_env_file_exists_2', 'Please manually fill in the following configuration items') . '</info>');
+                return;
+            }
+
+            // 用户选择覆盖：延迟备份并写入
+            $this->deferAction($this->translation->trans('action_write_env', 'Write .env file'), function () use ($envFile, $content) {
+                if (file_exists($envFile)) {
+                    $backup = $envFile . '.' . date('YmdHis') . '.bak';
+                    @copy($envFile, $backup);
+                }
+                file_put_contents($envFile, $content);
+            });
+
+            $this->io->write('<comment>' . $this->translation->trans('put_env_will_overwrite', 'Existing .env will be backed up and overwritten during finalize.') . '</comment>');
+            return;
+        }
+
+        // 不存在则直接延迟写入
         $this->deferAction($this->translation->trans('action_write_env', 'Write .env file'), function () use ($envFile, $content) {
             file_put_contents($envFile, $content);
         });
@@ -576,23 +594,25 @@ class OptionalPackages
         );
     }
 
-    public function cleanupInstaller()
+    public function cleanupInstaller(): void
     {
         $this->executeDeferredActions(false);
         $this->cleanUp();
         $this->showMineAdminInfo();
     }
+
     private function showMineAdminInfo(): void
     {
-        $website = 'https://mineadmin.cn';
-        $docs = 'https://docs.mineadmin.cn';
-        $qqGroup = '请输入项目真实 QQ 群号（若有）';
-        $github = 'https://github.com/mineadmin';
+        $version = $this->composerDefinition['version'] ?? $this->rootPackage->getVersion() ?? 'n/a';
+        $website = 'https://www.mineadmin.com';
+        $docs = 'https://doc.mineadmin.com';
+        $qqGroup = '150105478';
+        $github = 'https://github.com/mineadmin/MineAdmin';
 
-        $this->io->write("\n<info>MineAdmin</info>");
+        $this->io->write("\n<info>MineAdmin v{$version}</info>");
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_website', 'Website:') . ' ' . $website . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_docs', 'Docs:') . ' ' . $docs . '</comment>');
-        $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ 群:') . ' ' . $qqGroup . '</comment>');
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ Group:') . ' ' . $qqGroup . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_github', 'GitHub:') . ' ' . $github . '</comment>');
 
         $ask = '<question>' . $this->translation->trans('please_star', 'If you like MineAdmin, could you give us a star on GitHub? [y/n] (default: y)') . '</question>' . PHP_EOL;
@@ -605,15 +625,12 @@ class OptionalPackages
 
             try {
                 if (stripos(PHP_OS, 'WIN') === 0) {
-                    // Windows
                     pclose(popen('start "" ' . escapeshellarg($url), 'r'));
                     $opened = true;
                 } elseif (PHP_OS === 'Darwin') {
-                    // macOS
                     exec('open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
                     $opened = ($code ?? 0) === 0;
                 } else {
-                    // Linux / other
                     exec('xdg-open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
                     $opened = ($code ?? 0) === 0;
                 }
@@ -657,8 +674,14 @@ class OptionalPackages
      */
     private function clearComposerLockFile(): void
     {
-        $this->io->write('<info>Removing composer.lock from .gitignore</info>');
+        $this->io->write('<info>' . $this->translation->trans('remove_composer_lock_gitignore', 'Removing composer.lock from .gitignore') . '</info>');
         $ignoreFile = \sprintf('%s/.gitignore', $this->projectRoot);
+
+        if (! file_exists($ignoreFile)) {
+            $this->io->write('<comment>' . $this->translation->trans('gitignore_not_found', 'No .gitignore found at') . ' ' . $ignoreFile . '</comment>');
+            return;
+        }
+
         $content = $this->removeLinesContainingStrings(['composer.lock'], file_get_contents($ignoreFile));
         file_put_contents($ignoreFile, $content);
     }

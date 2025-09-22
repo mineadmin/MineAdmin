@@ -45,4 +45,9 @@ return [
     'action_write_file' => '写入文件',
     'action_create_runtime_dir' => '创建runtime目录',
     'action_add_ext' => '添加扩展',
+    'action_write_env' => '写入环境配置',
+    'remove_composer_lock_gitignore' => '从 .gitignore 中移除 composer.lock',
+    'gitignore_not_found' => '.gitignore 文件未找到，跳过...',
+    'package_install_start' => '开始安装依赖, 正在运行 composer install...',
+    'put_env_overwrite' => '.env 文件已存在，是否覆盖？[y/n]（默认：n）',
 ];

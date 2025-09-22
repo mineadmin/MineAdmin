@@ -53,6 +53,8 @@ class Script
         }
         $installer = new OptionalPackages($io, $event->getComposer(), $languageAnswer);
         $installer->migrateAndSeed();
+        $installer->removeInstallerFromDefinition(true);
+        $installer->updateRootPackage();
         $installer->cleanupInstaller();
     }
 }

@@ -189,21 +189,19 @@ class OptionalPackages
     /**
      * Remove the installer from the composer definition.
      */
-    public function removeInstallerFromDefinition(): void
+    public function removeInstallerFromDefinition($isAfter = false): void
     {
-        // 直接修改内存 composerDefinition（将在 finalize 写入）
+        if ($isAfter) {
+            unset($this->composerDefinition['scripts']['post-install-cmd']);
+            return;
+        }
         unset(
             $this->composerDefinition['autoload']['psr-4']['Installer\\'],
             $this->composerDefinition['autoload-dev']['psr-4']['InstallerTest\\'],
             $this->composerDefinition['extra']['branch-alias'],
             $this->composerDefinition['extra']['optional-packages'],
-            $this->composerDefinition['scripts']['pre-update-cmd'],
             $this->composerDefinition['scripts']['pre-install-cmd']
         );
-        // 清理安装器文件等放到清理队列（defer），以避免立即删除当前执行的代码文件
-        // $this->deferAction($this->translation->trans('action_cleanup_installer', 'Cleanup installer'), function () {
-        //     $this->cleanUp();
-        // });
     }
 
     /**
@@ -373,7 +371,7 @@ class OptionalPackages
         $this->clearComposerLockFile();
 
         // 说明开始执行 composer install
-        $this->io->write("\n<info>" . $this->translation->trans('package_install_start', 'Start installing the dependencies and run composer install...') . '</info>');
+        $this->io->write("\n<info>" . $this->translation->trans('package_install_start', 'Start installing the dependencies and run composer install...') . "</info>\n");
 
     }
 
@@ -590,55 +588,31 @@ class OptionalPackages
 
     public function migrateAndSeed(): void
     {
-        // 立即询问并记录选择
-        $runMigrateAns = $this->io->ask(
-            '<info>' . $this->translation->trans('run_migrate', 'Do you want to run database migrations now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+        $ans = $this->io->ask(
+            '<info>' . $this->translation->trans('run_migrate_and_seed_prompt', 'Run migrations and seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
             'y'
         );
-        $runMigrate = strtolower(trim((string)$runMigrateAns)) === 'y';
+        $run = strtolower(trim((string)$ans)) === 'y';
 
-        $runSeedAns = $this->io->ask(
-            '<info>' . $this->translation->trans('run_seed', 'Do you want to run database seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
-            'y'
-        );
-        $runSeed = strtolower(trim((string)$runSeedAns)) === 'y';
-
-        // 如果两项都不需要，则直接返回
-        if (! $runMigrate && ! $runSeed) {
+        if (! $run) {
+            $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate --seed</comment>' . PHP_EOL);
             return;
         }
 
-        // 延迟执行具体命令（闭包仅依赖于已记录的布尔值）
         $this->deferAction(
             $this->translation->trans('action_migrate_and_seed', 'Run migrations and seeders'),
-            function () use ($runMigrate, $runSeed) {
-                if ($runMigrate) {
-                    $this->io->write('<info>' . $this->translation->trans('running_migrate', 'Running migrations...') . '</info>');
-                    $output = [];
-                    exec('php bin/hyperf.php migrate', $output, $code);
-                    foreach ($output as $line) {
-                        $this->io->write($line);
-                    }
-                    if (($code ?? 0) !== 0) {
-                        $this->io->write('<error>' . $this->translation->trans('migrate_failed', 'Migration failed.') . '</error>');
-                        $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate</comment>');
-                        // 中止后续操作（例如不要继续执行 seed）
-                        return;
-                    }
+            function () {
+                $this->io->write('<info>' . $this->translation->trans('running_migrate_seed', 'Running migrations and seeders...') . '</info>');
+                $output = [];
+                $code = 0;
+                exec('php bin/hyperf.php migrate --seed', $output, $code);
+                foreach ($output as $line) {
+                    $this->io->write($line);
                 }
-
-                if ($runSeed) {
-                    $this->io->write('<info>' . $this->translation->trans('running_seed', 'Running seeders...') . '</info>');
-                    $output = [];
-                    exec('php bin/hyperf.php db:seed', $output, $code);
-                    foreach ($output as $line) {
-                        $this->io->write($line);
-                    }
-                    if (($code ?? 0) !== 0) {
-                        $this->io->write('<error>' . $this->translation->trans('seed_failed', 'Seeding failed.') . '</error>');
-                        $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php db:seed</comment>');
-                        return;
-                    }
+                if (($code ?? 0) !== 0) {
+                    $this->io->write('<error>' . $this->translation->trans('migrate_seed_failed', 'Migrate & seed failed.') . '</error>');
+                    $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate --seed</comment>');
+                    return;
                 }
             }
         );
@@ -659,7 +633,7 @@ class OptionalPackages
         $qqGroup = '150105478';
         $github = 'https://github.com/mineadmin/MineAdmin';
 
-        $this->io->write("\n<info>MineAdmin v{$version}</info>");
+        $this->io->write("\n<info>". $this->translation->trans('install_completed', 'Install completed!') ."</info>");
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_website', 'Website:') . ' ' . $website . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_docs', 'Docs:') . ' ' . $docs . '</comment>');
         $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ Group:') . ' ' . $qqGroup . '</comment>');

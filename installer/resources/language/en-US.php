@@ -57,4 +57,9 @@ return [
     'swoole_use_shortname_error' => 'Please disable `swoole.use_shortname` in php.ini (set to 0 or off) before proceeding.',
     'swow_not_install' => 'Swow extension is not installed, please install it first.',
     'swow_version_error' => 'Swow version must be >= 1.4.0. Current: ',
+    'run_migrate_and_seed_prompt' => 'Run migrations and seeders now? [y/n] (default: y)',
+    'please_run_manually' => 'Please run manually:',
+    'action_migrate_and_seed' => 'Run migrations and seeders',
+    'running_migrate_seed' => 'Running migrations and seeders...',
+    'migrate_seed_failed' => 'Migrate & seed failed.',
 ];

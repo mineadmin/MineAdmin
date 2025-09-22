@@ -57,4 +57,9 @@ return [
     'swoole_use_shortname_error' => '请在 php.ini 中禁用 `swoole.use_shortname`（设置为 0 或 off）后再继续。',
     'swow_not_install' => 'Swow 扩展未安装，请先安装该扩展。',
     'swow_version_error' => 'Swow 版本必须 >= 1.4.0。当前版本： ',
+    'run_migrate_and_seed_prompt' => '是否现在运行数据库迁移和填充？[y/n]（默认：y）',
+    'please_run_manually' => '请手动运行命令来完成安装：',
+    'action_migrate_and_seed' => '运行数据库迁移和填充',
+    'running_migrate_seed' => '正在运行数据库迁移和填充...',
+    'migrate_seed_failed' => '数据库迁移和填充失败，请检查错误。',
 ];

@@ -32,8 +32,10 @@ class OptionalPackages
 
     private array $env = [
         'APP_NAME' => 'MineAdmin',
-        'APP_ENV' => 'prod',
-        'APP_DEBUG' => 'false',
+        'APP_ENV' => 'dev',
+        'APP_DEBUG' => 'true',
+        'APP_URL' => 'http://127.0.0.1:9501',
+        'MINE_ACCESS_TOKEN' => '(null)'
     ];
 
     /**
@@ -360,6 +362,14 @@ class OptionalPackages
             'utf8mb4'
         );
         $this->io->write('<info>' . $databaseCharset . '</info>' . \PHP_EOL);
+
+        // 新增：询问 DB_PREFIX（默认空）
+        $databasePrefix = $this->io->ask(
+            '<info>' . $this->translation->trans('setup_database_env_prefix', 'Please input table prefix (default: Empty)') . '</info>' . \PHP_EOL,
+            ''
+        );
+        $this->io->write('<info>' . $databasePrefix . '</info>' . \PHP_EOL);
+
         // test database connection
         $this->io->write('<info>' . $this->translation->trans('setup_database_env_7', 'Testing database connection') . '</info>' . \PHP_EOL);
         try {
@@ -418,6 +428,7 @@ class OptionalPackages
         $this->env['DB_USERNAME'] = $databaseUser;
         $this->env['DB_PASSWORD'] = $databasePassword;
         $this->env['DB_CHARSET'] = $databaseCharset;
+        $this->env['DB_PREFIX'] = $databasePrefix;
     }
 
 
@@ -495,11 +506,13 @@ class OptionalPackages
         $content .= "DB_USERNAME={$this->env['DB_USERNAME']}\n";
         $content .= "DB_PASSWORD={$this->env['DB_PASSWORD']}\n";
         $content .= "DB_CHARSET={$this->env['DB_CHARSET']}\n";
+        $content .= "DB_PREFIX={$this->env['DB_PREFIX']}\n";
         $content .= "REDIS_HOST={$this->env['REDIS_HOST']}\n";
         $content .= "REDIS_AUTH={$this->env['REDIS_AUTH']}\n";
         $content .= "REDIS_PORT={$this->env['REDIS_PORT']}\n";
         $content .= "REDIS_DB={$this->env['REDIS_DB']}\n";
         $content .= "JWT_SECRET={$this->env['JWT_SECRET']}\n";
+        $content .= "MINE_ACCESS_TOKEN={$this->env['MINE_ACCESS_TOKEN']}\n";
 
         // 延迟写入 .env
         $this->deferAction($this->translation->trans('action_write_env', 'Write .env file'), function () use ($envFile, $content) {
@@ -509,38 +522,54 @@ class OptionalPackages
 
     public function migrateAndSeed(): void
     {
+        // 立即询问并记录选择
+        $runMigrateAns = $this->io->ask(
+            '<info>' . $this->translation->trans('run_migrate', 'Do you want to run database migrations now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+            'y'
+        );
+        $runMigrate = strtolower(trim((string)$runMigrateAns)) === 'y';
+
+        $runSeedAns = $this->io->ask(
+            '<info>' . $this->translation->trans('run_seed', 'Do you want to run database seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
+            'y'
+        );
+        $runSeed = strtolower(trim((string)$runSeedAns)) === 'y';
+
+        // 如果两项都不需要，则直接返回
+        if (! $runMigrate && ! $runSeed) {
+            return;
+        }
+
+        // 延迟执行具体命令（闭包仅依赖于已记录的布尔值）
         $this->deferAction(
             $this->translation->trans('action_migrate_and_seed', 'Run migrations and seeders'),
-            function () {
-                $runMigrate = $this->io->ask(
-                    '<info>' . $this->translation->trans('run_migrate', 'Do you want to run database migrations now? [y/n] (default: y)') . '</info>' . PHP_EOL,
-                    'y'
-                );
-                if (strtolower(trim($runMigrate)) === 'y') {
+            function () use ($runMigrate, $runSeed) {
+                if ($runMigrate) {
                     $this->io->write('<info>' . $this->translation->trans('running_migrate', 'Running migrations...') . '</info>');
+                    $output = [];
                     exec('php bin/hyperf.php migrate', $output, $code);
                     foreach ($output as $line) {
                         $this->io->write($line);
                     }
-                    if ($code !== 0) {
+                    if (($code ?? 0) !== 0) {
                         $this->io->write('<error>' . $this->translation->trans('migrate_failed', 'Migration failed.') . '</error>');
-                        exit(1);
+                        $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate</comment>');
+                        // 中止后续操作（例如不要继续执行 seed）
+                        return;
                     }
                 }
 
-                $runSeed = $this->io->ask(
-                    '<info>' . $this->translation->trans('run_seed', 'Do you want to run database seeders now? [y/n] (default: y)') . '</info>' . PHP_EOL,
-                    'y'
-                );
-                if (strtolower(trim($runSeed)) === 'y') {
+                if ($runSeed) {
                     $this->io->write('<info>' . $this->translation->trans('running_seed', 'Running seeders...') . '</info>');
-                    exec('php bin/hyperf.php seed', $output, $code);
+                    $output = [];
+                    exec('php bin/hyperf.php db:seed', $output, $code);
                     foreach ($output as $line) {
                         $this->io->write($line);
                     }
-                    if ($code !== 0) {
+                    if (($code ?? 0) !== 0) {
                         $this->io->write('<error>' . $this->translation->trans('seed_failed', 'Seeding failed.') . '</error>');
-                        exit(1);
+                        $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php db:seed</comment>');
+                        return;
                     }
                 }
             }
@@ -549,8 +578,60 @@ class OptionalPackages
 
     public function cleanupInstaller()
     {
-        $this->executeDeferredActions(true);
+        $this->executeDeferredActions(false);
         $this->cleanUp();
+        $this->showMineAdminInfo();
+    }
+    private function showMineAdminInfo(): void
+    {
+        $website = 'https://mineadmin.cn';
+        $docs = 'https://docs.mineadmin.cn';
+        $qqGroup = '请输入项目真实 QQ 群号（若有）';
+        $github = 'https://github.com/mineadmin';
+
+        $this->io->write("\n<info>MineAdmin</info>");
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_website', 'Website:') . ' ' . $website . '</comment>');
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_docs', 'Docs:') . ' ' . $docs . '</comment>');
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_qq', 'QQ 群:') . ' ' . $qqGroup . '</comment>');
+        $this->io->write('<comment>' . $this->translation->trans('mineadmin_github', 'GitHub:') . ' ' . $github . '</comment>');
+
+        $ask = '<question>' . $this->translation->trans('please_star', 'If you like MineAdmin, could you give us a star on GitHub? [y/n] (default: y)') . '</question>' . PHP_EOL;
+        $ans = $this->io->ask($ask, 'y');
+        $ans = strtolower(trim((string)$ans));
+
+        if ($ans === 'y') {
+            $opened = false;
+            $url = $github;
+
+            try {
+                if (stripos(PHP_OS, 'WIN') === 0) {
+                    // Windows
+                    pclose(popen('start "" ' . escapeshellarg($url), 'r'));
+                    $opened = true;
+                } elseif (PHP_OS === 'Darwin') {
+                    // macOS
+                    exec('open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
+                    $opened = ($code ?? 0) === 0;
+                } else {
+                    // Linux / other
+                    exec('xdg-open ' . escapeshellarg($url) . ' > /dev/null 2>&1 &', $o, $code);
+                    $opened = ($code ?? 0) === 0;
+                }
+            } catch (\Throwable $e) {
+                $opened = false;
+            }
+
+            if ($opened) {
+                $this->io->write('<info>' . $this->translation->trans('thanks_star', 'Thanks! Repository opened in your browser:') . ' ' . $github . '</info>');
+            } else {
+                $this->io->write('<info>' . $this->translation->trans('thanks_star', 'Thanks!') . '</info>');
+                $this->io->write('<comment>' . $this->translation->trans('please_open_manually', 'Could not open browser automatically. Please open manually:') . ' ' . $github . '</comment>');
+            }
+        } else {
+            $this->io->write('<info>' . $this->translation->trans('thanks_using', 'Thanks for using MineAdmin!') . '</info>');
+        }
+
+        $this->io->write("\n<comment>" . $this->translation->trans('follow_up', 'You can visit the links above for more information.') . "</comment>\n");
     }
 
     /**

@@ -236,6 +236,57 @@ class OptionalPackages
                 ) . "</info>\n");
         }
 
+        // 如果选择 swoole，则做额外校验：已安装、版本 >= 5.0、并且 swoole.use_shortname 已关闭
+        if ($driver === 'swoole') {
+            if (! $swooleInstalled) {
+                $this->io->error($this->translation->trans('swoole_not_install', 'Swoole extension is not installed, please install it first.'));
+                exit(1);
+            }
+
+            $version = '0';
+            if (function_exists('swoole_version')) {
+                $version = swoole_version();
+            } elseif ($v = phpversion('swoole')) {
+                $version = $v;
+            } elseif (defined('SWOOLE_VERSION')) {
+                $version = constant('SWOOLE_VERSION');
+            }
+
+            if (!version_compare($version, '5.0', '>=')) {
+                $this->io->error($this->translation->trans('swoole_version_error', 'Swoole version must be >= 5.0. Current: ') . $version);
+                exit(1);
+            }
+
+            $short = ini_get('swoole.use_shortname');
+            $shortEnabled = $short !== false && in_array(strtolower($short), ['1', 'on', 'true'], true);
+            if ($shortEnabled) {
+                $this->io->error($this->translation->trans('swoole_use_shortname_error', 'Please disable `swoole.use_shortname` in php.ini (set to 0 or off) before proceeding.'));
+                exit(1);
+            }
+        }
+
+        // 如果选择 swow，则做额外校验：已安装、版本 >= 1.4
+        if ($driver === 'swow') {
+            if (! $swowInstalled) {
+                $this->io->error($this->translation->trans('swow_not_install', 'Swow extension is not installed, please install it first.'));
+                exit(1);
+            }
+
+            $version = '0';
+            if (function_exists('swow_version')) {
+                $version = swow_version();
+            } elseif ($v = phpversion('swow')) {
+                $version = $v;
+            } elseif (defined('SWOW_VERSION')) {
+                $version = constant('SWOW_VERSION');
+            }
+
+            if (!version_compare($version, '1.4', '>=')) {
+                $this->io->error($this->translation->trans('swow_version_error', 'Swow version must be >= 1.4. Current: ') . $version);
+                exit(1);
+            }
+        }
+
         // 仅记录动作（延迟执行）
         if ($driver === 'swow') {
             $files = [
@@ -290,7 +341,6 @@ class OptionalPackages
 
             $this->composerDefinition['require'] = $newRequire;
         });
-
     }
 
     /**

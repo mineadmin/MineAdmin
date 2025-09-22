@@ -49,5 +49,12 @@ return [
     'remove_composer_lock_gitignore' => '从 .gitignore 中移除 composer.lock',
     'gitignore_not_found' => '.gitignore 文件未找到，跳过...',
     'package_install_start' => '开始安装依赖, 正在运行 composer install...',
-    'put_env_overwrite' => '.env 文件已存在，是否覆盖？[y/n]（默认：n）',
+    'put_env_overwrite' => '.env 文件已存在，是否覆盖？覆盖前会自动备份现有 .env 文件。[y/n]（默认：n）',
+    'put_env_will_overwrite' => '现有的 .env 文件将被备份，并在安装的最后一步用新文件覆盖。',
+    'setup_database_env_prefix' => '请输入数据表前缀（默认：空）',
+    'swoole_not_install' => 'Swoole 扩展未安装，请先安装该扩展。',
+    'swoole_version_error' => 'Swoole 版本必须 >= 5.0。当前版本： ',
+    'swoole_use_shortname_error' => '请在 php.ini 中禁用 `swoole.use_shortname`（设置为 0 或 off）后再继续。',
+    'swow_not_install' => 'Swow 扩展未安装，请先安装该扩展。',
+    'swow_version_error' => 'Swow 版本必须 >= 1.4.0。当前版本： ',
 ];

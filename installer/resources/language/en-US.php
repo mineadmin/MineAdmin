@@ -50,4 +50,11 @@ return [
     'gitignore_not_found' => '.gitignore file not found, skipping...',
     'package_install_start' => 'Start installing the dependencies and run composer install...',
     'put_env_overwrite' => 'The .env file already exists. Overwrite? [y/n] (default: n)',
+    'put_env_will_overwrite' => 'Existing .env will be backed up and overwritten during finalize.',
+    'setup_database_env_prefix' => 'Please input table prefix (default: Empty)',
+    'swoole_not_install' => 'Swoole extension is not installed, please install it first.',
+    'swoole_version_error' => 'Swoole version must be >= 5.0. Current: ',
+    'swoole_use_shortname_error' => 'Please disable `swoole.use_shortname` in php.ini (set to 0 or off) before proceeding.',
+    'swow_not_install' => 'Swow extension is not installed, please install it first.',
+    'swow_version_error' => 'Swow version must be >= 1.4.0. Current: ',
 ];

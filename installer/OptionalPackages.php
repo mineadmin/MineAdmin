@@ -611,7 +611,6 @@ class OptionalPackages
                 foreach ($output as $line) {
                     $this->io->write($line);
                 }
-                $this->io->write("\n");
                 if (($code ?? 0) !== 0) {
                     $this->io->write('<error>' . $this->translation->trans('migrate_seed_failed', 'Migrate & seed failed.') . '</error>');
                     $this->io->write('<comment>' . $this->translation->trans('please_run_manually', 'Please run manually:') . ' php bin/hyperf.php migrate --seed</comment>');

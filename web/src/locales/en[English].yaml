@@ -122,6 +122,7 @@ menu:
   dashboard:analysis: Analysis Page
   pageError: The page error
   appstore: App store
+  code-generator: Code Generator
   dashboard:workbench: Workbench
   dashboard:report: Statistics reports
   uc:logs: Logs

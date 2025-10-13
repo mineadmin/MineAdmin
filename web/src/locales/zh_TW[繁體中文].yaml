@@ -122,6 +122,7 @@ menu:
   dashboard:analysis: 分析頁
   pageError: 頁面出現了錯誤
   appstore: 應用商店
+  code-generator: 代碼生成
   dashboard:workbench: 工作臺
   dashboard:report: 統計報表
   uc:logs: 日志

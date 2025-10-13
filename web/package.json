@@ -52,6 +52,7 @@
     "vue-m-message": "^4.0.2",
     "vue-router": "^4.5.1",
     "vue3-sfc-loader": "^0.9.5",
+    "vuedraggable": "^4.1.0",
     "web-storage-cache": "^1.1.1"
   },
   "devDependencies": {

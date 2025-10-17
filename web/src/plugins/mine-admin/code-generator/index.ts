@@ -36,7 +36,7 @@ const pluginConfig: Plugin.PluginConfig = {
   },
   hooks: {
     setup: () => {
-      if (!pkg?.dependencies?.vuedraggable) {
+      if (!pkg?.dependencies?.['vue-draggable-plus']) {
         Message.error('依赖不存在，无法使用代码生成器，请安装依赖：pnpm add vuedraggable@next')
       }
     },

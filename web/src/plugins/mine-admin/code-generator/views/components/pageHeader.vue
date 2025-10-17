@@ -9,6 +9,24 @@ function onBack() {
     options.value.isHomePage = true
   })
 }
+
+const segmentedOpt = ref([
+  {
+    label: '字段及表单',
+    value: 'design',
+    icon: 'EditPen',
+  },
+  {
+    label: '数据列表',
+    value: 'list',
+    icon: 'Setting',
+  },
+  {
+    label: '其他设置',
+    value: 'setting',
+    icon: 'Setting',
+  },
+])
 </script>
 
 <template>
@@ -27,11 +45,17 @@ function onBack() {
     </template>
     <template #extra>
       <div class="flex items-center">
+        <div class="other">
+          <el-segmented
+            v-model="options.segmentedModel"
+            :options="segmentedOpt"
+            size="default"
+          />
+        </div>
         <el-button type="primary" class="ml-2">
           保存
         </el-button>
       </div>
     </template>
-    <slot name="content" />
   </el-page-header>
 </template>

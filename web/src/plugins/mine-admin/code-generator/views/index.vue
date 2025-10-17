@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
 import GeneratorTypeSelect from './components/generatorTypeSelect.vue'
-import PageHeader from '$/mine-admin/code-generator/views/components/pageHeader.vue'
-import Create from '$/mine-admin/code-generator/views/components/create.vue'
+import PageHeader from './components/pageHeader.vue'
+import Design from './components/design.vue'
 
 defineOptions({ name: 'CodeGenerator' })
 
 const options = ref<Record<string, any>>({
   isHomePage: true,
   createType: 'create',
+  segmentedModel: 'design',
+  componentCollapseModel: 'element',
+  attrCollapseModel: 'base',
   typeInfo: {},
+  configure: {
+
+  },
 })
 
 provide('options', options)
@@ -33,12 +39,9 @@ onMounted(() => {
 
     <GeneratorTypeSelect v-show="options.isHomePage" />
 
-    <div v-if="!options.isHomePage" class="code-main p-5">
-      <PageHeader>
-        <template #content>
-          <Create />
-        </template>
-      </PageHeader>
+    <div v-if="!options.isHomePage" class="code-main h-[calc(100%-80px)] p-5">
+      <PageHeader />
+      <Design />
     </div>
   </div>
 </template>

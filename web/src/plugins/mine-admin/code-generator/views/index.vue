@@ -3,22 +3,31 @@ import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
 import GeneratorTypeSelect from './components/generatorTypeSelect.vue'
 import PageHeader from './components/pageHeader.vue'
 import Design from './components/design.vue'
+import useComponent from '../hooks/useComponent.ts'
+import type { DesignComponent } from '../configs/component.tsx'
 
 defineOptions({ name: 'CodeGenerator' })
 
+const designComponents = ref<DesignComponent[]>([])
+const currentSelection = ref<DesignComponent>()
 const options = ref<Record<string, any>>({
   isHomePage: true,
   createType: 'create',
   segmentedModel: 'design',
-  componentCollapseModel: 'element',
+  componentCollapseModel: ['base', 'element', 'mineadmin'],
   attrCollapseModel: 'base',
+  isDrag: false,
   typeInfo: {},
-  configure: {
-
-  },
+  model: {},
+  settingModel: {},
 })
 
+const componentHook = ref(useComponent(options.value.model))
+
 provide('options', options)
+provide('componentHook', componentHook)
+provide('designComponents', designComponents)
+provide('currentSelection', currentSelection)
 
 onMounted(() => {
   const dom = document.querySelector('#code-generator-area') as HTMLElement
@@ -45,3 +54,11 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.componentStyle {
+  @apply b-1 b-[var(--el-color-primary-light-7)] rounded b-solid bg-[var(--el-color-primary-light-9)] px-2 py-1 text-dark-1
+  dark-b-[var(--el-color-primary-dark-6)] dark-bg-[var(--el-color-primary-dark-8)] dark-text-gray-3
+  ;
+}
+</style>

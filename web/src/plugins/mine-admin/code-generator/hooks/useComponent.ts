@@ -1,16 +1,20 @@
-import type { CodeGeneratorComponent, CodeGeneratorComponentList } from '$/mine-admin/code-generator/configs/component.ts'
-import { componentList } from '$/mine-admin/code-generator/configs/component.ts'
+import type { DesignCategory, DesignComponent } from '$/mine-admin/code-generator/configs/component.ts'
+import { getComponentList } from '../configs/component.tsx'
 
-export default function useComponent() {
-  const components = ref<CodeGeneratorComponentList>({})
+export default function useComponent(model: Record<string, any> = {}) {
+  const components = ref<DesignCategory>({})
 
   const initComponent = () => {
+    const componentList = getComponentList(model)
     Object.keys(componentList).map((key: string) => {
       components.value[key] = componentList[key]
+      componentList[key]?.list.map((item) => {
+        item?.initHandle && item.initHandle()
+      })
     })
   }
 
-  const addCategory = (id: string, title: string, componentList?: CodeGeneratorComponent[]): boolean => {
+  const addCategory = (id: string, title: string, componentList?: DesignComponent[]): boolean => {
     if (!components.value[id]) {
       components.value.push[id] = {
         title,
@@ -33,9 +37,9 @@ export default function useComponent() {
     return components.value[id] ?? null
   }
 
-  const addComponent = (categoryId: string, component: CodeGeneratorComponent): boolean => {
+  const addComponent = (categoryId: string, component: DesignComponent): boolean => {
     const category = getCategory(categoryId)
-    if (category && category?.list?.findIndex((item: CodeGeneratorComponent) => item.name !== component.name) < 0) {
+    if (category && category?.list?.findIndex((item: DesignComponent) => item.name !== component.name) < 0) {
       category.list.push(component)
       return true
     }
@@ -44,7 +48,7 @@ export default function useComponent() {
 
   const removeComponent = (categoryId: string, componentName: string): boolean => {
     const category = getCategory(categoryId)
-    const index = category?.list?.findIndex((item: CodeGeneratorComponent) => item.name !== componentName)
+    const index = category?.list?.findIndex((item: DesignComponent) => item.name !== componentName)
     if (category && index >= 0) {
       category.list.splice(index, 1)
       return true
@@ -52,11 +56,24 @@ export default function useComponent() {
     return false
   }
 
-  const getComponents = () => components.value
+  const getAllComponents = (): DesignComponent[] => {
+    const list: DesignComponent[] = []
+    Object.keys(components.value).map((key: string) => {
+      list.push(...components.value[key].list)
+    })
+    return list
+  }
+
+  const getComponents = (): DesignCategory => {
+    return components.value
+  }
+
+  initComponent()
 
   return {
     initComponent,
     getComponents,
+    getAllComponents,
     addCategory,
     removeCategory,
     getCategory,

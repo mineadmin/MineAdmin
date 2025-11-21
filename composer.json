@@ -29,6 +29,7 @@
     "hyperf/carbon": "^3.1",
     "hyperf/command": "3.1.*",
     "hyperf/config": "3.1.*",
+    "hyperf/config-center": "~3.1.0",
     "hyperf/constants": "3.1.*",
     "hyperf/context": "3.1.*",
     "hyperf/contract": "3.1.*",
@@ -63,7 +64,8 @@
     "mineadmin/jwt": "~3.0",
     "mineadmin/support": "~3.0",
     "mineadmin/swagger": "~3.0",
-    "mineadmin/upload": "~3.0"
+    "mineadmin/upload": "~3.0",
+    "overtrue/easy-sms": "~3.0.0"
   },
   "require-dev": {
     "doctrine/dbal": "^3.6",

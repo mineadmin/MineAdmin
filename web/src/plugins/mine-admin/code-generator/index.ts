@@ -36,7 +36,7 @@ const pluginConfig: Plugin.PluginConfig = {
   },
   hooks: {
     setup: () => {
-      if (!pkg?.dependencies?.['vue-draggable-plus']) {
+      if (!pkg?.dependencies?.vuedraggable) {
         Message.error('依赖不存在，无法使用代码生成器，请安装依赖：pnpm add vuedraggable@next')
       }
     },
@@ -46,13 +46,11 @@ const pluginConfig: Plugin.PluginConfig = {
       name: 'MineAdminCodeGenerator',
       path: '/code-generator',
       meta: {
-        title: '应用市场',
+        title: '代码生成器',
         badge: () => 'CRUD',
         i18n: 'menu.code-generator',
         icon: 'heroicons:code-bracket-20-solid',
         type: 'M',
-        hidden: true,
-        subForceShow: true,
         breadcrumbEnable: true,
         copyright: true,
         cache: true,

@@ -8,15 +8,17 @@ baseUserManage:
   userType: User type
   role: Role
   signed: Signed
-  mainTitle: User Manager
+  mainTitle: User Rule
   subTitle: Provide users with the functions of adding, editing, and deleting
+  dataScope: Data Scope
   setRole: Set role
+  setDataScope: Set data scope
   setRoleSuccess: The role was set successfully
   initPassword: Init password
   setPassword: Whether to reset the password to 123456?
   setPasswordSuccess: The password was reset successfully
 baseRoleManage:
-  mainTitle: Role Manager
+  mainTitle: Role Rule
   subTitle: Provide user roles and permission settings
   name: Role name
   code: Role code
@@ -112,6 +114,27 @@ baseMenu:
     menuSave: Menu save
     menuUpdate: Menu updated
     menuDelete: Menu delete
+    department: Department
+    departmentList: Department list
+    departmentCreate: Add department
+    departmentSave: Edit department
+    departmentDelete: Delete department
+    positionList: Post list
+    positionCreate: Add post
+    positionSave: Edit post
+    positionDelete: Delete post
+    positionDataScope: Set post data scope
+basePost:
+  name: Post Name
+  belongPost: Belongs to Position
+  belongDept: Belongs to Department
+  created_at: Creation Time
+  updated_at: Update Time
+  dataScope: Data Permissions
+  selectDept: Selected Departments
+  callFunc: Function Call Name
+  placeholder:
+    name: Please enter position name
   log:
     index: Log Management
     userLoginLog: Login Log

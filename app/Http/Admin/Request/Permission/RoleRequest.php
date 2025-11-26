@@ -20,7 +20,7 @@ use Hyperf\Validation\Request\FormRequest;
 #[\Mine\Swagger\Attributes\FormRequest(
     schema: RoleSchema::class,
     only: [
-        'name', 'code', 'status', 'sort', 'remark',
+        'name', 'code', 'status', 'sort', 'remark', 'policy',
     ]
 )]
 class RoleRequest extends FormRequest

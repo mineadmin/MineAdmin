@@ -303,11 +303,11 @@ defineExpose({ open })
                   :theme="settingStore.colorMode === 'dark' ? 'dark' : 'light'"
                   preview-theme="github"
                 />
-              <!--              <div v-if="dataList.my.includes(data?.app?.identifier)" class="border-t pt-2 dark:border-gray-700"> -->
-              <!--                <el-button> -->
-              <!--                  安装此版本 -->
-              <!--                </el-button> -->
-              <!--              </div> -->
+                <!--              <div v-if="dataList.my.includes(data?.app?.identifier)" class="border-t pt-2 dark:border-gray-700"> -->
+                <!--                <el-button> -->
+                <!--                  安装此版本 -->
+                <!--                </el-button> -->
+                <!--              </div> -->
               </div>
             </div>
           </template>

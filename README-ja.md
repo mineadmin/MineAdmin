@@ -22,9 +22,6 @@ PHPには多くの優れた管理システムがありますが、Swooleベー�
 もし気に入っていただけましたら、⭐starで応援してください。これが私にとって最大の支援と励みになります！
 MineAdminをご利用になる前に、[《免責事項》](https://doc.mineadmin.com/guide/start/declaration.html)を必ずお読みいただき、同意してください。
 
-## 部門・職位ブランチ（データ権限機能含む）
-現在のデフォルトブランチには部門、職位、データ権限などの機能は含まれていません。これらの機能が必要な場合は、[`【部門・職位を含むMineAdmin----master-department】`](https://github.com/mineadmin/MineAdmin/tree/master-department)ブランチのコードをダウンロードしてください。
-
 ## 公式交流グループ
 > QQグループは学習交流用です。無駄話はご遠慮ください
 

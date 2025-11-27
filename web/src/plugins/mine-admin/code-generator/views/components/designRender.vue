@@ -12,6 +12,19 @@ const options = inject<Record<string, any>>('options')
 function onAdd(event: any) {
 }
 
+function updateCurrentSelection(element: DesignComponent) {
+  console.log(designComponents)
+  currentSelection!.value = designComponents?.value?.find?.((item: DesignComponent) => item.id === element.id)
+}
+
+function deleteComponent(element: DesignComponent) {
+  designComponents?.value?.splice(designComponents?.value?.findIndex((item: DesignComponent) => item.id === element.id), 1)
+}
+
+function copyComponent(element: DesignComponent) {
+
+}
+
 onMounted(() => {
   document.querySelector('.draggableArea')!.style!.height = `${(document.querySelector('.designArea') as HTMLElement).clientHeight - 25}px`
 })
@@ -40,7 +53,7 @@ onMounted(() => {
         <template #item="{ element }">
           <div
             :class="`componentStyle renderItem ${element.id === currentSelection?.id ? 'selection' : ''}`"
-            @click.stop="currentSelection = element"
+            @click.stop="updateCurrentSelection(element)"
           >
             <div class="text-sm">
               {{ `组件：${element.title}` }}
@@ -54,14 +67,15 @@ onMounted(() => {
               <ma-svg-icon
                 name="ri:file-copy-fill"
                 class="cursor-pointer text-white"
+                @click="copyComponent(element)"
               />
               <ma-svg-icon
                 name="ri:delete-bin-6-line"
                 class="cursor-pointer text-white"
-                @click="() => designComponents?.splice(designComponents?.findIndex((item: DesignComponent) => item.id === element.id), 1)"
+                @click="deleteComponent(element)"
               />
             </div>
-            <component :is="element?.formConfig?.render() ?? ElInput" v-model="options!.model[element?.formConfig?.prop]" />
+            <component :is="element?.formConfig?.render?.() ?? ElInput" v-model="options!.model[element?.formConfig?.prop]" />
           </div>
         </template>
       </draggable>

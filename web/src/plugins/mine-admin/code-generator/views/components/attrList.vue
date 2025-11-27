@@ -45,7 +45,7 @@ onMounted(() => {
       请点击选择组件
     </div>
     <div v-else>
-      <ma-form
+      <el-form
         v-model="currentSelection"
       >
         <el-card>
@@ -56,7 +56,7 @@ onMounted(() => {
             <ElInput
               v-model="formConfig.prop"
               @change="() => {
-                currentSelection?.initHandle(formConfig?.prop)
+                currentSelection?.initHandle?.(formConfig?.prop)
               }"
             />
           </el-form-item>
@@ -89,7 +89,7 @@ onMounted(() => {
             />
           </el-form-item>
         </el-card>
-      </ma-form>
+      </el-form>
     </div>
   </div>
 </template>

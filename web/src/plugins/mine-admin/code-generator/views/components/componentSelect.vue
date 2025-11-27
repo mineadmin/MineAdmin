@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import draggable from 'vuedraggable'
+import type { DesignComponent } from '$/mine-admin/code-generator/configs/component.tsx'
+import { clone, uid } from 'radash'
 
 const options = inject<Record<string, any>>('options', {})
 const componentHook = inject<any>('componentHook')
@@ -8,7 +10,10 @@ const componentHook = inject<any>('componentHook')
 function cloneComponent(element: DesignComponent) {
   return {
     ...element,
-    id: Date.now() + Math.random(), // 生成唯一ID
+    formConfig: clone(element?.formConfig ?? {}),
+    columnConfig: clone(element?.columnConfig ?? {}),
+    fieldAttrs: clone(element?.fieldAttrs ?? {}),
+    id: uid(7, 'abcdefg1234567'),
   }
 }
 </script>

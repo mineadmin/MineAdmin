@@ -176,3 +176,10 @@ dictionary:
   base:
     systemUser: System user
     normalUser: Normal user
+  dataScope:
+    all: Full data permissions
+    deptSelf: Current department data permissions
+    deptTree: Current department and all sub-departments data permissions
+    self: Personal data permissions
+    customDept: Custom department selection data permissions
+    customFunc: Custom function data permissions

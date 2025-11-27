@@ -176,3 +176,10 @@ dictionary:
   base:
     systemUser: 系統用戶
     normalUser: 普通用戶
+  dataScope:
+    all: 全部數據權限
+    deptSelf: 本部門數據權限
+    deptTree: 本部門及所有子部門數據權限
+    self: 本人數據權限
+    customDept: 自選部門數據權限
+    customFunc: 自定義數據權限

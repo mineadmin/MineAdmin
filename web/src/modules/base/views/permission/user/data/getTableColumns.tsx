@@ -77,21 +77,6 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
             },
           },
           {
-            name: 'del',
-            show: ({ row }) => showBtn('permission:user:delete', row),
-            icon: 'mdi:delete',
-            text: () => t('crud.delete'),
-            onClick: ({ row }, proxy: MaProTableExpose) => {
-              msg.delConfirm(t('crud.delDataMessage')).then(async () => {
-                const response = await deleteByIds([row.id])
-                if (response.code === ResultCode.SUCCESS) {
-                  msg.success(t('crud.delSuccess'))
-                  await proxy.refresh()
-                }
-              })
-            },
-          },
-          {
             name: 'setRole',
             show: ({ row }) => showBtn(['permission:user:getRole', 'permission:user:setRole'], row),
             icon: 'material-symbols:person-add-rounded',
@@ -111,6 +96,21 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
                 const response = await resetPassword(row.id)
                 if (response.code === ResultCode.SUCCESS) {
                   msg.success(t('baseUserManage.setPasswordSuccess'))
+                }
+              })
+            },
+          },
+          {
+            name: 'del',
+            show: ({ row }) => showBtn('permission:user:delete', row),
+            icon: 'mdi:delete',
+            text: () => t('crud.delete'),
+            onClick: ({ row }, proxy: MaProTableExpose) => {
+              msg.delConfirm(t('crud.delDataMessage')).then(async () => {
+                const response = await deleteByIds([row.id])
+                if (response.code === ResultCode.SUCCESS) {
+                  msg.success(t('crud.delSuccess'))
+                  await proxy.refresh()
                 }
               })
             },

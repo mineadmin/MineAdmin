@@ -59,6 +59,9 @@ useForm('userForm').then((form: MaFormExpose) => {
 // 创建操作
 function add(): Promise<any> {
   return new Promise((resolve, reject) => {
+    if (userModel.value.policy?.value?.length === 0) {
+      userModel.value.policy = undefined
+    }
     create(userModel.value).then((res: any) => {
       res.code === ResultCode.SUCCESS ? resolve(res) : reject(res)
     })

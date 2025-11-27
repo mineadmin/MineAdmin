@@ -21,6 +21,8 @@ import { createI18n } from 'vue-i18n'
 import router from './router'
 import pinia from './store'
 import './utils/copyright.ts'
+import iconCollections from '@/iconify/index.json'
+import { downloadAndInstall } from '@/iconify/index.ts'
 
 // 加载 Element-plus 样式
 import 'element-plus/dist/index.css'
@@ -77,7 +79,7 @@ async function initProvider(app: App) {
   }
 }
 
-function otherWorker(app: App) {
+async function otherWorker(app: App) {
   if (navigator && navigator.userAgent && navigator.userAgent.match(/Win[a-z0-9]*;/)) {
     document.documentElement.classList.add('mine-ui-scrollbars')
   }
@@ -94,6 +96,17 @@ function otherWorker(app: App) {
     const [name, data] = item
     dictStore.push(name, data)
   })
+
+  if (iconCollections?.isOfflineUse) {
+    await Promise.all(iconCollections?.collections?.map(async (name: string) => {
+      try {
+        await downloadAndInstall(name)
+      }
+      catch {
+        console.error(`加载[${name}]离线图标失败，请在 public/icons 目录下检查文件是否存在，可执行 pnpm gen:icons 命令重新生成`)
+      }
+    }))
+  }
 }
 
 function registerDirectives(app: App) {
@@ -108,7 +121,7 @@ async function bootstrap(app: App): Promise<void> {
   app.use(router)
   app.use(ElementPlus, {})
   registerDirectives(app)
-  otherWorker(app)
+  await otherWorker(app)
   await createI18nService(app)
   await usePluginStore().registerPlugin(app)
   await router.isReady()

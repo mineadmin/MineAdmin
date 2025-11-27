@@ -105,7 +105,7 @@ onMounted(() => {
             {{ $attrs.title ?? '' }}
           </slot>
         </div>
-        <el-link class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" underline="never">
+        <el-link class="el-dialog__headerbtn relative !right-[2px] !-top-[6px]" underline="never" @click="() => fullscreen = !fullscreen">
           <ma-svg-icon
             :name="fullscreen ? fsIcon.exit : fsIcon.todo"
             :size="15"

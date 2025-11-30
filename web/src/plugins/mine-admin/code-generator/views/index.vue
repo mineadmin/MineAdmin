@@ -22,7 +22,7 @@ const options = ref<Record<string, any>>({
   settingModel: {},
 })
 
-const componentHook = ref(useComponent(options.value.model))
+const componentHook = ref(useComponent())
 
 provide('options', options)
 provide('componentHook', componentHook)

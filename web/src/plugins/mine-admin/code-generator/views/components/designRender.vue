@@ -2,7 +2,6 @@
 import draggable from 'vuedraggable'
 import type { Ref } from 'vue'
 import type { DesignComponent } from '$/mine-admin/code-generator/configs/component.tsx'
-import { ElInput } from 'element-plus'
 
 const designComponents = inject<Ref<DesignComponent[]>>('designComponents')
 const currentSelection = inject<Ref<DesignComponent>>('currentSelection')
@@ -13,7 +12,6 @@ function onAdd(event: any) {
 }
 
 function updateCurrentSelection(element: DesignComponent) {
-  console.log(designComponents)
   currentSelection!.value = designComponents?.value?.find?.((item: DesignComponent) => item.id === element.id)
 }
 
@@ -56,13 +54,12 @@ onMounted(() => {
             @click.stop="updateCurrentSelection(element)"
           >
             <div class="text-sm">
-              {{ `组件：${element.title}` }}
-              {{ element?.formConfig?.prop ? `，字段：${element?.formConfig?.prop}` : '' }}
+              {{ element?.formConfig?.prop ? `字段：${element?.formConfig?.prop}` : '' }}
               {{ element?.fieldAttrs?.comment ? `，注释：${element?.fieldAttrs?.comment}` : '' }}
             </div>
             <div
               v-show="element.id === currentSelection?.id"
-              class="absolute right-0 top-0 flex gap-x-3 bg-[rgb(var(--ui-primary))] p-1"
+              class="absolute right-0 top-0 z-10 flex gap-x-3 bg-[rgb(var(--ui-primary))] p-1"
             >
               <ma-svg-icon
                 name="ri:file-copy-fill"
@@ -75,7 +72,15 @@ onMounted(() => {
                 @click="deleteComponent(element)"
               />
             </div>
-            <component :is="element?.formConfig?.render?.() ?? ElInput" v-model="options!.model[element?.formConfig?.prop]" />
+            <div class="absolute left-0 top-0 z-5 h-full w-full" />
+            <component
+              :is="element?.formConfig?.render?.()"
+              v-if="element?.formConfig?.render"
+              v-model="options!.model[element?.formConfig?.prop]"
+            />
+            <div v-else>
+              -
+            </div>
           </div>
         </template>
       </draggable>

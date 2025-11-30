@@ -31,7 +31,7 @@ function open(type) {
 <template>
   <div class="relative z-5 grid grid-cols-3 mx-auto mt-15 w-[80%] gap-x-3">
     <el-card
-      v-for="(item, i) in cardItems" :key="i" class="h-30 cursor-pointer" shadow="hover"
+      v-for="(item, i) in cardItems" :key="i" class="cursor-pointer" shadow="hover"
       @click="open(item.type)"
     >
       <div class="text-2xl">

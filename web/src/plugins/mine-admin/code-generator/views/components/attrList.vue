@@ -55,8 +55,9 @@ onMounted(() => {
           <el-form-item label="字段名称">
             <ElInput
               v-model="formConfig.prop"
-              @change="() => {
-                currentSelection?.initHandle?.(formConfig?.prop)
+              @change="(value: string) => {
+                currentSelection!.formConfig!.prop = value
+                options.model[formConfig.prop] = fieldAttrs?.defaultValue ?? null
               }"
             />
           </el-form-item>
@@ -83,7 +84,8 @@ onMounted(() => {
               :options="components"
               @change="(v: string) => {
                 const item = components.find((item: any) => item.value === v)?.item
-                options.model[formConfig.prop] = item?.formConfig?.defaultValue ?? ''
+                options.model[formConfig.prop] = item?.fieldAttrs?.defaultValue ?? null
+                currentSelection?.initHandle?.(formConfig?.prop)
                 formConfig!.render = item?.formConfig?.render ?? (() => ElInput)
               }"
             />

@@ -1,16 +1,13 @@
 import type { DesignCategory, DesignComponent } from '$/mine-admin/code-generator/configs/component.ts'
 import { getComponentList } from '../configs/component.tsx'
 
-export default function useComponent(model: Record<string, any> = {}) {
+export default function useComponent() {
   const components = ref<DesignCategory>({})
 
   const initComponent = () => {
-    const componentList = getComponentList(model)
+    const componentList = getComponentList()
     Object.keys(componentList).map((key: string) => {
       components.value[key] = componentList[key]
-      componentList[key]?.list.map((item) => {
-        item?.initHandle && item.initHandle()
-      })
     })
   }
 

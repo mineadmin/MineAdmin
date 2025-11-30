@@ -8,13 +8,15 @@ const componentHook = inject<any>('componentHook')
 
 // 克隆组件
 function cloneComponent(element: DesignComponent) {
-  return {
+  const component: DesignComponent = {
     ...element,
-    formConfig: clone(element?.formConfig ?? {}),
+    formConfig: clone(Object.assign(element?.formConfig ?? {}, { prop: `field_name_${uid(5)}` })),
     columnConfig: clone(element?.columnConfig ?? {}),
-    fieldAttrs: clone(element?.fieldAttrs ?? {}),
+    fieldAttrs: clone(element?.fieldAttrs),
     id: uid(7, 'abcdefg1234567'),
   }
+  options.value.model[component?.formConfig?.prop] = component?.fieldAttrs?.defaultValue ?? null
+  return component
 }
 </script>
 

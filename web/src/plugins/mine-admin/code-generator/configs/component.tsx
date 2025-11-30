@@ -6,7 +6,7 @@ export interface FieldAttrs {
   comment: string // 注释
   len?: number // 字段长度
   decimal?: number // 字段小数长度
-  defaultValue?: string // 字段默认值
+  defaultValue?: any // 字段默认值
   allowNull?: boolean // 是否允许空
   primaryKey?: boolean // 是否为主键
   autoIncrement?: boolean // 是否自增
@@ -23,7 +23,6 @@ export interface DesignComponent {
   fieldAttrs?: FieldAttrs
   formConfig?: MaFormItem
   columnConfig?: MaProTableColumns
-  initHandle?: () => void
 }
 
 export interface DesignCategory {
@@ -33,7 +32,7 @@ export interface DesignCategory {
   }
 }
 
-export function getComponentList(model: Record<string, any>): DesignCategory {
+export function getComponentList(): DesignCategory {
   return {
     base: {
       title: '基础组件',
@@ -50,7 +49,6 @@ export function getComponentList(model: Record<string, any>): DesignCategory {
             autoIncrement: true,
           },
           formConfig: {
-            render: () => <el-input />,
             prop: 'id',
           },
         },
@@ -86,6 +84,140 @@ export function getComponentList(model: Record<string, any>): DesignCategory {
             comment: '数字输入框',
           },
         },
+        {
+          name: 'select',
+          title: '选择器',
+          description: '用于从多个选项中选择一个',
+          formConfig: {
+            render: () => <el-select />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            len: 32,
+            comment: '选择器',
+          },
+        },
+        {
+          name: 'switch',
+          title: '开关',
+          description: '用于切换开关状态',
+          formConfig: {
+            render: () => <el-switch />,
+          },
+          fieldAttrs: {
+            type: 'boolean',
+            comment: '开关',
+          },
+        },
+        {
+          name: 'slider',
+          title: '滑块',
+          description: '用于数值选择',
+          formConfig: {
+            render: () => <el-slider />,
+          },
+          fieldAttrs: {
+            type: 'int',
+            comment: '滑块',
+          },
+        },
+        {
+          name: 'time-picker',
+          title: '时间选择器',
+          description: '用于选择时间',
+          formConfig: {
+            render: () => <el-time-picker />,
+          },
+          fieldAttrs: {
+            type: 'time',
+            comment: '时间选择器',
+          },
+        },
+        {
+          name: 'date-picker',
+          title: '日期选择器',
+          description: '用于选择日期',
+          formConfig: {
+            render: () => <el-date-picker />,
+          },
+          fieldAttrs: {
+            type: 'date',
+            comment: '日期选择器',
+          },
+        },
+        {
+          name: 'datetime-picker',
+          title: '日期时间选择器',
+          description: '用于选择日期和时间',
+          formConfig: {
+            render: () => <el-date-picker type="datetime" />,
+          },
+          fieldAttrs: {
+            type: 'datetime',
+            comment: '日期时间选择器',
+          },
+        },
+        {
+          name: 'rate',
+          title: '评分',
+          description: '用于评分操作',
+          formConfig: {
+            render: () => <el-rate />,
+          },
+          fieldAttrs: {
+            type: 'int',
+            comment: '评分',
+          },
+        },
+        {
+          name: 'color-picker',
+          title: '颜色选择器',
+          description: '用于选择颜色',
+          formConfig: {
+            render: () => <el-color-picker />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            len: 7,
+            comment: '颜色选择器',
+          },
+        },
+        {
+          name: 'transfer',
+          title: '穿梭框',
+          description: '用于数据迁移',
+          formConfig: {
+            render: () => <el-transfer />,
+          },
+          fieldAttrs: {
+            type: 'json',
+            comment: '穿梭框',
+          },
+        },
+        {
+          name: 'cascader',
+          title: '级联选择器',
+          description: '用于多级数据选择',
+          formConfig: {
+            render: () => <el-cascader />,
+          },
+          fieldAttrs: {
+            type: 'json',
+            comment: '级联选择器',
+          },
+        },
+        {
+          name: 'tree-select',
+          title: '树形选择器',
+          description: '用于树形结构数据选择',
+          formConfig: {
+            render: () => <el-tree-select />,
+          },
+          fieldAttrs: {
+            type: 'json',
+            comment: '树形选择器',
+          },
+        },
       ],
     },
     mineadmin: {
@@ -95,9 +227,6 @@ export function getComponentList(model: Record<string, any>): DesignCategory {
           name: 'ma-city-select',
           title: '省市区联动',
           description: '用于省市区选择功能',
-          initHandle: (key = 'city') => {
-            model[key] = {}
-          },
           formConfig: {
             prop: 'city',
             render: () => <ma-city-select />,
@@ -105,6 +234,20 @@ export function getComponentList(model: Record<string, any>): DesignCategory {
           fieldAttrs: {
             type: 'json',
             comment: '省市区',
+            defaultValue: {},
+          },
+        },
+        {
+          name: 'ma-icon-picker',
+          title: '图标选择器',
+          description: '选择系统图标',
+          formConfig: {
+            prop: 'city',
+            render: () => <ma-icon-picker />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '图标',
           },
         },
       ],

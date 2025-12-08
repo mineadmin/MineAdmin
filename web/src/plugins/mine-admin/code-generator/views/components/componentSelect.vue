@@ -15,19 +15,27 @@ function cloneComponent(element: DesignComponent) {
   }
   const component: DesignComponent = {
     ...element,
-    formConfig: clone(Object.assign(element?.formConfig, { prop: element?.formConfig?.prop ?? `field_name_${uid(5)}` })),
+    formConfig: clone(Object.assign(element?.formConfig ?? {}, { prop: element?.formConfig?.prop ?? `field_name_${uid(5)}` })),
     columnConfig: clone(element?.columnConfig ?? {}),
     fieldAttrs: clone(element?.fieldAttrs),
     id: uid(7, 'abcdefg1234567'),
   }
-  options.value.model[component?.formConfig?.prop] = component?.fieldAttrs?.defaultValue ?? null
+
+  if (element?.componentConfig) {
+    component.componentConfig = {
+      model: clone(element?.componentConfig?.model ?? {}),
+      items: clone(element?.componentConfig?.items ?? []),
+      options: clone(element?.componentConfig?.options ?? {}),
+    }
+  }
+  options.value.model[component?.formConfig?.prop as string] = component?.fieldAttrs?.defaultValue ?? null
   return component
 }
 </script>
 
 <template>
   <div class="componentList h-full w-2.5/12 rounded bg-white dark-bg-dark-8">
-    <div class="overflow-hidden p-2">
+    <div class="h-[calc(100%-20px)] overflow-x-hidden p-2">
       <el-collapse v-model="options.componentCollapseModel">
         <template v-for="(category, name) in componentHook.getComponents()" :key="name">
           <el-collapse-item :title="category.title" :name="name">
@@ -37,7 +45,7 @@ function cloneComponent(element: DesignComponent) {
               :sort="false"
               item-key="name"
               :clone="cloneComponent"
-              class="grid grid-cols-2 gap-3"
+              class="grid grid-cols-2 gap-2"
               :animation="150"
               @start="() => options.isDrag = true"
               @end="() => options.isDrag = false"

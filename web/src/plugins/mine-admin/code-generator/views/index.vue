@@ -5,6 +5,7 @@ import PageHeader from './components/pageHeader.vue'
 import Design from './components/design.vue'
 import useComponent from '../hooks/useComponent.ts'
 import type { DesignComponent } from '../configs/component.tsx'
+import ExcludeRenderComponent from '../configs/excludeRenderComponent.ts'
 
 defineOptions({ name: 'CodeGenerator' })
 
@@ -14,7 +15,8 @@ const options = ref<Record<string, any>>({
   isHomePage: true,
   createType: 'create',
   segmentedModel: 'design',
-  componentCollapseModel: ['base', 'element', 'mineadmin'],
+  componentCollapseModel: ['base', 'mineadmin'],
+  excludeRender: ExcludeRenderComponent,
   attrCollapseModel: 'base',
   isDrag: false,
   typeInfo: {},

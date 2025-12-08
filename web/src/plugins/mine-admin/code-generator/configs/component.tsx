@@ -1,4 +1,4 @@
-import type { MaFormItem } from '@mineadmin/form'
+import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
 import type { MaProTableColumns } from '@mineadmin/pro-table'
 
 export interface FieldAttrs {
@@ -25,6 +25,11 @@ export interface DesignComponent {
   fieldAttrs?: FieldAttrs
   formConfig?: MaFormItem
   columnConfig?: MaProTableColumns
+  componentConfig?: {
+    model: Record<string, any>
+    items: MaFormItem[]
+    options?: MaFormOptions
+  }
 }
 
 export interface DesignCategory {
@@ -37,7 +42,7 @@ export interface DesignCategory {
 export function getComponentList(): DesignCategory {
   return {
     base: {
-      title: '基础组件',
+      title: '基础常用组件',
       list: [
         {
           name: 'primary-key',
@@ -52,6 +57,176 @@ export function getComponentList(): DesignCategory {
           },
           formConfig: {
             prop: 'id',
+          },
+        },
+        {
+          name: 'status',
+          title: '状态-开关',
+          description: '用于数据表状态字段',
+          fieldAttrs: {
+            type: 'tinyint',
+            len: 4,
+            comment: '状态:1=正常,2=禁用',
+            defaultType: 'value',
+            defaultValue: 1,
+            isIndex: true,
+          },
+          formConfig: {
+            render: () => <el-switch />,
+            prop: 'status',
+            renderProps: {
+              trueValue: 1,
+              falseValue: 2,
+            },
+          },
+        },
+        {
+          name: 'created-by',
+          title: '创建人',
+          description: '用于数据表创建人字段',
+          fieldAttrs: {
+            type: 'bigint',
+            len: 20,
+            comment: '创建人',
+            isIndex: true,
+          },
+          formConfig: {
+            prop: 'created_by',
+          },
+        },
+        {
+          name: 'updated-by',
+          title: '更新人',
+          description: '用于数据表更新人字段',
+          fieldAttrs: {
+            type: 'bigint',
+            len: 20,
+            comment: '更新人',
+            isIndex: true,
+          },
+          formConfig: {
+            prop: 'updated_by',
+          },
+        },
+        {
+          name: 'created-at',
+          title: '创建时间',
+          description: '用于数据表创建时间字段',
+          fieldAttrs: {
+            type: 'datetime',
+            comment: '创建时间',
+          },
+          formConfig: {
+            prop: 'created_at',
+          },
+        },
+        {
+          name: 'updated-at',
+          title: '更新时间',
+          description: '用于数据表更新时间字段',
+          fieldAttrs: {
+            type: 'datetime',
+            comment: '更新时间',
+          },
+          formConfig: {
+            prop: 'updated-at',
+          },
+        },
+        {
+          name: 'remark',
+          title: '备注',
+          description: '用于数据表的备注字段',
+          fieldAttrs: {
+            type: 'string',
+            len: 255,
+            comment: '备注',
+            allowNull: true,
+          },
+          formConfig: {
+            prop: 'remark',
+            render: () => <el-input type="textarea" />,
+          },
+        },
+      ],
+    },
+    mineadmin: {
+      title: 'MineAdmin 封装组件',
+      list: [
+        {
+          name: 'ma-city-select',
+          title: '省市区联动',
+          description: '用于省市区选择功能',
+          formConfig: {
+            prop: 'city',
+            render: () => <ma-city-select />,
+          },
+          fieldAttrs: {
+            type: 'json',
+            comment: '省市区',
+            defaultValue: {},
+          },
+        },
+        {
+          name: 'ma-icon-picker',
+          title: '图标选择器',
+          description: '选择系统图标',
+          formConfig: {
+            prop: 'icon',
+            render: () => <ma-icon-picker />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '图标',
+          },
+        },
+        {
+          name: 'ma-upload-image',
+          title: '图片上传',
+          description: '图片上传',
+          formConfig: {
+            prop: 'image',
+            render: () => <ma-upload-image />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '图片上传',
+          },
+          componentConfig: {
+            model: {
+              limit: 5,
+              fileSize: 10,
+            },
+            items: [
+              { prop: 'multiple', label: '多上传', render: 'switch' },
+              { prop: 'limit', label: '多上传限制', render: () => <el-input-number />, show: (item, model) => model?.multiple },
+              { prop: 'fileSize', label: '文件大小', render: () => <el-input />, renderSlots: { suffix: () => 'MB' } },
+            ],
+          },
+        },
+        {
+          name: 'ma-file-file',
+          title: '文件上传',
+          description: '文件上传',
+          formConfig: {
+            prop: 'file',
+            render: () => <ma-upload-file />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '文件上传',
+          },
+          componentConfig: {
+            model: {
+              limit: 1,
+              fileSize: 10,
+              fileType: 'doc,xls,ppt,txt,pdf',
+            },
+            items: [
+              { prop: 'multiple', label: '多上传', render: 'switch' },
+              { prop: 'limit', label: '多上传限制', render: () => <el-input-number />, show: (item, model) => model?.multiple },
+              { prop: 'fileSize', label: '文件大小', render: () => <el-input />, renderSlots: { suffix: () => 'MB' } },
+              { prop: 'fileType', label: '文件类型', render: () => <el-input /> },
+            ],
           },
         },
       ],
@@ -218,38 +393,6 @@ export function getComponentList(): DesignCategory {
           fieldAttrs: {
             type: 'json',
             comment: '树形选择器',
-          },
-        },
-      ],
-    },
-    mineadmin: {
-      title: 'MineAdmin 封装组件',
-      list: [
-        {
-          name: 'ma-city-select',
-          title: '省市区联动',
-          description: '用于省市区选择功能',
-          formConfig: {
-            prop: 'city',
-            render: () => <ma-city-select />,
-          },
-          fieldAttrs: {
-            type: 'json',
-            comment: '省市区',
-            defaultValue: {},
-          },
-        },
-        {
-          name: 'ma-icon-picker',
-          title: '图标选择器',
-          description: '选择系统图标',
-          formConfig: {
-            prop: 'icon',
-            render: () => <ma-icon-picker />,
-          },
-          fieldAttrs: {
-            type: 'string',
-            comment: '图标',
           },
         },
       ],

@@ -38,7 +38,7 @@ const {
   limit = 5,
   multiple = false,
 } = defineProps<{
-  modelValue: string | string[] | null
+  modelValue?: string | string[] | null
   title?: string
   size?: number
   fileSize?: number

@@ -5,6 +5,7 @@ import { ElInput } from 'element-plus'
 const options = inject<any>('options')
 const currentSelection = inject<any>('currentSelection')
 const componentHook = inject<any>('componentHook')
+const isRefreshForm = ref(false)
 
 const formConfig = computed(() => {
   return currentSelection?.value?.formConfig ?? {}
@@ -15,10 +16,14 @@ const fieldAttrs = computed(() => {
 
 const fieldType = ref([
   { label: 'bigInt', value: 'bigint' },
+  { label: 'int', value: 'int' },
+  { label: 'smallint', value: 'smallint' },
+  { label: 'tinyint', value: 'tinyint' },
   { label: 'decimal', value: 'decimal' },
   { label: 'string', value: 'string' },
   { label: 'date', value: 'date' },
   { label: 'datetime', value: 'datetime' },
+  { label: 'timestamp', value: 'timestamp' },
   { label: 'text', value: 'text' },
   { label: 'longText', value: 'longtext' },
   { label: 'json', value: 'json' },
@@ -34,9 +39,18 @@ componentHook.value.getAllComponents()?.map((item: DesignComponent) => {
   })
 })
 
+async function refreshForm() {
+  isRefreshForm.value = false
+  await nextTick(() => isRefreshForm.value = true)
+}
+
 onMounted(() => {
   document.querySelector('.attrList')!.style!.height = `${(document.querySelector('.designArea') as HTMLElement).clientHeight - 14}px`
 })
+
+watch(() => currentSelection.value?.componentConfig ?? {}, async () => {
+  await refreshForm()
+}, { immediate: true })
 </script>
 
 <template>
@@ -122,11 +136,12 @@ onMounted(() => {
             <el-select-v2
               v-model="currentSelection.name"
               :options="components"
-              @change="(v: string) => {
+              @change="async (v: string) => {
                 const item = components.find((item: any) => item.value === v)?.item
                 options.model[formConfig.prop] = item?.fieldAttrs?.defaultValue ?? null
                 currentSelection?.initHandle?.(formConfig?.prop)
-                formConfig!.render = item.name === 'primary-key' ? null : item?.formConfig?.render ?? (() => ElInput)
+                formConfig!.render = options.excludeRender.includes(item.name) ? null : item?.formConfig?.render ?? (() => ElInput)
+                await refreshForm()
               }"
             />
           </el-form-item>
@@ -144,6 +159,16 @@ onMounted(() => {
           </el-form-item>
         </el-card>
       </ma-form>
+      <el-card v-if="currentSelection?.componentConfig && isRefreshForm" class="mt-2">
+        <template #header>
+          <span>组件配置</span>
+        </template>
+        <ma-form
+          v-model="currentSelection.componentConfig.model"
+          :options="currentSelection.componentConfig?.options ?? {}"
+          :items="currentSelection.componentConfig.items"
+        />
+      </el-card>
     </div>
   </div>
 </template>

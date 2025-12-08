@@ -21,7 +21,9 @@ use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
 use Plugin\MineAdmin\AppStore\Service\Service;
-
+use Hyperf\Swagger\Annotation as OA;
+#[OA\Tag('')]
+#[OA\HyperfServer('http')]
 #[Controller(prefix: 'admin/plugin/store')]
 #[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
 class IndexController extends AbstractController

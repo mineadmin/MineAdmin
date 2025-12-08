@@ -6,12 +6,14 @@ export interface FieldAttrs {
   comment: string // 注释
   len?: number // 字段长度
   decimal?: number // 字段小数长度
+  defaultType?: 'none' | 'nullable' | 'empty' | 'value' // 字段默认值类型
   defaultValue?: any // 字段默认值
   allowNull?: boolean // 是否允许空
   primaryKey?: boolean // 是否为主键
   autoIncrement?: boolean // 是否自增
   isIndex?: boolean // 是否加索引
   isUnique?: boolean // 是否唯一
+  unsigned?: boolean // 无符号
   [key: string]: any // 其他配置
 }
 
@@ -242,7 +244,7 @@ export function getComponentList(): DesignCategory {
           title: '图标选择器',
           description: '选择系统图标',
           formConfig: {
-            prop: 'city',
+            prop: 'icon',
             render: () => <ma-icon-picker />,
           },
           fieldAttrs: {

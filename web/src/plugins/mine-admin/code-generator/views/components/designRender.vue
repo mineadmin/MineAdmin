@@ -2,14 +2,11 @@
 import draggable from 'vuedraggable'
 import type { Ref } from 'vue'
 import type { DesignComponent } from '$/mine-admin/code-generator/configs/component.tsx'
+import { clone, uid } from 'radash'
 
 const designComponents = inject<Ref<DesignComponent[]>>('designComponents')
 const currentSelection = inject<Ref<DesignComponent>>('currentSelection')
 const options = inject<Record<string, any>>('options')
-
-// 添加到设计区域
-function onAdd(event: any) {
-}
 
 function updateCurrentSelection(element: DesignComponent) {
   currentSelection!.value = designComponents?.value?.find?.((item: DesignComponent) => item.id === element.id)
@@ -20,7 +17,15 @@ function deleteComponent(element: DesignComponent) {
 }
 
 function copyComponent(element: DesignComponent) {
+  const component: DesignComponent = {
+    ...element,
+    formConfig: clone(Object.assign(clone(element?.formConfig ?? {}), { prop: `field_name_${uid(5)}` })),
+    columnConfig: clone(element?.columnConfig ?? {}),
+    fieldAttrs: clone(element?.fieldAttrs),
+    id: uid(7, 'abcdefg1234567'),
+  }
 
+  designComponents?.value?.push(component)
 }
 
 onMounted(() => {
@@ -46,7 +51,6 @@ onMounted(() => {
         item-key="id"
         @start="() => options!.isDrag = false"
         @end="() => options!.isDrag = true"
-        @add="onAdd"
       >
         <template #item="{ element }">
           <div

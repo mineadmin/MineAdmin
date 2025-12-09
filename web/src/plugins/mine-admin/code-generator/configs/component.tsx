@@ -1,6 +1,16 @@
 import type { MaFormItem, MaFormOptions } from '@mineadmin/form'
 import type { MaProTableColumns } from '@mineadmin/pro-table'
 
+const dictAll = useDictStore().all()
+const dictCategoryList: any[] = []
+
+dictAll.forEach((item: any, key: string) => {
+  dictCategoryList.push({
+    label: key,
+    value: key,
+  })
+})
+
 export interface FieldAttrs {
   type: string // 字段类型
   comment: string // 注释
@@ -226,6 +236,62 @@ export function getComponentList(): DesignCategory {
               { prop: 'limit', label: '多上传限制', render: () => <el-input-number />, show: (item, model) => model?.multiple },
               { prop: 'fileSize', label: '文件大小', render: () => <el-input />, renderSlots: { suffix: () => 'MB' } },
               { prop: 'fileType', label: '文件类型', render: () => <el-input /> },
+            ],
+          },
+        },
+        {
+          name: 'ma-dict-select',
+          title: '字典下拉选择',
+          description: '字典下拉选择',
+          formConfig: {
+            prop: 'dict_select',
+            render: () => <ma-dict-select />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '字典下拉选择',
+          },
+          componentConfig: {
+            model: {
+              dictName: '',
+            },
+            items: [
+              {
+                prop: 'dictName',
+                label: '选择字典',
+                render: () => <el-selectV2 />,
+                renderProps: {
+                  options: dictCategoryList,
+                },
+              },
+            ],
+          },
+        },
+        {
+          name: 'ma-dict-radio',
+          title: '字典单选选择',
+          description: '字典单选选择',
+          formConfig: {
+            prop: 'dict_radio',
+            render: () => <ma-dict-radio />,
+          },
+          fieldAttrs: {
+            type: 'string',
+            comment: '字典单选选择',
+          },
+          componentConfig: {
+            model: {
+              dictName: '',
+            },
+            items: [
+              {
+                prop: 'dictName',
+                label: '选择字典',
+                render: () => <el-selectV2 />,
+                renderProps: {
+                  options: dictCategoryList,
+                },
+              },
             ],
           },
         },

@@ -2,6 +2,7 @@
 import ComponentSelect from './componentSelect.vue'
 import DesignRender from './designRender.vue'
 import AttrList from './attrList.vue'
+import TableSetting from './tableSetting.vue'
 
 const options = inject<Record<string, any>>('options')
 </script>
@@ -13,10 +14,10 @@ const options = inject<Record<string, any>>('options')
       <DesignRender />
       <AttrList />
     </div>
-    <div v-show="options.segmentedModel === 'list'" class="design">
-      <ma-table />
+    <div v-if="options.segmentedModel === 'list'" class="design">
+      <TableSetting />
     </div>
-    <div v-show="options.segmentedModel === 'setting'" class="design">
+    <div v-if="options.segmentedModel === 'setting'" class="design">
       <ma-form v-model="options.settingModel">
         <el-form-item label="数据表名称">
           <el-input v-model="options.settingModel.tableName" />

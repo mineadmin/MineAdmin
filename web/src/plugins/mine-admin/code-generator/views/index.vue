@@ -22,6 +22,21 @@ const options = ref<Record<string, any>>({
   typeInfo: {},
   model: {},
   settingModel: {},
+  proTableOptions: {
+    tableOptions: {
+      adaption: false,
+    },
+    header: {
+      show: true,
+      mainTitle: '表格主标题',
+      subTitle: '',
+    },
+    toolbar: true,
+    requestOptions: {
+      api: () => {},
+      autoRequest: false,
+    },
+  },
 })
 
 const componentHook = ref(useComponent())

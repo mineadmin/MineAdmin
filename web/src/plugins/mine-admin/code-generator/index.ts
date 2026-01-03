@@ -17,7 +17,7 @@ const pluginConfig: Plugin.PluginConfig = {
     $toolbars.add({
       name: 'code-generator',
       title: '代码生成器',
-      show: true,
+      show: false,
       icon: 'heroicons:code-bracket-20-solid',
       handle: async () => {
         await useTabStore().go({ path: '/code-generator' })
@@ -52,7 +52,7 @@ const pluginConfig: Plugin.PluginConfig = {
         icon: 'heroicons:code-bracket-20-solid',
         type: 'M',
         breadcrumbEnable: true,
-        copyright: true,
+        copyright: false,
         cache: true,
       },
       component: () => import('./views/index.vue'),

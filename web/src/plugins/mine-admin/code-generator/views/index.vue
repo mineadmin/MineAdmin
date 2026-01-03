@@ -49,7 +49,7 @@ provide('currentSelection', currentSelection)
 onMounted(() => {
   const dom = document.querySelector('#code-generator-area') as HTMLElement
   if (dom) {
-    dom.style.height = `${getOnlyWorkAreaHeight()}px`
+    dom.style.height = `${getOnlyWorkAreaHeight() + 35}px`
   }
 })
 </script>
@@ -73,9 +73,12 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+.mine-worker-area {
+  @apply overflow-hidden;
+}
 .componentStyle {
   @apply b-1 b-[var(--el-color-primary-light-7)] rounded b-solid bg-[var(--el-color-primary-light-9)] px-2 py-1 text-dark-1
-  dark-b-[var(--el-color-primary-dark-6)] dark-bg-[var(--el-color-primary-dark-8)] dark-text-gray-3
+  dark-b-[var(--el-color-primary-dark-6)] dark-bg-[var(--el-color-primary-dark-8)] dark-text-gray-3 overflow-hidden
   ;
 }
 </style>

@@ -233,8 +233,8 @@ onMounted(() => {
 }
 .col-style {
   @apply b-1 b-[var(--el-color-primary-light-7)] rounded b-solid bg-[var(--el-color-primary-light-9)] px-2 py-1 text-dark-1
-  dark-b-[var(--el-color-primary-dark-6)] dark-bg-[var(--el-color-primary-dark-8)] dark-text-gray-3 cursor-pointer
-  ;
+  dark-b-[var(--el-color-primary-dark-6)] dark-bg-[var(--el-color-primary-dark-8)] dark-text-gray-3
+  cursor-pointer truncate;
 }
 .selection {
   @apply border-2 !border-[rgb(var(--ui-primary))] shadow-lg;

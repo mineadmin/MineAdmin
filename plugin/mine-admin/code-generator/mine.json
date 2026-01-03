@@ -1,0 +1,20 @@
+{
+    "name": "mine-admin/code-generator",
+    "version": "1.0.0",
+    "type": "mixed",
+    "description": "MineAdmin Code Generator",
+    "homepage": "https://www.mineadmin.com",
+    "author": [
+        {
+            "name": "X.Mo"
+        }
+    ],
+    "composer": {
+        "psr-4": {
+            "Plugin\\MineAdmin\\CodeGenerator\\": "src"
+        },
+        "installScript": "Plugin\\MineAdmin\\CodeGenerator\\InstallScript",
+        "uninstallScript": "Plugin\\MineAdmin\\CodeGenerator\\UninstallScript",
+        "config": "Plugin\\MineAdmin\\CodeGenerator\\ConfigProvider"
+    }
+}

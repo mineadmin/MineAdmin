@@ -102,11 +102,11 @@
     @apply flex items-center gap-x-1 p-1.5;
 
     .username {
-      @apply text-sm cursor-pointer items-center gap-x-1 relative
+      @apply text-sm cursor-pointer items-center relative
       ;
 
       .icon {
-        @apply relative duration-300 rotate-0;
+        @apply relative top-[2px] duration-300 rotate-0;
       }
     }
   }
@@ -116,7 +116,7 @@
 
     .username {
       .icon {
-        @apply rotate-180;
+        @apply rotate-180 top-[-1px];
       }
     }
   }

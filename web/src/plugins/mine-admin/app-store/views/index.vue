@@ -132,10 +132,14 @@ provide('requestAppList', requestAppList)
       <AppStoreLocalList v-if="!storeMeta.allStore" />
       <el-empty v-if="dataList.list.length === 0 && !storeMeta.loading" class="mt-40" :description="t('notFoundApp')" />
     </template>
-    <el-result v-if="!storeMeta.isDev && !storeMeta.loading" class="h-680px" icon="warning" :title="t('noDevMainTitle')"
-      :sub-title="t('noDevSubTitle')" />
-    <el-result v-if="storeMeta.isDev && !storeMeta.tokenCheckCompleted && !storeMeta.loading" class="h-680px"
-      :title="t('checkingTokenMainTitle')" :sub-title="t('checkingTokenSubTitle')">
+    <el-result
+      v-if="!storeMeta.isDev && !storeMeta.loading" class="h-680px" icon="warning" :title="t('noDevMainTitle')"
+      :sub-title="t('noDevSubTitle')"
+    />
+    <el-result
+      v-if="storeMeta.isDev && !storeMeta.tokenCheckCompleted && !storeMeta.loading" class="h-680px"
+      :title="t('checkingTokenMainTitle')" :sub-title="t('checkingTokenSubTitle')"
+    >
       <template #icon>
         <el-icon :size="75">
           <ma-svg-icon name="svg-spinners:180-ring" />
@@ -144,7 +148,8 @@ provide('requestAppList', requestAppList)
     </el-result>
     <el-result
       v-if="storeMeta.isDev && storeMeta.tokenCheckCompleted && !storeMeta.isHasAccessToken && !storeMeta.loading"
-      class="h-680px" icon="error" :title="t('noTokenMainTitle')" :sub-title="t('noTokenSubTitle')">
+      class="h-680px" icon="error" :title="t('noTokenMainTitle')" :sub-title="t('noTokenSubTitle')"
+    >
       <template #extra>
         <el-button type="primary" @click="tabStore.refreshTab()">
           {{ t('refreshAppStore') }}
@@ -156,7 +161,7 @@ provide('requestAppList', requestAppList)
 
 <style scoped lang="scss">
 .mine-appstore-filter {
-  @apply sticky top-[56px] z-999 bg-white p-3 dark-bg-dark-8 shadow-md dark-shadow-dark-4 transition-all duration-300;
+  @apply z-999 bg-white p-3 dark-bg-dark-8 shadow-md dark-shadow-dark-4 transition-all duration-300;
 }
 
 .mine-appstore-list {

@@ -124,10 +124,6 @@ const tabsOptions = ref([
 const filterClass = computed(() => {
   return {
     'mine-appstore-filter': true,
-    '!md:top-[41px]': !getMobileState() && isMixedLayout() && !getUserBarState() && getSettings('tabbar').enable,
-    '!md:top-[0px]': !getMobileState() && !getUserBarState() && !getSettings('tabbar').enable,
-    '!md:top-[56px]': !getMobileState() && !isMixedLayout() && !getSettings('tabbar').enable,
-    '!md:top-[97px]': !getMobileState() && ((isMixedLayout() && getUserBarState() && getSettings('tabbar').enable) || (!isMixedLayout() && getSettings('tabbar').enable)),
   }
 })
 

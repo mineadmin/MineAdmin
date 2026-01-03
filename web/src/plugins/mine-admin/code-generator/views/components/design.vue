@@ -5,19 +5,23 @@ import AttrList from './attrList.vue'
 import TableSetting from './tableSetting.vue'
 
 const options = inject<Record<string, any>>('options')
+
+useHttp().get('/admin/plugin/code-generator/tableList').then((res) => {
+  console.log(res)
+})
 </script>
 
 <template>
-  <div v-if="options?.createType === 'create'" class="mt-[20px] h-full w-full">
-    <div v-show="options.segmentedModel === 'design'" class="design">
+  <div class="mt-[20px] h-full w-full">
+    <div v-show="options?.segmentedModel === 'design'" class="design">
       <ComponentSelect />
       <DesignRender />
       <AttrList />
     </div>
-    <div v-if="options.segmentedModel === 'list'" class="design">
+    <div v-if="options?.segmentedModel === 'list'" class="design">
       <TableSetting />
     </div>
-    <div v-if="options.segmentedModel === 'setting'" class="design">
+    <div v-if="options?.segmentedModel === 'setting'" class="design">
       <ma-form v-model="options.settingModel">
         <el-form-item label="数据表名称">
           <el-input v-model="options.settingModel.tableName" />

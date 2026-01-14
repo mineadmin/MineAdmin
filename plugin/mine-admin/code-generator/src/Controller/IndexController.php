@@ -41,7 +41,7 @@ class IndexController extends AbstractController
     public function tableList(): Result
     {
         return $this->success(
-            $this->service->getTableListByCurrentDb()
+            $this->service->getTableListByCurrentDb($this->request->all())
         );
     }
 }

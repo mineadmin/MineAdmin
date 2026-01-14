@@ -11,7 +11,7 @@ import MaDrawer from '@/components/ma-drawer/index.vue'
 import type { Component } from 'vue'
 
 export interface UseDrawerExpose {
-  on: {
+  handleEvent: {
     ok?: (...args: any[]) => void
     cancel?: (...args: any[]) => void
   }
@@ -85,7 +85,7 @@ export default function useDrawer(drawerProps: Record<string, any> | null = null
   }
 
   return {
-    on: on.value,
+    handleEvent: on.value,
     Drawer,
     open,
     close,

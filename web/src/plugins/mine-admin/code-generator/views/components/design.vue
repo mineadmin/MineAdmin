@@ -5,10 +5,6 @@ import AttrList from './attrList.vue'
 import TableSetting from './tableSetting.vue'
 
 const options = inject<Record<string, any>>('options')
-
-useHttp().get('/admin/plugin/code-generator/tableList').then((res) => {
-  console.log(res)
-})
 </script>
 
 <template>

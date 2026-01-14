@@ -1,5 +1,8 @@
-<script setup>
+<script setup lang="tsx">
+import useDialog from '@/hooks/useDialog.js'
+
 const options = inject('options')
+const dbRef = useTemplateRef('dbRef')
 const cardItems = reactive([
   {
     title: '从零生成',
@@ -21,10 +24,42 @@ const cardItems = reactive([
   },
 ])
 
-function open(type) {
-  options.value.createType = type
-  options.value.isHomePage = false
-  options.value.typeInfo = cardItems.find(item => item.type === type)
+const { open, close, handleEvent, setTitle, setAttr, Dialog } = useDialog()
+
+async function handleClick(type) {
+  function execute() {
+    options.value.createType = type
+    options.value.isHomePage = false
+    options.value.typeInfo = cardItems.find(item => item.type === type)
+  }
+
+  if (type === 'create') {
+    execute()
+  }
+  else {
+    open({ type })
+    if (type === 'db') {
+      setTitle('从数据表生成')
+      setAttr({
+        content: '请选择数据表',
+        width: '50%',
+      })
+      handleEvent.ok = () => {
+        execute()
+      }
+      useHttp().get('/admin/plugin/code-generator/tableList').then(async (res) => {
+        await nextTick(() => {
+          dbRef.value.setColumns([
+            { label: 'asdasd', prop: 'name' },
+          ])
+          dbRef.value.setData(res.data)
+        })
+      })
+    }
+    else {
+      setTitle('从数据表生成')
+    }
+  }
 }
 </script>
 
@@ -32,7 +67,7 @@ function open(type) {
   <div class="relative z-5 grid grid-cols-3 mx-auto mt-15 w-[80%] gap-x-3">
     <el-card
       v-for="(item, i) in cardItems" :key="i" class="cursor-pointer" shadow="hover"
-      @click="open(item.type)"
+      @click="async () => handleClick(item.type)"
     >
       <div class="text-2xl">
         <ma-svg-icon :name="item.icon" class="relative top-1" /> {{ item.title }}
@@ -41,5 +76,11 @@ function open(type) {
         {{ item.desc }}
       </div>
     </el-card>
+
+    <Component :is="Dialog">
+      <template #default="{ type }">
+        <ma-table v-show="type === 'db'" ref="dbRef" />
+      </template>
+    </Component>
   </div>
 </template>

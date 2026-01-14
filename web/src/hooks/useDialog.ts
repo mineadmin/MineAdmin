@@ -11,7 +11,7 @@ import MaDialog from '@/components/ma-dialog/index.vue'
 import type { Component } from 'vue'
 
 export interface UseDialogExpose {
-  on: {
+  handleEvent: {
     ok?: (...args: any[]) => void
     cancel?: (...args: any[]) => void
   }
@@ -85,7 +85,7 @@ export default function useDialog(dialogProps: Record<string, any> | null = null
   }
 
   return {
-    on: on.value,
+    handleEvent: on.value,
     Dialog,
     open,
     close,

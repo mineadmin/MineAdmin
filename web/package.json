@@ -24,7 +24,7 @@
     "@mineadmin/form": "^1.0.57",
     "@mineadmin/pro-table": "^1.0.83",
     "@mineadmin/search": "^1.0.59",
-    "@mineadmin/table": "^1.0.39",
+    "@mineadmin/table": "^1.0.51",
     "@vueuse/core": "^12.8.2",
     "@vueuse/integrations": "^12.8.2",
     "animate.css": "^4.1.1",

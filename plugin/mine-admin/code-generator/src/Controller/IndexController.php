@@ -16,6 +16,7 @@ use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use Hyperf\HttpServer\Annotation\Middleware;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Hyperf\Swagger\Annotation\Post;
@@ -29,6 +30,7 @@ class IndexController extends AbstractController
 {
     public function __construct(
         private readonly IndexService $service,
+        protected RequestInterface $request
     ) {}
 
     #[Get(

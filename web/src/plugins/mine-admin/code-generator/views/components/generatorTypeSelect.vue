@@ -1,8 +1,10 @@
 <script setup lang="tsx">
 import useDialog from '@/hooks/useDialog.js'
+import { getTableList } from '$/mine-admin/code-generator/api'
+import type { MaProTableExpose } from '@mineadmin/pro-table'
 
 const options = inject('options')
-const dbRef = useTemplateRef('dbRef')
+const dbRef = ref<MaProTableExpose>('dbRef')
 const cardItems = reactive([
   {
     title: '从零生成',
@@ -47,13 +49,18 @@ async function handleClick(type) {
       handleEvent.ok = () => {
         execute()
       }
-      useHttp().get('/admin/plugin/code-generator/tableList').then(async (res) => {
-        await nextTick(() => {
-          dbRef.value.setColumns([
-            { label: 'asdasd', prop: 'name' },
-          ])
-          dbRef.value.setData(res.data)
+      await nextTick(() => {
+        console.log(dbRef.value)
+        // dbRef.value?.setColumns?.([
+        //   { label: 'asdasd', prop: 'name' },
+        // ])
+        dbRef.value?.setProTableOptions?.({
+          requestOptions: {
+            api: getTableList,
+          },
         })
+
+        dbRef.value.requestData()
       })
     }
     else {
@@ -79,7 +86,7 @@ async function handleClick(type) {
 
     <Component :is="Dialog">
       <template #default="{ type }">
-        <ma-table v-show="type === 'db'" ref="dbRef" />
+        <ma-pro-table v-show="type === 'db'" ref="dbRef" />
       </template>
     </Component>
   </div>

@@ -17,7 +17,4 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 
 abstract class AbstractController extends BaseController
 {
-    public function __construct(
-        protected RequestInterface $request
-    ) {}
 }

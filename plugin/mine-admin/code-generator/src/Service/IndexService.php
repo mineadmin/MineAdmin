@@ -14,6 +14,7 @@ namespace Plugin\MineAdmin\CodeGenerator\Service;
 
 use App\Service\IService;
 use Hyperf\Database\Schema\Schema;
+use Hyperf\Stringable\Str;
 
 final class IndexService extends IService
 {
@@ -52,6 +53,11 @@ final class IndexService extends IService
      */
     protected function handleArraySearch(\Hyperf\Collection\Collection $collect, array $params): \Hyperf\Collection\Collection
     {
+        if ($params['name'] ?? false) {
+            $collect = $collect->filter(function ($row) use ($params) {
+                return Str::contains($row['name'], $params['name']);
+            });
+        }
         return $collect;
     }
 

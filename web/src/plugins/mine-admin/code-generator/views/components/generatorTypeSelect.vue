@@ -1,10 +1,10 @@
 <script setup lang="tsx">
 import useDialog from '@/hooks/useDialog.js'
-import { getTableList } from '$/mine-admin/code-generator/api'
 import type { MaProTableExpose } from '@mineadmin/pro-table'
+import { getTableList } from '$/mine-admin/code-generator/api'
 
-const options = inject('options')
-const dbRef = ref<MaProTableExpose>('dbRef')
+const options = inject<any>('options')
+const dbRef = ref<MaProTableExpose>()
 const cardItems = reactive([
   {
     title: '从零生成',
@@ -28,7 +28,7 @@ const cardItems = reactive([
 
 const { open, close, handleEvent, setTitle, setAttr, Dialog } = useDialog()
 
-async function handleClick(type) {
+async function handleClick(type: string) {
   function execute() {
     options.value.createType = type
     options.value.isHomePage = false
@@ -49,19 +49,6 @@ async function handleClick(type) {
       handleEvent.ok = () => {
         execute()
       }
-      await nextTick(() => {
-        console.log(dbRef.value)
-        // dbRef.value?.setColumns?.([
-        //   { label: 'asdasd', prop: 'name' },
-        // ])
-        dbRef.value?.setProTableOptions?.({
-          requestOptions: {
-            api: getTableList,
-          },
-        })
-
-        dbRef.value.requestData()
-      })
     }
     else {
       setTitle('从数据表生成')
@@ -86,7 +73,33 @@ async function handleClick(type) {
 
     <Component :is="Dialog">
       <template #default="{ type }">
-        <ma-pro-table v-show="type === 'db'" ref="dbRef" />
+        <ma-pro-table
+          v-show="type === 'db'"
+          ref="dbRef"
+          :schema="{
+            tableColumns: [
+              { label: '数据表', prop: 'name' },
+              { label: '表描述', prop: 'comment' },
+              { label: '表引擎', prop: 'engine' },
+              { label: '字符集', prop: 'collation' },
+            ],
+            searchItems: [
+              { label: '数据表', prop: 'name', render: 'input', renderProps: { placeholder: '按名称搜索数据表' } },
+            ],
+          }"
+          :options="{
+            header: {
+              show: false,
+            },
+            toolbar: false,
+            tableOptions: {
+              adaption: false,
+            },
+            requestOptions: {
+              api: getTableList,
+            },
+          }"
+        />
       </template>
     </Component>
   </div>

@@ -1,10 +1,12 @@
 <script setup lang="tsx">
 import useDialog from '@/hooks/useDialog.js'
-import type { MaProTableExpose } from '@mineadmin/pro-table'
-import { getTableList } from '$/mine-admin/code-generator/api'
+import TableList from './dialogs/tableList.vue'
 
 const options = inject<any>('options')
-const dbRef = ref<MaProTableExpose>()
+const selection = reactive({
+  db: {},
+  history: {},
+})
 const cardItems = reactive([
   {
     title: '从零生成',
@@ -47,6 +49,8 @@ async function handleClick(type: string) {
         width: '50%',
       })
       handleEvent.ok = () => {
+        console.log(selection.db)
+        close()
         execute()
       }
     }
@@ -73,33 +77,7 @@ async function handleClick(type: string) {
 
     <Component :is="Dialog">
       <template #default="{ type }">
-        <ma-pro-table
-          v-show="type === 'db'"
-          ref="dbRef"
-          :schema="{
-            tableColumns: [
-              { label: '数据表', prop: 'name' },
-              { label: '表描述', prop: 'comment' },
-              { label: '表引擎', prop: 'engine' },
-              { label: '字符集', prop: 'collation' },
-            ],
-            searchItems: [
-              { label: '数据表', prop: 'name', render: 'input', renderProps: { placeholder: '按名称搜索数据表' } },
-            ],
-          }"
-          :options="{
-            header: {
-              show: false,
-            },
-            toolbar: false,
-            tableOptions: {
-              adaption: false,
-            },
-            requestOptions: {
-              api: getTableList,
-            },
-          }"
-        />
+        <TableList v-show="type === 'db'" @selection="(row) => selection.db = row" />
       </template>
     </Component>
   </div>

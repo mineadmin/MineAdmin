@@ -53,6 +53,9 @@ final class IndexService extends IService
      */
     protected function handleArraySearch(\Hyperf\Collection\Collection $collect, array $params): \Hyperf\Collection\Collection
     {
+        $collect = $collect->filter(function ($row) {
+            return !empty($row['comment']);
+        });
         if ($params['name'] ?? false) {
             $collect = $collect->filter(function ($row) use ($params) {
                 return Str::contains($row['name'], $params['name']);
@@ -75,6 +78,10 @@ final class IndexService extends IService
      */
     protected function getArrayData(array $params = []): array
     {
-        return Schema::getTables();
+        $array = Schema::getTables();
+        foreach ($array as &$item) {
+            $item['checked'] = false;
+        }
+        return $array;
     }
 }

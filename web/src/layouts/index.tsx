@@ -41,7 +41,6 @@ export default defineComponent({
     const appSetting = getSettings('app') as SystemSettings.app
     const menuStore = useMenuStore()
     const route = useRoute()
-
     watch(() => appSetting.enableWatermark, (v: boolean | undefined) => {
       v && openGlobalWatermark()
       v || clearGlobalWatermark()
@@ -64,48 +63,65 @@ export default defineComponent({
     })
 
     return () => (
-      <div class="app-container">
-        <MineHeader />
-        <div class={{
-          'mine-wrapper': true,
-          'mine-wrapper-full': !showMineHeader() || getMobileState(),
-          'mine-wrapper-not-full': showMineHeader() && !getMobileState(),
-        }}
-        >
-          <Transition name="mine-aside-animate">
-            <div class={{ 'group mine-aside': true, 'w-0': getMobileState() }} v-show={!isBannerLayout()}>
-              {(!isClassicLayout() && !isMixedLayout()) && <MineMainAside />}
-              <MineSubAside ref={subAsideEl} />
-            </div>
-          </Transition>
-          <div class="mine-main">
-            <MineBars />
-            <div class="mine-worker-area">
-              <RouterView class="router-view">
-                {({ Component }) => (
-                  <Transition name={appSetting.pageAnimate} mode="out-in">
-                    <KeepAlive include={keepAliveStore.list}>
-                      {(keepAliveStore.getShowState() && route.meta.type !== 'I') && <Component key={route.fullPath} />}
-                    </KeepAlive>
-                  </Transition>
-                )}
+      <>
+        { route.meta?.useDefaultLayout !== false && (
+          <div class="app-container">
+            <MineHeader />
+            <div class={{
+              'mine-wrapper': true,
+              'mine-wrapper-full': !showMineHeader() || getMobileState(),
+              'mine-wrapper-not-full': showMineHeader() && !getMobileState(),
+            }}
+            >
+              <Transition name="mine-aside-animate">
+                <div class={{ 'group mine-aside': true, 'w-0': getMobileState() }} v-show={!isBannerLayout()}>
+                  {(!isClassicLayout() && !isMixedLayout()) && <MineMainAside />}
+                  <MineSubAside ref={subAsideEl} />
+                </div>
+              </Transition>
+              <div class="mine-main">
+                <MineBars />
+                <div class="mine-worker-area">
+                  <RouterView class="router-view">
+                    {({ Component }) => (
+                      <Transition name={appSetting.pageAnimate} mode="out-in">
+                        <KeepAlive include={keepAliveStore.list}>
+                          {(keepAliveStore.getShowState() && route.meta.type !== 'I') && <Component key={route.fullPath} />}
+                        </KeepAlive>
+                      </Transition>
+                    )}
+                  </RouterView>
+                </div>
+                <div class="mine-iframe-area" v-show={route.meta?.type === 'I'}>
+                  <MineIframe />
+                </div>
+                <MineFooter />
+                <MineBackTop />
+              </div>
 
-              </RouterView>
             </div>
+            <div class="mine-max-size-exit" onClick={() => useTabStore().exitMaxSizeTab()}>
+              <ma-svg-icon name="i-material-symbols:close" size={50} />
+            </div>
+
+            <MineSearchPanel v-show={getSearchPanelEnable()} />
+          </div>
+        )}
+        { route.meta?.useDefaultLayout === false && (
+          <div class="no-default-layout-container">
+            <RouterView class="router-view" v-else>
+              {({ Component }) => (
+                <Transition name={appSetting.pageAnimate} mode="out-in">
+                  <Component key={route.fullPath} />
+                </Transition>
+              )}
+            </RouterView>
             <div class="mine-iframe-area" v-show={route.meta?.type === 'I'}>
               <MineIframe />
             </div>
-            <MineFooter />
-            <MineBackTop />
           </div>
-
-        </div>
-        <div class="mine-max-size-exit" onClick={() => useTabStore().exitMaxSizeTab()}>
-          <ma-svg-icon name="i-material-symbols:close" size={50} />
-        </div>
-
-        <MineSearchPanel v-show={getSearchPanelEnable()} />
-      </div>
+        )}
+      </>
     )
   },
 })

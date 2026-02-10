@@ -373,6 +373,7 @@ declare namespace MineRoute {
     title?: string | (() => string)
     i18n?: string | (() => string)
     badge?: () => string | number
+    useDefaultLayout?: boolean
     icon?: string
     affix?: boolean
     hidden?: boolean

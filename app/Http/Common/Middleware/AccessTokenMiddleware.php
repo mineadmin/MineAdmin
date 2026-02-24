@@ -12,11 +12,49 @@ declare(strict_types=1);
 
 namespace App\Http\Common\Middleware;
 
+use App\Http\Common\Result;
+use App\Http\Common\ResultCode;
+use Hyperf\Codec\Json;
+use Hyperf\HttpMessage\Stream\SwooleStream;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Mine\Jwt\JwtInterface;
 use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Swow\Psr7\Message\ServerRequestPlusInterface;
 
 final class AccessTokenMiddleware extends AbstractTokenMiddleware
 {
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        try {
+            $token = $this->parserToken($request);
+        } catch (RequiredConstraintsViolated $e) {
+            $isExpired = str_contains($e->getMessage(), 'The token is expired');
+            $result = new Result(
+                code: ResultCode::UNAUTHORIZED,
+                message: $isExpired ? trans('jwt.expired') : trans('jwt.unauthorized'),
+            );
+            /** @var \Swow\Psr7\Message\ResponsePlusInterface $response */
+            $response = \Hyperf\Context\Context::get(ResponseInterface::class);
+            return $response
+                ->setHeader('Content-Type', 'application/json; charset=utf-8')
+                ->setBody(new SwooleStream(Json::encode($result->toArray())));
+        }
+
+        $this->checkToken->checkJwt($token);
+        return $handler->handle(
+            value(
+                static function (ServerRequestPlusInterface $request, \Lcobucci\JWT\UnencryptedToken $token) {
+                    return $request->setAttribute('token', $token);
+                },
+                $request,
+                $token
+            )
+        );
+    }
+
     public function getJwt(): JwtInterface
     {
         return $this->jwtFactory->get();

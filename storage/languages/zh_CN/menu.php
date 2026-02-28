@@ -26,6 +26,8 @@ return [
         'icon' => '图标',
         'affix' => '是否固定',
         'hidden' => '是否隐藏',
+        'copyright' => '是否显示版权信息',
+        'useDefaultLayout' => '是否使用默认布局',
         'type' => '类型',
         'cache' => '是否缓存',
         'link' => '链接',

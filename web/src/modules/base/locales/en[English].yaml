@@ -41,6 +41,11 @@ baseMenuManage:
   redirect: Route Redirect
   i18n: Internationalization
   sort: Sort Order
+  useDefaultLayout:
+    help: Custom layout available when not using the page
+    label: Use default layout
+    true: Yes
+    false: No
   isEnabled: Enabled
   isHidden: Hidden
   isCache: Cached

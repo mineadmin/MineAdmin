@@ -41,6 +41,11 @@ baseMenuManage:
   redirect: 路由重定向
   i18n: 國際化
   sort: 排序
+  useDefaultLayout:
+    help: 不使用頁面則可自定義佈局
+    label: 使用默認佈局
+    true: 是
+    false: 否
   isEnabled: 是否啟用
   isHidden: 是否隱藏
   isCache: 是否緩存

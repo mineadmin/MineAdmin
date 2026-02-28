@@ -37,6 +37,7 @@ const newMenu = ref<MenuVo>({
     componentPath: 'modules/',
     breadcrumbEnable: true,
     copyright: true,
+    useDefaultLayout: true,
     hidden: false,
     affix: false,
     cache: true,
@@ -137,6 +138,9 @@ function createOrSaveMenu() {
         ref="menuTreeRef"
         :data="menuList"
         @menu-select="(menu: MenuVo) => {
+          if (menu?.meta?.type === 'M' && menu?.meta?.useDefaultLayout === undefined) {
+            menu.meta.useDefaultLayout = true
+          }
           currentMenu = menu
           menuFormRef?.setData?.(menu)
         }"

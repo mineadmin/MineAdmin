@@ -17,10 +17,15 @@ export default defineComponent({
     const settingStore = useSettingStore()
     const locales = userStore.getLocales()
     const { locale, t } = useI18n()
-    function changeLanguage(item: { label: string, value: string }) {
+    async function changeLanguage(item: { label: string, value: string }) {
       userStore.setLanguage(item.value)
+      const appSettings = settingStore.getSettings('app')
+      if (appSettings) {
+        appSettings.useLocale = item.value
+      }
       locale.value = item.value
       settingStore.setTitle(route.meta?.i18n ? t(route.meta?.i18n as string) : route.meta?.title as string)
+      await userStore.saveSettingToSever()
     }
     return () => (
 

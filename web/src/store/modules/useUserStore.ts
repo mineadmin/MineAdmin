@@ -211,16 +211,23 @@ const useUserStore = defineStore(
 
       await nextTick()
       useThemeColor().initThemeColor()
-      const locale = settings?.app?.useLocale ?? (language.value?.trim() || 'zh_CN')
+      const cacheLanguage = cache.get('language', '')?.trim?.() || ''
+      const settingsLanguage = settings?.app?.useLocale?.trim?.() || ''
+      const locale = cacheLanguage || settingsLanguage || 'zh_CN'
+      const appSettings = setting.getSettings('app')
+      if (appSettings) {
+        appSettings.useLocale = locale
+      }
       setLanguage(locale)
     }
 
     function saveSettingToSever() {
       const backend_setting = setting.getSettings()
-      useHttp().post('/admin/permission/update', { backend_setting }).then(() => {
+      return useHttp().post('/admin/permission/update', { backend_setting }).then(() => {
         cache.set('sys_settings', backend_setting)
       }).catch((error) => {
         console.log(error)
+        return Promise.reject(error)
       })
     }
 

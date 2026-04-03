@@ -8,10 +8,37 @@
  * @Link   https://github.com/mineadmin
  */
 import type { PageList, ResponseStruct } from '#/global'
+import type { LeaderVo } from '~/base/api/leader.ts'
+import type { PositionVo } from '~/base/api/position.ts'
+
+export interface DepartmentUserPivotVo {
+  dept_id?: number
+  user_id?: number
+}
+
+export interface DepartmentUserVo {
+  id?: number
+  username?: string
+  nickname?: string
+  avatar?: string
+  phone?: string
+  email?: string
+  pivot?: DepartmentUserPivotVo
+  [key: string]: any
+}
 
 export interface DepartmentVo {
   id?: number
   name?: string
+  parent_id?: number | null
+  created_at?: string | null
+  updated_at?: string | null
+  deleted_at?: string | null
+  children?: DepartmentVo[]
+  leader?: LeaderVo[]
+  positions?: PositionVo[]
+  department_users?: DepartmentUserVo[]
+  [key: string]: any
 }
 
 export interface DepartmentSearchVo {

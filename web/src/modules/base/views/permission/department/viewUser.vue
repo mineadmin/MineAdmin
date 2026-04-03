@@ -9,28 +9,24 @@
 -->
 
 <script setup lang="tsx">
-import type { DepartmentVo } from '~/base/api/department.ts'
-import type { MaTableColumns, MaTableOptions } from '@mineadmin/table'
+import type { DepartmentUserVo, DepartmentVo } from '~/base/api/department.ts'
+import type { MaTableColumns, MaTableExpose } from '@mineadmin/table'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
+import useTable from '@/hooks/useTable.ts'
 
 const { data = null } = defineProps<{
   data?: DepartmentVo | null
 }>()
 
-const dictStore = useDictStore()
 const i18n = useTrans() as TransType
 const t = i18n.globalTrans
+const tableRef = ref<MaTableExpose>()
 
-// 参数配置
-const options = ref<MaTableOptions>({
-  data: data?.department_users ?? [],
-  adaption: false,
-  height: 400,
-  rowKey: 'id',
+const tableData = computed<DepartmentUserVo[]>(() => {
+  return Array.isArray(data?.department_users) ? data.department_users : []
 })
 
-// 架构配置
-const tableColumns = ref<MaTableColumns[]>([
+const tableColumns: MaTableColumns[] = [
   {
     label: () => t('baseUserManage.username'),
     prop: 'username',
@@ -48,18 +44,43 @@ const tableColumns = ref<MaTableColumns[]>([
     label: () => t('baseUserManage.email'),
     prop: 'email',
   },
-])
+]
+
+function setTableData(rows: DepartmentUserVo[]) {
+  tableRef.value?.setData(rows)
+}
+
+watch(tableData, (rows) => {
+  setTableData(rows)
+}, { immediate: true })
+
+useTable('tableRef')
+  .then((table: MaTableExpose) => {
+    tableRef.value = table
+    table.setOptions({
+      adaption: false,
+      height: 400,
+      rowKey: 'id',
+    })
+    table.setColumns(tableColumns)
+    setTableData(tableData.value)
+  })
+  .catch((err) => {
+    console.error('init user table failed:', err)
+  })
 </script>
 
 <template>
-  <ma-table :options="options" :columns="tableColumns" />
+  <ma-table ref="tableRef" />
 </template>
 
 <style scoped lang="scss">
 :deep(.mineadmin-pro-table-search) {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   @apply pt-3;
 }
+
 :deep(.mine-card) {
   margin: 0;
 }

@@ -16,7 +16,6 @@ import useTabStore from '@/store/modules/useTabStore.ts'
 import toolbars from '@/utils/toolbars.ts'
 import messages from '@intlify/unplugin-vue-i18n/messages'
 import ElementPlus from 'element-plus'
-import VConsole from 'vconsole'
 import { createI18n } from 'vue-i18n'
 import router from './router'
 import pinia from './store'
@@ -85,10 +84,6 @@ async function otherWorker(app: App) {
   }
   useTabStore().initTab()
   app.config.globalProperties.$toolbars = toolbars()
-
-  if (import.meta.env?.VITE_OPEN_vCONSOLE === 'true') {
-    app.config.globalProperties.$vconsole = new VConsole()
-  }
 
   const dictStore = useDictStore()
 

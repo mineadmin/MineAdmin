@@ -44,8 +44,10 @@ export default async ({ mode, command }) => {
       outDir: isProduction ? 'dist' : `dist-${mode}`,
       sourcemap: env.VITE_BUILD_SOURCEMAP === 'true',
       minify: 'esbuild',
-      rollupOptions: {
+      cssMinify: 'esbuild',
+      rolldownOptions: {
         output: {
+          codeSplitting: true,
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',

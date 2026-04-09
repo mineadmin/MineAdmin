@@ -94,7 +94,6 @@
     "unocss": "^66.6.8",
     "unplugin-auto-import": "^19.3.0",
     "unplugin-vue-components": "^28.8.0",
-    "vconsole": "^3.15.1",
     "vite": "^8.0.7",
     "vite-plugin-chunk-split": "^0.5.0",
     "vite-plugin-compression2": "^2.5.3",

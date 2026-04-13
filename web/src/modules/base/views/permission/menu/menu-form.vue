@@ -53,9 +53,7 @@ function setData(data: Record<string, any>) {
     }
   })
 
-  if (data.id) {
-    form.value.dataType = 'edit'
-  }
+  form.value.dataType = data.id ? 'edit' : 'add';
 }
 
 const inputVisible = ref <Record<string, boolean>>({

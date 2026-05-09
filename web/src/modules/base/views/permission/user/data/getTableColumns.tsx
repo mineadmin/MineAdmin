@@ -17,6 +17,7 @@ import { useMessage } from '@/hooks/useMessage.ts'
 import { deleteByIds, resetPassword } from '~/base/api/user.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 import hasAuth from '@/utils/permission/hasAuth.ts'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 
 export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t: any): MaProTableColumns[] {
   const dictStore = useDictStore()
@@ -38,7 +39,7 @@ export default function getTableColumns(dialog: UseDialogExpose, formRef: any, t
     { label: () => t('baseUserManage.avatar'), prop: 'avatar', width: '120px',
       cellRender: ({ row }) => (
         <div class="flex-center">
-          <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : row.avatar} alt={row.username} />
+          <el-avatar src={(row.avatar === '' || !row.avatar) ? defaultAvatar : getImageUrl(row.avatar)} alt={row.username} />
         </div>
       ),
     },

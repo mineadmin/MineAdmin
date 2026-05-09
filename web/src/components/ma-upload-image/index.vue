@@ -26,6 +26,7 @@ import { isArray, uid } from 'radash'
 import { useDebounceFn } from '@vueuse/core'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { uploadLocal } from '@/utils/uploadLocal.ts'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 
 defineOptions({ name: 'MaUploadImage' })
 
@@ -141,7 +142,7 @@ watch(
 const setPreviewData = useDebounceFn(() => {
   previewList.value = []
   fileList.value?.map((item: any) => {
-    previewList.value.push(item.url)
+    previewList.value.push(getImageUrl(item.url))
   })
 })
 
@@ -214,7 +215,7 @@ watch(
         </div>
         <el-image
           ref="ElImageRefs"
-          :src="file?.url"
+          :src="getImageUrl(file?.url)"
           class="absolute rounded-md"
           :style="getSize"
           fit="cover"

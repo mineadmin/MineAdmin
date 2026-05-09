@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n'
 import Message from 'vue-m-message'
 import MineShortcutsDesc from './dropdownMenuComponents/shortcuts-desc.tsx'
 import MineSystemInfo from './dropdownMenuComponents/system-info.tsx'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 
 export default defineComponent({
   name: 'UserBar',
@@ -60,7 +61,7 @@ export default defineComponent({
           v-slots={{
             default: () => (
               <div class="mine-userinfo">
-                {userInfo.avatar && <img src={userInfo.avatar} alt={userInfo.username} class="mine-img-avatar" />}
+                {userInfo.avatar && <img src={getImageUrl(userInfo.avatar)} alt={userInfo.username} class="mine-img-avatar" />}
                 {!userInfo.avatar && <div class="mine-text-avatar">{userInfo.username[0].toUpperCase()}</div>}
                 <a class="username hidden lg:flex">
                   {userInfo.username}

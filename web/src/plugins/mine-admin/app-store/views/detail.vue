@@ -16,6 +16,7 @@ import { isUndefined } from 'lodash-es'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { MdPreview } from 'md-editor-v3'
 import { ElMessageBox } from 'element-plus'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 import '../style/preview.css'
 
 const settingStore = useSettingStore()
@@ -150,7 +151,7 @@ defineExpose({ open })
           >
             <el-carousel-item v-for="(image, idx) in data?.app?.homepage" :key="idx">
               <el-image
-                :src="image"
+                :src="getImageUrl(image)"
                 fit="contain"
                 class="h-full w-full"
               />
@@ -316,7 +317,7 @@ defineExpose({ open })
           <div class="flex">
             <el-avatar
               class="h-12 w-12 rounded-full"
-              :src="(data?.created_by as any)?.avatar === '' ? undefined : (data?.created_by as any)?.avatar"
+              :src="(data?.created_by as any)?.avatar === '' ? undefined : getImageUrl((data?.created_by as any)?.avatar)"
             >
               {{ (data?.created_by as any)?.username?.substring(0, 1).toUpperCase() }}
             </el-avatar>

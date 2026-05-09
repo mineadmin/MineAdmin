@@ -28,6 +28,7 @@ import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import discount from '../utils/discount.ts'
 import { isUndefined } from 'lodash-es'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 
 const storeMeta = inject('storeMeta') as Record<string, any>
 const dataList = inject('dataList') as Record<string, any>
@@ -79,10 +80,10 @@ onMounted(() => {
       </div>
       <a class="h-44 w-full" href="javascript:" @click="openDetail(item.identifier)">
         <div class="relative h-48">
-          <div class="absolute h-38 w-full overflow-hidden text-center blur-30"><img :src="item.homepage[0]" alt="image"></div>
+          <div class="absolute h-38 w-full overflow-hidden text-center blur-30"><img :src="getImageUrl(item.homepage[0])" alt="image"></div>
           <el-image
             class="appstore-item-image"
-            :src="item.homepage[0]"
+            :src="getImageUrl(item.homepage[0])"
             fit="contain"
           >
             <div class="absolute bottom-2 right-2 space-x-2">

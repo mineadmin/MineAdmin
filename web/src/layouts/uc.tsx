@@ -9,6 +9,7 @@
  */
 import Logo from '@/layouts/components/logo'
 import ucChildren from '@/router/static-routes/ucChildren'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 import './style/uc.scss'
 
 export default defineComponent({
@@ -34,7 +35,7 @@ export default defineComponent({
     const userinfoRender = () => (
       <div class="mine-uc-userinfo">
         <div class="flex items-center gap-x-3">
-          {userInfo.avatar && <img src={userInfo.avatar} alt={userInfo.username} class="mine-uc-img-avatar" />}
+          {userInfo.avatar && <img src={getImageUrl(userInfo.avatar)} alt={userInfo.username} class="mine-uc-img-avatar" />}
           {!userInfo.avatar && <div class="mine-uc-text-avatar">{userInfo.username[0].toUpperCase()}</div>}
           <a class="mine-uc-username">
             <span class="mine-uc-u">{userInfo.username}</span>

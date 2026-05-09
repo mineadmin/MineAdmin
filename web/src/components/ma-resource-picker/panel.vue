@@ -77,6 +77,7 @@ import { useMessage } from '@/hooks/useMessage.ts'
 import type { TransType } from '@/hooks/auto-imports/useTrans.ts'
 import type { Resources } from '#/global'
 import useParentNode from '@/hooks/useParentNode.ts'
+import { getImageUrl } from '@/utils/imageUrl.ts'
 
 defineOptions({ name: 'MaResourcePanel' })
 
@@ -186,7 +187,7 @@ function onfileTypesChange(value: any) {
  */
 function getCover(resource: Resource): string | undefined {
   if (resource?.mime_type?.startsWith('image')) {
-    return resource.url
+    return getImageUrl(resource.url)
   }
   return undefined
 }
@@ -349,7 +350,7 @@ function executeContextmenu(e: MouseEvent, resource: Resource) {
         icon: 'i-ri:search-eye-line',
         disabled: !canPreview(resource),
         onClick: () => {
-          useImageViewer([resource?.url ?? ''])
+          useImageViewer([getImageUrl(resource?.url) ?? ''])
         },
       },
       {

@@ -55,7 +55,7 @@ class CacheMonitorController extends MineController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    #[PostMapping('view'), , Permission('system:cache:view'), OperationLog]
+    #[PostMapping('view'), Permission('system:cache:view'), OperationLog]
     public function view(): ResponseInterface
     {
         return $this->success(['content' => $this->service->view($this->request->input('key'))]);

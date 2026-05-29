@@ -1,99 +1,59 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Http\Admin\Controller;
 
-use App\Http\Admin\Middleware\PermissionMiddleware;
 use App\Http\Admin\Request\UploadRequest;
-use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Http\Common\Middleware\OperationMiddleware;
+use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Result;
-use App\Http\CurrentUser;
-use App\Schema\AttachmentSchema;
+use App\Models\User;
 use App\Service\AttachmentService;
-use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\Swagger\Annotation\Delete;
-use Hyperf\Swagger\Annotation\Get;
-use Hyperf\Swagger\Annotation\HyperfServer;
-use Hyperf\Swagger\Annotation\Post;
-use Mine\Access\Attribute\Permission;
-use Mine\Swagger\Attributes\PageResponse;
-use Mine\Swagger\Attributes\ResultResponse;
-use Symfony\Component\Finder\SplFileInfo;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\HeaderParameter;
+use Dedoc\Scramble\Attributes\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-#[HyperfServer(name: 'http')]
-#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
-#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
-final class AttachmentController extends AbstractController
+#[Group('附件管理', '附件列表、上传和删除')]
+class AttachmentController extends AbstractController
 {
     public function __construct(
-        protected readonly AttachmentService $service,
-        protected readonly CurrentUser $currentUser
+        private readonly AttachmentService $attachmentService,
     ) {}
 
-    #[Get(
-        path: '/admin/attachment/list',
-        operationId: 'AttachmentList',
-        summary: '附件列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['数据中心'],
-    )]
-    #[Permission(code: 'dataCenter:attachment:list')]
-    #[PageResponse(instance: AttachmentSchema::class)]
-    public function list(): Result
+    #[Endpoint('attachmentList', '附件列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    #[Response(type: 'array{code: int, message: string, data: array{list: array<int, \App\Models\Attachment>, total: int}}')]
+    public function list(Request $request): JsonResponse
     {
-        $params = $this->getRequest()->all();
-        $params['current_user_id'] = $this->currentUser->id();
-        if (isset($params['suffix'])) {
-            $params['suffix'] = explode(',', $params['suffix']);
-        }
-        return $this->success(
-            $this->service->page($params, $this->getCurrentPage(), $this->getPageSize())
-        );
+        return Result::success($this->attachmentService->page(
+            array_merge($request->all(), ['current_user_id' => $this->user($request)->id]),
+            (int) $request->input('page', 1),
+            (int) $request->input('page_size', 10),
+        ));
     }
 
-    #[Post(
-        path: '/admin/attachment/upload',
-        operationId: 'UploadAttachment',
-        summary: '上传附件',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['数据中心'],
-    )]
-    #[Permission(code: 'dataCenter:attachment:upload')]
-    #[ResultResponse(instance: new Result())]
-    public function upload(UploadRequest $request): Result
+    #[Endpoint('attachmentUpload', '附件上传')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function upload(UploadRequest $request): JsonResponse
     {
-        $uploadFile = $request->file('file');
-        $newTmpPath = sys_get_temp_dir() . '/' . uniqid() . '.' . $uploadFile->getExtension();
-        $uploadFile->moveTo($newTmpPath);
-        $splFileInfo = new SplFileInfo($newTmpPath, '', '');
-        return $this->success(
-            $this->service->upload($splFileInfo, $uploadFile, $this->currentUser->id())
-        );
+        return Result::success($this->attachmentService->upload($request->file('file'), $this->user($request)->id));
     }
 
-    #[Delete(
-        path: '/admin/attachment/{id}',
-        operationId: 'DeleteAttachment',
-    )]
-    #[Permission(code: 'dataCenter:attachment:delete')]
-    #[ResultResponse(instance: new Result())]
-    public function delete(int $id): Result
+    #[Endpoint('attachmentDelete', '附件删除')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function delete(int $id): JsonResponse
     {
-        if (! $this->service->getRepository()->existsById($id)) {
-            return $this->error(trans('attachment.attachment_not_exist'));
-        }
-        $this->service->deleteById($id);
-        return $this->success();
+        $this->attachmentService->deleteById($id);
+
+        return Result::success();
+    }
+
+    private function user(Request $request): User
+    {
+        /** @var User $user */
+        $user = $request->user('api');
+
+        return $user;
     }
 }

@@ -1,73 +1,96 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Service\Permission;
 
 use App\Exception\BusinessException;
 use App\Http\Common\ResultCode;
-use App\Model\Permission\Department;
-use App\Repository\Permission\DepartmentRepository;
-use App\Service\IService;
-use Hyperf\DbConnection\Db;
+use App\Models\Permission\Department;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
-/**
- * @extends IService<Department>
- */
-class DepartmentService extends IService
+class DepartmentService
 {
-    public function __construct(
-        protected readonly DepartmentRepository $repository
-    ) {}
-
-    public function create(array $data): mixed
+    /**
+     * @param  array<string, mixed>  $params
+     * @return Collection<int, Department>
+     */
+    public function getList(array $params): Collection
     {
-        return Db::transaction(function () use ($data) {
-            $entity = $this->repository->create($data);
-            $this->handleEntity($entity, $data);
-            return $entity;
+        return Department::query()
+            ->when(Arr::get($params, 'name'), function ($query, string $name): void {
+                $query->where('name', 'like', '%'.$name.'%');
+            })
+            ->where('parent_id', 0)
+            ->with(['children', 'positions', 'departmentUsers', 'leader'])
+            ->orderBy('id')
+            ->get();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public function create(array $data): Department
+    {
+        return DB::transaction(function () use ($data): Department {
+            $department = Department::query()->create($this->departmentData($data));
+            $this->syncRelations($department, $data);
+
+            return $department;
         });
     }
 
-    public function updateById(mixed $id, array $data): mixed
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public function updateById(int $id, array $data): void
     {
-        return Db::transaction(function () use ($id, $data) {
-            $entity = $this->repository->findById($id);
-            if (empty($entity)) {
-                throw new BusinessException(ResultCode::NOT_FOUND);
-            }
-            if (!$this->repository->updateById($id, $data)) {
-                throw new BusinessException(ResultCode::FAIL);
-            }
-            $entity->refresh();
-            $this->handleEntity($entity, $data);
+        DB::transaction(function () use ($id, $data): void {
+            $department = $this->findById($id);
+            $department->fill($this->departmentData($data))->save();
+            $this->syncRelations($department, $data);
         });
     }
 
-    public function getPositionsByDepartmentId(int $id): array
+    /**
+     * @param  array<int, int>|int  $ids
+     */
+    public function deleteById(array|int $ids): void
     {
-        $entity = $this->repository->findById($id);
-        if (empty($entity)) {
-            throw new BusinessException(ResultCode::NOT_FOUND);
-        }
-        return $entity->positions()->get(['id', 'name'])->toArray();
+        Department::destroy($ids);
     }
 
-    protected function handleEntity(Department $entity, array $data): void
+    private function findById(int $id): Department
     {
-        if (isset($data['department_users'])) {
-            $entity->department_users()->sync($data['department_users']);
+        $department = Department::query()->find($id);
+
+        if ($department === null) {
+            throw new BusinessException(ResultCode::NotFound, 'Not Found');
         }
-        if (isset($data['leader'])) {
-            $entity->leader()->sync($data['leader']);
+
+        return $department;
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function departmentData(array $data): array
+    {
+        return Arr::except($data, ['department_users', 'leader']);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function syncRelations(Department $department, array $data): void
+    {
+        if (array_key_exists('department_users', $data)) {
+            $department->departmentUsers()->sync(Arr::get($data, 'department_users', []));
+        }
+
+        if (array_key_exists('leader', $data)) {
+            $department->leader()->sync(Arr::get($data, 'leader', []));
         }
     }
 }

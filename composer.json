@@ -1,135 +1,98 @@
 {
-  "name": "mineadmin/mineadmin",
-  "type": "project",
-  "keywords": [
-    "mineadmin",
-    "swoole",
-    "hyperf",
-    "crud",
-    "fast",
-    "developer",
-    "admin",
-    "app store"
-  ],
-  "homepage": "https://www.mineadmin.com/",
-  "description": "Quickly build a background management system for web applications",
-  "license": "Apache-2.0",
-  "require": {
-    "php": ">=8.1",
-    "ext-fileinfo": "*",
-    "ext-json": "*",
-    "ext-openssl": "*",
-    "ext-pdo": "*",
-    "ext-pdo_mysql": "*",
-    "ext-redis": "*",
-    "ext-swoole": ">=5.0",
-    "friendsofhyperf/tinker": "^3.1",
-    "hyperf/async-queue": "3.1.*",
-    "hyperf/cache": "3.1.*",
-    "hyperf/carbon": "^3.1",
-    "hyperf/command": "3.1.*",
-    "hyperf/config": "3.1.*",
-    "hyperf/constants": "3.1.*",
-    "hyperf/context": "3.1.*",
-    "hyperf/contract": "3.1.*",
-    "hyperf/coroutine": "3.1.*",
-    "hyperf/crontab": "~3.1",
-    "hyperf/database": "3.1.*",
-    "hyperf/database-pgsql": "*",
-    "hyperf/db-connection": "3.1.*",
-    "hyperf/di": "3.1.*",
-    "hyperf/dispatcher": "3.1.*",
-    "hyperf/engine": "^2.0",
-    "hyperf/event": "3.1.*",
-    "hyperf/exception-handler": "3.1.*",
-    "hyperf/framework": "3.1.*",
-    "hyperf/guzzle": "^3.1",
-    "hyperf/helper": "~3.1",
-    "hyperf/http-server": "3.1.*",
-    "hyperf/logger": "3.1.*",
-    "hyperf/model-cache": "3.1.*",
-    "hyperf/paginator": "~3.1",
-    "hyperf/polyfill-coroutine": "3.1.*",
-    "hyperf/pool": "3.1.*",
-    "hyperf/process": "3.1.*",
-    "hyperf/redis": "3.1.*",
-    "hyperf/server": "3.1.*",
-    "hyperf/utils": "3.1.*",
-    "hyperf/validation": "~3.1",
-    "mineadmin/access": "~3.0",
-    "mineadmin/app-store": "~3.0",
-    "mineadmin/auth-jwt": "~3.0",
-    "mineadmin/core": "~3.0",
-    "mineadmin/jwt": "~3.0",
-    "mineadmin/support": "~3.0",
-    "mineadmin/swagger": "~3.0",
-    "mineadmin/upload": "~3.0"
-  },
-  "require-dev": {
-    "doctrine/dbal": "^3.6",
-    "fakerphp/faker": "^1.23",
-    "friendsofphp/php-cs-fixer": "^3.0",
-    "hyperf/devtool": "3.1.*",
-    "hyperf/ide-helper": "3.1.*",
-    "hyperf/testing": "3.1.*",
-    "hyperf/watcher": "3.1.*",
-    "mockery/mockery": "^1.0",
-    "phpstan/phpstan": "^2.1",
-    "swoole/ide-helper": "^6.0",
-    "zircote/swagger-php": "4.10.6"
-  },
-  "suggest": {
-    "ext-openssl": "Required to use HTTPS.",
-    "ext-json": "Required to use JSON.",
-    "ext-pdo": "Required to use MySQL Client.",
-    "ext-pdo_mysql": "Required to use MySQL Client.",
-    "ext-redis": "Required to use Redis Client."
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "HyperfTests\\": "./tests/"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "config": {
-    "optimize-autoloader": true,
-    "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "3.0-dev"
-    }
-  },
-  "scripts": {
-    "post-root-package-install": [
-      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "mineadmin/mineadmin",
+    "type": "project",
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": [
+        "laravel",
+        "framework",
+        "admin"
     ],
-    "post-autoload-dump": [
-      "rm -rf runtime/container"
-    ],
-    "test": [
-      "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always",
-      "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations"
-    ],
-    "coverage": [
-      "co-phpunit --prepend tests/bootstrap.php --group=migrations --colors=always --coverage-xml tests/coverage",
-      "co-phpunit --prepend tests/bootstrap.php --exclude-group=migrations --colors=always --coverage-xml tests/coverage"
-    ],
-    "cs-fix": "php-cs-fixer fix $1",
-    "analyse": "phpstan analyse --memory-limit 500M -l 5 -c phpstan.neon.dist ./app ./config",
-    "start": [
-      "Composer\\Config::disableProcessTimeout",
-      "php bin/hyperf.php start"
-    ],
-    "dev": [
-      "Composer\\Config::disableProcessTimeout",
-      "php bin/hyperf.php server:watch"
-    ]
-  }
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "dedoc/scramble": "^0.13.23",
+        "laravel/framework": "^13.8",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^3.0",
+        "php-open-source-saver/jwt-auth": "^2.9"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.7",
+        "fakerphp/faker": "^1.23",
+        "laravel-lang/lang": "^15.30",
+        "laravel/boost": "^2.2",
+        "laravel/pail": "^1.2.5",
+        "laravel/pao": "^1.0.6",
+        "laravel/pint": "^1.27",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^4.7",
+        "pestphp/pest-plugin-laravel": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install --ignore-scripts",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi @no_additional_args",
+            "@php artisan test"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan boost:update --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

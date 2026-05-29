@@ -1,38 +1,59 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Service\Permission;
 
-use App\Model\Permission\Leader;
-use App\Repository\Permission\LeaderRepository;
-use App\Service\IService;
-use Mockery\Exception;
+use App\Models\Permission\Leader;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
-/**
- * @extends IService<Leader>
- */
-class LeaderService extends IService
+class LeaderService
 {
-    public function __construct(
-        protected readonly LeaderRepository $repository
-    ) {}
-
-    public function deleteByDoubleKey(array $data): bool
+    /**
+     * @param  array<string, mixed>  $params
+     * @return Collection<int, Leader>
+     */
+    public function getList(array $params): Collection
     {
-        try {
-            $this->repository->deleteByDoubleKey($data['dept_id'], $data['user_ids']);
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        return Leader::query()
+            ->when(Arr::get($params, 'dept_id'), function ($query, mixed $deptId): void {
+                $query->where('dept_id', $deptId);
+            })
+            ->when(Arr::get($params, 'user_id'), function ($query, mixed $userId): void {
+                $query->where('user_id', $userId);
+            })
+            ->with(['department', 'user'])
+            ->orderBy('dept_id')
+            ->orderBy('user_id')
+            ->get();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public function create(array $data): void
+    {
+        DB::transaction(function () use ($data): void {
+            foreach (Arr::get($data, 'user_id', []) as $userId) {
+                DB::table('dept_leader')->updateOrInsert([
+                    'dept_id' => $data['dept_id'],
+                    'user_id' => $userId,
+                ], [
+                    'updated_at' => now(),
+                    'deleted_at' => null,
+                ]);
+            }
+        });
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public function deleteByDoubleKey(array $data): void
+    {
+        Leader::query()
+            ->where('dept_id', Arr::get($data, 'dept_id'))
+            ->whereIn('user_id', Arr::wrap(Arr::get($data, 'user_ids', [])))
+            ->delete();
     }
 }

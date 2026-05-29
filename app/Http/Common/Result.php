@@ -1,48 +1,37 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Http\Common;
 
-use Hyperf\Contract\Arrayable;
-use Hyperf\Swagger\Annotation as OA;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @template T
- */
-#[OA\Schema(title: 'Api Response', description: 'Api Response')]
-class Result implements Arrayable
+class Result
 {
-    /**
-     * @param T $data
-     */
-    public function __construct(
-        #[OA\Property(ref: 'ResultCode', title: '响应码')]
-        public ResultCode $code = ResultCode::SUCCESS,
-        #[OA\Property(title: '响应消息', type: 'string')]
-        public ?string $message = null,
-        #[OA\Property(title: '响应数据', type: 'array')]
-        public mixed $data = []
-    ) {
-        if ($this->message === null) {
-            $this->message = ResultCode::getMessage($this->code->value);
-        }
+    public static function fail(mixed $data = [], string $message = 'success'): JsonResponse
+    {
+        return self::json(ResultCode::Failure, $data, $message);
     }
 
-    public function toArray(): array
+    public static function success(mixed $data = [], string $message = 'success'): JsonResponse
     {
-        return [
-            'code' => $this->code->value,
-            'message' => $this->message,
-            'data' => $this->data,
-        ];
+        return self::json(ResultCode::Success, $data, $message);
+    }
+
+    public static function json(ResultCode $code, mixed $data = [], string $message = 'success'): JsonResponse
+    {
+        return response()->json([
+            /**
+             * 系统响应码
+             */
+            'code' => $code,
+            /**
+             * 系统消息
+             */
+            'message' => $message,
+            /**
+             * 响应数据
+             */
+            'data' => $data instanceof JsonResource ? $data->resolve(request()) : $data,
+        ]);
     }
 }

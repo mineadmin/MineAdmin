@@ -1,137 +1,68 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Http\Admin\Controller\Permission;
 
-use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\BatchGrantDataPermissionForPositionRequest;
-use App\Http\Admin\Request\Permission\PositionRequest;
-use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Http\Common\Middleware\OperationMiddleware;
+use App\Http\Admin\Request\BatchGrantDataPermissionForPositionRequest;
+use App\Http\Admin\Request\PositionRequest;
+use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Result;
-use App\Http\CurrentUser;
-use App\Schema\PositionSchema;
 use App\Service\Permission\PositionService;
-use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\Swagger\Annotation\Delete;
-use Hyperf\Swagger\Annotation\Get;
-use Hyperf\Swagger\Annotation\HyperfServer;
-use Hyperf\Swagger\Annotation\JsonContent;
-use Hyperf\Swagger\Annotation\Post;
-use Hyperf\Swagger\Annotation\Put;
-use Hyperf\Swagger\Annotation\RequestBody;
-use Mine\Access\Attribute\Permission;
-use Mine\Swagger\Attributes\PageResponse;
-use Mine\Swagger\Attributes\ResultResponse;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\HeaderParameter;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
-#[HyperfServer(name: 'http')]
-#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
-#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
+#[Group('岗位管理', '岗位增删改查和数据权限分配')]
 class PositionController extends AbstractController
 {
     public function __construct(
-        protected readonly CurrentUser $currentUser,
-        protected readonly PositionService $service
+        private readonly PositionService $positionService,
     ) {}
 
-    #[Get(
-        path: '/admin/position/list',
-        operationId: 'positionList',
-        summary: '岗位列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
-    )]
-    #[PageResponse(instance: PositionSchema::class)]
-    #[Permission(code: 'permission:position:index')]
-    public function pageList(): Result
+    #[Endpoint('positionList', '岗位列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function pageList(Request $request): JsonResponse
     {
-        return $this->success(
-            $this->service->page(
-                $this->getRequestData(),
-                $this->getCurrentPage(),
-                $this->getPageSize()
-            )
-        );
+        return Result::success([
+            'list' => $this->positionService->getList($request->all()),
+        ]);
     }
 
-    #[Put(
-        path: '/admin/position/{id}/data_permission',
-        operationId: 'positionDataPermission',
-        summary: '设置岗位数据权限',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
-    )]
-    #[Permission(code: 'permission:position:data_permission')]
-    #[ResultResponse(instance: new Result())]
-    public function batchDataPermission(int $id, BatchGrantDataPermissionForPositionRequest $request): Result
+    #[Endpoint('positionCreate', '创建岗位')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function create(PositionRequest $request): JsonResponse
     {
-        $this->service->batchDataPermission($id, $request->validated());
-        return $this->success();
+        $this->positionService->create($request->validated());
+
+        return Result::success();
     }
 
-    #[Post(
-        path: '/admin/position',
-        operationId: 'positionCreate',
-        summary: '创建岗位',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
-    )]
-    #[RequestBody(
-        content: new JsonContent(ref: PositionRequest::class)
-    )]
-    #[Permission(code: 'permission:position:save')]
-    #[ResultResponse(instance: new Result())]
-    public function create(PositionRequest $request): Result
+    #[Endpoint('positionSave', '保存岗位')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function save(int $id, PositionRequest $request): JsonResponse
     {
-        $this->service->create(array_merge($request->validated(), [
-            'created_by' => $this->currentUser->id(),
-        ]));
-        return $this->success();
+        $this->positionService->updateById($id, $request->validated());
+
+        return Result::success();
     }
 
-    #[Put(
-        path: '/admin/position/{id}',
-        operationId: 'positionSave',
-        summary: '保存岗位',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
-    )]
-    #[RequestBody(
-        content: new JsonContent(ref: PositionRequest::class)
-    )]
-    #[Permission(code: 'permission:position:update')]
-    #[ResultResponse(instance: new Result())]
-    public function save(int $id, PositionRequest $request): Result
+    #[Endpoint('positionDelete', '删除岗位')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function delete(Request $request): JsonResponse
     {
-        $this->service->updateById($id, array_merge($request->validated(), [
-            'updated_by' => $this->currentUser->id(),
-        ]));
-        return $this->success();
+        $this->positionService->deleteById(Arr::wrap($request->all()));
+
+        return Result::success();
     }
 
-    #[Delete(
-        path: '/admin/position',
-        operationId: 'positionDelete',
-        summary: '删除岗位',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['岗位管理'],
-    )]
-    #[ResultResponse(instance: new Result())]
-    #[Permission(code: 'permission:position:delete')]
-    public function delete(): Result
+    #[Endpoint('positionDataPermission', '设置岗位数据权限')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function batchDataPermission(int $id, BatchGrantDataPermissionForPositionRequest $request): JsonResponse
     {
-        $this->service->deleteById($this->getRequestData());
-        return $this->success();
+        $this->positionService->batchDataPermission($id, $request->validated());
+
+        return Result::success();
     }
 }

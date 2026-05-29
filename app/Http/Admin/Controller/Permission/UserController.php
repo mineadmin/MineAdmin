@@ -1,187 +1,117 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Http\Admin\Controller\Permission;
 
-use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\BatchGrantRolesForUserRequest;
-use App\Http\Admin\Request\Permission\UserRequest;
-use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Http\Common\Middleware\OperationMiddleware;
+use App\Http\Admin\Request\BatchGrantRolesForUserRequest;
+use App\Http\Admin\Request\DeleteUsersRequest;
+use App\Http\Admin\Request\UserRequest;
+use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Result;
-use App\Http\CurrentUser;
-use App\Model\Permission\Role;
-use App\Schema\UserSchema;
+use App\Models\Permission\Role;
+use App\Models\User;
 use App\Service\Permission\UserService;
-use Hyperf\Collection\Arr;
-use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\Swagger\Annotation\Delete;
-use Hyperf\Swagger\Annotation\Get;
-use Hyperf\Swagger\Annotation\HyperfServer;
-use Hyperf\Swagger\Annotation\JsonContent;
-use Hyperf\Swagger\Annotation\Post;
-use Hyperf\Swagger\Annotation\Put;
-use Mine\Access\Attribute\Permission;
-use Mine\Swagger\Attributes\PageResponse;
-use Mine\Swagger\Attributes\ResultResponse;
-use OpenApi\Attributes\RequestBody;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\HeaderParameter;
+use Dedoc\Scramble\Attributes\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
-#[HyperfServer(name: 'http')]
-#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
-#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
-final class UserController extends AbstractController
+#[Group('用户管理', '用户增删改查和用户角色分配')]
+class UserController extends AbstractController
 {
     public function __construct(
         private readonly UserService $userService,
-        private readonly CurrentUser $currentUser
     ) {}
 
-    #[Get(
-        path: '/admin/user/list',
-        operationId: 'userList',
-        summary: '用户列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:index')]
-    #[PageResponse(instance: UserSchema::class)]
-    public function pageList(): Result
+    #[Endpoint('userList', '用户列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    #[Response(type: 'array{code: int, message: string, data: array{list: array<int, \App\Models\User>, total: int}}')]
+    public function pageList(Request $request): JsonResponse
     {
-        return $this->success(
-            $this->userService->page(
-                $this->getRequestData(),
-                $this->getCurrentPage(),
-                $this->getPageSize()
-            )
-        );
+        return Result::success($this->userService->page(
+            $request->all(),
+            (int) $request->input('page', 1),
+            (int) $request->input('page_size', 10),
+            $this->user($request),
+        ));
     }
 
-    #[Put(
-        path: '/admin/user',
-        operationId: 'updateInfo',
-        summary: '更新用户信息',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )
-    ]
-    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '修改个人信息'))]
-    #[Permission(code: 'permission:user:update')]
-    #[ResultResponse(new Result())]
-    public function updateInfo(UserRequest $request): Result
+    #[Endpoint('updateInfo', '更新用户信息')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function updateInfo(UserRequest $request): JsonResponse
     {
-        $this->userService->updateById($this->currentUser->id(), Arr::except($request->validated(), ['password']));
-        return $this->success();
+        $this->userService->updateById($this->user($request)->id, Arr::except($request->validated(), ['password']));
+
+        return Result::success();
     }
 
-    #[Put(
-        path: '/admin/user/password',
-        operationId: 'updatePassword',
-        summary: '重置密码',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:password')]
-    #[ResultResponse(new Result())]
-    public function resetPassword(): Result
+    #[Endpoint('updatePassword', '重置密码')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function resetPassword(Request $request): JsonResponse
     {
-        return $this->userService->resetPassword($this->getRequest()->input('id'))
-            ? $this->success()
-            : $this->error();
+        return $this->userService->resetPassword($request->integer('id') ?: null)
+            ? Result::success()
+            : Result::fail();
     }
 
-    #[Post(
-        path: '/admin/user',
-        operationId: 'userCreate',
-        summary: '创建用户',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:save')]
-    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '创建用户'))]
-    #[ResultResponse(new Result())]
-    public function create(UserRequest $request): Result
+    #[Endpoint('userCreate', '创建用户')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function create(UserRequest $request): JsonResponse
     {
         $this->userService->create(array_merge($request->validated(), [
-            'created_by' => $this->currentUser->id(),
+            'created_by' => $this->user($request)->id,
         ]));
-        return $this->success();
+
+        return Result::success();
     }
 
-    #[Delete(
-        path: '/admin/user',
-        operationId: 'userDelete',
-        summary: '删除用户',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:delete')]
-    #[ResultResponse(new Result())]
-    public function delete(): Result
+    #[Endpoint('userDelete', '删除用户')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function delete(DeleteUsersRequest $request): JsonResponse
     {
-        $this->userService->deleteById($this->getRequestData());
-        return $this->success();
+        $this->userService->deleteById(Arr::wrap($request->validated()));
+
+        return Result::success();
     }
 
-    #[Put(
-        path: '/admin/user/{userId}',
-        operationId: 'userUpdate',
-        summary: '更新用户',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:update')]
-    #[RequestBody(content: new JsonContent(ref: UserRequest::class, title: '更新用户'))]
-    #[ResultResponse(new Result())]
-    public function save(int $userId, UserRequest $request): Result
+    #[Endpoint('userUpdate', '更新用户')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function save(int $userId, UserRequest $request): JsonResponse
     {
         $this->userService->updateById($userId, array_merge($request->validated(), [
-            'updated_by' => $this->currentUser->id(),
+            'updated_by' => $this->user($request)->id,
         ]));
-        return $this->success();
+
+        return Result::success();
     }
 
-    #[Get(
-        path: '/admin/user/{userId}/roles',
-        operationId: 'getUserRole',
-        summary: '获取用户角色列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:getRole')]
-    #[ResultResponse(new Result())]
-    public function getUserRole(int $userId): Result
+    #[Endpoint('getUserRole', '获取用户角色列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function getUserRole(int $userId): JsonResponse
     {
-        return $this->success($this->userService->getUserRole($userId)->map(static fn (Role $role) => $role->only([
+        return Result::success($this->userService->getUserRole($userId)->map(static fn (Role $role): array => $role->only([
             'id',
             'code',
             'name',
-        ])));
+        ]))->toArray());
     }
 
-    #[Put(
-        path: '/admin/user/{userId}/roles',
-        operationId: 'batchGrantRolesForUser',
-        summary: '批量授权用户角色',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['用户管理']
-    )]
-    #[Permission(code: 'permission:user:setRole')]
-    #[RequestBody(content: new JsonContent(ref: BatchGrantRolesForUserRequest::class, title: '批量授权用户角色'))]
-    #[ResultResponse(new Result())]
-    public function batchGrantRolesForUser(int $userId, BatchGrantRolesForUserRequest $request): Result
+    #[Endpoint('batchGrantRolesForUser', '批量授权用户角色')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function batchGrantRolesForUser(int $userId, BatchGrantRolesForUserRequest $request): JsonResponse
     {
-        $this->userService->batchGrantRoleForUser($userId, $request->input('role_codes'));
-        return $this->success();
+        $this->userService->batchGrantRoleForUser($userId, Arr::get($request->validated(), 'role_codes', []));
+
+        return Result::success();
+    }
+
+    private function user(Request $request): User
+    {
+        /** @var User $user */
+        $user = $request->user('api');
+
+        return $user;
     }
 }

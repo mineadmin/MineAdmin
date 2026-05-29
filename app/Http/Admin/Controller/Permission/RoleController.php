@@ -1,167 +1,86 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Http\Admin\Controller\Permission;
 
-use App\Exception\BusinessException;
-use App\Http\Admin\Controller\AbstractController;
-use App\Http\Admin\Middleware\PermissionMiddleware;
-use App\Http\Admin\Request\Permission\BatchGrantPermissionsForRoleRequest;
-use App\Http\Admin\Request\Permission\RoleRequest;
-use App\Http\Common\Middleware\AccessTokenMiddleware;
-use App\Http\Common\Middleware\OperationMiddleware;
+use App\Http\Admin\Request\BatchGrantPermissionsForRoleRequest;
+use App\Http\Admin\Request\RoleRequest;
+use App\Http\Common\Controller\AbstractController;
 use App\Http\Common\Result;
-use App\Http\Common\ResultCode;
-use App\Http\CurrentUser;
-use App\Model\Permission\Menu;
-use App\Schema\RoleSchema;
+use App\Models\Permission\Menu;
 use App\Service\Permission\RoleService;
-use Hyperf\Collection\Arr;
-use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\Swagger\Annotation\Delete;
-use Hyperf\Swagger\Annotation\Get;
-use Hyperf\Swagger\Annotation\HyperfServer;
-use Hyperf\Swagger\Annotation\JsonContent;
-use Hyperf\Swagger\Annotation\Post;
-use Hyperf\Swagger\Annotation\Put;
-use Hyperf\Swagger\Annotation\RequestBody;
-use Mine\Access\Attribute\Permission;
-use Mine\Swagger\Attributes\PageResponse;
-use Mine\Swagger\Attributes\ResultResponse;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\HeaderParameter;
+use Dedoc\Scramble\Attributes\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
-#[HyperfServer(name: 'http')]
-#[Middleware(middleware: AccessTokenMiddleware::class, priority: 100)]
-#[Middleware(middleware: PermissionMiddleware::class, priority: 99)]
-#[Middleware(middleware: OperationMiddleware::class, priority: 98)]
-final class RoleController extends AbstractController
+#[Group('角色管理', '角色增删改查和角色权限分配')]
+class RoleController extends AbstractController
 {
     public function __construct(
-        private readonly RoleService $service,
-        private readonly CurrentUser $currentUser
+        private readonly RoleService $roleService,
     ) {}
 
-    #[Get(
-        path: '/admin/role/list',
-        operationId: 'roleList',
-        summary: '角色列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[PageResponse(instance: RoleSchema::class)]
-    #[Permission(code: 'permission:role:index')]
-    public function pageList(): Result
+    #[Endpoint('roleList', '角色列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    #[Response(type: 'array{code: int, message: string, data: array{list: array<int, \App\Models\Permission\Role>, total: int}}')]
+    public function pageList(Request $request): JsonResponse
     {
-        return $this->success(
-            $this->service->page(
-                $this->getRequestData(),
-                $this->getCurrentPage(),
-                $this->getPageSize()
-            )
-        );
+        return Result::success($this->roleService->page(
+            $request->all(),
+            (int) $request->input('page', 1),
+            (int) $request->input('page_size', 10),
+        ));
     }
 
-    #[Post(
-        path: '/admin/role',
-        operationId: 'roleCreate',
-        summary: '创建角色',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[RequestBody(
-        content: new JsonContent(ref: RoleRequest::class)
-    )]
-    #[Permission(code: 'permission:role:save')]
-    #[ResultResponse(instance: new Result())]
-    public function create(RoleRequest $request): Result
+    #[Endpoint('roleCreate', '创建角色')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function create(RoleRequest $request): JsonResponse
     {
-        $this->service->create(array_merge($request->validated(), [
-            'created_by' => $this->currentUser->id(),
+        $this->roleService->create(array_merge($request->validated(), [
+            'created_by' => $request->user('api')->id,
         ]));
-        return $this->success();
+
+        return Result::success();
     }
 
-    #[Put(
-        path: '/admin/role/{id}',
-        operationId: 'roleSave',
-        summary: '保存角色',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[RequestBody(
-        content: new JsonContent(ref: RoleRequest::class)
-    )]
-    #[Permission(code: 'permission:role:update')]
-    #[ResultResponse(instance: new Result())]
-    public function save(int $id, RoleRequest $request): Result
+    #[Endpoint('roleSave', '保存角色')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function save(int $id, RoleRequest $request): JsonResponse
     {
-        $this->service->updateById($id, array_merge($request->validated(), [
-            'updated_by' => $this->currentUser->id(),
+        $this->roleService->updateById($id, array_merge($request->validated(), [
+            'updated_by' => $request->user('api')->id,
         ]));
-        return $this->success();
+
+        return Result::success();
     }
 
-    #[Delete(
-        path: '/admin/role',
-        operationId: 'roleDelete',
-        summary: '删除角色',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[ResultResponse(instance: new Result())]
-    #[Permission(code: 'permission:role:delete')]
-    public function delete(): Result
+    #[Endpoint('roleDelete', '删除角色')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function delete(Request $request): JsonResponse
     {
-        $this->service->deleteById($this->getRequestData());
-        return $this->success();
+        $this->roleService->deleteById(Arr::wrap($request->all()));
+
+        return Result::success();
     }
 
-    #[Get(
-        path: '/admin/role/{id}/permissions',
-        operationId: 'setRolePermission',
-        summary: '获取角色权限列表',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[ResultResponse(
-        instance: new Result(),
-        example: '{"code":200,"message":"成功","data":[{"id":59,"name":"xdrljpefIZ"},{"id":60,"name":"GIdOejHL2R"},{"id":61,"name":"ZpEnJv00VG"}]}'
-    )]
-    #[Permission(code: 'permission:role:getMenu')]
-    public function getRolePermissionForRole(int $id): Result
+    #[Endpoint('setRolePermission', '获取角色权限列表')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function getRolePermissionForRole(int $id): JsonResponse
     {
-        return $this->success($this->service->getRolePermission($id)->map(static fn (Menu $menu) => $menu->only([
+        return Result::success($this->roleService->getRolePermission($id)->map(static fn (Menu $menu): array => $menu->only([
             'id', 'name',
         ]))->toArray());
     }
 
-    #[Put(
-        path: '/admin/role/{id}/permissions',
-        operationId: 'roleGrantPermissions',
-        summary: '赋予角色权限',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['角色管理'],
-    )]
-    #[ResultResponse(instance: new Result())]
-    #[RequestBody(content: new JsonContent(
-        ref: BatchGrantPermissionsForRoleRequest::class
-    ))]
-    #[Permission(code: 'permission:role:setMenu')]
-    public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): Result
+    #[Endpoint('roleGrantPermissions', '赋予角色权限')]
+    #[HeaderParameter('Authorization', 'Bearer 访问令牌', required: true, type: 'string', example: 'Bearer {access_token}')]
+    public function batchGrantPermissionsForRole(int $id, BatchGrantPermissionsForRoleRequest $request): JsonResponse
     {
-        if (! $this->service->existsById($id)) {
-            throw new BusinessException(code: ResultCode::NOT_FOUND);
-        }
-        $permissionsCode = Arr::get($request->validated(), 'permissions', []);
-        $this->service->batchGrantPermissionsForRole($id, $permissionsCode);
-        return $this->success();
+        $this->roleService->batchGrantPermissionsForRole($id, Arr::get($request->validated(), 'permissions', []));
+
+        return Result::success();
     }
 }

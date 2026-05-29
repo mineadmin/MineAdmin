@@ -1,92 +1,121 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Service;
 
 use App\Exception\BusinessException;
-use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
-use App\Model\Enums\User\Type;
-use App\Repository\Permission\UserRepository;
-use Lcobucci\JWT\Token\RegisteredClaims;
-use Lcobucci\JWT\UnencryptedToken;
-use Mine\Jwt\Factory;
-use Mine\Jwt\JwtInterface;
-use Mine\JwtAuth\Event\UserLoginEvent;
-use Mine\JwtAuth\Interfaces\CheckTokenInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use App\Models\Enums\User\Type;
+use App\Models\User;
+use App\Models\UserLoginLog;
+use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 
-final class PassportService extends IService implements CheckTokenInterface
+class PassportService
 {
-    /**
-     * @var string jwt场景
-     */
-    private string $jwt = 'default';
-
-    public function __construct(
-        protected readonly UserRepository $repository,
-        protected readonly Factory $jwtFactory,
-        protected readonly EventDispatcherInterface $dispatcher
-    ) {}
-
-    /**
-     * @return array<string,int|string>
-     */
-    public function login(string $username, string $password, Type $userType = Type::SYSTEM, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
+    public function login(string $username, string $password, Type $userType = Type::System, string $ip = '0.0.0.0', string $browser = 'unknown', string $os = 'unknown'): array
     {
-        $user = $this->repository->findByUnameType($username, $userType);
+        $user = User::query()
+            ->where('username', $username)
+            ->where('user_type', $userType->value)
+            ->first();
+
+        if ($user === null) {
+            throw new BusinessException(ResultCode::NotFound, 'Not Found');
+        }
+
         if (! $user->verifyPassword($password)) {
-            $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser, false));
-            throw new BusinessException(ResultCode::UNPROCESSABLE_ENTITY, trans('auth.password_error'));
+            $this->recordLogin($user->username, $ip, $browser, $os, false);
+
+            throw new BusinessException(ResultCode::Unprocessable, trans('auth.password_error'));
         }
+
         if ($user->status->isDisable()) {
-            throw new BusinessException(ResultCode::DISABLED);
+            throw new BusinessException(ResultCode::Disabled, trans('user.disable'));
         }
-        $this->dispatcher->dispatch(new UserLoginEvent($user, $ip, $os, $browser));
-        $jwt = $this->getJwt();
+
+        $this->recordLogin($user->username, $ip, $browser, $os, true);
+
+        return $this->issueTokens($user);
+    }
+
+    public function logout(?string $token): void
+    {
+        $this->syncToken($token);
+        $guard = $this->guard();
+
+        if ($guard->getPayload()->get('token_type') !== 'access') {
+            throw new BusinessException(ResultCode::Unauthorized, trans('auth.unauthenticated'));
+        }
+
+        $guard->logout();
+    }
+
+    public function refresh(?string $token): array
+    {
+        $this->syncToken($token);
+        $guard = $this->guard();
+        $payload = $guard->getPayload();
+
+        if ($payload->get('token_type') !== 'refresh') {
+            throw new BusinessException(ResultCode::Unauthorized, trans('auth.unauthenticated'));
+        }
+
+        $userId = $payload->get('sub');
+        $guard->invalidate();
+
+        /** @var User $user */
+        $user = User::query()->findOrFail($userId);
+
+        return $this->issueTokens($user);
+    }
+
+    /**
+     * @return array{access_token: string, refresh_token: string, expire_at: int}
+     */
+    private function recordLogin(string $username, string $ip, string $browser, string $os, bool $successful): void
+    {
+        UserLoginLog::query()->create([
+            'username' => $username,
+            'ip' => $ip,
+            'os' => $os,
+            'browser' => $browser,
+            'status' => $successful ? 1 : 2,
+        ]);
+    }
+
+    private function issueTokens(User $user): array
+    {
+        $guard = $this->guard();
+        $accessToken = $guard->claims(['token_type' => 'access'])->login($user);
+        $refreshToken = $guard->setTTL((int) config('jwt.refresh_ttl'))->claims(['token_type' => 'refresh'])->login($user);
+        $guard->setTTL((int) config('jwt.ttl'));
+        $guard->forgetUser();
+        $guard->unsetToken();
+
         return [
-            'access_token' => $jwt->builderAccessToken((string) $user->id)->toString(),
-            'refresh_token' => $jwt->builderRefreshToken((string) $user->id)->toString(),
-            'expire_at' => (int) $jwt->getConfig('ttl', 0),
+            /** 授权 token */
+            'access_token' => $accessToken,
+            /** 刷新 token */
+            'refresh_token' => $refreshToken,
+            /** 过期时间 单位（秒） */
+            'expire_at' => (int) config('jwt.ttl') * 60,
         ];
     }
 
-    public function checkJwt(UnencryptedToken $token): void
+    private function guard(): JWTGuard
     {
-        $this->getJwt()->hasBlackList($token) && throw new JwtInBlackException();
+        /** @var JWTGuard $guard */
+        $guard = auth('api');
+
+        return $guard;
     }
 
-    public function logout(UnencryptedToken $token): void
+    private function syncToken(?string $token): void
     {
-        $this->getJwt()->addBlackList($token);
-    }
+        $this->guard()->forgetUser();
+        $this->guard()->unsetToken();
 
-    public function getJwt(): JwtInterface
-    {
-        return $this->jwtFactory->get($this->jwt);
-    }
-
-    /**
-     * @return array<string,int|string>
-     */
-    public function refreshToken(UnencryptedToken $token): array
-    {
-        return value(static function (JwtInterface $jwt) use ($token) {
-            $jwt->addBlackList($token);
-            return [
-                'access_token' => $jwt->builderAccessToken($token->claims()->get(RegisteredClaims::ID))->toString(),
-                'refresh_token' => $jwt->builderRefreshToken($token->claims()->get(RegisteredClaims::ID))->toString(),
-                'expire_at' => (int) $jwt->getConfig('ttl', 0),
-            ];
-        }, $this->getJwt());
+        if ($token !== null) {
+            $this->guard()->setToken($token);
+        }
     }
 }

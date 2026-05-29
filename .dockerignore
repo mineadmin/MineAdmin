@@ -1,9 +1,0 @@
-**
-!app/
-!bin/
-!config/
-!databases/
-!plugin/
-!storage/
-!composer.*
-!.env.example

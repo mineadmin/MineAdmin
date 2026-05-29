@@ -1,95 +1,153 @@
 <?php
 
-declare(strict_types=1);
-/**
- * This file is part of MineAdmin.
- *
- * @link     https://www.mineadmin.com
- * @document https://doc.mineadmin.com
- * @contact  root@imoi.cn
- * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
- */
-
 namespace App\Service\Permission;
 
-use App\Model\Permission\Menu;
-use App\Repository\Permission\MenuRepository;
-use App\Service\IService;
+use App\Models\Enums\User\Status;
+use App\Models\Permission\Menu;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
-/**
- * @extends IService<Menu>
- */
-final class MenuService extends IService
+class MenuService
 {
-    public function __construct(
-        protected readonly MenuRepository $repository
-    ) {}
-
-    public function getRepository(): MenuRepository
+    public function list(): Collection
     {
-        return $this->repository;
+        return Menu::query()
+            ->with('children')
+            ->where('parent_id', 0)
+            ->orderBy('sort')
+            ->get();
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     public function create(array $data): Menu
     {
-        /**
-         * @var Menu $model
-         */
-        $model = parent::create($data);
-        if ($data['meta']['type'] === 'M' && ! empty($data['btnPermission'])) {
-            foreach ($data['btnPermission'] as $item) {
-                $this->repository->create([
-                    'parent_id' => $model->id,
-                    'name' => $item['code'],
-                    'sort' => 0,
-                    'status' => 1,
-                    'meta' => [
-                        'title' => $item['title'],
-                        'i18n' => $item['i18n'],
-                        'type' => 'B',
-                    ],
-                ]);
-            }
-        }
-        return $model;
+        return DB::transaction(function () use ($data): Menu {
+            $data = $this->normalizeDefaults($data);
+            $menu = Menu::query()->create(Arr::except($data, ['btnPermission']));
+
+            $this->createButtonPermissions($menu->id, $data);
+
+            return $menu;
+        });
     }
 
-    public function updateById(mixed $id, array $data): mixed
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    public function updateById(int $id, array $data): void
     {
-        $model = parent::updateById($id, $data);
-        if ($model && $data['meta']['type'] === 'M' && isset($data['btnPermission'])) {
-            $existsBtnPermissions = array_flip($this->repository->getQuery()
-                ->where('parent_id', $id)
-                ->whereJsonContains('meta->type', 'B')
-                ->pluck('id')
-                ->toArray());
+        DB::transaction(function () use ($id, $data): void {
+            $menu = Menu::query()->find($id);
 
-            if (! empty($data['btnPermission'])) {
-                foreach ($data['btnPermission'] as $item) {
-                    if (! empty($item['type']) && $item['type'] === 'B') {
-                        $data = [
-                            'name' => $item['code'],
-                            'meta' => [
-                                'title' => $item['title'],
-                                'i18n' => $item['i18n'],
-                                'type' => 'B',
-                            ],
-                        ];
-                        if (! empty($item['id'])) {
-                            $this->repository->updateById($item['id'], $data);
-                            unset($existsBtnPermissions[$item['id']]);
-                        } else {
-                            $data['parent_id'] = $id;
-                            $this->repository->create($data);
-                        }
-                    }
-                }
+            if ($menu === null) {
+                return;
             }
 
-            if (! empty($existsBtnPermissions)) {
-                $this->deleteById(array_keys($existsBtnPermissions));
+            $data = $this->normalizeDefaults($data);
+            $menu->update(Arr::except($data, ['btnPermission']));
+            $this->syncButtonPermissions($id, $data);
+        });
+    }
+
+    /**
+     * @param  array<int, int>|int  $ids
+     */
+    public function deleteById(array|int $ids): void
+    {
+        Menu::destroy($ids);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function normalizeDefaults(array $data): array
+    {
+        foreach (['path', 'component', 'redirect', 'remark'] as $key) {
+            if (array_key_exists($key, $data) && $data[$key] === null) {
+                $data[$key] = '';
             }
         }
-        return $model;
+
+        return $data;
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function createButtonPermissions(int $parentId, array $data): void
+    {
+        if (Arr::get($data, 'meta.type') !== 'M' || empty($data['btnPermission'])) {
+            return;
+        }
+
+        foreach ($data['btnPermission'] as $item) {
+            Menu::query()->create([
+                'parent_id' => $parentId,
+                'name' => $item['code'],
+                'sort' => 0,
+                'status' => Status::Normal,
+                'meta' => [
+                    'title' => $item['title'],
+                    'i18n' => $item['i18n'],
+                    'type' => 'B',
+                ],
+            ]);
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function syncButtonPermissions(int $parentId, array $data): void
+    {
+        if (Arr::get($data, 'meta.type') !== 'M' || ! array_key_exists('btnPermission', $data)) {
+            return;
+        }
+
+        $existsButtonPermissions = Menu::query()
+            ->where('parent_id', $parentId)
+            ->where('meta->type', 'B')
+            ->pluck('id')
+            ->flip()
+            ->all();
+
+        foreach ($data['btnPermission'] as $item) {
+            if (Arr::get($item, 'type') !== 'B') {
+                continue;
+            }
+
+            $buttonData = [
+                'name' => $item['code'],
+                'meta' => [
+                    'title' => $item['title'],
+                    'i18n' => $item['i18n'],
+                    'type' => 'B',
+                ],
+            ];
+
+            if (! empty($item['id'])) {
+                if (array_key_exists($item['id'], $existsButtonPermissions)) {
+                    Menu::query()
+                        ->whereKey($item['id'])
+                        ->where('parent_id', $parentId)
+                        ->update($buttonData);
+                    unset($existsButtonPermissions[$item['id']]);
+                }
+
+                continue;
+            }
+
+            Menu::query()->create(array_merge($buttonData, [
+                'parent_id' => $parentId,
+            ]));
+        }
+
+        if ($existsButtonPermissions !== []) {
+            $this->deleteById(array_keys($existsButtonPermissions));
+        }
     }
 }

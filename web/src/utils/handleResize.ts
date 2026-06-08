@@ -16,9 +16,21 @@ export default function handleResize(el: Ref<HTMLElement>) {
   const { setMobileState, setMobileSubmenuState } = useSettingStore()
   useResizeObserver(document.body, (entries) => {
     const [entry] = entries
+    if (!entry) {
+      return
+    }
+
     const { width, height } = entry.contentRect
-    const searchPanelNode = document.querySelector('.mine-search-panel-container') as HTMLElement
-    searchPanelNode.style.top = height < 500 ? '0px' : height < 800 ? 'calc(100% - 50% - 250px)' : 'calc(100% - 50% - 350px)'
+    const searchPanelNode = document.querySelector<HTMLElement>('.mine-search-panel-container')
+    let searchPanelTop = 'calc(100% - 50% - 350px)'
+    if (height < 500) {
+      searchPanelTop = '0px'
+    }
+    else if (height < 800) {
+      searchPanelTop = 'calc(100% - 50% - 250px)'
+    }
+
+    searchPanelNode?.style.setProperty('top', searchPanelTop)
     setMobileState(width < 1024)
     setMobileSubmenuState(!(width < 1024))
     checkMobileSubAside(el)
@@ -33,6 +45,10 @@ function checkMobileSubAside(el: Ref<HTMLElement>) {
   const { isOutside } = useMouseInElement(el)
   const settingStore = useSettingStore()
   const targetEl = el.value
+
+  if (!targetEl) {
+    return
+  }
 
   // 如果之前绑定过，先移除
   const prevListener = listenerMap.get(targetEl)

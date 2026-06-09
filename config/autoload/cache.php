@@ -13,9 +13,12 @@ use Hyperf\Cache\Driver\RedisDriver;
 use Hyperf\Codec\Packer\PhpSerializerPacker;
 
 return [
-    'default' => [
-        'driver' => RedisDriver::class,
-        'packer' => PhpSerializerPacker::class,
-        'prefix' => 'MineAdmin:',
+    'default' => env('CACHE_DRIVER', 'default'),
+    'stores' => [
+        'default' => [
+            'driver' => RedisDriver::class,
+            'packer' => PhpSerializerPacker::class,
+            'prefix' => 'MineAdmin:',
+        ],
     ],
 ];

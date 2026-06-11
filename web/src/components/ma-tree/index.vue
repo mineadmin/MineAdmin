@@ -37,7 +37,6 @@ zh_TW:
 <script setup lang="ts">
 import { ElTree } from 'element-plus'
 import { get } from 'lodash-es'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaTree' })
 
@@ -45,7 +44,7 @@ const { treeKey = 'label' } = defineProps<{
   treeKey?: string
 }>()
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 
 const filterText = ref<string>('')
 const treeRef = ref<InstanceType<typeof ElTree>>()

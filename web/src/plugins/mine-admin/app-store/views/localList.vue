@@ -27,7 +27,7 @@ import type { MaTableExpose } from '@mineadmin/table'
 
 const tableRef = ref<MaTableExpose>()
 const dataList = inject('dataList') as Record<string, any>
-const t = useTrans().localTrans
+const { localTrans: t } = useTrans()
 
 nextTick(() => {
   const data = Object.keys(dataList.value.local).map((name) => {

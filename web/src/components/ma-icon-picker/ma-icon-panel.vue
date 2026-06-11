@@ -20,7 +20,6 @@ zh_TW:
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import type { TabPaneName } from 'element-plus'
 import data from '@/iconify/data.json'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaIconPanel' })
 
@@ -65,7 +64,7 @@ function appendCustomIcons() {
 // 将处理后的数据赋值回 data
 const updatedData = appendCustomIcons()
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 
 function getIcons() {
   currentIconList.value = updatedData.filter((item: any) => item.prefix === currentName.value)[0].icons

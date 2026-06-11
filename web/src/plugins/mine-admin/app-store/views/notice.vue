@@ -57,9 +57,8 @@ en:
 
 <script setup lang="ts">
 import useDialog from '@/hooks/useDialog.ts'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 const { Dialog, open, close } = useDialog({
   title: t('title'),
   ok: () => close(),

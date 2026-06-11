@@ -53,7 +53,7 @@ function setData(data: Record<string, any>) {
     }
   })
 
-  form.value.dataType = data.id ? 'edit' : 'add';
+  form.value.dataType = data.id ? 'edit' : 'add'
 }
 
 const inputVisible = ref <Record<string, boolean>>({
@@ -228,6 +228,7 @@ const formItems = ref<MaFormItem[]>([
   },
   {
     label: () => t('baseMenuManage.useDefaultLayout.label'), prop: 'meta.useDefaultLayout',
+    show: (_, model) => model.meta.type === 'M',
     render: () => (
       <div class="w-full">
         <el-radio-group v-model={form.value.meta.useDefaultLayout}>

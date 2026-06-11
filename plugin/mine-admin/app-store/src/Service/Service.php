@@ -21,16 +21,21 @@ use Mine\AppStore\Service\Impl\AppStoreServiceImpl;
 
 class Service
 {
+    private const IDENTIFIER_PATTERN = '/\A[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\z/';
+
+    private const ZIP_UNIX_SYMLINK_MODE = 0xA000;
+
     public function download(array $params): bool
     {
         if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
+        $identifier = $this->normalizeIdentifier($params['identifier']);
 
         $service = make(AppStoreServiceImpl::class);
 
-        if (! is_dir(BASE_PATH . '/plugin/' . $params['identifier'])) {
-            $result = $service->download($params['identifier'], $params['version']);
+        if (! is_dir(Plugin::PLUGIN_PATH . '/' . $identifier)) {
+            $result = $service->download($identifier, $params['version']);
             if (! $result) {
                 $this->throwDownloadFail();
             }
@@ -44,8 +49,9 @@ class Service
         if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
+        $identifier = $this->normalizeIdentifier($params['identifier']);
 
-        $path = BASE_PATH . '/plugin/' . $params['identifier'];
+        $path = Plugin::PLUGIN_PATH . '/' . $identifier;
 
         if (file_exists($path . '/install.lock')) {
             $this->throwAppInstalled();
@@ -53,7 +59,7 @@ class Service
 
         try {
             Plugin::forceRefreshJsonPath();
-            Plugin::install($params['identifier']);
+            Plugin::install($identifier);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException($e->getMessage());
         }
@@ -66,8 +72,9 @@ class Service
         if (empty($params['identifier']) || empty($params['version'])) {
             $this->throwParamsFail();
         }
+        $identifier = $this->normalizeIdentifier($params['identifier']);
 
-        $path = BASE_PATH . '/plugin/' . $params['identifier'];
+        $path = Plugin::PLUGIN_PATH . '/' . $identifier;
 
         if (! file_exists($path . '/install.lock')) {
             $this->throwAppNoInstall();
@@ -75,7 +82,7 @@ class Service
 
         try {
             Plugin::forceRefreshJsonPath();
-            Plugin::uninstall($params['identifier']);
+            Plugin::uninstall($identifier);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException($e->getMessage());
         }
@@ -114,21 +121,86 @@ class Service
             if ($zip->status !== \ZipArchive::ER_OK) {
                 throw new \RuntimeException('Failed to open the zip file');
             }
+            $this->assertSafeZipEntries($zip);
+            $mineJson = $zip->getFromName('mine.json');
+            if ($mineJson === false) {
+                throw new \RuntimeException('mine.json not found');
+            }
             $json = json_decode(
-                $zip->getFromName('mine.json'),
+                $mineJson,
                 true,
                 512,
                 \JSON_THROW_ON_ERROR
             );
-            $zip->extractTo(Plugin::PLUGIN_PATH . '/' . $json['name']);
+            $identifier = $this->normalizeIdentifier($json['name'] ?? null);
+            $zip->extractTo(Plugin::PLUGIN_PATH . '/' . $identifier);
             $zip->close();
             Plugin::forceRefreshJsonPath();
-            Plugin::install($json['name']);
+            Plugin::install($identifier);
             @unlink($runtimePath);
         } catch (\Throwable $e) {
             throw new \RuntimeException($e->getMessage());
         }
         return true;
+    }
+
+    private function normalizeIdentifier(mixed $identifier): string
+    {
+        if (! is_string($identifier)) {
+            $this->throwParamsFail();
+        }
+
+        $identifier = trim($identifier);
+        if (! preg_match(self::IDENTIFIER_PATTERN, $identifier)) {
+            $this->throwParamsFail();
+        }
+
+        return $identifier;
+    }
+
+    private function assertSafeZipEntries(\ZipArchive $zip): void
+    {
+        for ($index = 0; $index < $zip->numFiles; ++$index) {
+            $name = $zip->getNameIndex($index);
+            if (
+                ! is_string($name)
+                || $this->isUnsafeZipEntryName($name)
+                || $this->isZipEntrySymlink($zip, $index)
+            ) {
+                throw new \RuntimeException('Invalid zip entry path');
+            }
+        }
+    }
+
+    private function isUnsafeZipEntryName(string $name): bool
+    {
+        if ($name === '' || str_contains($name, "\0")) {
+            return true;
+        }
+
+        $normalized = str_replace('\\', '/', $name);
+        if ($normalized[0] === '/' || preg_match('/\A[A-Za-z]:/', $normalized)) {
+            return true;
+        }
+
+        foreach (explode('/', $normalized) as $segment) {
+            if ($segment === '..') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isZipEntrySymlink(\ZipArchive $zip, int $index): bool
+    {
+        $opsys = 0;
+        $attributes = 0;
+        if (! $zip->getExternalAttributesIndex($index, $opsys, $attributes)) {
+            return false;
+        }
+
+        return (($attributes >> 16) & 0xF000) === self::ZIP_UNIX_SYMLINK_MODE;
     }
 
     protected function throwParamsFail()

@@ -24,7 +24,6 @@ en:
 
 <script setup lang="ts">
 import AppStoreDetail from './detail.vue'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useMessage } from '@/hooks/useMessage.ts'
 import discount from '../utils/discount.ts'
 import { isUndefined } from 'lodash-es'
@@ -32,7 +31,7 @@ import { isUndefined } from 'lodash-es'
 const storeMeta = inject('storeMeta') as Record<string, any>
 const dataList = inject('dataList') as Record<string, any>
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 const msg = useMessage()
 const detailRef = ref()
 const route = useRoute()

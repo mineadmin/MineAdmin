@@ -25,6 +25,11 @@ export default defineComponent({
     const subMenuRef = shallowRef<OverlayScrollbarsComponentRef>()
     const rootMenu = inject(rootMenuInjectionKey)!
 
+    function isVisibleMenuItem(item: MineRoute.routeRecord) {
+      const meta = item.meta as (MineRoute.RouteMeta & { menu?: boolean }) | undefined
+      return meta?.type !== 'B' && (meta?.hidden !== true || meta?.subForceShow === true) && meta?.menu !== false
+    }
+
     const opened = computed(() => {
       return rootMenu.openedMenus.includes(uniqueKey.at(-1)!)
     })
@@ -97,26 +102,7 @@ export default defineComponent({
     })
 
     const hasChildren = computed(() => {
-      let flag = true
-      if (menu.children) {
-        if (menu.children.every((item: any) => item.meta?.menu === false)) {
-          flag = false
-        }
-        let hiddenLen = 0
-        menu.children.map((item: any) => {
-          if (item.meta?.hidden === true) {
-            hiddenLen++
-          }
-        })
-
-        if (hiddenLen === menu.children.length) {
-          flag = false
-        }
-      }
-      else {
-        flag = false
-      }
-      return flag
+      return menu.children?.some(child => isVisibleMenuItem(child)) ?? false
     })
 
     function handleClick() {

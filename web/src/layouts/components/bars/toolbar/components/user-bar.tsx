@@ -17,7 +17,7 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore()
     const router = useRouter()
-    const userInfo = userStore.getUserInfo()
+    const userInfo = computed(() => userStore.getUserInfo())
     const { t } = useI18n()
 
     const links: any[] = [
@@ -53,47 +53,52 @@ export default defineComponent({
       },
     ]
 
-    return () => (
-      <div class="mine-user-bar">
-        <m-dropdown
-          class="min-w-[6rem] p-1"
-          v-slots={{
-            default: () => (
-              <div class="mine-userinfo">
-                {userInfo.avatar && <img src={userInfo.avatar} alt={userInfo.username} class="mine-img-avatar" />}
-                {!userInfo.avatar && <div class="mine-text-avatar">{userInfo.username[0].toUpperCase()}</div>}
-                <a class="username hidden lg:flex">
-                  {userInfo.username}
-                  <ma-svg-icon name="material-symbols:keyboard-arrow-down-rounded" className="icon" size={20} />
-                </a>
-              </div>
-            ),
-            popper: () => (
-              <div>
-                {links.map((item: any) => (
-                  <div>
-                    {item.label !== 'divider' && (
-                      <m-dropdown-item
-                        type="default"
-                        handle={item.handle}
-                        v-slots={{
-                          'default': () => <span>{ useTrans(item.label) }</span>,
-                          'prefix-icon': () => <ma-svg-icon name={item.icon} size={18} />,
-                        }}
-                      />
-                    )}
-                    {item.label === 'divider' && <m-dropdown-divider />}
-                  </div>
-                ),
-                )}
-              </div>
-            ),
-          }}
-        />
+    return () => {
+      const avatar = userInfo.value?.avatar
+      const username = userInfo.value?.username ?? ''
 
-        <MineSystemInfo />
-        <MineShortcutsDesc />
-      </div>
-    )
+      return (
+        <div class="mine-user-bar">
+          <m-dropdown
+            class="min-w-[6rem] p-1"
+            v-slots={{
+              default: () => (
+                <div class="mine-userinfo">
+                  {avatar && <img src={avatar} alt={username} class="mine-img-avatar" />}
+                  {!avatar && <div class="mine-text-avatar">{username[0]?.toUpperCase() ?? ''}</div>}
+                  <a class="username hidden lg:flex">
+                    {username}
+                    <ma-svg-icon name="material-symbols:keyboard-arrow-down-rounded" className="icon" size={20} />
+                  </a>
+                </div>
+              ),
+              popper: () => (
+                <div>
+                  {links.map((item: any) => (
+                      <div>
+                        {item.label !== 'divider' && (
+                          <m-dropdown-item
+                            type="default"
+                            handle={item.handle}
+                            v-slots={{
+                              'default': () => <span>{ useTrans(item.label) }</span>,
+                              'prefix-icon': () => <ma-svg-icon name={item.icon} size={18} />,
+                            }}
+                          />
+                        )}
+                        {item.label === 'divider' && <m-dropdown-divider />}
+                      </div>
+                    ),
+                  )}
+                </div>
+              ),
+            }}
+          />
+
+          <MineSystemInfo />
+          <MineShortcutsDesc />
+        </div>
+      )
+    }
   },
 })

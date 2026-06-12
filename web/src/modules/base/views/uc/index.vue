@@ -84,12 +84,8 @@ const tabOptions = reactive([
 
 const msg = useMessage()
 
-const form = reactive({
-  isReceiveMsg: true,
-  multiDeviceLogin: false,
-})
-
-const avatar = ref<string>(userStore.getUserInfo().avatar)
+const displayUserInfo = computed(() => userStore.getUserInfo() ?? {})
+const avatar = ref<string>(userStore.getUserInfo()?.avatar ?? '')
 
 const showFields = reactive({
   nickname: t('userinfo.nickname'),
@@ -105,7 +101,10 @@ watch(avatar, async (val: string | undefined) => {
   const response: any = await useHttp().post('/admin/permission/update', { avatar: val ?? '' })
   if (response.code === 200) {
     msg.success(globalTrans('crud.updateSuccess'))
-    userStore.getUserInfo().avatar = val ?? ''
+    const userInfo = userStore.getUserInfo()
+    if (userInfo) {
+      userInfo.avatar = val ?? ''
+    }
   }
 })
 </script>
@@ -137,7 +136,7 @@ watch(avatar, async (val: string | undefined) => {
               </div>
             </div>
           </li>
-          <template v-for="(value, key) in userStore.getUserInfo()">
+          <template v-for="(value, key) in displayUserInfo">
             <li v-if="showFields[key]">
               <div class="desc-item">
                 <div class="desc-label">

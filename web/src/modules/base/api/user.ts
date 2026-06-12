@@ -9,6 +9,38 @@
  */
 import type { PageList, ResponseStruct } from '#/global'
 
+export interface CurrentUserDepartmentVo {
+  id: number
+  name: string
+}
+
+export interface CurrentUserPositionVo {
+  id: number
+  dept_id: number
+  name: string
+}
+
+export interface CurrentUserRoleVo {
+  id: number
+  code: string
+  name: string
+}
+
+export interface CurrentUserInfo {
+  id: number
+  username: string
+  nickname: string
+  avatar?: string | null
+  phone?: string | null
+  email?: string | null
+  signed?: string | null
+  dashboard?: string
+  backend_setting?: Record<string, any> | any[] | null
+  departments: CurrentUserDepartmentVo[]
+  positions: CurrentUserPositionVo[]
+  roles: CurrentUserRoleVo[]
+}
+
 export interface UserVo {
   id?: number
   username?: string
@@ -22,12 +54,15 @@ export interface UserVo {
   status?: 1 | 2
   login_ip?: string
   login_time?: string
-  backend_setting?: Record<string, any>
+  backend_setting?: Record<string, any> | any[] | null
   remark?: string
   password?: string
   policy?: any
-  department?: any[]
-  position?: any[]
+  department?: Array<CurrentUserDepartmentVo | number>
+  position?: Array<CurrentUserPositionVo | number>
+  departments?: CurrentUserDepartmentVo[]
+  positions?: CurrentUserPositionVo[]
+  roles?: CurrentUserRoleVo[]
 }
 
 export interface UserSearchVo {

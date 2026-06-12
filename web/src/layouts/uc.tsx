@@ -15,7 +15,7 @@ export default defineComponent({
   name: 'MineUc',
   setup() {
     const userStore = useUserStore()
-    const userInfo = userStore.getUserInfo()
+    const userInfo = computed(() => userStore.getUserInfo())
     const route = useRoute()
     const welcomeRoute = ref<string>(useSettingStore().getSettings('app')?.welcomePage?.path ?? '/welcome')
     const menuRender = () => (
@@ -31,23 +31,29 @@ export default defineComponent({
       </>
     )
 
-    const userinfoRender = () => (
-      <div class="mine-uc-userinfo">
-        <div class="flex items-center gap-x-3">
-          {userInfo.avatar && <img src={userInfo.avatar} alt={userInfo.username} class="mine-uc-img-avatar" />}
-          {!userInfo.avatar && <div class="mine-uc-text-avatar">{userInfo.username[0].toUpperCase()}</div>}
-          <a class="mine-uc-username">
-            <span class="mine-uc-u">{userInfo.username}</span>
-            <span ckass="mine-uc-n">{userInfo.nickname}</span>
-          </a>
+    const userinfoRender = () => {
+      const avatar = userInfo.value?.avatar
+      const username = userInfo.value?.username ?? ''
+      const nickname = userInfo.value?.nickname ?? ''
+
+      return (
+        <div class="mine-uc-userinfo">
+          <div class="flex items-center gap-x-3">
+            {avatar && <img src={avatar} alt={username} class="mine-uc-img-avatar" />}
+            {!avatar && <div class="mine-uc-text-avatar">{username[0]?.toUpperCase() ?? ''}</div>}
+            <a class="mine-uc-username">
+              <span class="mine-uc-u">{username}</span>
+              <span ckass="mine-uc-n">{nickname}</span>
+            </a>
+          </div>
+          <m-tooltip text={useTrans('mineAdmin.uc.backControl')}>
+            <router-link className="mine-back-control" to={welcomeRoute.value}>
+              <ma-svg-icon name="ri:arrow-go-back-line" size={14} />
+            </router-link>
+          </m-tooltip>
         </div>
-        <m-tooltip text={useTrans('mineAdmin.uc.backControl')}>
-          <router-link className="mine-back-control" to={welcomeRoute.value}>
-            <ma-svg-icon name="ri:arrow-go-back-line" size={14} />
-          </router-link>
-        </m-tooltip>
-      </div>
-    )
+      )
+    }
 
     const handleResize = () => {
       const node = document.querySelector('.mine-uc-content') as HTMLElement

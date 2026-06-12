@@ -12,7 +12,7 @@ export default function hasUser(value: string | string[], whetherCheckRouteMeta:
     return false
   }
 
-  const username = useUserStore().getUserInfo().username
+  const username = useUserStore().getUserInfo()?.username
 
   if (!username) {
     return false

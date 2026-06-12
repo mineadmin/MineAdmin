@@ -15,7 +15,12 @@ namespace App\Service;
 use App\Exception\BusinessException;
 use App\Exception\JwtInBlackException;
 use App\Http\Common\ResultCode;
+use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
+use App\Model\Permission\Department;
+use App\Model\Permission\Position;
+use App\Model\Permission\Role;
+use App\Model\Permission\User;
 use App\Repository\Permission\UserRepository;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\UnencryptedToken;
@@ -58,6 +63,84 @@ final class PassportService extends IService implements CheckTokenInterface
             'refresh_token' => $jwt->builderRefreshToken((string) $user->id)->toString(),
             'expire_at' => (int) $jwt->getConfig('ttl', 0),
         ];
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function formatUserInfo(?User $user): array
+    {
+        if (! $user instanceof User) {
+            return [];
+        }
+
+        return [
+            'id' => $user->id,
+            'username' => $user->username,
+            'nickname' => $user->nickname,
+            'avatar' => $user->avatar,
+            'signed' => $user->signed,
+            'backend_setting' => $user->backend_setting,
+            'phone' => $user->phone,
+            'email' => $user->email,
+            'departments' => $this->getUserDepartments($user),
+            'positions' => $this->getUserPositions($user),
+            'roles' => $this->getUserRoles($user),
+        ];
+    }
+
+    /**
+     * @return array<int,array{id:int,name:string}>
+     */
+    private function getUserDepartments(User $user): array
+    {
+        return $user->department()
+            ->select(['department.id', 'department.name'])
+            ->orderBy('department.id')
+            ->get()
+            ->map(static fn (Department $department): array => [
+                'id' => $department->id,
+                'name' => $department->name,
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<int,array{id:int,dept_id:int,name:string}>
+     */
+    private function getUserPositions(User $user): array
+    {
+        return $user->position()
+            ->select(['position.id', 'position.dept_id', 'position.name'])
+            ->orderBy('position.id')
+            ->get()
+            ->map(static fn (Position $position): array => [
+                'id' => $position->id,
+                'dept_id' => $position->dept_id,
+                'name' => $position->name,
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<int,array{id:int,code:string,name:string}>
+     */
+    private function getUserRoles(User $user): array
+    {
+        return $user->roles()
+            ->where('role.status', Status::Normal->value)
+            ->select(['role.id', 'role.code', 'role.name'])
+            ->orderBy('role.sort')
+            ->get()
+            ->map(static fn (Role $role): array => [
+                'id' => $role->id,
+                'code' => $role->code,
+                'name' => $role->name,
+            ])
+            ->values()
+            ->all();
     }
 
     public function checkJwt(UnencryptedToken $token): void

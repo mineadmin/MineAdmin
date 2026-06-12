@@ -41,14 +41,13 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import Message from 'vue-m-message'
 
 const emit = defineEmits<{
   (event: 'submit', value: any)
 }>()
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 
 const form = reactive({
   old_password: '',
@@ -100,37 +99,37 @@ defineExpose({ submit })
   <form class="mine-form" @submit.prevent="submit">
     <div class="mine-form-item">
       <div class="mine-form-item-title">
-        {{ useLocalTrans('changeInfo.old_passwordLabel') }}
+        {{ t('changeInfo.old_passwordLabel') }}
       </div>
       <m-input
         v-model="form.old_password"
         type="password"
         name="old_password"
-        :placeholder="useLocalTrans('changeInfo.old_passwordPlaceholder')"
+        :placeholder="t('changeInfo.old_passwordPlaceholder')"
         @blur="easyValidate"
       />
     </div>
     <div class="mine-form-item">
       <div class="mine-form-item-title">
-        {{ useLocalTrans('changeInfo.new_passwordLabel') }}
+        {{ t('changeInfo.new_passwordLabel') }}
       </div>
       <m-input
         v-model="form.new_password"
         type="password"
         name="new_password"
-        :placeholder="useLocalTrans('changeInfo.new_passwordPlaceholder')"
+        :placeholder="t('changeInfo.new_passwordPlaceholder')"
         @blur="easyValidate"
       />
     </div>
     <div class="mine-form-item">
       <div class="mine-form-item-title">
-        {{ useLocalTrans('changeInfo.new_password_confirmationLabel') }}
+        {{ t('changeInfo.new_password_confirmationLabel') }}
       </div>
       <m-input
         v-model="form.new_password_confirmation"
         type="password"
         name="new_password_confirmation"
-        :placeholder="useLocalTrans('changeInfo.new_password_confirmationPlaceholder')"
+        :placeholder="t('changeInfo.new_password_confirmationPlaceholder')"
         @blur="easyValidate"
       />
     </div>

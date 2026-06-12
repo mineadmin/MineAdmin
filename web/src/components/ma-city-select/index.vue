@@ -24,7 +24,6 @@ zh_TW:
 <script setup lang="ts">
 import jsonData from './lib/cn.json'
 import type { Area, ModelType } from './type.ts'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaCitySelect' })
 
@@ -33,7 +32,7 @@ const { mode = 'name', showLevel = 3 } = defineProps<{
   showLevel: 1 | 2 | 3
 }>()
 
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 const model = defineModel<ModelType>({ province: undefined, city: undefined, area: undefined})
 const province = ref<Area>([])
 const city = ref<Area>([])

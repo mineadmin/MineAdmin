@@ -12,11 +12,10 @@ import type { ProviderService } from '#/global'
 import type { App, Directive } from 'vue'
 import * as directives from '@/directives'
 import useThemeColor from '@/hooks/useThemeColor'
+import { setupI18n } from '@/i18n'
 import useTabStore from '@/store/modules/useTabStore.ts'
 import toolbars from '@/utils/toolbars.ts'
-import messages from '@intlify/unplugin-vue-i18n/messages'
 import ElementPlus from 'element-plus'
-import { createI18n } from 'vue-i18n'
 import router from './router'
 import pinia from './store'
 import './utils/copyright.ts'
@@ -41,31 +40,6 @@ import 'vue-m-message/dist/style.css'
 import '@/assets/styles/resources/variables.scss'
 import '@/assets/styles/resources/utils.scss'
 import '@/assets/styles/resources/element.scss'
-
-async function createI18nService(app: App) {
-  const locales: any[] = Object.entries(import.meta.glob('./locales/*.y(a)?ml')).map(([key]: any) => {
-    const [, value, label] = key.match(/^.\/locales\/(\w+)\[([^[\]]+)\]\.yaml$/)
-    return { label, value }
-  })
-  useUserStore().setLocales(locales)
-  Object.keys(messages as any).map((name: string) => {
-    const matchValue = name.match(/(\w+)/) as RegExpMatchArray | null
-    if (messages && matchValue) {
-      messages[matchValue[1]] = messages[name]
-      delete messages[name]
-    }
-  })
-
-  app.use(createI18n({
-    legacy: false,
-    globalInjection: true,
-    fallbackLocale: 'zh_CN',
-    locale: useUserStore().getLanguage(),
-    silentTranslationWarn: true,
-    silentFallbackWarn: true,
-    messages,
-  }))
-}
 
 async function initProvider(app: App) {
   const pvs = import.meta.glob('./provider/**/index.ts')
@@ -117,7 +91,7 @@ async function bootstrap(app: App): Promise<void> {
   app.use(ElementPlus, {})
   registerDirectives(app)
   await otherWorker(app)
-  await createI18nService(app)
+  setupI18n(app)
   await usePluginStore().registerPlugin(app)
   await router.isReady()
   useThemeColor().initThemeColor()

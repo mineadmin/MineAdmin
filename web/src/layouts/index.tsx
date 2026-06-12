@@ -116,9 +116,6 @@ export default defineComponent({
                 </Transition>
               )}
             </RouterView>
-            <div class="mine-iframe-area" v-show={route.meta?.type === 'I'}>
-              <MineIframe />
-            </div>
           </div>
         )}
       </>

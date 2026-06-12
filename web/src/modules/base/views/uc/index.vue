@@ -68,7 +68,6 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import { useLocalTrans } from '@/hooks/useLocalTrans'
 import UcContainer from './components/container.vue'
 import UcModifyInfo from './components/modify-info.vue'
 import UcTitle from './components/title.vue'
@@ -77,9 +76,10 @@ import { useMessage } from '@/hooks/useMessage.ts'
 const modalRef = ref()
 const selected = ref('profile')
 const userStore = useUserStore()
+const { globalTrans, localTrans: t } = useTrans()
 const tabOptions = reactive([
-  { label: useLocalTrans('profile'), value: 'profile' },
-  { label: useLocalTrans('setting'), value: 'setting' },
+  { label: t('profile'), value: 'profile' },
+  { label: t('setting'), value: 'setting' },
 ])
 
 const msg = useMessage()
@@ -90,16 +90,15 @@ const form = reactive({
 })
 
 const avatar = ref<string>(userStore.getUserInfo().avatar)
-const globalTrans = useTrans().globalTrans
 
 const showFields = reactive({
-  nickname: useLocalTrans('userinfo.nickname'),
-  username: useLocalTrans('userinfo.username'),
-  signed: useLocalTrans('userinfo.signed'),
-  email: useLocalTrans('userinfo.email'),
-  phone: useLocalTrans('userinfo.phone'),
-  login_ip: useLocalTrans('userinfo.loginIp'),
-  login_time: useLocalTrans('userinfo.loginTime'),
+  nickname: t('userinfo.nickname'),
+  username: t('userinfo.username'),
+  signed: t('userinfo.signed'),
+  email: t('userinfo.email'),
+  phone: t('userinfo.phone'),
+  login_ip: t('userinfo.loginIp'),
+  login_time: t('userinfo.loginTime'),
 })
 
 watch(avatar, async (val: string | undefined) => {
@@ -116,7 +115,7 @@ watch(avatar, async (val: string | undefined) => {
     <UcTitle>
       <template #extra>
         <m-button class="h-8" @click="() => modalRef.openModal() ">
-          {{ useLocalTrans('changeProfileOrPassword') }}
+          {{ t('changeProfileOrPassword') }}
         </m-button>
       </template>
     </UcTitle>
@@ -131,7 +130,7 @@ watch(avatar, async (val: string | undefined) => {
           <li class="!b-none">
             <div class="desc-item">
               <div class="desc-label">
-                {{ useLocalTrans('userinfo.avatar') }}
+                {{ t('userinfo.avatar') }}
               </div>
               <div class="desc-value">
                 <ma-upload-image v-model="avatar" />
@@ -156,17 +155,17 @@ watch(avatar, async (val: string | undefined) => {
           <li class="bg-gray-1 !b-none dark-bg-dark-5">
             <div class="desc-item">
               <div class="desc-label font-bold">
-                {{ useLocalTrans('explain') }}
+                {{ t('explain') }}
               </div>
               <div class="desc-value font-bold">
-                {{ useLocalTrans('action') }}
+                {{ t('action') }}
               </div>
             </div>
           </li>
           <li>
             <div class="desc-item">
               <div class="desc-label">
-                {{ useLocalTrans('whetherReceiveMsg') }}
+                {{ t('whetherReceiveMsg') }}
               </div>
               <div class="desc-value">
                 <!--                <m-switch v-model="form.isReceiveMsg" /> -->
@@ -176,7 +175,7 @@ watch(avatar, async (val: string | undefined) => {
           <li>
             <div class="desc-item">
               <div class="desc-label">
-                {{ useLocalTrans('whetherMultiDeviceLogin') }}
+                {{ t('whetherMultiDeviceLogin') }}
               </div>
               <div class="desc-value">
                 <!--                <m-switch v-model="form.multiDeviceLogin" /> -->

@@ -36,11 +36,23 @@ export default defineComponent({
       return props.mode === 'horizontal' || (props.mode === 'vertical' && props.collapse)
     })
 
+    function isVisibleMenuItem(item: MineRoute.routeRecord) {
+      const meta = item.meta as (MineRoute.RouteMeta & { menu?: boolean }) | undefined
+      return meta?.type !== 'B' && (meta?.hidden !== true || meta?.subForceShow === true) && meta?.menu !== false
+    }
+
+    function hasVisibleChildren(item: MineRoute.routeRecord) {
+      return item.children?.some(child => isVisibleMenuItem(child)) ?? false
+    }
+
     // 解析传入的 menu 数据，并保存到 items 和 subMenus 对象中
     function initItems(menu: MenuProps['menu'], parentPaths: string[] = []) {
       menu.forEach((item) => {
+        if (!isVisibleMenuItem(item)) {
+          return
+        }
         const index = item.path ?? JSON.stringify(item)
-        if (item?.children && item?.children?.length > 0) {
+        if (hasVisibleChildren(item)) {
           const indexPath = [index]
           if (parentPaths.length > 0) {
             indexPath.push(...parentPaths)
@@ -50,7 +62,7 @@ export default defineComponent({
             indexPath,
             active: false,
           }
-          initItems(item.children, indexPath)
+          initItems(item.children ?? [], indexPath)
         }
         else {
           const indexPath = [index, ...parentPaths]
@@ -62,6 +74,9 @@ export default defineComponent({
           items.value[index] = {
             index,
             indexPath,
+          }
+          if (item?.children && item?.children?.length > 0) {
+            initItems(item.children, indexPath)
           }
         }
       })

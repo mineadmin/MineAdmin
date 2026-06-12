@@ -26,7 +26,6 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import passwordForm from './password-form.vue'
 import userinfoForm from './userinfo-form.vue'
 import { useMessage } from '@/hooks/useMessage.ts'
@@ -40,11 +39,11 @@ const userinfoFormRef = ref()
 const passwordFormRef = ref()
 
 const userStore = useUserStore()
-const globalTrans = useTrans().globalTrans
+const { globalTrans, localTrans: t } = useTrans()
 
 const tabOptions = reactive([
-  { label: useLocalTrans('change.info'), value: 'userinfo' },
-  { label: useLocalTrans('change.password'), value: 'password' },
+  { label: t('change.info'), value: 'userinfo' },
+  { label: t('change.password'), value: 'password' },
 ])
 
 const state = reactive({
@@ -85,7 +84,7 @@ defineExpose({ openModal })
 <template>
   <m-modal
     v-model="state.isOpen"
-    :title="useLocalTrans(selected === 'info' ? 'change.info' : 'change.password')"
+    :title="t(selected === 'info' ? 'change.info' : 'change.password')"
     content-class="w-[450px] h-[380px]"
   >
     <m-tabs v-model="selected" :options="tabOptions" class="text-sm" />
@@ -105,7 +104,7 @@ defineExpose({ openModal })
           selected === 'userinfo' ? userinfoFormRef.submit() : passwordFormRef.submit()
         }"
       >
-        {{ useLocalTrans(selected === 'userinfo' ? 'change.info' : 'change.password') }}
+        {{ t(selected === 'userinfo' ? 'change.info' : 'change.password') }}
       </m-button>
     </template>
   </m-modal>

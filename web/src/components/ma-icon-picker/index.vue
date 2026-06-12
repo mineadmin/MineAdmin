@@ -24,12 +24,12 @@ zh_TW:
 
 <script setup lang="ts">
 import MaIconPanel from './ma-icon-panel.vue'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 
 defineOptions({ name: 'MaIconPicker' })
 
 const model = defineModel<string>()
 const iconPanelRef = ref()
+const { localTrans: t } = useTrans()
 
 const dialogVisible = ref<boolean>(false)
 </script>
@@ -41,14 +41,14 @@ const dialogVisible = ref<boolean>(false)
         v-model="model"
         class="relative w-full"
         readonly
-        :placeholder="useLocalTrans('showInputPlaceholder')"
+        :placeholder="t('showInputPlaceholder')"
       >
         <template v-if="model" #prefix>
           <ma-svg-icon :name="model" :size="20" />
         </template>
         <template #suffix>
           <el-button type="primary" class="absolute right-0 rounded-none" @click.prevent="dialogVisible = true">
-            {{ useLocalTrans('selectedIcon') }}
+            {{ t('selectedIcon') }}
           </el-button>
         </template>
         <template #append>
@@ -58,13 +58,13 @@ const dialogVisible = ref<boolean>(false)
               iconPanelRef?.clear()
             }"
           >
-            {{ useLocalTrans('clear') }}
+            {{ t('clear') }}
           </el-button>
         </template>
       </el-input>
     </div>
 
-    <el-dialog v-model="dialogVisible" :title="useLocalTrans('selectedIcon')" width="800" append-to-body draggable destroy-on-close align-center>
+    <el-dialog v-model="dialogVisible" :title="t('selectedIcon')" width="800" append-to-body draggable destroy-on-close align-center>
       <MaIconPanel
         ref="iconPanelRef"
         @select="(icon: string) => {

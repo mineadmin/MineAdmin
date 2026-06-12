@@ -35,10 +35,11 @@ const emit = defineEmits<{
 
 const userStore = useUserStore()
 const { localTrans: t } = useTrans()
+const userInfo = userStore.getUserInfo()
 
 const form = reactive({
-  nickname: userStore.getUserInfo().nickname,
-  signed: userStore.getUserInfo().signed,
+  nickname: userInfo?.nickname ?? '',
+  signed: userInfo?.signed ?? '',
 })
 
 async function submit() {

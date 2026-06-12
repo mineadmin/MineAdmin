@@ -63,8 +63,11 @@ function submit(data: Record<string, any>) {
   if (data.type === 'userinfo') {
     update(data.form).then(() => {
       msg.success(globalTrans('crud.updateSuccess'))
-      userStore.getUserInfo().nickname = data.form.nickname
-      userStore.getUserInfo().signed = data.form.signed
+      const userInfo = userStore.getUserInfo()
+      if (userInfo) {
+        userInfo.nickname = data.form.nickname
+        userInfo.signed = data.form.signed
+      }
       state.isOpen = false
     })
   }

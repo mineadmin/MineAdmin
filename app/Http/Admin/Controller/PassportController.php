@@ -22,7 +22,6 @@ use App\Http\CurrentUser;
 use App\Model\Enums\User\Type;
 use App\Schema\UserSchema;
 use App\Service\PassportService;
-use Hyperf\Collection\Arr;
 use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Swagger\Annotation as OA;
@@ -104,12 +103,7 @@ final class PassportController extends AbstractController
     )]
     public function getInfo(): Result
     {
-        return $this->success(
-            Arr::only(
-                $this->currentUser->user()?->toArray() ?: [],
-                ['username', 'nickname', 'avatar', 'signed', 'backend_setting', 'phone', 'email']
-            )
-        );
+        return $this->success($this->passportService->formatUserInfo($this->currentUser->user()));
     }
 
     #[Post(

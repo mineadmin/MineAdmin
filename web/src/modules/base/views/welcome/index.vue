@@ -40,7 +40,7 @@ useTable('table').then((table: MaTableExpose) => {
     <div class="flex justify-between bg-white p-3 dark-bg-dark-8">
       <div class="flex gap-x-5">
         <el-avatar :src="userinfo?.avatar" :size="80">
-          <span v-if="!userinfo?.avatar" class="text-5xl">{{ userinfo.username[0].toUpperCase() }}</span>
+          <span v-if="!userinfo?.avatar" class="text-5xl">{{ userinfo?.username?.[0]?.toUpperCase() ?? '' }}</span>
         </el-avatar>
         <div class="flex flex-col justify-center gap-y-2">
           <span class="text-xl">早安，天青色等烟雨，而我在等你！</span>
@@ -130,30 +130,30 @@ useTable('table').then((table: MaTableExpose) => {
         <div class="mt-3 p-2 text-sm leading-6">
           感谢选择 MineAdmin 作为您的项目开发脚手架，我们为您提供了入门路径、二次开发项目指南以及现成的应用插件，
           我们致力于：<el-text type="primary">
-            运用技术，为公司和品牌创造卓越的价值。
-          </el-text>
+          运用技术，为公司和品牌创造卓越的价值。
+        </el-text>
         </div>
         <div class="p-2 text-sm text-gray-5 dark-text-[#ccc]">
           <ul class="ma-link">
             <li>
               官方网站：<el-link target="_blank" href="https://www.mineadmin.com">
-                https://www.mineadmin.com
-              </el-link>
+              https://www.mineadmin.com
+            </el-link>
             </li>
             <li>
               开发文档：<el-link target="_blank" href="https://doc.mineadmin.com">
-                https://doc.mineadmin.com
-              </el-link>
+              https://doc.mineadmin.com
+            </el-link>
             </li>
             <li>
               应用市场：<el-link target="_blank" href="https://www.mineadmin.com/store">
-                https://www.mineadmin.com/store
-              </el-link>
+              https://www.mineadmin.com/store
+            </el-link>
             </li>
             <li>
               QQ交流群：<el-link target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=Uq4VW1H9jtDhEKsUb3hfjHraiSG80FI4&jump_from=webapi&authKey=bpaCvnQ65RpLdyQx8m57iQNc9OtgJgyIjrcG3qDrJZhnL4QdqzDLLQS8fx5jkevE">
-                150105478，点击加入
-              </el-link>
+              150105478，点击加入
+            </el-link>
             </li>
           </ul>
         </div>

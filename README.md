@@ -1,122 +1,152 @@
 中文 | [English](./README-en.md) | [日本語](./README-ja.md)
-# 项目介绍
+
+# MineAdmin
 
 <p align="center">
-    <img src="web/public/logo.svg" width="120" alt="logo" />
+    <img src="web/public/logo.svg" width="120" alt="MineAdmin Logo" />
 </p>
+
 <p align="center">
     <a href="https://www.mineadmin.com" target="_blank">官网</a> |
-    <a href="https://doc.mineadmin.com" target="_blank">文档</a> | 
-    <a href="https://demo.mineadmin.com" target="_blank">演示</a> |
-    <a href="https://hyperf.wiki/3.0/#/" target="_blank">Hyperf官方文档</a> 
+    <a href="https://doc.mineadmin.com" target="_blank">文档</a> |
+    <a href="https://demo.mineadmin.com" target="_blank">演示</a>
 </p>
 
-## 项目介绍
+MineAdmin 是一套开箱即用的后台管理系统，适合快速搭建网站后台、运营平台、权限中心、内部管理系统、CMS、CRM、OA、ERP 等业务应用。
 
-PHP有很多优秀的后台管理系统，但基于Swoole的后台管理系统没找到合适我自己的。
-所以就开发了一套后台管理系统。系统可以用于网站管理后台、CMS、CRM、OA、ERP等。
+它已经内置了企业后台常用的组织、用户、权限、菜单、日志、附件、应用市场等能力。你可以直接用它管理业务，也可以在它的基础上扩展自己的模块，把更多时间放在业务本身。
 
-后台系统基于 Hyperf 框架开发。企业级架构分层，轻松支撑创业公司及个人前期发展使用，使用少量的服务器资源媲美静态语言的性能。
-前端使用Vue3 + Vite4 + Pinia + Arco，一端适配PC、移动端、平板
+在使用 MineAdmin 前，请认真阅读并同意[《免责声明》](https://www.mineadmin.com/about/declaration)。
 
-如果觉着还不错的话，就请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！
-在使用 MineAdmin 前请认真阅读[《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)并同意该声明。
+## 适合用来做什么
 
-## 官方交流群
-> QQ群用于交流学习，请勿水群
+- 搭建企业内部管理后台，例如人员、部门、岗位、角色、权限等基础管理。
+- 搭建业务运营平台，例如内容管理、客户管理、订单管理、流程管理、报表看板等。
+- 作为新项目的后台基础工程，直接复用登录、权限、菜单、日志、附件上传等通用能力。
+- 作为插件化应用平台，通过应用市场安装、卸载或扩展更多业务功能。
+- 为团队提供统一的后台体验，包括多语言、主题配置、布局切换、标签页、面包屑、水印等界面能力。
+
+## 内置功能
+
+### 账号与权限
+
+- 用户管理：支持用户新增、编辑、删除、禁用、初始化密码、分配角色等操作。
+- 角色管理：按角色分配菜单权限和按钮权限，控制不同人员可访问、可操作的范围。
+- 菜单管理：维护后台菜单、路由、按钮权限、外链、iframe 页面、排序、缓存、隐藏状态等。
+- 数据权限：可按岗位或用户设置数据可见范围，让不同成员只看到自己权限内的数据。
+- 登录认证：提供后台登录、令牌校验、权限校验和当前用户信息获取能力。
+
+### 组织架构
+
+- 部门管理：维护公司、机构、团队等层级组织结构。
+- 岗位管理：在部门下维护岗位，并将用户分配到对应岗位。
+- 负责人管理：可为部门设置负责人，便于组织关系和管理责任追踪。
+- 人员查看：可围绕部门查看关联用户，快速了解组织成员分布。
+
+### 日志审计
+
+- 登录日志：记录用户登录时间、登录 IP、浏览器、登录状态和提示信息。
+- 操作日志：记录用户在系统中的关键操作、请求方式、访问路由、业务名称和操作时间。
+- 权限审计：结合角色、菜单、按钮和数据权限，帮助定位用户可访问资源来源。
+
+### 数据与文件
+
+- 附件管理：统一管理系统上传的文件、图片等资源。
+- 文件上传：提供后台上传入口，并记录上传人、文件信息等数据。
+- 数据中心：为后续业务数据、文件资源和扩展模块提供统一管理入口。
+
+### 应用扩展
+
+- 应用市场：支持查看应用、插件和前端组件，按需下载、安装、卸载。
+- 本地应用：支持查看本地已安装应用，也可以上传本地应用包。
+- 插件扩展：适合把独立业务能力封装成插件，减少主系统改动。
+
+### 后台体验
+
+- 工作台与数据看板：提供工作台、分析页、报表页等后台首页示例。
+- 个人中心：支持个人资料维护、密码修改等常用账户操作。
+- 多语言：内置简体中文、繁体中文、英文等语言资源。
+- 主题与布局：支持亮色、暗色、跟随系统、主题色、经典布局、分栏布局、混合布局等配置。
+- 常用交互：内置标签页、面包屑、全屏、搜索、通知、快捷入口、水印、返回顶部等后台常见体验。
+
+## 快速开始
+
+MineAdmin 使用迁移文件完成安装和初始化数据，不需要手动导入 SQL 文件。
+
+请先确保本地已安装 `Composer`，然后执行：
+
+```shell
+composer create-project mineadmin/mineadmin --keep-vcs
+```
+
+更完整的安装、配置、部署和开发说明，请查看[官方文档](https://doc.mineadmin.com)。
+
+## 体验地址
+
+[在线演示](https://demo.mineadmin.com)
+
+- 账号：`admin`
+- 密码：`123456`
+
+> 演示环境供体验使用，请勿添加无关数据。
+
+## 环境要求
+
+- PHP >= 8.1
+- Swoole >= 5.0，并关闭 `Short Name`
+- Redis >= 4.0
+- MySQL >= 5.7 / PostgreSQL >= 10 / SQL Server
+- Git >= 2.x
+
+## 官方交流
+
+> QQ 群用于交流学习，请勿水群。
 
 <a href="https://qm.qq.com/q/PJnEgr4D8C">
   <img src="https://svg.hamm.cn/badge.svg?key=QQ群&value=150105478" />
 </a>
 
 ## 战略合作
-[京策盾高防CDN - 抗DDOS/CC网络攻击的可靠服务商](https://www.jcdun.com/guoneigaofangcdn)
 
-## 内置功能
-
-1. 用户管理，完成用户添加、修改、删除配置，支持不同用户登录后台看到不同的首页
-2. 角色管理，角色菜单权限分配、角色数据权限分配
-3. 菜单管理，配置系统菜单和按钮等
-4. 操作日志，用户对系统的一些正常操作的查询
-5. 登录日志，用户登录系统的记录查询
-6. 附件管理，管理当前系统上传的文件及图片等信息
-7. 部门管理，可以管理组织架构
-8. 岗位管理，在部门内管理，可以为部门设置岗位，再为用户分配岗位
-9. 数据权限，数据权限功能跟随岗位而设置，同时，也可以对用户单独设置数据权限，使岗位的数据权限失效。
-10. 应用市场，可下载各种基础应用、插件、前端组件等等
-
-## 环境需求
-
-- Swoole >= 5.0 并关闭 `Short Name`
-- PHP >= 8.1 并开启以下扩展：
-  - mbstring
-  - json
-  - pdo
-  - openssl
-  - redis
-  - pcntl
-- [x] Mysql >= 5.7
-- [x] Pgsql >= 10
-- [x] Sql Server Latest
-- Sqlsrv is Latest
-- Redis >= 4.0
-- Git >= 2.x
-
-
-## 下载项目
-- MineAdmin没有使用SQL文件导入安装，系统使用Migrates迁移文件形式安装和填充数据，请知悉。
-
-- 项目下载，请确保已经安装了 `Composer`
-```shell
-composer create-project mineadmin/mineadmin --keep-vcs
-```
+[京策盾高防 CDN - 抗 DDOS/CC 网络攻击的可靠服务商](https://www.jcdun.com/guoneigaofangcdn)
 
 ## 免责声明
+
 [《免责声明》](https://doc.mineadmin.com/guide/start/declaration.html)
 
-使用本软件不得用于开发违反国家有关政策的相关软件和应用，若因使用本软件造成的一切法律责任均与 `MineAdmin` 无关
-
-## 体验地址
-
-[体验地址](https://demo.mineadmin.com)
-- 账号：admin
-- 密码：123456
-
-> 请勿添加脏数据
+使用本软件不得用于开发违反国家有关政策的相关软件和应用。若因使用本软件造成任何法律责任，均与 `MineAdmin` 无关。
 
 ## 鸣谢
 
-> 以下排名不分先后
+> 以下排名不分先后。
 
-[Hyperf 一款高性能企业级协程框架](https://hyperf.io/)
-
-[Element Plus 基于 Vue 3，面向设计师和开发者的组件库](https://element-plus.org/)
-
-[Swoole PHP协程框架](https://www.swoole.com)
-
-[Vue](https://vuejs.org/)
-
-[Vite](https://vitejs.cn/)
-
-[Jetbrains 生产力工具](https://www.jetbrains.com/)
+[Hyperf](https://hyperf.io/)  
+[Element Plus](https://element-plus.org/)  
+[Swoole](https://www.swoole.com)  
+[Vue](https://vuejs.org/)  
+[Vite](https://vitejs.cn/)  
+[JetBrains](https://www.jetbrains.com/)
 
 ## 通过 OSCS 安全认证
+
 [![OSCS Status](https://www.oscs1024.com/platform/badge/kanyxmo/MineAdmin.svg?size=large)](https://www.murphysec.com/dr/9ztZvuSN6OLFjCDGVo)
 
-## star 趋势
+## Star 趋势
 
 [![Stargazers over time](https://starchart.cc/mineadmin/mineadmin.svg)](https://starchart.cc/mineadmin/mineadmin.svg)
 
 ## 贡献者
 
-> 感谢所有参与 MineAdmin 开发的代码贡献者。 [[contributors](https://github.com/mineadmin/mineadmin/graphs/contributors)]
+> 感谢所有参与 MineAdmin 开发的代码贡献者。[[contributors](https://github.com/mineadmin/mineadmin/graphs/contributors)]
+
 <a href="https://github.com/mineadmin/mineadmin/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
+  <img src="https://contrib.rocks/image?repo=mineadmin/mineadmin" />
 </a>
 
 [![贡献者趋势](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=mineadmin/mineadmin)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=mineadmin/mineadmin)
 
 ## 演示图片
+
 [![pAdQKPJ.png](https://s21.ax1x.com/2024/10/22/pAdQKPJ.png)](https://imgse.com/i/pAdQKPJ)
 [![pAdQlx1.png](https://s21.ax1x.com/2024/10/22/pAdQlx1.png)](https://imgse.com/i/pAdQlx1)
 [![pAdQQ2R.png](https://s21.ax1x.com/2024/10/22/pAdQQ2R.png)](https://imgse.com/i/pAdQQ2R)

@@ -18,6 +18,13 @@ MineAdmin は、Web サイトの管理画面、運営プラットフォーム、
 
 MineAdmin を使用する前に、必ず[《免責事項》](https://www.mineadmin.com/about/declaration)をお読みいただき、同意してください。
 
+## フロントエンドリポジトリ
+フロントエンドリポジトリはこちら
+
+- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
+- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
+
+
 ## 何に使えるか
 
 - 社内管理画面の構築。社員、部門、役職、ロール、権限などの基本管理に利用できます。

@@ -3,7 +3,7 @@
 # MineAdmin
 
 <p align="center">
-    <img src="web/public/logo.svg" width="120" alt="MineAdmin Logo" />
+    <img src="https://raw.githubusercontent.com/mineadmin/MineAdmin-Vue/53924b3f98733201d4a2492cf2c91e65a56421be/public/logo.svg" width="120" alt="MineAdmin Logo" />
 </p>
 
 <p align="center">

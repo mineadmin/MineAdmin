@@ -17,6 +17,7 @@ tests/coverage.xml
 tests/coverage
 tests/coding_standard.xml
 tests/junit.xml
+web
 public
 !web/public
 *.lock

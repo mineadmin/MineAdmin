@@ -3,7 +3,7 @@
 # MineAdmin
 
 <p align="center">
-    <img src="web/public/logo.svg" width="120" alt="MineAdmin Logo" />
+    <img src="https://raw.githubusercontent.com/mineadmin/MineAdmin-Vue/53924b3f98733201d4a2492cf2c91e65a56421be/public/logo.svg" width="120" alt="MineAdmin Logo" />
 </p>
 
 <p align="center">
@@ -17,6 +17,13 @@ MineAdmin は、Web サイトの管理画面、運営プラットフォーム、
 組織、ユーザー、権限、メニュー、ログ、添付ファイル、アプリマーケットなど、企業向け管理画面でよく使われる機能をあらかじめ備えています。そのまま業務管理に利用することも、独自モジュールを拡張して、より多くの時間を業務そのものに集中することもできます。
 
 MineAdmin を使用する前に、必ず[《免責事項》](https://www.mineadmin.com/about/declaration)をお読みいただき、同意してください。
+
+## フロントエンドリポジトリ
+フロントエンドリポジトリはこちら
+
+- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
+- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
+
 
 ## 何に使えるか
 

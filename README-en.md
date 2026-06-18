@@ -3,7 +3,7 @@
 # MineAdmin
 
 <p align="center">
-    <img src="web/public/logo.svg" width="120" alt="MineAdmin Logo" />
+    <img src="https://raw.githubusercontent.com/mineadmin/MineAdmin-Vue/53924b3f98733201d4a2492cf2c91e65a56421be/public/logo.svg" width="120" alt="MineAdmin Logo" />
 </p>
 
 <p align="center">
@@ -17,6 +17,13 @@ MineAdmin is an out-of-the-box admin management system for quickly building webs
 It includes the common capabilities needed by enterprise admin systems, such as organization management, users, permissions, menus, logs, attachments, and an app marketplace. You can use it directly to manage your business, or extend your own modules on top of it and spend more time on the business itself.
 
 Before using MineAdmin, please read and agree to the [Disclaimer](https://www.mineadmin.com/about/declaration).
+
+## Frontend Repository
+Go to the frontend repository
+
+- [Github MineAdmin-Vue](https://github.com/mineadmin/MineAdmin-Vue)
+- [Gitee MineAdmin-Vue](https://gitee.com/mineadmin/MineAdmin-vue)
+
 
 ## What Can It Be Used For
 

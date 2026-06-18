@@ -24,6 +24,12 @@ return [
     'access_token' => env('MINE_ACCESS_TOKEN'),
 
     /*
+     * The list of extensions to be automatically installed when the system is initialized.
+     * 设置执行 mine:install 命令时，自动安装插件列表
+     */
+    'auto_install_list' => [],
+
+    /*
      * The root directory where the front-end code resides.
      *
      * 前端代码所在根目录.

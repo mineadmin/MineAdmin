@@ -113,15 +113,20 @@ class Service
 
     public function uploadLocalApp(UploadedFile $file): bool
     {
+        $runtimePath = null;
+        $zip = null;
+        $zipOpened = false;
+
         try {
             $runtimePath = BASE_PATH . '/runtime/' . uniqid('mineApp', true) . '.zip';
             $file->moveTo($runtimePath);
+
             $zip = new \ZipArchive();
-            $zip->open($runtimePath);
-            if ($zip->status !== \ZipArchive::ER_OK) {
+            if ($zip->open($runtimePath) !== true) {
                 throw new \RuntimeException('Failed to open the zip file');
             }
-            $this->assertSafeZipEntries($zip);
+            $zipOpened = true;
+
             $mineJson = $zip->getFromName('mine.json');
             if ($mineJson === false) {
                 throw new \RuntimeException('mine.json not found');
@@ -133,13 +138,25 @@ class Service
                 \JSON_THROW_ON_ERROR
             );
             $identifier = $this->normalizeIdentifier($json['name'] ?? null);
-            $zip->extractTo(Plugin::PLUGIN_PATH . '/' . $identifier);
-            $zip->close();
+            $destination = $this->preparePluginExtractPath($identifier);
+            $this->assertSafeZipEntries($zip, $destination);
+            if (! $zip->extractTo($destination)) {
+                throw new \RuntimeException('Failed to extract the zip file');
+            }
+
             Plugin::forceRefreshJsonPath();
             Plugin::install($identifier);
-            @unlink($runtimePath);
+        } catch (BusinessException $e) {
+            throw $e;
         } catch (\Throwable $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), (int) $e->getCode(), $e);
+        } finally {
+            if ($zipOpened && $zip instanceof \ZipArchive) {
+                @$zip->close();
+            }
+            if ($runtimePath !== null && is_file($runtimePath)) {
+                @unlink($runtimePath);
+            }
         }
         return true;
     }
@@ -158,7 +175,57 @@ class Service
         return $identifier;
     }
 
-    private function assertSafeZipEntries(\ZipArchive $zip): void
+    private function preparePluginExtractPath(string $identifier): string
+    {
+        $pluginRoot = $this->ensureDirectory(Plugin::PLUGIN_PATH);
+        [$vendor, $name] = explode('/', $identifier, 2);
+
+        $vendorPath = $pluginRoot . \DIRECTORY_SEPARATOR . $vendor;
+        if (is_link($vendorPath)) {
+            throw new \RuntimeException('Invalid plugin path');
+        }
+        if (! is_dir($vendorPath) && ! mkdir($vendorPath, 0o755, true) && ! is_dir($vendorPath)) {
+            throw new \RuntimeException('Failed to create plugin vendor directory');
+        }
+        $realVendorPath = realpath($vendorPath);
+        if ($realVendorPath === false || ! $this->isPathInside($pluginRoot, $realVendorPath)) {
+            throw new \RuntimeException('Invalid plugin path');
+        }
+
+        $destination = $realVendorPath . \DIRECTORY_SEPARATOR . $name;
+        if (is_link($destination)) {
+            throw new \RuntimeException('Invalid plugin path');
+        }
+        if (! $this->isPathInside($pluginRoot, $destination)) {
+            throw new \RuntimeException('Invalid plugin path');
+        }
+        if (! is_dir($destination) && ! mkdir($destination, 0o755, true) && ! is_dir($destination)) {
+            throw new \RuntimeException('Failed to create plugin directory');
+        }
+
+        $realDestination = realpath($destination);
+        if ($realDestination === false || ! $this->isPathInside($pluginRoot, $realDestination)) {
+            throw new \RuntimeException('Invalid plugin path');
+        }
+
+        return $realDestination;
+    }
+
+    private function ensureDirectory(string $path): string
+    {
+        if (! is_dir($path) && ! mkdir($path, 0o755, true) && ! is_dir($path)) {
+            throw new \RuntimeException('Failed to create directory');
+        }
+
+        $realPath = realpath($path);
+        if ($realPath === false || ! is_dir($realPath)) {
+            throw new \RuntimeException('Invalid directory');
+        }
+
+        return $realPath;
+    }
+
+    private function assertSafeZipEntries(\ZipArchive $zip, string $destination): void
     {
         for ($index = 0; $index < $zip->numFiles; ++$index) {
             $name = $zip->getNameIndex($index);
@@ -166,6 +233,7 @@ class Service
                 ! is_string($name)
                 || $this->isUnsafeZipEntryName($name)
                 || $this->isZipEntrySymlink($zip, $index)
+                || ! $this->isZipEntryDestinationSafe($destination, $name)
             ) {
                 throw new \RuntimeException('Invalid zip entry path');
             }
@@ -174,7 +242,7 @@ class Service
 
     private function isUnsafeZipEntryName(string $name): bool
     {
-        if ($name === '' || str_contains($name, "\0")) {
+        if ($name === '' || str_contains($name, "\0") || str_contains($name, '\\')) {
             return true;
         }
 
@@ -183,13 +251,68 @@ class Service
             return true;
         }
 
+        $normalized = trim($normalized, '/');
+        if ($normalized === '') {
+            return true;
+        }
+
         foreach (explode('/', $normalized) as $segment) {
-            if ($segment === '..') {
+            if ($segment === '' || $segment === '.' || $segment === '..') {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function isZipEntryDestinationSafe(string $destination, string $name): bool
+    {
+        $targetPath = $this->zipEntryDestination($destination, $name);
+        if (! $this->isPathInside($destination, $targetPath)) {
+            return false;
+        }
+
+        $currentPath = $destination;
+        foreach (explode('/', trim($name, '/')) as $segment) {
+            $currentPath .= \DIRECTORY_SEPARATOR . $segment;
+            if (is_link($currentPath)) {
+                return false;
+            }
+            if (file_exists($currentPath)) {
+                $realPath = realpath($currentPath);
+                if ($realPath === false || ! $this->isPathInside($destination, $realPath)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private function zipEntryDestination(string $destination, string $name): string
+    {
+        $entryPath = str_replace('/', \DIRECTORY_SEPARATOR, trim($name, '/'));
+        return $destination . \DIRECTORY_SEPARATOR . $entryPath;
+    }
+
+    private function isPathInside(string $basePath, string $targetPath): bool
+    {
+        $base = $this->normalizeFilesystemPath($basePath);
+        $target = $this->normalizeFilesystemPath($targetPath);
+
+        if (\DIRECTORY_SEPARATOR === '\\') {
+            $base = strtolower($base);
+            $target = strtolower($target);
+        }
+
+        return $target === $base || str_starts_with($target, $base . '/');
+    }
+
+    private function normalizeFilesystemPath(string $path): string
+    {
+        $normalized = str_replace('\\', '/', $path);
+        $normalized = preg_replace('#/+#', '/', $normalized) ?? $normalized;
+        return rtrim($normalized, '/');
     }
 
     private function isZipEntrySymlink(\ZipArchive $zip, int $index): bool

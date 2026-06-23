@@ -37,48 +37,56 @@ class IndexController extends AbstractController
     public Service $service;
 
     #[GetMapping('index')]
+    #[Permission(code: 'plugin:store:list')]
     public function index(): Result
     {
         return $this->success($this->serviceImpl->list($this->request->all()));
     }
 
     #[GetMapping('getPayApp')]
+    #[Permission(code: 'plugin:store:list')]
     public function getPayApp(): Result
     {
         return $this->success($this->serviceImpl->payApp());
     }
 
     #[GetMapping('getLocalAppInstallList')]
+    #[Permission(code: 'plugin:store:local-list')]
     public function getLocalAppInstallList(): Result
     {
         return $this->success($this->service->getLocalAppInstallList());
     }
 
     #[GetMapping('detail')]
+    #[Permission(code: 'plugin:store:detail')]
     public function detail(): Result
     {
         return $this->success($this->serviceImpl->view($this->request->input('identifier')));
     }
 
     #[PostMapping('download')]
+    #[Permission(code: 'plugin:store:download')]
     public function download(): Result
     {
         return $this->success(['result' => $this->service->download($this->request->all())]);
     }
 
     #[PostMapping('install')]
+    #[Permission(code: 'plugin:store:install')]
     public function install(): Result
     {
         return $this->success(['result' => $this->service->install($this->request->all())]);
     }
 
     #[PostMapping('unInstall')]
+    #[Permission(code: 'plugin:store:uninstall')]
     public function unInstall(): Result
     {
         return $this->success(['result' => $this->service->unInstall($this->request->all())]);
     }
 
     #[PostMapping('uploadLocalApp')]
+    #[Permission(code: 'plugin:store:upload')]
     public function uploadLocalApp(): Result
     {
         $this->service->uploadLocalApp($this->request->file('file'));
@@ -86,6 +94,7 @@ class IndexController extends AbstractController
     }
 
     #[GetMapping('hasAccessToken')]
+    #[Permission(code: 'plugin:store:config')]
     public function hasAccessToken(): Result
     {
         return $this->success(['isHas' => env('MINE_ACCESS_TOKEN') !== null]);

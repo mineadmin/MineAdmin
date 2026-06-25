@@ -25,6 +25,7 @@ use Hyperf\Swagger\Annotation\Schema;
  * @property string $type 类型
  * @property bool $cache 是否缓存
  * @property bool $copyright 是否显示版权
+ * @property bool $useDefaultLayout 是否使用默认布局
  * @property string $link 链接
  * @property string $componentPath 视图文件类型
  * @property string $componentSuffix 视图前缀路径
@@ -64,6 +65,9 @@ final class MenuMetaSchema
     #[Property(property: 'copyright', title: '是否显示版权', type: 'bool')]
     public bool $copyright;
 
+    #[Property(property: 'useDefaultLayout', title: '是否使用默认布局', type: 'bool')]
+    public bool $useDefaultLayout;
+
     #[Property(property: 'breadcrumbEnable', title: '是否显示面包屑', type: 'bool')]
     public bool $breadcrumbEnable;
 
@@ -98,6 +102,7 @@ final class MenuMetaSchema
         string $type = '',
         bool $cache = true,
         bool $copyright = true,
+        bool $useDefaultLayout = true,
         bool $breadcrumbEnable = true,
         string $componentPath = '',
         string $componentSuffix = '',
@@ -116,6 +121,7 @@ final class MenuMetaSchema
         $this->type = $type;
         $this->cache = $cache;
         $this->copyright = $copyright;
+        $this->useDefaultLayout = $useDefaultLayout;
         $this->componentPath = $componentPath;
         $this->componentSuffix = $componentSuffix;
         $this->breadcrumbEnable = $breadcrumbEnable;

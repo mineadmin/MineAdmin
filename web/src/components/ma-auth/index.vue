@@ -13,7 +13,7 @@ import hasAuth from '@/utils/permission/hasAuth'
 defineOptions({ name: 'MaAuth' })
 
 withDefaults(defineProps<{
-  value: string | string[]
+  value?: string | string[]
 }>(), {
   value: '',
 })

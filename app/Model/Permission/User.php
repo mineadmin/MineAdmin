@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Permission;
 
+use App\Model\DataPermission\Policy;
 use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
 use Carbon\Carbon;
@@ -19,6 +20,7 @@ use Hyperf\Collection\Collection;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Deleted;
 use Hyperf\Database\Model\Relations\BelongsToMany;
+use Hyperf\Database\Model\Relations\HasOne;
 use Hyperf\DbConnection\Model\Model;
 
 /**
@@ -41,6 +43,10 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $remark 备注
  * @property null|Collection|Role[] $roles
  * @property mixed $password 密码
+ * @property null|Policy $policy 数据权限策略
+ * @property Collection|Department[] $department 部门
+ * @property Collection|Department[] $dept_leader 部门领导
+ * @property Collection|Position[] $position 岗位
  */
 final class User extends Model
 {
@@ -87,6 +93,7 @@ final class User extends Model
     public function deleted(Deleted $event)
     {
         $this->roles()->detach();
+        $this->policy()->delete();
     }
 
     public function setPasswordAttribute($value): void
@@ -135,5 +142,46 @@ final class User extends Model
     public function hasPermission(string $permission): bool
     {
         return $this->roles()->whereRelation('menus', 'name', $permission)->exists();
+    }
+
+    public function policy(): HasOne
+    {
+        return $this->hasOne(Policy::class, 'user_id', 'id');
+    }
+
+    public function department(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'user_dept', 'user_id', 'dept_id');
+    }
+
+    public function dept_leader(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'dept_leader', 'user_id', 'dept_id');
+    }
+
+    public function position(): BelongsToMany
+    {
+        return $this->belongsToMany(Position::class, 'user_position', 'user_id', 'position_id');
+    }
+
+    public function getPolicy(): ?Policy
+    {
+        /**
+         * @var null|Policy $policy
+         */
+        $policy = $this->policy()->first();
+        if (! empty($policy)) {
+            return $policy;
+        }
+
+        $this->load('position');
+        $positionList = $this->position;
+        foreach ($positionList as $position) {
+            $current = $position->policy()->first();
+            if (! empty($current)) {
+                return $current;
+            }
+        }
+        return null;
     }
 }

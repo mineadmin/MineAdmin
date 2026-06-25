@@ -53,9 +53,7 @@ function setData(data: Record<string, any>) {
     }
   })
 
-  if (data.id) {
-    form.value.dataType = 'edit'
-  }
+  form.value.dataType = data.id ? 'edit' : 'add'
 }
 
 const inputVisible = ref <Record<string, boolean>>({
@@ -204,7 +202,6 @@ const formItems = ref<MaFormItem[]>([
     renderProps: {
       class: 'w-full',
     },
-    cols: { lg: 12, md: 24 },
   },
   {
     label: () => t('baseMenuManage.redirect'), prop: 'redirect', render: 'input',
@@ -226,6 +223,22 @@ const formItems = ref<MaFormItem[]>([
     renderProps: {
       min: 0, max: 99999,
       class: 'w-full',
+    },
+    cols: { lg: 12, md: 12, sm: 24 },
+  },
+  {
+    label: () => t('baseMenuManage.useDefaultLayout.label'), prop: 'meta.useDefaultLayout',
+    show: (_, model) => model.meta.type === 'M',
+    render: () => (
+      <div class="w-full">
+        <el-radio-group v-model={form.value.meta.useDefaultLayout}>
+          <el-radio value={true}>{t('baseMenuManage.useDefaultLayout.true')}</el-radio>
+          <el-radio value={false}>{t('baseMenuManage.useDefaultLayout.false')}</el-radio>
+        </el-radio-group>
+      </div>
+    ),
+    itemProps: {
+      help: t('baseMenuManage.useDefaultLayout.help'),
     },
     cols: { lg: 12, md: 12, sm: 24 },
   },

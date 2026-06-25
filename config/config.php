@@ -15,7 +15,7 @@ use Psr\Log\LogLevel;
 return [
     'app_name' => env('APP_NAME', 'MineAdmin'),
     'scan_cacheable' => ! env('APP_DEBUG', false),
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
     StdoutLoggerInterface::class => [
         'log_level' => [
             LogLevel::ALERT,

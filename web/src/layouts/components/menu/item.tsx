@@ -122,7 +122,7 @@ export default defineComponent({
                         class={{
                           'mine-menu-badge': true,
                           'absolute right-10': (subMenu && !(rootMenu.isMenuPopup && level === 0)),
-                          'hidden': item.meta?.badge === undefined || rootMenu.isMenuPopup,
+                          'hidden': item.meta?.badge === undefined || !item.meta?.badge?.() || rootMenu.isMenuPopup,
                         }}
                       >
                         {item.meta?.badge?.()}

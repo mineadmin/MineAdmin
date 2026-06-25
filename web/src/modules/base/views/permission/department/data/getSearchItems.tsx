@@ -8,13 +8,14 @@
  * @Link   https://github.com/mineadmin
  */
 
-import { useI18n } from 'vue-i18n'
-import type { ComposerTranslation } from 'vue-i18n'
+import type { MaSearchItem } from '@mineadmin/search'
 
-export function useLocalTrans(key: any | null = null): string | ComposerTranslation | any {
-  const { t } = useI18n({
-    inheritLocale: true,
-    useScope: 'local',
-  })
-  return key === null ? t as ComposerTranslation : t(key) as string
+export default function getSearchItems(t: any): MaSearchItem[] {
+  return [
+    {
+      label: () => t('baseDepartment.name'),
+      prop: 'name',
+      render: 'input',
+    },
+  ]
 }

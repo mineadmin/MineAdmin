@@ -15,6 +15,7 @@ namespace App\Schema;
 use App\Model\Enums\User\Status;
 use App\Model\Enums\User\Type;
 use App\Model\Permission\User;
+use Hyperf\Swagger\Annotation\Items;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 
@@ -72,6 +73,18 @@ final class UserSchema implements \JsonSerializable
     #[Property(property: 'remark', title: '备注', type: 'string')]
     public ?string $remark;
 
+    #[Property(property: 'policy', ref: '#/components/schemas/PolicySchema', title: '权限')]
+    public ?PolicySchema $policy;
+
+    #[Property(property: 'departments', title: '用户部门', type: 'array', items: new Items(ref: '#/components/schemas/DepartmentSchema'))]
+    public array $departments = [];
+
+    #[Property(property: 'positions', title: '用户岗位', type: 'array', items: new Items(ref: '#/components/schemas/PositionSchema'))]
+    public array $positions = [];
+
+    #[Property(property: 'roles', title: '用户角色', type: 'array', items: new Items(ref: '#/components/schemas/RoleSchema'))]
+    public array $roles = [];
+
     public function __construct(User $model)
     {
         $this->id = $model->id;
@@ -91,10 +104,33 @@ final class UserSchema implements \JsonSerializable
         $this->createdAt = $model->created_at;
         $this->updatedAt = $model->updated_at;
         $this->remark = $model->remark;
+        $this->policy = isset($model->policy) ? new PolicySchema($model->policy) : null;
+
+        $relations = $model->getRelations();
+        $this->departments = isset($relations['department'])
+            ? $relations['department']->map(static fn ($department): array => [
+                'id' => $department->id,
+                'name' => $department->name,
+            ])->values()->all()
+            : [];
+        $this->positions = isset($relations['position'])
+            ? $relations['position']->map(static fn ($position): array => [
+                'id' => $position->id,
+                'dept_id' => $position->dept_id,
+                'name' => $position->name,
+            ])->values()->all()
+            : [];
+        $this->roles = isset($relations['roles'])
+            ? $relations['roles']->map(static fn ($role): array => [
+                'id' => $role->id,
+                'code' => $role->code,
+                'name' => $role->name,
+            ])->values()->all()
+            : [];
     }
 
     public function jsonSerialize(): mixed
     {
-        return ['id' => $this->id, 'username' => $this->username, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark];
+        return ['id' => $this->id, 'username' => $this->username, 'user_type' => $this->userType, 'nickname' => $this->nickname, 'phone' => $this->phone, 'email' => $this->email, 'avatar' => $this->avatar, 'signed' => $this->signed, 'status' => $this->status, 'login_ip' => $this->loginIp, 'login_time' => $this->loginTime, 'backend_setting' => $this->backendSetting, 'created_by' => $this->createdBy, 'updated_by' => $this->updatedBy, 'created_at' => $this->createdAt, 'updated_at' => $this->updatedAt, 'remark' => $this->remark, 'departments' => $this->departments, 'positions' => $this->positions, 'roles' => $this->roles];
     }
 }

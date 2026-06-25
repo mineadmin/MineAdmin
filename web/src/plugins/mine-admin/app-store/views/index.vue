@@ -41,7 +41,6 @@ en:
 </i18n>
 
 <script setup lang="ts">
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { getAppList, getLocalAppInstallList, getPayApp, hasAccessToken } from '../api/app.ts'
 import AppStoreNotice from './notice.vue'
 import AppStoreFilter from './filter.vue'
@@ -51,7 +50,7 @@ import AppStoreLocalList from './localList.vue'
 defineOptions({ name: 'MineAppStoreRoute' })
 
 const tabStore = useTabStore()
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 const noticeRef = ref()
 const appList = ref<any[]>()
 const storeMeta = ref<Record<string, any>>({

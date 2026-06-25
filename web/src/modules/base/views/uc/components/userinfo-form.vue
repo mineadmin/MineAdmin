@@ -29,17 +29,17 @@ zh_TW:
 </i18n>
 
 <script setup lang="ts">
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
-
 const emit = defineEmits<{
   (event: 'submit', value: any)
 }>()
 
 const userStore = useUserStore()
+const { localTrans: t } = useTrans()
+const userInfo = userStore.getUserInfo()
 
 const form = reactive({
-  nickname: userStore.getUserInfo().nickname,
-  signed: userStore.getUserInfo().signed,
+  nickname: userInfo?.nickname ?? '',
+  signed: userInfo?.signed ?? '',
 })
 
 async function submit() {
@@ -53,21 +53,21 @@ defineExpose({ submit })
   <form class="mine-form" @submit.prevent="submit">
     <div class="mine-form-item">
       <div class="mine-form-item-title">
-        {{ useLocalTrans('changeInfo.nicknameLabel') }}
+        {{ t('changeInfo.nicknameLabel') }}
       </div>
       <m-input
         v-model="form.nickname"
         name="nickname"
-        :placeholder="useLocalTrans('changeInfo.nicknamePlaceholder')"
+        :placeholder="t('changeInfo.nicknamePlaceholder')"
       />
     </div>
     <div class="mine-form-item">
       <div class="mine-form-item-title">
-        {{ useLocalTrans('changeInfo.signedLabel') }}
+        {{ t('changeInfo.signedLabel') }}
       </div>
       <m-textarea
         v-model="form.signed"
-        :placeholder="useLocalTrans('changeInfo.signedPlaceholder')"
+        :placeholder="t('changeInfo.signedPlaceholder')"
       />
     </div>
   </form>

@@ -24,6 +24,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $type 类型
  * @property bool $cache 是否缓存
  * @property bool $copyright 是否显示版权
+ * @property bool $useDefaultLayout 是否使用默认布局
  * @property string $link 链接
  * @property string $componentPath 视图文件类型
  * @property string $componentSuffix 视图前缀路径
@@ -39,7 +40,7 @@ final class Meta extends Model
 
     protected array $fillable = [
         'title', 'i18n', 'badge', 'icon', 'affix', 'hidden', 'type', 'cache',
-        'copyright', 'breadcrumbEnable', 'componentPath', 'componentSuffix', 'link',
+        'copyright', 'useDefaultLayout', 'breadcrumbEnable', 'componentPath', 'componentSuffix', 'link',
         'activeName', 'auth', 'role', 'user',
     ];
 
@@ -48,6 +49,7 @@ final class Meta extends Model
         'hidden' => 'boolean',
         'cache' => 'boolean',
         'copyright' => 'boolean',
+        'useDefaultLayout' => 'boolean',
         'breadcrumbEnable' => 'boolean',
         'title' => 'string',
         'componentPath' => 'string',

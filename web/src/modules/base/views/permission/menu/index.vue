@@ -11,7 +11,8 @@
 import type { ElForm } from 'element-plus'
 import { useMessage } from '@/hooks/useMessage.ts'
 import getOnlyWorkAreaHeight from '@/utils/getOnlyWorkAreaHeight.ts'
-import { create, type MenuVo, page, save } from '~/base/api/menu.ts'
+import { create, page, save } from '~/base/api/menu.ts'
+import type { MenuVo } from '~/base/api/menu.ts'
 
 import MenuTree from './menu-tree.vue'
 import MenuForm from './menu-form.vue'
@@ -36,6 +37,7 @@ const newMenu = ref<MenuVo>({
     componentPath: 'modules/',
     breadcrumbEnable: true,
     copyright: true,
+    useDefaultLayout: true,
     hidden: false,
     affix: false,
     cache: true,
@@ -136,6 +138,9 @@ function createOrSaveMenu() {
         ref="menuTreeRef"
         :data="menuList"
         @menu-select="(menu: MenuVo) => {
+          if (menu?.meta?.type === 'M' && menu?.meta?.useDefaultLayout === undefined) {
+            menu.meta.useDefaultLayout = true
+          }
           currentMenu = menu
           menuFormRef?.setData?.(menu)
         }"

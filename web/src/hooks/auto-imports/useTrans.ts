@@ -8,6 +8,8 @@
  * @Link   https://github.com/mineadmin
  */
 
+import { getCurrentInstance } from 'vue'
+import { globalComposer } from '@/i18n'
 import { useI18n } from 'vue-i18n'
 import type { ComposerTranslation } from 'vue-i18n'
 
@@ -16,20 +18,62 @@ export interface TransType {
   localTrans: ComposerTranslation
 }
 
-export function useTrans(key: any | null = null): TransType | string | any {
-  const global = useI18n()
-  const local = useI18n({
-    inheritLocale: true,
-    useScope: 'local',
-  })
+const localComposerMap = new WeakMap<object, any>()
+const localTransMap = new WeakMap<object, ComposerTranslation>()
 
+function translate(composer: any, key: any, args: any[]) {
+  if (typeof key !== 'string' || !composer.te(key)) {
+    return undefined
+  }
+
+  return composer.t(key, ...args)
+}
+
+const globalTrans = ((key: any, ...args: any[]) => {
+  return translate(globalComposer, key, args) ?? key
+}) as ComposerTranslation
+
+function getLocalComposer(instance: object) {
+  let composer = localComposerMap.get(instance)
+  if (!composer) {
+    composer = useI18n({
+      inheritLocale: true,
+      useScope: 'local',
+    })
+    localComposerMap.set(instance, composer)
+  }
+
+  return composer
+}
+
+function getLocalTrans(): ComposerTranslation {
+  const instance = getCurrentInstance()
+  if (!instance) {
+    return globalTrans
+  }
+
+  let translator = localTransMap.get(instance)
+  if (!translator) {
+    const localComposer = getLocalComposer(instance)
+    translator = ((key: any, ...args: any[]) => {
+      return translate(localComposer, key, args) ?? translate(globalComposer, key, args) ?? key
+    }) as ComposerTranslation
+    localTransMap.set(instance, translator)
+  }
+
+  return translator
+}
+
+export function useTrans(key: any | null = null): TransType | string | any {
   if (key === null) {
     return {
-      localTrans: local.t,
-      globalTrans: global.t,
+      globalTrans,
+      get localTrans() {
+        return getLocalTrans()
+      },
     }
   }
   else {
-    return global.te(key) ? global.t(key) : local.te(key) ? local.t(key) : key
+    return globalTrans(key)
   }
 }

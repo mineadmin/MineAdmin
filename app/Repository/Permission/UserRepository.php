@@ -72,6 +72,20 @@ final class UserRepository extends IRepository
                 $query->whereHas('roles', static function (Builder $query) use ($roleId) {
                     $query->where('role_id', $roleId);
                 });
-            });
+            })
+            ->when(Arr::get($params, 'department_id'), static function (Builder $query, $departmentId) {
+                $query->where(static function (Builder $query) use ($departmentId) {
+                    $query->whereHas('department', static function (Builder $query) use ($departmentId) {
+                        $query->where('id', $departmentId);
+                    });
+                    $query->orWhereHas('dept_leader', static function (Builder $query) use ($departmentId) {
+                        $query->where('id', $departmentId);
+                    });
+                    $query->orWhereHas('position.department', static function (Builder $query) use ($departmentId) {
+                        $query->where('id', $departmentId);
+                    });
+                });
+            })
+            ->with(['policy', 'department', 'dept_leader', 'position']);
     }
 }

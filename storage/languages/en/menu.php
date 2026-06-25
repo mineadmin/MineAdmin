@@ -26,6 +26,8 @@ return [
         'icon' => 'icon',
         'affix' => 'is affixed',
         'hidden' => 'is hidden',
+        'copyright' => 'show copyright',
+        'useDefaultLayout' => 'use default layout',
         'type' => 'type',
         'cache' => 'is cached',
         'link' => 'link',

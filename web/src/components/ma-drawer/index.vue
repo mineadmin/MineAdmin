@@ -77,7 +77,7 @@ watch(() => keys.value, async () => {
     </template>
     <template #footer>
       <slot name="footerBefore" />
-      <slot v-if="$attrs.footer" name="footer">
+      <slot v-if="$attrs.footer || $attrs.footer !== false" name="footer">
         <el-button type="primary" :loading="okLoading" @click="ok">
           {{ $attrs?.okText ?? `${t('crud.ok')} Ctrl + Enter` }}
         </el-button>

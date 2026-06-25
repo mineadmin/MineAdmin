@@ -13,6 +13,7 @@ import useThemeColor from '@/hooks/useThemeColor.ts'
 import useHttp from '@/hooks/auto-imports/useHttp.ts'
 import * as PermissionApi from '~/base/api/permission.ts'
 import type { MenuVo, RoleVo } from '~/base/api/permission.ts'
+import type { CurrentUserDepartmentVo, CurrentUserInfo, CurrentUserPositionVo, CurrentUserRoleVo } from '~/base/api/user.ts'
 import { recursionGetKey } from '@/utils/recursionGetKey.ts'
 
 export interface LoginParams {
@@ -26,23 +27,13 @@ export interface LoginResult {
   refresh_token: string
 }
 
-export interface UserInfo {
-  username: string
-  nickname: string
-  avatar: string
-  phone: string
-  email: string
-  signed: string
-  dashboard: string
-  backend_setting: any[]
-}
+export type UserDepartmentInfo = CurrentUserDepartmentVo
+export type UserPositionInfo = CurrentUserPositionVo
+export type UserRoleInfo = CurrentUserRoleVo
+export type UserInfo = CurrentUserInfo
 
 function getInfo(): Promise<ResponseStruct<UserInfo>> {
   return useHttp().get('/admin/passport/getInfo')
-}
-
-function logoutApi(): Promise<ResponseStruct<null>> {
-  return useHttp().post('/admin/passport/logout')
 }
 
 /**
@@ -63,7 +54,7 @@ const useUserStore = defineStore(
     const locales = ref<any[]>([])
     const language = ref(cache.get('language', 'zh_CN'))
     const isLogin = computed(() => !!token.value)
-    const userInfo = ref<any | null>(null)
+    const userInfo = ref<UserInfo | null>(null)
     const menu = ref<MenuVo[]>([])
     const permissions = ref<string[]>([])
     const roles = ref<string[]>([])
@@ -128,7 +119,9 @@ const useUserStore = defineStore(
         const { data } = await getInfo()
         setUserInfo(data)
         if ((setting.getSettings('app')?.loadUserSetting ?? true) && data.backend_setting) {
-          setUserSetting(data?.backend_setting.length === 0 ? null : data.backend_setting)
+          const raw = data?.backend_setting
+          const normalized = raw && !Array.isArray(raw) ? raw : null
+          await setUserSetting(normalized)
         }
         await refreshMenu()
         await refreshRole()
@@ -138,7 +131,7 @@ const useUserStore = defineStore(
         setPermissions(codes)
         await usePluginStore().callHooks('getUserInfo', data)
       }
-      // eslint-disable-next-line unused-imports/no-unused-vars
+        // eslint-disable-next-line unused-imports/no-unused-vars
       catch (e) {
         await logout()
       }
@@ -157,7 +150,10 @@ const useUserStore = defineStore(
     }
 
     function setLanguage(langName: string) {
-      language.value = langName
+      if (!langName || typeof langName !== 'string' || !langName.trim()) {
+        return false
+      }
+      language.value = langName.trim()
       cache.set('language', language.value)
       return true
     }
@@ -175,13 +171,25 @@ const useUserStore = defineStore(
       return true
     }
 
-    function getUserInfo(): any {
+    function getUserInfo(): UserInfo | null {
       return userInfo.value
     }
 
-    function setUserInfo(data: any): boolean {
+    function setUserInfo(data: UserInfo): boolean {
       userInfo.value = data
       return true
+    }
+
+    function getUserDepartments(): UserDepartmentInfo[] {
+      return userInfo.value?.departments ?? []
+    }
+
+    function getUserPositions(): UserPositionInfo[] {
+      return userInfo.value?.positions ?? []
+    }
+
+    function getUserRoleList(): UserRoleInfo[] {
+      return userInfo.value?.roles ?? []
     }
 
     function getPermissions(): string[] {
@@ -202,19 +210,29 @@ const useUserStore = defineStore(
       return true
     }
 
-    function setUserSetting(settings: any) {
+    async function setUserSetting(settings: any) {
       settings && setting.setSettings(settings)
       setting.initColorMode()
-      setLanguage(settings?.app?.useLocale ?? 'zh_CN')
+
+      await nextTick()
       useThemeColor().initThemeColor()
+      const cacheLanguage = cache.get('language', '')?.trim?.() || ''
+      const settingsLanguage = settings?.app?.useLocale?.trim?.() || ''
+      const locale = cacheLanguage || settingsLanguage || 'zh_CN'
+      const appSettings = setting.getSettings('app')
+      if (appSettings) {
+        appSettings.useLocale = locale
+      }
+      setLanguage(locale)
     }
 
     function saveSettingToSever() {
       const backend_setting = setting.getSettings()
-      useHttp().post('/admin/permission/update', { backend_setting }).then(() => {
+      return useHttp().post('/admin/permission/update', { backend_setting }).then(() => {
         cache.set('sys_settings', backend_setting)
       }).catch((error) => {
         console.log(error)
+        return Promise.reject(error)
       })
     }
 
@@ -247,6 +265,9 @@ const useUserStore = defineStore(
       getLanguage,
       requestUserInfo,
       getUserInfo,
+      getUserDepartments,
+      getUserPositions,
+      getUserRoleList,
       setPermissions,
       getPermissions,
       getRoles,

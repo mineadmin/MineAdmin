@@ -79,7 +79,6 @@ en:
 <script setup lang="ts">
 import type { UploadRequestOptions } from 'element-plus'
 import { uploadLocalApp } from '../api/app.ts'
-import { useLocalTrans } from '@/hooks/useLocalTrans.ts'
 import { useThrottleFn } from '@vueuse/core'
 import { useMessage } from '@/hooks/useMessage.ts'
 
@@ -94,7 +93,7 @@ const msg = useMessage()
 const storeMeta = inject('storeMeta') as Record<string, any>
 const filterParams = inject('filterParams') as Record<string, any>
 const requestAppList = inject('requestAppList') as () => void
-const t = useLocalTrans()
+const { localTrans: t } = useTrans()
 const params = reactive({
   add_type: 'all',
   type: 'all',

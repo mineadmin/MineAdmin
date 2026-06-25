@@ -20,7 +20,6 @@ en:
 </i18n>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import Message from 'vue-m-message'
 
 defineOptions({ name: 'MaVerifyCode' })
@@ -41,10 +40,7 @@ const props = withDefaults(
     showError: true,
   },
 )
-const { t } = useI18n({
-  inheritLocale: true,
-  useScope: 'local',
-})
+const { localTrans: t } = useTrans()
 const codeText = ref('')
 const el = ref()
 

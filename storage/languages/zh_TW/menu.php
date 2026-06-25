@@ -26,6 +26,8 @@ return [
         'icon' => '圖標',
         'affix' => '是否固定',
         'hidden' => '是否隱藏',
+        'copyright' => '是否顯示版權',
+        'useDefaultLayout' => '是否使用缺省佈局',
         'type' => '類型',
         'cache' => '是否緩存',
         'link' => '鏈接',

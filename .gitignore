@@ -19,7 +19,6 @@ tests/coding_standard.xml
 tests/junit.xml
 public
 !web/public
-web/
 *.lock
 !composer.lock
 storage/swagger/http.json

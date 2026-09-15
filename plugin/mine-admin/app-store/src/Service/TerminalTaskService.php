@@ -60,18 +60,34 @@ class TerminalTaskService
 
     public function status(string $taskNo): array
     {
+        $this->assertTaskAccess($taskNo);
         return $this->store->getTask($taskNo);
     }
 
     public function logs(string $taskNo, int $afterSeq = 0, int $limit = 200): array
     {
+        $this->assertTaskAccess($taskNo);
         return $this->store->logs($taskNo, $afterSeq, $limit);
     }
 
     public function cancel(string $taskNo): array
     {
         $this->assertPermission('plugin:store:terminal:cancel');
+        $this->assertTaskAccess($taskNo);
         return $this->store->requestCancel($taskNo);
+    }
+
+    private function assertTaskAccess(string $taskNo): void
+    {
+        $task = $this->store->getInternalTask($taskNo);
+        if ($task === []) {
+            throw new BusinessException(ResultCode::NOT_FOUND, 'Terminal task not found or expired');
+        }
+
+        $user = $this->currentUser->user();
+        if (! $user->isSuperAdmin() && (int) ($task['created_by'] ?? 0) !== $this->currentUser->id()) {
+            throw new BusinessException(ResultCode::FORBIDDEN);
+        }
     }
 
     private function assertActionPermission(TerminalAction $action): void

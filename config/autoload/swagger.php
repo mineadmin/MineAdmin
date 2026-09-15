@@ -12,12 +12,12 @@ declare(strict_types=1);
 use Symfony\Component\Finder\Finder;
 
 return [
-    'enable' => true,
-    'port' => 9503,
+    'enable' => env('SWAGGER_ENABLED', false),
+    'port' => (int) env('SWAGGER_PORT', 9503),
     'json_dir' => BASE_PATH . '/storage/swagger',
     'html' => file_get_contents(BASE_PATH . '/storage/swagger/index.html'),
     'url' => '/swagger',
-    'auto_generate' => true,
+    'auto_generate' => env('SWAGGER_AUTO_GENERATE', false),
     'scan' => [
         'paths' => [
             Finder::create()

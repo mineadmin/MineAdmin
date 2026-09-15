@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace App\Http\Api\Middleware;
 
 use Mine\Jwt\JwtInterface;
-use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
+use App\Http\Common\Middleware\HeaderTokenMiddleware;
 
-final class TokenMiddleware extends AbstractTokenMiddleware
+final class TokenMiddleware extends HeaderTokenMiddleware
 {
     public function getJwt(): JwtInterface
     {

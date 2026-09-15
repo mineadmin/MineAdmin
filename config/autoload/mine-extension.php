@@ -18,6 +18,8 @@ return [
      * 是否开启扩展商店功能，生产环境建议禁用。默认随着 APP_DEBUG 环境开启关闭
      */
     'enable' => env('APP_DEBUG', false),
+    // Local plugin archives execute application code during installation. Keep disabled by default.
+    'allow_local_upload' => env('MINE_PLUGIN_UPLOAD_ENABLED', false),
     /*
      * MineAdmin
      */

@@ -45,7 +45,6 @@ services:
     working_dir: /www
     ports:
       - "9501:9501"
-      - "9503:9503"
     environment:
       - TZ=Asia/Shanghai
       - APP_NAME=MineAdmin

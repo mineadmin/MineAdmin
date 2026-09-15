@@ -22,7 +22,7 @@ final class AppExceptionHandler extends AbstractHandler
         $this->stopPropagation();
         return new Result(
             code: ResultCode::FAIL,
-            message: $throwable->getMessage()
+            message: $this->isDebug() ? $throwable->getMessage() : null
         );
     }
 

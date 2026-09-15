@@ -14,13 +14,12 @@ namespace App\Http\Common\Middleware;
 
 use Lcobucci\JWT\UnencryptedToken;
 use Mine\Jwt\JwtInterface;
-use Mine\JwtAuth\Middleware\AbstractTokenMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Swow\Psr7\Message\ServerRequestPlusInterface;
 
-class RefreshTokenMiddleware extends AbstractTokenMiddleware
+class RefreshTokenMiddleware extends HeaderTokenMiddleware
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

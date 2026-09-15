@@ -24,6 +24,8 @@
     "ext-redis": "*",
     "ext-swoole": ">=5.0",
     "friendsofhyperf/tinker": "^3.2",
+    "guzzlehttp/guzzle": "^7.15.2",
+    "guzzlehttp/psr7": "^2.13.1",
     "hyperf/async-queue": "3.2.*",
     "hyperf/cache": "3.2.*",
     "hyperf/carbon": "^3.2",

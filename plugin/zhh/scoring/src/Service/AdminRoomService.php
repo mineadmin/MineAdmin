@@ -92,19 +92,4 @@ final class AdminRoomService extends IService
             'transfers' => $this->settleTransferRepository->listByRoom($roomId)->toArray(),
         ];
     }
-
-    /**
-     * 強制關閉房間（方案 §7.4）。
-     *
-     * @param int[] $ids
-     */
-    public function forceClose(array $ids): int
-    {
-        $ids = array_values(array_filter(array_map('intval', $ids)));
-        if ($ids === []) {
-            return 0;
-        }
-
-        return $this->repository->closeByIds($ids);
-    }
 }

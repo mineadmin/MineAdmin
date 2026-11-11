@@ -23,6 +23,10 @@ class ConfigProvider
                     ],
                 ],
             ],
+            // 註冊插件命令行命令（bin/hyperf.php scoring:publish，方案 §4.5）
+            'commands' => [
+                Command\PublishCommand::class,
+            ],
         ];
     }
 }

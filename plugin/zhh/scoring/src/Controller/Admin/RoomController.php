@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the zhh/scoring plugin.
  *
- * 後台房間管理（方案 §7.4）：房間列表 / 房間詳情（聚合）/ 強制關閉。
+ * 後台房間管理（方案 §7.4）：房間列表 / 房間詳情（聚合）。後台僅查詢，無結算/關閉操作。
  */
 
 namespace Plugin\Zhh\Scoring\Controller\Admin;
@@ -15,7 +15,6 @@ use App\Http\Common\Middleware\AccessTokenMiddleware;
 use App\Http\Common\Middleware\OperationMiddleware;
 use App\Http\Common\Result;
 use Hyperf\HttpServer\Annotation\Middleware;
-use Hyperf\Swagger\Annotation\Delete;
 use Hyperf\Swagger\Annotation\Get;
 use Hyperf\Swagger\Annotation\HyperfServer;
 use Mine\Access\Attribute\Permission;
@@ -66,21 +65,5 @@ final class RoomController extends AbstractController
     public function detail(int $id): Result
     {
         return $this->success($this->adminRoomService->detail($id));
-    }
-
-    #[Delete(
-        path: '/admin/scoring/room',
-        operationId: 'scoringRoomDelete',
-        summary: '強制關閉房間（批量）',
-        security: [['Bearer' => [], 'ApiKey' => []]],
-        tags: ['計分業務']
-    )]
-    #[Permission(code: 'scoring:room:delete')]
-    #[ResultResponse(instance: new Result())]
-    public function delete(): Result
-    {
-        $this->adminRoomService->forceClose($this->getRequestData());
-
-        return $this->success();
     }
 }

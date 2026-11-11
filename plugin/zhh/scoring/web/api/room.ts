@@ -42,7 +42,3 @@ export function page(params: RoomSearchVo): Promise<ResponseStruct<PageList<Room
 export function detail(id: number): Promise<ResponseStruct<RoomDetailVo>> {
   return http.get(`/admin/scoring/room/${id}`)
 }
-
-export function deleteByIds(ids: number[]): Promise<ResponseStruct<null>> {
-  return http.delete('/admin/scoring/room', { data: ids })
-}

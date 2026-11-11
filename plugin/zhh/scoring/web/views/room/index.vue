@@ -8,7 +8,6 @@ zh_CN:
   waiting: 等待中
   playing: 进行中
   settled: 已结算
-  closed: 已关闭
   memberLimit: 人数上限
   currentRound: 当前轮次
   battleCount: 对局数
@@ -17,10 +16,6 @@ zh_CN:
   selection: 选择
   operation: 操作
   viewDetail: 查看详情
-  forceClose: 强制关闭
-  closeSelected: 批量关闭
-  closeConfirm: 确定强制关闭选中的房间吗？
-  closeSuccess: 关闭成功
   search: 搜索
   reset: 重置
   searchFold: 展开
@@ -66,7 +61,6 @@ zh_TW:
   waiting: 等待中
   playing: 進行中
   settled: 已結算
-  closed: 已關閉
   memberLimit: 人數上限
   currentRound: 當前輪次
   battleCount: 對局數
@@ -75,10 +69,6 @@ zh_TW:
   selection: 選擇
   operation: 操作
   viewDetail: 查看詳情
-  forceClose: 強制關閉
-  closeSelected: 批量關閉
-  closeConfirm: 確定強制關閉選中的房間嗎？
-  closeSuccess: 關閉成功
   search: 搜索
   reset: 重置
   searchFold: 展開
@@ -124,7 +114,6 @@ en:
   waiting: Waiting
   playing: Playing
   settled: Settled
-  closed: Closed
   memberLimit: Member Limit
   currentRound: Current Round
   battleCount: Battles
@@ -133,10 +122,6 @@ en:
   selection: Selection
   operation: Operation
   viewDetail: Detail
-  forceClose: Force Close
-  closeSelected: Batch Close
-  closeConfirm: Force close the selected rooms?
-  closeSuccess: Closed successfully
   search: Search
   reset: Reset
   searchFold: Expand
@@ -184,7 +169,7 @@ import { h } from 'vue'
 import { useMessage } from '@/hooks/useMessage.ts'
 import { ResultCode } from '@/utils/ResultCode.ts'
 import hasAuth from '@/utils/permission/hasAuth.ts'
-import { deleteByIds, detail, page } from '../../api/room.ts'
+import { detail, page } from '../../api/room.ts'
 
 defineOptions({ name: 'scoring:room' })
 
@@ -192,7 +177,6 @@ const { localTrans: t } = useTrans()
 const msg = useMessage()
 
 const proTableRef = ref<MaProTableExpose>() as Ref<MaProTableExpose>
-const selections = ref<any[]>([])
 
 const detailVisible = ref(false)
 const detailLoading = ref(false)
@@ -204,10 +188,8 @@ function statusText(status: number): string {
       return t('waiting')
     case 1:
       return t('playing')
-    case 2:
-      return t('settled')
     default:
-      return t('closed')
+      return t('settled')
   }
 }
 
@@ -217,8 +199,6 @@ function statusType(status: number): string {
       return 'success'
     case 2:
       return 'info'
-    case 3:
-      return 'danger'
     default:
       return 'warning'
   }
@@ -298,21 +278,6 @@ const tableColumns: MaProTableColumns[] = [
           text: () => t('viewDetail'),
           onClick: ({ row }) => openDetail(row.id),
         },
-        {
-          name: 'close',
-          icon: 'mdi:close-circle-outline',
-          show: ({ row }) => hasAuth('scoring:room:delete') && row.status !== 3,
-          text: () => t('forceClose'),
-          onClick: ({ row }, proxy: MaProTableExpose) => {
-            msg.delConfirm(t('closeConfirm')).then(async () => {
-              const response = await deleteByIds([row.id])
-              if (response.code === ResultCode.SUCCESS) {
-                msg.success(t('closeSuccess'))
-                await proxy.refresh()
-              }
-            })
-          },
-        },
       ],
     },
   },
@@ -324,11 +289,7 @@ const options = ref<MaProTableOptions>({
     mainTitle: () => t('mainTitle'),
     subTitle: () => t('subTitle'),
   },
-  tableOptions: {
-    on: {
-      onSelectionChange: (selection: any[]) => selections.value = selection,
-    },
-  },
+  tableOptions: {},
   searchOptions: {
     fold: true,
     text: {
@@ -365,34 +326,11 @@ async function openDetail(id: number) {
     detailLoading.value = false
   }
 }
-
-function handleClose() {
-  const ids = selections.value.map((item: any) => item.id)
-  msg.delConfirm(t('closeConfirm')).then(async () => {
-    const response = await deleteByIds(ids)
-    if (response.code === ResultCode.SUCCESS) {
-      msg.success(t('closeSuccess'))
-      await proTableRef.value?.refresh()
-    }
-  })
-}
 </script>
 
 <template>
   <div class="mine-layout">
-    <MaProTable ref="proTableRef" :options="options" :schema="schema">
-      <template #toolbarLeft>
-        <el-button
-          v-auth="['scoring:room:delete']"
-          type="danger"
-          plain
-          :disabled="selections.length < 1"
-          @click="handleClose"
-        >
-          {{ t('closeSelected') }}
-        </el-button>
-      </template>
-    </MaProTable>
+    <MaProTable ref="proTableRef" :options="options" :schema="schema" />
 
     <!-- append-to-body：抽屜掛到 body 渲染，避免被 MineAdmin 的頂部/側邊菜單（層級更高）遮住 -->
     <el-drawer v-model="detailVisible" :title="t('detailTitle')" size="70%" :loading="detailLoading" append-to-body>

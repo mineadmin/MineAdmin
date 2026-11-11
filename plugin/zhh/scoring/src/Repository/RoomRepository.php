@@ -12,7 +12,6 @@ namespace Plugin\Zhh\Scoring\Repository;
 use App\Repository\IRepository;
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Model\Builder;
-use Plugin\Zhh\Scoring\Enum\RoomStatus;
 use Plugin\Zhh\Scoring\Model\Room;
 use Plugin\Zhh\Scoring\Repository\Concerns\BatchWrites;
 
@@ -92,23 +91,6 @@ final class RoomRepository extends IRepository
         }
 
         return $map;
-    }
-
-    /**
-     * 後台強制關閉房間（一次批量 UPDATE，方案 §7.4）。
-     *
-     * @param int[] $ids
-     */
-    public function closeByIds(array $ids): int
-    {
-        if ($ids === []) {
-            return 0;
-        }
-
-        return $this->getQuery()->whereIn('id', $ids)->update([
-            'status' => RoomStatus::CLOSED,
-            'finished_at' => date('Y-m-d H:i:s'),
-        ]);
     }
 
     /**

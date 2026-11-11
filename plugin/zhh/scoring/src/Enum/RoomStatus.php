@@ -25,9 +25,4 @@ final class RoomStatus
      * 已結算
      */
     public const SETTLED = 2;
-
-    /**
-     * 已關閉（後台強制關閉）
-     */
-    public const CLOSED = 3;
 }

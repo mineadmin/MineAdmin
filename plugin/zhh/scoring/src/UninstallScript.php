@@ -24,7 +24,6 @@ class UninstallScript
         'scoring',
         'scoring:room',
         'scoring:room:index',
-        'scoring:room:delete',
     ];
 
     /**

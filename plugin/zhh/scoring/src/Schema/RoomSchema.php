@@ -28,7 +28,7 @@ final class RoomSchema
     #[OA\Property(property: 'owner_id', description: '房主用戶ID', type: 'integer', example: 2)]
     public int $owner_id;
 
-    #[OA\Property(property: 'status', description: '狀態:0=等待中,1=進行中,2=已結算,3=已關閉', type: 'integer', example: 1)]
+    #[OA\Property(property: 'status', description: '狀態:0=等待中,1=進行中,2=已結算', type: 'integer', example: 1)]
     public int $status;
 
     #[OA\Property(property: 'member_limit', description: '人數上限', type: 'integer', example: 8)]

@@ -68,10 +68,6 @@ class MenuSeeder extends Seeder
                                 'name' => 'scoring:room:index',
                                 'meta' => new Meta(['title' => '房間列表', 'type' => 'B']),
                             ],
-                            [
-                                'name' => 'scoring:room:delete',
-                                'meta' => new Meta(['title' => '強制關閉房間', 'type' => 'B']),
-                            ],
                         ],
                     ],
                 ],

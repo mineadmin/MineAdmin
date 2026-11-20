@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  root@imoi.cn
  * @license  https://github.com/mineadmin/MineAdmin/blob/master/LICENSE
  */
+use App\Filesystem\PublicLocalAdapterFactory;
 use Hyperf\Filesystem\Adapter\AliyunOssAdapterFactory;
 use Hyperf\Filesystem\Adapter\CosAdapterFactory;
 use Hyperf\Filesystem\Adapter\FtpAdapterFactory;
@@ -21,13 +22,13 @@ return [
     'default' => 'local',
     'storage' => [
         'local' => [
-            'driver' => LocalAdapterFactory::class,
+            'driver' => PublicLocalAdapterFactory::class,
             'root' => BASE_PATH . '/storage/uploads',
             'public_url' => env('APP_URL') . '/uploads',
         ],
         // 程序自產資源（如房間邀請小程序碼 storage/resources/qrcode/{日期}）
         'resources' => [
-            'driver' => LocalAdapterFactory::class,
+            'driver' => PublicLocalAdapterFactory::class,
             'root' => BASE_PATH . '/storage/resources',
             'public_url' => env('APP_URL') . '/resources',
         ],
